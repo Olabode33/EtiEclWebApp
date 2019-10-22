@@ -6,7 +6,7 @@
 			"templates" : [
 					{
 					"type" : "default",
-					"content" : "                                    <th style=\"width: 150px\" pSortableColumn=\"{{entity_Name_Here}}.{{property_Name_Here}}\">
+					"content" : "                                    <th style=\"width: 150px\" pSortableColumn=\"{{property_Name_Here}}\">
                                         {{l('{{Property_Name_Here}}')}}
                                         <p-sortIcon field=\"{{entity_Name_Here}}.{{property_Name_Here}}\"></p-sortIcon>
                                     </th>
@@ -30,7 +30,7 @@
 					"type" : "bool",
 					"content" : "                                    <td style=\"width:150px\">
 										<span class=\"ui-column-title\"> {{l('{{Property_Name_Here}}')}}</span>
-                                        <div *ngIf=\"record.{{entity_Name_Here}}.{{property_Name_Here}}\" class=\"text-center\"><i class=\"fa fa-check-circle m--font-success\" title=\"True\"></i></div>
+                                        <div *ngIf=\"record.{{entity_Name_Here}}.{{property_Name_Here}}\" class=\"text-center\"><i class=\"fa fa-check-circle kt--font-success\" title=\"True\"></i></div>
 										<div *ngIf=\"!record.{{entity_Name_Here}}.{{property_Name_Here}}\" class=\"text-center\"><i class=\"fa fa-times-circle\" title=\"False\"></i></div>
                                     </td>
 "
@@ -88,7 +88,7 @@
 					"content" : "
                             <div class=\"col-md-3\">
                                 <div class=\"form-group\">
-									<label  for=\"Min{{Property_Name_Here}}Filter\">{{l(\"MinMax\")}} {{l(\"{{Property_Name_Here}}\")}}</label>
+									<label  for=\"Min{{Property_Name_Here}}Filter\">{{l(\"{{Property_Name_Here}}Range\")}}</label>
 									<div class=\"input-group\">
                                         {{DateTimePicker_Before_V6}}{{DateTimePicker_After_V6}}
 									</div>
@@ -127,7 +127,7 @@
 			"templates" : [
 					{
 					"relation" : "single",
-					"content" : "                                    <th style=\"width: 150px\" pSortableColumn=\"{{nP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}}{{NP_Duplication_Number_Here}}\">
+					"content" : "                                    <th style=\"width: 150px\" pSortableColumn=\"{{nP_Object_Name_Here}}Fk.{{nP_Display_Property_Name_Here}}\">
                                         {{l('{{NP_Display_Property_Name_Here}}')}}
                                         <p-sortIcon field=\"{{nP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}}{{NP_Duplication_Number_Here}}\"></p-sortIcon>
                                     </th>
@@ -209,12 +209,14 @@
 			"placeholder": "{{DateTimePicker_Before_V6}}",
 			"condition": "{{Project_Version_Here}} < 060000",
 			"content": "<input class=\"form-control m-input\" id=\"Min{{Property_Name_Here}}Filter\" type=\"datetime\" datePicker  placeholder=\"{{l('MinValue')}}\" [(selectedDate)]=\"min{{Property_Name_Here}}Filter\">
-                                        <input class=\"form-control m-input\" type=\"datetime\" datePicker  placeholder=\"{{l('MaxValue')}}\" [(selectedDate)]=\"max{{Property_Name_Here}}Filter\">"
+                                        <span style=\"line-height: 40px;padding: 0 15px 0 15px;\"> &mdash; </span>
+										<input class=\"form-control m-input\" type=\"datetime\" datePicker  placeholder=\"{{l('MaxValue')}}\" [(selectedDate)]=\"max{{Property_Name_Here}}Filter\">"
 		},
 		{
 			"placeholder": "{{DateTimePicker_After_V6}}",
 			"condition": "{{Project_Version_Here}} >= 060000",
 			"content": "<input class=\"form-control m-input\" id=\"Min{{Property_Name_Here}}Filter\" name=\"Min{{Property_Name_Here}}Filter\" type=\"datetime\" bsDatepicker  placeholder=\"{{l('MinValue')}}\" [(ngModel)]=\"min{{Property_Name_Here}}Filter\">
+			                            <span style=\"line-height: 40px;padding: 0 15px 0 15px;\"> &mdash; </span>
                                         <input class=\"form-control m-input\" id=\"Max{{Property_Name_Here}}Filter\" name=\"Max{{Property_Name_Here}}Filter\" type=\"datetime\" bsDatepicker  placeholder=\"{{l('MaxValue')}}\" [(ngModel)]=\"max{{Property_Name_Here}}Filter\">"
 		},
 		{
@@ -246,6 +248,31 @@
 			"placeholder": "{{Enum_Localization_Before_060600}}",
 			"condition": "{{Project_Version_Here}} < 060600",
 			"content": "'Enum_{{Property_Type_Here}}' + "
+		},
+		{
+			"placeholder": "{{Container_Class_Here}}",
+			"condition": "{{Project_Version_Here}} < 070200",
+			"content": "class=\"kt-content\""
+		},
+		{
+			"placeholder": "{{Container_Class_V2_Here}}",
+			"condition": "{{Project_Version_Here}} >= 070200",
+			"content": "[class]=\"containerClass + ' kt-grid__item kt-grid__item--fluid'\""
+		},
+		{
+			"placeholder": "{{Div_After_Metronic_V606}}",
+			"condition": "{{Project_Version_Here}} >= 070200",
+			"content": "</div>"
+		},
+		{
+			"placeholder": "{{Content_Class_After_Metronic_V606}}",
+			"condition": "{{Project_Version_Here}} >= 070200",
+			"content": "<div class=\"kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor\">"
+		},
+		{
+			"placeholder": "{{Container_Class_After_Metronic_V606}}",
+			"condition": "{{Project_Version_Here}} >= 070200",
+			"content": "<div [class]=\"containerClass\">"
 		}
 	]
 }

@@ -1,4 +1,5 @@
-﻿using System;
+using TestDemo.EclShared;
+using System;
 using System.Linq;
 using Abp.Organizations;
 using TestDemo.Authorization.Roles;
@@ -12,11 +13,13 @@ namespace TestDemo.EntityHistory
 
         public static readonly Type[] HostSideTrackedTypes =
         {
+            typeof(EadInputAssumption),
             typeof(OrganizationUnit), typeof(Role), typeof(Tenant)
         };
 
         public static readonly Type[] TenantSideTrackedTypes =
         {
+            typeof(EadInputAssumption),
             typeof(OrganizationUnit), typeof(Role)
         };
 

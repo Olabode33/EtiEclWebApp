@@ -19,7 +19,7 @@
         <div class="m-portlet m-portlet--mobile">
             <div class="m-portlet__body">
 
-				<form class="horizontal-form" autocomplete="new-password">
+				<form class="horizontal-form" autocomplete="off">
                     <div class="m-form m-form--label-align-right">
                         <div class="row align-items-center m--margin-bottom-10">
                             <div class="col-xl-12">

@@ -10,12 +10,6 @@
 "
 					},
 					{
-					"type" : "byte",
-					"content" : "    max{{Property_Name_Here}}Filter : string = '';
-		min{{Property_Name_Here}}Filter : string = '';
-"
-					},
-					{
 					"type" : "numeric",
 					"content" : "    max{{Property_Name_Here}}Filter : number;
 		max{{Property_Name_Here}}FilterEmpty : number;
@@ -45,12 +39,6 @@
 			"placeholder" : "{{Property_Filter_Param_Here}}",
 			"condition" : "{{Property_Advanced_Filter_Here}} == true",
 			"templates" : [
-					{
-					"type" : "byte",
-					"content" : "
-			this.max{{Property_Name_Here}}Filter == null ? '' : this.max{{Property_Name_Here}}Filter,
-			this.min{{Property_Name_Here}}Filter == null ? '' : this.min{{Property_Name_Here}}Filter,"
-					},
 					{
 					"type" : "numeric",
 					"content" : "
@@ -148,7 +136,7 @@ import { EntityTypeHistoryModalComponent } from '@app/shared/common/entityHistor
 			"placeholder": "{{EntityTypeHistoryModal_Dev_Here}}",
 			"condition": "{{Entity_History_Here}} == true",
 			"content": "
-    @ViewChild('entityTypeHistoryModal') entityTypeHistoryModal: EntityTypeHistoryModalComponent;"
+    @ViewChild('entityTypeHistoryModal', { static: true }) entityTypeHistoryModal: EntityTypeHistoryModalComponent;"
 		},
 		{
 			"placeholder": "{{EntityTypeHistoryModal_Open_Here}}",
@@ -173,7 +161,7 @@ import { View{{Entity_Name_Here}}ModalComponent } from './view-{{entity_Name_Her
 			"placeholder": "{{View_Component_Dec_Here}}",
 			"condition": "{{Create_View_Only_Here}} == true",
 			"content": "
-    @ViewChild('view{{Entity_Name_Here}}ModalComponent') view{{Entity_Name_Here}}Modal: View{{Entity_Name_Here}}ModalComponent;"
+    @ViewChild('view{{Entity_Name_Here}}ModalComponent', { static: true }) view{{Entity_Name_Here}}Modal: View{{Entity_Name_Here}}ModalComponent;"
 		},
 		{
 			"placeholder": "{{TurboTable_Import_Here}}",

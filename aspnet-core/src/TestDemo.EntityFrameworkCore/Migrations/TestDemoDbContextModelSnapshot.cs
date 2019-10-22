@@ -1119,6 +1119,46 @@ namespace TestDemo.Migrations
                     b.ToTable("AppChatMessages");
                 });
 
+            modelBuilder.Entity("TestDemo.EclShared.EadInputAssumption", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<int>("Datatype");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<int>("EadGroup");
+
+                    b.Property<string>("InputName");
+
+                    b.Property<bool>("IsComputed");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<int?>("TenantId");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
+
+                    b.ToTable("EadInputAssumptions");
+                });
+
             modelBuilder.Entity("TestDemo.Friendships.Friendship", b =>
                 {
                     b.Property<long>("Id")

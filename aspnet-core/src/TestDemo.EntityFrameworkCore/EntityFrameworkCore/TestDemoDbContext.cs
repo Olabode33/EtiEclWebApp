@@ -1,4 +1,5 @@
-﻿using Abp.IdentityServer4;
+using TestDemo.EclShared;
+using Abp.IdentityServer4;
 using Abp.Zero.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TestDemo.Authorization.Roles;
@@ -15,6 +16,8 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<EadInputAssumption> EadInputAssumptions { get; set; }
+
         /* Define an IDbSet for each entity of the application */
 
         public virtual DbSet<BinaryObject> BinaryObjects { get; set; }
@@ -41,7 +44,12 @@ namespace TestDemo.EntityFrameworkCore
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<BinaryObject>(b =>
+           
+            modelBuilder.Entity<EadInputAssumption>(x =>
+            {
+                x.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<BinaryObject>(b =>
             {
                 b.HasIndex(e => new { e.TenantId });
             });

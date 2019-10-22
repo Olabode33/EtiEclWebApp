@@ -1,4 +1,4 @@
-﻿using Abp.Authorization;
+using Abp.Authorization;
 using Abp.Configuration.Startup;
 using Abp.Localization;
 using Abp.MultiTenancy;
@@ -29,6 +29,13 @@ namespace TestDemo.Authorization
             //COMMON PERMISSIONS (FOR BOTH OF TENANTS AND HOST)
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
+
+            var eadInputAssumptions = pages.CreateChildPermission(AppPermissions.Pages_EadInputAssumptions, L("EadInputAssumptions"));
+            eadInputAssumptions.CreateChildPermission(AppPermissions.Pages_EadInputAssumptions_Create, L("CreateNewEadInputAssumption"));
+            eadInputAssumptions.CreateChildPermission(AppPermissions.Pages_EadInputAssumptions_Edit, L("EditEadInputAssumption"));
+            eadInputAssumptions.CreateChildPermission(AppPermissions.Pages_EadInputAssumptions_Delete, L("DeleteEadInputAssumption"));
+
+
             pages.CreateChildPermission(AppPermissions.Pages_DemoUiComponents, L("DemoUiComponents"));
 
             var administration = pages.CreateChildPermission(AppPermissions.Pages_Administration, L("Administration"));

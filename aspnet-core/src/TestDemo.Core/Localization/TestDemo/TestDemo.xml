@@ -1,6 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>
+  <texts>    <text name="EclShared">Ecl shared</text>
+    <text name="EadInputAssumption">Ead input assumption</text>
+    <text name="CreateNewEadInputAssumption">Create new ead input assumption</text>
+    <text name="EditEadInputAssumption">Edit ead input assumption</text>
+    <text name="DeleteEadInputAssumption">Delete ead input assumption</text>
+
     <text name="HomePage">Home page</text>
     <text name="AboutUs">About us</text>
     <text name="Administration">Administration</text>

@@ -23,7 +23,7 @@
 		public virtual {{NP_Id_Type_Here}}{{NP_Nullable_Here}} {{NP_Name_Here}} { get; set; }
 		
         [ForeignKey(\"{{NP_Name_Here}}\")]
-		public {{NP_Foreign_Entity_Name_Here}} {{NP_Object_Name_Here}} { get; set; }
+		public {{NP_Foreign_Entity_Name_Here}} {{NP_Object_Name_Here}}Fk { get; set; }
 		"
 					}
 				]

@@ -32,25 +32,26 @@ namespace {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}
 		 public async Task<PagedResultDto<Get{{Entity_Name_Here}}ForViewDto>> GetAll(GetAll{{Entity_Name_Plural_Here}}Input input)
          {
 			{{Property_Enum_Variable_Here}}
-			var filtered{{Entity_Name_Plural_Here}} = _{{entity_Name_Here}}Repository.GetAll()
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false {{Property_Looped_Template_Here}}){{Property_Query_Filter_Here}};
+			var filtered{{Entity_Name_Plural_Here}} = _{{entity_Name_Here}}Repository.GetAll(){{NP_Loop_Include_In_GetList_Here}}
+						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false {{Property_Looped_Template_Here}}){{Property_Query_Filter_Here}}{{NP_Query_Filter_Here}};
 
+			var pagedAndFiltered{{Entity_Name_Plural_Here}} = filtered{{Entity_Name_Plural_Here}}
+                .OrderBy(input.Sorting ?? "id asc")
+                .PageBy(input);
 
-			var query = (from o in filtered{{Entity_Name_Plural_Here}}{{NP_Looped_Query_Join_Here}}
+			var {{entity_Name_Plural_Here}} = from o in pagedAndFiltered{{Entity_Name_Plural_Here}}{{NP_Looped_Query_Join_Here}}
                          select new Get{{Entity_Name_Here}}ForViewDto() {
-							{{Entity_Name_Here}} = ObjectMapper.Map<{{Entity_Name_Here}}Dto>(o){{NP_Looped_Map_Join_Here}}
-						}){{NP_Query_Filter_Here}};
+							{{Entity_Name_Here}} = new {{Entity_Name_Here}}Dto
+							{{{Property_Manuel_Mapping_Here}}
+                                Id = o.Id
+							}{{NP_Looped_Map_Join_Here}}
+						};
 
-            var totalCount = await query.CountAsync();
-
-            var {{entity_Name_Plural_Here}} = await query
-                .OrderBy(input.Sorting ?? "{{entity_Name_Here}}.id asc")
-                .PageBy(input)
-                .ToListAsync();
+            var totalCount = await filtered{{Entity_Name_Plural_Here}}.CountAsync();
 
             return new PagedResultDto<Get{{Entity_Name_Here}}ForViewDto>(
                 totalCount,
-                {{entity_Name_Plural_Here}}
+                await {{entity_Name_Plural_Here}}.ToListAsync()
             );
          }{{GetForView_Method_Here}}
 		 
@@ -75,7 +76,7 @@ namespace {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}
          }
 
 		 [AbpAuthorize(AppPermissions.{{Permission_Name_Here}}_Create)]
-		 private async Task Create(CreateOrEdit{{Entity_Name_Here}}Dto input)
+		 protected virtual async Task Create(CreateOrEdit{{Entity_Name_Here}}Dto input)
          {
             var {{entity_Name_Here}} = ObjectMapper.Map<{{Entity_Name_Here}}>(input);
 
@@ -85,7 +86,7 @@ namespace {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}
          }
 
 		 [AbpAuthorize(AppPermissions.{{Permission_Name_Here}}_Edit)]
-		 private async Task Update(CreateOrEdit{{Entity_Name_Here}}Dto input)
+		 protected virtual async Task Update(CreateOrEdit{{Entity_Name_Here}}Dto input)
          {
             var {{entity_Name_Here}} = await _{{entity_Name_Here}}Repository.FirstOrDefaultAsync(({{Primary_Key_Here}})input.Id);
              ObjectMapper.Map(input, {{entity_Name_Here}});

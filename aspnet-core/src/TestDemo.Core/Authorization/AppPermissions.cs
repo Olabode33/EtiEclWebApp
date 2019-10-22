@@ -1,4 +1,4 @@
-﻿namespace TestDemo.Authorization
+namespace TestDemo.Authorization
 {
     /// <summary>
     /// Defines string constants for application's permission names.
@@ -6,6 +6,11 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_EadInputAssumptions = "Pages.EadInputAssumptions";
+        public const string Pages_EadInputAssumptions_Create = "Pages.EadInputAssumptions.Create";
+        public const string Pages_EadInputAssumptions_Edit = "Pages.EadInputAssumptions.Edit";
+        public const string Pages_EadInputAssumptions_Delete = "Pages.EadInputAssumptions.Delete";
+
         //COMMON PERMISSIONS (FOR BOTH OF TENANTS AND HOST)
 
         public const string Pages = "Pages";
