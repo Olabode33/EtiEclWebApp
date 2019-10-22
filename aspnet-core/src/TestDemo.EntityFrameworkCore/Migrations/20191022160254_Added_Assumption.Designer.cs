@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestDemo.EntityFrameworkCore;
 
 namespace TestDemo.Migrations
 {
     [DbContext(typeof(TestDemoDbContext))]
-    partial class TestDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191022160254_Added_Assumption")]
+    partial class Added_Assumption
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1136,8 +1138,6 @@ namespace TestDemo.Migrations
 
                     b.Property<DateTime?>("DeletionTime");
 
-                    b.Property<int>("Framework");
-
                     b.Property<string>("InputName");
 
                     b.Property<bool>("IsComputed");
@@ -1173,8 +1173,6 @@ namespace TestDemo.Migrations
                     b.Property<DateTime?>("DeletionTime");
 
                     b.Property<int>("EadGroup");
-
-                    b.Property<int>("Framework");
 
                     b.Property<string>("InputName");
 
@@ -1214,8 +1212,6 @@ namespace TestDemo.Migrations
 
                     b.Property<DateTime?>("DeletionTime");
 
-                    b.Property<int>("Framework");
-
                     b.Property<string>("InputName");
 
                     b.Property<bool>("IsComputed");
@@ -1252,8 +1248,6 @@ namespace TestDemo.Migrations
 
                     b.Property<DateTime?>("DeletionTime");
 
-                    b.Property<int>("Framework");
-
                     b.Property<bool>("IsDeleted");
 
                     b.Property<DateTime?>("LastModificationTime");
@@ -1283,8 +1277,6 @@ namespace TestDemo.Migrations
                     b.Property<long?>("DeleterUserId");
 
                     b.Property<DateTime?>("DeletionTime");
-
-                    b.Property<int>("Framework");
 
                     b.Property<bool>("IsDeleted");
 

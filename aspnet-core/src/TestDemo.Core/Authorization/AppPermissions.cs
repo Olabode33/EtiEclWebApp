@@ -6,6 +6,26 @@ namespace TestDemo.Authorization
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_Assumptions = "Pages.Assumptions";
+        public const string Pages_Assumptions_Create = "Pages.Assumptions.Create";
+        public const string Pages_Assumptions_Edit = "Pages.Assumptions.Edit";
+        public const string Pages_Assumptions_Delete = "Pages.Assumptions.Delete";
+
+        public const string Pages_PdInputSnPCummulativeDefaultRates = "Pages.PdInputSnPCummulativeDefaultRates";
+        public const string Pages_PdInputSnPCummulativeDefaultRates_Create = "Pages.PdInputSnPCummulativeDefaultRates.Create";
+        public const string Pages_PdInputSnPCummulativeDefaultRates_Edit = "Pages.PdInputSnPCummulativeDefaultRates.Edit";
+        public const string Pages_PdInputSnPCummulativeDefaultRates_Delete = "Pages.PdInputSnPCummulativeDefaultRates.Delete";
+
+        public const string Pages_PdInputAssumption12Months = "Pages.PdInputAssumption12Months";
+        public const string Pages_PdInputAssumption12Months_Create = "Pages.PdInputAssumption12Months.Create";
+        public const string Pages_PdInputAssumption12Months_Edit = "Pages.PdInputAssumption12Months.Edit";
+        public const string Pages_PdInputAssumption12Months_Delete = "Pages.PdInputAssumption12Months.Delete";
+
+        public const string Pages_LgdAssumptionUnsecuredRecoveries = "Pages.LgdAssumptionUnsecuredRecoveries";
+        public const string Pages_LgdAssumptionUnsecuredRecoveries_Create = "Pages.LgdAssumptionUnsecuredRecoveries.Create";
+        public const string Pages_LgdAssumptionUnsecuredRecoveries_Edit = "Pages.LgdAssumptionUnsecuredRecoveries.Edit";
+        public const string Pages_LgdAssumptionUnsecuredRecoveries_Delete = "Pages.LgdAssumptionUnsecuredRecoveries.Delete";
+
         public const string Pages_EadInputAssumptions = "Pages.EadInputAssumptions";
         public const string Pages_EadInputAssumptions_Create = "Pages.EadInputAssumptions.Create";
         public const string Pages_EadInputAssumptions_Edit = "Pages.EadInputAssumptions.Edit";

@@ -5,6 +5,8 @@ import * as ApiServiceProxies from './service-proxies';
 
 @NgModule({
     providers: [
+        ApiServiceProxies.AssumptionsServiceProxy,        
+        ApiServiceProxies.PdInputSnPCummulativeDefaultRatesServiceProxy,        
         ApiServiceProxies.AuditLogServiceProxy,
         ApiServiceProxies.CachingServiceProxy,
         ApiServiceProxies.ChatServiceProxy,

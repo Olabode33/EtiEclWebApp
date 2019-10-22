@@ -9,12 +9,10 @@ using Abp.Auditing;
 
 namespace TestDemo.EclShared
 {
-	[Table("EadInputAssumptions")]
+	[Table("Assumptions")]
     [Audited]
-    public class EadInputAssumption : FullAuditedEntity<Guid> , IMayHaveTenant
+    public class Assumption : FullAuditedEntity<Guid> 
     {
-			public int? TenantId { get; set; }
-			
 
 		public virtual string Key { get; set; }
 		
@@ -22,12 +20,12 @@ namespace TestDemo.EclShared
 		
 		public virtual string Value { get; set; }
 		
-		public virtual DataTypeEnum Datatype { get; set; }
+		public virtual DataTypeEnum DataType { get; set; }
 		
 		public virtual bool IsComputed { get; set; }
 		
-		public virtual EadInputGroupEnum EadGroup { get; set; }
-
+		public virtual AssumptionGroupEnum AssumptionGroup { get; set; }
+		
         public virtual FrameworkEnum Framework { get; set; }
     }
 }

@@ -43,4 +43,14 @@ namespace TestDemo.EclShared
     {
         General, CreditConversionFactors, VariableInterestRateProjections, ExchangeRateProjections
     }
+
+    public enum LdgInputAssumptionEnum
+    {
+        General, UnsecuredRecoveries, CostOfRecoveryHigh, CostOfRecoveryLow, CollateralGrowthBest, CollateralGrowthOptimistic, CollateralGrowthDownturn, CollateralTTR, CollateralProjectionBest, CollateralProjectionOptimistic, CollateralProjectionDownturn
+    }
+
+    public enum AssumptionGroupEnum
+    {
+        General, ScenarioInputs, AbsoluteCreditQuality, RelativeCreditQuality, ForwardTransitions, BackwardTransitions
+    }
 }

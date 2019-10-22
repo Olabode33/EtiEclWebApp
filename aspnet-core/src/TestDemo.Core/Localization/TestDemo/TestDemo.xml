@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="EclShared">Ecl shared</text>
+  <texts>    <text name="Assumption">Assumption</text>
+    <text name="InputName">Input name</text>
+    <text name="DataType">Data type</text>
+    <text name="IsComputed">Is computed</text>
+    <text name="NotIsComputed">Not is computed</text>
+    <text name="AssumptionGroup">Assumption group</text>
+    <text name="AssumptionsHeaderInfo">Assumptions header info</text>
+    <text name="CreateNewAssumption">Create new assumption</text>
+    <text name="EditAssumption">Edit assumption</text>
+    <text name="DeleteAssumption">Delete assumption</text>
+    <text name="Assumptions">Assumptions</text>
+    <text name="PdInputSnPCummulativeDefaultRate">Pd input sn p cummulative default rate</text>
+    <text name="Rating">Rating</text>
+    <text name="Years">Years</text>
+    <text name="Value">Value</text>
+    <text name="PdInputSnPCummulativeDefaultRatesHeaderInfo">Pd input sn p cummulative default rates header info</text>
+    <text name="CreateNewPdInputSnPCummulativeDefaultRate">Create new pd input sn p cummulative default rate</text>
+    <text name="EditPdInputSnPCummulativeDefaultRate">Edit pd input sn p cummulative default rate</text>
+    <text name="DeletePdInputSnPCummulativeDefaultRate">Delete pd input sn p cummulative default rate</text>
+    <text name="PdInputSnPCummulativeDefaultRates">Pd input sn p cummulative default rates</text>
+    <text name="{0}IsRequired">{0} is required.</text>
+    <text name="Pick">Pick</text>
+    <text name="True">True</text>
+    <text name="False">False</text>
+    <text name="MinValue">Min</text>
+    <text name="MaxValue">Max</text>
+    <text name="PdInputAssumption12Month">Pd input assumption 1 2 month</text>
+    <text name="CreateNewPdInputAssumption12Month">Create new pd input assumption 1 2 month</text>
+    <text name="EditPdInputAssumption12Month">Edit pd input assumption 1 2 month</text>
+    <text name="DeletePdInputAssumption12Month">Delete pd input assumption 1 2 month</text>
+    <text name="LgdAssumptionUnsecuredRecovery">Lgd assumption unsecured recovery</text>
+    <text name="CreateNewLgdAssumptionUnsecuredRecovery">Create new lgd assumption unsecured recovery</text>
+    <text name="EditLgdAssumptionUnsecuredRecovery">Edit lgd assumption unsecured recovery</text>
+    <text name="DeleteLgdAssumptionUnsecuredRecovery">Delete lgd assumption unsecured recovery</text>
+    <text name="EclShared">Ecl shared</text>
     <text name="EadInputAssumption">Ead input assumption</text>
     <text name="CreateNewEadInputAssumption">Create new ead input assumption</text>
     <text name="EditEadInputAssumption">Edit ead input assumption</text>

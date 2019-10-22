@@ -30,6 +30,34 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var assumptions = pages.CreateChildPermission(AppPermissions.Pages_Assumptions, L("Assumptions"));
+            assumptions.CreateChildPermission(AppPermissions.Pages_Assumptions_Create, L("CreateNewAssumption"));
+            assumptions.CreateChildPermission(AppPermissions.Pages_Assumptions_Edit, L("EditAssumption"));
+            assumptions.CreateChildPermission(AppPermissions.Pages_Assumptions_Delete, L("DeleteAssumption"));
+
+
+
+            var pdInputSnPCummulativeDefaultRates = pages.CreateChildPermission(AppPermissions.Pages_PdInputSnPCummulativeDefaultRates, L("PdInputSnPCummulativeDefaultRates"));
+            pdInputSnPCummulativeDefaultRates.CreateChildPermission(AppPermissions.Pages_PdInputSnPCummulativeDefaultRates_Create, L("CreateNewPdInputSnPCummulativeDefaultRate"));
+            pdInputSnPCummulativeDefaultRates.CreateChildPermission(AppPermissions.Pages_PdInputSnPCummulativeDefaultRates_Edit, L("EditPdInputSnPCummulativeDefaultRate"));
+            pdInputSnPCummulativeDefaultRates.CreateChildPermission(AppPermissions.Pages_PdInputSnPCummulativeDefaultRates_Delete, L("DeletePdInputSnPCummulativeDefaultRate"));
+
+
+
+            var pdInputAssumption12Months = pages.CreateChildPermission(AppPermissions.Pages_PdInputAssumption12Months, L("PdInputAssumption12Months"));
+            pdInputAssumption12Months.CreateChildPermission(AppPermissions.Pages_PdInputAssumption12Months_Create, L("CreateNewPdInputAssumption12Month"));
+            pdInputAssumption12Months.CreateChildPermission(AppPermissions.Pages_PdInputAssumption12Months_Edit, L("EditPdInputAssumption12Month"));
+            pdInputAssumption12Months.CreateChildPermission(AppPermissions.Pages_PdInputAssumption12Months_Delete, L("DeletePdInputAssumption12Month"));
+
+
+
+            var lgdAssumptionUnsecuredRecoveries = pages.CreateChildPermission(AppPermissions.Pages_LgdAssumptionUnsecuredRecoveries, L("LgdAssumptionUnsecuredRecoveries"));
+            lgdAssumptionUnsecuredRecoveries.CreateChildPermission(AppPermissions.Pages_LgdAssumptionUnsecuredRecoveries_Create, L("CreateNewLgdAssumptionUnsecuredRecovery"));
+            lgdAssumptionUnsecuredRecoveries.CreateChildPermission(AppPermissions.Pages_LgdAssumptionUnsecuredRecoveries_Edit, L("EditLgdAssumptionUnsecuredRecovery"));
+            lgdAssumptionUnsecuredRecoveries.CreateChildPermission(AppPermissions.Pages_LgdAssumptionUnsecuredRecoveries_Delete, L("DeleteLgdAssumptionUnsecuredRecovery"));
+
+
+
             var eadInputAssumptions = pages.CreateChildPermission(AppPermissions.Pages_EadInputAssumptions, L("EadInputAssumptions"));
             eadInputAssumptions.CreateChildPermission(AppPermissions.Pages_EadInputAssumptions_Create, L("CreateNewEadInputAssumption"));
             eadInputAssumptions.CreateChildPermission(AppPermissions.Pages_EadInputAssumptions_Edit, L("EditEadInputAssumption"));

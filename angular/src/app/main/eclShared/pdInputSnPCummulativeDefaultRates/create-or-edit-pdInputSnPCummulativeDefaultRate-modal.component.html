@@ -1,0 +1,48 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #pdInputSnPCummulativeDefaultRateForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="pdInputSnPCummulativeDefaultRate.id">{{l("EditPdInputSnPCummulativeDefaultRate")}}</span>
+                        <span *ngIf="!pdInputSnPCummulativeDefaultRate.id">{{l("CreateNewPdInputSnPCummulativeDefaultRate")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="PdInputSnPCummulativeDefaultRate_Key">{{l("Key")}}</label>
+									<input type="text" id="PdInputSnPCummulativeDefaultRate_Key" class="form-control" [(ngModel)]="pdInputSnPCummulativeDefaultRate.key" name="Key"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="PdInputSnPCummulativeDefaultRate_Rating">{{l("Rating")}}</label>
+									<input type="text" id="PdInputSnPCummulativeDefaultRate_Rating" class="form-control" [(ngModel)]="pdInputSnPCummulativeDefaultRate.rating" name="Rating"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="PdInputSnPCummulativeDefaultRate_Years">{{l("Years")}}</label>
+									<input type="number" id="PdInputSnPCummulativeDefaultRate_Years" class="form-control" [(ngModel)]="pdInputSnPCummulativeDefaultRate.years" name="Years"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="PdInputSnPCummulativeDefaultRate_Value">{{l("Value")}}</label>
+									<input type="number" id="PdInputSnPCummulativeDefaultRate_Value" class="form-control" [(ngModel)]="pdInputSnPCummulativeDefaultRate.value" name="Value"  />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!pdInputSnPCummulativeDefaultRateForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

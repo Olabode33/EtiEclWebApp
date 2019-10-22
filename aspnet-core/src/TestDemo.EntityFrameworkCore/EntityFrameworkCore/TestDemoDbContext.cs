@@ -16,6 +16,14 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<Assumption> Assumptions { get; set; }
+
+        public virtual DbSet<PdInputSnPCummulativeDefaultRate> PdInputSnPCummulativeDefaultRates { get; set; }
+
+        public virtual DbSet<PdInputAssumption12Month> PdInputAssumption12Months { get; set; }
+
+        public virtual DbSet<LgdAssumptionUnsecuredRecovery> LgdAssumptionUnsecuredRecoveries { get; set; }
+
         public virtual DbSet<EadInputAssumption> EadInputAssumptions { get; set; }
 
         /* Define an IDbSet for each entity of the application */

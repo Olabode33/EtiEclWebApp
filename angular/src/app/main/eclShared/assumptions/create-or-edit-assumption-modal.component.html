@@ -1,0 +1,75 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #assumptionForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="assumption.id">{{l("EditAssumption")}}</span>
+                        <span *ngIf="!assumption.id">{{l("CreateNewAssumption")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="Assumption_Key">{{l("Key")}}</label>
+									<input type="text" id="Assumption_Key" class="form-control" [(ngModel)]="assumption.key" name="Key"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Assumption_InputName">{{l("InputName")}}</label>
+									<input type="text" id="Assumption_InputName" class="form-control" [(ngModel)]="assumption.inputName" name="InputName"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Assumption_Value">{{l("Value")}}</label>
+									<input type="text" id="Assumption_Value" class="form-control" [(ngModel)]="assumption.value" name="Value"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Assumption_DataType">{{l("DataType")}}</label>
+									<select class="form-control" name="DataType" id="Assumption_DataType" [(ngModel)]="assumption.dataType">
+									<option value="1">{{l('String')}}</option>
+
+									<option value="1">{{l('Datetime')}}</option>
+
+									<option value="2">{{l('Double')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="Assumption_AssumptionGroup">{{l("AssumptionGroup")}}</label>
+									<select class="form-control" name="AssumptionGroup" id="Assumption_AssumptionGroup" [(ngModel)]="assumption.assumptionGroup">
+									<option value="0">{{l('General')}}</option>
+
+									<option value="1">{{l('ScenarioInputs')}}</option>
+
+									<option value="2">{{l('AbsoluteCreditQuality')}}</option>
+
+									<option value="3">{{l('RelativeCreditQuality')}}</option>
+
+									<option value="4">{{l('ForwardTransitions')}}</option>
+
+									<option value="5">{{l('BackwardTransitions')}}</option>
+
+
+									</select>
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!assumptionForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

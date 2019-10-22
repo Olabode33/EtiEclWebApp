@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestDemo.EntityFrameworkCore;
 
 namespace TestDemo.Migrations
 {
     [DbContext(typeof(TestDemoDbContext))]
-    partial class TestDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191022151140_Added_LgdAssumptionUnsecuredRecovery")]
+    partial class Added_LgdAssumptionUnsecuredRecovery
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1119,44 +1121,6 @@ namespace TestDemo.Migrations
                     b.ToTable("AppChatMessages");
                 });
 
-            modelBuilder.Entity("TestDemo.EclShared.Assumption", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AssumptionGroup");
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<long?>("CreatorUserId");
-
-                    b.Property<int>("DataType");
-
-                    b.Property<long?>("DeleterUserId");
-
-                    b.Property<DateTime?>("DeletionTime");
-
-                    b.Property<int>("Framework");
-
-                    b.Property<string>("InputName");
-
-                    b.Property<bool>("IsComputed");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("Key");
-
-                    b.Property<DateTime?>("LastModificationTime");
-
-                    b.Property<long?>("LastModifierUserId");
-
-                    b.Property<string>("Value");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Assumptions");
-                });
-
             modelBuilder.Entity("TestDemo.EclShared.EadInputAssumption", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1173,8 +1137,6 @@ namespace TestDemo.Migrations
                     b.Property<DateTime?>("DeletionTime");
 
                     b.Property<int>("EadGroup");
-
-                    b.Property<int>("Framework");
 
                     b.Property<string>("InputName");
 
@@ -1214,8 +1176,6 @@ namespace TestDemo.Migrations
 
                     b.Property<DateTime?>("DeletionTime");
 
-                    b.Property<int>("Framework");
-
                     b.Property<string>("InputName");
 
                     b.Property<bool>("IsComputed");
@@ -1235,74 +1195,6 @@ namespace TestDemo.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LgdAssumptionUnsecuredRecoveries");
-                });
-
-            modelBuilder.Entity("TestDemo.EclShared.PdInputAssumption12Month", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<long?>("CreatorUserId");
-
-                    b.Property<int>("Credit");
-
-                    b.Property<long?>("DeleterUserId");
-
-                    b.Property<DateTime?>("DeletionTime");
-
-                    b.Property<int>("Framework");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime");
-
-                    b.Property<long?>("LastModifierUserId");
-
-                    b.Property<double?>("PD");
-
-                    b.Property<string>("SnPMappingBestFit");
-
-                    b.Property<string>("SnPMappingEtiCreditPolicy");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PdInputAssumption12Months");
-                });
-
-            modelBuilder.Entity("TestDemo.EclShared.PdInputSnPCummulativeDefaultRate", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<long?>("CreatorUserId");
-
-                    b.Property<long?>("DeleterUserId");
-
-                    b.Property<DateTime?>("DeletionTime");
-
-                    b.Property<int>("Framework");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("Key");
-
-                    b.Property<DateTime?>("LastModificationTime");
-
-                    b.Property<long?>("LastModifierUserId");
-
-                    b.Property<string>("Rating");
-
-                    b.Property<double?>("Value");
-
-                    b.Property<int?>("Years");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PdInputSnPCummulativeDefaultRates");
                 });
 
             modelBuilder.Entity("TestDemo.Friendships.Friendship", b =>
