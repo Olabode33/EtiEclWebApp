@@ -1,3 +1,5 @@
+using TestDemo.WholesaleAssumption;
+using TestDemo.Wholesale;
 using TestDemo.EclShared;
 using System;
 using System.Linq;
@@ -13,12 +15,20 @@ namespace TestDemo.EntityHistory
 
         public static readonly Type[] HostSideTrackedTypes =
         {
+            typeof(WholesaleEclLgdAssumption),
+            typeof(WholesaleEclEadInputAssumption),
+            typeof(WholesaleEclAssumption),
+            typeof(WholesaleEcl),
             typeof(EadInputAssumption),
             typeof(OrganizationUnit), typeof(Role), typeof(Tenant)
         };
 
         public static readonly Type[] TenantSideTrackedTypes =
         {
+            typeof(WholesaleEclLgdAssumption),
+            typeof(WholesaleEclEadInputAssumption),
+            typeof(WholesaleEclAssumption),
+            typeof(WholesaleEcl),
             typeof(EadInputAssumption),
             typeof(OrganizationUnit), typeof(Role)
         };

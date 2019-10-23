@@ -1161,7 +1161,7 @@ namespace TestDemo.Migrations
                     b.ToTable("EadInputAssumptions");
                 });
 
-            modelBuilder.Entity("TestDemo.EclShared.LgdAssumptionUnsecuredRecovery", b =>
+            modelBuilder.Entity("TestDemo.EclShared.LgdInputAssumption", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();

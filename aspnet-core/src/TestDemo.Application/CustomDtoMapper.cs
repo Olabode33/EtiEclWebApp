@@ -1,3 +1,7 @@
+using TestDemo.WholesaleAssumption.Dtos;
+using TestDemo.WholesaleAssumption;
+using TestDemo.Wholesale.Dtos;
+using TestDemo.Wholesale;
 using TestDemo.EclShared.Dtos;
 using TestDemo.EclShared;
 using Abp.Application.Editions;
@@ -43,14 +47,22 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+           configuration.CreateMap<CreateOrEditWholesaleEclLgdAssumptionDto, WholesaleEclLgdAssumption>().ReverseMap();
+           configuration.CreateMap<WholesaleEclLgdAssumptionDto, WholesaleEclLgdAssumption>().ReverseMap();
+           configuration.CreateMap<CreateOrEditWholesaleEadInputAssumptionDto, WholesaleEclEadInputAssumption>().ReverseMap();
+           configuration.CreateMap<WholesaleEadInputAssumptionDto, WholesaleEclEadInputAssumption>().ReverseMap();
+           configuration.CreateMap<CreateOrEditWholesaleEclAssumptionDto, WholesaleEclAssumption>().ReverseMap();
+           configuration.CreateMap<WholesaleEclAssumptionDto, WholesaleEclAssumption>().ReverseMap();
+           configuration.CreateMap<CreateOrEditWholesaleEclDto, WholesaleEcl>().ReverseMap();
+           configuration.CreateMap<WholesaleEclDto, WholesaleEcl>().ReverseMap();
            configuration.CreateMap<CreateOrEditAssumptionDto, Assumption>().ReverseMap();
            configuration.CreateMap<AssumptionDto, Assumption>().ReverseMap();
            configuration.CreateMap<CreateOrEditPdInputSnPCummulativeDefaultRateDto, PdInputSnPCummulativeDefaultRate>().ReverseMap();
            configuration.CreateMap<PdInputSnPCummulativeDefaultRateDto, PdInputSnPCummulativeDefaultRate>().ReverseMap();
            configuration.CreateMap<CreateOrEditPdInputAssumption12MonthDto, PdInputAssumption12Month>().ReverseMap();
            configuration.CreateMap<PdInputAssumption12MonthDto, PdInputAssumption12Month>().ReverseMap();
-           configuration.CreateMap<CreateOrEditLgdAssumptionUnsecuredRecoveryDto, LgdAssumptionUnsecuredRecovery>().ReverseMap();
-           configuration.CreateMap<LgdAssumptionUnsecuredRecoveryDto, LgdAssumptionUnsecuredRecovery>().ReverseMap();
+           configuration.CreateMap<CreateOrEditLgdAssumptionUnsecuredRecoveryDto, LgdInputAssumption>().ReverseMap();
+           configuration.CreateMap<LgdAssumptionUnsecuredRecoveryDto, LgdInputAssumption>().ReverseMap();
            configuration.CreateMap<CreateOrEditEadInputAssumptionDto, EadInputAssumption>().ReverseMap();
            configuration.CreateMap<EadInputAssumptionDto, EadInputAssumption>().ReverseMap();
             //Inputs

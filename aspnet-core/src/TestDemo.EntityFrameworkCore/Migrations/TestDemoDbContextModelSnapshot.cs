@@ -1199,7 +1199,7 @@ namespace TestDemo.Migrations
                     b.ToTable("EadInputAssumptions");
                 });
 
-            modelBuilder.Entity("TestDemo.EclShared.LgdAssumptionUnsecuredRecovery", b =>
+            modelBuilder.Entity("TestDemo.EclShared.LgdInputAssumption", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -1506,6 +1506,122 @@ namespace TestDemo.Migrations
                     b.ToTable("AppBinaryObjects");
                 });
 
+            modelBuilder.Entity("TestDemo.Wholesale.WholesaleEcl", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long?>("ClosedByUserId");
+
+                    b.Property<DateTime?>("ClosedDate");
+
+                    b.Property<bool>("IsApproved");
+
+                    b.Property<DateTime>("ReportingDate");
+
+                    b.Property<int>("Status");
+
+                    b.Property<int?>("TenantId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClosedByUserId");
+
+                    b.HasIndex("TenantId");
+
+                    b.ToTable("WholesaleEcls");
+                });
+
+            modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclEadInputAssumption", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Datatype");
+
+                    b.Property<int>("EadGroup");
+
+                    b.Property<string>("InputName");
+
+                    b.Property<bool>("IsComputed");
+
+                    b.Property<string>("Key");
+
+                    b.Property<int?>("TenantId");
+
+                    b.Property<string>("Value");
+
+                    b.Property<Guid>("WholesaleEclId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
+
+                    b.HasIndex("WholesaleEclId");
+
+                    b.ToTable("WholesaleEadInputAssumptions");
+                });
+
+            modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclAssumption", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AssumptionGroup");
+
+                    b.Property<int>("Datatype");
+
+                    b.Property<string>("InputName");
+
+                    b.Property<bool>("IsComputed");
+
+                    b.Property<string>("Key");
+
+                    b.Property<int?>("TenantId");
+
+                    b.Property<string>("Value");
+
+                    b.Property<Guid>("WholesaleEclId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
+
+                    b.HasIndex("WholesaleEclId");
+
+                    b.ToTable("WholesaleEclAssumptions");
+                });
+
+            modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclLgdAssumption", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("DataType");
+
+                    b.Property<string>("InputName");
+
+                    b.Property<bool>("IsComputed");
+
+                    b.Property<string>("Key");
+
+                    b.Property<int>("LgdGroup");
+
+                    b.Property<int?>("TenantId");
+
+                    b.Property<string>("Value");
+
+                    b.Property<Guid>("WholesaleEclId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
+
+                    b.HasIndex("WholesaleEclId");
+
+                    b.ToTable("WholesaleEclLgdAssumptions");
+                });
+
             modelBuilder.Entity("TestDemo.Editions.SubscribableEdition", b =>
                 {
                     b.HasBaseType("Abp.Application.Editions.Edition");
@@ -1708,6 +1824,37 @@ namespace TestDemo.Migrations
                     b.HasOne("TestDemo.Authorization.Users.User", "LastModifierUser")
                         .WithMany()
                         .HasForeignKey("LastModifierUserId");
+                });
+
+            modelBuilder.Entity("TestDemo.Wholesale.WholesaleEcl", b =>
+                {
+                    b.HasOne("TestDemo.Authorization.Users.User", "ClosedByUserFk")
+                        .WithMany()
+                        .HasForeignKey("ClosedByUserId");
+                });
+
+            modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclEadInputAssumption", b =>
+                {
+                    b.HasOne("TestDemo.Wholesale.WholesaleEcl", "WholesaleEclFk")
+                        .WithMany()
+                        .HasForeignKey("WholesaleEclId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclAssumption", b =>
+                {
+                    b.HasOne("TestDemo.Wholesale.WholesaleEcl", "WholesaleEclFk")
+                        .WithMany()
+                        .HasForeignKey("WholesaleEclId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclLgdAssumption", b =>
+                {
+                    b.HasOne("TestDemo.Wholesale.WholesaleEcl", "WholesaleEclFk")
+                        .WithMany()
+                        .HasForeignKey("WholesaleEclId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Abp.Application.Features.EditionFeatureSetting", b =>

@@ -22,10 +22,10 @@ namespace TestDemo.EclShared
 	[AbpAuthorize(AppPermissions.Pages_LgdAssumptionUnsecuredRecoveries)]
     public class LgdAssumptionUnsecuredRecoveriesAppService : TestDemoAppServiceBase, ILgdAssumptionUnsecuredRecoveriesAppService
     {
-		 private readonly IRepository<LgdAssumptionUnsecuredRecovery, Guid> _lgdAssumptionUnsecuredRecoveryRepository;
+		 private readonly IRepository<LgdInputAssumption, Guid> _lgdAssumptionUnsecuredRecoveryRepository;
 		 
 
-		  public LgdAssumptionUnsecuredRecoveriesAppService(IRepository<LgdAssumptionUnsecuredRecovery, Guid> lgdAssumptionUnsecuredRecoveryRepository ) 
+		  public LgdAssumptionUnsecuredRecoveriesAppService(IRepository<LgdInputAssumption, Guid> lgdAssumptionUnsecuredRecoveryRepository ) 
 		  {
 			_lgdAssumptionUnsecuredRecoveryRepository = lgdAssumptionUnsecuredRecoveryRepository;
 			
@@ -83,7 +83,7 @@ namespace TestDemo.EclShared
 		 [AbpAuthorize(AppPermissions.Pages_LgdAssumptionUnsecuredRecoveries_Create)]
 		 protected virtual async Task Create(CreateOrEditLgdAssumptionUnsecuredRecoveryDto input)
          {
-            var lgdAssumptionUnsecuredRecovery = ObjectMapper.Map<LgdAssumptionUnsecuredRecovery>(input);
+            var lgdAssumptionUnsecuredRecovery = ObjectMapper.Map<LgdInputAssumption>(input);
 
 			
 

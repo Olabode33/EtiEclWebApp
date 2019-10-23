@@ -11,7 +11,7 @@ namespace TestDemo.EclShared
 {
 	[Table("LgdAssumptionUnsecuredRecoveries")]
     [Audited]
-    public class LgdAssumptionUnsecuredRecovery : FullAuditedEntity<Guid> 
+    public class LgdInputAssumption : FullAuditedEntity<Guid> 
     {
 
 		public virtual string Key { get; set; }

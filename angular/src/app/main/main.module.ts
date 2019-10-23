@@ -2,6 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
+import { WholesaleEclsComponent } from './wholesale/wholesaleEcls/wholesaleEcls.component';
+import { CreateOrEditWholesaleEclModalComponent } from './wholesale/wholesaleEcls/create-or-edit-wholesaleEcl-modal.component';
+import { WholesaleEclUserLookupTableModalComponent } from './wholesale/wholesaleEcls/wholesaleEcl-user-lookup-table-modal.component';
+
 import { AssumptionsComponent } from './eclShared/assumptions/assumptions.component';
 import { CreateOrEditAssumptionModalComponent } from './eclShared/assumptions/create-or-edit-assumption-modal.component';
 
@@ -48,6 +52,9 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+		WholesaleEclsComponent,
+		CreateOrEditWholesaleEclModalComponent,
+    WholesaleEclUserLookupTableModalComponent,
 		AssumptionsComponent,
 		CreateOrEditAssumptionModalComponent,
 		PdInputSnPCummulativeDefaultRatesComponent,

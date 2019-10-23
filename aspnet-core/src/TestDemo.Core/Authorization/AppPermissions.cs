@@ -6,6 +6,26 @@ namespace TestDemo.Authorization
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_WholesaleEclLgdAssumptions = "Pages.WholesaleEclLgdAssumptions";
+        public const string Pages_WholesaleEclLgdAssumptions_Create = "Pages.WholesaleEclLgdAssumptions.Create";
+        public const string Pages_WholesaleEclLgdAssumptions_Edit = "Pages.WholesaleEclLgdAssumptions.Edit";
+        public const string Pages_WholesaleEclLgdAssumptions_Delete = "Pages.WholesaleEclLgdAssumptions.Delete";
+
+        public const string Pages_WholesaleEadInputAssumptions = "Pages.WholesaleEadInputAssumptions";
+        public const string Pages_WholesaleEadInputAssumptions_Create = "Pages.WholesaleEadInputAssumptions.Create";
+        public const string Pages_WholesaleEadInputAssumptions_Edit = "Pages.WholesaleEadInputAssumptions.Edit";
+        public const string Pages_WholesaleEadInputAssumptions_Delete = "Pages.WholesaleEadInputAssumptions.Delete";
+
+        public const string Pages_WholesaleEclAssumptions = "Pages.WholesaleEclAssumptions";
+        public const string Pages_WholesaleEclAssumptions_Create = "Pages.WholesaleEclAssumptions.Create";
+        public const string Pages_WholesaleEclAssumptions_Edit = "Pages.WholesaleEclAssumptions.Edit";
+        public const string Pages_WholesaleEclAssumptions_Delete = "Pages.WholesaleEclAssumptions.Delete";
+
+        public const string Pages_WholesaleEcls = "Pages.WholesaleEcls";
+        public const string Pages_WholesaleEcls_Create = "Pages.WholesaleEcls.Create";
+        public const string Pages_WholesaleEcls_Edit = "Pages.WholesaleEcls.Edit";
+        public const string Pages_WholesaleEcls_Delete = "Pages.WholesaleEcls.Delete";
+
         public const string Pages_Assumptions = "Pages.Assumptions";
         public const string Pages_Assumptions_Create = "Pages.Assumptions.Create";
         public const string Pages_Assumptions_Edit = "Pages.Assumptions.Edit";

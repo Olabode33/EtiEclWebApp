@@ -1,3 +1,5 @@
+using TestDemo.WholesaleAssumption;
+using TestDemo.Wholesale;
 using TestDemo.EclShared;
 using Abp.IdentityServer4;
 using Abp.Zero.EntityFrameworkCore;
@@ -16,13 +18,21 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<WholesaleEclLgdAssumption> WholesaleEclLgdAssumptions { get; set; }
+
+        public virtual DbSet<WholesaleEclEadInputAssumption> WholesaleEadInputAssumptions { get; set; }
+
+        public virtual DbSet<WholesaleEclAssumption> WholesaleEclAssumptions { get; set; }
+
+        public virtual DbSet<WholesaleEcl> WholesaleEcls { get; set; }
+
         public virtual DbSet<Assumption> Assumptions { get; set; }
 
         public virtual DbSet<PdInputSnPCummulativeDefaultRate> PdInputSnPCummulativeDefaultRates { get; set; }
 
         public virtual DbSet<PdInputAssumption12Month> PdInputAssumption12Months { get; set; }
 
-        public virtual DbSet<LgdAssumptionUnsecuredRecovery> LgdAssumptionUnsecuredRecoveries { get; set; }
+        public virtual DbSet<LgdInputAssumption> LgdAssumptionUnsecuredRecoveries { get; set; }
 
         public virtual DbSet<EadInputAssumption> EadInputAssumptions { get; set; }
 
@@ -53,7 +63,27 @@ namespace TestDemo.EntityFrameworkCore
             base.OnModelCreating(modelBuilder);
 
            
-            modelBuilder.Entity<EadInputAssumption>(x =>
+           
+           
+           
+           
+            modelBuilder.Entity<WholesaleEclLgdAssumption>(w =>
+            {
+                w.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<WholesaleEclEadInputAssumption>(w =>
+            {
+                w.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<WholesaleEclAssumption>(w =>
+            {
+                w.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<WholesaleEcl>(w =>
+            {
+                w.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<EadInputAssumption>(x =>
             {
                 x.HasIndex(e => new { e.TenantId });
             });

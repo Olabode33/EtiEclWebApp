@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="Assumption">Assumption</text>
+  <texts>    <text name="WholesaleEclLgdAssumption">Wholesale ecl lgd assumption</text>
+    <text name="CreateNewWholesaleEclLgdAssumption">Create new wholesale ecl lgd assumption</text>
+    <text name="EditWholesaleEclLgdAssumption">Edit wholesale ecl lgd assumption</text>
+    <text name="DeleteWholesaleEclLgdAssumption">Delete wholesale ecl lgd assumption</text>
+    <text name="WholesaleEadInputAssumption">Wholesale ead input assumption</text>
+    <text name="CreateNewWholesaleEadInputAssumption">Create new wholesale ead input assumption</text>
+    <text name="EditWholesaleEadInputAssumption">Edit wholesale ead input assumption</text>
+    <text name="DeleteWholesaleEadInputAssumption">Delete wholesale ead input assumption</text>
+    <text name="WholesaleAssumption">Wholesale assumption</text>
+    <text name="WholesaleEclAssumption">Wholesale ecl assumption</text>
+    <text name="CreateNewWholesaleEclAssumption">Create new wholesale ecl assumption</text>
+    <text name="EditWholesaleEclAssumption">Edit wholesale ecl assumption</text>
+    <text name="DeleteWholesaleEclAssumption">Delete wholesale ecl assumption</text>
+    <text name="Wholesale">Wholesale</text>
+    <text name="WholesaleEcl">Wholesale ecl</text>
+    <text name="ReportingDate">Reporting date</text>
+    <text name="ClosedDate">Closed date</text>
+    <text name="IsApproved">Is approved</text>
+    <text name="NotIsApproved">Not is approved</text>
+    <text name="WholesaleEclsHeaderInfo">Wholesale ecls header info</text>
+    <text name="CreateNewWholesaleEcl">Create new wholesale ecl</text>
+    <text name="EditWholesaleEcl">Edit wholesale ecl</text>
+    <text name="DeleteWholesaleEcl">Delete wholesale ecl</text>
+    <text name="WholesaleEcls">Wholesale ecls</text>
+    <text name="PickUser">Pick user</text>
+    <text name="ReportingDateRange">Reporting date range</text>
+    <text name="ClosedDateRange">Closed date range</text>
+    <text name="Assumption">Assumption</text>
     <text name="InputName">Input name</text>
     <text name="DataType">Data type</text>
     <text name="IsComputed">Is computed</text>
