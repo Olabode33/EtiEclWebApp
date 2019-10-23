@@ -27,6 +27,10 @@ export class AppNavigationService {
             new AppMenuItem('Assumptions', 'Pages.Assumptions', 'flaticon-more', '/app/main/eclShared/assumptions'),
             
             new AppMenuItem('WholesaleEcls', 'Pages.WholesaleEcls', 'flaticon-more', '/app/main/wholesale/wholesaleEcls'),
+            
+            new AppMenuItem('WholesaleEclPdAssumption12Monthses', 'Pages.WholesaleEclPdAssumption12Monthses', 'flaticon-more', '/app/main/wholesaleAssumption/wholesaleEclPdAssumption12Monthses'),
+            
+            new AppMenuItem('WholesaleEclPdSnPCummulativeDefaultRateses', 'Pages.WholesaleEclPdSnPCummulativeDefaultRateses', 'flaticon-more', '/app/main/wholesaleAssumption/wholesaleEclPdSnPCummulativeDefaultRateses'),
              new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
                 new AppMenuItem('OrganizationUnits', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),

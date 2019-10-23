@@ -2,6 +2,14 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
+import { WholesaleEclPdSnPCummulativeDefaultRatesesComponent } from './wholesaleAssumption/wholesaleEclPdSnPCummulativeDefaultRateses/wholesaleEclPdSnPCummulativeDefaultRateses.component';
+import { CreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesModalComponent } from './wholesaleAssumption/wholesaleEclPdSnPCummulativeDefaultRateses/create-or-edit-wholesaleEclPdSnPCummulativeDefaultRates-modal.component';
+import { WholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableModalComponent } from './wholesaleAssumption/wholesaleEclPdSnPCummulativeDefaultRateses/wholesaleEclPdSnPCummulativeDefaultRates-wholesaleEcl-lookup-table-modal.component';
+
+import { WholesaleEclPdAssumption12MonthsesComponent } from './wholesaleAssumption/wholesaleEclPdAssumption12Monthses/wholesaleEclPdAssumption12Monthses.component';
+import { CreateOrEditWholesaleEclPdAssumption12MonthsModalComponent } from './wholesaleAssumption/wholesaleEclPdAssumption12Monthses/create-or-edit-wholesaleEclPdAssumption12Months-modal.component';
+import { WholesaleEclPdAssumption12MonthsWholesaleEclLookupTableModalComponent } from './wholesaleAssumption/wholesaleEclPdAssumption12Monthses/wholesaleEclPdAssumption12Months-wholesaleEcl-lookup-table-modal.component';
+
 import { WholesaleEclsComponent } from './wholesale/wholesaleEcls/wholesaleEcls.component';
 import { CreateOrEditWholesaleEclModalComponent } from './wholesale/wholesaleEcls/create-or-edit-wholesaleEcl-modal.component';
 import { WholesaleEclUserLookupTableModalComponent } from './wholesale/wholesaleEcls/wholesaleEcl-user-lookup-table-modal.component';
@@ -52,6 +60,12 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+		WholesaleEclPdSnPCummulativeDefaultRatesesComponent,
+		CreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesModalComponent,
+    WholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableModalComponent,
+		WholesaleEclPdAssumption12MonthsesComponent,
+		CreateOrEditWholesaleEclPdAssumption12MonthsModalComponent,
+    WholesaleEclPdAssumption12MonthsWholesaleEclLookupTableModalComponent,
 		WholesaleEclsComponent,
 		CreateOrEditWholesaleEclModalComponent,
     WholesaleEclUserLookupTableModalComponent,

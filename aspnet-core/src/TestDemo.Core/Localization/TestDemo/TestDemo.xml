@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="WholesaleEclLgdAssumption">Wholesale ecl lgd assumption</text>
+  <texts>    <text name="WholesaleEclPdSnPCummulativeDefaultRates">Wholesale ecl pd sn p cummulative default rates</text>
+    <text name="WholesaleEclPdSnPCummulativeDefaultRatesesHeaderInfo">Wholesale ecl pd sn p cummulative default rateses header info</text>
+    <text name="CreateNewWholesaleEclPdSnPCummulativeDefaultRates">Create new wholesale ecl pd sn p cummulative default rates</text>
+    <text name="EditWholesaleEclPdSnPCummulativeDefaultRates">Edit wholesale ecl pd sn p cummulative default rates</text>
+    <text name="DeleteWholesaleEclPdSnPCummulativeDefaultRates">Delete wholesale ecl pd sn p cummulative default rates</text>
+    <text name="WholesaleEclPdSnPCummulativeDefaultRateses">Wholesale ecl pd sn p cummulative default rateses</text>
+    <text name="WholesaleEclPdAssumption12Months">Wholesale ecl pd assumption 1 2 months</text>
+    <text name="Credit">Credit</text>
+    <text name="PD">P d</text>
+    <text name="SnPMappingEtiCreditPolicy">Sn p mapping eti credit policy</text>
+    <text name="SnPMappingBestFit">Sn p mapping best fit</text>
+    <text name="WholesaleEclPdAssumption12MonthsesHeaderInfo">Wholesale ecl pd assumption 1 2 monthses header info</text>
+    <text name="CreateNewWholesaleEclPdAssumption12Months">Create new wholesale ecl pd assumption 1 2 months</text>
+    <text name="EditWholesaleEclPdAssumption12Months">Edit wholesale ecl pd assumption 1 2 months</text>
+    <text name="DeleteWholesaleEclPdAssumption12Months">Delete wholesale ecl pd assumption 1 2 months</text>
+    <text name="WholesaleEclPdAssumption12Monthses">Wholesale ecl pd assumption 1 2 monthses</text>
+    <text name="WholesaleEclTenantId">Wholesale ecl tenant id</text>
+    <text name="PickWholesaleEcl">Pick wholesale ecl</text>
+    <text name="WholesaleEclLgdAssumption">Wholesale ecl lgd assumption</text>
     <text name="CreateNewWholesaleEclLgdAssumption">Create new wholesale ecl lgd assumption</text>
     <text name="EditWholesaleEclLgdAssumption">Edit wholesale ecl lgd assumption</text>
     <text name="DeleteWholesaleEclLgdAssumption">Delete wholesale ecl lgd assumption</text>

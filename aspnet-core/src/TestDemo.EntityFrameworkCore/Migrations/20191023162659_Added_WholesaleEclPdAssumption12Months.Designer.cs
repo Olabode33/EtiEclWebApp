@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestDemo.EntityFrameworkCore;
 
 namespace TestDemo.Migrations
 {
     [DbContext(typeof(TestDemoDbContext))]
-    partial class TestDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191023162659_Added_WholesaleEclPdAssumption12Months")]
+    partial class Added_WholesaleEclPdAssumption12Months
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1662,46 +1664,6 @@ namespace TestDemo.Migrations
                     b.ToTable("WholesaleEclPdAssumption12Monthses");
                 });
 
-            modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclPdSnPCummulativeDefaultRates", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<long?>("CreatorUserId");
-
-                    b.Property<long?>("DeleterUserId");
-
-                    b.Property<DateTime?>("DeletionTime");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("Key");
-
-                    b.Property<DateTime?>("LastModificationTime");
-
-                    b.Property<long?>("LastModifierUserId");
-
-                    b.Property<string>("Rating");
-
-                    b.Property<int?>("TenantId");
-
-                    b.Property<double?>("Value");
-
-                    b.Property<Guid?>("WholesaleEclId");
-
-                    b.Property<int?>("Years");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TenantId");
-
-                    b.HasIndex("WholesaleEclId");
-
-                    b.ToTable("WholesaleEclPdSnPCummulativeDefaultRateses");
-                });
-
             modelBuilder.Entity("TestDemo.Editions.SubscribableEdition", b =>
                 {
                     b.HasBaseType("Abp.Application.Editions.Edition");
@@ -1938,13 +1900,6 @@ namespace TestDemo.Migrations
                 });
 
             modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclPdAssumption12Months", b =>
-                {
-                    b.HasOne("TestDemo.Wholesale.WholesaleEcl", "WholesaleEclFk")
-                        .WithMany()
-                        .HasForeignKey("WholesaleEclId");
-                });
-
-            modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclPdSnPCummulativeDefaultRates", b =>
                 {
                     b.HasOne("TestDemo.Wholesale.WholesaleEcl", "WholesaleEclFk")
                         .WithMany()
