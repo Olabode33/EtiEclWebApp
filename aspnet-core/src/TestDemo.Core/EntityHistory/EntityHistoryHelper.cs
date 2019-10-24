@@ -15,6 +15,7 @@ namespace TestDemo.EntityHistory
 
         public static readonly Type[] HostSideTrackedTypes =
         {
+            typeof(WholesaleEclApproval),
             typeof(WholesaleEclPdSnPCummulativeDefaultRates),
             typeof(WholesaleEclPdAssumption12Months),
             typeof(WholesaleEclLgdAssumption),
@@ -27,6 +28,7 @@ namespace TestDemo.EntityHistory
 
         public static readonly Type[] TenantSideTrackedTypes =
         {
+            typeof(WholesaleEclApproval),
             typeof(WholesaleEclPdSnPCummulativeDefaultRates),
             typeof(WholesaleEclPdAssumption12Months),
             typeof(WholesaleEclLgdAssumption),

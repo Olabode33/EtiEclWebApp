@@ -47,6 +47,10 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+           configuration.CreateMap<CreateOrEditWholesaleEclApprovalDto, WholesaleEclApproval>().ReverseMap();
+           configuration.CreateMap<WholesaleEclApprovalDto, WholesaleEclApproval>().ReverseMap();
+           configuration.CreateMap<CreateOrEditWholesaleEclAssumptionApprovalDto, WholesaleEclAssumptionApproval>().ReverseMap();
+           configuration.CreateMap<WholesaleEclAssumptionApprovalDto, WholesaleEclAssumptionApproval>().ReverseMap();
            configuration.CreateMap<CreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesDto, WholesaleEclPdSnPCummulativeDefaultRates>().ReverseMap();
            configuration.CreateMap<WholesaleEclPdSnPCummulativeDefaultRatesDto, WholesaleEclPdSnPCummulativeDefaultRates>().ReverseMap();
            configuration.CreateMap<CreateOrEditWholesaleEclPdAssumption12MonthsDto, WholesaleEclPdAssumption12Months>().ReverseMap();

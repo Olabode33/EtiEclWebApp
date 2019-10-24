@@ -30,6 +30,20 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var wholesaleEclApprovals = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEclApprovals, L("WholesaleEclApprovals"));
+            wholesaleEclApprovals.CreateChildPermission(AppPermissions.Pages_WholesaleEclApprovals_Create, L("CreateNewWholesaleEclApproval"));
+            wholesaleEclApprovals.CreateChildPermission(AppPermissions.Pages_WholesaleEclApprovals_Edit, L("EditWholesaleEclApproval"));
+            wholesaleEclApprovals.CreateChildPermission(AppPermissions.Pages_WholesaleEclApprovals_Delete, L("DeleteWholesaleEclApproval"));
+
+
+
+            var wholesaleEclAssumptionApprovals = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEclAssumptionApprovals, L("WholesaleEclAssumptionApprovals"));
+            wholesaleEclAssumptionApprovals.CreateChildPermission(AppPermissions.Pages_WholesaleEclAssumptionApprovals_Create, L("CreateNewWholesaleEclAssumptionApproval"));
+            wholesaleEclAssumptionApprovals.CreateChildPermission(AppPermissions.Pages_WholesaleEclAssumptionApprovals_Edit, L("EditWholesaleEclAssumptionApproval"));
+            wholesaleEclAssumptionApprovals.CreateChildPermission(AppPermissions.Pages_WholesaleEclAssumptionApprovals_Delete, L("DeleteWholesaleEclAssumptionApproval"));
+
+
+
             var wholesaleEclPdSnPCummulativeDefaultRateses = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEclPdSnPCummulativeDefaultRateses, L("WholesaleEclPdSnPCummulativeDefaultRateses"));
             wholesaleEclPdSnPCummulativeDefaultRateses.CreateChildPermission(AppPermissions.Pages_WholesaleEclPdSnPCummulativeDefaultRateses_Create, L("CreateNewWholesaleEclPdSnPCummulativeDefaultRates"));
             wholesaleEclPdSnPCummulativeDefaultRateses.CreateChildPermission(AppPermissions.Pages_WholesaleEclPdSnPCummulativeDefaultRateses_Edit, L("EditWholesaleEclPdSnPCummulativeDefaultRates"));

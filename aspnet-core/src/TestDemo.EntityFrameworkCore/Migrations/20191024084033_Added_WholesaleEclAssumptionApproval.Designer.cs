@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestDemo.EntityFrameworkCore;
 
 namespace TestDemo.Migrations
 {
     [DbContext(typeof(TestDemoDbContext))]
-    partial class TestDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191024084033_Added_WholesaleEclAssumptionApproval")]
+    partial class Added_WholesaleEclAssumptionApproval
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1532,48 +1534,6 @@ namespace TestDemo.Migrations
                     b.ToTable("WholesaleEcls");
                 });
 
-            modelBuilder.Entity("TestDemo.Wholesale.WholesaleEclApproval", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<long?>("CreatorUserId");
-
-                    b.Property<long?>("DeleterUserId");
-
-                    b.Property<DateTime?>("DeletionTime");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime");
-
-                    b.Property<long?>("LastModifierUserId");
-
-                    b.Property<string>("ReviewComment");
-
-                    b.Property<long?>("ReviewedByUserId");
-
-                    b.Property<DateTime?>("ReviewedDate");
-
-                    b.Property<int>("Status");
-
-                    b.Property<int?>("TenantId");
-
-                    b.Property<Guid>("WholesaleEclId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReviewedByUserId");
-
-                    b.HasIndex("TenantId");
-
-                    b.HasIndex("WholesaleEclId");
-
-                    b.ToTable("WholesaleEclApprovals");
-                });
-
             modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclAssumption", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1999,18 +1959,6 @@ namespace TestDemo.Migrations
                     b.HasOne("TestDemo.Authorization.Users.User", "ClosedByUserFk")
                         .WithMany()
                         .HasForeignKey("ClosedByUserId");
-                });
-
-            modelBuilder.Entity("TestDemo.Wholesale.WholesaleEclApproval", b =>
-                {
-                    b.HasOne("TestDemo.Authorization.Users.User", "ReviewedByUserFk")
-                        .WithMany()
-                        .HasForeignKey("ReviewedByUserId");
-
-                    b.HasOne("TestDemo.Wholesale.WholesaleEcl", "WholesaleEclFk")
-                        .WithMany()
-                        .HasForeignKey("WholesaleEclId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclAssumption", b =>

@@ -18,6 +18,10 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<WholesaleEclApproval> WholesaleEclApprovals { get; set; }
+
+        public virtual DbSet<WholesaleEclAssumptionApproval> WholesaleEclAssumptionApprovals { get; set; }
+
         public virtual DbSet<WholesaleEclPdSnPCummulativeDefaultRates> WholesaleEclPdSnPCummulativeDefaultRateses { get; set; }
 
         public virtual DbSet<WholesaleEclPdAssumption12Months> WholesaleEclPdAssumption12Monthses { get; set; }
@@ -73,7 +77,12 @@ namespace TestDemo.EntityFrameworkCore
            
            
            
-            modelBuilder.Entity<WholesaleEclPdSnPCummulativeDefaultRates>(w =>
+           
+            modelBuilder.Entity<WholesaleEclApproval>(w =>
+            {
+                w.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<WholesaleEclPdSnPCummulativeDefaultRates>(w =>
             {
                 w.HasIndex(e => new { e.TenantId });
             });

@@ -29,7 +29,7 @@ namespace TestDemo.EclShared
         General, LoanBook, PaymentSchedule
     }
 
-    public enum UploadStatusEnum
+    public enum GeneralStatusEnum
     {
         Draft, Submitted, Approved, Rejected
     }
@@ -52,5 +52,10 @@ namespace TestDemo.EclShared
     public enum AssumptionGroupEnum
     {
         General, ScenarioInputs, AbsoluteCreditQuality, RelativeCreditQuality, ForwardTransitions, BackwardTransitions
+    }
+
+    public enum AssumptionTypeEnum
+    {
+        General, EadInputAssumption, LgdInputAssumption, Pd12MonthsAssumption, PdSnPAssumption
     }
 }

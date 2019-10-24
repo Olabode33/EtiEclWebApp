@@ -6,6 +6,16 @@ namespace TestDemo.Authorization
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_WholesaleEclApprovals = "Pages.WholesaleEclApprovals";
+        public const string Pages_WholesaleEclApprovals_Create = "Pages.WholesaleEclApprovals.Create";
+        public const string Pages_WholesaleEclApprovals_Edit = "Pages.WholesaleEclApprovals.Edit";
+        public const string Pages_WholesaleEclApprovals_Delete = "Pages.WholesaleEclApprovals.Delete";
+
+        public const string Pages_WholesaleEclAssumptionApprovals = "Pages.WholesaleEclAssumptionApprovals";
+        public const string Pages_WholesaleEclAssumptionApprovals_Create = "Pages.WholesaleEclAssumptionApprovals.Create";
+        public const string Pages_WholesaleEclAssumptionApprovals_Edit = "Pages.WholesaleEclAssumptionApprovals.Edit";
+        public const string Pages_WholesaleEclAssumptionApprovals_Delete = "Pages.WholesaleEclAssumptionApprovals.Delete";
+
         public const string Pages_WholesaleEclPdSnPCummulativeDefaultRateses = "Pages.WholesaleEclPdSnPCummulativeDefaultRateses";
         public const string Pages_WholesaleEclPdSnPCummulativeDefaultRateses_Create = "Pages.WholesaleEclPdSnPCummulativeDefaultRateses.Create";
         public const string Pages_WholesaleEclPdSnPCummulativeDefaultRateses_Edit = "Pages.WholesaleEclPdSnPCummulativeDefaultRateses.Edit";

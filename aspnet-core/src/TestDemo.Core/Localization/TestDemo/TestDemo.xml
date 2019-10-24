@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="WholesaleEclPdSnPCummulativeDefaultRates">Wholesale ecl pd sn p cummulative default rates</text>
+  <texts>    <text name="WholesaleEclApproval">Wholesale ecl approval</text>
+    <text name="CreateNewWholesaleEclApproval">Create new wholesale ecl approval</text>
+    <text name="EditWholesaleEclApproval">Edit wholesale ecl approval</text>
+    <text name="DeleteWholesaleEclApproval">Delete wholesale ecl approval</text>
+    <text name="WholesaleEclAssumptionApproval">Wholesale ecl assumption approval</text>
+    <text name="CreateNewWholesaleEclAssumptionApproval">Create new wholesale ecl assumption approval</text>
+    <text name="EditWholesaleEclAssumptionApproval">Edit wholesale ecl assumption approval</text>
+    <text name="DeleteWholesaleEclAssumptionApproval">Delete wholesale ecl assumption approval</text>
+    <text name="WholesaleEclPdSnPCummulativeDefaultRates">Wholesale ecl pd sn p cummulative default rates</text>
     <text name="WholesaleEclPdSnPCummulativeDefaultRatesesHeaderInfo">Wholesale ecl pd sn p cummulative default rateses header info</text>
     <text name="CreateNewWholesaleEclPdSnPCummulativeDefaultRates">Create new wholesale ecl pd sn p cummulative default rates</text>
     <text name="EditWholesaleEclPdSnPCummulativeDefaultRates">Edit wholesale ecl pd sn p cummulative default rates</text>
