@@ -1,3 +1,6 @@
+using TestDemo.WholesaleResult;
+using TestDemo.WholesaleResults.Dtos;
+using TestDemo.WholesaleResults;
 using TestDemo.WholesaleComputation.Dtos;
 using TestDemo.WholesaleComputation;
 using TestDemo.WholesaleInputs.Dtos;
@@ -51,6 +54,14 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+           configuration.CreateMap<CreateOrEditWholesaleEclResultSummaryTopExposureDto, WholesaleEclResultSummaryTopExposure>().ReverseMap();
+           configuration.CreateMap<WholesaleEclResultSummaryTopExposureDto, WholesaleEclResultSummaryTopExposure>().ReverseMap();
+           configuration.CreateMap<CreateOrEditWholesaleEclResultSummaryKeyInputDto, WholesaleEclResultSummaryKeyInput>().ReverseMap();
+           configuration.CreateMap<WholesaleEclResultSummaryKeyInputDto, WholesaleEclResultSummaryKeyInput>().ReverseMap();
+           configuration.CreateMap<CreateOrEditWholesaleEclResultSummaryDto, WholesaleEclResultSummary>().ReverseMap();
+           configuration.CreateMap<WholesaleEclResultSummaryDto, WholesaleEclResultSummary>().ReverseMap();
+           configuration.CreateMap<CreateOrEditWholesaleEclResultDetailDto, WholesaleEclResultDetail>().ReverseMap();
+           configuration.CreateMap<WholesaleEclResultDetailDto, WholesaleEclResultDetail>().ReverseMap();
            configuration.CreateMap<CreateOrEditWholesaleEclComputedEadResultDto, WholesaleEclComputedEadResult>().ReverseMap();
            configuration.CreateMap<WholesaleEclComputedEadResultDto, WholesaleEclComputedEadResult>().ReverseMap();
            configuration.CreateMap<CreateOrEditWholesaleEclSicrApprovalDto, WholesaleEclSicrApproval>().ReverseMap();

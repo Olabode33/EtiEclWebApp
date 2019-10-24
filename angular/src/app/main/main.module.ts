@@ -2,6 +2,19 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
+import { WholesaleEclResultSummaryTopExposuresComponent } from './wholesaleResults/wholesaleEclResultSummaryTopExposures/wholesaleEclResultSummaryTopExposures.component';
+import { CreateOrEditWholesaleEclResultSummaryTopExposureModalComponent } from './wholesaleResults/wholesaleEclResultSummaryTopExposures/create-or-edit-wholesaleEclResultSummaryTopExposure-modal.component';
+import { WholesaleEclResultSummaryTopExposureWholesaleEclLookupTableModalComponent } from './wholesaleResults/wholesaleEclResultSummaryTopExposures/wholesaleEclResultSummaryTopExposure-wholesaleEcl-lookup-table-modal.component';
+import { WholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableModalComponent } from './wholesaleResults/wholesaleEclResultSummaryTopExposures/wholesaleEclResultSummaryTopExposure-wholesaleEclDataLoanBook-lookup-table-modal.component';
+
+import { WholesaleEclResultSummaryKeyInputsComponent } from './wholesaleResults/wholesaleEclResultSummaryKeyInputs/wholesaleEclResultSummaryKeyInputs.component';
+import { CreateOrEditWholesaleEclResultSummaryKeyInputModalComponent } from './wholesaleResults/wholesaleEclResultSummaryKeyInputs/create-or-edit-wholesaleEclResultSummaryKeyInput-modal.component';
+import { WholesaleEclResultSummaryKeyInputWholesaleEclLookupTableModalComponent } from './wholesaleResults/wholesaleEclResultSummaryKeyInputs/wholesaleEclResultSummaryKeyInput-wholesaleEcl-lookup-table-modal.component';
+
+import { WholesaleEclResultSummariesComponent } from './wholesaleResult/wholesaleEclResultSummaries/wholesaleEclResultSummaries.component';
+import { CreateOrEditWholesaleEclResultSummaryModalComponent } from './wholesaleResult/wholesaleEclResultSummaries/create-or-edit-wholesaleEclResultSummary-modal.component';
+import { WholesaleEclResultSummaryWholesaleEclLookupTableModalComponent } from './wholesaleResult/wholesaleEclResultSummaries/wholesaleEclResultSummary-wholesaleEcl-lookup-table-modal.component';
+
 import { WholesaleEclSicrsComponent } from './wholesaleComputation/wholesaleEclSicrs/wholesaleEclSicrs.component';
 import { CreateOrEditWholesaleEclSicrModalComponent } from './wholesaleComputation/wholesaleEclSicrs/create-or-edit-wholesaleEclSicr-modal.component';
 import { WholesaleEclSicrWholesaleEclDataLoanBookLookupTableModalComponent } from './wholesaleComputation/wholesaleEclSicrs/wholesaleEclSicr-wholesaleEclDataLoanBook-lookup-table-modal.component';
@@ -76,6 +89,16 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+		WholesaleEclResultSummaryTopExposuresComponent,
+		CreateOrEditWholesaleEclResultSummaryTopExposureModalComponent,
+    WholesaleEclResultSummaryTopExposureWholesaleEclLookupTableModalComponent,
+    WholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableModalComponent,
+		WholesaleEclResultSummaryKeyInputsComponent,
+		CreateOrEditWholesaleEclResultSummaryKeyInputModalComponent,
+    WholesaleEclResultSummaryKeyInputWholesaleEclLookupTableModalComponent,
+		WholesaleEclResultSummariesComponent,
+		CreateOrEditWholesaleEclResultSummaryModalComponent,
+    WholesaleEclResultSummaryWholesaleEclLookupTableModalComponent,
 		WholesaleEclSicrsComponent,
 		CreateOrEditWholesaleEclSicrModalComponent,
     WholesaleEclSicrWholesaleEclDataLoanBookLookupTableModalComponent,

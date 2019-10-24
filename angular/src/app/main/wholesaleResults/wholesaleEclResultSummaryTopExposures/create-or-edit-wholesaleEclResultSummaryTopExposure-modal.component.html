@@ -1,0 +1,91 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #wholesaleEclResultSummaryTopExposureForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="wholesaleEclResultSummaryTopExposure.id">{{l("EditWholesaleEclResultSummaryTopExposure")}}</span>
+                        <span *ngIf="!wholesaleEclResultSummaryTopExposure.id">{{l("CreateNewWholesaleEclResultSummaryTopExposure")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+					<div class="form-group m-form__group">
+                        <label for="WholesaleEclTenantId">{{l("WholesaleEcl")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="WholesaleEclTenantId" name="wholesaleEclTenantId" [(ngModel)]="wholesaleEclTenantId" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectWholesaleEclModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger btn-icon" type="button" (click)="setWholesaleEclIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="wholesaleEclResultSummaryTopExposure.wholesaleEclId" [(ngModel)]="wholesaleEclResultSummaryTopExposure.wholesaleEclId" type="text" required hidden>
+		 
+					<div class="form-group m-form__group">
+                        <label for="WholesaleEclDataLoanBookCustomerName">{{l("WholesaleEclDataLoanBook")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="WholesaleEclDataLoanBookCustomerName" name="wholesaleEclDataLoanBookCustomerName" [(ngModel)]="wholesaleEclDataLoanBookCustomerName" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectWholesaleEclDataLoanBookModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger btn-icon" type="button" (click)="setWholesaleEclDataLoanBookIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="wholesaleEclResultSummaryTopExposure.wholesaleEclDataLoanBookId" [(ngModel)]="wholesaleEclResultSummaryTopExposure.wholesaleEclDataLoanBookId" type="text"  hidden>
+		 
+
+								<div class="form-group">
+									<label for="WholesaleEclResultSummaryTopExposure_PreOverrideExposure">{{l("PreOverrideExposure")}}</label>
+									<input type="number" id="WholesaleEclResultSummaryTopExposure_PreOverrideExposure" class="form-control" [(ngModel)]="wholesaleEclResultSummaryTopExposure.preOverrideExposure" name="PreOverrideExposure"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclResultSummaryTopExposure_PreOverrideImpairment">{{l("PreOverrideImpairment")}}</label>
+									<input type="number" id="WholesaleEclResultSummaryTopExposure_PreOverrideImpairment" class="form-control" [(ngModel)]="wholesaleEclResultSummaryTopExposure.preOverrideImpairment" name="PreOverrideImpairment"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclResultSummaryTopExposure_PreOverrideCoverageRatio">{{l("PreOverrideCoverageRatio")}}</label>
+									<input type="number" id="WholesaleEclResultSummaryTopExposure_PreOverrideCoverageRatio" class="form-control" [(ngModel)]="wholesaleEclResultSummaryTopExposure.preOverrideCoverageRatio" name="PreOverrideCoverageRatio"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclResultSummaryTopExposure_PostOverrideExposure">{{l("PostOverrideExposure")}}</label>
+									<input type="number" id="WholesaleEclResultSummaryTopExposure_PostOverrideExposure" class="form-control" [(ngModel)]="wholesaleEclResultSummaryTopExposure.postOverrideExposure" name="PostOverrideExposure"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclResultSummaryTopExposure_PostOverrideImpairment">{{l("PostOverrideImpairment")}}</label>
+									<input type="number" id="WholesaleEclResultSummaryTopExposure_PostOverrideImpairment" class="form-control" [(ngModel)]="wholesaleEclResultSummaryTopExposure.postOverrideImpairment" name="PostOverrideImpairment"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclResultSummaryTopExposure_PostOverrideCoverageRatio">{{l("PostOverrideCoverageRatio")}}</label>
+									<input type="number" id="WholesaleEclResultSummaryTopExposure_PostOverrideCoverageRatio" class="form-control" [(ngModel)]="wholesaleEclResultSummaryTopExposure.postOverrideCoverageRatio" name="PostOverrideCoverageRatio"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclResultSummaryTopExposure_ContractId">{{l("ContractId")}}</label>
+									<input type="text" id="WholesaleEclResultSummaryTopExposure_ContractId" class="form-control" [(ngModel)]="wholesaleEclResultSummaryTopExposure.contractId" name="ContractId"    />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!wholesaleEclResultSummaryTopExposureForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+<wholesaleEclResultSummaryTopExposureWholesaleEclLookupTableModal #wholesaleEclResultSummaryTopExposureWholesaleEclLookupTableModal (modalSave)="getNewWholesaleEclId()"></wholesaleEclResultSummaryTopExposureWholesaleEclLookupTableModal>
+		 <wholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableModal #wholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableModal (modalSave)="getNewWholesaleEclDataLoanBookId()"></wholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableModal>
+		 
+</div>

@@ -1,0 +1,270 @@
+<div [@routerTransition]>
+  
+    <div class="kt-subheader kt-grid__item">
+      
+        <div class="kt-subheader__main">
+            <h3 class="kt-subheader__title">
+                <span>{{l("WholesaleEclResultSummaryTopExposures")}}</span>
+            </h3>
+            <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+            <span class="kt-subheader__desc">
+                {{l("WholesaleEclResultSummaryTopExposuresHeaderInfo")}}
+            </span>
+        </div>
+        <div class="kt-subheader__toolbar">
+            <div class="kt-subheader__wrapper">
+				<button *ngIf="isGranted('Pages.WholesaleEclResultSummaryTopExposures.Create')" (click)="createWholesaleEclResultSummaryTopExposure()" 
+			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewWholesaleEclResultSummaryTopExposure")}}</button>
+            </div>
+        </div>
+      
+    </div>
+    <div class="kt-content">
+        <div class="kt-portlet kt-portlet--mobile">
+            <div class="kt-portlet__body">
+                <form class="kt-form" autocomplete="off">
+                    <div>
+                        <div class="row align-items-center">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getWholesaleEclResultSummaryTopExposures()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="row" [hidden]="!advancedFiltersAreShown">
+						 	<div class="col-md-12">
+						         <div class="kt-separator kt-separator--border-dashed"></div>
+						     </div>
+
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinPreOverrideExposureFilter">{{l("MinMax")}} {{l("PreOverrideExposure")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinPreOverrideExposureFilter" [(ngModel)]="minPreOverrideExposureFilter" placeholder="{{l('MinValue')}}" name="minPreOverrideExposureFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxPreOverrideExposureFilter" placeholder="{{l('MaxValue')}}" name="maxPreOverrideExposureFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinPreOverrideImpairmentFilter">{{l("MinMax")}} {{l("PreOverrideImpairment")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinPreOverrideImpairmentFilter" [(ngModel)]="minPreOverrideImpairmentFilter" placeholder="{{l('MinValue')}}" name="minPreOverrideImpairmentFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxPreOverrideImpairmentFilter" placeholder="{{l('MaxValue')}}" name="maxPreOverrideImpairmentFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinPreOverrideCoverageRatioFilter">{{l("MinMax")}} {{l("PreOverrideCoverageRatio")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinPreOverrideCoverageRatioFilter" [(ngModel)]="minPreOverrideCoverageRatioFilter" placeholder="{{l('MinValue')}}" name="minPreOverrideCoverageRatioFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxPreOverrideCoverageRatioFilter" placeholder="{{l('MaxValue')}}" name="maxPreOverrideCoverageRatioFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinPostOverrideExposureFilter">{{l("MinMax")}} {{l("PostOverrideExposure")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinPostOverrideExposureFilter" [(ngModel)]="minPostOverrideExposureFilter" placeholder="{{l('MinValue')}}" name="minPostOverrideExposureFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxPostOverrideExposureFilter" placeholder="{{l('MaxValue')}}" name="maxPostOverrideExposureFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinPostOverrideImpairmentFilter">{{l("MinMax")}} {{l("PostOverrideImpairment")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinPostOverrideImpairmentFilter" [(ngModel)]="minPostOverrideImpairmentFilter" placeholder="{{l('MinValue')}}" name="minPostOverrideImpairmentFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxPostOverrideImpairmentFilter" placeholder="{{l('MaxValue')}}" name="maxPostOverrideImpairmentFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinPostOverrideCoverageRatioFilter">{{l("MinMax")}} {{l("PostOverrideCoverageRatio")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinPostOverrideCoverageRatioFilter" [(ngModel)]="minPostOverrideCoverageRatioFilter" placeholder="{{l('MinValue')}}" name="minPostOverrideCoverageRatioFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxPostOverrideCoverageRatioFilter" placeholder="{{l('MaxValue')}}" name="maxPostOverrideCoverageRatioFilter" />
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="ContractIdFilter">{{l("ContractId")}}</label>
+									<input type="text" class="form-control" id="ContractIdFilter" name="contractIdFilter" [(ngModel)]="contractIdFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="WholesaleEclTenantIdFilter">({{l("WholesaleEcl")}}) {{l("TenantId")}}</label>
+									<input type="text" class="form-control" id="WholesaleEclTenantIdFilter" name="wholesaleEclTenantIdFilter" [(ngModel)]="wholesaleEclTenantIdFilter">
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBookCustomerNameFilter">({{l("WholesaleEclDataLoanBook")}}) {{l("CustomerName")}}</label>
+									<input type="text" class="form-control" id="WholesaleEclDataLoanBookCustomerNameFilter" name="wholesaleEclDataLoanBookCustomerNameFilter" [(ngModel)]="wholesaleEclDataLoanBookCustomerNameFilter">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container col-12"
+                         [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable
+                                     (onLazyLoad)="getWholesaleEclResultSummaryTopExposures($event)"
+                                     [value]="primengTableHelper.records"
+                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     [paginator]="false"
+                                     [lazy]="true"
+                                     [scrollable]="true"
+                                     ScrollWidth="100%"
+                                     [responsive]="primengTableHelper.isResponsive"
+                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.WholesaleEclResultSummaryTopExposures.Edit', 'Pages.WholesaleEclResultSummaryTopExposures.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="wholesaleEclFk.tenantId">
+                                        {{l('TenantId')}}
+                                        <p-sortIcon field="wholesaleEclTenantId"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="wholesaleEclDataLoanBookFk.customerName">
+                                        {{l('CustomerName')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBookCustomerName"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="preOverrideExposure">
+                                        {{l('PreOverrideExposure')}}
+                                        <p-sortIcon field="wholesaleEclResultSummaryTopExposure.preOverrideExposure"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="preOverrideImpairment">
+                                        {{l('PreOverrideImpairment')}}
+                                        <p-sortIcon field="wholesaleEclResultSummaryTopExposure.preOverrideImpairment"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="preOverrideCoverageRatio">
+                                        {{l('PreOverrideCoverageRatio')}}
+                                        <p-sortIcon field="wholesaleEclResultSummaryTopExposure.preOverrideCoverageRatio"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="postOverrideExposure">
+                                        {{l('PostOverrideExposure')}}
+                                        <p-sortIcon field="wholesaleEclResultSummaryTopExposure.postOverrideExposure"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="postOverrideImpairment">
+                                        {{l('PostOverrideImpairment')}}
+                                        <p-sortIcon field="wholesaleEclResultSummaryTopExposure.postOverrideImpairment"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="postOverrideCoverageRatio">
+                                        {{l('PostOverrideCoverageRatio')}}
+                                        <p-sortIcon field="wholesaleEclResultSummaryTopExposure.postOverrideCoverageRatio"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="contractId">
+                                        {{l('ContractId')}}
+                                        <p-sortIcon field="wholesaleEclResultSummaryTopExposure.contractId"></p-sortIcon>
+                                    </th>
+
+                                </tr>
+                            </ng-template>                           
+							<ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.WholesaleEclResultSummaryTopExposures.Edit', 'Pages.WholesaleEclResultSummaryTopExposures.Delete')">
+                                       <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+												<ul class="dropdown-menu"  *dropdownMenu>
+
+												<li>
+													<a href="javascript:;" *ngIf="permission.isGranted('Pages.WholesaleEclResultSummaryTopExposures.Edit')"
+														(click)="createOrEditWholesaleEclResultSummaryTopExposureModal.show(record.wholesaleEclResultSummaryTopExposure.id)">{{l('Edit')}}</a>
+												</li>
+												<li>
+											        <a href="javascript:;" *ngIf="permission.isGranted('Pages.WholesaleEclResultSummaryTopExposures.Delete')"
+														(click)="deleteWholesaleEclResultSummaryTopExposure(record.wholesaleEclResultSummaryTopExposure)">{{l('Delete')}}</a>
+												</li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:150px">
+												<span class="ui-column-title"> {{l('TenantId')}}</span>
+												{{record.wholesaleEclTenantId}}
+											</td>
+                                    <td style="width:150px">
+												<span class="ui-column-title"> {{l('CustomerName')}}</span>
+												{{record.wholesaleEclDataLoanBookCustomerName}}
+											</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('PreOverrideExposure')}}</span>
+											{{record.wholesaleEclResultSummaryTopExposure.preOverrideExposure}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('PreOverrideImpairment')}}</span>
+											{{record.wholesaleEclResultSummaryTopExposure.preOverrideImpairment}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('PreOverrideCoverageRatio')}}</span>
+											{{record.wholesaleEclResultSummaryTopExposure.preOverrideCoverageRatio}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('PostOverrideExposure')}}</span>
+											{{record.wholesaleEclResultSummaryTopExposure.postOverrideExposure}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('PostOverrideImpairment')}}</span>
+											{{record.wholesaleEclResultSummaryTopExposure.postOverrideImpairment}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('PostOverrideCoverageRatio')}}</span>
+											{{record.wholesaleEclResultSummaryTopExposure.postOverrideCoverageRatio}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('ContractId')}}</span>
+											{{record.wholesaleEclResultSummaryTopExposure.contractId}}
+										</td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                                         #paginator
+                                         (onPageChange)="getWholesaleEclResultSummaryTopExposures($event)"
+                                         [totalRecords]="primengTableHelper.totalRecordsCount"
+                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditWholesaleEclResultSummaryTopExposureModal #createOrEditWholesaleEclResultSummaryTopExposureModal (modalSave)="getWholesaleEclResultSummaryTopExposures()"></createOrEditWholesaleEclResultSummaryTopExposureModal>
+    
+    
+  
+</div>

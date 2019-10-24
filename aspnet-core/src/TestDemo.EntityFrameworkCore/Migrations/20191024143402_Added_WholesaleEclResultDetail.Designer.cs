@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestDemo.EntityFrameworkCore;
 
 namespace TestDemo.Migrations
 {
     [DbContext(typeof(TestDemoDbContext))]
-    partial class TestDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191024143402_Added_WholesaleEclResultDetail")]
+    partial class Added_WholesaleEclResultDetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2332,152 +2334,6 @@ namespace TestDemo.Migrations
                     b.ToTable("WholesaleEclResultDetails");
                 });
 
-            modelBuilder.Entity("TestDemo.WholesaleResults.WholesaleEclResultSummary", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<long?>("CreatorUserId");
-
-                    b.Property<long?>("DeleterUserId");
-
-                    b.Property<DateTime?>("DeletionTime");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime");
-
-                    b.Property<long?>("LastModifierUserId");
-
-                    b.Property<double?>("PostOverrideCoverageRatio");
-
-                    b.Property<double?>("PostOverrideExposure");
-
-                    b.Property<double?>("PostOverrideImpairment");
-
-                    b.Property<double?>("PreOverrideCoverageRatio");
-
-                    b.Property<double?>("PreOverrideExposure");
-
-                    b.Property<double?>("PreOverrideImpairment");
-
-                    b.Property<int>("SummaryType");
-
-                    b.Property<int?>("TenantId");
-
-                    b.Property<string>("Title");
-
-                    b.Property<Guid>("WholesaleEclId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TenantId");
-
-                    b.HasIndex("WholesaleEclId");
-
-                    b.ToTable("WholesaleEclResultSummaries");
-                });
-
-            modelBuilder.Entity("TestDemo.WholesaleResults.WholesaleEclResultSummaryKeyInput", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<double?>("Collateral");
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<long?>("CreatorUserId");
-
-                    b.Property<long?>("DeleterUserId");
-
-                    b.Property<DateTime?>("DeletionTime");
-
-                    b.Property<double?>("Exposure");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime");
-
-                    b.Property<long?>("LastModifierUserId");
-
-                    b.Property<double?>("Months12CummulativeBestPDs");
-
-                    b.Property<double?>("Months24CummulativeBestPDs");
-
-                    b.Property<double?>("Months6CummulativeBestPDs");
-
-                    b.Property<string>("PDGrouping");
-
-                    b.Property<double?>("PercentageOfBook");
-
-                    b.Property<int?>("TenantId");
-
-                    b.Property<double?>("UnsecuredPercentage");
-
-                    b.Property<Guid?>("WholesaleEclId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TenantId");
-
-                    b.HasIndex("WholesaleEclId");
-
-                    b.ToTable("WholesaleEclResultSummaryKeyInputs");
-                });
-
-            modelBuilder.Entity("TestDemo.WholesaleResults.WholesaleEclResultSummaryTopExposure", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ContractId");
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<long?>("CreatorUserId");
-
-                    b.Property<long?>("DeleterUserId");
-
-                    b.Property<DateTime?>("DeletionTime");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime");
-
-                    b.Property<long?>("LastModifierUserId");
-
-                    b.Property<double?>("PostOverrideCoverageRatio");
-
-                    b.Property<double?>("PostOverrideExposure");
-
-                    b.Property<double?>("PostOverrideImpairment");
-
-                    b.Property<double?>("PreOverrideCoverageRatio");
-
-                    b.Property<double?>("PreOverrideExposure");
-
-                    b.Property<double?>("PreOverrideImpairment");
-
-                    b.Property<int?>("TenantId");
-
-                    b.Property<Guid?>("WholesaleEclDataLoanBookId");
-
-                    b.Property<Guid>("WholesaleEclId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TenantId");
-
-                    b.HasIndex("WholesaleEclDataLoanBookId");
-
-                    b.HasIndex("WholesaleEclId");
-
-                    b.ToTable("WholesaleEclResultSummaryTopExposures");
-                });
-
             modelBuilder.Entity("TestDemo.Editions.SubscribableEdition", b =>
                 {
                     b.HasBaseType("Abp.Application.Editions.Edition");
@@ -2822,33 +2678,6 @@ namespace TestDemo.Migrations
                     b.HasOne("TestDemo.Wholesale.WholesaleEcl", "WholesaleEclFk")
                         .WithMany()
                         .HasForeignKey("WholesaleEclId");
-                });
-
-            modelBuilder.Entity("TestDemo.WholesaleResults.WholesaleEclResultSummary", b =>
-                {
-                    b.HasOne("TestDemo.Wholesale.WholesaleEcl", "WholesaleEclFk")
-                        .WithMany()
-                        .HasForeignKey("WholesaleEclId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("TestDemo.WholesaleResults.WholesaleEclResultSummaryKeyInput", b =>
-                {
-                    b.HasOne("TestDemo.Wholesale.WholesaleEcl", "WholesaleEclFk")
-                        .WithMany()
-                        .HasForeignKey("WholesaleEclId");
-                });
-
-            modelBuilder.Entity("TestDemo.WholesaleResults.WholesaleEclResultSummaryTopExposure", b =>
-                {
-                    b.HasOne("TestDemo.WholesaleInputs.WholesaleEclDataLoanBook", "WholesaleEclDataLoanBookFk")
-                        .WithMany()
-                        .HasForeignKey("WholesaleEclDataLoanBookId");
-
-                    b.HasOne("TestDemo.Wholesale.WholesaleEcl", "WholesaleEclFk")
-                        .WithMany()
-                        .HasForeignKey("WholesaleEclId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Abp.Application.Features.EditionFeatureSetting", b =>

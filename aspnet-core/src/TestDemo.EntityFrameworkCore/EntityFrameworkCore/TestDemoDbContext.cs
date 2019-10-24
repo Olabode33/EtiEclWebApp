@@ -1,3 +1,5 @@
+using TestDemo.WholesaleResult;
+using TestDemo.WholesaleResults;
 using TestDemo.WholesaleComputation;
 using TestDemo.WholesaleInputs;
 using TestDemo.WholesaleAssumption;
@@ -20,6 +22,14 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<WholesaleEclResultSummaryTopExposure> WholesaleEclResultSummaryTopExposures { get; set; }
+
+        public virtual DbSet<WholesaleEclResultSummaryKeyInput> WholesaleEclResultSummaryKeyInputs { get; set; }
+
+        public virtual DbSet<WholesaleEclResultSummary> WholesaleEclResultSummaries { get; set; }
+
+        public virtual DbSet<WholesaleEclResultDetail> WholesaleEclResultDetails { get; set; }
+
         public virtual DbSet<WholesaleEclComputedEadResult> WholesaleEclComputedEadResults { get; set; }
 
         public virtual DbSet<WholesaleEclSicrApproval> WholesaleEclSicrApprovals { get; set; }
@@ -103,7 +113,27 @@ namespace TestDemo.EntityFrameworkCore
            
            
            
-            modelBuilder.Entity<WholesaleEclComputedEadResult>(w =>
+           
+           
+           
+           
+            modelBuilder.Entity<WholesaleEclResultSummaryTopExposure>(w =>
+            {
+                w.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<WholesaleEclResultSummaryKeyInput>(w =>
+            {
+                w.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<WholesaleEclResultSummary>(w =>
+            {
+                w.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<WholesaleEclResultDetail>(w =>
+            {
+                w.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<WholesaleEclComputedEadResult>(w =>
             {
                 w.HasIndex(e => new { e.TenantId });
             });

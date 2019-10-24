@@ -6,6 +6,26 @@ namespace TestDemo.Authorization
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_WholesaleEclResultSummaryTopExposures = "Pages.WholesaleEclResultSummaryTopExposures";
+        public const string Pages_WholesaleEclResultSummaryTopExposures_Create = "Pages.WholesaleEclResultSummaryTopExposures.Create";
+        public const string Pages_WholesaleEclResultSummaryTopExposures_Edit = "Pages.WholesaleEclResultSummaryTopExposures.Edit";
+        public const string Pages_WholesaleEclResultSummaryTopExposures_Delete = "Pages.WholesaleEclResultSummaryTopExposures.Delete";
+
+        public const string Pages_WholesaleEclResultSummaryKeyInputs = "Pages.WholesaleEclResultSummaryKeyInputs";
+        public const string Pages_WholesaleEclResultSummaryKeyInputs_Create = "Pages.WholesaleEclResultSummaryKeyInputs.Create";
+        public const string Pages_WholesaleEclResultSummaryKeyInputs_Edit = "Pages.WholesaleEclResultSummaryKeyInputs.Edit";
+        public const string Pages_WholesaleEclResultSummaryKeyInputs_Delete = "Pages.WholesaleEclResultSummaryKeyInputs.Delete";
+
+        public const string Pages_WholesaleEclResultSummaries = "Pages.WholesaleEclResultSummaries";
+        public const string Pages_WholesaleEclResultSummaries_Create = "Pages.WholesaleEclResultSummaries.Create";
+        public const string Pages_WholesaleEclResultSummaries_Edit = "Pages.WholesaleEclResultSummaries.Edit";
+        public const string Pages_WholesaleEclResultSummaries_Delete = "Pages.WholesaleEclResultSummaries.Delete";
+
+        public const string Pages_WholesaleEclResultDetails = "Pages.WholesaleEclResultDetails";
+        public const string Pages_WholesaleEclResultDetails_Create = "Pages.WholesaleEclResultDetails.Create";
+        public const string Pages_WholesaleEclResultDetails_Edit = "Pages.WholesaleEclResultDetails.Edit";
+        public const string Pages_WholesaleEclResultDetails_Delete = "Pages.WholesaleEclResultDetails.Delete";
+
         public const string Pages_WholesaleEclComputedEadResults = "Pages.WholesaleEclComputedEadResults";
         public const string Pages_WholesaleEclComputedEadResults_Create = "Pages.WholesaleEclComputedEadResults.Create";
         public const string Pages_WholesaleEclComputedEadResults_Edit = "Pages.WholesaleEclComputedEadResults.Edit";

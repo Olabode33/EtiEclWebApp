@@ -39,6 +39,12 @@ export class AppNavigationService {
             new AppMenuItem('WholesaleEclDataPaymentSchedules', 'Pages.WholesaleEclDataPaymentSchedules', 'flaticon-more', '/app/main/wholesaleInputs/wholesaleEclDataPaymentSchedules'),
             
             new AppMenuItem('WholesaleEclSicrs', 'Pages.WholesaleEclSicrs', 'flaticon-more', '/app/main/wholesaleComputation/wholesaleEclSicrs'),
+            
+            new AppMenuItem('WholesaleEclResultSummaries', 'Pages.WholesaleEclResultSummaries', 'flaticon-more', '/app/main/wholesaleResult/wholesaleEclResultSummaries'),
+            
+            new AppMenuItem('WholesaleEclResultSummaryKeyInputs', 'Pages.WholesaleEclResultSummaryKeyInputs', 'flaticon-more', '/app/main/wholesaleResults/wholesaleEclResultSummaryKeyInputs'),
+            
+            new AppMenuItem('WholesaleEclResultSummaryTopExposures', 'Pages.WholesaleEclResultSummaryTopExposures', 'flaticon-more', '/app/main/wholesaleResults/wholesaleEclResultSummaryTopExposures'),
              new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
                 new AppMenuItem('OrganizationUnits', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),

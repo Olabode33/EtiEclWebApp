@@ -30,6 +30,34 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var wholesaleEclResultSummaryTopExposures = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEclResultSummaryTopExposures, L("WholesaleEclResultSummaryTopExposures"));
+            wholesaleEclResultSummaryTopExposures.CreateChildPermission(AppPermissions.Pages_WholesaleEclResultSummaryTopExposures_Create, L("CreateNewWholesaleEclResultSummaryTopExposure"));
+            wholesaleEclResultSummaryTopExposures.CreateChildPermission(AppPermissions.Pages_WholesaleEclResultSummaryTopExposures_Edit, L("EditWholesaleEclResultSummaryTopExposure"));
+            wholesaleEclResultSummaryTopExposures.CreateChildPermission(AppPermissions.Pages_WholesaleEclResultSummaryTopExposures_Delete, L("DeleteWholesaleEclResultSummaryTopExposure"));
+
+
+
+            var wholesaleEclResultSummaryKeyInputs = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEclResultSummaryKeyInputs, L("WholesaleEclResultSummaryKeyInputs"));
+            wholesaleEclResultSummaryKeyInputs.CreateChildPermission(AppPermissions.Pages_WholesaleEclResultSummaryKeyInputs_Create, L("CreateNewWholesaleEclResultSummaryKeyInput"));
+            wholesaleEclResultSummaryKeyInputs.CreateChildPermission(AppPermissions.Pages_WholesaleEclResultSummaryKeyInputs_Edit, L("EditWholesaleEclResultSummaryKeyInput"));
+            wholesaleEclResultSummaryKeyInputs.CreateChildPermission(AppPermissions.Pages_WholesaleEclResultSummaryKeyInputs_Delete, L("DeleteWholesaleEclResultSummaryKeyInput"));
+
+
+
+            var wholesaleEclResultSummaries = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEclResultSummaries, L("WholesaleEclResultSummaries"));
+            wholesaleEclResultSummaries.CreateChildPermission(AppPermissions.Pages_WholesaleEclResultSummaries_Create, L("CreateNewWholesaleEclResultSummary"));
+            wholesaleEclResultSummaries.CreateChildPermission(AppPermissions.Pages_WholesaleEclResultSummaries_Edit, L("EditWholesaleEclResultSummary"));
+            wholesaleEclResultSummaries.CreateChildPermission(AppPermissions.Pages_WholesaleEclResultSummaries_Delete, L("DeleteWholesaleEclResultSummary"));
+
+
+
+            var wholesaleEclResultDetails = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEclResultDetails, L("WholesaleEclResultDetails"));
+            wholesaleEclResultDetails.CreateChildPermission(AppPermissions.Pages_WholesaleEclResultDetails_Create, L("CreateNewWholesaleEclResultDetail"));
+            wholesaleEclResultDetails.CreateChildPermission(AppPermissions.Pages_WholesaleEclResultDetails_Edit, L("EditWholesaleEclResultDetail"));
+            wholesaleEclResultDetails.CreateChildPermission(AppPermissions.Pages_WholesaleEclResultDetails_Delete, L("DeleteWholesaleEclResultDetail"));
+
+
+
             var wholesaleEclComputedEadResults = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEclComputedEadResults, L("WholesaleEclComputedEadResults"));
             wholesaleEclComputedEadResults.CreateChildPermission(AppPermissions.Pages_WholesaleEclComputedEadResults_Create, L("CreateNewWholesaleEclComputedEadResult"));
             wholesaleEclComputedEadResults.CreateChildPermission(AppPermissions.Pages_WholesaleEclComputedEadResults_Edit, L("EditWholesaleEclComputedEadResult"));
