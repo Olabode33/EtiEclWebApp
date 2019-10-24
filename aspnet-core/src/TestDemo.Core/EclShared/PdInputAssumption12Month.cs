@@ -21,7 +21,9 @@ namespace TestDemo.EclShared
 		public virtual string SnPMappingBestFit { get; set; }
 		
 		public virtual bool RequiresGroupApproval { get; set; }
-		
+
+        public virtual FrameworkEnum Framework { get; set; }
+
 
     }
 }

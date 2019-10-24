@@ -27,7 +27,9 @@ namespace TestDemo.EclShared
 		public virtual LdgInputAssumptionEnum LgdGroup { get; set; }
 		
 		public virtual bool RequiresGroupApproval { get; set; }
-		
+
+        public virtual FrameworkEnum Framework { get; set; }
+
 
     }
 }

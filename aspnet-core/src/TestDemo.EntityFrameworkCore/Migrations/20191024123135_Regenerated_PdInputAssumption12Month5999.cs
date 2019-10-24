@@ -6,9 +6,9 @@ namespace TestDemo.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_LgdInputAssumption",
-                table: "LgdInputAssumption");
+            //migrationBuilder.DropPrimaryKey(
+            //    name: "PK_LgdInputAssumption",
+            //    table: "LgdInputAssumption");
 
             migrationBuilder.DropColumn(
                 name: "Framework",
@@ -34,17 +34,17 @@ namespace TestDemo.Migrations
                 nullable: false,
                 defaultValue: false);
 
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_LgdInputAssumptions",
-                table: "LgdInputAssumptions",
-                column: "Id");
+            //migrationBuilder.AddPrimaryKey(
+            //    name: "PK_LgdInputAssumptions",
+            //    table: "LgdInputAssumptions",
+            //    column: "Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_LgdInputAssumptions",
-                table: "LgdInputAssumptions");
+            //migrationBuilder.DropPrimaryKey(
+            //    name: "PK_LgdInputAssumptions",
+            //    table: "LgdInputAssumptions");
 
             migrationBuilder.DropColumn(
                 name: "RequiresGroupApproval",
@@ -70,10 +70,10 @@ namespace TestDemo.Migrations
                 nullable: false,
                 defaultValue: 0);
 
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_LgdInputAssumption",
-                table: "LgdInputAssumption",
-                column: "Id");
+            //migrationBuilder.AddPrimaryKey(
+            //    name: "PK_LgdInputAssumption",
+            //    table: "LgdInputAssumption",
+            //    column: "Id");
         }
     }
 }

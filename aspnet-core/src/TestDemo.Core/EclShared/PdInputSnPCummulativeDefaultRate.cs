@@ -21,7 +21,9 @@ namespace TestDemo.EclShared
 		public virtual double? Value { get; set; }
 		
 		public virtual bool RequiresGroupApproval { get; set; }
-		
+
+        public virtual FrameworkEnum Framework { get; set; }
+
 
     }
 }
