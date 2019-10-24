@@ -29,6 +29,9 @@ namespace TestDemo.WholesaleAssumption
 		public virtual string ReviewComment { get; set; }
 		
 		public virtual GeneralStatusEnum Status { get; set; }
+		
+		public virtual bool RequiresGroupApproval { get; set; }
+		
 
 		public virtual Guid WholesaleEclId { get; set; }
 		

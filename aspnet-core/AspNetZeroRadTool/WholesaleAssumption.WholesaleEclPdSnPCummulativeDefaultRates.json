@@ -1,5 +1,5 @@
 {
-  "IsRegenerate": false,
+  "IsRegenerate": true,
   "MenuPosition": "main",
   "RelativeNamespace": "WholesaleAssumption",
   "EntityName": "WholesaleEclPdSnPCummulativeDefaultRates",
@@ -29,7 +29,7 @@
         "MaximumValue": 0
       },
       "Required": false,
-      "Nullable": true,
+      "Nullable": false,
       "Regex": "",
       "UserInterface": {
         "AdvancedFilter": true,
@@ -48,7 +48,7 @@
         "MaximumValue": 0
       },
       "Required": false,
-      "Nullable": true,
+      "Nullable": false,
       "Regex": "",
       "UserInterface": {
         "AdvancedFilter": true,
@@ -92,6 +92,25 @@
         "AdvancedFilter": true,
         "List": true,
         "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "RequiresGroupApproval",
+      "Type": "bool",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": false
       }
     }
   ],

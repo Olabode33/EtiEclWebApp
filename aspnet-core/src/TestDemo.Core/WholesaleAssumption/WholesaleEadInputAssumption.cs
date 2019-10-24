@@ -1,5 +1,4 @@
 using TestDemo.EclShared;
-using TestDemo.EclShared;
 using TestDemo.Wholesale;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -10,9 +9,9 @@ using Abp.Auditing;
 
 namespace TestDemo.WholesaleAssumption
 {
-	[Table("WholesaleEadInputAssumptions")]
+	[Table("WholesaleEclEadInputAssumptions")]
     [Audited]
-    public class WholesaleEclEadInputAssumption : Entity<Guid> , IMayHaveTenant
+    public class WholesaleEclEadInputAssumption : FullAuditedEntity<Guid> , IMayHaveTenant
     {
 			public int? TenantId { get; set; }
 			
@@ -28,6 +27,8 @@ namespace TestDemo.WholesaleAssumption
 		public virtual bool IsComputed { get; set; }
 		
 		public virtual EadInputGroupEnum EadGroup { get; set; }
+		
+		public virtual bool RequiresGroupApproval { get; set; }
 		
 
 		public virtual Guid WholesaleEclId { get; set; }

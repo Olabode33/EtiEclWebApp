@@ -8,9 +8,9 @@ using Abp.Auditing;
 
 namespace TestDemo.WholesaleAssumption
 {
-	[Table("WholesaleEclPdAssumption12Monthses")]
+	[Table("WholesaleEclPdAssumption12Months")]
     [Audited]
-    public class WholesaleEclPdAssumption12Months : FullAuditedEntity<Guid> , IMayHaveTenant
+    public class WholesaleEclPdAssumption12Month : FullAuditedEntity<Guid> , IMayHaveTenant
     {
 			public int? TenantId { get; set; }
 			
@@ -23,6 +23,8 @@ namespace TestDemo.WholesaleAssumption
 		public virtual string SnPMappingEtiCreditPolicy { get; set; }
 		
 		public virtual string SnPMappingBestFit { get; set; }
+		
+		public virtual bool RequiresGroupApproval { get; set; }
 		
 
 		public virtual Guid? WholesaleEclId { get; set; }

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="WholesaleEclApproval">Wholesale ecl approval</text>
+  <texts>    <text name="RequiresGroupApproval">Requires group approval</text>
+    <text name="NotRequiresGroupApproval">Not requires group approval</text>
+    <text name="WholesaleEclApproval">Wholesale ecl approval</text>
     <text name="CreateNewWholesaleEclApproval">Create new wholesale ecl approval</text>
     <text name="EditWholesaleEclApproval">Edit wholesale ecl approval</text>
     <text name="DeleteWholesaleEclApproval">Delete wholesale ecl approval</text>

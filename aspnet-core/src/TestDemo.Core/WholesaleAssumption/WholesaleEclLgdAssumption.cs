@@ -12,7 +12,7 @@ namespace TestDemo.WholesaleAssumption
 {
 	[Table("WholesaleEclLgdAssumptions")]
     [Audited]
-    public class WholesaleEclLgdAssumption : Entity<Guid> , IMayHaveTenant
+    public class WholesaleEclLgdAssumption : FullAuditedEntity<Guid> , IMayHaveTenant
     {
 			public int? TenantId { get; set; }
 			
@@ -28,6 +28,8 @@ namespace TestDemo.WholesaleAssumption
 		public virtual bool IsComputed { get; set; }
 		
 		public virtual LdgInputAssumptionEnum LgdGroup { get; set; }
+		
+		public virtual bool RequiresGroupApproval { get; set; }
 		
 
 		public virtual Guid WholesaleEclId { get; set; }

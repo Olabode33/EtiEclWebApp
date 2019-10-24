@@ -1,15 +1,15 @@
 {
-  "IsRegenerate": false,
-  "MenuPosition": null,
+  "IsRegenerate": true,
+  "MenuPosition": "",
   "RelativeNamespace": "EclShared",
   "EntityName": "LgdAssumptionUnsecuredRecovery",
   "EntityNamePlural": "LgdAssumptionUnsecuredRecoveries",
-  "TableName": "LgdAssumptionUnsecuredRecoveries",
+  "TableName": "LgdAssumptions",
   "PrimaryKeyType": "Guid",
   "BaseClass": "FullAuditedEntity",
   "EntityHistory": true,
   "AutoMigration": true,
-  "UpdateDatabase": true,
+  "UpdateDatabase": false,
   "CreateUserInterface": false,
   "CreateViewOnly": false,
   "CreateExcelExport": false,
@@ -78,8 +78,8 @@
     {
       "Name": "DataType",
       "Type": "DataTypeEnum",
-      "MaxLength": 0,
-      "MinLength": 0,
+      "MaxLength": -1,
+      "MinLength": -1,
       "Range": {
         "IsRangeSet": false,
         "MinimumValue": 0,
@@ -97,8 +97,8 @@
     {
       "Name": "IsComputed",
       "Type": "bool",
-      "MaxLength": 0,
-      "MinLength": 0,
+      "MaxLength": -1,
+      "MinLength": -1,
       "Range": {
         "IsRangeSet": false,
         "MinimumValue": 0,
@@ -116,8 +116,8 @@
     {
       "Name": "LgdGroup",
       "Type": "LdgInputAssumptionEnum",
-      "MaxLength": 0,
-      "MinLength": 0,
+      "MaxLength": -1,
+      "MinLength": -1,
       "Range": {
         "IsRangeSet": false,
         "MinimumValue": 0,
@@ -130,6 +130,25 @@
         "AdvancedFilter": false,
         "List": false,
         "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "RequiresGroupApproval",
+      "Type": "bool",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": false
       }
     }
   ],

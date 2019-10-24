@@ -28,6 +28,9 @@ namespace TestDemo.WholesaleAssumption.Dtos
 		public EadInputGroupEnum EadGroup { get; set; }
 		
 		
+		public bool RequiresGroupApproval { get; set; }
+		
+		
 		 public Guid WholesaleEclId { get; set; }
 		 
 		 

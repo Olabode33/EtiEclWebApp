@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestDemo.EntityFrameworkCore;
 
 namespace TestDemo.Migrations
 {
     [DbContext(typeof(TestDemoDbContext))]
-    partial class TestDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191024124142_Regenerated_WholesaleEclPdSnPCummulativeDefaultRates3801")]
+    partial class Regenerated_WholesaleEclPdSnPCummulativeDefaultRates3801
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1799,7 +1801,7 @@ namespace TestDemo.Migrations
 
                     b.HasIndex("WholesaleEclId");
 
-                    b.ToTable("WholesaleEclPdAssumption12Months");
+                    b.ToTable("WholesaleEclPdAssumption12Monthses");
                 });
 
             modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclPdSnPCummulativeDefaultRate", b =>
@@ -1841,7 +1843,7 @@ namespace TestDemo.Migrations
 
                     b.HasIndex("WholesaleEclId");
 
-                    b.ToTable("WholesaleEclPdSnPCummulativeDefaultRates");
+                    b.ToTable("WholesaleEclPdSnPCummulativeDefaultRateses");
                 });
 
             modelBuilder.Entity("TestDemo.Editions.SubscribableEdition", b =>

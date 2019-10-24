@@ -21,11 +21,11 @@ namespace TestDemo.WholesaleAssumption
 	[AbpAuthorize(AppPermissions.Pages_WholesaleEclPdSnPCummulativeDefaultRateses)]
     public class WholesaleEclPdSnPCummulativeDefaultRatesesAppService : TestDemoAppServiceBase, IWholesaleEclPdSnPCummulativeDefaultRatesesAppService
     {
-		 private readonly IRepository<WholesaleEclPdSnPCummulativeDefaultRates, Guid> _wholesaleEclPdSnPCummulativeDefaultRatesRepository;
+		 private readonly IRepository<WholesaleEclPdSnPCummulativeDefaultRate, Guid> _wholesaleEclPdSnPCummulativeDefaultRatesRepository;
 		 private readonly IRepository<WholesaleEcl,Guid> _lookup_wholesaleEclRepository;
 		 
 
-		  public WholesaleEclPdSnPCummulativeDefaultRatesesAppService(IRepository<WholesaleEclPdSnPCummulativeDefaultRates, Guid> wholesaleEclPdSnPCummulativeDefaultRatesRepository , IRepository<WholesaleEcl, Guid> lookup_wholesaleEclRepository) 
+		  public WholesaleEclPdSnPCummulativeDefaultRatesesAppService(IRepository<WholesaleEclPdSnPCummulativeDefaultRate, Guid> wholesaleEclPdSnPCummulativeDefaultRatesRepository , IRepository<WholesaleEcl, Guid> lookup_wholesaleEclRepository) 
 		  {
 			_wholesaleEclPdSnPCummulativeDefaultRatesRepository = wholesaleEclPdSnPCummulativeDefaultRatesRepository;
 			_lookup_wholesaleEclRepository = lookup_wholesaleEclRepository;
@@ -102,7 +102,7 @@ namespace TestDemo.WholesaleAssumption
 		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclPdSnPCummulativeDefaultRateses_Create)]
 		 protected virtual async Task Create(CreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesDto input)
          {
-            var wholesaleEclPdSnPCummulativeDefaultRates = ObjectMapper.Map<WholesaleEclPdSnPCummulativeDefaultRates>(input);
+            var wholesaleEclPdSnPCummulativeDefaultRates = ObjectMapper.Map<WholesaleEclPdSnPCummulativeDefaultRate>(input);
 
 			
 			if (AbpSession.TenantId != null)

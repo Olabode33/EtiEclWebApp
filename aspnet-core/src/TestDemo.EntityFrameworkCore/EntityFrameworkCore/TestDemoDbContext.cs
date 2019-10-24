@@ -18,17 +18,18 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+
+        public virtual DbSet<WholesaleEclEadInputAssumption> WholesaleEadInputAssumptions { get; set; }
+
         public virtual DbSet<WholesaleEclApproval> WholesaleEclApprovals { get; set; }
 
         public virtual DbSet<WholesaleEclAssumptionApproval> WholesaleEclAssumptionApprovals { get; set; }
 
-        public virtual DbSet<WholesaleEclPdSnPCummulativeDefaultRates> WholesaleEclPdSnPCummulativeDefaultRateses { get; set; }
+        public virtual DbSet<WholesaleEclPdSnPCummulativeDefaultRate> WholesaleEclPdSnPCummulativeDefaultRateses { get; set; }
 
-        public virtual DbSet<WholesaleEclPdAssumption12Months> WholesaleEclPdAssumption12Monthses { get; set; }
+        public virtual DbSet<WholesaleEclPdAssumption12Month> WholesaleEclPdAssumption12Monthses { get; set; }
 
         public virtual DbSet<WholesaleEclLgdAssumption> WholesaleEclLgdAssumptions { get; set; }
-
-        public virtual DbSet<WholesaleEclEadInputAssumption> WholesaleEadInputAssumptions { get; set; }
 
         public virtual DbSet<WholesaleEclAssumption> WholesaleEclAssumptions { get; set; }
 
@@ -40,7 +41,7 @@ namespace TestDemo.EntityFrameworkCore
 
         public virtual DbSet<PdInputAssumption12Month> PdInputAssumption12Months { get; set; }
 
-        public virtual DbSet<LgdInputAssumption> LgdAssumptionUnsecuredRecoveries { get; set; }
+        public virtual DbSet<LgdInputAssumption> LgdAssumption { get; set; }
 
         public virtual DbSet<EadInputAssumption> EadInputAssumptions { get; set; }
 
@@ -78,15 +79,20 @@ namespace TestDemo.EntityFrameworkCore
            
            
            
-            modelBuilder.Entity<WholesaleEclApproval>(w =>
+           
+            modelBuilder.Entity<WholesaleEclEadInputAssumption>(w =>
             {
                 w.HasIndex(e => new { e.TenantId });
             });
- modelBuilder.Entity<WholesaleEclPdSnPCummulativeDefaultRates>(w =>
+ modelBuilder.Entity<WholesaleEclApproval>(w =>
             {
                 w.HasIndex(e => new { e.TenantId });
             });
- modelBuilder.Entity<WholesaleEclPdAssumption12Months>(w =>
+ modelBuilder.Entity<WholesaleEclPdSnPCummulativeDefaultRate>(w =>
+            {
+                w.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<WholesaleEclPdAssumption12Month>(w =>
             {
                 w.HasIndex(e => new { e.TenantId });
             });

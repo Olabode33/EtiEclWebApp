@@ -1,6 +1,6 @@
 {
-  "IsRegenerate": false,
-  "MenuPosition": null,
+  "IsRegenerate": true,
+  "MenuPosition": "",
   "RelativeNamespace": "WholesaleAssumption",
   "EntityName": "WholesaleEclAssumptionApproval",
   "EntityNamePlural": "WholesaleEclAssumptionApprovals",
@@ -21,8 +21,8 @@
     {
       "Name": "AssumptionType",
       "Type": "AssumptionTypeEnum",
-      "MaxLength": 0,
-      "MinLength": 0,
+      "MaxLength": -1,
+      "MinLength": -1,
       "Range": {
         "IsRangeSet": false,
         "MinimumValue": 0,
@@ -40,8 +40,8 @@
     {
       "Name": "AssumptionId",
       "Type": "Guid",
-      "MaxLength": 0,
-      "MinLength": 0,
+      "MaxLength": -1,
+      "MinLength": -1,
       "Range": {
         "IsRangeSet": false,
         "MinimumValue": 0,
@@ -97,8 +97,8 @@
     {
       "Name": "DateReviewed",
       "Type": "DateTime",
-      "MaxLength": 0,
-      "MinLength": 0,
+      "MaxLength": -1,
+      "MinLength": -1,
       "Range": {
         "IsRangeSet": false,
         "MinimumValue": 0,
@@ -135,6 +135,25 @@
     {
       "Name": "Status",
       "Type": "StatusEnum",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "RequiresGroupApproval",
+      "Type": "bool",
       "MaxLength": 0,
       "MinLength": 0,
       "Range": {
@@ -148,7 +167,7 @@
       "UserInterface": {
         "AdvancedFilter": false,
         "List": false,
-        "CreateOrUpdate": true
+        "CreateOrUpdate": false
       }
     }
   ],

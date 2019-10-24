@@ -1624,7 +1624,7 @@ namespace TestDemo.Migrations
                     b.ToTable("WholesaleEclLgdAssumptions");
                 });
 
-            modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclPdAssumption12Months", b =>
+            modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclPdAssumption12Month", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -1899,7 +1899,7 @@ namespace TestDemo.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclPdAssumption12Months", b =>
+            modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclPdAssumption12Month", b =>
                 {
                     b.HasOne("TestDemo.Wholesale.WholesaleEcl", "WholesaleEclFk")
                         .WithMany()

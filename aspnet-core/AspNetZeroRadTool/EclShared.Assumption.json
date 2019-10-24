@@ -1,5 +1,5 @@
 {
-  "IsRegenerate": false,
+  "IsRegenerate": true,
   "MenuPosition": "main",
   "RelativeNamespace": "EclShared",
   "EntityName": "Assumption",
@@ -78,8 +78,8 @@
     {
       "Name": "DataType",
       "Type": "DataTypeEnum",
-      "MaxLength": 0,
-      "MinLength": 0,
+      "MaxLength": -1,
+      "MinLength": -1,
       "Range": {
         "IsRangeSet": false,
         "MinimumValue": 0,
@@ -97,8 +97,8 @@
     {
       "Name": "IsComputed",
       "Type": "bool",
-      "MaxLength": 0,
-      "MinLength": 0,
+      "MaxLength": -1,
+      "MinLength": -1,
       "Range": {
         "IsRangeSet": false,
         "MinimumValue": 0,
@@ -116,6 +116,25 @@
     {
       "Name": "AssumptionGroup",
       "Type": "AssumptionGroupEnum",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "RequiresGroupApproval",
+      "Type": "bool",
       "MaxLength": 0,
       "MinLength": 0,
       "Range": {
@@ -129,7 +148,7 @@
       "UserInterface": {
         "AdvancedFilter": false,
         "List": false,
-        "CreateOrUpdate": true
+        "CreateOrUpdate": false
       }
     }
   ],

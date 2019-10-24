@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestDemo.EntityFrameworkCore;
 
 namespace TestDemo.Migrations
 {
     [DbContext(typeof(TestDemoDbContext))]
-    partial class TestDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191024123414_Regenerated_WholesaleEclAssumption8880")]
+    partial class Regenerated_WholesaleEclAssumption8880
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1649,8 +1651,6 @@ namespace TestDemo.Migrations
 
                     b.Property<string>("OldValue");
 
-                    b.Property<bool>("RequiresGroupApproval");
-
                     b.Property<string>("ReviewComment");
 
                     b.Property<long?>("ReviewedByUserId");
@@ -1719,31 +1719,15 @@ namespace TestDemo.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<long?>("CreatorUserId");
-
                     b.Property<int>("DataType");
-
-                    b.Property<long?>("DeleterUserId");
-
-                    b.Property<DateTime?>("DeletionTime");
 
                     b.Property<string>("InputName");
 
                     b.Property<bool>("IsComputed");
 
-                    b.Property<bool>("IsDeleted");
-
                     b.Property<string>("Key");
 
-                    b.Property<DateTime?>("LastModificationTime");
-
-                    b.Property<long?>("LastModifierUserId");
-
                     b.Property<int>("LgdGroup");
-
-                    b.Property<bool>("RequiresGroupApproval");
 
                     b.Property<int?>("TenantId");
 
@@ -1783,8 +1767,6 @@ namespace TestDemo.Migrations
 
                     b.Property<double?>("PD");
 
-                    b.Property<bool>("RequiresGroupApproval");
-
                     b.Property<string>("SnPMappingBestFit");
 
                     b.Property<string>("SnPMappingEtiCreditPolicy");
@@ -1799,7 +1781,7 @@ namespace TestDemo.Migrations
 
                     b.HasIndex("WholesaleEclId");
 
-                    b.ToTable("WholesaleEclPdAssumption12Months");
+                    b.ToTable("WholesaleEclPdAssumption12Monthses");
                 });
 
             modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclPdSnPCummulativeDefaultRate", b =>
@@ -1825,8 +1807,6 @@ namespace TestDemo.Migrations
 
                     b.Property<string>("Rating");
 
-                    b.Property<bool>("RequiresGroupApproval");
-
                     b.Property<int?>("TenantId");
 
                     b.Property<double?>("Value");
@@ -1841,7 +1821,7 @@ namespace TestDemo.Migrations
 
                     b.HasIndex("WholesaleEclId");
 
-                    b.ToTable("WholesaleEclPdSnPCummulativeDefaultRates");
+                    b.ToTable("WholesaleEclPdSnPCummulativeDefaultRateses");
                 });
 
             modelBuilder.Entity("TestDemo.Editions.SubscribableEdition", b =>

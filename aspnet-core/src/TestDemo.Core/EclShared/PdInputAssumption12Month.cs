@@ -19,7 +19,9 @@ namespace TestDemo.EclShared
 		public virtual string SnPMappingEtiCreditPolicy { get; set; }
 		
 		public virtual string SnPMappingBestFit { get; set; }
+		
+		public virtual bool RequiresGroupApproval { get; set; }
+		
 
-        public virtual FrameworkEnum Framework { get; set; }
     }
 }

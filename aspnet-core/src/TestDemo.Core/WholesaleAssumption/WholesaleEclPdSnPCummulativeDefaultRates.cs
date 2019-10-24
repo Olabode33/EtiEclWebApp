@@ -8,13 +8,12 @@ using Abp.Auditing;
 
 namespace TestDemo.WholesaleAssumption
 {
-	[Table("WholesaleEclPdSnPCummulativeDefaultRateses")]
+	[Table("WholesaleEclPdSnPCummulativeDefaultRates")]
     [Audited]
-    public class WholesaleEclPdSnPCummulativeDefaultRates : FullAuditedEntity<Guid> , IMayHaveTenant
+    public class WholesaleEclPdSnPCummulativeDefaultRate : FullAuditedEntity<Guid> , IMayHaveTenant
     {
 			public int? TenantId { get; set; }
 			
-
 		public virtual string Key { get; set; }
 		
 		public virtual string Rating { get; set; }
@@ -22,6 +21,8 @@ namespace TestDemo.WholesaleAssumption
 		public virtual int? Years { get; set; }
 		
 		public virtual double? Value { get; set; }
+		
+		public virtual bool RequiresGroupApproval { get; set; }
 		
 
 		public virtual Guid? WholesaleEclId { get; set; }

@@ -1,5 +1,5 @@
 {
-  "IsRegenerate": false,
+  "IsRegenerate": true,
   "MenuPosition": "main",
   "RelativeNamespace": "EclShared",
   "EntityName": "PdInputSnPCummulativeDefaultRate",
@@ -10,7 +10,7 @@
   "EntityHistory": true,
   "AutoMigration": true,
   "UpdateDatabase": false,
-  "CreateUserInterface": true,
+  "CreateUserInterface": false,
   "CreateViewOnly": false,
   "CreateExcelExport": false,
   "PagePermission": {
@@ -59,8 +59,8 @@
     {
       "Name": "Years",
       "Type": "int",
-      "MaxLength": 0,
-      "MinLength": 0,
+      "MaxLength": -1,
+      "MinLength": -1,
       "Range": {
         "IsRangeSet": false,
         "MinimumValue": 0,
@@ -78,8 +78,8 @@
     {
       "Name": "Value",
       "Type": "double",
-      "MaxLength": 0,
-      "MinLength": 0,
+      "MaxLength": -1,
+      "MinLength": -1,
       "Range": {
         "IsRangeSet": false,
         "MinimumValue": 0,
@@ -92,6 +92,25 @@
         "AdvancedFilter": false,
         "List": true,
         "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "RequiresGroupApproval",
+      "Type": "bool",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": false
       }
     }
   ],

@@ -9,7 +9,7 @@ using Abp.Auditing;
 
 namespace TestDemo.EclShared
 {
-	[Table("LgdAssumptionUnsecuredRecoveries")]
+	[Table("LgdInputAssumptions")]
     [Audited]
     public class LgdInputAssumption : FullAuditedEntity<Guid> 
     {
@@ -25,7 +25,9 @@ namespace TestDemo.EclShared
 		public virtual bool IsComputed { get; set; }
 		
 		public virtual LdgInputAssumptionEnum LgdGroup { get; set; }
+		
+		public virtual bool RequiresGroupApproval { get; set; }
+		
 
-        public virtual FrameworkEnum Framework { get; set; }
     }
 }

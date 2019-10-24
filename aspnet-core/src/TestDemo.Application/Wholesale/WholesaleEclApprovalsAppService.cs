@@ -47,8 +47,7 @@ namespace TestDemo.Wholesale
 						.WhereIf(input.MinReviewedDateFilter != null, e => e.ReviewedDate >= input.MinReviewedDateFilter)
 						.WhereIf(input.MaxReviewedDateFilter != null, e => e.ReviewedDate <= input.MaxReviewedDateFilter)
 						.WhereIf(input.StatusFilter > -1, e => e.Status == statusFilter)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.ReviewedByUserFk != null && e.ReviewedByUserFk.Name.ToLower() == input.UserNameFilter.ToLower().Trim())
-						.WhereIf(!string.IsNullOrWhiteSpace(input.WholesaleEclTenantIdFilter), e => e.WholesaleEclFk != null && e.WholesaleEclFk.TenantId.ToLower() == input.WholesaleEclTenantIdFilter.ToLower().Trim());
+						.WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.ReviewedByUserFk != null && e.ReviewedByUserFk.Name.ToLower() == input.UserNameFilter.ToLower().Trim());
 
 			var pagedAndFilteredWholesaleEclApprovals = filteredWholesaleEclApprovals
                 .OrderBy(input.Sorting ?? "id asc")

@@ -27,7 +27,9 @@ namespace TestDemo.EclShared
 		public virtual bool IsComputed { get; set; }
 		
 		public virtual EadInputGroupEnum EadGroup { get; set; }
+		
+		public virtual bool RequiresGroupApproval { get; set; }
+		
 
-        public virtual FrameworkEnum Framework { get; set; }
     }
 }

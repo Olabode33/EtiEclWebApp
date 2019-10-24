@@ -21,11 +21,11 @@ namespace TestDemo.WholesaleAssumption
 	[AbpAuthorize(AppPermissions.Pages_WholesaleEclPdAssumption12Monthses)]
     public class WholesaleEclPdAssumption12MonthsesAppService : TestDemoAppServiceBase, IWholesaleEclPdAssumption12MonthsesAppService
     {
-		 private readonly IRepository<WholesaleEclPdAssumption12Months, Guid> _wholesaleEclPdAssumption12MonthsRepository;
+		 private readonly IRepository<WholesaleEclPdAssumption12Month, Guid> _wholesaleEclPdAssumption12MonthsRepository;
 		 private readonly IRepository<WholesaleEcl,Guid> _lookup_wholesaleEclRepository;
 		 
 
-		  public WholesaleEclPdAssumption12MonthsesAppService(IRepository<WholesaleEclPdAssumption12Months, Guid> wholesaleEclPdAssumption12MonthsRepository , IRepository<WholesaleEcl, Guid> lookup_wholesaleEclRepository) 
+		  public WholesaleEclPdAssumption12MonthsesAppService(IRepository<WholesaleEclPdAssumption12Month, Guid> wholesaleEclPdAssumption12MonthsRepository , IRepository<WholesaleEcl, Guid> lookup_wholesaleEclRepository) 
 		  {
 			_wholesaleEclPdAssumption12MonthsRepository = wholesaleEclPdAssumption12MonthsRepository;
 			_lookup_wholesaleEclRepository = lookup_wholesaleEclRepository;
@@ -102,7 +102,7 @@ namespace TestDemo.WholesaleAssumption
 		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclPdAssumption12Monthses_Create)]
 		 protected virtual async Task Create(CreateOrEditWholesaleEclPdAssumption12MonthsDto input)
          {
-            var wholesaleEclPdAssumption12Months = ObjectMapper.Map<WholesaleEclPdAssumption12Months>(input);
+            var wholesaleEclPdAssumption12Months = ObjectMapper.Map<WholesaleEclPdAssumption12Month>(input);
 
 			
 			if (AbpSession.TenantId != null)
