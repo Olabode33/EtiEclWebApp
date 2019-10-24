@@ -1,0 +1,401 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #wholesaleEclDataLoanBookForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="wholesaleEclDataLoanBook.id">{{l("EditWholesaleEclDataLoanBook")}}</span>
+                        <span *ngIf="!wholesaleEclDataLoanBook.id">{{l("CreateNewWholesaleEclDataLoanBook")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+					<div class="form-group m-form__group">
+                        <label for="WholesaleEclUploadUploadComment">{{l("WholesaleEclUpload")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="WholesaleEclUploadUploadComment" name="wholesaleEclUploadUploadComment" [(ngModel)]="wholesaleEclUploadUploadComment" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectWholesaleEclUploadModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger btn-icon" type="button" (click)="setWholesaleEclUploadIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="wholesaleEclDataLoanBook.wholesaleEclUploadId" [(ngModel)]="wholesaleEclDataLoanBook.wholesaleEclUploadId" type="text" required hidden>
+		 
+
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_CustomerNo">{{l("CustomerNo")}}</label>
+									<input type="text" id="WholesaleEclDataLoanBook_CustomerNo" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.customerNo" name="CustomerNo"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_AccountNo">{{l("AccountNo")}}</label>
+									<input type="text" id="WholesaleEclDataLoanBook_AccountNo" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.accountNo" name="AccountNo"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_ContractNo">{{l("ContractNo")}}</label>
+									<input type="text" id="WholesaleEclDataLoanBook_ContractNo" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.contractNo" name="ContractNo"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_CustomerName">{{l("CustomerName")}}</label>
+									<input type="text" id="WholesaleEclDataLoanBook_CustomerName" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.customerName" name="CustomerName"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_SnapshotDate">{{l("SnapshotDate")}}</label>
+									 <input class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="snapshotDate" id="WholesaleEclDataLoanBook_SnapshotDate" name="WholesaleEclDataLoanBook_SnapshotDate">
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_Segment">{{l("Segment")}}</label>
+									<input type="text" id="WholesaleEclDataLoanBook_Segment" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.segment" name="Segment"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_Sector">{{l("Sector")}}</label>
+									<input type="text" id="WholesaleEclDataLoanBook_Sector" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.sector" name="Sector"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_Currency">{{l("Currency")}}</label>
+									<input type="text" id="WholesaleEclDataLoanBook_Currency" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.currency" name="Currency"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_ProductType">{{l("ProductType")}}</label>
+									<input type="text" id="WholesaleEclDataLoanBook_ProductType" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.productType" name="ProductType"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_ProductMapping">{{l("ProductMapping")}}</label>
+									<input type="text" id="WholesaleEclDataLoanBook_ProductMapping" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.productMapping" name="ProductMapping"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_SpecialisedLending">{{l("SpecialisedLending")}}</label>
+									<input type="text" id="WholesaleEclDataLoanBook_SpecialisedLending" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.specialisedLending" name="SpecialisedLending"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_RatingModel">{{l("RatingModel")}}</label>
+									<input type="text" id="WholesaleEclDataLoanBook_RatingModel" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.ratingModel" name="RatingModel"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_OriginalRating">{{l("OriginalRating")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_OriginalRating" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.originalRating" name="OriginalRating"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_CurrentRating">{{l("CurrentRating")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_CurrentRating" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.currentRating" name="CurrentRating"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_LifetimePD">{{l("LifetimePD")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_LifetimePD" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.lifetimePD" name="LifetimePD"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_Month12PD">{{l("Month12PD")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_Month12PD" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.month12PD" name="Month12PD"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_DaysPastDue">{{l("DaysPastDue")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_DaysPastDue" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.daysPastDue" name="DaysPastDue"  />
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="WholesaleEclDataLoanBook_WatchlistIndicator" class="kt-checkbox">
+										<input id="WholesaleEclDataLoanBook_WatchlistIndicator" type="checkbox" name="WatchlistIndicator" [(ngModel)]="wholesaleEclDataLoanBook.watchlistIndicator"> 
+										{{l("WatchlistIndicator")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_Classification">{{l("Classification")}}</label>
+									<input type="text" id="WholesaleEclDataLoanBook_Classification" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.classification" name="Classification"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_ImpairedDate">{{l("ImpairedDate")}}</label>
+									 <input class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="impairedDate" id="WholesaleEclDataLoanBook_ImpairedDate" name="WholesaleEclDataLoanBook_ImpairedDate">
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_DefaultDate">{{l("DefaultDate")}}</label>
+									 <input class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="defaultDate" id="WholesaleEclDataLoanBook_DefaultDate" name="WholesaleEclDataLoanBook_DefaultDate">
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_CreditLimit">{{l("CreditLimit")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_CreditLimit" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.creditLimit" name="CreditLimit"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_OriginalBalanceLCY">{{l("OriginalBalanceLCY")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_OriginalBalanceLCY" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.originalBalanceLCY" name="OriginalBalanceLCY"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_OutstandingBalanceLCY">{{l("OutstandingBalanceLCY")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_OutstandingBalanceLCY" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.outstandingBalanceLCY" name="OutstandingBalanceLCY"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_OutstandingBalanceACY">{{l("OutstandingBalanceACY")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_OutstandingBalanceACY" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.outstandingBalanceACY" name="OutstandingBalanceACY"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_ContractStartDate">{{l("ContractStartDate")}}</label>
+									 <input class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="contractStartDate" id="WholesaleEclDataLoanBook_ContractStartDate" name="WholesaleEclDataLoanBook_ContractStartDate">
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_ContractEndDate">{{l("ContractEndDate")}}</label>
+									 <input class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="contractEndDate" id="WholesaleEclDataLoanBook_ContractEndDate" name="WholesaleEclDataLoanBook_ContractEndDate">
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="WholesaleEclDataLoanBook_RestructureIndicator" class="kt-checkbox">
+										<input id="WholesaleEclDataLoanBook_RestructureIndicator" type="checkbox" name="RestructureIndicator" [(ngModel)]="wholesaleEclDataLoanBook.restructureIndicator"> 
+										{{l("RestructureIndicator")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_RestructureRisk">{{l("RestructureRisk")}}</label>
+									<input type="text" id="WholesaleEclDataLoanBook_RestructureRisk" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.restructureRisk" name="RestructureRisk"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_RestructureType">{{l("RestructureType")}}</label>
+									<input type="text" id="WholesaleEclDataLoanBook_RestructureType" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.restructureType" name="RestructureType"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_RestructureStartDate">{{l("RestructureStartDate")}}</label>
+									 <input class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="restructureStartDate" id="WholesaleEclDataLoanBook_RestructureStartDate" name="WholesaleEclDataLoanBook_RestructureStartDate">
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_RestructureEndDate">{{l("RestructureEndDate")}}</label>
+									 <input class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="restructureEndDate" id="WholesaleEclDataLoanBook_RestructureEndDate" name="WholesaleEclDataLoanBook_RestructureEndDate">
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_PrincipalPaymentTermsOrigination">{{l("PrincipalPaymentTermsOrigination")}}</label>
+									<input type="text" id="WholesaleEclDataLoanBook_PrincipalPaymentTermsOrigination" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.principalPaymentTermsOrigination" name="PrincipalPaymentTermsOrigination"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_PPTOPeriod">{{l("PPTOPeriod")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_PPTOPeriod" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.pptoPeriod" name="PPTOPeriod"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_InterestPaymentTermsOrigination">{{l("InterestPaymentTermsOrigination")}}</label>
+									<input type="text" id="WholesaleEclDataLoanBook_InterestPaymentTermsOrigination" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.interestPaymentTermsOrigination" name="InterestPaymentTermsOrigination"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_IPTOPeriod">{{l("IPTOPeriod")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_IPTOPeriod" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.iptoPeriod" name="IPTOPeriod"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_PrincipalPaymentStructure">{{l("PrincipalPaymentStructure")}}</label>
+									<input type="text" id="WholesaleEclDataLoanBook_PrincipalPaymentStructure" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.principalPaymentStructure" name="PrincipalPaymentStructure"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_InterestPaymentStructure">{{l("InterestPaymentStructure")}}</label>
+									<input type="text" id="WholesaleEclDataLoanBook_InterestPaymentStructure" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.interestPaymentStructure" name="InterestPaymentStructure"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_InterestRateType">{{l("InterestRateType")}}</label>
+									<input type="text" id="WholesaleEclDataLoanBook_InterestRateType" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.interestRateType" name="InterestRateType"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_BaseRate">{{l("BaseRate")}}</label>
+									<input type="text" id="WholesaleEclDataLoanBook_BaseRate" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.baseRate" name="BaseRate"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_OriginationContractualInterestRate">{{l("OriginationContractualInterestRate")}}</label>
+									<input type="text" id="WholesaleEclDataLoanBook_OriginationContractualInterestRate" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.originationContractualInterestRate" name="OriginationContractualInterestRate"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_IntroductoryPeriod">{{l("IntroductoryPeriod")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_IntroductoryPeriod" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.introductoryPeriod" name="IntroductoryPeriod"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_PostIPContractualInterestRate">{{l("PostIPContractualInterestRate")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_PostIPContractualInterestRate" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.postIPContractualInterestRate" name="PostIPContractualInterestRate"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_CurrentContractualInterestRate">{{l("CurrentContractualInterestRate")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_CurrentContractualInterestRate" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.currentContractualInterestRate" name="CurrentContractualInterestRate"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_EIR">{{l("EIR")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_EIR" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.eir" name="EIR"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_DebentureOMV">{{l("DebentureOMV")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_DebentureOMV" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.debentureOMV" name="DebentureOMV"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_DebentureFSV">{{l("DebentureFSV")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_DebentureFSV" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.debentureFSV" name="DebentureFSV"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_CashOMV">{{l("CashOMV")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_CashOMV" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.cashOMV" name="CashOMV"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_CashFSV">{{l("CashFSV")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_CashFSV" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.cashFSV" name="CashFSV"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_InventoryOMV">{{l("InventoryOMV")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_InventoryOMV" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.inventoryOMV" name="InventoryOMV"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_InventoryFSV">{{l("InventoryFSV")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_InventoryFSV" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.inventoryFSV" name="InventoryFSV"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_PlantEquipmentOMV">{{l("PlantEquipmentOMV")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_PlantEquipmentOMV" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.plantEquipmentOMV" name="PlantEquipmentOMV"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_PlantEquipmentFSV">{{l("PlantEquipmentFSV")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_PlantEquipmentFSV" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.plantEquipmentFSV" name="PlantEquipmentFSV"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_ResidentialPropertyOMV">{{l("ResidentialPropertyOMV")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_ResidentialPropertyOMV" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.residentialPropertyOMV" name="ResidentialPropertyOMV"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_ResidentialPropertyFSV">{{l("ResidentialPropertyFSV")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_ResidentialPropertyFSV" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.residentialPropertyFSV" name="ResidentialPropertyFSV"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_CommercialPropertyOMV">{{l("CommercialPropertyOMV")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_CommercialPropertyOMV" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.commercialPropertyOMV" name="CommercialPropertyOMV"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_CommercialProperty">{{l("CommercialProperty")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_CommercialProperty" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.commercialProperty" name="CommercialProperty"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_ReceivablesOMV">{{l("ReceivablesOMV")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_ReceivablesOMV" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.receivablesOMV" name="ReceivablesOMV"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_ReceivablesFSV">{{l("ReceivablesFSV")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_ReceivablesFSV" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.receivablesFSV" name="ReceivablesFSV"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_SharesOMV">{{l("SharesOMV")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_SharesOMV" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.sharesOMV" name="SharesOMV"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_SharesFSV">{{l("SharesFSV")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_SharesFSV" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.sharesFSV" name="SharesFSV"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_VehicleOMV">{{l("VehicleOMV")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_VehicleOMV" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.vehicleOMV" name="VehicleOMV"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_VehicleFSV">{{l("VehicleFSV")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_VehicleFSV" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.vehicleFSV" name="VehicleFSV"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_CureRate">{{l("CureRate")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_CureRate" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.cureRate" name="CureRate"  />
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="WholesaleEclDataLoanBook_GuaranteeIndicator" class="kt-checkbox">
+										<input id="WholesaleEclDataLoanBook_GuaranteeIndicator" type="checkbox" name="GuaranteeIndicator" [(ngModel)]="wholesaleEclDataLoanBook.guaranteeIndicator"> 
+										{{l("GuaranteeIndicator")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_GuarantorPD">{{l("GuarantorPD")}}</label>
+									<input type="text" id="WholesaleEclDataLoanBook_GuarantorPD" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.guarantorPD" name="GuarantorPD"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_GuarantorLGD">{{l("GuarantorLGD")}}</label>
+									<input type="text" id="WholesaleEclDataLoanBook_GuarantorLGD" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.guarantorLGD" name="GuarantorLGD"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_GuaranteeValue">{{l("GuaranteeValue")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_GuaranteeValue" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.guaranteeValue" name="GuaranteeValue"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_GuaranteeLevel">{{l("GuaranteeLevel")}}</label>
+									<input type="number" id="WholesaleEclDataLoanBook_GuaranteeLevel" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.guaranteeLevel" name="GuaranteeLevel"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBook_ContractId">{{l("ContractId")}}</label>
+									<input type="text" id="WholesaleEclDataLoanBook_ContractId" class="form-control" [(ngModel)]="wholesaleEclDataLoanBook.contractId" name="ContractId"    />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!wholesaleEclDataLoanBookForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+<wholesaleEclDataLoanBookWholesaleEclUploadLookupTableModal #wholesaleEclDataLoanBookWholesaleEclUploadLookupTableModal (modalSave)="getNewWholesaleEclUploadId()"></wholesaleEclDataLoanBookWholesaleEclUploadLookupTableModal>
+		 
+</div>

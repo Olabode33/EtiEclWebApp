@@ -30,6 +30,34 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var wholesaleEclDataPaymentSchedules = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEclDataPaymentSchedules, L("WholesaleEclDataPaymentSchedules"));
+            wholesaleEclDataPaymentSchedules.CreateChildPermission(AppPermissions.Pages_WholesaleEclDataPaymentSchedules_Create, L("CreateNewWholesaleEclDataPaymentSchedule"));
+            wholesaleEclDataPaymentSchedules.CreateChildPermission(AppPermissions.Pages_WholesaleEclDataPaymentSchedules_Edit, L("EditWholesaleEclDataPaymentSchedule"));
+            wholesaleEclDataPaymentSchedules.CreateChildPermission(AppPermissions.Pages_WholesaleEclDataPaymentSchedules_Delete, L("DeleteWholesaleEclDataPaymentSchedule"));
+
+
+
+            var wholesaleEclDataLoanBooks = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEclDataLoanBooks, L("WholesaleEclDataLoanBooks"));
+            wholesaleEclDataLoanBooks.CreateChildPermission(AppPermissions.Pages_WholesaleEclDataLoanBooks_Create, L("CreateNewWholesaleEclDataLoanBook"));
+            wholesaleEclDataLoanBooks.CreateChildPermission(AppPermissions.Pages_WholesaleEclDataLoanBooks_Edit, L("EditWholesaleEclDataLoanBook"));
+            wholesaleEclDataLoanBooks.CreateChildPermission(AppPermissions.Pages_WholesaleEclDataLoanBooks_Delete, L("DeleteWholesaleEclDataLoanBook"));
+
+
+
+            var wholesaleEclUploadApprovals = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEclUploadApprovals, L("WholesaleEclUploadApprovals"));
+            wholesaleEclUploadApprovals.CreateChildPermission(AppPermissions.Pages_WholesaleEclUploadApprovals_Create, L("CreateNewWholesaleEclUploadApproval"));
+            wholesaleEclUploadApprovals.CreateChildPermission(AppPermissions.Pages_WholesaleEclUploadApprovals_Edit, L("EditWholesaleEclUploadApproval"));
+            wholesaleEclUploadApprovals.CreateChildPermission(AppPermissions.Pages_WholesaleEclUploadApprovals_Delete, L("DeleteWholesaleEclUploadApproval"));
+
+
+
+            var wholesaleEclUploads = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEclUploads, L("WholesaleEclUploads"));
+            wholesaleEclUploads.CreateChildPermission(AppPermissions.Pages_WholesaleEclUploads_Create, L("CreateNewWholesaleEclUpload"));
+            wholesaleEclUploads.CreateChildPermission(AppPermissions.Pages_WholesaleEclUploads_Edit, L("EditWholesaleEclUpload"));
+            wholesaleEclUploads.CreateChildPermission(AppPermissions.Pages_WholesaleEclUploads_Delete, L("DeleteWholesaleEclUpload"));
+
+
+
             var wholesaleEclApprovals = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEclApprovals, L("WholesaleEclApprovals"));
             wholesaleEclApprovals.CreateChildPermission(AppPermissions.Pages_WholesaleEclApprovals_Create, L("CreateNewWholesaleEclApproval"));
             wholesaleEclApprovals.CreateChildPermission(AppPermissions.Pages_WholesaleEclApprovals_Edit, L("EditWholesaleEclApproval"));

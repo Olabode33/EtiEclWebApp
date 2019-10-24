@@ -2,6 +2,18 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
+import { WholesaleEclDataPaymentSchedulesComponent } from './wholesaleInputs/wholesaleEclDataPaymentSchedules/wholesaleEclDataPaymentSchedules.component';
+import { CreateOrEditWholesaleEclDataPaymentScheduleModalComponent } from './wholesaleInputs/wholesaleEclDataPaymentSchedules/create-or-edit-wholesaleEclDataPaymentSchedule-modal.component';
+import { WholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableModalComponent } from './wholesaleInputs/wholesaleEclDataPaymentSchedules/wholesaleEclDataPaymentSchedule-wholesaleEclUpload-lookup-table-modal.component';
+
+import { WholesaleEclDataLoanBooksComponent } from './wholesaleInputs/wholesaleEclDataLoanBooks/wholesaleEclDataLoanBooks.component';
+import { CreateOrEditWholesaleEclDataLoanBookModalComponent } from './wholesaleInputs/wholesaleEclDataLoanBooks/create-or-edit-wholesaleEclDataLoanBook-modal.component';
+import { WholesaleEclDataLoanBookWholesaleEclUploadLookupTableModalComponent } from './wholesaleInputs/wholesaleEclDataLoanBooks/wholesaleEclDataLoanBook-wholesaleEclUpload-lookup-table-modal.component';
+
+import { WholesaleEclUploadsComponent } from './wholesaleInputs/wholesaleEclUploads/wholesaleEclUploads.component';
+import { CreateOrEditWholesaleEclUploadModalComponent } from './wholesaleInputs/wholesaleEclUploads/create-or-edit-wholesaleEclUpload-modal.component';
+import { WholesaleEclUploadWholesaleEclLookupTableModalComponent } from './wholesaleInputs/wholesaleEclUploads/wholesaleEclUpload-wholesaleEcl-lookup-table-modal.component';
+
 import { WholesaleEclPdSnPCummulativeDefaultRatesesComponent } from './wholesaleAssumption/wholesaleEclPdSnPCummulativeDefaultRateses/wholesaleEclPdSnPCummulativeDefaultRateses.component';
 import { CreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesModalComponent } from './wholesaleAssumption/wholesaleEclPdSnPCummulativeDefaultRateses/create-or-edit-wholesaleEclPdSnPCummulativeDefaultRates-modal.component';
 import { WholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableModalComponent } from './wholesaleAssumption/wholesaleEclPdSnPCummulativeDefaultRateses/wholesaleEclPdSnPCummulativeDefaultRates-wholesaleEcl-lookup-table-modal.component';
@@ -60,6 +72,15 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+		WholesaleEclDataPaymentSchedulesComponent,
+		CreateOrEditWholesaleEclDataPaymentScheduleModalComponent,
+    WholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableModalComponent,
+		WholesaleEclDataLoanBooksComponent,
+		CreateOrEditWholesaleEclDataLoanBookModalComponent,
+    WholesaleEclDataLoanBookWholesaleEclUploadLookupTableModalComponent,
+		WholesaleEclUploadsComponent,
+		CreateOrEditWholesaleEclUploadModalComponent,
+    WholesaleEclUploadWholesaleEclLookupTableModalComponent,
 		WholesaleEclPdSnPCummulativeDefaultRatesesComponent,
 		CreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesModalComponent,
     WholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableModalComponent,

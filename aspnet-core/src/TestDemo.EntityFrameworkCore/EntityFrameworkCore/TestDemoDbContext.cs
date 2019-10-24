@@ -1,3 +1,4 @@
+using TestDemo.WholesaleInputs;
 using TestDemo.WholesaleAssumption;
 using TestDemo.Wholesale;
 using TestDemo.EclShared;
@@ -18,6 +19,14 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<WholesaleEclDataPaymentSchedule> WholesaleEclDataPaymentSchedules { get; set; }
+
+        public virtual DbSet<WholesaleEclDataLoanBook> WholesaleEclDataLoanBooks { get; set; }
+
+        public virtual DbSet<WholesaleEclUploadApproval> WholesaleEclUploadApprovals { get; set; }
+
+        public virtual DbSet<WholesaleEclUpload> WholesaleEclUploads { get; set; }
+
 
         public virtual DbSet<WholesaleEclEadInputAssumption> WholesaleEadInputAssumptions { get; set; }
 
@@ -80,7 +89,27 @@ namespace TestDemo.EntityFrameworkCore
            
            
            
-            modelBuilder.Entity<WholesaleEclEadInputAssumption>(w =>
+           
+           
+           
+           
+            modelBuilder.Entity<WholesaleEclDataPaymentSchedule>(w =>
+            {
+                w.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<WholesaleEclDataLoanBook>(w =>
+            {
+                w.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<WholesaleEclUploadApproval>(w =>
+            {
+                w.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<WholesaleEclUpload>(w =>
+            {
+                w.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<WholesaleEclEadInputAssumption>(w =>
             {
                 w.HasIndex(e => new { e.TenantId });
             });

@@ -6,6 +6,26 @@ namespace TestDemo.Authorization
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_WholesaleEclDataPaymentSchedules = "Pages.WholesaleEclDataPaymentSchedules";
+        public const string Pages_WholesaleEclDataPaymentSchedules_Create = "Pages.WholesaleEclDataPaymentSchedules.Create";
+        public const string Pages_WholesaleEclDataPaymentSchedules_Edit = "Pages.WholesaleEclDataPaymentSchedules.Edit";
+        public const string Pages_WholesaleEclDataPaymentSchedules_Delete = "Pages.WholesaleEclDataPaymentSchedules.Delete";
+
+        public const string Pages_WholesaleEclDataLoanBooks = "Pages.WholesaleEclDataLoanBooks";
+        public const string Pages_WholesaleEclDataLoanBooks_Create = "Pages.WholesaleEclDataLoanBooks.Create";
+        public const string Pages_WholesaleEclDataLoanBooks_Edit = "Pages.WholesaleEclDataLoanBooks.Edit";
+        public const string Pages_WholesaleEclDataLoanBooks_Delete = "Pages.WholesaleEclDataLoanBooks.Delete";
+
+        public const string Pages_WholesaleEclUploadApprovals = "Pages.WholesaleEclUploadApprovals";
+        public const string Pages_WholesaleEclUploadApprovals_Create = "Pages.WholesaleEclUploadApprovals.Create";
+        public const string Pages_WholesaleEclUploadApprovals_Edit = "Pages.WholesaleEclUploadApprovals.Edit";
+        public const string Pages_WholesaleEclUploadApprovals_Delete = "Pages.WholesaleEclUploadApprovals.Delete";
+
+        public const string Pages_WholesaleEclUploads = "Pages.WholesaleEclUploads";
+        public const string Pages_WholesaleEclUploads_Create = "Pages.WholesaleEclUploads.Create";
+        public const string Pages_WholesaleEclUploads_Edit = "Pages.WholesaleEclUploads.Edit";
+        public const string Pages_WholesaleEclUploads_Delete = "Pages.WholesaleEclUploads.Delete";
+
         public const string Pages_WholesaleEclApprovals = "Pages.WholesaleEclApprovals";
         public const string Pages_WholesaleEclApprovals_Create = "Pages.WholesaleEclApprovals.Create";
         public const string Pages_WholesaleEclApprovals_Edit = "Pages.WholesaleEclApprovals.Edit";

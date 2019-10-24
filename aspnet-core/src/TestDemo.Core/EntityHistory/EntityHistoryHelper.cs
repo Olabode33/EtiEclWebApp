@@ -1,3 +1,4 @@
+using TestDemo.WholesaleInputs;
 using TestDemo.WholesaleAssumption;
 using TestDemo.Wholesale;
 using TestDemo.EclShared;
@@ -15,6 +16,8 @@ namespace TestDemo.EntityHistory
 
         public static readonly Type[] HostSideTrackedTypes =
         {
+            typeof(WholesaleEclUploadApproval),
+            typeof(WholesaleEclUpload),
             typeof(WholesaleEclEadInputAssumption),
             typeof(WholesaleEclApproval),
             typeof(WholesaleEclPdSnPCummulativeDefaultRate),
@@ -29,6 +32,8 @@ namespace TestDemo.EntityHistory
 
         public static readonly Type[] TenantSideTrackedTypes =
         {
+            typeof(WholesaleEclUploadApproval),
+            typeof(WholesaleEclUpload),
             typeof(WholesaleEclEadInputAssumption),
             typeof(WholesaleEclApproval),
             typeof(WholesaleEclPdSnPCummulativeDefaultRate),

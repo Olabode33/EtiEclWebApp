@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestDemo.EntityFrameworkCore;
 
 namespace TestDemo.Migrations
 {
     [DbContext(typeof(TestDemoDbContext))]
-    partial class TestDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191024132602_Added_WholesaleEclUpload")]
+    partial class Added_WholesaleEclUpload
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1844,222 +1846,6 @@ namespace TestDemo.Migrations
                     b.ToTable("WholesaleEclPdSnPCummulativeDefaultRates");
                 });
 
-            modelBuilder.Entity("TestDemo.WholesaleInputs.WholesaleEclDataLoanBook", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AccountNo");
-
-                    b.Property<string>("BaseRate");
-
-                    b.Property<double?>("CashFSV");
-
-                    b.Property<double?>("CashOMV");
-
-                    b.Property<string>("Classification");
-
-                    b.Property<double?>("CommercialProperty");
-
-                    b.Property<double?>("CommercialPropertyOMV");
-
-                    b.Property<DateTime?>("ContractEndDate");
-
-                    b.Property<string>("ContractId");
-
-                    b.Property<string>("ContractNo");
-
-                    b.Property<DateTime?>("ContractStartDate");
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<long?>("CreatorUserId");
-
-                    b.Property<double?>("CreditLimit");
-
-                    b.Property<double?>("CureRate");
-
-                    b.Property<string>("Currency");
-
-                    b.Property<double?>("CurrentContractualInterestRate");
-
-                    b.Property<int?>("CurrentRating");
-
-                    b.Property<string>("CustomerName");
-
-                    b.Property<string>("CustomerNo");
-
-                    b.Property<int?>("DaysPastDue");
-
-                    b.Property<double?>("DebentureFSV");
-
-                    b.Property<double?>("DebentureOMV");
-
-                    b.Property<DateTime?>("DefaultDate");
-
-                    b.Property<long?>("DeleterUserId");
-
-                    b.Property<DateTime?>("DeletionTime");
-
-                    b.Property<double?>("EIR");
-
-                    b.Property<bool>("GuaranteeIndicator");
-
-                    b.Property<double?>("GuaranteeLevel");
-
-                    b.Property<double?>("GuaranteeValue");
-
-                    b.Property<string>("GuarantorLGD");
-
-                    b.Property<string>("GuarantorPD");
-
-                    b.Property<int?>("IPTOPeriod");
-
-                    b.Property<DateTime?>("ImpairedDate");
-
-                    b.Property<string>("InterestPaymentStructure");
-
-                    b.Property<string>("InterestPaymentTermsOrigination");
-
-                    b.Property<string>("InterestRateType");
-
-                    b.Property<int?>("IntroductoryPeriod");
-
-                    b.Property<double?>("InventoryFSV");
-
-                    b.Property<double?>("InventoryOMV");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime");
-
-                    b.Property<long?>("LastModifierUserId");
-
-                    b.Property<double?>("LifetimePD");
-
-                    b.Property<double?>("Month12PD");
-
-                    b.Property<double?>("OriginalBalanceLCY");
-
-                    b.Property<int?>("OriginalRating");
-
-                    b.Property<string>("OriginationContractualInterestRate");
-
-                    b.Property<double?>("OutstandingBalanceACY");
-
-                    b.Property<double?>("OutstandingBalanceLCY");
-
-                    b.Property<int?>("PPTOPeriod");
-
-                    b.Property<double?>("PlantEquipmentFSV");
-
-                    b.Property<double?>("PlantEquipmentOMV");
-
-                    b.Property<double?>("PostIPContractualInterestRate");
-
-                    b.Property<string>("PrincipalPaymentStructure");
-
-                    b.Property<string>("PrincipalPaymentTermsOrigination");
-
-                    b.Property<string>("ProductMapping");
-
-                    b.Property<string>("ProductType");
-
-                    b.Property<string>("RatingModel");
-
-                    b.Property<double?>("ReceivablesFSV");
-
-                    b.Property<double?>("ReceivablesOMV");
-
-                    b.Property<double?>("ResidentialPropertyFSV");
-
-                    b.Property<double?>("ResidentialPropertyOMV");
-
-                    b.Property<DateTime?>("RestructureEndDate");
-
-                    b.Property<bool>("RestructureIndicator");
-
-                    b.Property<string>("RestructureRisk");
-
-                    b.Property<DateTime?>("RestructureStartDate");
-
-                    b.Property<string>("RestructureType");
-
-                    b.Property<string>("Sector");
-
-                    b.Property<string>("Segment");
-
-                    b.Property<double?>("SharesFSV");
-
-                    b.Property<double?>("SharesOMV");
-
-                    b.Property<DateTime?>("SnapshotDate");
-
-                    b.Property<string>("SpecialisedLending");
-
-                    b.Property<int?>("TenantId");
-
-                    b.Property<double?>("VehicleFSV");
-
-                    b.Property<double?>("VehicleOMV");
-
-                    b.Property<bool>("WatchlistIndicator");
-
-                    b.Property<Guid>("WholesaleEclUploadId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TenantId");
-
-                    b.HasIndex("WholesaleEclUploadId");
-
-                    b.ToTable("WholesaleEclDataLoanBooks");
-                });
-
-            modelBuilder.Entity("TestDemo.WholesaleInputs.WholesaleEclDataPaymentSchedule", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<double?>("Amount");
-
-                    b.Property<string>("Component");
-
-                    b.Property<string>("ContractRefNo");
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<long?>("CreatorUserId");
-
-                    b.Property<long?>("DeleterUserId");
-
-                    b.Property<DateTime?>("DeletionTime");
-
-                    b.Property<string>("Frequency");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime");
-
-                    b.Property<long?>("LastModifierUserId");
-
-                    b.Property<int?>("NoOfSchedules");
-
-                    b.Property<DateTime?>("StartDate");
-
-                    b.Property<int?>("TenantId");
-
-                    b.Property<Guid>("WholesaleEclUploadId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TenantId");
-
-                    b.HasIndex("WholesaleEclUploadId");
-
-                    b.ToTable("WholesaleEclDataPaymentSchedules");
-                });
-
             modelBuilder.Entity("TestDemo.WholesaleInputs.WholesaleEclUpload", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2096,48 +1882,6 @@ namespace TestDemo.Migrations
                     b.HasIndex("WholesaleEclId");
 
                     b.ToTable("WholesaleEclUploads");
-                });
-
-            modelBuilder.Entity("TestDemo.WholesaleInputs.WholesaleEclUploadApproval", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<long?>("CreatorUserId");
-
-                    b.Property<long?>("DeleterUserId");
-
-                    b.Property<DateTime?>("DeletionTime");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime");
-
-                    b.Property<long?>("LastModifierUserId");
-
-                    b.Property<string>("ReviewComment");
-
-                    b.Property<long?>("ReviewedByUserId");
-
-                    b.Property<DateTime?>("ReviewedDate");
-
-                    b.Property<int>("Status");
-
-                    b.Property<int?>("TenantId");
-
-                    b.Property<Guid>("WholesaleEclUploadId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReviewedByUserId");
-
-                    b.HasIndex("TenantId");
-
-                    b.HasIndex("WholesaleEclUploadId");
-
-                    b.ToTable("WholesaleEclUploadApprovals");
                 });
 
             modelBuilder.Entity("TestDemo.Editions.SubscribableEdition", b =>
@@ -2413,39 +2157,11 @@ namespace TestDemo.Migrations
                         .HasForeignKey("WholesaleEclId");
                 });
 
-            modelBuilder.Entity("TestDemo.WholesaleInputs.WholesaleEclDataLoanBook", b =>
-                {
-                    b.HasOne("TestDemo.WholesaleInputs.WholesaleEclUpload", "WholesaleEclUploadFk")
-                        .WithMany()
-                        .HasForeignKey("WholesaleEclUploadId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("TestDemo.WholesaleInputs.WholesaleEclDataPaymentSchedule", b =>
-                {
-                    b.HasOne("TestDemo.WholesaleInputs.WholesaleEclUpload", "WholesaleEclUploadFk")
-                        .WithMany()
-                        .HasForeignKey("WholesaleEclUploadId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("TestDemo.WholesaleInputs.WholesaleEclUpload", b =>
                 {
                     b.HasOne("TestDemo.Wholesale.WholesaleEcl", "WholesaleEclFk")
                         .WithMany()
                         .HasForeignKey("WholesaleEclId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("TestDemo.WholesaleInputs.WholesaleEclUploadApproval", b =>
-                {
-                    b.HasOne("TestDemo.Authorization.Users.User", "ReviewedByUserFk")
-                        .WithMany()
-                        .HasForeignKey("ReviewedByUserId");
-
-                    b.HasOne("TestDemo.WholesaleInputs.WholesaleEclUpload", "WholesaleEclUploadFk")
-                        .WithMany()
-                        .HasForeignKey("WholesaleEclUploadId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

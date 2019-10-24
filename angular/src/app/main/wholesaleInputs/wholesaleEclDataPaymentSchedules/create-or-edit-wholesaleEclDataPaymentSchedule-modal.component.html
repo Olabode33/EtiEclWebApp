@@ -1,0 +1,72 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #wholesaleEclDataPaymentScheduleForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="wholesaleEclDataPaymentSchedule.id">{{l("EditWholesaleEclDataPaymentSchedule")}}</span>
+                        <span *ngIf="!wholesaleEclDataPaymentSchedule.id">{{l("CreateNewWholesaleEclDataPaymentSchedule")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+					<div class="form-group m-form__group">
+                        <label for="WholesaleEclUploadUploadComment">{{l("WholesaleEclUpload")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="WholesaleEclUploadUploadComment" name="wholesaleEclUploadUploadComment" [(ngModel)]="wholesaleEclUploadUploadComment" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectWholesaleEclUploadModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger btn-icon" type="button" (click)="setWholesaleEclUploadIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="wholesaleEclDataPaymentSchedule.wholesaleEclUploadId" [(ngModel)]="wholesaleEclDataPaymentSchedule.wholesaleEclUploadId" type="text" required hidden>
+		 
+
+								<div class="form-group">
+									<label for="WholesaleEclDataPaymentSchedule_ContractRefNo">{{l("ContractRefNo")}}</label>
+									<input type="text" id="WholesaleEclDataPaymentSchedule_ContractRefNo" class="form-control" [(ngModel)]="wholesaleEclDataPaymentSchedule.contractRefNo" name="ContractRefNo"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataPaymentSchedule_StartDate">{{l("StartDate")}}</label>
+									 <input class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="startDate" id="WholesaleEclDataPaymentSchedule_StartDate" name="WholesaleEclDataPaymentSchedule_StartDate">
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataPaymentSchedule_Component">{{l("Component")}}</label>
+									<input type="text" id="WholesaleEclDataPaymentSchedule_Component" class="form-control" [(ngModel)]="wholesaleEclDataPaymentSchedule.component" name="Component"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataPaymentSchedule_NoOfSchedules">{{l("NoOfSchedules")}}</label>
+									<input type="number" id="WholesaleEclDataPaymentSchedule_NoOfSchedules" class="form-control" [(ngModel)]="wholesaleEclDataPaymentSchedule.noOfSchedules" name="NoOfSchedules"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataPaymentSchedule_Frequency">{{l("Frequency")}}</label>
+									<input type="text" id="WholesaleEclDataPaymentSchedule_Frequency" class="form-control" [(ngModel)]="wholesaleEclDataPaymentSchedule.frequency" name="Frequency"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclDataPaymentSchedule_Amount">{{l("Amount")}}</label>
+									<input type="number" id="WholesaleEclDataPaymentSchedule_Amount" class="form-control" [(ngModel)]="wholesaleEclDataPaymentSchedule.amount" name="Amount"  />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!wholesaleEclDataPaymentScheduleForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+<wholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableModal #wholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableModal (modalSave)="getNewWholesaleEclUploadId()"></wholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableModal>
+		 
+</div>

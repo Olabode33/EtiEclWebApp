@@ -1,0 +1,1237 @@
+<div [@routerTransition]>
+  
+    <div class="kt-subheader kt-grid__item">
+      
+        <div class="kt-subheader__main">
+            <h3 class="kt-subheader__title">
+                <span>{{l("WholesaleEclDataLoanBooks")}}</span>
+            </h3>
+            <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+            <span class="kt-subheader__desc">
+                {{l("WholesaleEclDataLoanBooksHeaderInfo")}}
+            </span>
+        </div>
+        <div class="kt-subheader__toolbar">
+            <div class="kt-subheader__wrapper">
+				<button *ngIf="isGranted('Pages.WholesaleEclDataLoanBooks.Create')" (click)="createWholesaleEclDataLoanBook()" 
+			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewWholesaleEclDataLoanBook")}}</button>
+            </div>
+        </div>
+      
+    </div>
+    <div class="kt-content">
+        <div class="kt-portlet kt-portlet--mobile">
+            <div class="kt-portlet__body">
+                <form class="kt-form" autocomplete="off">
+                    <div>
+                        <div class="row align-items-center">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getWholesaleEclDataLoanBooks()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="row" [hidden]="!advancedFiltersAreShown">
+						 	<div class="col-md-12">
+						         <div class="kt-separator kt-separator--border-dashed"></div>
+						     </div>
+
+
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="CustomerNoFilter">{{l("CustomerNo")}}</label>
+									<input type="text" class="form-control" id="CustomerNoFilter" name="customerNoFilter" [(ngModel)]="customerNoFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="AccountNoFilter">{{l("AccountNo")}}</label>
+									<input type="text" class="form-control" id="AccountNoFilter" name="accountNoFilter" [(ngModel)]="accountNoFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="ContractNoFilter">{{l("ContractNo")}}</label>
+									<input type="text" class="form-control" id="ContractNoFilter" name="contractNoFilter" [(ngModel)]="contractNoFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="CustomerNameFilter">{{l("CustomerName")}}</label>
+									<input type="text" class="form-control" id="CustomerNameFilter" name="customerNameFilter" [(ngModel)]="customerNameFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="CurrencyFilter">{{l("Currency")}}</label>
+									<input type="text" class="form-control" id="CurrencyFilter" name="currencyFilter" [(ngModel)]="currencyFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="ProductTypeFilter">{{l("ProductType")}}</label>
+									<input type="text" class="form-control" id="ProductTypeFilter" name="productTypeFilter" [(ngModel)]="productTypeFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="ProductMappingFilter">{{l("ProductMapping")}}</label>
+									<input type="text" class="form-control" id="ProductMappingFilter" name="productMappingFilter" [(ngModel)]="productMappingFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="SpecialisedLendingFilter">{{l("SpecialisedLending")}}</label>
+									<input type="text" class="form-control" id="SpecialisedLendingFilter" name="specialisedLendingFilter" [(ngModel)]="specialisedLendingFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="RatingModelFilter">{{l("RatingModel")}}</label>
+									<input type="text" class="form-control" id="RatingModelFilter" name="ratingModelFilter" [(ngModel)]="ratingModelFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinOriginalRatingFilter">{{l("MinMax")}} {{l("OriginalRating")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinOriginalRatingFilter" [(ngModel)]="minOriginalRatingFilter" placeholder="{{l('MinValue')}}" name="minOriginalRatingFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxOriginalRatingFilter" placeholder="{{l('MaxValue')}}" name="maxOriginalRatingFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinCurrentRatingFilter">{{l("MinMax")}} {{l("CurrentRating")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinCurrentRatingFilter" [(ngModel)]="minCurrentRatingFilter" placeholder="{{l('MinValue')}}" name="minCurrentRatingFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxCurrentRatingFilter" placeholder="{{l('MaxValue')}}" name="maxCurrentRatingFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinLifetimePDFilter">{{l("MinMax")}} {{l("LifetimePD")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinLifetimePDFilter" [(ngModel)]="minLifetimePDFilter" placeholder="{{l('MinValue')}}" name="minLifetimePDFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxLifetimePDFilter" placeholder="{{l('MaxValue')}}" name="maxLifetimePDFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinMonth12PDFilter">{{l("MinMax")}} {{l("Month12PD")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinMonth12PDFilter" [(ngModel)]="minMonth12PDFilter" placeholder="{{l('MinValue')}}" name="minMonth12PDFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxMonth12PDFilter" placeholder="{{l('MaxValue')}}" name="maxMonth12PDFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinDaysPastDueFilter">{{l("MinMax")}} {{l("DaysPastDue")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinDaysPastDueFilter" [(ngModel)]="minDaysPastDueFilter" placeholder="{{l('MinValue')}}" name="minDaysPastDueFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxDaysPastDueFilter" placeholder="{{l('MaxValue')}}" name="maxDaysPastDueFilter" />
+									</div>
+                                </div>
+                            </div>	
+							<div class="col-md-3">
+								<label for="WatchlistIndicatorFilterSelect">{{l("WatchlistIndicator")}}</label>
+								<select class="form-control" name="WatchlistIndicatorFilter" id="WatchlistIndicatorFilterSelect" [(ngModel)]="watchlistIndicatorFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="ClassificationFilter">{{l("Classification")}}</label>
+									<input type="text" class="form-control" id="ClassificationFilter" name="classificationFilter" [(ngModel)]="classificationFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label  for="MinImpairedDateFilter">{{l("ImpairedDateRange")}}</label>
+									<div class="input-group">
+                                        <input class="form-control m-input" id="MinImpairedDateFilter" name="MinImpairedDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MinValue')}}" [(ngModel)]="minImpairedDateFilter">
+			                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                                        <input class="form-control m-input" id="MaxImpairedDateFilter" name="MaxImpairedDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MaxValue')}}" [(ngModel)]="maxImpairedDateFilter">
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label  for="MinDefaultDateFilter">{{l("DefaultDateRange")}}</label>
+									<div class="input-group">
+                                        <input class="form-control m-input" id="MinDefaultDateFilter" name="MinDefaultDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MinValue')}}" [(ngModel)]="minDefaultDateFilter">
+			                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                                        <input class="form-control m-input" id="MaxDefaultDateFilter" name="MaxDefaultDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MaxValue')}}" [(ngModel)]="maxDefaultDateFilter">
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinCreditLimitFilter">{{l("MinMax")}} {{l("CreditLimit")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinCreditLimitFilter" [(ngModel)]="minCreditLimitFilter" placeholder="{{l('MinValue')}}" name="minCreditLimitFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxCreditLimitFilter" placeholder="{{l('MaxValue')}}" name="maxCreditLimitFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinOriginalBalanceLCYFilter">{{l("MinMax")}} {{l("OriginalBalanceLCY")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinOriginalBalanceLCYFilter" [(ngModel)]="minOriginalBalanceLCYFilter" placeholder="{{l('MinValue')}}" name="minOriginalBalanceLCYFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxOriginalBalanceLCYFilter" placeholder="{{l('MaxValue')}}" name="maxOriginalBalanceLCYFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinOutstandingBalanceLCYFilter">{{l("MinMax")}} {{l("OutstandingBalanceLCY")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinOutstandingBalanceLCYFilter" [(ngModel)]="minOutstandingBalanceLCYFilter" placeholder="{{l('MinValue')}}" name="minOutstandingBalanceLCYFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxOutstandingBalanceLCYFilter" placeholder="{{l('MaxValue')}}" name="maxOutstandingBalanceLCYFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinOutstandingBalanceACYFilter">{{l("MinMax")}} {{l("OutstandingBalanceACY")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinOutstandingBalanceACYFilter" [(ngModel)]="minOutstandingBalanceACYFilter" placeholder="{{l('MinValue')}}" name="minOutstandingBalanceACYFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxOutstandingBalanceACYFilter" placeholder="{{l('MaxValue')}}" name="maxOutstandingBalanceACYFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label  for="MinContractStartDateFilter">{{l("ContractStartDateRange")}}</label>
+									<div class="input-group">
+                                        <input class="form-control m-input" id="MinContractStartDateFilter" name="MinContractStartDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MinValue')}}" [(ngModel)]="minContractStartDateFilter">
+			                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                                        <input class="form-control m-input" id="MaxContractStartDateFilter" name="MaxContractStartDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MaxValue')}}" [(ngModel)]="maxContractStartDateFilter">
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label  for="MinContractEndDateFilter">{{l("ContractEndDateRange")}}</label>
+									<div class="input-group">
+                                        <input class="form-control m-input" id="MinContractEndDateFilter" name="MinContractEndDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MinValue')}}" [(ngModel)]="minContractEndDateFilter">
+			                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                                        <input class="form-control m-input" id="MaxContractEndDateFilter" name="MaxContractEndDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MaxValue')}}" [(ngModel)]="maxContractEndDateFilter">
+									</div>
+                                </div>
+                            </div>	
+							<div class="col-md-3">
+								<label for="RestructureIndicatorFilterSelect">{{l("RestructureIndicator")}}</label>
+								<select class="form-control" name="RestructureIndicatorFilter" id="RestructureIndicatorFilterSelect" [(ngModel)]="restructureIndicatorFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="RestructureRiskFilter">{{l("RestructureRisk")}}</label>
+									<input type="text" class="form-control" id="RestructureRiskFilter" name="restructureRiskFilter" [(ngModel)]="restructureRiskFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="RestructureTypeFilter">{{l("RestructureType")}}</label>
+									<input type="text" class="form-control" id="RestructureTypeFilter" name="restructureTypeFilter" [(ngModel)]="restructureTypeFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label  for="MinRestructureStartDateFilter">{{l("RestructureStartDateRange")}}</label>
+									<div class="input-group">
+                                        <input class="form-control m-input" id="MinRestructureStartDateFilter" name="MinRestructureStartDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MinValue')}}" [(ngModel)]="minRestructureStartDateFilter">
+			                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                                        <input class="form-control m-input" id="MaxRestructureStartDateFilter" name="MaxRestructureStartDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MaxValue')}}" [(ngModel)]="maxRestructureStartDateFilter">
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label  for="MinRestructureEndDateFilter">{{l("RestructureEndDateRange")}}</label>
+									<div class="input-group">
+                                        <input class="form-control m-input" id="MinRestructureEndDateFilter" name="MinRestructureEndDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MinValue')}}" [(ngModel)]="minRestructureEndDateFilter">
+			                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                                        <input class="form-control m-input" id="MaxRestructureEndDateFilter" name="MaxRestructureEndDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MaxValue')}}" [(ngModel)]="maxRestructureEndDateFilter">
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="PrincipalPaymentTermsOriginationFilter">{{l("PrincipalPaymentTermsOrigination")}}</label>
+									<input type="text" class="form-control" id="PrincipalPaymentTermsOriginationFilter" name="principalPaymentTermsOriginationFilter" [(ngModel)]="principalPaymentTermsOriginationFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinPPTOPeriodFilter">{{l("MinMax")}} {{l("PPTOPeriod")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinPPTOPeriodFilter" [(ngModel)]="minPPTOPeriodFilter" placeholder="{{l('MinValue')}}" name="minPPTOPeriodFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxPPTOPeriodFilter" placeholder="{{l('MaxValue')}}" name="maxPPTOPeriodFilter" />
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="InterestPaymentTermsOriginationFilter">{{l("InterestPaymentTermsOrigination")}}</label>
+									<input type="text" class="form-control" id="InterestPaymentTermsOriginationFilter" name="interestPaymentTermsOriginationFilter" [(ngModel)]="interestPaymentTermsOriginationFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinIPTOPeriodFilter">{{l("MinMax")}} {{l("IPTOPeriod")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinIPTOPeriodFilter" [(ngModel)]="minIPTOPeriodFilter" placeholder="{{l('MinValue')}}" name="minIPTOPeriodFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxIPTOPeriodFilter" placeholder="{{l('MaxValue')}}" name="maxIPTOPeriodFilter" />
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="PrincipalPaymentStructureFilter">{{l("PrincipalPaymentStructure")}}</label>
+									<input type="text" class="form-control" id="PrincipalPaymentStructureFilter" name="principalPaymentStructureFilter" [(ngModel)]="principalPaymentStructureFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="InterestPaymentStructureFilter">{{l("InterestPaymentStructure")}}</label>
+									<input type="text" class="form-control" id="InterestPaymentStructureFilter" name="interestPaymentStructureFilter" [(ngModel)]="interestPaymentStructureFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="InterestRateTypeFilter">{{l("InterestRateType")}}</label>
+									<input type="text" class="form-control" id="InterestRateTypeFilter" name="interestRateTypeFilter" [(ngModel)]="interestRateTypeFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="BaseRateFilter">{{l("BaseRate")}}</label>
+									<input type="text" class="form-control" id="BaseRateFilter" name="baseRateFilter" [(ngModel)]="baseRateFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="OriginationContractualInterestRateFilter">{{l("OriginationContractualInterestRate")}}</label>
+									<input type="text" class="form-control" id="OriginationContractualInterestRateFilter" name="originationContractualInterestRateFilter" [(ngModel)]="originationContractualInterestRateFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinIntroductoryPeriodFilter">{{l("MinMax")}} {{l("IntroductoryPeriod")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinIntroductoryPeriodFilter" [(ngModel)]="minIntroductoryPeriodFilter" placeholder="{{l('MinValue')}}" name="minIntroductoryPeriodFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxIntroductoryPeriodFilter" placeholder="{{l('MaxValue')}}" name="maxIntroductoryPeriodFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinPostIPContractualInterestRateFilter">{{l("MinMax")}} {{l("PostIPContractualInterestRate")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinPostIPContractualInterestRateFilter" [(ngModel)]="minPostIPContractualInterestRateFilter" placeholder="{{l('MinValue')}}" name="minPostIPContractualInterestRateFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxPostIPContractualInterestRateFilter" placeholder="{{l('MaxValue')}}" name="maxPostIPContractualInterestRateFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinCurrentContractualInterestRateFilter">{{l("MinMax")}} {{l("CurrentContractualInterestRate")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinCurrentContractualInterestRateFilter" [(ngModel)]="minCurrentContractualInterestRateFilter" placeholder="{{l('MinValue')}}" name="minCurrentContractualInterestRateFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxCurrentContractualInterestRateFilter" placeholder="{{l('MaxValue')}}" name="maxCurrentContractualInterestRateFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinEIRFilter">{{l("MinMax")}} {{l("EIR")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinEIRFilter" [(ngModel)]="minEIRFilter" placeholder="{{l('MinValue')}}" name="minEIRFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxEIRFilter" placeholder="{{l('MaxValue')}}" name="maxEIRFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinDebentureOMVFilter">{{l("MinMax")}} {{l("DebentureOMV")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinDebentureOMVFilter" [(ngModel)]="minDebentureOMVFilter" placeholder="{{l('MinValue')}}" name="minDebentureOMVFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxDebentureOMVFilter" placeholder="{{l('MaxValue')}}" name="maxDebentureOMVFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinDebentureFSVFilter">{{l("MinMax")}} {{l("DebentureFSV")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinDebentureFSVFilter" [(ngModel)]="minDebentureFSVFilter" placeholder="{{l('MinValue')}}" name="minDebentureFSVFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxDebentureFSVFilter" placeholder="{{l('MaxValue')}}" name="maxDebentureFSVFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinCashOMVFilter">{{l("MinMax")}} {{l("CashOMV")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinCashOMVFilter" [(ngModel)]="minCashOMVFilter" placeholder="{{l('MinValue')}}" name="minCashOMVFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxCashOMVFilter" placeholder="{{l('MaxValue')}}" name="maxCashOMVFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinCashFSVFilter">{{l("MinMax")}} {{l("CashFSV")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinCashFSVFilter" [(ngModel)]="minCashFSVFilter" placeholder="{{l('MinValue')}}" name="minCashFSVFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxCashFSVFilter" placeholder="{{l('MaxValue')}}" name="maxCashFSVFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinInventoryOMVFilter">{{l("MinMax")}} {{l("InventoryOMV")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinInventoryOMVFilter" [(ngModel)]="minInventoryOMVFilter" placeholder="{{l('MinValue')}}" name="minInventoryOMVFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxInventoryOMVFilter" placeholder="{{l('MaxValue')}}" name="maxInventoryOMVFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinInventoryFSVFilter">{{l("MinMax")}} {{l("InventoryFSV")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinInventoryFSVFilter" [(ngModel)]="minInventoryFSVFilter" placeholder="{{l('MinValue')}}" name="minInventoryFSVFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxInventoryFSVFilter" placeholder="{{l('MaxValue')}}" name="maxInventoryFSVFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinPlantEquipmentOMVFilter">{{l("MinMax")}} {{l("PlantEquipmentOMV")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinPlantEquipmentOMVFilter" [(ngModel)]="minPlantEquipmentOMVFilter" placeholder="{{l('MinValue')}}" name="minPlantEquipmentOMVFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxPlantEquipmentOMVFilter" placeholder="{{l('MaxValue')}}" name="maxPlantEquipmentOMVFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinPlantEquipmentFSVFilter">{{l("MinMax")}} {{l("PlantEquipmentFSV")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinPlantEquipmentFSVFilter" [(ngModel)]="minPlantEquipmentFSVFilter" placeholder="{{l('MinValue')}}" name="minPlantEquipmentFSVFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxPlantEquipmentFSVFilter" placeholder="{{l('MaxValue')}}" name="maxPlantEquipmentFSVFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinResidentialPropertyOMVFilter">{{l("MinMax")}} {{l("ResidentialPropertyOMV")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinResidentialPropertyOMVFilter" [(ngModel)]="minResidentialPropertyOMVFilter" placeholder="{{l('MinValue')}}" name="minResidentialPropertyOMVFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxResidentialPropertyOMVFilter" placeholder="{{l('MaxValue')}}" name="maxResidentialPropertyOMVFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinResidentialPropertyFSVFilter">{{l("MinMax")}} {{l("ResidentialPropertyFSV")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinResidentialPropertyFSVFilter" [(ngModel)]="minResidentialPropertyFSVFilter" placeholder="{{l('MinValue')}}" name="minResidentialPropertyFSVFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxResidentialPropertyFSVFilter" placeholder="{{l('MaxValue')}}" name="maxResidentialPropertyFSVFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinCommercialPropertyOMVFilter">{{l("MinMax")}} {{l("CommercialPropertyOMV")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinCommercialPropertyOMVFilter" [(ngModel)]="minCommercialPropertyOMVFilter" placeholder="{{l('MinValue')}}" name="minCommercialPropertyOMVFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxCommercialPropertyOMVFilter" placeholder="{{l('MaxValue')}}" name="maxCommercialPropertyOMVFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinCommercialPropertyFilter">{{l("MinMax")}} {{l("CommercialProperty")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinCommercialPropertyFilter" [(ngModel)]="minCommercialPropertyFilter" placeholder="{{l('MinValue')}}" name="minCommercialPropertyFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxCommercialPropertyFilter" placeholder="{{l('MaxValue')}}" name="maxCommercialPropertyFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinReceivablesOMVFilter">{{l("MinMax")}} {{l("ReceivablesOMV")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinReceivablesOMVFilter" [(ngModel)]="minReceivablesOMVFilter" placeholder="{{l('MinValue')}}" name="minReceivablesOMVFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxReceivablesOMVFilter" placeholder="{{l('MaxValue')}}" name="maxReceivablesOMVFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinReceivablesFSVFilter">{{l("MinMax")}} {{l("ReceivablesFSV")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinReceivablesFSVFilter" [(ngModel)]="minReceivablesFSVFilter" placeholder="{{l('MinValue')}}" name="minReceivablesFSVFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxReceivablesFSVFilter" placeholder="{{l('MaxValue')}}" name="maxReceivablesFSVFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinSharesOMVFilter">{{l("MinMax")}} {{l("SharesOMV")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinSharesOMVFilter" [(ngModel)]="minSharesOMVFilter" placeholder="{{l('MinValue')}}" name="minSharesOMVFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxSharesOMVFilter" placeholder="{{l('MaxValue')}}" name="maxSharesOMVFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinSharesFSVFilter">{{l("MinMax")}} {{l("SharesFSV")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinSharesFSVFilter" [(ngModel)]="minSharesFSVFilter" placeholder="{{l('MinValue')}}" name="minSharesFSVFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxSharesFSVFilter" placeholder="{{l('MaxValue')}}" name="maxSharesFSVFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinVehicleOMVFilter">{{l("MinMax")}} {{l("VehicleOMV")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinVehicleOMVFilter" [(ngModel)]="minVehicleOMVFilter" placeholder="{{l('MinValue')}}" name="minVehicleOMVFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxVehicleOMVFilter" placeholder="{{l('MaxValue')}}" name="maxVehicleOMVFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinVehicleFSVFilter">{{l("MinMax")}} {{l("VehicleFSV")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinVehicleFSVFilter" [(ngModel)]="minVehicleFSVFilter" placeholder="{{l('MinValue')}}" name="minVehicleFSVFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxVehicleFSVFilter" placeholder="{{l('MaxValue')}}" name="maxVehicleFSVFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinCureRateFilter">{{l("MinMax")}} {{l("CureRate")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinCureRateFilter" [(ngModel)]="minCureRateFilter" placeholder="{{l('MinValue')}}" name="minCureRateFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxCureRateFilter" placeholder="{{l('MaxValue')}}" name="maxCureRateFilter" />
+									</div>
+                                </div>
+                            </div>	
+							<div class="col-md-3">
+								<label for="GuaranteeIndicatorFilterSelect">{{l("GuaranteeIndicator")}}</label>
+								<select class="form-control" name="GuaranteeIndicatorFilter" id="GuaranteeIndicatorFilterSelect" [(ngModel)]="guaranteeIndicatorFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="GuarantorPDFilter">{{l("GuarantorPD")}}</label>
+									<input type="text" class="form-control" id="GuarantorPDFilter" name="guarantorPDFilter" [(ngModel)]="guarantorPDFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="GuarantorLGDFilter">{{l("GuarantorLGD")}}</label>
+									<input type="text" class="form-control" id="GuarantorLGDFilter" name="guarantorLGDFilter" [(ngModel)]="guarantorLGDFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinGuaranteeValueFilter">{{l("MinMax")}} {{l("GuaranteeValue")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinGuaranteeValueFilter" [(ngModel)]="minGuaranteeValueFilter" placeholder="{{l('MinValue')}}" name="minGuaranteeValueFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxGuaranteeValueFilter" placeholder="{{l('MaxValue')}}" name="maxGuaranteeValueFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinGuaranteeLevelFilter">{{l("MinMax")}} {{l("GuaranteeLevel")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinGuaranteeLevelFilter" [(ngModel)]="minGuaranteeLevelFilter" placeholder="{{l('MinValue')}}" name="minGuaranteeLevelFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxGuaranteeLevelFilter" placeholder="{{l('MaxValue')}}" name="maxGuaranteeLevelFilter" />
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="ContractIdFilter">{{l("ContractId")}}</label>
+									<input type="text" class="form-control" id="ContractIdFilter" name="contractIdFilter" [(ngModel)]="contractIdFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="WholesaleEclUploadUploadCommentFilter">({{l("WholesaleEclUpload")}}) {{l("UploadComment")}}</label>
+									<input type="text" class="form-control" id="WholesaleEclUploadUploadCommentFilter" name="wholesaleEclUploadUploadCommentFilter" [(ngModel)]="wholesaleEclUploadUploadCommentFilter">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container col-12"
+                         [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable
+                                     (onLazyLoad)="getWholesaleEclDataLoanBooks($event)"
+                                     [value]="primengTableHelper.records"
+                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     [paginator]="false"
+                                     [lazy]="true"
+                                     [scrollable]="true"
+                                     ScrollWidth="100%"
+                                     [responsive]="primengTableHelper.isResponsive"
+                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.WholesaleEclDataLoanBooks.Edit', 'Pages.WholesaleEclDataLoanBooks.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="wholesaleEclUploadFk.uploadComment">
+                                        {{l('UploadComment')}}
+                                        <p-sortIcon field="wholesaleEclUploadUploadComment"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="customerNo">
+                                        {{l('CustomerNo')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.customerNo"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="accountNo">
+                                        {{l('AccountNo')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.accountNo"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="contractNo">
+                                        {{l('ContractNo')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.contractNo"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="customerName">
+                                        {{l('CustomerName')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.customerName"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="currency">
+                                        {{l('Currency')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.currency"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="productType">
+                                        {{l('ProductType')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.productType"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="productMapping">
+                                        {{l('ProductMapping')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.productMapping"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="specialisedLending">
+                                        {{l('SpecialisedLending')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.specialisedLending"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="ratingModel">
+                                        {{l('RatingModel')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.ratingModel"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="originalRating">
+                                        {{l('OriginalRating')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.originalRating"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="currentRating">
+                                        {{l('CurrentRating')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.currentRating"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="lifetimePD">
+                                        {{l('LifetimePD')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.lifetimePD"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="month12PD">
+                                        {{l('Month12PD')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.month12PD"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="daysPastDue">
+                                        {{l('DaysPastDue')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.daysPastDue"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="watchlistIndicator">
+                                        {{l('WatchlistIndicator')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.watchlistIndicator"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="classification">
+                                        {{l('Classification')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.classification"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="impairedDate">
+                                        {{l('ImpairedDate')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.impairedDate"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="defaultDate">
+                                        {{l('DefaultDate')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.defaultDate"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="creditLimit">
+                                        {{l('CreditLimit')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.creditLimit"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="originalBalanceLCY">
+                                        {{l('OriginalBalanceLCY')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.originalBalanceLCY"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="outstandingBalanceLCY">
+                                        {{l('OutstandingBalanceLCY')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.outstandingBalanceLCY"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="outstandingBalanceACY">
+                                        {{l('OutstandingBalanceACY')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.outstandingBalanceACY"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="contractStartDate">
+                                        {{l('ContractStartDate')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.contractStartDate"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="contractEndDate">
+                                        {{l('ContractEndDate')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.contractEndDate"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="restructureIndicator">
+                                        {{l('RestructureIndicator')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.restructureIndicator"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="restructureRisk">
+                                        {{l('RestructureRisk')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.restructureRisk"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="restructureType">
+                                        {{l('RestructureType')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.restructureType"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="restructureStartDate">
+                                        {{l('RestructureStartDate')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.restructureStartDate"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="restructureEndDate">
+                                        {{l('RestructureEndDate')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.restructureEndDate"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="principalPaymentTermsOrigination">
+                                        {{l('PrincipalPaymentTermsOrigination')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.principalPaymentTermsOrigination"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="pptoPeriod">
+                                        {{l('PPTOPeriod')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.pptoPeriod"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="interestPaymentTermsOrigination">
+                                        {{l('InterestPaymentTermsOrigination')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.interestPaymentTermsOrigination"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="iptoPeriod">
+                                        {{l('IPTOPeriod')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.iptoPeriod"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="principalPaymentStructure">
+                                        {{l('PrincipalPaymentStructure')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.principalPaymentStructure"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="interestPaymentStructure">
+                                        {{l('InterestPaymentStructure')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.interestPaymentStructure"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="interestRateType">
+                                        {{l('InterestRateType')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.interestRateType"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="baseRate">
+                                        {{l('BaseRate')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.baseRate"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="originationContractualInterestRate">
+                                        {{l('OriginationContractualInterestRate')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.originationContractualInterestRate"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="introductoryPeriod">
+                                        {{l('IntroductoryPeriod')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.introductoryPeriod"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="postIPContractualInterestRate">
+                                        {{l('PostIPContractualInterestRate')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.postIPContractualInterestRate"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="currentContractualInterestRate">
+                                        {{l('CurrentContractualInterestRate')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.currentContractualInterestRate"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="eir">
+                                        {{l('EIR')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.eir"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="debentureOMV">
+                                        {{l('DebentureOMV')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.debentureOMV"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="debentureFSV">
+                                        {{l('DebentureFSV')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.debentureFSV"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="cashOMV">
+                                        {{l('CashOMV')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.cashOMV"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="cashFSV">
+                                        {{l('CashFSV')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.cashFSV"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="inventoryOMV">
+                                        {{l('InventoryOMV')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.inventoryOMV"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="inventoryFSV">
+                                        {{l('InventoryFSV')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.inventoryFSV"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="plantEquipmentOMV">
+                                        {{l('PlantEquipmentOMV')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.plantEquipmentOMV"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="plantEquipmentFSV">
+                                        {{l('PlantEquipmentFSV')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.plantEquipmentFSV"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="residentialPropertyOMV">
+                                        {{l('ResidentialPropertyOMV')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.residentialPropertyOMV"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="residentialPropertyFSV">
+                                        {{l('ResidentialPropertyFSV')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.residentialPropertyFSV"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="commercialPropertyOMV">
+                                        {{l('CommercialPropertyOMV')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.commercialPropertyOMV"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="commercialProperty">
+                                        {{l('CommercialProperty')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.commercialProperty"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="receivablesOMV">
+                                        {{l('ReceivablesOMV')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.receivablesOMV"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="receivablesFSV">
+                                        {{l('ReceivablesFSV')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.receivablesFSV"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="sharesOMV">
+                                        {{l('SharesOMV')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.sharesOMV"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="sharesFSV">
+                                        {{l('SharesFSV')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.sharesFSV"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="vehicleOMV">
+                                        {{l('VehicleOMV')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.vehicleOMV"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="vehicleFSV">
+                                        {{l('VehicleFSV')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.vehicleFSV"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="cureRate">
+                                        {{l('CureRate')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.cureRate"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="guaranteeIndicator">
+                                        {{l('GuaranteeIndicator')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.guaranteeIndicator"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="guarantorPD">
+                                        {{l('GuarantorPD')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.guarantorPD"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="guarantorLGD">
+                                        {{l('GuarantorLGD')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.guarantorLGD"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="guaranteeValue">
+                                        {{l('GuaranteeValue')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.guaranteeValue"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="guaranteeLevel">
+                                        {{l('GuaranteeLevel')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.guaranteeLevel"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="contractId">
+                                        {{l('ContractId')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBook.contractId"></p-sortIcon>
+                                    </th>
+
+                                </tr>
+                            </ng-template>                           
+							<ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.WholesaleEclDataLoanBooks.Edit', 'Pages.WholesaleEclDataLoanBooks.Delete')">
+                                       <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+												<ul class="dropdown-menu"  *dropdownMenu>
+
+												<li>
+													<a href="javascript:;" *ngIf="permission.isGranted('Pages.WholesaleEclDataLoanBooks.Edit')"
+														(click)="createOrEditWholesaleEclDataLoanBookModal.show(record.wholesaleEclDataLoanBook.id)">{{l('Edit')}}</a>
+												</li>
+												<li>
+											        <a href="javascript:;" *ngIf="permission.isGranted('Pages.WholesaleEclDataLoanBooks.Delete')"
+														(click)="deleteWholesaleEclDataLoanBook(record.wholesaleEclDataLoanBook)">{{l('Delete')}}</a>
+												</li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:150px">
+												<span class="ui-column-title"> {{l('UploadComment')}}</span>
+												{{record.wholesaleEclUploadUploadComment}}
+											</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('CustomerNo')}}</span>
+											{{record.wholesaleEclDataLoanBook.customerNo}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('AccountNo')}}</span>
+											{{record.wholesaleEclDataLoanBook.accountNo}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('ContractNo')}}</span>
+											{{record.wholesaleEclDataLoanBook.contractNo}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('CustomerName')}}</span>
+											{{record.wholesaleEclDataLoanBook.customerName}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Currency')}}</span>
+											{{record.wholesaleEclDataLoanBook.currency}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('ProductType')}}</span>
+											{{record.wholesaleEclDataLoanBook.productType}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('ProductMapping')}}</span>
+											{{record.wholesaleEclDataLoanBook.productMapping}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('SpecialisedLending')}}</span>
+											{{record.wholesaleEclDataLoanBook.specialisedLending}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('RatingModel')}}</span>
+											{{record.wholesaleEclDataLoanBook.ratingModel}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('OriginalRating')}}</span>
+											{{record.wholesaleEclDataLoanBook.originalRating}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('CurrentRating')}}</span>
+											{{record.wholesaleEclDataLoanBook.currentRating}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('LifetimePD')}}</span>
+											{{record.wholesaleEclDataLoanBook.lifetimePD}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Month12PD')}}</span>
+											{{record.wholesaleEclDataLoanBook.month12PD}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('DaysPastDue')}}</span>
+											{{record.wholesaleEclDataLoanBook.daysPastDue}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('WatchlistIndicator')}}</span>
+                                        <div *ngIf="record.wholesaleEclDataLoanBook.watchlistIndicator" class="text-center"><i class="fa fa-check-circle kt--font-success" title="True"></i></div>
+										<div *ngIf="!record.wholesaleEclDataLoanBook.watchlistIndicator" class="text-center"><i class="fa fa-times-circle" title="False"></i></div>
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Classification')}}</span>
+											{{record.wholesaleEclDataLoanBook.classification}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('ImpairedDate')}}</span>
+                                        <span *ngIf="record.wholesaleEclDataLoanBook.impairedDate">
+											{{record.wholesaleEclDataLoanBook.impairedDate | momentFormat:'L'}}
+                                        </span>
+                                        <span *ngIf="!record.wholesaleEclDataLoanBook.impairedDate">-</span>
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('DefaultDate')}}</span>
+                                        <span *ngIf="record.wholesaleEclDataLoanBook.defaultDate">
+											{{record.wholesaleEclDataLoanBook.defaultDate | momentFormat:'L'}}
+                                        </span>
+                                        <span *ngIf="!record.wholesaleEclDataLoanBook.defaultDate">-</span>
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('CreditLimit')}}</span>
+											{{record.wholesaleEclDataLoanBook.creditLimit}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('OriginalBalanceLCY')}}</span>
+											{{record.wholesaleEclDataLoanBook.originalBalanceLCY}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('OutstandingBalanceLCY')}}</span>
+											{{record.wholesaleEclDataLoanBook.outstandingBalanceLCY}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('OutstandingBalanceACY')}}</span>
+											{{record.wholesaleEclDataLoanBook.outstandingBalanceACY}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('ContractStartDate')}}</span>
+                                        <span *ngIf="record.wholesaleEclDataLoanBook.contractStartDate">
+											{{record.wholesaleEclDataLoanBook.contractStartDate | momentFormat:'L'}}
+                                        </span>
+                                        <span *ngIf="!record.wholesaleEclDataLoanBook.contractStartDate">-</span>
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('ContractEndDate')}}</span>
+                                        <span *ngIf="record.wholesaleEclDataLoanBook.contractEndDate">
+											{{record.wholesaleEclDataLoanBook.contractEndDate | momentFormat:'L'}}
+                                        </span>
+                                        <span *ngIf="!record.wholesaleEclDataLoanBook.contractEndDate">-</span>
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('RestructureIndicator')}}</span>
+                                        <div *ngIf="record.wholesaleEclDataLoanBook.restructureIndicator" class="text-center"><i class="fa fa-check-circle kt--font-success" title="True"></i></div>
+										<div *ngIf="!record.wholesaleEclDataLoanBook.restructureIndicator" class="text-center"><i class="fa fa-times-circle" title="False"></i></div>
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('RestructureRisk')}}</span>
+											{{record.wholesaleEclDataLoanBook.restructureRisk}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('RestructureType')}}</span>
+											{{record.wholesaleEclDataLoanBook.restructureType}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('RestructureStartDate')}}</span>
+                                        <span *ngIf="record.wholesaleEclDataLoanBook.restructureStartDate">
+											{{record.wholesaleEclDataLoanBook.restructureStartDate | momentFormat:'L'}}
+                                        </span>
+                                        <span *ngIf="!record.wholesaleEclDataLoanBook.restructureStartDate">-</span>
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('RestructureEndDate')}}</span>
+                                        <span *ngIf="record.wholesaleEclDataLoanBook.restructureEndDate">
+											{{record.wholesaleEclDataLoanBook.restructureEndDate | momentFormat:'L'}}
+                                        </span>
+                                        <span *ngIf="!record.wholesaleEclDataLoanBook.restructureEndDate">-</span>
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('PrincipalPaymentTermsOrigination')}}</span>
+											{{record.wholesaleEclDataLoanBook.principalPaymentTermsOrigination}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('PPTOPeriod')}}</span>
+											{{record.wholesaleEclDataLoanBook.pptoPeriod}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('InterestPaymentTermsOrigination')}}</span>
+											{{record.wholesaleEclDataLoanBook.interestPaymentTermsOrigination}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('IPTOPeriod')}}</span>
+											{{record.wholesaleEclDataLoanBook.iptoPeriod}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('PrincipalPaymentStructure')}}</span>
+											{{record.wholesaleEclDataLoanBook.principalPaymentStructure}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('InterestPaymentStructure')}}</span>
+											{{record.wholesaleEclDataLoanBook.interestPaymentStructure}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('InterestRateType')}}</span>
+											{{record.wholesaleEclDataLoanBook.interestRateType}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('BaseRate')}}</span>
+											{{record.wholesaleEclDataLoanBook.baseRate}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('OriginationContractualInterestRate')}}</span>
+											{{record.wholesaleEclDataLoanBook.originationContractualInterestRate}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('IntroductoryPeriod')}}</span>
+											{{record.wholesaleEclDataLoanBook.introductoryPeriod}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('PostIPContractualInterestRate')}}</span>
+											{{record.wholesaleEclDataLoanBook.postIPContractualInterestRate}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('CurrentContractualInterestRate')}}</span>
+											{{record.wholesaleEclDataLoanBook.currentContractualInterestRate}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('EIR')}}</span>
+											{{record.wholesaleEclDataLoanBook.eir}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('DebentureOMV')}}</span>
+											{{record.wholesaleEclDataLoanBook.debentureOMV}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('DebentureFSV')}}</span>
+											{{record.wholesaleEclDataLoanBook.debentureFSV}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('CashOMV')}}</span>
+											{{record.wholesaleEclDataLoanBook.cashOMV}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('CashFSV')}}</span>
+											{{record.wholesaleEclDataLoanBook.cashFSV}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('InventoryOMV')}}</span>
+											{{record.wholesaleEclDataLoanBook.inventoryOMV}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('InventoryFSV')}}</span>
+											{{record.wholesaleEclDataLoanBook.inventoryFSV}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('PlantEquipmentOMV')}}</span>
+											{{record.wholesaleEclDataLoanBook.plantEquipmentOMV}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('PlantEquipmentFSV')}}</span>
+											{{record.wholesaleEclDataLoanBook.plantEquipmentFSV}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('ResidentialPropertyOMV')}}</span>
+											{{record.wholesaleEclDataLoanBook.residentialPropertyOMV}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('ResidentialPropertyFSV')}}</span>
+											{{record.wholesaleEclDataLoanBook.residentialPropertyFSV}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('CommercialPropertyOMV')}}</span>
+											{{record.wholesaleEclDataLoanBook.commercialPropertyOMV}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('CommercialProperty')}}</span>
+											{{record.wholesaleEclDataLoanBook.commercialProperty}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('ReceivablesOMV')}}</span>
+											{{record.wholesaleEclDataLoanBook.receivablesOMV}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('ReceivablesFSV')}}</span>
+											{{record.wholesaleEclDataLoanBook.receivablesFSV}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('SharesOMV')}}</span>
+											{{record.wholesaleEclDataLoanBook.sharesOMV}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('SharesFSV')}}</span>
+											{{record.wholesaleEclDataLoanBook.sharesFSV}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('VehicleOMV')}}</span>
+											{{record.wholesaleEclDataLoanBook.vehicleOMV}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('VehicleFSV')}}</span>
+											{{record.wholesaleEclDataLoanBook.vehicleFSV}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('CureRate')}}</span>
+											{{record.wholesaleEclDataLoanBook.cureRate}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('GuaranteeIndicator')}}</span>
+                                        <div *ngIf="record.wholesaleEclDataLoanBook.guaranteeIndicator" class="text-center"><i class="fa fa-check-circle kt--font-success" title="True"></i></div>
+										<div *ngIf="!record.wholesaleEclDataLoanBook.guaranteeIndicator" class="text-center"><i class="fa fa-times-circle" title="False"></i></div>
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('GuarantorPD')}}</span>
+											{{record.wholesaleEclDataLoanBook.guarantorPD}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('GuarantorLGD')}}</span>
+											{{record.wholesaleEclDataLoanBook.guarantorLGD}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('GuaranteeValue')}}</span>
+											{{record.wholesaleEclDataLoanBook.guaranteeValue}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('GuaranteeLevel')}}</span>
+											{{record.wholesaleEclDataLoanBook.guaranteeLevel}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('ContractId')}}</span>
+											{{record.wholesaleEclDataLoanBook.contractId}}
+										</td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                                         #paginator
+                                         (onPageChange)="getWholesaleEclDataLoanBooks($event)"
+                                         [totalRecords]="primengTableHelper.totalRecordsCount"
+                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditWholesaleEclDataLoanBookModal #createOrEditWholesaleEclDataLoanBookModal (modalSave)="getWholesaleEclDataLoanBooks()"></createOrEditWholesaleEclDataLoanBookModal>
+    
+    
+  
+</div>

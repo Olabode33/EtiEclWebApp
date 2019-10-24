@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestDemo.EntityFrameworkCore;
 
 namespace TestDemo.Migrations
 {
     [DbContext(typeof(TestDemoDbContext))]
-    partial class TestDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191024134712_Added_WholesaleEclDataLoanBook")]
+    partial class Added_WholesaleEclDataLoanBook
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2016,50 +2018,6 @@ namespace TestDemo.Migrations
                     b.ToTable("WholesaleEclDataLoanBooks");
                 });
 
-            modelBuilder.Entity("TestDemo.WholesaleInputs.WholesaleEclDataPaymentSchedule", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<double?>("Amount");
-
-                    b.Property<string>("Component");
-
-                    b.Property<string>("ContractRefNo");
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<long?>("CreatorUserId");
-
-                    b.Property<long?>("DeleterUserId");
-
-                    b.Property<DateTime?>("DeletionTime");
-
-                    b.Property<string>("Frequency");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime");
-
-                    b.Property<long?>("LastModifierUserId");
-
-                    b.Property<int?>("NoOfSchedules");
-
-                    b.Property<DateTime?>("StartDate");
-
-                    b.Property<int?>("TenantId");
-
-                    b.Property<Guid>("WholesaleEclUploadId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TenantId");
-
-                    b.HasIndex("WholesaleEclUploadId");
-
-                    b.ToTable("WholesaleEclDataPaymentSchedules");
-                });
-
             modelBuilder.Entity("TestDemo.WholesaleInputs.WholesaleEclUpload", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2414,14 +2372,6 @@ namespace TestDemo.Migrations
                 });
 
             modelBuilder.Entity("TestDemo.WholesaleInputs.WholesaleEclDataLoanBook", b =>
-                {
-                    b.HasOne("TestDemo.WholesaleInputs.WholesaleEclUpload", "WholesaleEclUploadFk")
-                        .WithMany()
-                        .HasForeignKey("WholesaleEclUploadId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("TestDemo.WholesaleInputs.WholesaleEclDataPaymentSchedule", b =>
                 {
                     b.HasOne("TestDemo.WholesaleInputs.WholesaleEclUpload", "WholesaleEclUploadFk")
                         .WithMany()

@@ -1,0 +1,75 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #wholesaleEclUploadForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="wholesaleEclUpload.id">{{l("EditWholesaleEclUpload")}}</span>
+                        <span *ngIf="!wholesaleEclUpload.id">{{l("CreateNewWholesaleEclUpload")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+					<div class="form-group m-form__group">
+                        <label for="WholesaleEclTenantId">{{l("WholesaleEcl")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="WholesaleEclTenantId" name="wholesaleEclTenantId" [(ngModel)]="wholesaleEclTenantId" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectWholesaleEclModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger btn-icon" type="button" (click)="setWholesaleEclIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="wholesaleEclUpload.wholesaleEclId" [(ngModel)]="wholesaleEclUpload.wholesaleEclId" type="text" required hidden>
+		 
+
+								<div class="form-group">
+									<label for="WholesaleEclUpload_DocType">{{l("DocType")}}</label>
+									<select class="form-control" name="DocType" id="WholesaleEclUpload_DocType" [(ngModel)]="wholesaleEclUpload.docType">
+									<option value="0">{{l('General')}}</option>
+
+									<option value="1">{{l('LoanBook')}}</option>
+
+									<option value="2">{{l('PaymentSchedule')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclUpload_UploadComment">{{l("UploadComment")}}</label>
+									<input type="text" id="WholesaleEclUpload_UploadComment" class="form-control" [(ngModel)]="wholesaleEclUpload.uploadComment" name="UploadComment"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclUpload_Status">{{l("Status")}}</label>
+									<select class="form-control" name="Status" id="WholesaleEclUpload_Status" [(ngModel)]="wholesaleEclUpload.status">
+									<option value="0">{{l('Draft')}}</option>
+
+									<option value="1">{{l('Submitted')}}</option>
+
+									<option value="2">{{l('Approved')}}</option>
+
+									<option value="3">{{l('Rejected')}}</option>
+
+
+									</select>
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!wholesaleEclUploadForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+<wholesaleEclUploadWholesaleEclLookupTableModal #wholesaleEclUploadWholesaleEclLookupTableModal (modalSave)="getNewWholesaleEclId()"></wholesaleEclUploadWholesaleEclLookupTableModal>
+		 
+</div>

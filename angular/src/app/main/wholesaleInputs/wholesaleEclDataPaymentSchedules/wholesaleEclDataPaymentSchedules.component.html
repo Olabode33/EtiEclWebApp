@@ -1,0 +1,237 @@
+<div [@routerTransition]>
+  
+    <div class="kt-subheader kt-grid__item">
+      
+        <div class="kt-subheader__main">
+            <h3 class="kt-subheader__title">
+                <span>{{l("WholesaleEclDataPaymentSchedules")}}</span>
+            </h3>
+            <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+            <span class="kt-subheader__desc">
+                {{l("WholesaleEclDataPaymentSchedulesHeaderInfo")}}
+            </span>
+        </div>
+        <div class="kt-subheader__toolbar">
+            <div class="kt-subheader__wrapper">
+				<button *ngIf="isGranted('Pages.WholesaleEclDataPaymentSchedules.Create')" (click)="createWholesaleEclDataPaymentSchedule()" 
+			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewWholesaleEclDataPaymentSchedule")}}</button>
+            </div>
+        </div>
+      
+    </div>
+    <div class="kt-content">
+        <div class="kt-portlet kt-portlet--mobile">
+            <div class="kt-portlet__body">
+                <form class="kt-form" autocomplete="off">
+                    <div>
+                        <div class="row align-items-center">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getWholesaleEclDataPaymentSchedules()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="row" [hidden]="!advancedFiltersAreShown">
+						 	<div class="col-md-12">
+						         <div class="kt-separator kt-separator--border-dashed"></div>
+						     </div>
+
+
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="ContractRefNoFilter">{{l("ContractRefNo")}}</label>
+									<input type="text" class="form-control" id="ContractRefNoFilter" name="contractRefNoFilter" [(ngModel)]="contractRefNoFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label  for="MinStartDateFilter">{{l("StartDateRange")}}</label>
+									<div class="input-group">
+                                        <input class="form-control m-input" id="MinStartDateFilter" name="MinStartDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MinValue')}}" [(ngModel)]="minStartDateFilter">
+			                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                                        <input class="form-control m-input" id="MaxStartDateFilter" name="MaxStartDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MaxValue')}}" [(ngModel)]="maxStartDateFilter">
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="ComponentFilter">{{l("Component")}}</label>
+									<input type="text" class="form-control" id="ComponentFilter" name="componentFilter" [(ngModel)]="componentFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinNoOfSchedulesFilter">{{l("MinMax")}} {{l("NoOfSchedules")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinNoOfSchedulesFilter" [(ngModel)]="minNoOfSchedulesFilter" placeholder="{{l('MinValue')}}" name="minNoOfSchedulesFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxNoOfSchedulesFilter" placeholder="{{l('MaxValue')}}" name="maxNoOfSchedulesFilter" />
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="FrequencyFilter">{{l("Frequency")}}</label>
+									<input type="text" class="form-control" id="FrequencyFilter" name="frequencyFilter" [(ngModel)]="frequencyFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinAmountFilter">{{l("MinMax")}} {{l("Amount")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinAmountFilter" [(ngModel)]="minAmountFilter" placeholder="{{l('MinValue')}}" name="minAmountFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxAmountFilter" placeholder="{{l('MaxValue')}}" name="maxAmountFilter" />
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="WholesaleEclUploadUploadCommentFilter">({{l("WholesaleEclUpload")}}) {{l("UploadComment")}}</label>
+									<input type="text" class="form-control" id="WholesaleEclUploadUploadCommentFilter" name="wholesaleEclUploadUploadCommentFilter" [(ngModel)]="wholesaleEclUploadUploadCommentFilter">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container col-12"
+                         [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable
+                                     (onLazyLoad)="getWholesaleEclDataPaymentSchedules($event)"
+                                     [value]="primengTableHelper.records"
+                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     [paginator]="false"
+                                     [lazy]="true"
+                                     [scrollable]="true"
+                                     ScrollWidth="100%"
+                                     [responsive]="primengTableHelper.isResponsive"
+                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.WholesaleEclDataPaymentSchedules.Edit', 'Pages.WholesaleEclDataPaymentSchedules.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="wholesaleEclUploadFk.uploadComment">
+                                        {{l('UploadComment')}}
+                                        <p-sortIcon field="wholesaleEclUploadUploadComment"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="contractRefNo">
+                                        {{l('ContractRefNo')}}
+                                        <p-sortIcon field="wholesaleEclDataPaymentSchedule.contractRefNo"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="startDate">
+                                        {{l('StartDate')}}
+                                        <p-sortIcon field="wholesaleEclDataPaymentSchedule.startDate"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="component">
+                                        {{l('Component')}}
+                                        <p-sortIcon field="wholesaleEclDataPaymentSchedule.component"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="noOfSchedules">
+                                        {{l('NoOfSchedules')}}
+                                        <p-sortIcon field="wholesaleEclDataPaymentSchedule.noOfSchedules"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="frequency">
+                                        {{l('Frequency')}}
+                                        <p-sortIcon field="wholesaleEclDataPaymentSchedule.frequency"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="amount">
+                                        {{l('Amount')}}
+                                        <p-sortIcon field="wholesaleEclDataPaymentSchedule.amount"></p-sortIcon>
+                                    </th>
+
+                                </tr>
+                            </ng-template>                           
+							<ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.WholesaleEclDataPaymentSchedules.Edit', 'Pages.WholesaleEclDataPaymentSchedules.Delete')">
+                                       <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+												<ul class="dropdown-menu"  *dropdownMenu>
+
+												<li>
+													<a href="javascript:;" *ngIf="permission.isGranted('Pages.WholesaleEclDataPaymentSchedules.Edit')"
+														(click)="createOrEditWholesaleEclDataPaymentScheduleModal.show(record.wholesaleEclDataPaymentSchedule.id)">{{l('Edit')}}</a>
+												</li>
+												<li>
+											        <a href="javascript:;" *ngIf="permission.isGranted('Pages.WholesaleEclDataPaymentSchedules.Delete')"
+														(click)="deleteWholesaleEclDataPaymentSchedule(record.wholesaleEclDataPaymentSchedule)">{{l('Delete')}}</a>
+												</li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:150px">
+												<span class="ui-column-title"> {{l('UploadComment')}}</span>
+												{{record.wholesaleEclUploadUploadComment}}
+											</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('ContractRefNo')}}</span>
+											{{record.wholesaleEclDataPaymentSchedule.contractRefNo}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('StartDate')}}</span>
+                                        <span *ngIf="record.wholesaleEclDataPaymentSchedule.startDate">
+											{{record.wholesaleEclDataPaymentSchedule.startDate | momentFormat:'L'}}
+                                        </span>
+                                        <span *ngIf="!record.wholesaleEclDataPaymentSchedule.startDate">-</span>
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Component')}}</span>
+											{{record.wholesaleEclDataPaymentSchedule.component}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('NoOfSchedules')}}</span>
+											{{record.wholesaleEclDataPaymentSchedule.noOfSchedules}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Frequency')}}</span>
+											{{record.wholesaleEclDataPaymentSchedule.frequency}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Amount')}}</span>
+											{{record.wholesaleEclDataPaymentSchedule.amount}}
+										</td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                                         #paginator
+                                         (onPageChange)="getWholesaleEclDataPaymentSchedules($event)"
+                                         [totalRecords]="primengTableHelper.totalRecordsCount"
+                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditWholesaleEclDataPaymentScheduleModal #createOrEditWholesaleEclDataPaymentScheduleModal (modalSave)="getWholesaleEclDataPaymentSchedules()"></createOrEditWholesaleEclDataPaymentScheduleModal>
+    
+    
+  
+</div>
