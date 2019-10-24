@@ -1,3 +1,4 @@
+using TestDemo.WholesaleComputation;
 using TestDemo.WholesaleInputs;
 using TestDemo.WholesaleAssumption;
 using TestDemo.Wholesale;
@@ -19,6 +20,12 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<WholesaleEclComputedEadResult> WholesaleEclComputedEadResults { get; set; }
+
+        public virtual DbSet<WholesaleEclSicrApproval> WholesaleEclSicrApprovals { get; set; }
+
+        public virtual DbSet<WholesaleEclSicr> WholesaleEclSicrs { get; set; }
+
         public virtual DbSet<WholesaleEclDataPaymentSchedule> WholesaleEclDataPaymentSchedules { get; set; }
 
         public virtual DbSet<WholesaleEclDataLoanBook> WholesaleEclDataLoanBooks { get; set; }
@@ -93,7 +100,22 @@ namespace TestDemo.EntityFrameworkCore
            
            
            
-            modelBuilder.Entity<WholesaleEclDataPaymentSchedule>(w =>
+           
+           
+           
+            modelBuilder.Entity<WholesaleEclComputedEadResult>(w =>
+            {
+                w.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<WholesaleEclSicrApproval>(w =>
+            {
+                w.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<WholesaleEclSicr>(w =>
+            {
+                w.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<WholesaleEclDataPaymentSchedule>(w =>
             {
                 w.HasIndex(e => new { e.TenantId });
             });

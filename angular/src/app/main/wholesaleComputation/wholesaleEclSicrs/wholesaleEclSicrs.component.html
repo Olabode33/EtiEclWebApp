@@ -1,0 +1,212 @@
+<div [@routerTransition]>
+  
+    <div class="kt-subheader kt-grid__item">
+      
+        <div class="kt-subheader__main">
+            <h3 class="kt-subheader__title">
+                <span>{{l("WholesaleEclSicrs")}}</span>
+            </h3>
+            <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+            <span class="kt-subheader__desc">
+                {{l("WholesaleEclSicrsHeaderInfo")}}
+            </span>
+        </div>
+        <div class="kt-subheader__toolbar">
+            <div class="kt-subheader__wrapper">
+				<button *ngIf="isGranted('Pages.WholesaleEclSicrs.Create')" (click)="createWholesaleEclSicr()" 
+			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewWholesaleEclSicr")}}</button>
+            </div>
+        </div>
+      
+    </div>
+    <div class="kt-content">
+        <div class="kt-portlet kt-portlet--mobile">
+            <div class="kt-portlet__body">
+                <form class="kt-form" autocomplete="off">
+                    <div>
+                        <div class="row align-items-center">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getWholesaleEclSicrs()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="row" [hidden]="!advancedFiltersAreShown">
+						 	<div class="col-md-12">
+						         <div class="kt-separator kt-separator--border-dashed"></div>
+						     </div>
+
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinComputedSICRFilter">{{l("MinMax")}} {{l("ComputedSICR")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinComputedSICRFilter" [(ngModel)]="minComputedSICRFilter" placeholder="{{l('MinValue')}}" name="minComputedSICRFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxComputedSICRFilter" placeholder="{{l('MaxValue')}}" name="maxComputedSICRFilter" />
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="OverrideSICRFilter">{{l("OverrideSICR")}}</label>
+									<input type="text" class="form-control" id="OverrideSICRFilter" name="overrideSICRFilter" [(ngModel)]="overrideSICRFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="OverrideCommentFilter">{{l("OverrideComment")}}</label>
+									<input type="text" class="form-control" id="OverrideCommentFilter" name="overrideCommentFilter" [(ngModel)]="overrideCommentFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<label for="StatusFilterSelect">{{l("Status")}}</label>
+								<select class="form-control" name="StatusFilter" id="StatusFilterSelect" [(ngModel)]="statusFilter">
+								<option value="-1">{{l("All")}}</option>
+																			<option value="0">{{l('Draft')}}</option>
+
+										<option value="1">{{l('Submitted')}}</option>
+
+										<option value="2">{{l('Approved')}}</option>
+
+										<option value="3">{{l('Rejected')}}</option>
+
+
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="WholesaleEclDataLoanBookContractNoFilter">({{l("WholesaleEclDataLoanBook")}}) {{l("ContractNo")}}</label>
+									<input type="text" class="form-control" id="WholesaleEclDataLoanBookContractNoFilter" name="wholesaleEclDataLoanBookContractNoFilter" [(ngModel)]="wholesaleEclDataLoanBookContractNoFilter">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container col-12"
+                         [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable
+                                     (onLazyLoad)="getWholesaleEclSicrs($event)"
+                                     [value]="primengTableHelper.records"
+                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     [paginator]="false"
+                                     [lazy]="true"
+                                     [scrollable]="true"
+                                     ScrollWidth="100%"
+                                     [responsive]="primengTableHelper.isResponsive"
+                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.WholesaleEclSicrs.Edit', 'Pages.WholesaleEclSicrs.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="wholesaleEclDataLoanBookFk.contractNo">
+                                        {{l('ContractNo')}}
+                                        <p-sortIcon field="wholesaleEclDataLoanBookContractNo"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="computedSICR">
+                                        {{l('ComputedSICR')}}
+                                        <p-sortIcon field="wholesaleEclSicr.computedSICR"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="overrideSICR">
+                                        {{l('OverrideSICR')}}
+                                        <p-sortIcon field="wholesaleEclSicr.overrideSICR"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="overrideComment">
+                                        {{l('OverrideComment')}}
+                                        <p-sortIcon field="wholesaleEclSicr.overrideComment"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="status">
+                                        {{l('Status')}}
+                                        <p-sortIcon field="wholesaleEclSicr.status"></p-sortIcon>
+                                    </th>
+
+                                </tr>
+                            </ng-template>                           
+							<ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.WholesaleEclSicrs.Edit', 'Pages.WholesaleEclSicrs.Delete')">
+                                       <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+												<ul class="dropdown-menu"  *dropdownMenu>
+
+												<li>
+													<a href="javascript:;" *ngIf="permission.isGranted('Pages.WholesaleEclSicrs.Edit')"
+														(click)="createOrEditWholesaleEclSicrModal.show(record.wholesaleEclSicr.id)">{{l('Edit')}}</a>
+												</li>
+												<li>
+											        <a href="javascript:;" *ngIf="permission.isGranted('Pages.WholesaleEclSicrs.Delete')"
+														(click)="deleteWholesaleEclSicr(record.wholesaleEclSicr)">{{l('Delete')}}</a>
+												</li>
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="entityHistoryEnabled"
+                                                       (click)="showHistory(record.wholesaleEclSicr)">{{l('History')}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:150px">
+												<span class="ui-column-title"> {{l('ContractNo')}}</span>
+												{{record.wholesaleEclDataLoanBookContractNo}}
+											</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('ComputedSICR')}}</span>
+											{{record.wholesaleEclSicr.computedSICR}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('OverrideSICR')}}</span>
+											{{record.wholesaleEclSicr.overrideSICR}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('OverrideComment')}}</span>
+											{{record.wholesaleEclSicr.overrideComment}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('Status')}}</span>
+										{{l( generalStatusEnum[record.wholesaleEclSicr.status])}}
+                                    </td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                                         #paginator
+                                         (onPageChange)="getWholesaleEclSicrs($event)"
+                                         [totalRecords]="primengTableHelper.totalRecordsCount"
+                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditWholesaleEclSicrModal #createOrEditWholesaleEclSicrModal (modalSave)="getWholesaleEclSicrs()"></createOrEditWholesaleEclSicrModal>
+    
+     <entityTypeHistoryModal #entityTypeHistoryModal></entityTypeHistoryModal>
+  
+</div>

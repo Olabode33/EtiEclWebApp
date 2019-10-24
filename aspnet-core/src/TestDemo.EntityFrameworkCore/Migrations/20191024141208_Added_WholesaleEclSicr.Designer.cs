@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestDemo.EntityFrameworkCore;
 
 namespace TestDemo.Migrations
 {
     [DbContext(typeof(TestDemoDbContext))]
-    partial class TestDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191024141208_Added_WholesaleEclSicr")]
+    partial class Added_WholesaleEclSicr
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1844,40 +1846,6 @@ namespace TestDemo.Migrations
                     b.ToTable("WholesaleEclPdSnPCummulativeDefaultRates");
                 });
 
-            modelBuilder.Entity("TestDemo.WholesaleComputation.WholesaleEclComputedEadResult", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<long?>("CreatorUserId");
-
-                    b.Property<long?>("DeleterUserId");
-
-                    b.Property<DateTime?>("DeletionTime");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime");
-
-                    b.Property<long?>("LastModifierUserId");
-
-                    b.Property<string>("LifetimeEAD");
-
-                    b.Property<int?>("TenantId");
-
-                    b.Property<Guid?>("WholesaleEclDataLoanBookId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TenantId");
-
-                    b.HasIndex("WholesaleEclDataLoanBookId");
-
-                    b.ToTable("WholesaleEclComputedEadResults");
-                });
-
             modelBuilder.Entity("TestDemo.WholesaleComputation.WholesaleEclSicr", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1916,48 +1884,6 @@ namespace TestDemo.Migrations
                     b.HasIndex("WholesaleEclDataLoanBookId");
 
                     b.ToTable("WholesaleEclSicrs");
-                });
-
-            modelBuilder.Entity("TestDemo.WholesaleComputation.WholesaleEclSicrApproval", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<long?>("CreatorUserId");
-
-                    b.Property<long?>("DeleterUserId");
-
-                    b.Property<DateTime?>("DeletionTime");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime");
-
-                    b.Property<long?>("LastModifierUserId");
-
-                    b.Property<string>("ReviewComment");
-
-                    b.Property<long?>("ReviewedByUserId");
-
-                    b.Property<DateTime?>("ReviewedDate");
-
-                    b.Property<int>("Status");
-
-                    b.Property<int?>("TenantId");
-
-                    b.Property<Guid?>("WholesaleEclSicrId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReviewedByUserId");
-
-                    b.HasIndex("TenantId");
-
-                    b.HasIndex("WholesaleEclSicrId");
-
-                    b.ToTable("WholesaleEclSicrApprovals");
                 });
 
             modelBuilder.Entity("TestDemo.WholesaleInputs.WholesaleEclDataLoanBook", b =>
@@ -2529,30 +2455,12 @@ namespace TestDemo.Migrations
                         .HasForeignKey("WholesaleEclId");
                 });
 
-            modelBuilder.Entity("TestDemo.WholesaleComputation.WholesaleEclComputedEadResult", b =>
-                {
-                    b.HasOne("TestDemo.WholesaleInputs.WholesaleEclDataLoanBook", "WholesaleEclDataLoanBookFk")
-                        .WithMany()
-                        .HasForeignKey("WholesaleEclDataLoanBookId");
-                });
-
             modelBuilder.Entity("TestDemo.WholesaleComputation.WholesaleEclSicr", b =>
                 {
                     b.HasOne("TestDemo.WholesaleInputs.WholesaleEclDataLoanBook", "WholesaleEclDataLoanBookFk")
                         .WithMany()
                         .HasForeignKey("WholesaleEclDataLoanBookId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("TestDemo.WholesaleComputation.WholesaleEclSicrApproval", b =>
-                {
-                    b.HasOne("TestDemo.Authorization.Users.User", "ReviewedByUserFk")
-                        .WithMany()
-                        .HasForeignKey("ReviewedByUserId");
-
-                    b.HasOne("TestDemo.WholesaleComputation.WholesaleEclSicr", "WholesaleEclSicrFk")
-                        .WithMany()
-                        .HasForeignKey("WholesaleEclSicrId");
                 });
 
             modelBuilder.Entity("TestDemo.WholesaleInputs.WholesaleEclDataLoanBook", b =>

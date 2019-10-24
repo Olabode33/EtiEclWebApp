@@ -37,6 +37,8 @@ export class AppNavigationService {
             new AppMenuItem('WholesaleEclDataLoanBooks', 'Pages.WholesaleEclDataLoanBooks', 'flaticon-more', '/app/main/wholesaleInputs/wholesaleEclDataLoanBooks'),
             
             new AppMenuItem('WholesaleEclDataPaymentSchedules', 'Pages.WholesaleEclDataPaymentSchedules', 'flaticon-more', '/app/main/wholesaleInputs/wholesaleEclDataPaymentSchedules'),
+            
+            new AppMenuItem('WholesaleEclSicrs', 'Pages.WholesaleEclSicrs', 'flaticon-more', '/app/main/wholesaleComputation/wholesaleEclSicrs'),
              new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
                 new AppMenuItem('OrganizationUnits', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),

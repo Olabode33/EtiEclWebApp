@@ -6,6 +6,21 @@ namespace TestDemo.Authorization
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_WholesaleEclComputedEadResults = "Pages.WholesaleEclComputedEadResults";
+        public const string Pages_WholesaleEclComputedEadResults_Create = "Pages.WholesaleEclComputedEadResults.Create";
+        public const string Pages_WholesaleEclComputedEadResults_Edit = "Pages.WholesaleEclComputedEadResults.Edit";
+        public const string Pages_WholesaleEclComputedEadResults_Delete = "Pages.WholesaleEclComputedEadResults.Delete";
+
+        public const string Pages_WholesaleEclSicrApprovals = "Pages.WholesaleEclSicrApprovals";
+        public const string Pages_WholesaleEclSicrApprovals_Create = "Pages.WholesaleEclSicrApprovals.Create";
+        public const string Pages_WholesaleEclSicrApprovals_Edit = "Pages.WholesaleEclSicrApprovals.Edit";
+        public const string Pages_WholesaleEclSicrApprovals_Delete = "Pages.WholesaleEclSicrApprovals.Delete";
+
+        public const string Pages_WholesaleEclSicrs = "Pages.WholesaleEclSicrs";
+        public const string Pages_WholesaleEclSicrs_Create = "Pages.WholesaleEclSicrs.Create";
+        public const string Pages_WholesaleEclSicrs_Edit = "Pages.WholesaleEclSicrs.Edit";
+        public const string Pages_WholesaleEclSicrs_Delete = "Pages.WholesaleEclSicrs.Delete";
+
         public const string Pages_WholesaleEclDataPaymentSchedules = "Pages.WholesaleEclDataPaymentSchedules";
         public const string Pages_WholesaleEclDataPaymentSchedules_Create = "Pages.WholesaleEclDataPaymentSchedules.Create";
         public const string Pages_WholesaleEclDataPaymentSchedules_Edit = "Pages.WholesaleEclDataPaymentSchedules.Edit";

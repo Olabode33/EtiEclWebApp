@@ -2,6 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
+import { WholesaleEclSicrsComponent } from './wholesaleComputation/wholesaleEclSicrs/wholesaleEclSicrs.component';
+import { CreateOrEditWholesaleEclSicrModalComponent } from './wholesaleComputation/wholesaleEclSicrs/create-or-edit-wholesaleEclSicr-modal.component';
+import { WholesaleEclSicrWholesaleEclDataLoanBookLookupTableModalComponent } from './wholesaleComputation/wholesaleEclSicrs/wholesaleEclSicr-wholesaleEclDataLoanBook-lookup-table-modal.component';
+
 import { WholesaleEclDataPaymentSchedulesComponent } from './wholesaleInputs/wholesaleEclDataPaymentSchedules/wholesaleEclDataPaymentSchedules.component';
 import { CreateOrEditWholesaleEclDataPaymentScheduleModalComponent } from './wholesaleInputs/wholesaleEclDataPaymentSchedules/create-or-edit-wholesaleEclDataPaymentSchedule-modal.component';
 import { WholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableModalComponent } from './wholesaleInputs/wholesaleEclDataPaymentSchedules/wholesaleEclDataPaymentSchedule-wholesaleEclUpload-lookup-table-modal.component';
@@ -72,6 +76,9 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+		WholesaleEclSicrsComponent,
+		CreateOrEditWholesaleEclSicrModalComponent,
+    WholesaleEclSicrWholesaleEclDataLoanBookLookupTableModalComponent,
 		WholesaleEclDataPaymentSchedulesComponent,
 		CreateOrEditWholesaleEclDataPaymentScheduleModalComponent,
     WholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableModalComponent,

@@ -1,0 +1,72 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #wholesaleEclSicrForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="wholesaleEclSicr.id">{{l("EditWholesaleEclSicr")}}</span>
+                        <span *ngIf="!wholesaleEclSicr.id">{{l("CreateNewWholesaleEclSicr")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+					<div class="form-group m-form__group">
+                        <label for="WholesaleEclDataLoanBookContractNo">{{l("WholesaleEclDataLoanBook")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="WholesaleEclDataLoanBookContractNo" name="wholesaleEclDataLoanBookContractNo" [(ngModel)]="wholesaleEclDataLoanBookContractNo" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectWholesaleEclDataLoanBookModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger btn-icon" type="button" (click)="setWholesaleEclDataLoanBookIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="wholesaleEclSicr.wholesaleEclDataLoanBookId" [(ngModel)]="wholesaleEclSicr.wholesaleEclDataLoanBookId" type="text" required hidden>
+		 
+
+								<div class="form-group">
+									<label for="WholesaleEclSicr_ComputedSICR">{{l("ComputedSICR")}}</label>
+									<input type="number" id="WholesaleEclSicr_ComputedSICR" class="form-control" [(ngModel)]="wholesaleEclSicr.computedSICR" name="ComputedSICR"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclSicr_OverrideSICR">{{l("OverrideSICR")}}</label>
+									<input type="text" id="WholesaleEclSicr_OverrideSICR" class="form-control" [(ngModel)]="wholesaleEclSicr.overrideSICR" name="OverrideSICR"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclSicr_OverrideComment">{{l("OverrideComment")}}</label>
+									<input type="text" id="WholesaleEclSicr_OverrideComment" class="form-control" [(ngModel)]="wholesaleEclSicr.overrideComment" name="OverrideComment"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="WholesaleEclSicr_Status">{{l("Status")}}</label>
+									<select class="form-control" name="Status" id="WholesaleEclSicr_Status" [(ngModel)]="wholesaleEclSicr.status">
+									<option value="0">{{l('Draft')}}</option>
+
+									<option value="1">{{l('Submitted')}}</option>
+
+									<option value="2">{{l('Approved')}}</option>
+
+									<option value="3">{{l('Rejected')}}</option>
+
+
+									</select>
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!wholesaleEclSicrForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+<wholesaleEclSicrWholesaleEclDataLoanBookLookupTableModal #wholesaleEclSicrWholesaleEclDataLoanBookLookupTableModal (modalSave)="getNewWholesaleEclDataLoanBookId()"></wholesaleEclSicrWholesaleEclDataLoanBookLookupTableModal>
+		 
+</div>

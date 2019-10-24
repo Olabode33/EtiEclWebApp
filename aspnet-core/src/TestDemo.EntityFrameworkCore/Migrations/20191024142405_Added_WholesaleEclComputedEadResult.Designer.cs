@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestDemo.EntityFrameworkCore;
 
 namespace TestDemo.Migrations
 {
     [DbContext(typeof(TestDemoDbContext))]
-    partial class TestDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191024142405_Added_WholesaleEclComputedEadResult")]
+    partial class Added_WholesaleEclComputedEadResult
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1947,7 +1949,7 @@ namespace TestDemo.Migrations
 
                     b.Property<int?>("TenantId");
 
-                    b.Property<Guid?>("WholesaleEclSicrId");
+                    b.Property<Guid>("WholesaleEclDataLoanBookId");
 
                     b.HasKey("Id");
 
@@ -1955,7 +1957,7 @@ namespace TestDemo.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.HasIndex("WholesaleEclSicrId");
+                    b.HasIndex("WholesaleEclDataLoanBookId");
 
                     b.ToTable("WholesaleEclSicrApprovals");
                 });
@@ -2550,9 +2552,10 @@ namespace TestDemo.Migrations
                         .WithMany()
                         .HasForeignKey("ReviewedByUserId");
 
-                    b.HasOne("TestDemo.WholesaleComputation.WholesaleEclSicr", "WholesaleEclSicrFk")
+                    b.HasOne("TestDemo.WholesaleInputs.WholesaleEclDataLoanBook", "WholesaleEclDataLoanBookFk")
                         .WithMany()
-                        .HasForeignKey("WholesaleEclSicrId");
+                        .HasForeignKey("WholesaleEclDataLoanBookId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("TestDemo.WholesaleInputs.WholesaleEclDataLoanBook", b =>

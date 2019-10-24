@@ -30,6 +30,27 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var wholesaleEclComputedEadResults = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEclComputedEadResults, L("WholesaleEclComputedEadResults"));
+            wholesaleEclComputedEadResults.CreateChildPermission(AppPermissions.Pages_WholesaleEclComputedEadResults_Create, L("CreateNewWholesaleEclComputedEadResult"));
+            wholesaleEclComputedEadResults.CreateChildPermission(AppPermissions.Pages_WholesaleEclComputedEadResults_Edit, L("EditWholesaleEclComputedEadResult"));
+            wholesaleEclComputedEadResults.CreateChildPermission(AppPermissions.Pages_WholesaleEclComputedEadResults_Delete, L("DeleteWholesaleEclComputedEadResult"));
+
+
+
+            var wholesaleEclSicrApprovals = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEclSicrApprovals, L("WholesaleEclSicrApprovals"));
+            wholesaleEclSicrApprovals.CreateChildPermission(AppPermissions.Pages_WholesaleEclSicrApprovals_Create, L("CreateNewWholesaleEclSicrApproval"));
+            wholesaleEclSicrApprovals.CreateChildPermission(AppPermissions.Pages_WholesaleEclSicrApprovals_Edit, L("EditWholesaleEclSicrApproval"));
+            wholesaleEclSicrApprovals.CreateChildPermission(AppPermissions.Pages_WholesaleEclSicrApprovals_Delete, L("DeleteWholesaleEclSicrApproval"));
+
+
+
+            var wholesaleEclSicrs = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEclSicrs, L("WholesaleEclSicrs"));
+            wholesaleEclSicrs.CreateChildPermission(AppPermissions.Pages_WholesaleEclSicrs_Create, L("CreateNewWholesaleEclSicr"));
+            wholesaleEclSicrs.CreateChildPermission(AppPermissions.Pages_WholesaleEclSicrs_Edit, L("EditWholesaleEclSicr"));
+            wholesaleEclSicrs.CreateChildPermission(AppPermissions.Pages_WholesaleEclSicrs_Delete, L("DeleteWholesaleEclSicr"));
+
+
+
             var wholesaleEclDataPaymentSchedules = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEclDataPaymentSchedules, L("WholesaleEclDataPaymentSchedules"));
             wholesaleEclDataPaymentSchedules.CreateChildPermission(AppPermissions.Pages_WholesaleEclDataPaymentSchedules_Create, L("CreateNewWholesaleEclDataPaymentSchedule"));
             wholesaleEclDataPaymentSchedules.CreateChildPermission(AppPermissions.Pages_WholesaleEclDataPaymentSchedules_Edit, L("EditWholesaleEclDataPaymentSchedule"));

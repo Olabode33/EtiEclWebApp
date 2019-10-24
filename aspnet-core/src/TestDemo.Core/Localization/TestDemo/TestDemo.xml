@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="WholesaleEclDataPaymentSchedule">Wholesale ecl data payment schedule</text>
+  <texts>    <text name="WholesaleEclComputedEadResult">Wholesale ecl computed ead result</text>
+    <text name="CreateNewWholesaleEclComputedEadResult">Create new wholesale ecl computed ead result</text>
+    <text name="EditWholesaleEclComputedEadResult">Edit wholesale ecl computed ead result</text>
+    <text name="DeleteWholesaleEclComputedEadResult">Delete wholesale ecl computed ead result</text>
+    <text name="WholesaleEclSicrApproval">Wholesale ecl sicr approval</text>
+    <text name="CreateNewWholesaleEclSicrApproval">Create new wholesale ecl sicr approval</text>
+    <text name="EditWholesaleEclSicrApproval">Edit wholesale ecl sicr approval</text>
+    <text name="DeleteWholesaleEclSicrApproval">Delete wholesale ecl sicr approval</text>
+    <text name="WholesaleComputation">Wholesale computation</text>
+    <text name="WholesaleEclSicr">Wholesale ecl sicr</text>
+    <text name="ComputedSICR">Computed s i c r</text>
+    <text name="OverrideSICR">Override s i c r</text>
+    <text name="OverrideComment">Override comment</text>
+    <text name="WholesaleEclSicrsHeaderInfo">Wholesale ecl sicrs header info</text>
+    <text name="CreateNewWholesaleEclSicr">Create new wholesale ecl sicr</text>
+    <text name="EditWholesaleEclSicr">Edit wholesale ecl sicr</text>
+    <text name="DeleteWholesaleEclSicr">Delete wholesale ecl sicr</text>
+    <text name="WholesaleEclSicrs">Wholesale ecl sicrs</text>
+    <text name="WholesaleEclDataLoanBookContractNo">Wholesale ecl data loan book contract no</text>
+    <text name="PickWholesaleEclDataLoanBook">Pick wholesale ecl data loan book</text>
+    <text name="WholesaleEclDataPaymentSchedule">Wholesale ecl data payment schedule</text>
     <text name="ContractRefNo">Contract ref no</text>
     <text name="StartDate">Start date</text>
     <text name="Component">Component</text>
