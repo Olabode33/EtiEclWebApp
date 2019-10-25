@@ -1,3 +1,5 @@
+using TestDemo.ObeResults.Dtos;
+using TestDemo.ObeResults;
 using TestDemo.ObeComputation.Dtos;
 using TestDemo.ObeComputation;
 using TestDemo.ObeInputs.Dtos;
@@ -72,6 +74,14 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+           configuration.CreateMap<CreateOrEditObeEclResultSummaryTopExposureDto, ObeEclResultSummaryTopExposure>().ReverseMap();
+           configuration.CreateMap<ObeEclResultSummaryTopExposureDto, ObeEclResultSummaryTopExposure>().ReverseMap();
+           configuration.CreateMap<CreateOrEditObeEclResultSummaryKeyInputDto, ObeEclResultSummaryKeyInput>().ReverseMap();
+           configuration.CreateMap<ObeEclResultSummaryKeyInputDto, ObeEclResultSummaryKeyInput>().ReverseMap();
+           configuration.CreateMap<CreateOrEditObesaleEclResultSummaryDto, ObesaleEclResultSummary>().ReverseMap();
+           configuration.CreateMap<ObesaleEclResultSummaryDto, ObesaleEclResultSummary>().ReverseMap();
+           configuration.CreateMap<CreateOrEditObeEclResultDetailDto, ObeEclResultDetail>().ReverseMap();
+           configuration.CreateMap<ObeEclResultDetailDto, ObeEclResultDetail>().ReverseMap();
            configuration.CreateMap<CreateOrEditObeEclComputedEadResultDto, ObeEclComputedEadResult>().ReverseMap();
            configuration.CreateMap<ObeEclComputedEadResultDto, ObeEclComputedEadResult>().ReverseMap();
            configuration.CreateMap<CreateOrEditObeEclSicrApprovalDto, ObeEclSicrApproval>().ReverseMap();

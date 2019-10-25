@@ -6,6 +6,26 @@ namespace TestDemo.Authorization
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_ObeEclResultSummaryTopExposures = "Pages.ObeEclResultSummaryTopExposures";
+        public const string Pages_ObeEclResultSummaryTopExposures_Create = "Pages.ObeEclResultSummaryTopExposures.Create";
+        public const string Pages_ObeEclResultSummaryTopExposures_Edit = "Pages.ObeEclResultSummaryTopExposures.Edit";
+        public const string Pages_ObeEclResultSummaryTopExposures_Delete = "Pages.ObeEclResultSummaryTopExposures.Delete";
+
+        public const string Pages_ObeEclResultSummaryKeyInputs = "Pages.ObeEclResultSummaryKeyInputs";
+        public const string Pages_ObeEclResultSummaryKeyInputs_Create = "Pages.ObeEclResultSummaryKeyInputs.Create";
+        public const string Pages_ObeEclResultSummaryKeyInputs_Edit = "Pages.ObeEclResultSummaryKeyInputs.Edit";
+        public const string Pages_ObeEclResultSummaryKeyInputs_Delete = "Pages.ObeEclResultSummaryKeyInputs.Delete";
+
+        public const string Pages_ObesaleEclResultSummaries = "Pages.ObesaleEclResultSummaries";
+        public const string Pages_ObesaleEclResultSummaries_Create = "Pages.ObesaleEclResultSummaries.Create";
+        public const string Pages_ObesaleEclResultSummaries_Edit = "Pages.ObesaleEclResultSummaries.Edit";
+        public const string Pages_ObesaleEclResultSummaries_Delete = "Pages.ObesaleEclResultSummaries.Delete";
+
+        public const string Pages_ObeEclResultDetails = "Pages.ObeEclResultDetails";
+        public const string Pages_ObeEclResultDetails_Create = "Pages.ObeEclResultDetails.Create";
+        public const string Pages_ObeEclResultDetails_Edit = "Pages.ObeEclResultDetails.Edit";
+        public const string Pages_ObeEclResultDetails_Delete = "Pages.ObeEclResultDetails.Delete";
+
         public const string Pages_ObeEclComputedEadResults = "Pages.ObeEclComputedEadResults";
         public const string Pages_ObeEclComputedEadResults_Create = "Pages.ObeEclComputedEadResults.Create";
         public const string Pages_ObeEclComputedEadResults_Edit = "Pages.ObeEclComputedEadResults.Edit";

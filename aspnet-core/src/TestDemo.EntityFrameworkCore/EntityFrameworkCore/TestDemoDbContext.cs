@@ -1,3 +1,4 @@
+using TestDemo.ObeResults;
 using TestDemo.ObeComputation;
 using TestDemo.ObeInputs;
 using TestDemo.ObeAssumption;
@@ -31,6 +32,14 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<ObeEclResultSummaryTopExposure> ObeEclResultSummaryTopExposures { get; set; }
+
+        public virtual DbSet<ObeEclResultSummaryKeyInput> ObeEclResultSummaryKeyInputs { get; set; }
+
+        public virtual DbSet<ObesaleEclResultSummary> ObesaleEclResultSummaries { get; set; }
+
+        public virtual DbSet<ObeEclResultDetail> ObeEclResultDetails { get; set; }
+
         public virtual DbSet<ObeEclComputedEadResult> ObeEclComputedEadResults { get; set; }
 
         public virtual DbSet<ObeEclSicrApproval> ObeEclSicrApprovals { get; set; }
@@ -230,7 +239,27 @@ namespace TestDemo.EntityFrameworkCore
            
            
            
-            modelBuilder.Entity<ObeEclComputedEadResult>(o =>
+           
+           
+           
+           
+            modelBuilder.Entity<ObeEclResultSummaryTopExposure>(o =>
+            {
+                o.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<ObeEclResultSummaryKeyInput>(o =>
+            {
+                o.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<ObesaleEclResultSummary>(o =>
+            {
+                o.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<ObeEclResultDetail>(o =>
+            {
+                o.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<ObeEclComputedEadResult>(o =>
             {
                 o.HasIndex(e => new { e.TenantId });
             });

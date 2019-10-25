@@ -30,6 +30,34 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var obeEclResultSummaryTopExposures = pages.CreateChildPermission(AppPermissions.Pages_ObeEclResultSummaryTopExposures, L("ObeEclResultSummaryTopExposures"));
+            obeEclResultSummaryTopExposures.CreateChildPermission(AppPermissions.Pages_ObeEclResultSummaryTopExposures_Create, L("CreateNewObeEclResultSummaryTopExposure"));
+            obeEclResultSummaryTopExposures.CreateChildPermission(AppPermissions.Pages_ObeEclResultSummaryTopExposures_Edit, L("EditObeEclResultSummaryTopExposure"));
+            obeEclResultSummaryTopExposures.CreateChildPermission(AppPermissions.Pages_ObeEclResultSummaryTopExposures_Delete, L("DeleteObeEclResultSummaryTopExposure"));
+
+
+
+            var obeEclResultSummaryKeyInputs = pages.CreateChildPermission(AppPermissions.Pages_ObeEclResultSummaryKeyInputs, L("ObeEclResultSummaryKeyInputs"));
+            obeEclResultSummaryKeyInputs.CreateChildPermission(AppPermissions.Pages_ObeEclResultSummaryKeyInputs_Create, L("CreateNewObeEclResultSummaryKeyInput"));
+            obeEclResultSummaryKeyInputs.CreateChildPermission(AppPermissions.Pages_ObeEclResultSummaryKeyInputs_Edit, L("EditObeEclResultSummaryKeyInput"));
+            obeEclResultSummaryKeyInputs.CreateChildPermission(AppPermissions.Pages_ObeEclResultSummaryKeyInputs_Delete, L("DeleteObeEclResultSummaryKeyInput"));
+
+
+
+            var obesaleEclResultSummaries = pages.CreateChildPermission(AppPermissions.Pages_ObesaleEclResultSummaries, L("ObesaleEclResultSummaries"));
+            obesaleEclResultSummaries.CreateChildPermission(AppPermissions.Pages_ObesaleEclResultSummaries_Create, L("CreateNewObesaleEclResultSummary"));
+            obesaleEclResultSummaries.CreateChildPermission(AppPermissions.Pages_ObesaleEclResultSummaries_Edit, L("EditObesaleEclResultSummary"));
+            obesaleEclResultSummaries.CreateChildPermission(AppPermissions.Pages_ObesaleEclResultSummaries_Delete, L("DeleteObesaleEclResultSummary"));
+
+
+
+            var obeEclResultDetails = pages.CreateChildPermission(AppPermissions.Pages_ObeEclResultDetails, L("ObeEclResultDetails"));
+            obeEclResultDetails.CreateChildPermission(AppPermissions.Pages_ObeEclResultDetails_Create, L("CreateNewObeEclResultDetail"));
+            obeEclResultDetails.CreateChildPermission(AppPermissions.Pages_ObeEclResultDetails_Edit, L("EditObeEclResultDetail"));
+            obeEclResultDetails.CreateChildPermission(AppPermissions.Pages_ObeEclResultDetails_Delete, L("DeleteObeEclResultDetail"));
+
+
+
             var obeEclComputedEadResults = pages.CreateChildPermission(AppPermissions.Pages_ObeEclComputedEadResults, L("ObeEclComputedEadResults"));
             obeEclComputedEadResults.CreateChildPermission(AppPermissions.Pages_ObeEclComputedEadResults_Create, L("CreateNewObeEclComputedEadResult"));
             obeEclComputedEadResults.CreateChildPermission(AppPermissions.Pages_ObeEclComputedEadResults_Edit, L("EditObeEclComputedEadResult"));

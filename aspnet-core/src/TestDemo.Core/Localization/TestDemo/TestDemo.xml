@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="ObeEclComputedEadResult">Obe ecl computed ead result</text>
+  <texts>    <text name="ObeEclResultSummaryTopExposure">Obe ecl result summary top exposure</text>
+    <text name="CreateNewObeEclResultSummaryTopExposure">Create new obe ecl result summary top exposure</text>
+    <text name="EditObeEclResultSummaryTopExposure">Edit obe ecl result summary top exposure</text>
+    <text name="DeleteObeEclResultSummaryTopExposure">Delete obe ecl result summary top exposure</text>
+    <text name="ObeEclResultSummaryKeyInput">Obe ecl result summary key input</text>
+    <text name="CreateNewObeEclResultSummaryKeyInput">Create new obe ecl result summary key input</text>
+    <text name="EditObeEclResultSummaryKeyInput">Edit obe ecl result summary key input</text>
+    <text name="DeleteObeEclResultSummaryKeyInput">Delete obe ecl result summary key input</text>
+    <text name="ObesaleEclResultSummary">Obesale ecl result summary</text>
+    <text name="CreateNewObesaleEclResultSummary">Create new obesale ecl result summary</text>
+    <text name="EditObesaleEclResultSummary">Edit obesale ecl result summary</text>
+    <text name="DeleteObesaleEclResultSummary">Delete obesale ecl result summary</text>
+    <text name="ObeResults">Obe results</text>
+    <text name="ObeEclResultDetail">Obe ecl result detail</text>
+    <text name="CreateNewObeEclResultDetail">Create new obe ecl result detail</text>
+    <text name="EditObeEclResultDetail">Edit obe ecl result detail</text>
+    <text name="DeleteObeEclResultDetail">Delete obe ecl result detail</text>
+    <text name="ObeEclComputedEadResult">Obe ecl computed ead result</text>
     <text name="CreateNewObeEclComputedEadResult">Create new obe ecl computed ead result</text>
     <text name="EditObeEclComputedEadResult">Edit obe ecl computed ead result</text>
     <text name="DeleteObeEclComputedEadResult">Delete obe ecl computed ead result</text>
