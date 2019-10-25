@@ -1,3 +1,4 @@
+using TestDemo.ObeComputation;
 using TestDemo.ObeInputs;
 using TestDemo.ObeAssumption;
 using TestDemo.OBE;
@@ -30,6 +31,12 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<ObeEclComputedEadResult> ObeEclComputedEadResults { get; set; }
+
+        public virtual DbSet<ObeEclSicrApproval> ObeEclSicrApprovals { get; set; }
+
+        public virtual DbSet<ObeEclSicr> ObeEclSicrs { get; set; }
+
         public virtual DbSet<ObeEclDataPaymentSchedule> ObeEclDataPaymentSchedules { get; set; }
 
         public virtual DbSet<ObeEclDataLoanBook> ObeEclDataLoanBooks { get; set; }
@@ -220,7 +227,22 @@ namespace TestDemo.EntityFrameworkCore
            
            
            
-            modelBuilder.Entity<ObeEclDataPaymentSchedule>(o =>
+           
+           
+           
+            modelBuilder.Entity<ObeEclComputedEadResult>(o =>
+            {
+                o.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<ObeEclSicrApproval>(o =>
+            {
+                o.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<ObeEclSicr>(o =>
+            {
+                o.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<ObeEclDataPaymentSchedule>(o =>
             {
                 o.HasIndex(e => new { e.TenantId });
             });

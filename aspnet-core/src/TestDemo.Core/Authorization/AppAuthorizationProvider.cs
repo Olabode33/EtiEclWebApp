@@ -30,6 +30,27 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var obeEclComputedEadResults = pages.CreateChildPermission(AppPermissions.Pages_ObeEclComputedEadResults, L("ObeEclComputedEadResults"));
+            obeEclComputedEadResults.CreateChildPermission(AppPermissions.Pages_ObeEclComputedEadResults_Create, L("CreateNewObeEclComputedEadResult"));
+            obeEclComputedEadResults.CreateChildPermission(AppPermissions.Pages_ObeEclComputedEadResults_Edit, L("EditObeEclComputedEadResult"));
+            obeEclComputedEadResults.CreateChildPermission(AppPermissions.Pages_ObeEclComputedEadResults_Delete, L("DeleteObeEclComputedEadResult"));
+
+
+
+            var obeEclSicrApprovals = pages.CreateChildPermission(AppPermissions.Pages_ObeEclSicrApprovals, L("ObeEclSicrApprovals"));
+            obeEclSicrApprovals.CreateChildPermission(AppPermissions.Pages_ObeEclSicrApprovals_Create, L("CreateNewObeEclSicrApproval"));
+            obeEclSicrApprovals.CreateChildPermission(AppPermissions.Pages_ObeEclSicrApprovals_Edit, L("EditObeEclSicrApproval"));
+            obeEclSicrApprovals.CreateChildPermission(AppPermissions.Pages_ObeEclSicrApprovals_Delete, L("DeleteObeEclSicrApproval"));
+
+
+
+            var obeEclSicrs = pages.CreateChildPermission(AppPermissions.Pages_ObeEclSicrs, L("ObeEclSicrs"));
+            obeEclSicrs.CreateChildPermission(AppPermissions.Pages_ObeEclSicrs_Create, L("CreateNewObeEclSicr"));
+            obeEclSicrs.CreateChildPermission(AppPermissions.Pages_ObeEclSicrs_Edit, L("EditObeEclSicr"));
+            obeEclSicrs.CreateChildPermission(AppPermissions.Pages_ObeEclSicrs_Delete, L("DeleteObeEclSicr"));
+
+
+
             var obeEclDataPaymentSchedules = pages.CreateChildPermission(AppPermissions.Pages_ObeEclDataPaymentSchedules, L("ObeEclDataPaymentSchedules"));
             obeEclDataPaymentSchedules.CreateChildPermission(AppPermissions.Pages_ObeEclDataPaymentSchedules_Create, L("CreateNewObeEclDataPaymentSchedule"));
             obeEclDataPaymentSchedules.CreateChildPermission(AppPermissions.Pages_ObeEclDataPaymentSchedules_Edit, L("EditObeEclDataPaymentSchedule"));

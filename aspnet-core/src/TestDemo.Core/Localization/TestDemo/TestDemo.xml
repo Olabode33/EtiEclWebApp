@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="ObeEclDataPaymentSchedule">Obe ecl data payment schedule</text>
+  <texts>    <text name="ObeEclComputedEadResult">Obe ecl computed ead result</text>
+    <text name="CreateNewObeEclComputedEadResult">Create new obe ecl computed ead result</text>
+    <text name="EditObeEclComputedEadResult">Edit obe ecl computed ead result</text>
+    <text name="DeleteObeEclComputedEadResult">Delete obe ecl computed ead result</text>
+    <text name="ObeEclSicrApproval">Obe ecl sicr approval</text>
+    <text name="CreateNewObeEclSicrApproval">Create new obe ecl sicr approval</text>
+    <text name="EditObeEclSicrApproval">Edit obe ecl sicr approval</text>
+    <text name="DeleteObeEclSicrApproval">Delete obe ecl sicr approval</text>
+    <text name="ObeComputation">Obe computation</text>
+    <text name="ObeEclSicr">Obe ecl sicr</text>
+    <text name="CreateNewObeEclSicr">Create new obe ecl sicr</text>
+    <text name="EditObeEclSicr">Edit obe ecl sicr</text>
+    <text name="DeleteObeEclSicr">Delete obe ecl sicr</text>
+    <text name="ObeEclDataPaymentSchedule">Obe ecl data payment schedule</text>
     <text name="CreateNewObeEclDataPaymentSchedule">Create new obe ecl data payment schedule</text>
     <text name="EditObeEclDataPaymentSchedule">Edit obe ecl data payment schedule</text>
     <text name="DeleteObeEclDataPaymentSchedule">Delete obe ecl data payment schedule</text>

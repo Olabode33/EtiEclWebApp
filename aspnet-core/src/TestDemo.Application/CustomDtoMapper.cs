@@ -1,3 +1,5 @@
+using TestDemo.ObeComputation.Dtos;
+using TestDemo.ObeComputation;
 using TestDemo.ObeInputs.Dtos;
 using TestDemo.ObeInputs;
 using TestDemo.ObeAssumption.Dtos;
@@ -70,6 +72,12 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+           configuration.CreateMap<CreateOrEditObeEclComputedEadResultDto, ObeEclComputedEadResult>().ReverseMap();
+           configuration.CreateMap<ObeEclComputedEadResultDto, ObeEclComputedEadResult>().ReverseMap();
+           configuration.CreateMap<CreateOrEditObeEclSicrApprovalDto, ObeEclSicrApproval>().ReverseMap();
+           configuration.CreateMap<ObeEclSicrApprovalDto, ObeEclSicrApproval>().ReverseMap();
+           configuration.CreateMap<CreateOrEditObeEclSicrDto, ObeEclSicr>().ReverseMap();
+           configuration.CreateMap<ObeEclSicrDto, ObeEclSicr>().ReverseMap();
            configuration.CreateMap<CreateOrEditObeEclDataPaymentScheduleDto, ObeEclDataPaymentSchedule>().ReverseMap();
            configuration.CreateMap<ObeEclDataPaymentScheduleDto, ObeEclDataPaymentSchedule>().ReverseMap();
            configuration.CreateMap<CreateOrEditObeEclDataLoanBookDto, ObeEclDataLoanBook>().ReverseMap();

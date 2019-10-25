@@ -6,6 +6,21 @@ namespace TestDemo.Authorization
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_ObeEclComputedEadResults = "Pages.ObeEclComputedEadResults";
+        public const string Pages_ObeEclComputedEadResults_Create = "Pages.ObeEclComputedEadResults.Create";
+        public const string Pages_ObeEclComputedEadResults_Edit = "Pages.ObeEclComputedEadResults.Edit";
+        public const string Pages_ObeEclComputedEadResults_Delete = "Pages.ObeEclComputedEadResults.Delete";
+
+        public const string Pages_ObeEclSicrApprovals = "Pages.ObeEclSicrApprovals";
+        public const string Pages_ObeEclSicrApprovals_Create = "Pages.ObeEclSicrApprovals.Create";
+        public const string Pages_ObeEclSicrApprovals_Edit = "Pages.ObeEclSicrApprovals.Edit";
+        public const string Pages_ObeEclSicrApprovals_Delete = "Pages.ObeEclSicrApprovals.Delete";
+
+        public const string Pages_ObeEclSicrs = "Pages.ObeEclSicrs";
+        public const string Pages_ObeEclSicrs_Create = "Pages.ObeEclSicrs.Create";
+        public const string Pages_ObeEclSicrs_Edit = "Pages.ObeEclSicrs.Edit";
+        public const string Pages_ObeEclSicrs_Delete = "Pages.ObeEclSicrs.Delete";
+
         public const string Pages_ObeEclDataPaymentSchedules = "Pages.ObeEclDataPaymentSchedules";
         public const string Pages_ObeEclDataPaymentSchedules_Create = "Pages.ObeEclDataPaymentSchedules.Create";
         public const string Pages_ObeEclDataPaymentSchedules_Edit = "Pages.ObeEclDataPaymentSchedules.Edit";

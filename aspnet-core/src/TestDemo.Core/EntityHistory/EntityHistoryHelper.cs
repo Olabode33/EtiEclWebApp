@@ -1,3 +1,4 @@
+using TestDemo.ObeComputation;
 using TestDemo.ObeInputs;
 using TestDemo.ObeAssumption;
 using TestDemo.OBE;
@@ -24,6 +25,8 @@ namespace TestDemo.EntityHistory
 
         public static readonly Type[] HostSideTrackedTypes =
         {
+            typeof(ObeEclSicrApproval),
+            typeof(ObeEclSicr),
             typeof(ObeEclUploadApproval),
             typeof(ObeEclUpload),
             typeof(ObeEclPdSnPCummulativeDefaultRate),
@@ -63,6 +66,8 @@ namespace TestDemo.EntityHistory
 
         public static readonly Type[] TenantSideTrackedTypes =
         {
+            typeof(ObeEclSicrApproval),
+            typeof(ObeEclSicr),
             typeof(ObeEclUploadApproval),
             typeof(ObeEclUpload),
             typeof(ObeEclPdSnPCummulativeDefaultRate),
