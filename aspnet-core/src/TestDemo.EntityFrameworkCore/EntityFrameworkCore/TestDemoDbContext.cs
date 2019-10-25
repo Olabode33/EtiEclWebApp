@@ -1,3 +1,4 @@
+using TestDemo.ObeInputs;
 using TestDemo.ObeAssumption;
 using TestDemo.OBE;
 using TestDemo.RetailResults;
@@ -29,6 +30,14 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<ObeEclDataPaymentSchedule> ObeEclDataPaymentSchedules { get; set; }
+
+        public virtual DbSet<ObeEclDataLoanBook> ObeEclDataLoanBooks { get; set; }
+
+        public virtual DbSet<ObeEclUploadApproval> ObeEclUploadApprovals { get; set; }
+
+        public virtual DbSet<ObeEclUpload> ObeEclUploads { get; set; }
+
         public virtual DbSet<ObeEclPdSnPCummulativeDefaultRate> ObeEclPdSnPCummulativeDefaultRates { get; set; }
 
         public virtual DbSet<ObeEclPdAssumption12Month> ObeEclPdAssumption12Months { get; set; }
@@ -207,7 +216,27 @@ namespace TestDemo.EntityFrameworkCore
            
            
            
-            modelBuilder.Entity<ObeEclPdSnPCummulativeDefaultRate>(o =>
+           
+           
+           
+           
+            modelBuilder.Entity<ObeEclDataPaymentSchedule>(o =>
+            {
+                o.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<ObeEclDataLoanBook>(o =>
+            {
+                o.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<ObeEclUploadApproval>(o =>
+            {
+                o.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<ObeEclUpload>(o =>
+            {
+                o.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<ObeEclPdSnPCummulativeDefaultRate>(o =>
             {
                 o.HasIndex(e => new { e.TenantId });
             });

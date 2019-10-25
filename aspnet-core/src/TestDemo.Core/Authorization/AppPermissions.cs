@@ -6,6 +6,26 @@ namespace TestDemo.Authorization
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_ObeEclDataPaymentSchedules = "Pages.ObeEclDataPaymentSchedules";
+        public const string Pages_ObeEclDataPaymentSchedules_Create = "Pages.ObeEclDataPaymentSchedules.Create";
+        public const string Pages_ObeEclDataPaymentSchedules_Edit = "Pages.ObeEclDataPaymentSchedules.Edit";
+        public const string Pages_ObeEclDataPaymentSchedules_Delete = "Pages.ObeEclDataPaymentSchedules.Delete";
+
+        public const string Pages_ObeEclDataLoanBooks = "Pages.ObeEclDataLoanBooks";
+        public const string Pages_ObeEclDataLoanBooks_Create = "Pages.ObeEclDataLoanBooks.Create";
+        public const string Pages_ObeEclDataLoanBooks_Edit = "Pages.ObeEclDataLoanBooks.Edit";
+        public const string Pages_ObeEclDataLoanBooks_Delete = "Pages.ObeEclDataLoanBooks.Delete";
+
+        public const string Pages_ObeEclUploadApprovals = "Pages.ObeEclUploadApprovals";
+        public const string Pages_ObeEclUploadApprovals_Create = "Pages.ObeEclUploadApprovals.Create";
+        public const string Pages_ObeEclUploadApprovals_Edit = "Pages.ObeEclUploadApprovals.Edit";
+        public const string Pages_ObeEclUploadApprovals_Delete = "Pages.ObeEclUploadApprovals.Delete";
+
+        public const string Pages_ObeEclUploads = "Pages.ObeEclUploads";
+        public const string Pages_ObeEclUploads_Create = "Pages.ObeEclUploads.Create";
+        public const string Pages_ObeEclUploads_Edit = "Pages.ObeEclUploads.Edit";
+        public const string Pages_ObeEclUploads_Delete = "Pages.ObeEclUploads.Delete";
+
         public const string Pages_ObeEclPdSnPCummulativeDefaultRates = "Pages.ObeEclPdSnPCummulativeDefaultRates";
         public const string Pages_ObeEclPdSnPCummulativeDefaultRates_Create = "Pages.ObeEclPdSnPCummulativeDefaultRates.Create";
         public const string Pages_ObeEclPdSnPCummulativeDefaultRates_Edit = "Pages.ObeEclPdSnPCummulativeDefaultRates.Edit";

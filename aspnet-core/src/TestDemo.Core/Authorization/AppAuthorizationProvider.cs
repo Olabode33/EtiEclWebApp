@@ -30,6 +30,34 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var obeEclDataPaymentSchedules = pages.CreateChildPermission(AppPermissions.Pages_ObeEclDataPaymentSchedules, L("ObeEclDataPaymentSchedules"));
+            obeEclDataPaymentSchedules.CreateChildPermission(AppPermissions.Pages_ObeEclDataPaymentSchedules_Create, L("CreateNewObeEclDataPaymentSchedule"));
+            obeEclDataPaymentSchedules.CreateChildPermission(AppPermissions.Pages_ObeEclDataPaymentSchedules_Edit, L("EditObeEclDataPaymentSchedule"));
+            obeEclDataPaymentSchedules.CreateChildPermission(AppPermissions.Pages_ObeEclDataPaymentSchedules_Delete, L("DeleteObeEclDataPaymentSchedule"));
+
+
+
+            var obeEclDataLoanBooks = pages.CreateChildPermission(AppPermissions.Pages_ObeEclDataLoanBooks, L("ObeEclDataLoanBooks"));
+            obeEclDataLoanBooks.CreateChildPermission(AppPermissions.Pages_ObeEclDataLoanBooks_Create, L("CreateNewObeEclDataLoanBook"));
+            obeEclDataLoanBooks.CreateChildPermission(AppPermissions.Pages_ObeEclDataLoanBooks_Edit, L("EditObeEclDataLoanBook"));
+            obeEclDataLoanBooks.CreateChildPermission(AppPermissions.Pages_ObeEclDataLoanBooks_Delete, L("DeleteObeEclDataLoanBook"));
+
+
+
+            var obeEclUploadApprovals = pages.CreateChildPermission(AppPermissions.Pages_ObeEclUploadApprovals, L("ObeEclUploadApprovals"));
+            obeEclUploadApprovals.CreateChildPermission(AppPermissions.Pages_ObeEclUploadApprovals_Create, L("CreateNewObeEclUploadApproval"));
+            obeEclUploadApprovals.CreateChildPermission(AppPermissions.Pages_ObeEclUploadApprovals_Edit, L("EditObeEclUploadApproval"));
+            obeEclUploadApprovals.CreateChildPermission(AppPermissions.Pages_ObeEclUploadApprovals_Delete, L("DeleteObeEclUploadApproval"));
+
+
+
+            var obeEclUploads = pages.CreateChildPermission(AppPermissions.Pages_ObeEclUploads, L("ObeEclUploads"));
+            obeEclUploads.CreateChildPermission(AppPermissions.Pages_ObeEclUploads_Create, L("CreateNewObeEclUpload"));
+            obeEclUploads.CreateChildPermission(AppPermissions.Pages_ObeEclUploads_Edit, L("EditObeEclUpload"));
+            obeEclUploads.CreateChildPermission(AppPermissions.Pages_ObeEclUploads_Delete, L("DeleteObeEclUpload"));
+
+
+
             var obeEclPdSnPCummulativeDefaultRates = pages.CreateChildPermission(AppPermissions.Pages_ObeEclPdSnPCummulativeDefaultRates, L("ObeEclPdSnPCummulativeDefaultRates"));
             obeEclPdSnPCummulativeDefaultRates.CreateChildPermission(AppPermissions.Pages_ObeEclPdSnPCummulativeDefaultRates_Create, L("CreateNewObeEclPdSnPCummulativeDefaultRate"));
             obeEclPdSnPCummulativeDefaultRates.CreateChildPermission(AppPermissions.Pages_ObeEclPdSnPCummulativeDefaultRates_Edit, L("EditObeEclPdSnPCummulativeDefaultRate"));

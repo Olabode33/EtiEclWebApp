@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="ObeEclPdSnPCummulativeDefaultRate">Obe ecl pd sn p cummulative default rate</text>
+  <texts>    <text name="ObeEclDataPaymentSchedule">Obe ecl data payment schedule</text>
+    <text name="CreateNewObeEclDataPaymentSchedule">Create new obe ecl data payment schedule</text>
+    <text name="EditObeEclDataPaymentSchedule">Edit obe ecl data payment schedule</text>
+    <text name="DeleteObeEclDataPaymentSchedule">Delete obe ecl data payment schedule</text>
+    <text name="ObeEclDataLoanBook">Obe ecl data loan book</text>
+    <text name="CreateNewObeEclDataLoanBook">Create new obe ecl data loan book</text>
+    <text name="EditObeEclDataLoanBook">Edit obe ecl data loan book</text>
+    <text name="DeleteObeEclDataLoanBook">Delete obe ecl data loan book</text>
+    <text name="ObeEclUploadApproval">Obe ecl upload approval</text>
+    <text name="CreateNewObeEclUploadApproval">Create new obe ecl upload approval</text>
+    <text name="EditObeEclUploadApproval">Edit obe ecl upload approval</text>
+    <text name="DeleteObeEclUploadApproval">Delete obe ecl upload approval</text>
+    <text name="ObeInputs">Obe inputs</text>
+    <text name="ObeEclUpload">Obe ecl upload</text>
+    <text name="CreateNewObeEclUpload">Create new obe ecl upload</text>
+    <text name="EditObeEclUpload">Edit obe ecl upload</text>
+    <text name="DeleteObeEclUpload">Delete obe ecl upload</text>
+    <text name="ObeEclPdSnPCummulativeDefaultRate">Obe ecl pd sn p cummulative default rate</text>
     <text name="CreateNewObeEclPdSnPCummulativeDefaultRate">Create new obe ecl pd sn p cummulative default rate</text>
     <text name="EditObeEclPdSnPCummulativeDefaultRate">Edit obe ecl pd sn p cummulative default rate</text>
     <text name="DeleteObeEclPdSnPCummulativeDefaultRate">Delete obe ecl pd sn p cummulative default rate</text>
