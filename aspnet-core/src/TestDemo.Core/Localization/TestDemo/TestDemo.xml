@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="RetailEclResultSummaryTopExposure">Retail ecl result summary top exposure</text>
+  <texts>    <text name="ObeEclPdSnPCummulativeDefaultRate">Obe ecl pd sn p cummulative default rate</text>
+    <text name="CreateNewObeEclPdSnPCummulativeDefaultRate">Create new obe ecl pd sn p cummulative default rate</text>
+    <text name="EditObeEclPdSnPCummulativeDefaultRate">Edit obe ecl pd sn p cummulative default rate</text>
+    <text name="DeleteObeEclPdSnPCummulativeDefaultRate">Delete obe ecl pd sn p cummulative default rate</text>
+    <text name="ObeEclPdAssumption12Month">Obe ecl pd assumption 1 2 month</text>
+    <text name="CreateNewObeEclPdAssumption12Month">Create new obe ecl pd assumption 1 2 month</text>
+    <text name="EditObeEclPdAssumption12Month">Edit obe ecl pd assumption 1 2 month</text>
+    <text name="DeleteObeEclPdAssumption12Month">Delete obe ecl pd assumption 1 2 month</text>
+    <text name="ObeEclLgdAssumption">Obe ecl lgd assumption</text>
+    <text name="CreateNewObeEclLgdAssumption">Create new obe ecl lgd assumption</text>
+    <text name="EditObeEclLgdAssumption">Edit obe ecl lgd assumption</text>
+    <text name="DeleteObeEclLgdAssumption">Delete obe ecl lgd assumption</text>
+    <text name="ObeEclEadInputAssumption">Obe ecl ead input assumption</text>
+    <text name="CreateNewObeEclEadInputAssumption">Create new obe ecl ead input assumption</text>
+    <text name="EditObeEclEadInputAssumption">Edit obe ecl ead input assumption</text>
+    <text name="DeleteObeEclEadInputAssumption">Delete obe ecl ead input assumption</text>
+    <text name="ObeEclAssumptionApproval">Obe ecl assumption approval</text>
+    <text name="CreateNewObeEclAssumptionApproval">Create new obe ecl assumption approval</text>
+    <text name="EditObeEclAssumptionApproval">Edit obe ecl assumption approval</text>
+    <text name="DeleteObeEclAssumptionApproval">Delete obe ecl assumption approval</text>
+    <text name="ObeAssumption">Obe assumption</text>
+    <text name="ObeEclAssumption">Obe ecl assumption</text>
+    <text name="CreateNewObeEclAssumption">Create new obe ecl assumption</text>
+    <text name="EditObeEclAssumption">Edit obe ecl assumption</text>
+    <text name="DeleteObeEclAssumption">Delete obe ecl assumption</text>
+    <text name="ObeEclApproval">Obe ecl approval</text>
+    <text name="CreateNewObeEclApproval">Create new obe ecl approval</text>
+    <text name="EditObeEclApproval">Edit obe ecl approval</text>
+    <text name="DeleteObeEclApproval">Delete obe ecl approval</text>
+    <text name="OBE">O b e</text>
+    <text name="ObeEcl">Obe ecl</text>
+    <text name="CreateNewObeEcl">Create new obe ecl</text>
+    <text name="EditObeEcl">Edit obe ecl</text>
+    <text name="DeleteObeEcl">Delete obe ecl</text>
+    <text name="RetailEclResultSummaryTopExposure">Retail ecl result summary top exposure</text>
     <text name="CreateNewRetailEclResultSummaryTopExposure">Create new retail ecl result summary top exposure</text>
     <text name="EditRetailEclResultSummaryTopExposure">Edit retail ecl result summary top exposure</text>
     <text name="DeleteRetailEclResultSummaryTopExposure">Delete retail ecl result summary top exposure</text>

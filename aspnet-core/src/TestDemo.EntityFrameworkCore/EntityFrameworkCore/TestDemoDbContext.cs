@@ -1,3 +1,5 @@
+using TestDemo.ObeAssumption;
+using TestDemo.OBE;
 using TestDemo.RetailResults;
 using TestDemo.RetailComputation;
 using TestDemo.RetailInputs;
@@ -27,6 +29,22 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<ObeEclPdSnPCummulativeDefaultRate> ObeEclPdSnPCummulativeDefaultRates { get; set; }
+
+        public virtual DbSet<ObeEclPdAssumption12Month> ObeEclPdAssumption12Months { get; set; }
+
+        public virtual DbSet<ObeEclLgdAssumption> ObeEclLgdAssumptions { get; set; }
+
+        public virtual DbSet<ObeEclEadInputAssumption> ObeEclEadInputAssumptions { get; set; }
+
+        public virtual DbSet<ObeEclAssumptionApproval> ObeEclAssumptionApprovals { get; set; }
+
+        public virtual DbSet<ObeEclAssumption> ObeEclAssumptions { get; set; }
+
+        public virtual DbSet<ObeEclApproval> ObeEclApprovals { get; set; }
+
+        public virtual DbSet<ObeEcl> ObeEcls { get; set; }
+
         public virtual DbSet<RetailEclResultSummaryTopExposure> RetailEclResultSummaryTopExposures { get; set; }
 
         public virtual DbSet<RetailEclResultSummaryKeyInput> RetailEclResultSummaryKeyInputs { get; set; }
@@ -181,7 +199,47 @@ namespace TestDemo.EntityFrameworkCore
            
            
            
-            modelBuilder.Entity<RetailEclResultSummaryTopExposure>(r =>
+           
+           
+           
+           
+           
+           
+           
+           
+            modelBuilder.Entity<ObeEclPdSnPCummulativeDefaultRate>(o =>
+            {
+                o.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<ObeEclPdAssumption12Month>(o =>
+            {
+                o.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<ObeEclLgdAssumption>(o =>
+            {
+                o.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<ObeEclEadInputAssumption>(o =>
+            {
+                o.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<ObeEclAssumptionApproval>(o =>
+            {
+                o.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<ObeEclAssumption>(o =>
+            {
+                o.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<ObeEclApproval>(o =>
+            {
+                o.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<ObeEcl>(o =>
+            {
+                o.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<RetailEclResultSummaryTopExposure>(r =>
             {
                 r.HasIndex(e => new { e.TenantId });
             });

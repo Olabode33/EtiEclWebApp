@@ -6,6 +6,46 @@ namespace TestDemo.Authorization
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_ObeEclPdSnPCummulativeDefaultRates = "Pages.ObeEclPdSnPCummulativeDefaultRates";
+        public const string Pages_ObeEclPdSnPCummulativeDefaultRates_Create = "Pages.ObeEclPdSnPCummulativeDefaultRates.Create";
+        public const string Pages_ObeEclPdSnPCummulativeDefaultRates_Edit = "Pages.ObeEclPdSnPCummulativeDefaultRates.Edit";
+        public const string Pages_ObeEclPdSnPCummulativeDefaultRates_Delete = "Pages.ObeEclPdSnPCummulativeDefaultRates.Delete";
+
+        public const string Pages_ObeEclPdAssumption12Months = "Pages.ObeEclPdAssumption12Months";
+        public const string Pages_ObeEclPdAssumption12Months_Create = "Pages.ObeEclPdAssumption12Months.Create";
+        public const string Pages_ObeEclPdAssumption12Months_Edit = "Pages.ObeEclPdAssumption12Months.Edit";
+        public const string Pages_ObeEclPdAssumption12Months_Delete = "Pages.ObeEclPdAssumption12Months.Delete";
+
+        public const string Pages_ObeEclLgdAssumptions = "Pages.ObeEclLgdAssumptions";
+        public const string Pages_ObeEclLgdAssumptions_Create = "Pages.ObeEclLgdAssumptions.Create";
+        public const string Pages_ObeEclLgdAssumptions_Edit = "Pages.ObeEclLgdAssumptions.Edit";
+        public const string Pages_ObeEclLgdAssumptions_Delete = "Pages.ObeEclLgdAssumptions.Delete";
+
+        public const string Pages_ObeEclEadInputAssumptions = "Pages.ObeEclEadInputAssumptions";
+        public const string Pages_ObeEclEadInputAssumptions_Create = "Pages.ObeEclEadInputAssumptions.Create";
+        public const string Pages_ObeEclEadInputAssumptions_Edit = "Pages.ObeEclEadInputAssumptions.Edit";
+        public const string Pages_ObeEclEadInputAssumptions_Delete = "Pages.ObeEclEadInputAssumptions.Delete";
+
+        public const string Pages_ObeEclAssumptionApprovals = "Pages.ObeEclAssumptionApprovals";
+        public const string Pages_ObeEclAssumptionApprovals_Create = "Pages.ObeEclAssumptionApprovals.Create";
+        public const string Pages_ObeEclAssumptionApprovals_Edit = "Pages.ObeEclAssumptionApprovals.Edit";
+        public const string Pages_ObeEclAssumptionApprovals_Delete = "Pages.ObeEclAssumptionApprovals.Delete";
+
+        public const string Pages_ObeEclAssumptions = "Pages.ObeEclAssumptions";
+        public const string Pages_ObeEclAssumptions_Create = "Pages.ObeEclAssumptions.Create";
+        public const string Pages_ObeEclAssumptions_Edit = "Pages.ObeEclAssumptions.Edit";
+        public const string Pages_ObeEclAssumptions_Delete = "Pages.ObeEclAssumptions.Delete";
+
+        public const string Pages_ObeEclApprovals = "Pages.ObeEclApprovals";
+        public const string Pages_ObeEclApprovals_Create = "Pages.ObeEclApprovals.Create";
+        public const string Pages_ObeEclApprovals_Edit = "Pages.ObeEclApprovals.Edit";
+        public const string Pages_ObeEclApprovals_Delete = "Pages.ObeEclApprovals.Delete";
+
+        public const string Pages_ObeEcls = "Pages.ObeEcls";
+        public const string Pages_ObeEcls_Create = "Pages.ObeEcls.Create";
+        public const string Pages_ObeEcls_Edit = "Pages.ObeEcls.Edit";
+        public const string Pages_ObeEcls_Delete = "Pages.ObeEcls.Delete";
+
         public const string Pages_RetailEclResultSummaryTopExposures = "Pages.RetailEclResultSummaryTopExposures";
         public const string Pages_RetailEclResultSummaryTopExposures_Create = "Pages.RetailEclResultSummaryTopExposures.Create";
         public const string Pages_RetailEclResultSummaryTopExposures_Edit = "Pages.RetailEclResultSummaryTopExposures.Edit";
