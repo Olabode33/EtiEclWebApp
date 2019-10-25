@@ -1499,6 +1499,88 @@ namespace TestDemo.Migrations
                     b.ToTable("AbpTenants");
                 });
 
+            modelBuilder.Entity("TestDemo.Retail.RetailEcl", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long?>("ClosedByUserId");
+
+                    b.Property<DateTime?>("ClosedDate");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsApproved");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<DateTime>("ReportingDate");
+
+                    b.Property<int>("Status");
+
+                    b.Property<int?>("TenantId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClosedByUserId");
+
+                    b.HasIndex("TenantId");
+
+                    b.ToTable("RetailEcls");
+                });
+
+            modelBuilder.Entity("TestDemo.Retail.RetailEclApproval", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<Guid?>("RetailEclId");
+
+                    b.Property<string>("ReviewComment");
+
+                    b.Property<long?>("ReviewedByUserId");
+
+                    b.Property<DateTime?>("ReviewedDate");
+
+                    b.Property<int>("Status");
+
+                    b.Property<int?>("TenantId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RetailEclId");
+
+                    b.HasIndex("ReviewedByUserId");
+
+                    b.HasIndex("TenantId");
+
+                    b.ToTable("RetailEclApprovals");
+                });
+
             modelBuilder.Entity("TestDemo.Storage.BinaryObject", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2690,6 +2772,24 @@ namespace TestDemo.Migrations
                     b.HasOne("TestDemo.Authorization.Users.User", "LastModifierUser")
                         .WithMany()
                         .HasForeignKey("LastModifierUserId");
+                });
+
+            modelBuilder.Entity("TestDemo.Retail.RetailEcl", b =>
+                {
+                    b.HasOne("TestDemo.Authorization.Users.User", "ClosedByUserFk")
+                        .WithMany()
+                        .HasForeignKey("ClosedByUserId");
+                });
+
+            modelBuilder.Entity("TestDemo.Retail.RetailEclApproval", b =>
+                {
+                    b.HasOne("TestDemo.Retail.RetailEcl", "RetailEclFk")
+                        .WithMany()
+                        .HasForeignKey("RetailEclId");
+
+                    b.HasOne("TestDemo.Authorization.Users.User", "ReviewedByUserFk")
+                        .WithMany()
+                        .HasForeignKey("ReviewedByUserId");
                 });
 
             modelBuilder.Entity("TestDemo.Wholesale.WholesaleEcl", b =>

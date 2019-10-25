@@ -30,6 +30,62 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var retailEclPdSnPCummulativeDefaultRates = pages.CreateChildPermission(AppPermissions.Pages_RetailEclPdSnPCummulativeDefaultRates, L("RetailEclPdSnPCummulativeDefaultRates"));
+            retailEclPdSnPCummulativeDefaultRates.CreateChildPermission(AppPermissions.Pages_RetailEclPdSnPCummulativeDefaultRates_Create, L("CreateNewRetailEclPdSnPCummulativeDefaultRate"));
+            retailEclPdSnPCummulativeDefaultRates.CreateChildPermission(AppPermissions.Pages_RetailEclPdSnPCummulativeDefaultRates_Edit, L("EditRetailEclPdSnPCummulativeDefaultRate"));
+            retailEclPdSnPCummulativeDefaultRates.CreateChildPermission(AppPermissions.Pages_RetailEclPdSnPCummulativeDefaultRates_Delete, L("DeleteRetailEclPdSnPCummulativeDefaultRate"));
+
+
+
+            var retailEclPdAssumption12Months = pages.CreateChildPermission(AppPermissions.Pages_RetailEclPdAssumption12Months, L("RetailEclPdAssumption12Months"));
+            retailEclPdAssumption12Months.CreateChildPermission(AppPermissions.Pages_RetailEclPdAssumption12Months_Create, L("CreateNewRetailEclPdAssumption12Month"));
+            retailEclPdAssumption12Months.CreateChildPermission(AppPermissions.Pages_RetailEclPdAssumption12Months_Edit, L("EditRetailEclPdAssumption12Month"));
+            retailEclPdAssumption12Months.CreateChildPermission(AppPermissions.Pages_RetailEclPdAssumption12Months_Delete, L("DeleteRetailEclPdAssumption12Month"));
+
+
+
+            var retailEclLgdAssumptions = pages.CreateChildPermission(AppPermissions.Pages_RetailEclLgdAssumptions, L("RetailEclLgdAssumptions"));
+            retailEclLgdAssumptions.CreateChildPermission(AppPermissions.Pages_RetailEclLgdAssumptions_Create, L("CreateNewRetailEclLgdAssumption"));
+            retailEclLgdAssumptions.CreateChildPermission(AppPermissions.Pages_RetailEclLgdAssumptions_Edit, L("EditRetailEclLgdAssumption"));
+            retailEclLgdAssumptions.CreateChildPermission(AppPermissions.Pages_RetailEclLgdAssumptions_Delete, L("DeleteRetailEclLgdAssumption"));
+
+
+
+            var retailEclEadInputAssumptions = pages.CreateChildPermission(AppPermissions.Pages_RetailEclEadInputAssumptions, L("RetailEclEadInputAssumptions"));
+            retailEclEadInputAssumptions.CreateChildPermission(AppPermissions.Pages_RetailEclEadInputAssumptions_Create, L("CreateNewRetailEclEadInputAssumption"));
+            retailEclEadInputAssumptions.CreateChildPermission(AppPermissions.Pages_RetailEclEadInputAssumptions_Edit, L("EditRetailEclEadInputAssumption"));
+            retailEclEadInputAssumptions.CreateChildPermission(AppPermissions.Pages_RetailEclEadInputAssumptions_Delete, L("DeleteRetailEclEadInputAssumption"));
+
+
+
+            var retailEclAssumptionApprovalses = pages.CreateChildPermission(AppPermissions.Pages_RetailEclAssumptionApprovalses, L("RetailEclAssumptionApprovalses"));
+            retailEclAssumptionApprovalses.CreateChildPermission(AppPermissions.Pages_RetailEclAssumptionApprovalses_Create, L("CreateNewRetailEclAssumptionApprovals"));
+            retailEclAssumptionApprovalses.CreateChildPermission(AppPermissions.Pages_RetailEclAssumptionApprovalses_Edit, L("EditRetailEclAssumptionApprovals"));
+            retailEclAssumptionApprovalses.CreateChildPermission(AppPermissions.Pages_RetailEclAssumptionApprovalses_Delete, L("DeleteRetailEclAssumptionApprovals"));
+
+
+
+            var retailEclAssumptions = pages.CreateChildPermission(AppPermissions.Pages_RetailEclAssumptions, L("RetailEclAssumptions"));
+            retailEclAssumptions.CreateChildPermission(AppPermissions.Pages_RetailEclAssumptions_Create, L("CreateNewRetailEclAssumption"));
+            retailEclAssumptions.CreateChildPermission(AppPermissions.Pages_RetailEclAssumptions_Edit, L("EditRetailEclAssumption"));
+            retailEclAssumptions.CreateChildPermission(AppPermissions.Pages_RetailEclAssumptions_Delete, L("DeleteRetailEclAssumption"));
+
+
+
+            var retailEclApprovals = pages.CreateChildPermission(AppPermissions.Pages_RetailEclApprovals, L("RetailEclApprovals"));
+            retailEclApprovals.CreateChildPermission(AppPermissions.Pages_RetailEclApprovals_Create, L("CreateNewRetailEclApproval"));
+            retailEclApprovals.CreateChildPermission(AppPermissions.Pages_RetailEclApprovals_Edit, L("EditRetailEclApproval"));
+            retailEclApprovals.CreateChildPermission(AppPermissions.Pages_RetailEclApprovals_Delete, L("DeleteRetailEclApproval"));
+
+
+
+            var retailEcls = pages.CreateChildPermission(AppPermissions.Pages_RetailEcls, L("RetailEcls"));
+            retailEcls.CreateChildPermission(AppPermissions.Pages_RetailEcls_Create, L("CreateNewRetailEcl"));
+            retailEcls.CreateChildPermission(AppPermissions.Pages_RetailEcls_Edit, L("EditRetailEcl"));
+            retailEcls.CreateChildPermission(AppPermissions.Pages_RetailEcls_Delete, L("DeleteRetailEcl"));
+
+
+
             var wholesaleEclResultSummaryTopExposures = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEclResultSummaryTopExposures, L("WholesaleEclResultSummaryTopExposures"));
             wholesaleEclResultSummaryTopExposures.CreateChildPermission(AppPermissions.Pages_WholesaleEclResultSummaryTopExposures_Create, L("CreateNewWholesaleEclResultSummaryTopExposure"));
             wholesaleEclResultSummaryTopExposures.CreateChildPermission(AppPermissions.Pages_WholesaleEclResultSummaryTopExposures_Edit, L("EditWholesaleEclResultSummaryTopExposure"));

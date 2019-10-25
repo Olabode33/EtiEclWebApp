@@ -1,3 +1,7 @@
+using TestDemo.RetailAssumption.Dtos;
+using TestDemo.RetailAssumption;
+using TestDemo.Retail.Dtos;
+using TestDemo.Retail;
 using TestDemo.WholesaleResult;
 using TestDemo.WholesaleResults.Dtos;
 using TestDemo.WholesaleResults;
@@ -54,6 +58,22 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+           configuration.CreateMap<CreateOrEditRetailEclPdSnPCummulativeDefaultRateDto, RetailEclPdSnPCummulativeDefaultRate>().ReverseMap();
+           configuration.CreateMap<RetailEclPdSnPCummulativeDefaultRateDto, RetailEclPdSnPCummulativeDefaultRate>().ReverseMap();
+           configuration.CreateMap<CreateOrEditRetailEclPdAssumption12MonthDto, RetailEclPdAssumption12Month>().ReverseMap();
+           configuration.CreateMap<RetailEclPdAssumption12MonthDto, RetailEclPdAssumption12Month>().ReverseMap();
+           configuration.CreateMap<CreateOrEditRetailEclLgdAssumptionDto, RetailEclLgdAssumption>().ReverseMap();
+           configuration.CreateMap<RetailEclLgdAssumptionDto, RetailEclLgdAssumption>().ReverseMap();
+           configuration.CreateMap<CreateOrEditRetailEclEadInputAssumptionDto, RetailEclEadInputAssumption>().ReverseMap();
+           configuration.CreateMap<RetailEclEadInputAssumptionDto, RetailEclEadInputAssumption>().ReverseMap();
+           configuration.CreateMap<CreateOrEditRetailEclAssumptionApprovalsDto, RetailEclAssumptionApproval>().ReverseMap();
+           configuration.CreateMap<RetailEclAssumptionApprovalsDto, RetailEclAssumptionApproval>().ReverseMap();
+           configuration.CreateMap<CreateOrEditRetailEclAssumptionDto, RetailEclAssumption>().ReverseMap();
+           configuration.CreateMap<RetailEclAssumptionDto, RetailEclAssumption>().ReverseMap();
+           configuration.CreateMap<CreateOrEditRetailEclApprovalDto, RetailEclApproval>().ReverseMap();
+           configuration.CreateMap<RetailEclApprovalDto, RetailEclApproval>().ReverseMap();
+           configuration.CreateMap<CreateOrEditRetailEclDto, RetailEcl>().ReverseMap();
+           configuration.CreateMap<RetailEclDto, RetailEcl>().ReverseMap();
            configuration.CreateMap<CreateOrEditWholesaleEclResultSummaryTopExposureDto, WholesaleEclResultSummaryTopExposure>().ReverseMap();
            configuration.CreateMap<WholesaleEclResultSummaryTopExposureDto, WholesaleEclResultSummaryTopExposure>().ReverseMap();
            configuration.CreateMap<CreateOrEditWholesaleEclResultSummaryKeyInputDto, WholesaleEclResultSummaryKeyInput>().ReverseMap();

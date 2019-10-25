@@ -1,3 +1,5 @@
+using TestDemo.RetailAssumption;
+using TestDemo.Retail;
 using TestDemo.WholesaleResult;
 using TestDemo.WholesaleResults;
 using TestDemo.WholesaleComputation;
@@ -22,6 +24,22 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<RetailEclPdSnPCummulativeDefaultRate> RetailEclPdSnPCummulativeDefaultRates { get; set; }
+
+        public virtual DbSet<RetailEclPdAssumption12Month> RetailEclPdAssumption12Months { get; set; }
+
+        public virtual DbSet<RetailEclLgdAssumption> RetailEclLgdAssumptions { get; set; }
+
+        public virtual DbSet<RetailEclEadInputAssumption> RetailEclEadInputAssumptions { get; set; }
+
+        public virtual DbSet<RetailEclAssumptionApproval> RetailEclAssumptionApprovalses { get; set; }
+
+        public virtual DbSet<RetailEclAssumption> RetailEclAssumptions { get; set; }
+
+        public virtual DbSet<RetailEclApproval> RetailEclApprovals { get; set; }
+
+        public virtual DbSet<RetailEcl> RetailEcls { get; set; }
+
         public virtual DbSet<WholesaleEclResultSummaryTopExposure> WholesaleEclResultSummaryTopExposures { get; set; }
 
         public virtual DbSet<WholesaleEclResultSummaryKeyInput> WholesaleEclResultSummaryKeyInputs { get; set; }
@@ -90,117 +108,159 @@ namespace TestDemo.EntityFrameworkCore
         public TestDemoDbContext(DbContextOptions<TestDemoDbContext> options)
             : base(options)
         {
-            
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
            
            
            
            
            
            
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
+            modelBuilder.Entity<RetailEclPdSnPCummulativeDefaultRate>(r =>
+            {
+                r.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<RetailEclPdAssumption12Month>(r =>
+            {
+                r.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<RetailEclLgdAssumption>(r =>
+            {
+                r.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<RetailEclEadInputAssumption>(r =>
+            {
+                r.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<RetailEclAssumptionApproval>(r =>
+            {
+                r.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<RetailEclAssumption>(r =>
+            {
+                r.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<RetailEclApproval>(r =>
+                       {
+                           r.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<RetailEcl>(r =>
+                       {
+                           r.HasIndex(e => new { e.TenantId });
+                       });
             modelBuilder.Entity<WholesaleEclResultSummaryTopExposure>(w =>
-            {
-                w.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<WholesaleEclResultSummaryKeyInput>(w =>
-            {
-                w.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<WholesaleEclResultSummary>(w =>
-            {
-                w.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<WholesaleEclResultDetail>(w =>
-            {
-                w.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<WholesaleEclComputedEadResult>(w =>
-            {
-                w.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<WholesaleEclSicrApproval>(w =>
-            {
-                w.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<WholesaleEclSicr>(w =>
-            {
-                w.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<WholesaleEclDataPaymentSchedule>(w =>
-            {
-                w.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<WholesaleEclDataLoanBook>(w =>
-            {
-                w.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<WholesaleEclUploadApproval>(w =>
-            {
-                w.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<WholesaleEclUpload>(w =>
-            {
-                w.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<WholesaleEclEadInputAssumption>(w =>
-            {
-                w.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<WholesaleEclApproval>(w =>
-            {
-                w.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<WholesaleEclPdSnPCummulativeDefaultRate>(w =>
-            {
-                w.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<WholesaleEclPdAssumption12Month>(w =>
-            {
-                w.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<WholesaleEclLgdAssumption>(w =>
-            {
-                w.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<WholesaleEclEadInputAssumption>(w =>
-            {
-                w.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<WholesaleEclAssumption>(w =>
-            {
-                w.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<WholesaleEcl>(w =>
-            {
-                w.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<EadInputAssumption>(x =>
-            {
-                x.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<BinaryObject>(b =>
-            {
-                b.HasIndex(e => new { e.TenantId });
-            });
+                       {
+                           w.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<WholesaleEclResultSummaryKeyInput>(w =>
+                       {
+                           w.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<WholesaleEclResultSummary>(w =>
+                       {
+                           w.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<WholesaleEclResultDetail>(w =>
+                       {
+                           w.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<WholesaleEclComputedEadResult>(w =>
+                       {
+                           w.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<WholesaleEclSicrApproval>(w =>
+                       {
+                           w.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<WholesaleEclSicr>(w =>
+                       {
+                           w.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<WholesaleEclDataPaymentSchedule>(w =>
+                       {
+                           w.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<WholesaleEclDataLoanBook>(w =>
+                       {
+                           w.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<WholesaleEclUploadApproval>(w =>
+                       {
+                           w.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<WholesaleEclUpload>(w =>
+                       {
+                           w.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<WholesaleEclEadInputAssumption>(w =>
+                       {
+                           w.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<WholesaleEclApproval>(w =>
+                       {
+                           w.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<WholesaleEclPdSnPCummulativeDefaultRate>(w =>
+                       {
+                           w.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<WholesaleEclPdAssumption12Month>(w =>
+                       {
+                           w.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<WholesaleEclLgdAssumption>(w =>
+                       {
+                           w.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<WholesaleEclEadInputAssumption>(w =>
+                       {
+                           w.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<WholesaleEclAssumption>(w =>
+                       {
+                           w.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<WholesaleEcl>(w =>
+                       {
+                           w.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<EadInputAssumption>(x =>
+                       {
+                           x.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<BinaryObject>(b =>
+                       {
+                           b.HasIndex(e => new { e.TenantId });
+                       });
 
             modelBuilder.Entity<ChatMessage>(b =>
             {

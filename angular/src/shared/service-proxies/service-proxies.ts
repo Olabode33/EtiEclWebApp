@@ -572,6 +572,240 @@ export class AccountServiceProxy {
 }
 
 @Injectable()
+export class AssumptionsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param inputNameFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, inputNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetAssumptionForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Assumptions/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (inputNameFilter !== undefined)
+            url_ += "InputNameFilter=" + encodeURIComponent("" + inputNameFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetAssumptionForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetAssumptionForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetAssumptionForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetAssumptionForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetAssumptionForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetAssumptionForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getAssumptionForEdit(id: string | null | undefined): Observable<GetAssumptionForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Assumptions/GetAssumptionForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAssumptionForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAssumptionForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetAssumptionForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetAssumptionForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAssumptionForEdit(response: HttpResponseBase): Observable<GetAssumptionForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetAssumptionForEditOutput.fromJS(resultData200) : new GetAssumptionForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetAssumptionForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditAssumptionDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Assumptions/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Assumptions/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class AuditLogServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -1936,6 +2170,240 @@ export class DemoUiComponentsServiceProxy {
             }));
         }
         return _observableOf<StringOutput>(<any>null);
+    }
+}
+
+@Injectable()
+export class EadInputAssumptionsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param inputNameFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, inputNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetEadInputAssumptionForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/EadInputAssumptions/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (inputNameFilter !== undefined)
+            url_ += "InputNameFilter=" + encodeURIComponent("" + inputNameFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetEadInputAssumptionForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetEadInputAssumptionForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetEadInputAssumptionForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetEadInputAssumptionForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetEadInputAssumptionForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetEadInputAssumptionForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getEadInputAssumptionForEdit(id: string | null | undefined): Observable<GetEadInputAssumptionForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/EadInputAssumptions/GetEadInputAssumptionForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetEadInputAssumptionForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetEadInputAssumptionForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetEadInputAssumptionForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetEadInputAssumptionForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetEadInputAssumptionForEdit(response: HttpResponseBase): Observable<GetEadInputAssumptionForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetEadInputAssumptionForEditOutput.fromJS(resultData200) : new GetEadInputAssumptionForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetEadInputAssumptionForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditEadInputAssumptionDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/EadInputAssumptions/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/EadInputAssumptions/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 }
 
@@ -3683,6 +4151,240 @@ export class LanguageServiceProxy {
     }
 
     protected processUpdateLanguageText(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class LgdAssumptionUnsecuredRecoveriesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param inputNameFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, inputNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetLgdAssumptionUnsecuredRecoveryForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/LgdAssumptionUnsecuredRecoveries/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (inputNameFilter !== undefined)
+            url_ += "InputNameFilter=" + encodeURIComponent("" + inputNameFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetLgdAssumptionUnsecuredRecoveryForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetLgdAssumptionUnsecuredRecoveryForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetLgdAssumptionUnsecuredRecoveryForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetLgdAssumptionUnsecuredRecoveryForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetLgdAssumptionUnsecuredRecoveryForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetLgdAssumptionUnsecuredRecoveryForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getLgdAssumptionUnsecuredRecoveryForEdit(id: string | null | undefined): Observable<GetLgdAssumptionUnsecuredRecoveryForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/LgdAssumptionUnsecuredRecoveries/GetLgdAssumptionUnsecuredRecoveryForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLgdAssumptionUnsecuredRecoveryForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLgdAssumptionUnsecuredRecoveryForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetLgdAssumptionUnsecuredRecoveryForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetLgdAssumptionUnsecuredRecoveryForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLgdAssumptionUnsecuredRecoveryForEdit(response: HttpResponseBase): Observable<GetLgdAssumptionUnsecuredRecoveryForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetLgdAssumptionUnsecuredRecoveryForEditOutput.fromJS(resultData200) : new GetLgdAssumptionUnsecuredRecoveryForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetLgdAssumptionUnsecuredRecoveryForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditLgdAssumptionUnsecuredRecoveryDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LgdAssumptionUnsecuredRecoveries/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LgdAssumptionUnsecuredRecoveries/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -5554,6 +6256,480 @@ export class PayPalPaymentServiceProxy {
     }
 
     protected processCancelPayment(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class PdInputAssumption12MonthsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param maxCreditFilter (optional) 
+     * @param minCreditFilter (optional) 
+     * @param snPMappingEtiCreditPolicyFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, maxCreditFilter: number | null | undefined, minCreditFilter: number | null | undefined, snPMappingEtiCreditPolicyFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetPdInputAssumption12MonthForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputAssumption12Months/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (maxCreditFilter !== undefined)
+            url_ += "MaxCreditFilter=" + encodeURIComponent("" + maxCreditFilter) + "&"; 
+        if (minCreditFilter !== undefined)
+            url_ += "MinCreditFilter=" + encodeURIComponent("" + minCreditFilter) + "&"; 
+        if (snPMappingEtiCreditPolicyFilter !== undefined)
+            url_ += "SnPMappingEtiCreditPolicyFilter=" + encodeURIComponent("" + snPMappingEtiCreditPolicyFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetPdInputAssumption12MonthForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetPdInputAssumption12MonthForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetPdInputAssumption12MonthForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetPdInputAssumption12MonthForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetPdInputAssumption12MonthForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetPdInputAssumption12MonthForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getPdInputAssumption12MonthForEdit(id: string | null | undefined): Observable<GetPdInputAssumption12MonthForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputAssumption12Months/GetPdInputAssumption12MonthForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPdInputAssumption12MonthForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPdInputAssumption12MonthForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetPdInputAssumption12MonthForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetPdInputAssumption12MonthForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPdInputAssumption12MonthForEdit(response: HttpResponseBase): Observable<GetPdInputAssumption12MonthForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetPdInputAssumption12MonthForEditOutput.fromJS(resultData200) : new GetPdInputAssumption12MonthForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetPdInputAssumption12MonthForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditPdInputAssumption12MonthDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputAssumption12Months/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputAssumption12Months/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class PdInputSnPCummulativeDefaultRatesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param ratingFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, ratingFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetPdInputSnPCummulativeDefaultRateForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputSnPCummulativeDefaultRates/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (ratingFilter !== undefined)
+            url_ += "RatingFilter=" + encodeURIComponent("" + ratingFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetPdInputSnPCummulativeDefaultRateForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetPdInputSnPCummulativeDefaultRateForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetPdInputSnPCummulativeDefaultRateForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetPdInputSnPCummulativeDefaultRateForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetPdInputSnPCummulativeDefaultRateForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetPdInputSnPCummulativeDefaultRateForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getPdInputSnPCummulativeDefaultRateForEdit(id: string | null | undefined): Observable<GetPdInputSnPCummulativeDefaultRateForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputSnPCummulativeDefaultRates/GetPdInputSnPCummulativeDefaultRateForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPdInputSnPCummulativeDefaultRateForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPdInputSnPCummulativeDefaultRateForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetPdInputSnPCummulativeDefaultRateForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetPdInputSnPCummulativeDefaultRateForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPdInputSnPCummulativeDefaultRateForEdit(response: HttpResponseBase): Observable<GetPdInputSnPCummulativeDefaultRateForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetPdInputSnPCummulativeDefaultRateForEditOutput.fromJS(resultData200) : new GetPdInputSnPCummulativeDefaultRateForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetPdInputSnPCummulativeDefaultRateForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditPdInputSnPCummulativeDefaultRateDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputSnPCummulativeDefaultRates/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputSnPCummulativeDefaultRates/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -10062,6 +11238,6717 @@ export class WebLogServiceProxy {
     }
 }
 
+@Injectable()
+export class WholesaleEadInputAssumptionsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param inputNameFilter (optional) 
+     * @param wholesaleEclTenantIdFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, inputNameFilter: string | null | undefined, wholesaleEclTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesaleEadInputAssumptionForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEadInputAssumptions/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (inputNameFilter !== undefined)
+            url_ += "InputNameFilter=" + encodeURIComponent("" + inputNameFilter) + "&"; 
+        if (wholesaleEclTenantIdFilter !== undefined)
+            url_ += "WholesaleEclTenantIdFilter=" + encodeURIComponent("" + wholesaleEclTenantIdFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWholesaleEadInputAssumptionForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWholesaleEadInputAssumptionForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesaleEadInputAssumptionForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetWholesaleEadInputAssumptionForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesaleEadInputAssumptionForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWholesaleEadInputAssumptionForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWholesaleEadInputAssumptionForEdit(id: string | null | undefined): Observable<GetWholesaleEadInputAssumptionForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEadInputAssumptions/GetWholesaleEadInputAssumptionForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWholesaleEadInputAssumptionForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWholesaleEadInputAssumptionForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWholesaleEadInputAssumptionForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWholesaleEadInputAssumptionForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWholesaleEadInputAssumptionForEdit(response: HttpResponseBase): Observable<GetWholesaleEadInputAssumptionForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWholesaleEadInputAssumptionForEditOutput.fromJS(resultData200) : new GetWholesaleEadInputAssumptionForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWholesaleEadInputAssumptionForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditWholesaleEadInputAssumptionDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEadInputAssumptions/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEadInputAssumptions/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEadInputAssumptions/GetAllWholesaleEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWholesaleEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class WholesaleEclApprovalsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param maxReviewedDateFilter (optional) 
+     * @param minReviewedDateFilter (optional) 
+     * @param statusFilter (optional) 
+     * @param userNameFilter (optional) 
+     * @param wholesaleEclTenantIdFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, maxReviewedDateFilter: moment.Moment | null | undefined, minReviewedDateFilter: moment.Moment | null | undefined, statusFilter: number | null | undefined, userNameFilter: string | null | undefined, wholesaleEclTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesaleEclApprovalForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclApprovals/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (maxReviewedDateFilter !== undefined)
+            url_ += "MaxReviewedDateFilter=" + encodeURIComponent(maxReviewedDateFilter ? "" + maxReviewedDateFilter.toJSON() : "") + "&"; 
+        if (minReviewedDateFilter !== undefined)
+            url_ += "MinReviewedDateFilter=" + encodeURIComponent(minReviewedDateFilter ? "" + minReviewedDateFilter.toJSON() : "") + "&"; 
+        if (statusFilter !== undefined)
+            url_ += "StatusFilter=" + encodeURIComponent("" + statusFilter) + "&"; 
+        if (userNameFilter !== undefined)
+            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&"; 
+        if (wholesaleEclTenantIdFilter !== undefined)
+            url_ += "WholesaleEclTenantIdFilter=" + encodeURIComponent("" + wholesaleEclTenantIdFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWholesaleEclApprovalForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWholesaleEclApprovalForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesaleEclApprovalForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetWholesaleEclApprovalForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesaleEclApprovalForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWholesaleEclApprovalForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWholesaleEclApprovalForEdit(id: string | null | undefined): Observable<GetWholesaleEclApprovalForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclApprovals/GetWholesaleEclApprovalForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWholesaleEclApprovalForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWholesaleEclApprovalForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWholesaleEclApprovalForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWholesaleEclApprovalForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWholesaleEclApprovalForEdit(response: HttpResponseBase): Observable<GetWholesaleEclApprovalForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWholesaleEclApprovalForEditOutput.fromJS(resultData200) : new GetWholesaleEclApprovalForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWholesaleEclApprovalForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditWholesaleEclApprovalDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclApprovals/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclApprovals/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllUserForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclApprovalUserLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclApprovals/GetAllUserForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllUserForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllUserForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclApprovalUserLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclApprovalUserLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllUserForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclApprovalUserLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclApprovalUserLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclApprovalUserLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclApprovalUserLookupTableDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclApprovalWholesaleEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclApprovals/GetAllWholesaleEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWholesaleEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclApprovalWholesaleEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclApprovalWholesaleEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclApprovalWholesaleEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclApprovalWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclApprovalWholesaleEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclApprovalWholesaleEclLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class WholesaleEclAssumptionApprovalsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param wholesaleEclTenantIdFilter (optional) 
+     * @param userNameFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, wholesaleEclTenantIdFilter: string | null | undefined, userNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesaleEclAssumptionApprovalForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclAssumptionApprovals/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (wholesaleEclTenantIdFilter !== undefined)
+            url_ += "WholesaleEclTenantIdFilter=" + encodeURIComponent("" + wholesaleEclTenantIdFilter) + "&"; 
+        if (userNameFilter !== undefined)
+            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWholesaleEclAssumptionApprovalForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWholesaleEclAssumptionApprovalForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesaleEclAssumptionApprovalForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetWholesaleEclAssumptionApprovalForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesaleEclAssumptionApprovalForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWholesaleEclAssumptionApprovalForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWholesaleEclAssumptionApprovalForEdit(id: string | null | undefined): Observable<GetWholesaleEclAssumptionApprovalForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclAssumptionApprovals/GetWholesaleEclAssumptionApprovalForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWholesaleEclAssumptionApprovalForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWholesaleEclAssumptionApprovalForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWholesaleEclAssumptionApprovalForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWholesaleEclAssumptionApprovalForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWholesaleEclAssumptionApprovalForEdit(response: HttpResponseBase): Observable<GetWholesaleEclAssumptionApprovalForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWholesaleEclAssumptionApprovalForEditOutput.fromJS(resultData200) : new GetWholesaleEclAssumptionApprovalForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWholesaleEclAssumptionApprovalForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditWholesaleEclAssumptionApprovalDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclAssumptionApprovals/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclAssumptionApprovals/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclAssumptionApprovalWholesaleEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclAssumptionApprovals/GetAllWholesaleEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWholesaleEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclAssumptionApprovalWholesaleEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclAssumptionApprovalWholesaleEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclAssumptionApprovalWholesaleEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclAssumptionApprovalWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclAssumptionApprovalWholesaleEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclAssumptionApprovalWholesaleEclLookupTableDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllUserForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclAssumptionApprovalUserLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclAssumptionApprovals/GetAllUserForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllUserForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllUserForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclAssumptionApprovalUserLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclAssumptionApprovalUserLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllUserForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclAssumptionApprovalUserLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclAssumptionApprovalUserLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclAssumptionApprovalUserLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclAssumptionApprovalUserLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class WholesaleEclAssumptionsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param inputNameFilter (optional) 
+     * @param isComputedFilter (optional) 
+     * @param wholesaleEclTenantIdFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, inputNameFilter: string | null | undefined, isComputedFilter: number | null | undefined, wholesaleEclTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesaleEclAssumptionForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclAssumptions/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (inputNameFilter !== undefined)
+            url_ += "InputNameFilter=" + encodeURIComponent("" + inputNameFilter) + "&"; 
+        if (isComputedFilter !== undefined)
+            url_ += "IsComputedFilter=" + encodeURIComponent("" + isComputedFilter) + "&"; 
+        if (wholesaleEclTenantIdFilter !== undefined)
+            url_ += "WholesaleEclTenantIdFilter=" + encodeURIComponent("" + wholesaleEclTenantIdFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWholesaleEclAssumptionForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWholesaleEclAssumptionForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesaleEclAssumptionForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetWholesaleEclAssumptionForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesaleEclAssumptionForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWholesaleEclAssumptionForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWholesaleEclAssumptionForEdit(id: string | null | undefined): Observable<GetWholesaleEclAssumptionForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclAssumptions/GetWholesaleEclAssumptionForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWholesaleEclAssumptionForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWholesaleEclAssumptionForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWholesaleEclAssumptionForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWholesaleEclAssumptionForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWholesaleEclAssumptionForEdit(response: HttpResponseBase): Observable<GetWholesaleEclAssumptionForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWholesaleEclAssumptionForEditOutput.fromJS(resultData200) : new GetWholesaleEclAssumptionForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWholesaleEclAssumptionForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditWholesaleEclAssumptionDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclAssumptions/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclAssumptions/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclAssumptions/GetAllWholesaleEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWholesaleEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class WholesaleEclComputedEadResultsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param lifetimeEADFilter (optional) 
+     * @param wholesaleEclDataLoanBookCustomerNameFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, lifetimeEADFilter: string | null | undefined, wholesaleEclDataLoanBookCustomerNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclComputedEadResults/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (lifetimeEADFilter !== undefined)
+            url_ += "LifetimeEADFilter=" + encodeURIComponent("" + lifetimeEADFilter) + "&"; 
+        if (wholesaleEclDataLoanBookCustomerNameFilter !== undefined)
+            url_ += "WholesaleEclDataLoanBookCustomerNameFilter=" + encodeURIComponent("" + wholesaleEclDataLoanBookCustomerNameFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWholesaleEclComputedEadResultForEdit(id: string | null | undefined): Observable<GetWholesaleEclComputedEadResultForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclComputedEadResults/GetWholesaleEclComputedEadResultForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWholesaleEclComputedEadResultForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWholesaleEclComputedEadResultForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWholesaleEclComputedEadResultForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWholesaleEclComputedEadResultForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWholesaleEclComputedEadResultForEdit(response: HttpResponseBase): Observable<GetWholesaleEclComputedEadResultForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWholesaleEclComputedEadResultForEditOutput.fromJS(resultData200) : new GetWholesaleEclComputedEadResultForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWholesaleEclComputedEadResultForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditWholesaleEclComputedEadResultDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclComputedEadResults/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclComputedEadResults/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWholesaleEclDataLoanBookForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclComputedEadResults/GetAllWholesaleEclDataLoanBookForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWholesaleEclDataLoanBookForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWholesaleEclDataLoanBookForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWholesaleEclDataLoanBookForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class WholesaleEclDataLoanBooksServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param customerNoFilter (optional) 
+     * @param accountNoFilter (optional) 
+     * @param contractNoFilter (optional) 
+     * @param customerNameFilter (optional) 
+     * @param currencyFilter (optional) 
+     * @param productTypeFilter (optional) 
+     * @param productMappingFilter (optional) 
+     * @param specialisedLendingFilter (optional) 
+     * @param ratingModelFilter (optional) 
+     * @param maxOriginalRatingFilter (optional) 
+     * @param minOriginalRatingFilter (optional) 
+     * @param maxCurrentRatingFilter (optional) 
+     * @param minCurrentRatingFilter (optional) 
+     * @param maxLifetimePDFilter (optional) 
+     * @param minLifetimePDFilter (optional) 
+     * @param maxMonth12PDFilter (optional) 
+     * @param minMonth12PDFilter (optional) 
+     * @param maxDaysPastDueFilter (optional) 
+     * @param minDaysPastDueFilter (optional) 
+     * @param watchlistIndicatorFilter (optional) 
+     * @param classificationFilter (optional) 
+     * @param maxImpairedDateFilter (optional) 
+     * @param minImpairedDateFilter (optional) 
+     * @param maxDefaultDateFilter (optional) 
+     * @param minDefaultDateFilter (optional) 
+     * @param maxCreditLimitFilter (optional) 
+     * @param minCreditLimitFilter (optional) 
+     * @param maxOriginalBalanceLCYFilter (optional) 
+     * @param minOriginalBalanceLCYFilter (optional) 
+     * @param maxOutstandingBalanceLCYFilter (optional) 
+     * @param minOutstandingBalanceLCYFilter (optional) 
+     * @param maxOutstandingBalanceACYFilter (optional) 
+     * @param minOutstandingBalanceACYFilter (optional) 
+     * @param maxContractStartDateFilter (optional) 
+     * @param minContractStartDateFilter (optional) 
+     * @param maxContractEndDateFilter (optional) 
+     * @param minContractEndDateFilter (optional) 
+     * @param restructureIndicatorFilter (optional) 
+     * @param restructureRiskFilter (optional) 
+     * @param restructureTypeFilter (optional) 
+     * @param maxRestructureStartDateFilter (optional) 
+     * @param minRestructureStartDateFilter (optional) 
+     * @param maxRestructureEndDateFilter (optional) 
+     * @param minRestructureEndDateFilter (optional) 
+     * @param principalPaymentTermsOriginationFilter (optional) 
+     * @param maxPPTOPeriodFilter (optional) 
+     * @param minPPTOPeriodFilter (optional) 
+     * @param interestPaymentTermsOriginationFilter (optional) 
+     * @param maxIPTOPeriodFilter (optional) 
+     * @param minIPTOPeriodFilter (optional) 
+     * @param principalPaymentStructureFilter (optional) 
+     * @param interestPaymentStructureFilter (optional) 
+     * @param interestRateTypeFilter (optional) 
+     * @param baseRateFilter (optional) 
+     * @param originationContractualInterestRateFilter (optional) 
+     * @param maxIntroductoryPeriodFilter (optional) 
+     * @param minIntroductoryPeriodFilter (optional) 
+     * @param maxPostIPContractualInterestRateFilter (optional) 
+     * @param minPostIPContractualInterestRateFilter (optional) 
+     * @param maxCurrentContractualInterestRateFilter (optional) 
+     * @param minCurrentContractualInterestRateFilter (optional) 
+     * @param maxEIRFilter (optional) 
+     * @param minEIRFilter (optional) 
+     * @param maxDebentureOMVFilter (optional) 
+     * @param minDebentureOMVFilter (optional) 
+     * @param maxDebentureFSVFilter (optional) 
+     * @param minDebentureFSVFilter (optional) 
+     * @param maxCashOMVFilter (optional) 
+     * @param minCashOMVFilter (optional) 
+     * @param maxCashFSVFilter (optional) 
+     * @param minCashFSVFilter (optional) 
+     * @param maxInventoryOMVFilter (optional) 
+     * @param minInventoryOMVFilter (optional) 
+     * @param maxInventoryFSVFilter (optional) 
+     * @param minInventoryFSVFilter (optional) 
+     * @param maxPlantEquipmentOMVFilter (optional) 
+     * @param minPlantEquipmentOMVFilter (optional) 
+     * @param maxPlantEquipmentFSVFilter (optional) 
+     * @param minPlantEquipmentFSVFilter (optional) 
+     * @param maxResidentialPropertyOMVFilter (optional) 
+     * @param minResidentialPropertyOMVFilter (optional) 
+     * @param maxResidentialPropertyFSVFilter (optional) 
+     * @param minResidentialPropertyFSVFilter (optional) 
+     * @param maxCommercialPropertyOMVFilter (optional) 
+     * @param minCommercialPropertyOMVFilter (optional) 
+     * @param maxCommercialPropertyFilter (optional) 
+     * @param minCommercialPropertyFilter (optional) 
+     * @param maxReceivablesOMVFilter (optional) 
+     * @param minReceivablesOMVFilter (optional) 
+     * @param maxReceivablesFSVFilter (optional) 
+     * @param minReceivablesFSVFilter (optional) 
+     * @param maxSharesOMVFilter (optional) 
+     * @param minSharesOMVFilter (optional) 
+     * @param maxSharesFSVFilter (optional) 
+     * @param minSharesFSVFilter (optional) 
+     * @param maxVehicleOMVFilter (optional) 
+     * @param minVehicleOMVFilter (optional) 
+     * @param maxVehicleFSVFilter (optional) 
+     * @param minVehicleFSVFilter (optional) 
+     * @param maxCureRateFilter (optional) 
+     * @param minCureRateFilter (optional) 
+     * @param guaranteeIndicatorFilter (optional) 
+     * @param guarantorPDFilter (optional) 
+     * @param guarantorLGDFilter (optional) 
+     * @param maxGuaranteeValueFilter (optional) 
+     * @param minGuaranteeValueFilter (optional) 
+     * @param maxGuaranteeLevelFilter (optional) 
+     * @param minGuaranteeLevelFilter (optional) 
+     * @param contractIdFilter (optional) 
+     * @param wholesaleEclUploadUploadCommentFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, customerNoFilter: string | null | undefined, accountNoFilter: string | null | undefined, contractNoFilter: string | null | undefined, customerNameFilter: string | null | undefined, currencyFilter: string | null | undefined, productTypeFilter: string | null | undefined, productMappingFilter: string | null | undefined, specialisedLendingFilter: string | null | undefined, ratingModelFilter: string | null | undefined, maxOriginalRatingFilter: number | null | undefined, minOriginalRatingFilter: number | null | undefined, maxCurrentRatingFilter: number | null | undefined, minCurrentRatingFilter: number | null | undefined, maxLifetimePDFilter: number | null | undefined, minLifetimePDFilter: number | null | undefined, maxMonth12PDFilter: number | null | undefined, minMonth12PDFilter: number | null | undefined, maxDaysPastDueFilter: number | null | undefined, minDaysPastDueFilter: number | null | undefined, watchlistIndicatorFilter: number | null | undefined, classificationFilter: string | null | undefined, maxImpairedDateFilter: moment.Moment | null | undefined, minImpairedDateFilter: moment.Moment | null | undefined, maxDefaultDateFilter: moment.Moment | null | undefined, minDefaultDateFilter: moment.Moment | null | undefined, maxCreditLimitFilter: number | null | undefined, minCreditLimitFilter: number | null | undefined, maxOriginalBalanceLCYFilter: number | null | undefined, minOriginalBalanceLCYFilter: number | null | undefined, maxOutstandingBalanceLCYFilter: number | null | undefined, minOutstandingBalanceLCYFilter: number | null | undefined, maxOutstandingBalanceACYFilter: number | null | undefined, minOutstandingBalanceACYFilter: number | null | undefined, maxContractStartDateFilter: moment.Moment | null | undefined, minContractStartDateFilter: moment.Moment | null | undefined, maxContractEndDateFilter: moment.Moment | null | undefined, minContractEndDateFilter: moment.Moment | null | undefined, restructureIndicatorFilter: number | null | undefined, restructureRiskFilter: string | null | undefined, restructureTypeFilter: string | null | undefined, maxRestructureStartDateFilter: moment.Moment | null | undefined, minRestructureStartDateFilter: moment.Moment | null | undefined, maxRestructureEndDateFilter: moment.Moment | null | undefined, minRestructureEndDateFilter: moment.Moment | null | undefined, principalPaymentTermsOriginationFilter: string | null | undefined, maxPPTOPeriodFilter: number | null | undefined, minPPTOPeriodFilter: number | null | undefined, interestPaymentTermsOriginationFilter: string | null | undefined, maxIPTOPeriodFilter: number | null | undefined, minIPTOPeriodFilter: number | null | undefined, principalPaymentStructureFilter: string | null | undefined, interestPaymentStructureFilter: string | null | undefined, interestRateTypeFilter: string | null | undefined, baseRateFilter: string | null | undefined, originationContractualInterestRateFilter: string | null | undefined, maxIntroductoryPeriodFilter: number | null | undefined, minIntroductoryPeriodFilter: number | null | undefined, maxPostIPContractualInterestRateFilter: number | null | undefined, minPostIPContractualInterestRateFilter: number | null | undefined, maxCurrentContractualInterestRateFilter: number | null | undefined, minCurrentContractualInterestRateFilter: number | null | undefined, maxEIRFilter: number | null | undefined, minEIRFilter: number | null | undefined, maxDebentureOMVFilter: number | null | undefined, minDebentureOMVFilter: number | null | undefined, maxDebentureFSVFilter: number | null | undefined, minDebentureFSVFilter: number | null | undefined, maxCashOMVFilter: number | null | undefined, minCashOMVFilter: number | null | undefined, maxCashFSVFilter: number | null | undefined, minCashFSVFilter: number | null | undefined, maxInventoryOMVFilter: number | null | undefined, minInventoryOMVFilter: number | null | undefined, maxInventoryFSVFilter: number | null | undefined, minInventoryFSVFilter: number | null | undefined, maxPlantEquipmentOMVFilter: number | null | undefined, minPlantEquipmentOMVFilter: number | null | undefined, maxPlantEquipmentFSVFilter: number | null | undefined, minPlantEquipmentFSVFilter: number | null | undefined, maxResidentialPropertyOMVFilter: number | null | undefined, minResidentialPropertyOMVFilter: number | null | undefined, maxResidentialPropertyFSVFilter: number | null | undefined, minResidentialPropertyFSVFilter: number | null | undefined, maxCommercialPropertyOMVFilter: number | null | undefined, minCommercialPropertyOMVFilter: number | null | undefined, maxCommercialPropertyFilter: number | null | undefined, minCommercialPropertyFilter: number | null | undefined, maxReceivablesOMVFilter: number | null | undefined, minReceivablesOMVFilter: number | null | undefined, maxReceivablesFSVFilter: number | null | undefined, minReceivablesFSVFilter: number | null | undefined, maxSharesOMVFilter: number | null | undefined, minSharesOMVFilter: number | null | undefined, maxSharesFSVFilter: number | null | undefined, minSharesFSVFilter: number | null | undefined, maxVehicleOMVFilter: number | null | undefined, minVehicleOMVFilter: number | null | undefined, maxVehicleFSVFilter: number | null | undefined, minVehicleFSVFilter: number | null | undefined, maxCureRateFilter: number | null | undefined, minCureRateFilter: number | null | undefined, guaranteeIndicatorFilter: number | null | undefined, guarantorPDFilter: string | null | undefined, guarantorLGDFilter: string | null | undefined, maxGuaranteeValueFilter: number | null | undefined, minGuaranteeValueFilter: number | null | undefined, maxGuaranteeLevelFilter: number | null | undefined, minGuaranteeLevelFilter: number | null | undefined, contractIdFilter: string | null | undefined, wholesaleEclUploadUploadCommentFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesaleEclDataLoanBookForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclDataLoanBooks/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (customerNoFilter !== undefined)
+            url_ += "CustomerNoFilter=" + encodeURIComponent("" + customerNoFilter) + "&"; 
+        if (accountNoFilter !== undefined)
+            url_ += "AccountNoFilter=" + encodeURIComponent("" + accountNoFilter) + "&"; 
+        if (contractNoFilter !== undefined)
+            url_ += "ContractNoFilter=" + encodeURIComponent("" + contractNoFilter) + "&"; 
+        if (customerNameFilter !== undefined)
+            url_ += "CustomerNameFilter=" + encodeURIComponent("" + customerNameFilter) + "&"; 
+        if (currencyFilter !== undefined)
+            url_ += "CurrencyFilter=" + encodeURIComponent("" + currencyFilter) + "&"; 
+        if (productTypeFilter !== undefined)
+            url_ += "ProductTypeFilter=" + encodeURIComponent("" + productTypeFilter) + "&"; 
+        if (productMappingFilter !== undefined)
+            url_ += "ProductMappingFilter=" + encodeURIComponent("" + productMappingFilter) + "&"; 
+        if (specialisedLendingFilter !== undefined)
+            url_ += "SpecialisedLendingFilter=" + encodeURIComponent("" + specialisedLendingFilter) + "&"; 
+        if (ratingModelFilter !== undefined)
+            url_ += "RatingModelFilter=" + encodeURIComponent("" + ratingModelFilter) + "&"; 
+        if (maxOriginalRatingFilter !== undefined)
+            url_ += "MaxOriginalRatingFilter=" + encodeURIComponent("" + maxOriginalRatingFilter) + "&"; 
+        if (minOriginalRatingFilter !== undefined)
+            url_ += "MinOriginalRatingFilter=" + encodeURIComponent("" + minOriginalRatingFilter) + "&"; 
+        if (maxCurrentRatingFilter !== undefined)
+            url_ += "MaxCurrentRatingFilter=" + encodeURIComponent("" + maxCurrentRatingFilter) + "&"; 
+        if (minCurrentRatingFilter !== undefined)
+            url_ += "MinCurrentRatingFilter=" + encodeURIComponent("" + minCurrentRatingFilter) + "&"; 
+        if (maxLifetimePDFilter !== undefined)
+            url_ += "MaxLifetimePDFilter=" + encodeURIComponent("" + maxLifetimePDFilter) + "&"; 
+        if (minLifetimePDFilter !== undefined)
+            url_ += "MinLifetimePDFilter=" + encodeURIComponent("" + minLifetimePDFilter) + "&"; 
+        if (maxMonth12PDFilter !== undefined)
+            url_ += "MaxMonth12PDFilter=" + encodeURIComponent("" + maxMonth12PDFilter) + "&"; 
+        if (minMonth12PDFilter !== undefined)
+            url_ += "MinMonth12PDFilter=" + encodeURIComponent("" + minMonth12PDFilter) + "&"; 
+        if (maxDaysPastDueFilter !== undefined)
+            url_ += "MaxDaysPastDueFilter=" + encodeURIComponent("" + maxDaysPastDueFilter) + "&"; 
+        if (minDaysPastDueFilter !== undefined)
+            url_ += "MinDaysPastDueFilter=" + encodeURIComponent("" + minDaysPastDueFilter) + "&"; 
+        if (watchlistIndicatorFilter !== undefined)
+            url_ += "WatchlistIndicatorFilter=" + encodeURIComponent("" + watchlistIndicatorFilter) + "&"; 
+        if (classificationFilter !== undefined)
+            url_ += "ClassificationFilter=" + encodeURIComponent("" + classificationFilter) + "&"; 
+        if (maxImpairedDateFilter !== undefined)
+            url_ += "MaxImpairedDateFilter=" + encodeURIComponent(maxImpairedDateFilter ? "" + maxImpairedDateFilter.toJSON() : "") + "&"; 
+        if (minImpairedDateFilter !== undefined)
+            url_ += "MinImpairedDateFilter=" + encodeURIComponent(minImpairedDateFilter ? "" + minImpairedDateFilter.toJSON() : "") + "&"; 
+        if (maxDefaultDateFilter !== undefined)
+            url_ += "MaxDefaultDateFilter=" + encodeURIComponent(maxDefaultDateFilter ? "" + maxDefaultDateFilter.toJSON() : "") + "&"; 
+        if (minDefaultDateFilter !== undefined)
+            url_ += "MinDefaultDateFilter=" + encodeURIComponent(minDefaultDateFilter ? "" + minDefaultDateFilter.toJSON() : "") + "&"; 
+        if (maxCreditLimitFilter !== undefined)
+            url_ += "MaxCreditLimitFilter=" + encodeURIComponent("" + maxCreditLimitFilter) + "&"; 
+        if (minCreditLimitFilter !== undefined)
+            url_ += "MinCreditLimitFilter=" + encodeURIComponent("" + minCreditLimitFilter) + "&"; 
+        if (maxOriginalBalanceLCYFilter !== undefined)
+            url_ += "MaxOriginalBalanceLCYFilter=" + encodeURIComponent("" + maxOriginalBalanceLCYFilter) + "&"; 
+        if (minOriginalBalanceLCYFilter !== undefined)
+            url_ += "MinOriginalBalanceLCYFilter=" + encodeURIComponent("" + minOriginalBalanceLCYFilter) + "&"; 
+        if (maxOutstandingBalanceLCYFilter !== undefined)
+            url_ += "MaxOutstandingBalanceLCYFilter=" + encodeURIComponent("" + maxOutstandingBalanceLCYFilter) + "&"; 
+        if (minOutstandingBalanceLCYFilter !== undefined)
+            url_ += "MinOutstandingBalanceLCYFilter=" + encodeURIComponent("" + minOutstandingBalanceLCYFilter) + "&"; 
+        if (maxOutstandingBalanceACYFilter !== undefined)
+            url_ += "MaxOutstandingBalanceACYFilter=" + encodeURIComponent("" + maxOutstandingBalanceACYFilter) + "&"; 
+        if (minOutstandingBalanceACYFilter !== undefined)
+            url_ += "MinOutstandingBalanceACYFilter=" + encodeURIComponent("" + minOutstandingBalanceACYFilter) + "&"; 
+        if (maxContractStartDateFilter !== undefined)
+            url_ += "MaxContractStartDateFilter=" + encodeURIComponent(maxContractStartDateFilter ? "" + maxContractStartDateFilter.toJSON() : "") + "&"; 
+        if (minContractStartDateFilter !== undefined)
+            url_ += "MinContractStartDateFilter=" + encodeURIComponent(minContractStartDateFilter ? "" + minContractStartDateFilter.toJSON() : "") + "&"; 
+        if (maxContractEndDateFilter !== undefined)
+            url_ += "MaxContractEndDateFilter=" + encodeURIComponent(maxContractEndDateFilter ? "" + maxContractEndDateFilter.toJSON() : "") + "&"; 
+        if (minContractEndDateFilter !== undefined)
+            url_ += "MinContractEndDateFilter=" + encodeURIComponent(minContractEndDateFilter ? "" + minContractEndDateFilter.toJSON() : "") + "&"; 
+        if (restructureIndicatorFilter !== undefined)
+            url_ += "RestructureIndicatorFilter=" + encodeURIComponent("" + restructureIndicatorFilter) + "&"; 
+        if (restructureRiskFilter !== undefined)
+            url_ += "RestructureRiskFilter=" + encodeURIComponent("" + restructureRiskFilter) + "&"; 
+        if (restructureTypeFilter !== undefined)
+            url_ += "RestructureTypeFilter=" + encodeURIComponent("" + restructureTypeFilter) + "&"; 
+        if (maxRestructureStartDateFilter !== undefined)
+            url_ += "MaxRestructureStartDateFilter=" + encodeURIComponent(maxRestructureStartDateFilter ? "" + maxRestructureStartDateFilter.toJSON() : "") + "&"; 
+        if (minRestructureStartDateFilter !== undefined)
+            url_ += "MinRestructureStartDateFilter=" + encodeURIComponent(minRestructureStartDateFilter ? "" + minRestructureStartDateFilter.toJSON() : "") + "&"; 
+        if (maxRestructureEndDateFilter !== undefined)
+            url_ += "MaxRestructureEndDateFilter=" + encodeURIComponent(maxRestructureEndDateFilter ? "" + maxRestructureEndDateFilter.toJSON() : "") + "&"; 
+        if (minRestructureEndDateFilter !== undefined)
+            url_ += "MinRestructureEndDateFilter=" + encodeURIComponent(minRestructureEndDateFilter ? "" + minRestructureEndDateFilter.toJSON() : "") + "&"; 
+        if (principalPaymentTermsOriginationFilter !== undefined)
+            url_ += "PrincipalPaymentTermsOriginationFilter=" + encodeURIComponent("" + principalPaymentTermsOriginationFilter) + "&"; 
+        if (maxPPTOPeriodFilter !== undefined)
+            url_ += "MaxPPTOPeriodFilter=" + encodeURIComponent("" + maxPPTOPeriodFilter) + "&"; 
+        if (minPPTOPeriodFilter !== undefined)
+            url_ += "MinPPTOPeriodFilter=" + encodeURIComponent("" + minPPTOPeriodFilter) + "&"; 
+        if (interestPaymentTermsOriginationFilter !== undefined)
+            url_ += "InterestPaymentTermsOriginationFilter=" + encodeURIComponent("" + interestPaymentTermsOriginationFilter) + "&"; 
+        if (maxIPTOPeriodFilter !== undefined)
+            url_ += "MaxIPTOPeriodFilter=" + encodeURIComponent("" + maxIPTOPeriodFilter) + "&"; 
+        if (minIPTOPeriodFilter !== undefined)
+            url_ += "MinIPTOPeriodFilter=" + encodeURIComponent("" + minIPTOPeriodFilter) + "&"; 
+        if (principalPaymentStructureFilter !== undefined)
+            url_ += "PrincipalPaymentStructureFilter=" + encodeURIComponent("" + principalPaymentStructureFilter) + "&"; 
+        if (interestPaymentStructureFilter !== undefined)
+            url_ += "InterestPaymentStructureFilter=" + encodeURIComponent("" + interestPaymentStructureFilter) + "&"; 
+        if (interestRateTypeFilter !== undefined)
+            url_ += "InterestRateTypeFilter=" + encodeURIComponent("" + interestRateTypeFilter) + "&"; 
+        if (baseRateFilter !== undefined)
+            url_ += "BaseRateFilter=" + encodeURIComponent("" + baseRateFilter) + "&"; 
+        if (originationContractualInterestRateFilter !== undefined)
+            url_ += "OriginationContractualInterestRateFilter=" + encodeURIComponent("" + originationContractualInterestRateFilter) + "&"; 
+        if (maxIntroductoryPeriodFilter !== undefined)
+            url_ += "MaxIntroductoryPeriodFilter=" + encodeURIComponent("" + maxIntroductoryPeriodFilter) + "&"; 
+        if (minIntroductoryPeriodFilter !== undefined)
+            url_ += "MinIntroductoryPeriodFilter=" + encodeURIComponent("" + minIntroductoryPeriodFilter) + "&"; 
+        if (maxPostIPContractualInterestRateFilter !== undefined)
+            url_ += "MaxPostIPContractualInterestRateFilter=" + encodeURIComponent("" + maxPostIPContractualInterestRateFilter) + "&"; 
+        if (minPostIPContractualInterestRateFilter !== undefined)
+            url_ += "MinPostIPContractualInterestRateFilter=" + encodeURIComponent("" + minPostIPContractualInterestRateFilter) + "&"; 
+        if (maxCurrentContractualInterestRateFilter !== undefined)
+            url_ += "MaxCurrentContractualInterestRateFilter=" + encodeURIComponent("" + maxCurrentContractualInterestRateFilter) + "&"; 
+        if (minCurrentContractualInterestRateFilter !== undefined)
+            url_ += "MinCurrentContractualInterestRateFilter=" + encodeURIComponent("" + minCurrentContractualInterestRateFilter) + "&"; 
+        if (maxEIRFilter !== undefined)
+            url_ += "MaxEIRFilter=" + encodeURIComponent("" + maxEIRFilter) + "&"; 
+        if (minEIRFilter !== undefined)
+            url_ += "MinEIRFilter=" + encodeURIComponent("" + minEIRFilter) + "&"; 
+        if (maxDebentureOMVFilter !== undefined)
+            url_ += "MaxDebentureOMVFilter=" + encodeURIComponent("" + maxDebentureOMVFilter) + "&"; 
+        if (minDebentureOMVFilter !== undefined)
+            url_ += "MinDebentureOMVFilter=" + encodeURIComponent("" + minDebentureOMVFilter) + "&"; 
+        if (maxDebentureFSVFilter !== undefined)
+            url_ += "MaxDebentureFSVFilter=" + encodeURIComponent("" + maxDebentureFSVFilter) + "&"; 
+        if (minDebentureFSVFilter !== undefined)
+            url_ += "MinDebentureFSVFilter=" + encodeURIComponent("" + minDebentureFSVFilter) + "&"; 
+        if (maxCashOMVFilter !== undefined)
+            url_ += "MaxCashOMVFilter=" + encodeURIComponent("" + maxCashOMVFilter) + "&"; 
+        if (minCashOMVFilter !== undefined)
+            url_ += "MinCashOMVFilter=" + encodeURIComponent("" + minCashOMVFilter) + "&"; 
+        if (maxCashFSVFilter !== undefined)
+            url_ += "MaxCashFSVFilter=" + encodeURIComponent("" + maxCashFSVFilter) + "&"; 
+        if (minCashFSVFilter !== undefined)
+            url_ += "MinCashFSVFilter=" + encodeURIComponent("" + minCashFSVFilter) + "&"; 
+        if (maxInventoryOMVFilter !== undefined)
+            url_ += "MaxInventoryOMVFilter=" + encodeURIComponent("" + maxInventoryOMVFilter) + "&"; 
+        if (minInventoryOMVFilter !== undefined)
+            url_ += "MinInventoryOMVFilter=" + encodeURIComponent("" + minInventoryOMVFilter) + "&"; 
+        if (maxInventoryFSVFilter !== undefined)
+            url_ += "MaxInventoryFSVFilter=" + encodeURIComponent("" + maxInventoryFSVFilter) + "&"; 
+        if (minInventoryFSVFilter !== undefined)
+            url_ += "MinInventoryFSVFilter=" + encodeURIComponent("" + minInventoryFSVFilter) + "&"; 
+        if (maxPlantEquipmentOMVFilter !== undefined)
+            url_ += "MaxPlantEquipmentOMVFilter=" + encodeURIComponent("" + maxPlantEquipmentOMVFilter) + "&"; 
+        if (minPlantEquipmentOMVFilter !== undefined)
+            url_ += "MinPlantEquipmentOMVFilter=" + encodeURIComponent("" + minPlantEquipmentOMVFilter) + "&"; 
+        if (maxPlantEquipmentFSVFilter !== undefined)
+            url_ += "MaxPlantEquipmentFSVFilter=" + encodeURIComponent("" + maxPlantEquipmentFSVFilter) + "&"; 
+        if (minPlantEquipmentFSVFilter !== undefined)
+            url_ += "MinPlantEquipmentFSVFilter=" + encodeURIComponent("" + minPlantEquipmentFSVFilter) + "&"; 
+        if (maxResidentialPropertyOMVFilter !== undefined)
+            url_ += "MaxResidentialPropertyOMVFilter=" + encodeURIComponent("" + maxResidentialPropertyOMVFilter) + "&"; 
+        if (minResidentialPropertyOMVFilter !== undefined)
+            url_ += "MinResidentialPropertyOMVFilter=" + encodeURIComponent("" + minResidentialPropertyOMVFilter) + "&"; 
+        if (maxResidentialPropertyFSVFilter !== undefined)
+            url_ += "MaxResidentialPropertyFSVFilter=" + encodeURIComponent("" + maxResidentialPropertyFSVFilter) + "&"; 
+        if (minResidentialPropertyFSVFilter !== undefined)
+            url_ += "MinResidentialPropertyFSVFilter=" + encodeURIComponent("" + minResidentialPropertyFSVFilter) + "&"; 
+        if (maxCommercialPropertyOMVFilter !== undefined)
+            url_ += "MaxCommercialPropertyOMVFilter=" + encodeURIComponent("" + maxCommercialPropertyOMVFilter) + "&"; 
+        if (minCommercialPropertyOMVFilter !== undefined)
+            url_ += "MinCommercialPropertyOMVFilter=" + encodeURIComponent("" + minCommercialPropertyOMVFilter) + "&"; 
+        if (maxCommercialPropertyFilter !== undefined)
+            url_ += "MaxCommercialPropertyFilter=" + encodeURIComponent("" + maxCommercialPropertyFilter) + "&"; 
+        if (minCommercialPropertyFilter !== undefined)
+            url_ += "MinCommercialPropertyFilter=" + encodeURIComponent("" + minCommercialPropertyFilter) + "&"; 
+        if (maxReceivablesOMVFilter !== undefined)
+            url_ += "MaxReceivablesOMVFilter=" + encodeURIComponent("" + maxReceivablesOMVFilter) + "&"; 
+        if (minReceivablesOMVFilter !== undefined)
+            url_ += "MinReceivablesOMVFilter=" + encodeURIComponent("" + minReceivablesOMVFilter) + "&"; 
+        if (maxReceivablesFSVFilter !== undefined)
+            url_ += "MaxReceivablesFSVFilter=" + encodeURIComponent("" + maxReceivablesFSVFilter) + "&"; 
+        if (minReceivablesFSVFilter !== undefined)
+            url_ += "MinReceivablesFSVFilter=" + encodeURIComponent("" + minReceivablesFSVFilter) + "&"; 
+        if (maxSharesOMVFilter !== undefined)
+            url_ += "MaxSharesOMVFilter=" + encodeURIComponent("" + maxSharesOMVFilter) + "&"; 
+        if (minSharesOMVFilter !== undefined)
+            url_ += "MinSharesOMVFilter=" + encodeURIComponent("" + minSharesOMVFilter) + "&"; 
+        if (maxSharesFSVFilter !== undefined)
+            url_ += "MaxSharesFSVFilter=" + encodeURIComponent("" + maxSharesFSVFilter) + "&"; 
+        if (minSharesFSVFilter !== undefined)
+            url_ += "MinSharesFSVFilter=" + encodeURIComponent("" + minSharesFSVFilter) + "&"; 
+        if (maxVehicleOMVFilter !== undefined)
+            url_ += "MaxVehicleOMVFilter=" + encodeURIComponent("" + maxVehicleOMVFilter) + "&"; 
+        if (minVehicleOMVFilter !== undefined)
+            url_ += "MinVehicleOMVFilter=" + encodeURIComponent("" + minVehicleOMVFilter) + "&"; 
+        if (maxVehicleFSVFilter !== undefined)
+            url_ += "MaxVehicleFSVFilter=" + encodeURIComponent("" + maxVehicleFSVFilter) + "&"; 
+        if (minVehicleFSVFilter !== undefined)
+            url_ += "MinVehicleFSVFilter=" + encodeURIComponent("" + minVehicleFSVFilter) + "&"; 
+        if (maxCureRateFilter !== undefined)
+            url_ += "MaxCureRateFilter=" + encodeURIComponent("" + maxCureRateFilter) + "&"; 
+        if (minCureRateFilter !== undefined)
+            url_ += "MinCureRateFilter=" + encodeURIComponent("" + minCureRateFilter) + "&"; 
+        if (guaranteeIndicatorFilter !== undefined)
+            url_ += "GuaranteeIndicatorFilter=" + encodeURIComponent("" + guaranteeIndicatorFilter) + "&"; 
+        if (guarantorPDFilter !== undefined)
+            url_ += "GuarantorPDFilter=" + encodeURIComponent("" + guarantorPDFilter) + "&"; 
+        if (guarantorLGDFilter !== undefined)
+            url_ += "GuarantorLGDFilter=" + encodeURIComponent("" + guarantorLGDFilter) + "&"; 
+        if (maxGuaranteeValueFilter !== undefined)
+            url_ += "MaxGuaranteeValueFilter=" + encodeURIComponent("" + maxGuaranteeValueFilter) + "&"; 
+        if (minGuaranteeValueFilter !== undefined)
+            url_ += "MinGuaranteeValueFilter=" + encodeURIComponent("" + minGuaranteeValueFilter) + "&"; 
+        if (maxGuaranteeLevelFilter !== undefined)
+            url_ += "MaxGuaranteeLevelFilter=" + encodeURIComponent("" + maxGuaranteeLevelFilter) + "&"; 
+        if (minGuaranteeLevelFilter !== undefined)
+            url_ += "MinGuaranteeLevelFilter=" + encodeURIComponent("" + minGuaranteeLevelFilter) + "&"; 
+        if (contractIdFilter !== undefined)
+            url_ += "ContractIdFilter=" + encodeURIComponent("" + contractIdFilter) + "&"; 
+        if (wholesaleEclUploadUploadCommentFilter !== undefined)
+            url_ += "WholesaleEclUploadUploadCommentFilter=" + encodeURIComponent("" + wholesaleEclUploadUploadCommentFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWholesaleEclDataLoanBookForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWholesaleEclDataLoanBookForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesaleEclDataLoanBookForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetWholesaleEclDataLoanBookForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesaleEclDataLoanBookForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWholesaleEclDataLoanBookForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWholesaleEclDataLoanBookForEdit(id: string | null | undefined): Observable<GetWholesaleEclDataLoanBookForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclDataLoanBooks/GetWholesaleEclDataLoanBookForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWholesaleEclDataLoanBookForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWholesaleEclDataLoanBookForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWholesaleEclDataLoanBookForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWholesaleEclDataLoanBookForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWholesaleEclDataLoanBookForEdit(response: HttpResponseBase): Observable<GetWholesaleEclDataLoanBookForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWholesaleEclDataLoanBookForEditOutput.fromJS(resultData200) : new GetWholesaleEclDataLoanBookForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWholesaleEclDataLoanBookForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditWholesaleEclDataLoanBookDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclDataLoanBooks/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclDataLoanBooks/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWholesaleEclUploadForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclDataLoanBookWholesaleEclUploadLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclDataLoanBooks/GetAllWholesaleEclUploadForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWholesaleEclUploadForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWholesaleEclUploadForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclDataLoanBookWholesaleEclUploadLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclDataLoanBookWholesaleEclUploadLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWholesaleEclUploadForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclDataLoanBookWholesaleEclUploadLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclDataLoanBookWholesaleEclUploadLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclDataLoanBookWholesaleEclUploadLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclDataLoanBookWholesaleEclUploadLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class WholesaleEclDataPaymentSchedulesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param contractRefNoFilter (optional) 
+     * @param maxStartDateFilter (optional) 
+     * @param minStartDateFilter (optional) 
+     * @param componentFilter (optional) 
+     * @param maxNoOfSchedulesFilter (optional) 
+     * @param minNoOfSchedulesFilter (optional) 
+     * @param frequencyFilter (optional) 
+     * @param maxAmountFilter (optional) 
+     * @param minAmountFilter (optional) 
+     * @param wholesaleEclUploadUploadCommentFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, contractRefNoFilter: string | null | undefined, maxStartDateFilter: moment.Moment | null | undefined, minStartDateFilter: moment.Moment | null | undefined, componentFilter: string | null | undefined, maxNoOfSchedulesFilter: number | null | undefined, minNoOfSchedulesFilter: number | null | undefined, frequencyFilter: string | null | undefined, maxAmountFilter: number | null | undefined, minAmountFilter: number | null | undefined, wholesaleEclUploadUploadCommentFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesaleEclDataPaymentScheduleForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclDataPaymentSchedules/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (contractRefNoFilter !== undefined)
+            url_ += "ContractRefNoFilter=" + encodeURIComponent("" + contractRefNoFilter) + "&"; 
+        if (maxStartDateFilter !== undefined)
+            url_ += "MaxStartDateFilter=" + encodeURIComponent(maxStartDateFilter ? "" + maxStartDateFilter.toJSON() : "") + "&"; 
+        if (minStartDateFilter !== undefined)
+            url_ += "MinStartDateFilter=" + encodeURIComponent(minStartDateFilter ? "" + minStartDateFilter.toJSON() : "") + "&"; 
+        if (componentFilter !== undefined)
+            url_ += "ComponentFilter=" + encodeURIComponent("" + componentFilter) + "&"; 
+        if (maxNoOfSchedulesFilter !== undefined)
+            url_ += "MaxNoOfSchedulesFilter=" + encodeURIComponent("" + maxNoOfSchedulesFilter) + "&"; 
+        if (minNoOfSchedulesFilter !== undefined)
+            url_ += "MinNoOfSchedulesFilter=" + encodeURIComponent("" + minNoOfSchedulesFilter) + "&"; 
+        if (frequencyFilter !== undefined)
+            url_ += "FrequencyFilter=" + encodeURIComponent("" + frequencyFilter) + "&"; 
+        if (maxAmountFilter !== undefined)
+            url_ += "MaxAmountFilter=" + encodeURIComponent("" + maxAmountFilter) + "&"; 
+        if (minAmountFilter !== undefined)
+            url_ += "MinAmountFilter=" + encodeURIComponent("" + minAmountFilter) + "&"; 
+        if (wholesaleEclUploadUploadCommentFilter !== undefined)
+            url_ += "WholesaleEclUploadUploadCommentFilter=" + encodeURIComponent("" + wholesaleEclUploadUploadCommentFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWholesaleEclDataPaymentScheduleForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWholesaleEclDataPaymentScheduleForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesaleEclDataPaymentScheduleForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetWholesaleEclDataPaymentScheduleForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesaleEclDataPaymentScheduleForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWholesaleEclDataPaymentScheduleForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWholesaleEclDataPaymentScheduleForEdit(id: string | null | undefined): Observable<GetWholesaleEclDataPaymentScheduleForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclDataPaymentSchedules/GetWholesaleEclDataPaymentScheduleForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWholesaleEclDataPaymentScheduleForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWholesaleEclDataPaymentScheduleForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWholesaleEclDataPaymentScheduleForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWholesaleEclDataPaymentScheduleForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWholesaleEclDataPaymentScheduleForEdit(response: HttpResponseBase): Observable<GetWholesaleEclDataPaymentScheduleForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWholesaleEclDataPaymentScheduleForEditOutput.fromJS(resultData200) : new GetWholesaleEclDataPaymentScheduleForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWholesaleEclDataPaymentScheduleForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditWholesaleEclDataPaymentScheduleDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclDataPaymentSchedules/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclDataPaymentSchedules/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWholesaleEclUploadForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclDataPaymentSchedules/GetAllWholesaleEclUploadForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWholesaleEclUploadForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWholesaleEclUploadForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWholesaleEclUploadForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class WholesaleEclLgdAssumptionsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param inputNameFilter (optional) 
+     * @param wholesaleEclTenantIdFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, inputNameFilter: string | null | undefined, wholesaleEclTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesaleEclLgdAssumptionForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclLgdAssumptions/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (inputNameFilter !== undefined)
+            url_ += "InputNameFilter=" + encodeURIComponent("" + inputNameFilter) + "&"; 
+        if (wholesaleEclTenantIdFilter !== undefined)
+            url_ += "WholesaleEclTenantIdFilter=" + encodeURIComponent("" + wholesaleEclTenantIdFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWholesaleEclLgdAssumptionForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWholesaleEclLgdAssumptionForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesaleEclLgdAssumptionForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetWholesaleEclLgdAssumptionForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesaleEclLgdAssumptionForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWholesaleEclLgdAssumptionForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWholesaleEclLgdAssumptionForEdit(id: string | null | undefined): Observable<GetWholesaleEclLgdAssumptionForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclLgdAssumptions/GetWholesaleEclLgdAssumptionForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWholesaleEclLgdAssumptionForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWholesaleEclLgdAssumptionForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWholesaleEclLgdAssumptionForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWholesaleEclLgdAssumptionForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWholesaleEclLgdAssumptionForEdit(response: HttpResponseBase): Observable<GetWholesaleEclLgdAssumptionForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWholesaleEclLgdAssumptionForEditOutput.fromJS(resultData200) : new GetWholesaleEclLgdAssumptionForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWholesaleEclLgdAssumptionForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditWholesaleEclLgdAssumptionDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclLgdAssumptions/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclLgdAssumptions/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclLgdAssumptions/GetAllWholesaleEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWholesaleEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class WholesaleEclPdAssumption12MonthsesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param maxCreditFilter (optional) 
+     * @param minCreditFilter (optional) 
+     * @param maxPDFilter (optional) 
+     * @param minPDFilter (optional) 
+     * @param snPMappingEtiCreditPolicyFilter (optional) 
+     * @param snPMappingBestFitFilter (optional) 
+     * @param wholesaleEclTenantIdFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, maxCreditFilter: number | null | undefined, minCreditFilter: number | null | undefined, maxPDFilter: number | null | undefined, minPDFilter: number | null | undefined, snPMappingEtiCreditPolicyFilter: string | null | undefined, snPMappingBestFitFilter: string | null | undefined, wholesaleEclTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesaleEclPdAssumption12MonthsForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumption12Monthses/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (maxCreditFilter !== undefined)
+            url_ += "MaxCreditFilter=" + encodeURIComponent("" + maxCreditFilter) + "&"; 
+        if (minCreditFilter !== undefined)
+            url_ += "MinCreditFilter=" + encodeURIComponent("" + minCreditFilter) + "&"; 
+        if (maxPDFilter !== undefined)
+            url_ += "MaxPDFilter=" + encodeURIComponent("" + maxPDFilter) + "&"; 
+        if (minPDFilter !== undefined)
+            url_ += "MinPDFilter=" + encodeURIComponent("" + minPDFilter) + "&"; 
+        if (snPMappingEtiCreditPolicyFilter !== undefined)
+            url_ += "SnPMappingEtiCreditPolicyFilter=" + encodeURIComponent("" + snPMappingEtiCreditPolicyFilter) + "&"; 
+        if (snPMappingBestFitFilter !== undefined)
+            url_ += "SnPMappingBestFitFilter=" + encodeURIComponent("" + snPMappingBestFitFilter) + "&"; 
+        if (wholesaleEclTenantIdFilter !== undefined)
+            url_ += "WholesaleEclTenantIdFilter=" + encodeURIComponent("" + wholesaleEclTenantIdFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWholesaleEclPdAssumption12MonthsForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWholesaleEclPdAssumption12MonthsForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesaleEclPdAssumption12MonthsForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetWholesaleEclPdAssumption12MonthsForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesaleEclPdAssumption12MonthsForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWholesaleEclPdAssumption12MonthsForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWholesaleEclPdAssumption12MonthsForEdit(id: string | null | undefined): Observable<GetWholesaleEclPdAssumption12MonthsForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumption12Monthses/GetWholesaleEclPdAssumption12MonthsForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWholesaleEclPdAssumption12MonthsForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWholesaleEclPdAssumption12MonthsForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWholesaleEclPdAssumption12MonthsForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWholesaleEclPdAssumption12MonthsForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWholesaleEclPdAssumption12MonthsForEdit(response: HttpResponseBase): Observable<GetWholesaleEclPdAssumption12MonthsForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWholesaleEclPdAssumption12MonthsForEditOutput.fromJS(resultData200) : new GetWholesaleEclPdAssumption12MonthsForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWholesaleEclPdAssumption12MonthsForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditWholesaleEclPdAssumption12MonthsDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumption12Monthses/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumption12Monthses/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclPdAssumption12MonthsWholesaleEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumption12Monthses/GetAllWholesaleEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWholesaleEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclPdAssumption12MonthsWholesaleEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclPdAssumption12MonthsWholesaleEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclPdAssumption12MonthsWholesaleEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclPdAssumption12MonthsWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclPdAssumption12MonthsWholesaleEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclPdAssumption12MonthsWholesaleEclLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class WholesaleEclPdSnPCummulativeDefaultRatesesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param keyFilter (optional) 
+     * @param ratingFilter (optional) 
+     * @param maxYearsFilter (optional) 
+     * @param minYearsFilter (optional) 
+     * @param maxValueFilter (optional) 
+     * @param minValueFilter (optional) 
+     * @param wholesaleEclTenantIdFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, keyFilter: string | null | undefined, ratingFilter: string | null | undefined, maxYearsFilter: number | null | undefined, minYearsFilter: number | null | undefined, maxValueFilter: number | null | undefined, minValueFilter: number | null | undefined, wholesaleEclTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdSnPCummulativeDefaultRateses/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (keyFilter !== undefined)
+            url_ += "KeyFilter=" + encodeURIComponent("" + keyFilter) + "&"; 
+        if (ratingFilter !== undefined)
+            url_ += "RatingFilter=" + encodeURIComponent("" + ratingFilter) + "&"; 
+        if (maxYearsFilter !== undefined)
+            url_ += "MaxYearsFilter=" + encodeURIComponent("" + maxYearsFilter) + "&"; 
+        if (minYearsFilter !== undefined)
+            url_ += "MinYearsFilter=" + encodeURIComponent("" + minYearsFilter) + "&"; 
+        if (maxValueFilter !== undefined)
+            url_ += "MaxValueFilter=" + encodeURIComponent("" + maxValueFilter) + "&"; 
+        if (minValueFilter !== undefined)
+            url_ += "MinValueFilter=" + encodeURIComponent("" + minValueFilter) + "&"; 
+        if (wholesaleEclTenantIdFilter !== undefined)
+            url_ += "WholesaleEclTenantIdFilter=" + encodeURIComponent("" + wholesaleEclTenantIdFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWholesaleEclPdSnPCummulativeDefaultRatesForEdit(id: string | null | undefined): Observable<GetWholesaleEclPdSnPCummulativeDefaultRatesForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdSnPCummulativeDefaultRateses/GetWholesaleEclPdSnPCummulativeDefaultRatesForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWholesaleEclPdSnPCummulativeDefaultRatesForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWholesaleEclPdSnPCummulativeDefaultRatesForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWholesaleEclPdSnPCummulativeDefaultRatesForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWholesaleEclPdSnPCummulativeDefaultRatesForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWholesaleEclPdSnPCummulativeDefaultRatesForEdit(response: HttpResponseBase): Observable<GetWholesaleEclPdSnPCummulativeDefaultRatesForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWholesaleEclPdSnPCummulativeDefaultRatesForEditOutput.fromJS(resultData200) : new GetWholesaleEclPdSnPCummulativeDefaultRatesForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWholesaleEclPdSnPCummulativeDefaultRatesForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdSnPCummulativeDefaultRateses/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdSnPCummulativeDefaultRateses/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdSnPCummulativeDefaultRateses/GetAllWholesaleEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWholesaleEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class WholesaleEclResultDetailsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param contractIDFilter (optional) 
+     * @param accountNoFilter (optional) 
+     * @param customerNoFilter (optional) 
+     * @param segmentFilter (optional) 
+     * @param productTypeFilter (optional) 
+     * @param sectorFilter (optional) 
+     * @param maxStageFilter (optional) 
+     * @param minStageFilter (optional) 
+     * @param maxOutstandingBalanceFilter (optional) 
+     * @param minOutstandingBalanceFilter (optional) 
+     * @param maxPreOverrideEclBestFilter (optional) 
+     * @param minPreOverrideEclBestFilter (optional) 
+     * @param maxPreOverrideEclOptimisticFilter (optional) 
+     * @param minPreOverrideEclOptimisticFilter (optional) 
+     * @param maxPreOverrideEclDownturnFilter (optional) 
+     * @param minPreOverrideEclDownturnFilter (optional) 
+     * @param maxOverrideStageFilter (optional) 
+     * @param minOverrideStageFilter (optional) 
+     * @param maxOverrideTTRYearsFilter (optional) 
+     * @param minOverrideTTRYearsFilter (optional) 
+     * @param maxOverrideFSVFilter (optional) 
+     * @param minOverrideFSVFilter (optional) 
+     * @param maxOverrideOverlayFilter (optional) 
+     * @param minOverrideOverlayFilter (optional) 
+     * @param maxPostOverrideEclBestFilter (optional) 
+     * @param minPostOverrideEclBestFilter (optional) 
+     * @param maxPostOverrideEclOptimisticFilter (optional) 
+     * @param minPostOverrideEclOptimisticFilter (optional) 
+     * @param maxPostOverrideEclDownturnFilter (optional) 
+     * @param minPostOverrideEclDownturnFilter (optional) 
+     * @param maxPreOverrideImpairmentFilter (optional) 
+     * @param minPreOverrideImpairmentFilter (optional) 
+     * @param maxPostOverrideImpairmentFilter (optional) 
+     * @param minPostOverrideImpairmentFilter (optional) 
+     * @param wholesaleEclTenantIdFilter (optional) 
+     * @param wholesaleEclDataLoanBookCustomerNameFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, contractIDFilter: string | null | undefined, accountNoFilter: string | null | undefined, customerNoFilter: string | null | undefined, segmentFilter: string | null | undefined, productTypeFilter: string | null | undefined, sectorFilter: string | null | undefined, maxStageFilter: number | null | undefined, minStageFilter: number | null | undefined, maxOutstandingBalanceFilter: number | null | undefined, minOutstandingBalanceFilter: number | null | undefined, maxPreOverrideEclBestFilter: number | null | undefined, minPreOverrideEclBestFilter: number | null | undefined, maxPreOverrideEclOptimisticFilter: number | null | undefined, minPreOverrideEclOptimisticFilter: number | null | undefined, maxPreOverrideEclDownturnFilter: number | null | undefined, minPreOverrideEclDownturnFilter: number | null | undefined, maxOverrideStageFilter: number | null | undefined, minOverrideStageFilter: number | null | undefined, maxOverrideTTRYearsFilter: number | null | undefined, minOverrideTTRYearsFilter: number | null | undefined, maxOverrideFSVFilter: number | null | undefined, minOverrideFSVFilter: number | null | undefined, maxOverrideOverlayFilter: number | null | undefined, minOverrideOverlayFilter: number | null | undefined, maxPostOverrideEclBestFilter: number | null | undefined, minPostOverrideEclBestFilter: number | null | undefined, maxPostOverrideEclOptimisticFilter: number | null | undefined, minPostOverrideEclOptimisticFilter: number | null | undefined, maxPostOverrideEclDownturnFilter: number | null | undefined, minPostOverrideEclDownturnFilter: number | null | undefined, maxPreOverrideImpairmentFilter: number | null | undefined, minPreOverrideImpairmentFilter: number | null | undefined, maxPostOverrideImpairmentFilter: number | null | undefined, minPostOverrideImpairmentFilter: number | null | undefined, wholesaleEclTenantIdFilter: string | null | undefined, wholesaleEclDataLoanBookCustomerNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesaleEclResultDetailForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclResultDetails/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (contractIDFilter !== undefined)
+            url_ += "ContractIDFilter=" + encodeURIComponent("" + contractIDFilter) + "&"; 
+        if (accountNoFilter !== undefined)
+            url_ += "AccountNoFilter=" + encodeURIComponent("" + accountNoFilter) + "&"; 
+        if (customerNoFilter !== undefined)
+            url_ += "CustomerNoFilter=" + encodeURIComponent("" + customerNoFilter) + "&"; 
+        if (segmentFilter !== undefined)
+            url_ += "SegmentFilter=" + encodeURIComponent("" + segmentFilter) + "&"; 
+        if (productTypeFilter !== undefined)
+            url_ += "ProductTypeFilter=" + encodeURIComponent("" + productTypeFilter) + "&"; 
+        if (sectorFilter !== undefined)
+            url_ += "SectorFilter=" + encodeURIComponent("" + sectorFilter) + "&"; 
+        if (maxStageFilter !== undefined)
+            url_ += "MaxStageFilter=" + encodeURIComponent("" + maxStageFilter) + "&"; 
+        if (minStageFilter !== undefined)
+            url_ += "MinStageFilter=" + encodeURIComponent("" + minStageFilter) + "&"; 
+        if (maxOutstandingBalanceFilter !== undefined)
+            url_ += "MaxOutstandingBalanceFilter=" + encodeURIComponent("" + maxOutstandingBalanceFilter) + "&"; 
+        if (minOutstandingBalanceFilter !== undefined)
+            url_ += "MinOutstandingBalanceFilter=" + encodeURIComponent("" + minOutstandingBalanceFilter) + "&"; 
+        if (maxPreOverrideEclBestFilter !== undefined)
+            url_ += "MaxPreOverrideEclBestFilter=" + encodeURIComponent("" + maxPreOverrideEclBestFilter) + "&"; 
+        if (minPreOverrideEclBestFilter !== undefined)
+            url_ += "MinPreOverrideEclBestFilter=" + encodeURIComponent("" + minPreOverrideEclBestFilter) + "&"; 
+        if (maxPreOverrideEclOptimisticFilter !== undefined)
+            url_ += "MaxPreOverrideEclOptimisticFilter=" + encodeURIComponent("" + maxPreOverrideEclOptimisticFilter) + "&"; 
+        if (minPreOverrideEclOptimisticFilter !== undefined)
+            url_ += "MinPreOverrideEclOptimisticFilter=" + encodeURIComponent("" + minPreOverrideEclOptimisticFilter) + "&"; 
+        if (maxPreOverrideEclDownturnFilter !== undefined)
+            url_ += "MaxPreOverrideEclDownturnFilter=" + encodeURIComponent("" + maxPreOverrideEclDownturnFilter) + "&"; 
+        if (minPreOverrideEclDownturnFilter !== undefined)
+            url_ += "MinPreOverrideEclDownturnFilter=" + encodeURIComponent("" + minPreOverrideEclDownturnFilter) + "&"; 
+        if (maxOverrideStageFilter !== undefined)
+            url_ += "MaxOverrideStageFilter=" + encodeURIComponent("" + maxOverrideStageFilter) + "&"; 
+        if (minOverrideStageFilter !== undefined)
+            url_ += "MinOverrideStageFilter=" + encodeURIComponent("" + minOverrideStageFilter) + "&"; 
+        if (maxOverrideTTRYearsFilter !== undefined)
+            url_ += "MaxOverrideTTRYearsFilter=" + encodeURIComponent("" + maxOverrideTTRYearsFilter) + "&"; 
+        if (minOverrideTTRYearsFilter !== undefined)
+            url_ += "MinOverrideTTRYearsFilter=" + encodeURIComponent("" + minOverrideTTRYearsFilter) + "&"; 
+        if (maxOverrideFSVFilter !== undefined)
+            url_ += "MaxOverrideFSVFilter=" + encodeURIComponent("" + maxOverrideFSVFilter) + "&"; 
+        if (minOverrideFSVFilter !== undefined)
+            url_ += "MinOverrideFSVFilter=" + encodeURIComponent("" + minOverrideFSVFilter) + "&"; 
+        if (maxOverrideOverlayFilter !== undefined)
+            url_ += "MaxOverrideOverlayFilter=" + encodeURIComponent("" + maxOverrideOverlayFilter) + "&"; 
+        if (minOverrideOverlayFilter !== undefined)
+            url_ += "MinOverrideOverlayFilter=" + encodeURIComponent("" + minOverrideOverlayFilter) + "&"; 
+        if (maxPostOverrideEclBestFilter !== undefined)
+            url_ += "MaxPostOverrideEclBestFilter=" + encodeURIComponent("" + maxPostOverrideEclBestFilter) + "&"; 
+        if (minPostOverrideEclBestFilter !== undefined)
+            url_ += "MinPostOverrideEclBestFilter=" + encodeURIComponent("" + minPostOverrideEclBestFilter) + "&"; 
+        if (maxPostOverrideEclOptimisticFilter !== undefined)
+            url_ += "MaxPostOverrideEclOptimisticFilter=" + encodeURIComponent("" + maxPostOverrideEclOptimisticFilter) + "&"; 
+        if (minPostOverrideEclOptimisticFilter !== undefined)
+            url_ += "MinPostOverrideEclOptimisticFilter=" + encodeURIComponent("" + minPostOverrideEclOptimisticFilter) + "&"; 
+        if (maxPostOverrideEclDownturnFilter !== undefined)
+            url_ += "MaxPostOverrideEclDownturnFilter=" + encodeURIComponent("" + maxPostOverrideEclDownturnFilter) + "&"; 
+        if (minPostOverrideEclDownturnFilter !== undefined)
+            url_ += "MinPostOverrideEclDownturnFilter=" + encodeURIComponent("" + minPostOverrideEclDownturnFilter) + "&"; 
+        if (maxPreOverrideImpairmentFilter !== undefined)
+            url_ += "MaxPreOverrideImpairmentFilter=" + encodeURIComponent("" + maxPreOverrideImpairmentFilter) + "&"; 
+        if (minPreOverrideImpairmentFilter !== undefined)
+            url_ += "MinPreOverrideImpairmentFilter=" + encodeURIComponent("" + minPreOverrideImpairmentFilter) + "&"; 
+        if (maxPostOverrideImpairmentFilter !== undefined)
+            url_ += "MaxPostOverrideImpairmentFilter=" + encodeURIComponent("" + maxPostOverrideImpairmentFilter) + "&"; 
+        if (minPostOverrideImpairmentFilter !== undefined)
+            url_ += "MinPostOverrideImpairmentFilter=" + encodeURIComponent("" + minPostOverrideImpairmentFilter) + "&"; 
+        if (wholesaleEclTenantIdFilter !== undefined)
+            url_ += "WholesaleEclTenantIdFilter=" + encodeURIComponent("" + wholesaleEclTenantIdFilter) + "&"; 
+        if (wholesaleEclDataLoanBookCustomerNameFilter !== undefined)
+            url_ += "WholesaleEclDataLoanBookCustomerNameFilter=" + encodeURIComponent("" + wholesaleEclDataLoanBookCustomerNameFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWholesaleEclResultDetailForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWholesaleEclResultDetailForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesaleEclResultDetailForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetWholesaleEclResultDetailForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesaleEclResultDetailForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWholesaleEclResultDetailForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWholesaleEclResultDetailForEdit(id: string | null | undefined): Observable<GetWholesaleEclResultDetailForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclResultDetails/GetWholesaleEclResultDetailForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWholesaleEclResultDetailForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWholesaleEclResultDetailForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWholesaleEclResultDetailForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWholesaleEclResultDetailForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWholesaleEclResultDetailForEdit(response: HttpResponseBase): Observable<GetWholesaleEclResultDetailForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWholesaleEclResultDetailForEditOutput.fromJS(resultData200) : new GetWholesaleEclResultDetailForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWholesaleEclResultDetailForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditWholesaleEclResultDetailDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclResultDetails/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclResultDetails/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclResultDetailWholesaleEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclResultDetails/GetAllWholesaleEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWholesaleEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclResultDetailWholesaleEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclResultDetailWholesaleEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclResultDetailWholesaleEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclResultDetailWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclResultDetailWholesaleEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclResultDetailWholesaleEclLookupTableDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWholesaleEclDataLoanBookForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclResultDetailWholesaleEclDataLoanBookLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclResultDetails/GetAllWholesaleEclDataLoanBookForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWholesaleEclDataLoanBookForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWholesaleEclDataLoanBookForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclResultDetailWholesaleEclDataLoanBookLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclResultDetailWholesaleEclDataLoanBookLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWholesaleEclDataLoanBookForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclResultDetailWholesaleEclDataLoanBookLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclResultDetailWholesaleEclDataLoanBookLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclResultDetailWholesaleEclDataLoanBookLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclResultDetailWholesaleEclDataLoanBookLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class WholesaleEclResultSummariesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param summaryTypeFilter (optional) 
+     * @param titleFilter (optional) 
+     * @param wholesaleEclTenantIdFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, summaryTypeFilter: number | null | undefined, titleFilter: string | null | undefined, wholesaleEclTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesaleEclResultSummaryForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclResultSummaries/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (summaryTypeFilter !== undefined)
+            url_ += "SummaryTypeFilter=" + encodeURIComponent("" + summaryTypeFilter) + "&"; 
+        if (titleFilter !== undefined)
+            url_ += "TitleFilter=" + encodeURIComponent("" + titleFilter) + "&"; 
+        if (wholesaleEclTenantIdFilter !== undefined)
+            url_ += "WholesaleEclTenantIdFilter=" + encodeURIComponent("" + wholesaleEclTenantIdFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWholesaleEclResultSummaryForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWholesaleEclResultSummaryForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesaleEclResultSummaryForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetWholesaleEclResultSummaryForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesaleEclResultSummaryForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWholesaleEclResultSummaryForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWholesaleEclResultSummaryForEdit(id: string | null | undefined): Observable<GetWholesaleEclResultSummaryForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclResultSummaries/GetWholesaleEclResultSummaryForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWholesaleEclResultSummaryForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWholesaleEclResultSummaryForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWholesaleEclResultSummaryForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWholesaleEclResultSummaryForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWholesaleEclResultSummaryForEdit(response: HttpResponseBase): Observable<GetWholesaleEclResultSummaryForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWholesaleEclResultSummaryForEditOutput.fromJS(resultData200) : new GetWholesaleEclResultSummaryForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWholesaleEclResultSummaryForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditWholesaleEclResultSummaryDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclResultSummaries/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclResultSummaries/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclResultSummaryWholesaleEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclResultSummaries/GetAllWholesaleEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWholesaleEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclResultSummaryWholesaleEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclResultSummaryWholesaleEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclResultSummaryWholesaleEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclResultSummaryWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclResultSummaryWholesaleEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclResultSummaryWholesaleEclLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class WholesaleEclResultSummaryKeyInputsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param pDGroupingFilter (optional) 
+     * @param maxExposureFilter (optional) 
+     * @param minExposureFilter (optional) 
+     * @param maxCollateralFilter (optional) 
+     * @param minCollateralFilter (optional) 
+     * @param maxUnsecuredPercentageFilter (optional) 
+     * @param minUnsecuredPercentageFilter (optional) 
+     * @param maxPercentageOfBookFilter (optional) 
+     * @param minPercentageOfBookFilter (optional) 
+     * @param maxMonths6CummulativeBestPDsFilter (optional) 
+     * @param minMonths6CummulativeBestPDsFilter (optional) 
+     * @param maxMonths12CummulativeBestPDsFilter (optional) 
+     * @param minMonths12CummulativeBestPDsFilter (optional) 
+     * @param maxMonths24CummulativeBestPDsFilter (optional) 
+     * @param minMonths24CummulativeBestPDsFilter (optional) 
+     * @param wholesaleEclTenantIdFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, pDGroupingFilter: string | null | undefined, maxExposureFilter: number | null | undefined, minExposureFilter: number | null | undefined, maxCollateralFilter: number | null | undefined, minCollateralFilter: number | null | undefined, maxUnsecuredPercentageFilter: number | null | undefined, minUnsecuredPercentageFilter: number | null | undefined, maxPercentageOfBookFilter: number | null | undefined, minPercentageOfBookFilter: number | null | undefined, maxMonths6CummulativeBestPDsFilter: number | null | undefined, minMonths6CummulativeBestPDsFilter: number | null | undefined, maxMonths12CummulativeBestPDsFilter: number | null | undefined, minMonths12CummulativeBestPDsFilter: number | null | undefined, maxMonths24CummulativeBestPDsFilter: number | null | undefined, minMonths24CummulativeBestPDsFilter: number | null | undefined, wholesaleEclTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesaleEclResultSummaryKeyInputForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclResultSummaryKeyInputs/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (pDGroupingFilter !== undefined)
+            url_ += "PDGroupingFilter=" + encodeURIComponent("" + pDGroupingFilter) + "&"; 
+        if (maxExposureFilter !== undefined)
+            url_ += "MaxExposureFilter=" + encodeURIComponent("" + maxExposureFilter) + "&"; 
+        if (minExposureFilter !== undefined)
+            url_ += "MinExposureFilter=" + encodeURIComponent("" + minExposureFilter) + "&"; 
+        if (maxCollateralFilter !== undefined)
+            url_ += "MaxCollateralFilter=" + encodeURIComponent("" + maxCollateralFilter) + "&"; 
+        if (minCollateralFilter !== undefined)
+            url_ += "MinCollateralFilter=" + encodeURIComponent("" + minCollateralFilter) + "&"; 
+        if (maxUnsecuredPercentageFilter !== undefined)
+            url_ += "MaxUnsecuredPercentageFilter=" + encodeURIComponent("" + maxUnsecuredPercentageFilter) + "&"; 
+        if (minUnsecuredPercentageFilter !== undefined)
+            url_ += "MinUnsecuredPercentageFilter=" + encodeURIComponent("" + minUnsecuredPercentageFilter) + "&"; 
+        if (maxPercentageOfBookFilter !== undefined)
+            url_ += "MaxPercentageOfBookFilter=" + encodeURIComponent("" + maxPercentageOfBookFilter) + "&"; 
+        if (minPercentageOfBookFilter !== undefined)
+            url_ += "MinPercentageOfBookFilter=" + encodeURIComponent("" + minPercentageOfBookFilter) + "&"; 
+        if (maxMonths6CummulativeBestPDsFilter !== undefined)
+            url_ += "MaxMonths6CummulativeBestPDsFilter=" + encodeURIComponent("" + maxMonths6CummulativeBestPDsFilter) + "&"; 
+        if (minMonths6CummulativeBestPDsFilter !== undefined)
+            url_ += "MinMonths6CummulativeBestPDsFilter=" + encodeURIComponent("" + minMonths6CummulativeBestPDsFilter) + "&"; 
+        if (maxMonths12CummulativeBestPDsFilter !== undefined)
+            url_ += "MaxMonths12CummulativeBestPDsFilter=" + encodeURIComponent("" + maxMonths12CummulativeBestPDsFilter) + "&"; 
+        if (minMonths12CummulativeBestPDsFilter !== undefined)
+            url_ += "MinMonths12CummulativeBestPDsFilter=" + encodeURIComponent("" + minMonths12CummulativeBestPDsFilter) + "&"; 
+        if (maxMonths24CummulativeBestPDsFilter !== undefined)
+            url_ += "MaxMonths24CummulativeBestPDsFilter=" + encodeURIComponent("" + maxMonths24CummulativeBestPDsFilter) + "&"; 
+        if (minMonths24CummulativeBestPDsFilter !== undefined)
+            url_ += "MinMonths24CummulativeBestPDsFilter=" + encodeURIComponent("" + minMonths24CummulativeBestPDsFilter) + "&"; 
+        if (wholesaleEclTenantIdFilter !== undefined)
+            url_ += "WholesaleEclTenantIdFilter=" + encodeURIComponent("" + wholesaleEclTenantIdFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWholesaleEclResultSummaryKeyInputForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWholesaleEclResultSummaryKeyInputForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesaleEclResultSummaryKeyInputForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetWholesaleEclResultSummaryKeyInputForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesaleEclResultSummaryKeyInputForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWholesaleEclResultSummaryKeyInputForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWholesaleEclResultSummaryKeyInputForEdit(id: string | null | undefined): Observable<GetWholesaleEclResultSummaryKeyInputForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclResultSummaryKeyInputs/GetWholesaleEclResultSummaryKeyInputForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWholesaleEclResultSummaryKeyInputForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWholesaleEclResultSummaryKeyInputForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWholesaleEclResultSummaryKeyInputForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWholesaleEclResultSummaryKeyInputForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWholesaleEclResultSummaryKeyInputForEdit(response: HttpResponseBase): Observable<GetWholesaleEclResultSummaryKeyInputForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWholesaleEclResultSummaryKeyInputForEditOutput.fromJS(resultData200) : new GetWholesaleEclResultSummaryKeyInputForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWholesaleEclResultSummaryKeyInputForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditWholesaleEclResultSummaryKeyInputDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclResultSummaryKeyInputs/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclResultSummaryKeyInputs/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclResultSummaryKeyInputWholesaleEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclResultSummaryKeyInputs/GetAllWholesaleEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWholesaleEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclResultSummaryKeyInputWholesaleEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclResultSummaryKeyInputWholesaleEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclResultSummaryKeyInputWholesaleEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclResultSummaryKeyInputWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclResultSummaryKeyInputWholesaleEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclResultSummaryKeyInputWholesaleEclLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class WholesaleEclResultSummaryTopExposuresServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param maxPreOverrideExposureFilter (optional) 
+     * @param minPreOverrideExposureFilter (optional) 
+     * @param maxPreOverrideImpairmentFilter (optional) 
+     * @param minPreOverrideImpairmentFilter (optional) 
+     * @param maxPreOverrideCoverageRatioFilter (optional) 
+     * @param minPreOverrideCoverageRatioFilter (optional) 
+     * @param maxPostOverrideExposureFilter (optional) 
+     * @param minPostOverrideExposureFilter (optional) 
+     * @param maxPostOverrideImpairmentFilter (optional) 
+     * @param minPostOverrideImpairmentFilter (optional) 
+     * @param maxPostOverrideCoverageRatioFilter (optional) 
+     * @param minPostOverrideCoverageRatioFilter (optional) 
+     * @param contractIdFilter (optional) 
+     * @param wholesaleEclTenantIdFilter (optional) 
+     * @param wholesaleEclDataLoanBookCustomerNameFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, maxPreOverrideExposureFilter: number | null | undefined, minPreOverrideExposureFilter: number | null | undefined, maxPreOverrideImpairmentFilter: number | null | undefined, minPreOverrideImpairmentFilter: number | null | undefined, maxPreOverrideCoverageRatioFilter: number | null | undefined, minPreOverrideCoverageRatioFilter: number | null | undefined, maxPostOverrideExposureFilter: number | null | undefined, minPostOverrideExposureFilter: number | null | undefined, maxPostOverrideImpairmentFilter: number | null | undefined, minPostOverrideImpairmentFilter: number | null | undefined, maxPostOverrideCoverageRatioFilter: number | null | undefined, minPostOverrideCoverageRatioFilter: number | null | undefined, contractIdFilter: string | null | undefined, wholesaleEclTenantIdFilter: string | null | undefined, wholesaleEclDataLoanBookCustomerNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesaleEclResultSummaryTopExposureForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclResultSummaryTopExposures/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (maxPreOverrideExposureFilter !== undefined)
+            url_ += "MaxPreOverrideExposureFilter=" + encodeURIComponent("" + maxPreOverrideExposureFilter) + "&"; 
+        if (minPreOverrideExposureFilter !== undefined)
+            url_ += "MinPreOverrideExposureFilter=" + encodeURIComponent("" + minPreOverrideExposureFilter) + "&"; 
+        if (maxPreOverrideImpairmentFilter !== undefined)
+            url_ += "MaxPreOverrideImpairmentFilter=" + encodeURIComponent("" + maxPreOverrideImpairmentFilter) + "&"; 
+        if (minPreOverrideImpairmentFilter !== undefined)
+            url_ += "MinPreOverrideImpairmentFilter=" + encodeURIComponent("" + minPreOverrideImpairmentFilter) + "&"; 
+        if (maxPreOverrideCoverageRatioFilter !== undefined)
+            url_ += "MaxPreOverrideCoverageRatioFilter=" + encodeURIComponent("" + maxPreOverrideCoverageRatioFilter) + "&"; 
+        if (minPreOverrideCoverageRatioFilter !== undefined)
+            url_ += "MinPreOverrideCoverageRatioFilter=" + encodeURIComponent("" + minPreOverrideCoverageRatioFilter) + "&"; 
+        if (maxPostOverrideExposureFilter !== undefined)
+            url_ += "MaxPostOverrideExposureFilter=" + encodeURIComponent("" + maxPostOverrideExposureFilter) + "&"; 
+        if (minPostOverrideExposureFilter !== undefined)
+            url_ += "MinPostOverrideExposureFilter=" + encodeURIComponent("" + minPostOverrideExposureFilter) + "&"; 
+        if (maxPostOverrideImpairmentFilter !== undefined)
+            url_ += "MaxPostOverrideImpairmentFilter=" + encodeURIComponent("" + maxPostOverrideImpairmentFilter) + "&"; 
+        if (minPostOverrideImpairmentFilter !== undefined)
+            url_ += "MinPostOverrideImpairmentFilter=" + encodeURIComponent("" + minPostOverrideImpairmentFilter) + "&"; 
+        if (maxPostOverrideCoverageRatioFilter !== undefined)
+            url_ += "MaxPostOverrideCoverageRatioFilter=" + encodeURIComponent("" + maxPostOverrideCoverageRatioFilter) + "&"; 
+        if (minPostOverrideCoverageRatioFilter !== undefined)
+            url_ += "MinPostOverrideCoverageRatioFilter=" + encodeURIComponent("" + minPostOverrideCoverageRatioFilter) + "&"; 
+        if (contractIdFilter !== undefined)
+            url_ += "ContractIdFilter=" + encodeURIComponent("" + contractIdFilter) + "&"; 
+        if (wholesaleEclTenantIdFilter !== undefined)
+            url_ += "WholesaleEclTenantIdFilter=" + encodeURIComponent("" + wholesaleEclTenantIdFilter) + "&"; 
+        if (wholesaleEclDataLoanBookCustomerNameFilter !== undefined)
+            url_ += "WholesaleEclDataLoanBookCustomerNameFilter=" + encodeURIComponent("" + wholesaleEclDataLoanBookCustomerNameFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWholesaleEclResultSummaryTopExposureForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWholesaleEclResultSummaryTopExposureForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesaleEclResultSummaryTopExposureForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetWholesaleEclResultSummaryTopExposureForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesaleEclResultSummaryTopExposureForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWholesaleEclResultSummaryTopExposureForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWholesaleEclResultSummaryTopExposureForEdit(id: string | null | undefined): Observable<GetWholesaleEclResultSummaryTopExposureForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclResultSummaryTopExposures/GetWholesaleEclResultSummaryTopExposureForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWholesaleEclResultSummaryTopExposureForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWholesaleEclResultSummaryTopExposureForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWholesaleEclResultSummaryTopExposureForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWholesaleEclResultSummaryTopExposureForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWholesaleEclResultSummaryTopExposureForEdit(response: HttpResponseBase): Observable<GetWholesaleEclResultSummaryTopExposureForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWholesaleEclResultSummaryTopExposureForEditOutput.fromJS(resultData200) : new GetWholesaleEclResultSummaryTopExposureForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWholesaleEclResultSummaryTopExposureForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditWholesaleEclResultSummaryTopExposureDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclResultSummaryTopExposures/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclResultSummaryTopExposures/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclResultSummaryTopExposures/GetAllWholesaleEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWholesaleEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclLookupTableDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWholesaleEclDataLoanBookForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclResultSummaryTopExposures/GetAllWholesaleEclDataLoanBookForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWholesaleEclDataLoanBookForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWholesaleEclDataLoanBookForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWholesaleEclDataLoanBookForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class WholesaleEclsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param maxReportingDateFilter (optional) 
+     * @param minReportingDateFilter (optional) 
+     * @param maxClosedDateFilter (optional) 
+     * @param minClosedDateFilter (optional) 
+     * @param isApprovedFilter (optional) 
+     * @param statusFilter (optional) 
+     * @param userNameFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, maxReportingDateFilter: moment.Moment | null | undefined, minReportingDateFilter: moment.Moment | null | undefined, maxClosedDateFilter: moment.Moment | null | undefined, minClosedDateFilter: moment.Moment | null | undefined, isApprovedFilter: number | null | undefined, statusFilter: number | null | undefined, userNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesaleEclForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEcls/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (maxReportingDateFilter !== undefined)
+            url_ += "MaxReportingDateFilter=" + encodeURIComponent(maxReportingDateFilter ? "" + maxReportingDateFilter.toJSON() : "") + "&"; 
+        if (minReportingDateFilter !== undefined)
+            url_ += "MinReportingDateFilter=" + encodeURIComponent(minReportingDateFilter ? "" + minReportingDateFilter.toJSON() : "") + "&"; 
+        if (maxClosedDateFilter !== undefined)
+            url_ += "MaxClosedDateFilter=" + encodeURIComponent(maxClosedDateFilter ? "" + maxClosedDateFilter.toJSON() : "") + "&"; 
+        if (minClosedDateFilter !== undefined)
+            url_ += "MinClosedDateFilter=" + encodeURIComponent(minClosedDateFilter ? "" + minClosedDateFilter.toJSON() : "") + "&"; 
+        if (isApprovedFilter !== undefined)
+            url_ += "IsApprovedFilter=" + encodeURIComponent("" + isApprovedFilter) + "&"; 
+        if (statusFilter !== undefined)
+            url_ += "StatusFilter=" + encodeURIComponent("" + statusFilter) + "&"; 
+        if (userNameFilter !== undefined)
+            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWholesaleEclForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWholesaleEclForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesaleEclForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetWholesaleEclForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesaleEclForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWholesaleEclForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWholesaleEclForEdit(id: string | null | undefined): Observable<GetWholesaleEclForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEcls/GetWholesaleEclForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWholesaleEclForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWholesaleEclForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWholesaleEclForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWholesaleEclForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWholesaleEclForEdit(response: HttpResponseBase): Observable<GetWholesaleEclForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWholesaleEclForEditOutput.fromJS(resultData200) : new GetWholesaleEclForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWholesaleEclForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditWholesaleEclDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEcls/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEcls/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllUserForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclUserLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEcls/GetAllUserForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllUserForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllUserForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclUserLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclUserLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllUserForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclUserLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclUserLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclUserLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclUserLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class WholesaleEclSicrApprovalsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param maxReviewedDateFilter (optional) 
+     * @param minReviewedDateFilter (optional) 
+     * @param reviewCommentFilter (optional) 
+     * @param statusFilter (optional) 
+     * @param userNameFilter (optional) 
+     * @param wholesaleEclSicrOverrideCommentFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, maxReviewedDateFilter: moment.Moment | null | undefined, minReviewedDateFilter: moment.Moment | null | undefined, reviewCommentFilter: string | null | undefined, statusFilter: number | null | undefined, userNameFilter: string | null | undefined, wholesaleEclSicrOverrideCommentFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesaleEclSicrApprovalForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclSicrApprovals/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (maxReviewedDateFilter !== undefined)
+            url_ += "MaxReviewedDateFilter=" + encodeURIComponent(maxReviewedDateFilter ? "" + maxReviewedDateFilter.toJSON() : "") + "&"; 
+        if (minReviewedDateFilter !== undefined)
+            url_ += "MinReviewedDateFilter=" + encodeURIComponent(minReviewedDateFilter ? "" + minReviewedDateFilter.toJSON() : "") + "&"; 
+        if (reviewCommentFilter !== undefined)
+            url_ += "ReviewCommentFilter=" + encodeURIComponent("" + reviewCommentFilter) + "&"; 
+        if (statusFilter !== undefined)
+            url_ += "StatusFilter=" + encodeURIComponent("" + statusFilter) + "&"; 
+        if (userNameFilter !== undefined)
+            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&"; 
+        if (wholesaleEclSicrOverrideCommentFilter !== undefined)
+            url_ += "WholesaleEclSicrOverrideCommentFilter=" + encodeURIComponent("" + wholesaleEclSicrOverrideCommentFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWholesaleEclSicrApprovalForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWholesaleEclSicrApprovalForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesaleEclSicrApprovalForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetWholesaleEclSicrApprovalForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesaleEclSicrApprovalForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWholesaleEclSicrApprovalForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWholesaleEclSicrApprovalForEdit(id: string | null | undefined): Observable<GetWholesaleEclSicrApprovalForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclSicrApprovals/GetWholesaleEclSicrApprovalForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWholesaleEclSicrApprovalForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWholesaleEclSicrApprovalForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWholesaleEclSicrApprovalForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWholesaleEclSicrApprovalForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWholesaleEclSicrApprovalForEdit(response: HttpResponseBase): Observable<GetWholesaleEclSicrApprovalForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWholesaleEclSicrApprovalForEditOutput.fromJS(resultData200) : new GetWholesaleEclSicrApprovalForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWholesaleEclSicrApprovalForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditWholesaleEclSicrApprovalDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclSicrApprovals/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclSicrApprovals/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllUserForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclSicrApprovalUserLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclSicrApprovals/GetAllUserForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllUserForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllUserForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclSicrApprovalUserLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclSicrApprovalUserLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllUserForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclSicrApprovalUserLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclSicrApprovalUserLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclSicrApprovalUserLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclSicrApprovalUserLookupTableDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWholesaleEclSicrForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclSicrApprovalWholesaleEclSicrLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclSicrApprovals/GetAllWholesaleEclSicrForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWholesaleEclSicrForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWholesaleEclSicrForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclSicrApprovalWholesaleEclSicrLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclSicrApprovalWholesaleEclSicrLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWholesaleEclSicrForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclSicrApprovalWholesaleEclSicrLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclSicrApprovalWholesaleEclSicrLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclSicrApprovalWholesaleEclSicrLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclSicrApprovalWholesaleEclSicrLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class WholesaleEclSicrsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param maxComputedSICRFilter (optional) 
+     * @param minComputedSICRFilter (optional) 
+     * @param overrideSICRFilter (optional) 
+     * @param overrideCommentFilter (optional) 
+     * @param statusFilter (optional) 
+     * @param wholesaleEclDataLoanBookContractNoFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, maxComputedSICRFilter: number | null | undefined, minComputedSICRFilter: number | null | undefined, overrideSICRFilter: string | null | undefined, overrideCommentFilter: string | null | undefined, statusFilter: number | null | undefined, wholesaleEclDataLoanBookContractNoFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesaleEclSicrForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclSicrs/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (maxComputedSICRFilter !== undefined)
+            url_ += "MaxComputedSICRFilter=" + encodeURIComponent("" + maxComputedSICRFilter) + "&"; 
+        if (minComputedSICRFilter !== undefined)
+            url_ += "MinComputedSICRFilter=" + encodeURIComponent("" + minComputedSICRFilter) + "&"; 
+        if (overrideSICRFilter !== undefined)
+            url_ += "OverrideSICRFilter=" + encodeURIComponent("" + overrideSICRFilter) + "&"; 
+        if (overrideCommentFilter !== undefined)
+            url_ += "OverrideCommentFilter=" + encodeURIComponent("" + overrideCommentFilter) + "&"; 
+        if (statusFilter !== undefined)
+            url_ += "StatusFilter=" + encodeURIComponent("" + statusFilter) + "&"; 
+        if (wholesaleEclDataLoanBookContractNoFilter !== undefined)
+            url_ += "WholesaleEclDataLoanBookContractNoFilter=" + encodeURIComponent("" + wholesaleEclDataLoanBookContractNoFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWholesaleEclSicrForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWholesaleEclSicrForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesaleEclSicrForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetWholesaleEclSicrForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesaleEclSicrForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWholesaleEclSicrForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWholesaleEclSicrForEdit(id: string | null | undefined): Observable<GetWholesaleEclSicrForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclSicrs/GetWholesaleEclSicrForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWholesaleEclSicrForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWholesaleEclSicrForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWholesaleEclSicrForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWholesaleEclSicrForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWholesaleEclSicrForEdit(response: HttpResponseBase): Observable<GetWholesaleEclSicrForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWholesaleEclSicrForEditOutput.fromJS(resultData200) : new GetWholesaleEclSicrForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWholesaleEclSicrForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditWholesaleEclSicrDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclSicrs/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclSicrs/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWholesaleEclDataLoanBookForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclSicrWholesaleEclDataLoanBookLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclSicrs/GetAllWholesaleEclDataLoanBookForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWholesaleEclDataLoanBookForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWholesaleEclDataLoanBookForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclSicrWholesaleEclDataLoanBookLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclSicrWholesaleEclDataLoanBookLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWholesaleEclDataLoanBookForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclSicrWholesaleEclDataLoanBookLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclSicrWholesaleEclDataLoanBookLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclSicrWholesaleEclDataLoanBookLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclSicrWholesaleEclDataLoanBookLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class WholesaleEclUploadApprovalsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param maxReviewedDateFilter (optional) 
+     * @param minReviewedDateFilter (optional) 
+     * @param reviewCommentFilter (optional) 
+     * @param statusFilter (optional) 
+     * @param wholesaleEclUploadUploadCommentFilter (optional) 
+     * @param userNameFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, maxReviewedDateFilter: moment.Moment | null | undefined, minReviewedDateFilter: moment.Moment | null | undefined, reviewCommentFilter: string | null | undefined, statusFilter: number | null | undefined, wholesaleEclUploadUploadCommentFilter: string | null | undefined, userNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesaleEclUploadApprovalForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclUploadApprovals/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (maxReviewedDateFilter !== undefined)
+            url_ += "MaxReviewedDateFilter=" + encodeURIComponent(maxReviewedDateFilter ? "" + maxReviewedDateFilter.toJSON() : "") + "&"; 
+        if (minReviewedDateFilter !== undefined)
+            url_ += "MinReviewedDateFilter=" + encodeURIComponent(minReviewedDateFilter ? "" + minReviewedDateFilter.toJSON() : "") + "&"; 
+        if (reviewCommentFilter !== undefined)
+            url_ += "ReviewCommentFilter=" + encodeURIComponent("" + reviewCommentFilter) + "&"; 
+        if (statusFilter !== undefined)
+            url_ += "StatusFilter=" + encodeURIComponent("" + statusFilter) + "&"; 
+        if (wholesaleEclUploadUploadCommentFilter !== undefined)
+            url_ += "WholesaleEclUploadUploadCommentFilter=" + encodeURIComponent("" + wholesaleEclUploadUploadCommentFilter) + "&"; 
+        if (userNameFilter !== undefined)
+            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWholesaleEclUploadApprovalForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWholesaleEclUploadApprovalForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesaleEclUploadApprovalForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetWholesaleEclUploadApprovalForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesaleEclUploadApprovalForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWholesaleEclUploadApprovalForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWholesaleEclUploadApprovalForEdit(id: string | null | undefined): Observable<GetWholesaleEclUploadApprovalForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclUploadApprovals/GetWholesaleEclUploadApprovalForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWholesaleEclUploadApprovalForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWholesaleEclUploadApprovalForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWholesaleEclUploadApprovalForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWholesaleEclUploadApprovalForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWholesaleEclUploadApprovalForEdit(response: HttpResponseBase): Observable<GetWholesaleEclUploadApprovalForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWholesaleEclUploadApprovalForEditOutput.fromJS(resultData200) : new GetWholesaleEclUploadApprovalForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWholesaleEclUploadApprovalForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditWholesaleEclUploadApprovalDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclUploadApprovals/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclUploadApprovals/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWholesaleEclUploadForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclUploadApprovalWholesaleEclUploadLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclUploadApprovals/GetAllWholesaleEclUploadForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWholesaleEclUploadForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWholesaleEclUploadForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclUploadApprovalWholesaleEclUploadLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclUploadApprovalWholesaleEclUploadLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWholesaleEclUploadForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclUploadApprovalWholesaleEclUploadLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclUploadApprovalWholesaleEclUploadLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclUploadApprovalWholesaleEclUploadLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclUploadApprovalWholesaleEclUploadLookupTableDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllUserForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclUploadApprovalUserLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclUploadApprovals/GetAllUserForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllUserForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllUserForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclUploadApprovalUserLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclUploadApprovalUserLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllUserForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclUploadApprovalUserLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclUploadApprovalUserLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclUploadApprovalUserLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclUploadApprovalUserLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class WholesaleEclUploadsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param docTypeFilter (optional) 
+     * @param uploadCommentFilter (optional) 
+     * @param statusFilter (optional) 
+     * @param wholesaleEclTenantIdFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, docTypeFilter: number | null | undefined, uploadCommentFilter: string | null | undefined, statusFilter: number | null | undefined, wholesaleEclTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesaleEclUploadForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclUploads/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (docTypeFilter !== undefined)
+            url_ += "DocTypeFilter=" + encodeURIComponent("" + docTypeFilter) + "&"; 
+        if (uploadCommentFilter !== undefined)
+            url_ += "UploadCommentFilter=" + encodeURIComponent("" + uploadCommentFilter) + "&"; 
+        if (statusFilter !== undefined)
+            url_ += "StatusFilter=" + encodeURIComponent("" + statusFilter) + "&"; 
+        if (wholesaleEclTenantIdFilter !== undefined)
+            url_ += "WholesaleEclTenantIdFilter=" + encodeURIComponent("" + wholesaleEclTenantIdFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWholesaleEclUploadForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWholesaleEclUploadForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesaleEclUploadForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetWholesaleEclUploadForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesaleEclUploadForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWholesaleEclUploadForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWholesaleEclUploadForEdit(id: string | null | undefined): Observable<GetWholesaleEclUploadForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclUploads/GetWholesaleEclUploadForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWholesaleEclUploadForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWholesaleEclUploadForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWholesaleEclUploadForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWholesaleEclUploadForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWholesaleEclUploadForEdit(response: HttpResponseBase): Observable<GetWholesaleEclUploadForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWholesaleEclUploadForEditOutput.fromJS(resultData200) : new GetWholesaleEclUploadForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWholesaleEclUploadForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditWholesaleEclUploadDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclUploads/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclUploads/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclUploadWholesaleEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclUploads/GetAllWholesaleEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWholesaleEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclUploadWholesaleEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclUploadWholesaleEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclUploadWholesaleEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclUploadWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclUploadWholesaleEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclUploadWholesaleEclLookupTableDto>(<any>null);
+    }
+}
+
 export class IsTenantAvailableInput implements IIsTenantAvailableInput {
     tenancyName!: string;
 
@@ -10646,6 +18533,241 @@ export class SwitchToLinkedAccountOutput implements ISwitchToLinkedAccountOutput
 export interface ISwitchToLinkedAccountOutput {
     switchAccountToken: string | undefined;
     tenancyName: string | undefined;
+}
+
+export class PagedResultDtoOfGetAssumptionForViewDto implements IPagedResultDtoOfGetAssumptionForViewDto {
+    totalCount!: number | undefined;
+    items!: GetAssumptionForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetAssumptionForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetAssumptionForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetAssumptionForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetAssumptionForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetAssumptionForViewDto {
+    totalCount: number | undefined;
+    items: GetAssumptionForViewDto[] | undefined;
+}
+
+export class GetAssumptionForViewDto implements IGetAssumptionForViewDto {
+    assumption!: AssumptionDto | undefined;
+
+    constructor(data?: IGetAssumptionForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assumption = data["assumption"] ? AssumptionDto.fromJS(data["assumption"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetAssumptionForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAssumptionForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assumption"] = this.assumption ? this.assumption.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetAssumptionForViewDto {
+    assumption: AssumptionDto | undefined;
+}
+
+export class AssumptionDto implements IAssumptionDto {
+    inputName!: string | undefined;
+    value!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IAssumptionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.inputName = data["inputName"];
+            this.value = data["value"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): AssumptionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AssumptionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["inputName"] = this.inputName;
+        data["value"] = this.value;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IAssumptionDto {
+    inputName: string | undefined;
+    value: string | undefined;
+    id: string | undefined;
+}
+
+export class GetAssumptionForEditOutput implements IGetAssumptionForEditOutput {
+    assumption!: CreateOrEditAssumptionDto | undefined;
+
+    constructor(data?: IGetAssumptionForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assumption = data["assumption"] ? CreateOrEditAssumptionDto.fromJS(data["assumption"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetAssumptionForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAssumptionForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assumption"] = this.assumption ? this.assumption.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetAssumptionForEditOutput {
+    assumption: CreateOrEditAssumptionDto | undefined;
+}
+
+export class CreateOrEditAssumptionDto implements ICreateOrEditAssumptionDto {
+    key!: string | undefined;
+    inputName!: string | undefined;
+    value!: string | undefined;
+    dataType!: DataTypeEnum | undefined;
+    assumptionGroup!: AssumptionGroupEnum | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditAssumptionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.key = data["key"];
+            this.inputName = data["inputName"];
+            this.value = data["value"];
+            this.dataType = data["dataType"];
+            this.assumptionGroup = data["assumptionGroup"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditAssumptionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditAssumptionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["key"] = this.key;
+        data["inputName"] = this.inputName;
+        data["value"] = this.value;
+        data["dataType"] = this.dataType;
+        data["assumptionGroup"] = this.assumptionGroup;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditAssumptionDto {
+    key: string | undefined;
+    inputName: string | undefined;
+    value: string | undefined;
+    dataType: DataTypeEnum | undefined;
+    assumptionGroup: AssumptionGroupEnum | undefined;
+    id: string | undefined;
+}
+
+export enum DataTypeEnum {
+    String = 1, 
+    Datetime = 2, 
+    Double = 3, 
+}
+
+export enum AssumptionGroupEnum {
+    General = 0, 
+    ScenarioInputs = 1, 
+    AbsoluteCreditQuality = 2, 
+    RelativeCreditQuality = 3, 
+    ForwardTransitions = 4, 
+    BackwardTransitions = 5, 
 }
 
 export class PagedResultDtoOfAuditLogListDto implements IPagedResultDtoOfAuditLogListDto {
@@ -11787,6 +19909,214 @@ export class StringOutput implements IStringOutput {
 
 export interface IStringOutput {
     output: string | undefined;
+}
+
+export class PagedResultDtoOfGetEadInputAssumptionForViewDto implements IPagedResultDtoOfGetEadInputAssumptionForViewDto {
+    totalCount!: number | undefined;
+    items!: GetEadInputAssumptionForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetEadInputAssumptionForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetEadInputAssumptionForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetEadInputAssumptionForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetEadInputAssumptionForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetEadInputAssumptionForViewDto {
+    totalCount: number | undefined;
+    items: GetEadInputAssumptionForViewDto[] | undefined;
+}
+
+export class GetEadInputAssumptionForViewDto implements IGetEadInputAssumptionForViewDto {
+    eadInputAssumption!: EadInputAssumptionDto | undefined;
+
+    constructor(data?: IGetEadInputAssumptionForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.eadInputAssumption = data["eadInputAssumption"] ? EadInputAssumptionDto.fromJS(data["eadInputAssumption"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetEadInputAssumptionForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetEadInputAssumptionForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["eadInputAssumption"] = this.eadInputAssumption ? this.eadInputAssumption.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetEadInputAssumptionForViewDto {
+    eadInputAssumption: EadInputAssumptionDto | undefined;
+}
+
+export class EadInputAssumptionDto implements IEadInputAssumptionDto {
+    inputName!: string | undefined;
+    value!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IEadInputAssumptionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.inputName = data["inputName"];
+            this.value = data["value"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): EadInputAssumptionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new EadInputAssumptionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["inputName"] = this.inputName;
+        data["value"] = this.value;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IEadInputAssumptionDto {
+    inputName: string | undefined;
+    value: string | undefined;
+    id: string | undefined;
+}
+
+export class GetEadInputAssumptionForEditOutput implements IGetEadInputAssumptionForEditOutput {
+    eadInputAssumption!: CreateOrEditEadInputAssumptionDto | undefined;
+
+    constructor(data?: IGetEadInputAssumptionForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.eadInputAssumption = data["eadInputAssumption"] ? CreateOrEditEadInputAssumptionDto.fromJS(data["eadInputAssumption"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetEadInputAssumptionForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetEadInputAssumptionForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["eadInputAssumption"] = this.eadInputAssumption ? this.eadInputAssumption.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetEadInputAssumptionForEditOutput {
+    eadInputAssumption: CreateOrEditEadInputAssumptionDto | undefined;
+}
+
+export class CreateOrEditEadInputAssumptionDto implements ICreateOrEditEadInputAssumptionDto {
+    inputName!: string | undefined;
+    value!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditEadInputAssumptionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.inputName = data["inputName"];
+            this.value = data["value"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditEadInputAssumptionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditEadInputAssumptionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["inputName"] = this.inputName;
+        data["value"] = this.value;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditEadInputAssumptionDto {
+    inputName: string | undefined;
+    value: string | undefined;
+    id: string | undefined;
 }
 
 export class ListResultDtoOfEditionListDto implements IListResultDtoOfEditionListDto {
@@ -14437,6 +22767,240 @@ export interface IUpdateLanguageTextInput {
     value: string;
 }
 
+export class PagedResultDtoOfGetLgdAssumptionUnsecuredRecoveryForViewDto implements IPagedResultDtoOfGetLgdAssumptionUnsecuredRecoveryForViewDto {
+    totalCount!: number | undefined;
+    items!: GetLgdAssumptionUnsecuredRecoveryForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetLgdAssumptionUnsecuredRecoveryForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetLgdAssumptionUnsecuredRecoveryForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetLgdAssumptionUnsecuredRecoveryForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetLgdAssumptionUnsecuredRecoveryForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetLgdAssumptionUnsecuredRecoveryForViewDto {
+    totalCount: number | undefined;
+    items: GetLgdAssumptionUnsecuredRecoveryForViewDto[] | undefined;
+}
+
+export class GetLgdAssumptionUnsecuredRecoveryForViewDto implements IGetLgdAssumptionUnsecuredRecoveryForViewDto {
+    lgdAssumptionUnsecuredRecovery!: LgdAssumptionUnsecuredRecoveryDto | undefined;
+
+    constructor(data?: IGetLgdAssumptionUnsecuredRecoveryForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.lgdAssumptionUnsecuredRecovery = data["lgdAssumptionUnsecuredRecovery"] ? LgdAssumptionUnsecuredRecoveryDto.fromJS(data["lgdAssumptionUnsecuredRecovery"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetLgdAssumptionUnsecuredRecoveryForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLgdAssumptionUnsecuredRecoveryForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lgdAssumptionUnsecuredRecovery"] = this.lgdAssumptionUnsecuredRecovery ? this.lgdAssumptionUnsecuredRecovery.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetLgdAssumptionUnsecuredRecoveryForViewDto {
+    lgdAssumptionUnsecuredRecovery: LgdAssumptionUnsecuredRecoveryDto | undefined;
+}
+
+export class LgdAssumptionUnsecuredRecoveryDto implements ILgdAssumptionUnsecuredRecoveryDto {
+    inputName!: string | undefined;
+    value!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ILgdAssumptionUnsecuredRecoveryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.inputName = data["inputName"];
+            this.value = data["value"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): LgdAssumptionUnsecuredRecoveryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LgdAssumptionUnsecuredRecoveryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["inputName"] = this.inputName;
+        data["value"] = this.value;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ILgdAssumptionUnsecuredRecoveryDto {
+    inputName: string | undefined;
+    value: string | undefined;
+    id: string | undefined;
+}
+
+export class GetLgdAssumptionUnsecuredRecoveryForEditOutput implements IGetLgdAssumptionUnsecuredRecoveryForEditOutput {
+    lgdAssumptionUnsecuredRecovery!: CreateOrEditLgdAssumptionUnsecuredRecoveryDto | undefined;
+
+    constructor(data?: IGetLgdAssumptionUnsecuredRecoveryForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.lgdAssumptionUnsecuredRecovery = data["lgdAssumptionUnsecuredRecovery"] ? CreateOrEditLgdAssumptionUnsecuredRecoveryDto.fromJS(data["lgdAssumptionUnsecuredRecovery"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetLgdAssumptionUnsecuredRecoveryForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLgdAssumptionUnsecuredRecoveryForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lgdAssumptionUnsecuredRecovery"] = this.lgdAssumptionUnsecuredRecovery ? this.lgdAssumptionUnsecuredRecovery.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetLgdAssumptionUnsecuredRecoveryForEditOutput {
+    lgdAssumptionUnsecuredRecovery: CreateOrEditLgdAssumptionUnsecuredRecoveryDto | undefined;
+}
+
+export class CreateOrEditLgdAssumptionUnsecuredRecoveryDto implements ICreateOrEditLgdAssumptionUnsecuredRecoveryDto {
+    inputName!: string | undefined;
+    value!: string | undefined;
+    dataType!: DataTypeEnum | undefined;
+    isComputed!: boolean | undefined;
+    lgdGroup!: LdgInputAssumptionEnum | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditLgdAssumptionUnsecuredRecoveryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.inputName = data["inputName"];
+            this.value = data["value"];
+            this.dataType = data["dataType"];
+            this.isComputed = data["isComputed"];
+            this.lgdGroup = data["lgdGroup"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditLgdAssumptionUnsecuredRecoveryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditLgdAssumptionUnsecuredRecoveryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["inputName"] = this.inputName;
+        data["value"] = this.value;
+        data["dataType"] = this.dataType;
+        data["isComputed"] = this.isComputed;
+        data["lgdGroup"] = this.lgdGroup;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditLgdAssumptionUnsecuredRecoveryDto {
+    inputName: string | undefined;
+    value: string | undefined;
+    dataType: DataTypeEnum | undefined;
+    isComputed: boolean | undefined;
+    lgdGroup: LdgInputAssumptionEnum | undefined;
+    id: string | undefined;
+}
+
+export enum LdgInputAssumptionEnum {
+    General = 0, 
+    UnsecuredRecoveries = 1, 
+    CostOfRecoveryHigh = 2, 
+    CostOfRecoveryLow = 3, 
+    CollateralGrowthBest = 4, 
+    CollateralGrowthOptimistic = 5, 
+    CollateralGrowthDownturn = 6, 
+    CollateralTTR = 7, 
+    CollateralProjectionBest = 8, 
+    CollateralProjectionOptimistic = 9, 
+    CollateralProjectionDownturn = 10, 
+}
+
 export enum UserNotificationState {
     Unread = 0, 
     Read = 1, 
@@ -16093,6 +24657,450 @@ export interface IPayPalConfigurationDto {
     environment: string | undefined;
     demoUsername: string | undefined;
     demoPassword: string | undefined;
+}
+
+export class PagedResultDtoOfGetPdInputAssumption12MonthForViewDto implements IPagedResultDtoOfGetPdInputAssumption12MonthForViewDto {
+    totalCount!: number | undefined;
+    items!: GetPdInputAssumption12MonthForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetPdInputAssumption12MonthForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetPdInputAssumption12MonthForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetPdInputAssumption12MonthForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetPdInputAssumption12MonthForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetPdInputAssumption12MonthForViewDto {
+    totalCount: number | undefined;
+    items: GetPdInputAssumption12MonthForViewDto[] | undefined;
+}
+
+export class GetPdInputAssumption12MonthForViewDto implements IGetPdInputAssumption12MonthForViewDto {
+    pdInputAssumption12Month!: PdInputAssumption12MonthDto | undefined;
+
+    constructor(data?: IGetPdInputAssumption12MonthForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.pdInputAssumption12Month = data["pdInputAssumption12Month"] ? PdInputAssumption12MonthDto.fromJS(data["pdInputAssumption12Month"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetPdInputAssumption12MonthForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetPdInputAssumption12MonthForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pdInputAssumption12Month"] = this.pdInputAssumption12Month ? this.pdInputAssumption12Month.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetPdInputAssumption12MonthForViewDto {
+    pdInputAssumption12Month: PdInputAssumption12MonthDto | undefined;
+}
+
+export class PdInputAssumption12MonthDto implements IPdInputAssumption12MonthDto {
+    credit!: number | undefined;
+    pd!: number | undefined;
+    snPMappingEtiCreditPolicy!: string | undefined;
+    snPMappingBestFit!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IPdInputAssumption12MonthDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.credit = data["credit"];
+            this.pd = data["pd"];
+            this.snPMappingEtiCreditPolicy = data["snPMappingEtiCreditPolicy"];
+            this.snPMappingBestFit = data["snPMappingBestFit"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): PdInputAssumption12MonthDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PdInputAssumption12MonthDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["credit"] = this.credit;
+        data["pd"] = this.pd;
+        data["snPMappingEtiCreditPolicy"] = this.snPMappingEtiCreditPolicy;
+        data["snPMappingBestFit"] = this.snPMappingBestFit;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IPdInputAssumption12MonthDto {
+    credit: number | undefined;
+    pd: number | undefined;
+    snPMappingEtiCreditPolicy: string | undefined;
+    snPMappingBestFit: string | undefined;
+    id: string | undefined;
+}
+
+export class GetPdInputAssumption12MonthForEditOutput implements IGetPdInputAssumption12MonthForEditOutput {
+    pdInputAssumption12Month!: CreateOrEditPdInputAssumption12MonthDto | undefined;
+
+    constructor(data?: IGetPdInputAssumption12MonthForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.pdInputAssumption12Month = data["pdInputAssumption12Month"] ? CreateOrEditPdInputAssumption12MonthDto.fromJS(data["pdInputAssumption12Month"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetPdInputAssumption12MonthForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetPdInputAssumption12MonthForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pdInputAssumption12Month"] = this.pdInputAssumption12Month ? this.pdInputAssumption12Month.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetPdInputAssumption12MonthForEditOutput {
+    pdInputAssumption12Month: CreateOrEditPdInputAssumption12MonthDto | undefined;
+}
+
+export class CreateOrEditPdInputAssumption12MonthDto implements ICreateOrEditPdInputAssumption12MonthDto {
+    credit!: number | undefined;
+    pd!: number | undefined;
+    snPMappingEtiCreditPolicy!: string | undefined;
+    snPMappingBestFit!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditPdInputAssumption12MonthDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.credit = data["credit"];
+            this.pd = data["pd"];
+            this.snPMappingEtiCreditPolicy = data["snPMappingEtiCreditPolicy"];
+            this.snPMappingBestFit = data["snPMappingBestFit"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditPdInputAssumption12MonthDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditPdInputAssumption12MonthDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["credit"] = this.credit;
+        data["pd"] = this.pd;
+        data["snPMappingEtiCreditPolicy"] = this.snPMappingEtiCreditPolicy;
+        data["snPMappingBestFit"] = this.snPMappingBestFit;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditPdInputAssumption12MonthDto {
+    credit: number | undefined;
+    pd: number | undefined;
+    snPMappingEtiCreditPolicy: string | undefined;
+    snPMappingBestFit: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfGetPdInputSnPCummulativeDefaultRateForViewDto implements IPagedResultDtoOfGetPdInputSnPCummulativeDefaultRateForViewDto {
+    totalCount!: number | undefined;
+    items!: GetPdInputSnPCummulativeDefaultRateForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetPdInputSnPCummulativeDefaultRateForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetPdInputSnPCummulativeDefaultRateForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetPdInputSnPCummulativeDefaultRateForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetPdInputSnPCummulativeDefaultRateForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetPdInputSnPCummulativeDefaultRateForViewDto {
+    totalCount: number | undefined;
+    items: GetPdInputSnPCummulativeDefaultRateForViewDto[] | undefined;
+}
+
+export class GetPdInputSnPCummulativeDefaultRateForViewDto implements IGetPdInputSnPCummulativeDefaultRateForViewDto {
+    pdInputSnPCummulativeDefaultRate!: PdInputSnPCummulativeDefaultRateDto | undefined;
+
+    constructor(data?: IGetPdInputSnPCummulativeDefaultRateForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.pdInputSnPCummulativeDefaultRate = data["pdInputSnPCummulativeDefaultRate"] ? PdInputSnPCummulativeDefaultRateDto.fromJS(data["pdInputSnPCummulativeDefaultRate"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetPdInputSnPCummulativeDefaultRateForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetPdInputSnPCummulativeDefaultRateForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pdInputSnPCummulativeDefaultRate"] = this.pdInputSnPCummulativeDefaultRate ? this.pdInputSnPCummulativeDefaultRate.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetPdInputSnPCummulativeDefaultRateForViewDto {
+    pdInputSnPCummulativeDefaultRate: PdInputSnPCummulativeDefaultRateDto | undefined;
+}
+
+export class PdInputSnPCummulativeDefaultRateDto implements IPdInputSnPCummulativeDefaultRateDto {
+    rating!: string | undefined;
+    years!: number | undefined;
+    value!: number | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IPdInputSnPCummulativeDefaultRateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.rating = data["rating"];
+            this.years = data["years"];
+            this.value = data["value"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): PdInputSnPCummulativeDefaultRateDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PdInputSnPCummulativeDefaultRateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["rating"] = this.rating;
+        data["years"] = this.years;
+        data["value"] = this.value;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IPdInputSnPCummulativeDefaultRateDto {
+    rating: string | undefined;
+    years: number | undefined;
+    value: number | undefined;
+    id: string | undefined;
+}
+
+export class GetPdInputSnPCummulativeDefaultRateForEditOutput implements IGetPdInputSnPCummulativeDefaultRateForEditOutput {
+    pdInputSnPCummulativeDefaultRate!: CreateOrEditPdInputSnPCummulativeDefaultRateDto | undefined;
+
+    constructor(data?: IGetPdInputSnPCummulativeDefaultRateForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.pdInputSnPCummulativeDefaultRate = data["pdInputSnPCummulativeDefaultRate"] ? CreateOrEditPdInputSnPCummulativeDefaultRateDto.fromJS(data["pdInputSnPCummulativeDefaultRate"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetPdInputSnPCummulativeDefaultRateForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetPdInputSnPCummulativeDefaultRateForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pdInputSnPCummulativeDefaultRate"] = this.pdInputSnPCummulativeDefaultRate ? this.pdInputSnPCummulativeDefaultRate.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetPdInputSnPCummulativeDefaultRateForEditOutput {
+    pdInputSnPCummulativeDefaultRate: CreateOrEditPdInputSnPCummulativeDefaultRateDto | undefined;
+}
+
+export class CreateOrEditPdInputSnPCummulativeDefaultRateDto implements ICreateOrEditPdInputSnPCummulativeDefaultRateDto {
+    key!: string | undefined;
+    rating!: string | undefined;
+    years!: number | undefined;
+    value!: number | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditPdInputSnPCummulativeDefaultRateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.key = data["key"];
+            this.rating = data["rating"];
+            this.years = data["years"];
+            this.value = data["value"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditPdInputSnPCummulativeDefaultRateDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditPdInputSnPCummulativeDefaultRateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["key"] = this.key;
+        data["rating"] = this.rating;
+        data["years"] = this.years;
+        data["value"] = this.value;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditPdInputSnPCummulativeDefaultRateDto {
+    key: string | undefined;
+    rating: string | undefined;
+    years: number | undefined;
+    value: number | undefined;
+    id: string | undefined;
 }
 
 export class ListResultDtoOfFlatPermissionWithLevelDto implements IListResultDtoOfFlatPermissionWithLevelDto {
@@ -20740,6 +29748,7622 @@ export class GetLatestWebLogsOutput implements IGetLatestWebLogsOutput {
 
 export interface IGetLatestWebLogsOutput {
     latestWebLogLines: string[] | undefined;
+}
+
+export class PagedResultDtoOfGetWholesaleEadInputAssumptionForViewDto implements IPagedResultDtoOfGetWholesaleEadInputAssumptionForViewDto {
+    totalCount!: number | undefined;
+    items!: GetWholesaleEadInputAssumptionForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWholesaleEadInputAssumptionForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWholesaleEadInputAssumptionForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWholesaleEadInputAssumptionForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWholesaleEadInputAssumptionForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWholesaleEadInputAssumptionForViewDto {
+    totalCount: number | undefined;
+    items: GetWholesaleEadInputAssumptionForViewDto[] | undefined;
+}
+
+export class GetWholesaleEadInputAssumptionForViewDto implements IGetWholesaleEadInputAssumptionForViewDto {
+    wholesaleEadInputAssumption!: WholesaleEadInputAssumptionDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEadInputAssumptionForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEadInputAssumption = data["wholesaleEadInputAssumption"] ? WholesaleEadInputAssumptionDto.fromJS(data["wholesaleEadInputAssumption"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEadInputAssumptionForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEadInputAssumptionForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEadInputAssumption"] = this.wholesaleEadInputAssumption ? this.wholesaleEadInputAssumption.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEadInputAssumptionForViewDto {
+    wholesaleEadInputAssumption: WholesaleEadInputAssumptionDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class WholesaleEadInputAssumptionDto implements IWholesaleEadInputAssumptionDto {
+    inputName!: string | undefined;
+    value!: string | undefined;
+    eadGroup!: EadInputGroupEnum | undefined;
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IWholesaleEadInputAssumptionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.inputName = data["inputName"];
+            this.value = data["value"];
+            this.eadGroup = data["eadGroup"];
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEadInputAssumptionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEadInputAssumptionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["inputName"] = this.inputName;
+        data["value"] = this.value;
+        data["eadGroup"] = this.eadGroup;
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWholesaleEadInputAssumptionDto {
+    inputName: string | undefined;
+    value: string | undefined;
+    eadGroup: EadInputGroupEnum | undefined;
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export enum EadInputGroupEnum {
+    General = 0, 
+    CreditConversionFactors = 1, 
+    VariableInterestRateProjections = 2, 
+    ExchangeRateProjections = 3, 
+}
+
+export class GetWholesaleEadInputAssumptionForEditOutput implements IGetWholesaleEadInputAssumptionForEditOutput {
+    wholesaleEadInputAssumption!: CreateOrEditWholesaleEadInputAssumptionDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEadInputAssumptionForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEadInputAssumption = data["wholesaleEadInputAssumption"] ? CreateOrEditWholesaleEadInputAssumptionDto.fromJS(data["wholesaleEadInputAssumption"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEadInputAssumptionForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEadInputAssumptionForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEadInputAssumption"] = this.wholesaleEadInputAssumption ? this.wholesaleEadInputAssumption.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEadInputAssumptionForEditOutput {
+    wholesaleEadInputAssumption: CreateOrEditWholesaleEadInputAssumptionDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class CreateOrEditWholesaleEadInputAssumptionDto implements ICreateOrEditWholesaleEadInputAssumptionDto {
+    key!: string | undefined;
+    inputName!: string | undefined;
+    value!: string | undefined;
+    datatype!: DataTypeEnum | undefined;
+    isComputed!: boolean | undefined;
+    eadGroup!: EadInputGroupEnum | undefined;
+    requiresGroupApproval!: boolean | undefined;
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditWholesaleEadInputAssumptionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.key = data["key"];
+            this.inputName = data["inputName"];
+            this.value = data["value"];
+            this.datatype = data["datatype"];
+            this.isComputed = data["isComputed"];
+            this.eadGroup = data["eadGroup"];
+            this.requiresGroupApproval = data["requiresGroupApproval"];
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWholesaleEadInputAssumptionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWholesaleEadInputAssumptionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["key"] = this.key;
+        data["inputName"] = this.inputName;
+        data["value"] = this.value;
+        data["datatype"] = this.datatype;
+        data["isComputed"] = this.isComputed;
+        data["eadGroup"] = this.eadGroup;
+        data["requiresGroupApproval"] = this.requiresGroupApproval;
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWholesaleEadInputAssumptionDto {
+    key: string | undefined;
+    inputName: string | undefined;
+    value: string | undefined;
+    datatype: DataTypeEnum | undefined;
+    isComputed: boolean | undefined;
+    eadGroup: EadInputGroupEnum | undefined;
+    requiresGroupApproval: boolean | undefined;
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEadInputAssumptionWholesaleEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEadInputAssumptionWholesaleEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEadInputAssumptionWholesaleEclLookupTableDto[] | undefined;
+}
+
+export class WholesaleEadInputAssumptionWholesaleEclLookupTableDto implements IWholesaleEadInputAssumptionWholesaleEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEadInputAssumptionWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEadInputAssumptionWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEadInputAssumptionWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEadInputAssumptionWholesaleEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetWholesaleEclApprovalForViewDto implements IPagedResultDtoOfGetWholesaleEclApprovalForViewDto {
+    totalCount!: number | undefined;
+    items!: GetWholesaleEclApprovalForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWholesaleEclApprovalForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWholesaleEclApprovalForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWholesaleEclApprovalForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWholesaleEclApprovalForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWholesaleEclApprovalForViewDto {
+    totalCount: number | undefined;
+    items: GetWholesaleEclApprovalForViewDto[] | undefined;
+}
+
+export class GetWholesaleEclApprovalForViewDto implements IGetWholesaleEclApprovalForViewDto {
+    wholesaleEclApproval!: WholesaleEclApprovalDto | undefined;
+    userName!: string | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclApprovalForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclApproval = data["wholesaleEclApproval"] ? WholesaleEclApprovalDto.fromJS(data["wholesaleEclApproval"]) : <any>undefined;
+            this.userName = data["userName"];
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclApprovalForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclApprovalForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclApproval"] = this.wholesaleEclApproval ? this.wholesaleEclApproval.toJSON() : <any>undefined;
+        data["userName"] = this.userName;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclApprovalForViewDto {
+    wholesaleEclApproval: WholesaleEclApprovalDto | undefined;
+    userName: string | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class WholesaleEclApprovalDto implements IWholesaleEclApprovalDto {
+    reviewedDate!: moment.Moment | undefined;
+    status!: GeneralStatusEnum | undefined;
+    reviewedByUserId!: number | undefined;
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IWholesaleEclApprovalDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.reviewedDate = data["reviewedDate"] ? moment(data["reviewedDate"].toString()) : <any>undefined;
+            this.status = data["status"];
+            this.reviewedByUserId = data["reviewedByUserId"];
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclApprovalDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclApprovalDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["reviewedDate"] = this.reviewedDate ? this.reviewedDate.toISOString() : <any>undefined;
+        data["status"] = this.status;
+        data["reviewedByUserId"] = this.reviewedByUserId;
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclApprovalDto {
+    reviewedDate: moment.Moment | undefined;
+    status: GeneralStatusEnum | undefined;
+    reviewedByUserId: number | undefined;
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export enum GeneralStatusEnum {
+    Draft = 0, 
+    Submitted = 1, 
+    Approved = 2, 
+    Rejected = 3, 
+}
+
+export class GetWholesaleEclApprovalForEditOutput implements IGetWholesaleEclApprovalForEditOutput {
+    wholesaleEclApproval!: CreateOrEditWholesaleEclApprovalDto | undefined;
+    userName!: string | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclApprovalForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclApproval = data["wholesaleEclApproval"] ? CreateOrEditWholesaleEclApprovalDto.fromJS(data["wholesaleEclApproval"]) : <any>undefined;
+            this.userName = data["userName"];
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclApprovalForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclApprovalForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclApproval"] = this.wholesaleEclApproval ? this.wholesaleEclApproval.toJSON() : <any>undefined;
+        data["userName"] = this.userName;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclApprovalForEditOutput {
+    wholesaleEclApproval: CreateOrEditWholesaleEclApprovalDto | undefined;
+    userName: string | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class CreateOrEditWholesaleEclApprovalDto implements ICreateOrEditWholesaleEclApprovalDto {
+    reviewedDate!: moment.Moment | undefined;
+    reviewComment!: string | undefined;
+    status!: GeneralStatusEnum | undefined;
+    reviewedByUserId!: number | undefined;
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditWholesaleEclApprovalDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.reviewedDate = data["reviewedDate"] ? moment(data["reviewedDate"].toString()) : <any>undefined;
+            this.reviewComment = data["reviewComment"];
+            this.status = data["status"];
+            this.reviewedByUserId = data["reviewedByUserId"];
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWholesaleEclApprovalDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWholesaleEclApprovalDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["reviewedDate"] = this.reviewedDate ? this.reviewedDate.toISOString() : <any>undefined;
+        data["reviewComment"] = this.reviewComment;
+        data["status"] = this.status;
+        data["reviewedByUserId"] = this.reviewedByUserId;
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWholesaleEclApprovalDto {
+    reviewedDate: moment.Moment | undefined;
+    reviewComment: string | undefined;
+    status: GeneralStatusEnum | undefined;
+    reviewedByUserId: number | undefined;
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclApprovalUserLookupTableDto implements IPagedResultDtoOfWholesaleEclApprovalUserLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclApprovalUserLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclApprovalUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclApprovalUserLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclApprovalUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclApprovalUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclApprovalUserLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclApprovalUserLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclApprovalUserLookupTableDto implements IWholesaleEclApprovalUserLookupTableDto {
+    id!: number | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclApprovalUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclApprovalUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclApprovalUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclApprovalUserLookupTableDto {
+    id: number | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclApprovalWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesaleEclApprovalWholesaleEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclApprovalWholesaleEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclApprovalWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclApprovalWholesaleEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclApprovalWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclApprovalWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclApprovalWholesaleEclLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclApprovalWholesaleEclLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclApprovalWholesaleEclLookupTableDto implements IWholesaleEclApprovalWholesaleEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclApprovalWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclApprovalWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclApprovalWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclApprovalWholesaleEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetWholesaleEclAssumptionApprovalForViewDto implements IPagedResultDtoOfGetWholesaleEclAssumptionApprovalForViewDto {
+    totalCount!: number | undefined;
+    items!: GetWholesaleEclAssumptionApprovalForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWholesaleEclAssumptionApprovalForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWholesaleEclAssumptionApprovalForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWholesaleEclAssumptionApprovalForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWholesaleEclAssumptionApprovalForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWholesaleEclAssumptionApprovalForViewDto {
+    totalCount: number | undefined;
+    items: GetWholesaleEclAssumptionApprovalForViewDto[] | undefined;
+}
+
+export class GetWholesaleEclAssumptionApprovalForViewDto implements IGetWholesaleEclAssumptionApprovalForViewDto {
+    wholesaleEclAssumptionApproval!: WholesaleEclAssumptionApprovalDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+    userName!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclAssumptionApprovalForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclAssumptionApproval = data["wholesaleEclAssumptionApproval"] ? WholesaleEclAssumptionApprovalDto.fromJS(data["wholesaleEclAssumptionApproval"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+            this.userName = data["userName"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclAssumptionApprovalForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclAssumptionApprovalForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclAssumptionApproval"] = this.wholesaleEclAssumptionApproval ? this.wholesaleEclAssumptionApproval.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        data["userName"] = this.userName;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclAssumptionApprovalForViewDto {
+    wholesaleEclAssumptionApproval: WholesaleEclAssumptionApprovalDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+    userName: string | undefined;
+}
+
+export class WholesaleEclAssumptionApprovalDto implements IWholesaleEclAssumptionApprovalDto {
+    assumptionType!: AssumptionTypeEnum | undefined;
+    oldValue!: string | undefined;
+    dateReviewed!: moment.Moment | undefined;
+    wholesaleEclId!: string | undefined;
+    reviewedByUserId!: number | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IWholesaleEclAssumptionApprovalDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assumptionType = data["assumptionType"];
+            this.oldValue = data["oldValue"];
+            this.dateReviewed = data["dateReviewed"] ? moment(data["dateReviewed"].toString()) : <any>undefined;
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.reviewedByUserId = data["reviewedByUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclAssumptionApprovalDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclAssumptionApprovalDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assumptionType"] = this.assumptionType;
+        data["oldValue"] = this.oldValue;
+        data["dateReviewed"] = this.dateReviewed ? this.dateReviewed.toISOString() : <any>undefined;
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["reviewedByUserId"] = this.reviewedByUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclAssumptionApprovalDto {
+    assumptionType: AssumptionTypeEnum | undefined;
+    oldValue: string | undefined;
+    dateReviewed: moment.Moment | undefined;
+    wholesaleEclId: string | undefined;
+    reviewedByUserId: number | undefined;
+    id: string | undefined;
+}
+
+export enum AssumptionTypeEnum {
+    General = 0, 
+    EadInputAssumption = 1, 
+    LgdInputAssumption = 2, 
+    Pd12MonthsAssumption = 3, 
+    PdSnPAssumption = 4, 
+}
+
+export class GetWholesaleEclAssumptionApprovalForEditOutput implements IGetWholesaleEclAssumptionApprovalForEditOutput {
+    wholesaleEclAssumptionApproval!: CreateOrEditWholesaleEclAssumptionApprovalDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+    userName!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclAssumptionApprovalForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclAssumptionApproval = data["wholesaleEclAssumptionApproval"] ? CreateOrEditWholesaleEclAssumptionApprovalDto.fromJS(data["wholesaleEclAssumptionApproval"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+            this.userName = data["userName"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclAssumptionApprovalForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclAssumptionApprovalForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclAssumptionApproval"] = this.wholesaleEclAssumptionApproval ? this.wholesaleEclAssumptionApproval.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        data["userName"] = this.userName;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclAssumptionApprovalForEditOutput {
+    wholesaleEclAssumptionApproval: CreateOrEditWholesaleEclAssumptionApprovalDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+    userName: string | undefined;
+}
+
+export class CreateOrEditWholesaleEclAssumptionApprovalDto implements ICreateOrEditWholesaleEclAssumptionApprovalDto {
+    assumptionType!: AssumptionTypeEnum | undefined;
+    assumptionId!: string | undefined;
+    oldValue!: string | undefined;
+    newValue!: string | undefined;
+    dateReviewed!: moment.Moment | undefined;
+    reviewComment!: string | undefined;
+    status!: GeneralStatusEnum | undefined;
+    wholesaleEclId!: string | undefined;
+    reviewedByUserId!: number | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditWholesaleEclAssumptionApprovalDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assumptionType = data["assumptionType"];
+            this.assumptionId = data["assumptionId"];
+            this.oldValue = data["oldValue"];
+            this.newValue = data["newValue"];
+            this.dateReviewed = data["dateReviewed"] ? moment(data["dateReviewed"].toString()) : <any>undefined;
+            this.reviewComment = data["reviewComment"];
+            this.status = data["status"];
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.reviewedByUserId = data["reviewedByUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWholesaleEclAssumptionApprovalDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWholesaleEclAssumptionApprovalDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assumptionType"] = this.assumptionType;
+        data["assumptionId"] = this.assumptionId;
+        data["oldValue"] = this.oldValue;
+        data["newValue"] = this.newValue;
+        data["dateReviewed"] = this.dateReviewed ? this.dateReviewed.toISOString() : <any>undefined;
+        data["reviewComment"] = this.reviewComment;
+        data["status"] = this.status;
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["reviewedByUserId"] = this.reviewedByUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWholesaleEclAssumptionApprovalDto {
+    assumptionType: AssumptionTypeEnum | undefined;
+    assumptionId: string | undefined;
+    oldValue: string | undefined;
+    newValue: string | undefined;
+    dateReviewed: moment.Moment | undefined;
+    reviewComment: string | undefined;
+    status: GeneralStatusEnum | undefined;
+    wholesaleEclId: string | undefined;
+    reviewedByUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclAssumptionApprovalWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesaleEclAssumptionApprovalWholesaleEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclAssumptionApprovalWholesaleEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclAssumptionApprovalWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclAssumptionApprovalWholesaleEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclAssumptionApprovalWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclAssumptionApprovalWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclAssumptionApprovalWholesaleEclLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclAssumptionApprovalWholesaleEclLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclAssumptionApprovalWholesaleEclLookupTableDto implements IWholesaleEclAssumptionApprovalWholesaleEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclAssumptionApprovalWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclAssumptionApprovalWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclAssumptionApprovalWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclAssumptionApprovalWholesaleEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclAssumptionApprovalUserLookupTableDto implements IPagedResultDtoOfWholesaleEclAssumptionApprovalUserLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclAssumptionApprovalUserLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclAssumptionApprovalUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclAssumptionApprovalUserLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclAssumptionApprovalUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclAssumptionApprovalUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclAssumptionApprovalUserLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclAssumptionApprovalUserLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclAssumptionApprovalUserLookupTableDto implements IWholesaleEclAssumptionApprovalUserLookupTableDto {
+    id!: number | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclAssumptionApprovalUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclAssumptionApprovalUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclAssumptionApprovalUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclAssumptionApprovalUserLookupTableDto {
+    id: number | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetWholesaleEclAssumptionForViewDto implements IPagedResultDtoOfGetWholesaleEclAssumptionForViewDto {
+    totalCount!: number | undefined;
+    items!: GetWholesaleEclAssumptionForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWholesaleEclAssumptionForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWholesaleEclAssumptionForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWholesaleEclAssumptionForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWholesaleEclAssumptionForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWholesaleEclAssumptionForViewDto {
+    totalCount: number | undefined;
+    items: GetWholesaleEclAssumptionForViewDto[] | undefined;
+}
+
+export class GetWholesaleEclAssumptionForViewDto implements IGetWholesaleEclAssumptionForViewDto {
+    wholesaleEclAssumption!: WholesaleEclAssumptionDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclAssumptionForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclAssumption = data["wholesaleEclAssumption"] ? WholesaleEclAssumptionDto.fromJS(data["wholesaleEclAssumption"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclAssumptionForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclAssumptionForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclAssumption"] = this.wholesaleEclAssumption ? this.wholesaleEclAssumption.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclAssumptionForViewDto {
+    wholesaleEclAssumption: WholesaleEclAssumptionDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class WholesaleEclAssumptionDto implements IWholesaleEclAssumptionDto {
+    inputName!: string | undefined;
+    value!: string | undefined;
+    isComputed!: boolean | undefined;
+    assumptionGroup!: AssumptionGroupEnum | undefined;
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IWholesaleEclAssumptionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.inputName = data["inputName"];
+            this.value = data["value"];
+            this.isComputed = data["isComputed"];
+            this.assumptionGroup = data["assumptionGroup"];
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclAssumptionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclAssumptionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["inputName"] = this.inputName;
+        data["value"] = this.value;
+        data["isComputed"] = this.isComputed;
+        data["assumptionGroup"] = this.assumptionGroup;
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclAssumptionDto {
+    inputName: string | undefined;
+    value: string | undefined;
+    isComputed: boolean | undefined;
+    assumptionGroup: AssumptionGroupEnum | undefined;
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetWholesaleEclAssumptionForEditOutput implements IGetWholesaleEclAssumptionForEditOutput {
+    wholesaleEclAssumption!: CreateOrEditWholesaleEclAssumptionDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclAssumptionForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclAssumption = data["wholesaleEclAssumption"] ? CreateOrEditWholesaleEclAssumptionDto.fromJS(data["wholesaleEclAssumption"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclAssumptionForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclAssumptionForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclAssumption"] = this.wholesaleEclAssumption ? this.wholesaleEclAssumption.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclAssumptionForEditOutput {
+    wholesaleEclAssumption: CreateOrEditWholesaleEclAssumptionDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class CreateOrEditWholesaleEclAssumptionDto implements ICreateOrEditWholesaleEclAssumptionDto {
+    key!: string | undefined;
+    inputName!: string | undefined;
+    value!: string | undefined;
+    datatype!: DataTypeEnum | undefined;
+    isComputed!: boolean;
+    assumptionGroup!: AssumptionGroupEnum | undefined;
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditWholesaleEclAssumptionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.key = data["key"];
+            this.inputName = data["inputName"];
+            this.value = data["value"];
+            this.datatype = data["datatype"];
+            this.isComputed = data["isComputed"];
+            this.assumptionGroup = data["assumptionGroup"];
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWholesaleEclAssumptionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWholesaleEclAssumptionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["key"] = this.key;
+        data["inputName"] = this.inputName;
+        data["value"] = this.value;
+        data["datatype"] = this.datatype;
+        data["isComputed"] = this.isComputed;
+        data["assumptionGroup"] = this.assumptionGroup;
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWholesaleEclAssumptionDto {
+    key: string | undefined;
+    inputName: string | undefined;
+    value: string | undefined;
+    datatype: DataTypeEnum | undefined;
+    isComputed: boolean;
+    assumptionGroup: AssumptionGroupEnum | undefined;
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclAssumptionWholesaleEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclAssumptionWholesaleEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclAssumptionWholesaleEclLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclAssumptionWholesaleEclLookupTableDto implements IWholesaleEclAssumptionWholesaleEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclAssumptionWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclAssumptionWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclAssumptionWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclAssumptionWholesaleEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto implements IPagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto {
+    totalCount!: number | undefined;
+    items!: GetWholesaleEclComputedEadResultForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWholesaleEclComputedEadResultForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto {
+    totalCount: number | undefined;
+    items: GetWholesaleEclComputedEadResultForViewDto[] | undefined;
+}
+
+export class GetWholesaleEclComputedEadResultForViewDto implements IGetWholesaleEclComputedEadResultForViewDto {
+    wholesaleEclComputedEadResult!: WholesaleEclComputedEadResultDto | undefined;
+    wholesaleEclDataLoanBookCustomerName!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclComputedEadResultForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclComputedEadResult = data["wholesaleEclComputedEadResult"] ? WholesaleEclComputedEadResultDto.fromJS(data["wholesaleEclComputedEadResult"]) : <any>undefined;
+            this.wholesaleEclDataLoanBookCustomerName = data["wholesaleEclDataLoanBookCustomerName"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclComputedEadResultForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclComputedEadResultForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclComputedEadResult"] = this.wholesaleEclComputedEadResult ? this.wholesaleEclComputedEadResult.toJSON() : <any>undefined;
+        data["wholesaleEclDataLoanBookCustomerName"] = this.wholesaleEclDataLoanBookCustomerName;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclComputedEadResultForViewDto {
+    wholesaleEclComputedEadResult: WholesaleEclComputedEadResultDto | undefined;
+    wholesaleEclDataLoanBookCustomerName: string | undefined;
+}
+
+export class WholesaleEclComputedEadResultDto implements IWholesaleEclComputedEadResultDto {
+    lifetimeEAD!: string | undefined;
+    wholesaleEclDataLoanBookId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IWholesaleEclComputedEadResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.lifetimeEAD = data["lifetimeEAD"];
+            this.wholesaleEclDataLoanBookId = data["wholesaleEclDataLoanBookId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclComputedEadResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclComputedEadResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lifetimeEAD"] = this.lifetimeEAD;
+        data["wholesaleEclDataLoanBookId"] = this.wholesaleEclDataLoanBookId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclComputedEadResultDto {
+    lifetimeEAD: string | undefined;
+    wholesaleEclDataLoanBookId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetWholesaleEclComputedEadResultForEditOutput implements IGetWholesaleEclComputedEadResultForEditOutput {
+    wholesaleEclComputedEadResult!: CreateOrEditWholesaleEclComputedEadResultDto | undefined;
+    wholesaleEclDataLoanBookCustomerName!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclComputedEadResultForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclComputedEadResult = data["wholesaleEclComputedEadResult"] ? CreateOrEditWholesaleEclComputedEadResultDto.fromJS(data["wholesaleEclComputedEadResult"]) : <any>undefined;
+            this.wholesaleEclDataLoanBookCustomerName = data["wholesaleEclDataLoanBookCustomerName"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclComputedEadResultForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclComputedEadResultForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclComputedEadResult"] = this.wholesaleEclComputedEadResult ? this.wholesaleEclComputedEadResult.toJSON() : <any>undefined;
+        data["wholesaleEclDataLoanBookCustomerName"] = this.wholesaleEclDataLoanBookCustomerName;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclComputedEadResultForEditOutput {
+    wholesaleEclComputedEadResult: CreateOrEditWholesaleEclComputedEadResultDto | undefined;
+    wholesaleEclDataLoanBookCustomerName: string | undefined;
+}
+
+export class CreateOrEditWholesaleEclComputedEadResultDto implements ICreateOrEditWholesaleEclComputedEadResultDto {
+    lifetimeEAD!: string | undefined;
+    wholesaleEclDataLoanBookId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditWholesaleEclComputedEadResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.lifetimeEAD = data["lifetimeEAD"];
+            this.wholesaleEclDataLoanBookId = data["wholesaleEclDataLoanBookId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWholesaleEclComputedEadResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWholesaleEclComputedEadResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lifetimeEAD"] = this.lifetimeEAD;
+        data["wholesaleEclDataLoanBookId"] = this.wholesaleEclDataLoanBookId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWholesaleEclComputedEadResultDto {
+    lifetimeEAD: string | undefined;
+    wholesaleEclDataLoanBookId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto implements IPagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto implements IWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetWholesaleEclDataLoanBookForViewDto implements IPagedResultDtoOfGetWholesaleEclDataLoanBookForViewDto {
+    totalCount!: number | undefined;
+    items!: GetWholesaleEclDataLoanBookForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWholesaleEclDataLoanBookForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWholesaleEclDataLoanBookForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWholesaleEclDataLoanBookForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWholesaleEclDataLoanBookForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWholesaleEclDataLoanBookForViewDto {
+    totalCount: number | undefined;
+    items: GetWholesaleEclDataLoanBookForViewDto[] | undefined;
+}
+
+export class GetWholesaleEclDataLoanBookForViewDto implements IGetWholesaleEclDataLoanBookForViewDto {
+    wholesaleEclDataLoanBook!: WholesaleEclDataLoanBookDto | undefined;
+    wholesaleEclUploadUploadComment!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclDataLoanBookForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclDataLoanBook = data["wholesaleEclDataLoanBook"] ? WholesaleEclDataLoanBookDto.fromJS(data["wholesaleEclDataLoanBook"]) : <any>undefined;
+            this.wholesaleEclUploadUploadComment = data["wholesaleEclUploadUploadComment"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclDataLoanBookForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclDataLoanBookForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclDataLoanBook"] = this.wholesaleEclDataLoanBook ? this.wholesaleEclDataLoanBook.toJSON() : <any>undefined;
+        data["wholesaleEclUploadUploadComment"] = this.wholesaleEclUploadUploadComment;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclDataLoanBookForViewDto {
+    wholesaleEclDataLoanBook: WholesaleEclDataLoanBookDto | undefined;
+    wholesaleEclUploadUploadComment: string | undefined;
+}
+
+export class WholesaleEclDataLoanBookDto implements IWholesaleEclDataLoanBookDto {
+    customerNo!: string | undefined;
+    accountNo!: string | undefined;
+    contractNo!: string | undefined;
+    customerName!: string | undefined;
+    currency!: string | undefined;
+    productType!: string | undefined;
+    productMapping!: string | undefined;
+    specialisedLending!: string | undefined;
+    ratingModel!: string | undefined;
+    originalRating!: number | undefined;
+    currentRating!: number | undefined;
+    lifetimePD!: number | undefined;
+    month12PD!: number | undefined;
+    daysPastDue!: number | undefined;
+    watchlistIndicator!: boolean | undefined;
+    classification!: string | undefined;
+    impairedDate!: moment.Moment | undefined;
+    defaultDate!: moment.Moment | undefined;
+    creditLimit!: number | undefined;
+    originalBalanceLCY!: number | undefined;
+    outstandingBalanceLCY!: number | undefined;
+    outstandingBalanceACY!: number | undefined;
+    contractStartDate!: moment.Moment | undefined;
+    contractEndDate!: moment.Moment | undefined;
+    restructureIndicator!: boolean | undefined;
+    restructureRisk!: string | undefined;
+    restructureType!: string | undefined;
+    restructureStartDate!: moment.Moment | undefined;
+    restructureEndDate!: moment.Moment | undefined;
+    principalPaymentTermsOrigination!: string | undefined;
+    pptoPeriod!: number | undefined;
+    interestPaymentTermsOrigination!: string | undefined;
+    iptoPeriod!: number | undefined;
+    principalPaymentStructure!: string | undefined;
+    interestPaymentStructure!: string | undefined;
+    interestRateType!: string | undefined;
+    baseRate!: string | undefined;
+    originationContractualInterestRate!: string | undefined;
+    introductoryPeriod!: number | undefined;
+    postIPContractualInterestRate!: number | undefined;
+    currentContractualInterestRate!: number | undefined;
+    eir!: number | undefined;
+    debentureOMV!: number | undefined;
+    debentureFSV!: number | undefined;
+    cashOMV!: number | undefined;
+    cashFSV!: number | undefined;
+    inventoryOMV!: number | undefined;
+    inventoryFSV!: number | undefined;
+    plantEquipmentOMV!: number | undefined;
+    plantEquipmentFSV!: number | undefined;
+    residentialPropertyOMV!: number | undefined;
+    residentialPropertyFSV!: number | undefined;
+    commercialPropertyOMV!: number | undefined;
+    commercialProperty!: number | undefined;
+    receivablesOMV!: number | undefined;
+    receivablesFSV!: number | undefined;
+    sharesOMV!: number | undefined;
+    sharesFSV!: number | undefined;
+    vehicleOMV!: number | undefined;
+    vehicleFSV!: number | undefined;
+    cureRate!: number | undefined;
+    guaranteeIndicator!: boolean | undefined;
+    guarantorPD!: string | undefined;
+    guarantorLGD!: string | undefined;
+    guaranteeValue!: number | undefined;
+    guaranteeLevel!: number | undefined;
+    contractId!: string | undefined;
+    wholesaleEclUploadId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IWholesaleEclDataLoanBookDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.customerNo = data["customerNo"];
+            this.accountNo = data["accountNo"];
+            this.contractNo = data["contractNo"];
+            this.customerName = data["customerName"];
+            this.currency = data["currency"];
+            this.productType = data["productType"];
+            this.productMapping = data["productMapping"];
+            this.specialisedLending = data["specialisedLending"];
+            this.ratingModel = data["ratingModel"];
+            this.originalRating = data["originalRating"];
+            this.currentRating = data["currentRating"];
+            this.lifetimePD = data["lifetimePD"];
+            this.month12PD = data["month12PD"];
+            this.daysPastDue = data["daysPastDue"];
+            this.watchlistIndicator = data["watchlistIndicator"];
+            this.classification = data["classification"];
+            this.impairedDate = data["impairedDate"] ? moment(data["impairedDate"].toString()) : <any>undefined;
+            this.defaultDate = data["defaultDate"] ? moment(data["defaultDate"].toString()) : <any>undefined;
+            this.creditLimit = data["creditLimit"];
+            this.originalBalanceLCY = data["originalBalanceLCY"];
+            this.outstandingBalanceLCY = data["outstandingBalanceLCY"];
+            this.outstandingBalanceACY = data["outstandingBalanceACY"];
+            this.contractStartDate = data["contractStartDate"] ? moment(data["contractStartDate"].toString()) : <any>undefined;
+            this.contractEndDate = data["contractEndDate"] ? moment(data["contractEndDate"].toString()) : <any>undefined;
+            this.restructureIndicator = data["restructureIndicator"];
+            this.restructureRisk = data["restructureRisk"];
+            this.restructureType = data["restructureType"];
+            this.restructureStartDate = data["restructureStartDate"] ? moment(data["restructureStartDate"].toString()) : <any>undefined;
+            this.restructureEndDate = data["restructureEndDate"] ? moment(data["restructureEndDate"].toString()) : <any>undefined;
+            this.principalPaymentTermsOrigination = data["principalPaymentTermsOrigination"];
+            this.pptoPeriod = data["pptoPeriod"];
+            this.interestPaymentTermsOrigination = data["interestPaymentTermsOrigination"];
+            this.iptoPeriod = data["iptoPeriod"];
+            this.principalPaymentStructure = data["principalPaymentStructure"];
+            this.interestPaymentStructure = data["interestPaymentStructure"];
+            this.interestRateType = data["interestRateType"];
+            this.baseRate = data["baseRate"];
+            this.originationContractualInterestRate = data["originationContractualInterestRate"];
+            this.introductoryPeriod = data["introductoryPeriod"];
+            this.postIPContractualInterestRate = data["postIPContractualInterestRate"];
+            this.currentContractualInterestRate = data["currentContractualInterestRate"];
+            this.eir = data["eir"];
+            this.debentureOMV = data["debentureOMV"];
+            this.debentureFSV = data["debentureFSV"];
+            this.cashOMV = data["cashOMV"];
+            this.cashFSV = data["cashFSV"];
+            this.inventoryOMV = data["inventoryOMV"];
+            this.inventoryFSV = data["inventoryFSV"];
+            this.plantEquipmentOMV = data["plantEquipmentOMV"];
+            this.plantEquipmentFSV = data["plantEquipmentFSV"];
+            this.residentialPropertyOMV = data["residentialPropertyOMV"];
+            this.residentialPropertyFSV = data["residentialPropertyFSV"];
+            this.commercialPropertyOMV = data["commercialPropertyOMV"];
+            this.commercialProperty = data["commercialProperty"];
+            this.receivablesOMV = data["receivablesOMV"];
+            this.receivablesFSV = data["receivablesFSV"];
+            this.sharesOMV = data["sharesOMV"];
+            this.sharesFSV = data["sharesFSV"];
+            this.vehicleOMV = data["vehicleOMV"];
+            this.vehicleFSV = data["vehicleFSV"];
+            this.cureRate = data["cureRate"];
+            this.guaranteeIndicator = data["guaranteeIndicator"];
+            this.guarantorPD = data["guarantorPD"];
+            this.guarantorLGD = data["guarantorLGD"];
+            this.guaranteeValue = data["guaranteeValue"];
+            this.guaranteeLevel = data["guaranteeLevel"];
+            this.contractId = data["contractId"];
+            this.wholesaleEclUploadId = data["wholesaleEclUploadId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclDataLoanBookDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclDataLoanBookDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["customerNo"] = this.customerNo;
+        data["accountNo"] = this.accountNo;
+        data["contractNo"] = this.contractNo;
+        data["customerName"] = this.customerName;
+        data["currency"] = this.currency;
+        data["productType"] = this.productType;
+        data["productMapping"] = this.productMapping;
+        data["specialisedLending"] = this.specialisedLending;
+        data["ratingModel"] = this.ratingModel;
+        data["originalRating"] = this.originalRating;
+        data["currentRating"] = this.currentRating;
+        data["lifetimePD"] = this.lifetimePD;
+        data["month12PD"] = this.month12PD;
+        data["daysPastDue"] = this.daysPastDue;
+        data["watchlistIndicator"] = this.watchlistIndicator;
+        data["classification"] = this.classification;
+        data["impairedDate"] = this.impairedDate ? this.impairedDate.toISOString() : <any>undefined;
+        data["defaultDate"] = this.defaultDate ? this.defaultDate.toISOString() : <any>undefined;
+        data["creditLimit"] = this.creditLimit;
+        data["originalBalanceLCY"] = this.originalBalanceLCY;
+        data["outstandingBalanceLCY"] = this.outstandingBalanceLCY;
+        data["outstandingBalanceACY"] = this.outstandingBalanceACY;
+        data["contractStartDate"] = this.contractStartDate ? this.contractStartDate.toISOString() : <any>undefined;
+        data["contractEndDate"] = this.contractEndDate ? this.contractEndDate.toISOString() : <any>undefined;
+        data["restructureIndicator"] = this.restructureIndicator;
+        data["restructureRisk"] = this.restructureRisk;
+        data["restructureType"] = this.restructureType;
+        data["restructureStartDate"] = this.restructureStartDate ? this.restructureStartDate.toISOString() : <any>undefined;
+        data["restructureEndDate"] = this.restructureEndDate ? this.restructureEndDate.toISOString() : <any>undefined;
+        data["principalPaymentTermsOrigination"] = this.principalPaymentTermsOrigination;
+        data["pptoPeriod"] = this.pptoPeriod;
+        data["interestPaymentTermsOrigination"] = this.interestPaymentTermsOrigination;
+        data["iptoPeriod"] = this.iptoPeriod;
+        data["principalPaymentStructure"] = this.principalPaymentStructure;
+        data["interestPaymentStructure"] = this.interestPaymentStructure;
+        data["interestRateType"] = this.interestRateType;
+        data["baseRate"] = this.baseRate;
+        data["originationContractualInterestRate"] = this.originationContractualInterestRate;
+        data["introductoryPeriod"] = this.introductoryPeriod;
+        data["postIPContractualInterestRate"] = this.postIPContractualInterestRate;
+        data["currentContractualInterestRate"] = this.currentContractualInterestRate;
+        data["eir"] = this.eir;
+        data["debentureOMV"] = this.debentureOMV;
+        data["debentureFSV"] = this.debentureFSV;
+        data["cashOMV"] = this.cashOMV;
+        data["cashFSV"] = this.cashFSV;
+        data["inventoryOMV"] = this.inventoryOMV;
+        data["inventoryFSV"] = this.inventoryFSV;
+        data["plantEquipmentOMV"] = this.plantEquipmentOMV;
+        data["plantEquipmentFSV"] = this.plantEquipmentFSV;
+        data["residentialPropertyOMV"] = this.residentialPropertyOMV;
+        data["residentialPropertyFSV"] = this.residentialPropertyFSV;
+        data["commercialPropertyOMV"] = this.commercialPropertyOMV;
+        data["commercialProperty"] = this.commercialProperty;
+        data["receivablesOMV"] = this.receivablesOMV;
+        data["receivablesFSV"] = this.receivablesFSV;
+        data["sharesOMV"] = this.sharesOMV;
+        data["sharesFSV"] = this.sharesFSV;
+        data["vehicleOMV"] = this.vehicleOMV;
+        data["vehicleFSV"] = this.vehicleFSV;
+        data["cureRate"] = this.cureRate;
+        data["guaranteeIndicator"] = this.guaranteeIndicator;
+        data["guarantorPD"] = this.guarantorPD;
+        data["guarantorLGD"] = this.guarantorLGD;
+        data["guaranteeValue"] = this.guaranteeValue;
+        data["guaranteeLevel"] = this.guaranteeLevel;
+        data["contractId"] = this.contractId;
+        data["wholesaleEclUploadId"] = this.wholesaleEclUploadId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclDataLoanBookDto {
+    customerNo: string | undefined;
+    accountNo: string | undefined;
+    contractNo: string | undefined;
+    customerName: string | undefined;
+    currency: string | undefined;
+    productType: string | undefined;
+    productMapping: string | undefined;
+    specialisedLending: string | undefined;
+    ratingModel: string | undefined;
+    originalRating: number | undefined;
+    currentRating: number | undefined;
+    lifetimePD: number | undefined;
+    month12PD: number | undefined;
+    daysPastDue: number | undefined;
+    watchlistIndicator: boolean | undefined;
+    classification: string | undefined;
+    impairedDate: moment.Moment | undefined;
+    defaultDate: moment.Moment | undefined;
+    creditLimit: number | undefined;
+    originalBalanceLCY: number | undefined;
+    outstandingBalanceLCY: number | undefined;
+    outstandingBalanceACY: number | undefined;
+    contractStartDate: moment.Moment | undefined;
+    contractEndDate: moment.Moment | undefined;
+    restructureIndicator: boolean | undefined;
+    restructureRisk: string | undefined;
+    restructureType: string | undefined;
+    restructureStartDate: moment.Moment | undefined;
+    restructureEndDate: moment.Moment | undefined;
+    principalPaymentTermsOrigination: string | undefined;
+    pptoPeriod: number | undefined;
+    interestPaymentTermsOrigination: string | undefined;
+    iptoPeriod: number | undefined;
+    principalPaymentStructure: string | undefined;
+    interestPaymentStructure: string | undefined;
+    interestRateType: string | undefined;
+    baseRate: string | undefined;
+    originationContractualInterestRate: string | undefined;
+    introductoryPeriod: number | undefined;
+    postIPContractualInterestRate: number | undefined;
+    currentContractualInterestRate: number | undefined;
+    eir: number | undefined;
+    debentureOMV: number | undefined;
+    debentureFSV: number | undefined;
+    cashOMV: number | undefined;
+    cashFSV: number | undefined;
+    inventoryOMV: number | undefined;
+    inventoryFSV: number | undefined;
+    plantEquipmentOMV: number | undefined;
+    plantEquipmentFSV: number | undefined;
+    residentialPropertyOMV: number | undefined;
+    residentialPropertyFSV: number | undefined;
+    commercialPropertyOMV: number | undefined;
+    commercialProperty: number | undefined;
+    receivablesOMV: number | undefined;
+    receivablesFSV: number | undefined;
+    sharesOMV: number | undefined;
+    sharesFSV: number | undefined;
+    vehicleOMV: number | undefined;
+    vehicleFSV: number | undefined;
+    cureRate: number | undefined;
+    guaranteeIndicator: boolean | undefined;
+    guarantorPD: string | undefined;
+    guarantorLGD: string | undefined;
+    guaranteeValue: number | undefined;
+    guaranteeLevel: number | undefined;
+    contractId: string | undefined;
+    wholesaleEclUploadId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetWholesaleEclDataLoanBookForEditOutput implements IGetWholesaleEclDataLoanBookForEditOutput {
+    wholesaleEclDataLoanBook!: CreateOrEditWholesaleEclDataLoanBookDto | undefined;
+    wholesaleEclUploadUploadComment!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclDataLoanBookForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclDataLoanBook = data["wholesaleEclDataLoanBook"] ? CreateOrEditWholesaleEclDataLoanBookDto.fromJS(data["wholesaleEclDataLoanBook"]) : <any>undefined;
+            this.wholesaleEclUploadUploadComment = data["wholesaleEclUploadUploadComment"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclDataLoanBookForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclDataLoanBookForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclDataLoanBook"] = this.wholesaleEclDataLoanBook ? this.wholesaleEclDataLoanBook.toJSON() : <any>undefined;
+        data["wholesaleEclUploadUploadComment"] = this.wholesaleEclUploadUploadComment;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclDataLoanBookForEditOutput {
+    wholesaleEclDataLoanBook: CreateOrEditWholesaleEclDataLoanBookDto | undefined;
+    wholesaleEclUploadUploadComment: string | undefined;
+}
+
+export class CreateOrEditWholesaleEclDataLoanBookDto implements ICreateOrEditWholesaleEclDataLoanBookDto {
+    customerNo!: string | undefined;
+    accountNo!: string | undefined;
+    contractNo!: string | undefined;
+    customerName!: string | undefined;
+    snapshotDate!: moment.Moment | undefined;
+    segment!: string | undefined;
+    sector!: string | undefined;
+    currency!: string | undefined;
+    productType!: string | undefined;
+    productMapping!: string | undefined;
+    specialisedLending!: string | undefined;
+    ratingModel!: string | undefined;
+    originalRating!: number | undefined;
+    currentRating!: number | undefined;
+    lifetimePD!: number | undefined;
+    month12PD!: number | undefined;
+    daysPastDue!: number | undefined;
+    watchlistIndicator!: boolean;
+    classification!: string | undefined;
+    impairedDate!: moment.Moment | undefined;
+    defaultDate!: moment.Moment | undefined;
+    creditLimit!: number | undefined;
+    originalBalanceLCY!: number | undefined;
+    outstandingBalanceLCY!: number | undefined;
+    outstandingBalanceACY!: number | undefined;
+    contractStartDate!: moment.Moment | undefined;
+    contractEndDate!: moment.Moment | undefined;
+    restructureIndicator!: boolean;
+    restructureRisk!: string | undefined;
+    restructureType!: string | undefined;
+    restructureStartDate!: moment.Moment | undefined;
+    restructureEndDate!: moment.Moment | undefined;
+    principalPaymentTermsOrigination!: string | undefined;
+    pptoPeriod!: number | undefined;
+    interestPaymentTermsOrigination!: string | undefined;
+    iptoPeriod!: number | undefined;
+    principalPaymentStructure!: string | undefined;
+    interestPaymentStructure!: string | undefined;
+    interestRateType!: string | undefined;
+    baseRate!: string | undefined;
+    originationContractualInterestRate!: string | undefined;
+    introductoryPeriod!: number | undefined;
+    postIPContractualInterestRate!: number | undefined;
+    currentContractualInterestRate!: number | undefined;
+    eir!: number | undefined;
+    debentureOMV!: number | undefined;
+    debentureFSV!: number | undefined;
+    cashOMV!: number | undefined;
+    cashFSV!: number | undefined;
+    inventoryOMV!: number | undefined;
+    inventoryFSV!: number | undefined;
+    plantEquipmentOMV!: number | undefined;
+    plantEquipmentFSV!: number | undefined;
+    residentialPropertyOMV!: number | undefined;
+    residentialPropertyFSV!: number | undefined;
+    commercialPropertyOMV!: number | undefined;
+    commercialProperty!: number | undefined;
+    receivablesOMV!: number | undefined;
+    receivablesFSV!: number | undefined;
+    sharesOMV!: number | undefined;
+    sharesFSV!: number | undefined;
+    vehicleOMV!: number | undefined;
+    vehicleFSV!: number | undefined;
+    cureRate!: number | undefined;
+    guaranteeIndicator!: boolean;
+    guarantorPD!: string | undefined;
+    guarantorLGD!: string | undefined;
+    guaranteeValue!: number | undefined;
+    guaranteeLevel!: number | undefined;
+    contractId!: string | undefined;
+    wholesaleEclUploadId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditWholesaleEclDataLoanBookDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.customerNo = data["customerNo"];
+            this.accountNo = data["accountNo"];
+            this.contractNo = data["contractNo"];
+            this.customerName = data["customerName"];
+            this.snapshotDate = data["snapshotDate"] ? moment(data["snapshotDate"].toString()) : <any>undefined;
+            this.segment = data["segment"];
+            this.sector = data["sector"];
+            this.currency = data["currency"];
+            this.productType = data["productType"];
+            this.productMapping = data["productMapping"];
+            this.specialisedLending = data["specialisedLending"];
+            this.ratingModel = data["ratingModel"];
+            this.originalRating = data["originalRating"];
+            this.currentRating = data["currentRating"];
+            this.lifetimePD = data["lifetimePD"];
+            this.month12PD = data["month12PD"];
+            this.daysPastDue = data["daysPastDue"];
+            this.watchlistIndicator = data["watchlistIndicator"];
+            this.classification = data["classification"];
+            this.impairedDate = data["impairedDate"] ? moment(data["impairedDate"].toString()) : <any>undefined;
+            this.defaultDate = data["defaultDate"] ? moment(data["defaultDate"].toString()) : <any>undefined;
+            this.creditLimit = data["creditLimit"];
+            this.originalBalanceLCY = data["originalBalanceLCY"];
+            this.outstandingBalanceLCY = data["outstandingBalanceLCY"];
+            this.outstandingBalanceACY = data["outstandingBalanceACY"];
+            this.contractStartDate = data["contractStartDate"] ? moment(data["contractStartDate"].toString()) : <any>undefined;
+            this.contractEndDate = data["contractEndDate"] ? moment(data["contractEndDate"].toString()) : <any>undefined;
+            this.restructureIndicator = data["restructureIndicator"];
+            this.restructureRisk = data["restructureRisk"];
+            this.restructureType = data["restructureType"];
+            this.restructureStartDate = data["restructureStartDate"] ? moment(data["restructureStartDate"].toString()) : <any>undefined;
+            this.restructureEndDate = data["restructureEndDate"] ? moment(data["restructureEndDate"].toString()) : <any>undefined;
+            this.principalPaymentTermsOrigination = data["principalPaymentTermsOrigination"];
+            this.pptoPeriod = data["pptoPeriod"];
+            this.interestPaymentTermsOrigination = data["interestPaymentTermsOrigination"];
+            this.iptoPeriod = data["iptoPeriod"];
+            this.principalPaymentStructure = data["principalPaymentStructure"];
+            this.interestPaymentStructure = data["interestPaymentStructure"];
+            this.interestRateType = data["interestRateType"];
+            this.baseRate = data["baseRate"];
+            this.originationContractualInterestRate = data["originationContractualInterestRate"];
+            this.introductoryPeriod = data["introductoryPeriod"];
+            this.postIPContractualInterestRate = data["postIPContractualInterestRate"];
+            this.currentContractualInterestRate = data["currentContractualInterestRate"];
+            this.eir = data["eir"];
+            this.debentureOMV = data["debentureOMV"];
+            this.debentureFSV = data["debentureFSV"];
+            this.cashOMV = data["cashOMV"];
+            this.cashFSV = data["cashFSV"];
+            this.inventoryOMV = data["inventoryOMV"];
+            this.inventoryFSV = data["inventoryFSV"];
+            this.plantEquipmentOMV = data["plantEquipmentOMV"];
+            this.plantEquipmentFSV = data["plantEquipmentFSV"];
+            this.residentialPropertyOMV = data["residentialPropertyOMV"];
+            this.residentialPropertyFSV = data["residentialPropertyFSV"];
+            this.commercialPropertyOMV = data["commercialPropertyOMV"];
+            this.commercialProperty = data["commercialProperty"];
+            this.receivablesOMV = data["receivablesOMV"];
+            this.receivablesFSV = data["receivablesFSV"];
+            this.sharesOMV = data["sharesOMV"];
+            this.sharesFSV = data["sharesFSV"];
+            this.vehicleOMV = data["vehicleOMV"];
+            this.vehicleFSV = data["vehicleFSV"];
+            this.cureRate = data["cureRate"];
+            this.guaranteeIndicator = data["guaranteeIndicator"];
+            this.guarantorPD = data["guarantorPD"];
+            this.guarantorLGD = data["guarantorLGD"];
+            this.guaranteeValue = data["guaranteeValue"];
+            this.guaranteeLevel = data["guaranteeLevel"];
+            this.contractId = data["contractId"];
+            this.wholesaleEclUploadId = data["wholesaleEclUploadId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWholesaleEclDataLoanBookDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWholesaleEclDataLoanBookDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["customerNo"] = this.customerNo;
+        data["accountNo"] = this.accountNo;
+        data["contractNo"] = this.contractNo;
+        data["customerName"] = this.customerName;
+        data["snapshotDate"] = this.snapshotDate ? this.snapshotDate.toISOString() : <any>undefined;
+        data["segment"] = this.segment;
+        data["sector"] = this.sector;
+        data["currency"] = this.currency;
+        data["productType"] = this.productType;
+        data["productMapping"] = this.productMapping;
+        data["specialisedLending"] = this.specialisedLending;
+        data["ratingModel"] = this.ratingModel;
+        data["originalRating"] = this.originalRating;
+        data["currentRating"] = this.currentRating;
+        data["lifetimePD"] = this.lifetimePD;
+        data["month12PD"] = this.month12PD;
+        data["daysPastDue"] = this.daysPastDue;
+        data["watchlistIndicator"] = this.watchlistIndicator;
+        data["classification"] = this.classification;
+        data["impairedDate"] = this.impairedDate ? this.impairedDate.toISOString() : <any>undefined;
+        data["defaultDate"] = this.defaultDate ? this.defaultDate.toISOString() : <any>undefined;
+        data["creditLimit"] = this.creditLimit;
+        data["originalBalanceLCY"] = this.originalBalanceLCY;
+        data["outstandingBalanceLCY"] = this.outstandingBalanceLCY;
+        data["outstandingBalanceACY"] = this.outstandingBalanceACY;
+        data["contractStartDate"] = this.contractStartDate ? this.contractStartDate.toISOString() : <any>undefined;
+        data["contractEndDate"] = this.contractEndDate ? this.contractEndDate.toISOString() : <any>undefined;
+        data["restructureIndicator"] = this.restructureIndicator;
+        data["restructureRisk"] = this.restructureRisk;
+        data["restructureType"] = this.restructureType;
+        data["restructureStartDate"] = this.restructureStartDate ? this.restructureStartDate.toISOString() : <any>undefined;
+        data["restructureEndDate"] = this.restructureEndDate ? this.restructureEndDate.toISOString() : <any>undefined;
+        data["principalPaymentTermsOrigination"] = this.principalPaymentTermsOrigination;
+        data["pptoPeriod"] = this.pptoPeriod;
+        data["interestPaymentTermsOrigination"] = this.interestPaymentTermsOrigination;
+        data["iptoPeriod"] = this.iptoPeriod;
+        data["principalPaymentStructure"] = this.principalPaymentStructure;
+        data["interestPaymentStructure"] = this.interestPaymentStructure;
+        data["interestRateType"] = this.interestRateType;
+        data["baseRate"] = this.baseRate;
+        data["originationContractualInterestRate"] = this.originationContractualInterestRate;
+        data["introductoryPeriod"] = this.introductoryPeriod;
+        data["postIPContractualInterestRate"] = this.postIPContractualInterestRate;
+        data["currentContractualInterestRate"] = this.currentContractualInterestRate;
+        data["eir"] = this.eir;
+        data["debentureOMV"] = this.debentureOMV;
+        data["debentureFSV"] = this.debentureFSV;
+        data["cashOMV"] = this.cashOMV;
+        data["cashFSV"] = this.cashFSV;
+        data["inventoryOMV"] = this.inventoryOMV;
+        data["inventoryFSV"] = this.inventoryFSV;
+        data["plantEquipmentOMV"] = this.plantEquipmentOMV;
+        data["plantEquipmentFSV"] = this.plantEquipmentFSV;
+        data["residentialPropertyOMV"] = this.residentialPropertyOMV;
+        data["residentialPropertyFSV"] = this.residentialPropertyFSV;
+        data["commercialPropertyOMV"] = this.commercialPropertyOMV;
+        data["commercialProperty"] = this.commercialProperty;
+        data["receivablesOMV"] = this.receivablesOMV;
+        data["receivablesFSV"] = this.receivablesFSV;
+        data["sharesOMV"] = this.sharesOMV;
+        data["sharesFSV"] = this.sharesFSV;
+        data["vehicleOMV"] = this.vehicleOMV;
+        data["vehicleFSV"] = this.vehicleFSV;
+        data["cureRate"] = this.cureRate;
+        data["guaranteeIndicator"] = this.guaranteeIndicator;
+        data["guarantorPD"] = this.guarantorPD;
+        data["guarantorLGD"] = this.guarantorLGD;
+        data["guaranteeValue"] = this.guaranteeValue;
+        data["guaranteeLevel"] = this.guaranteeLevel;
+        data["contractId"] = this.contractId;
+        data["wholesaleEclUploadId"] = this.wholesaleEclUploadId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWholesaleEclDataLoanBookDto {
+    customerNo: string | undefined;
+    accountNo: string | undefined;
+    contractNo: string | undefined;
+    customerName: string | undefined;
+    snapshotDate: moment.Moment | undefined;
+    segment: string | undefined;
+    sector: string | undefined;
+    currency: string | undefined;
+    productType: string | undefined;
+    productMapping: string | undefined;
+    specialisedLending: string | undefined;
+    ratingModel: string | undefined;
+    originalRating: number | undefined;
+    currentRating: number | undefined;
+    lifetimePD: number | undefined;
+    month12PD: number | undefined;
+    daysPastDue: number | undefined;
+    watchlistIndicator: boolean;
+    classification: string | undefined;
+    impairedDate: moment.Moment | undefined;
+    defaultDate: moment.Moment | undefined;
+    creditLimit: number | undefined;
+    originalBalanceLCY: number | undefined;
+    outstandingBalanceLCY: number | undefined;
+    outstandingBalanceACY: number | undefined;
+    contractStartDate: moment.Moment | undefined;
+    contractEndDate: moment.Moment | undefined;
+    restructureIndicator: boolean;
+    restructureRisk: string | undefined;
+    restructureType: string | undefined;
+    restructureStartDate: moment.Moment | undefined;
+    restructureEndDate: moment.Moment | undefined;
+    principalPaymentTermsOrigination: string | undefined;
+    pptoPeriod: number | undefined;
+    interestPaymentTermsOrigination: string | undefined;
+    iptoPeriod: number | undefined;
+    principalPaymentStructure: string | undefined;
+    interestPaymentStructure: string | undefined;
+    interestRateType: string | undefined;
+    baseRate: string | undefined;
+    originationContractualInterestRate: string | undefined;
+    introductoryPeriod: number | undefined;
+    postIPContractualInterestRate: number | undefined;
+    currentContractualInterestRate: number | undefined;
+    eir: number | undefined;
+    debentureOMV: number | undefined;
+    debentureFSV: number | undefined;
+    cashOMV: number | undefined;
+    cashFSV: number | undefined;
+    inventoryOMV: number | undefined;
+    inventoryFSV: number | undefined;
+    plantEquipmentOMV: number | undefined;
+    plantEquipmentFSV: number | undefined;
+    residentialPropertyOMV: number | undefined;
+    residentialPropertyFSV: number | undefined;
+    commercialPropertyOMV: number | undefined;
+    commercialProperty: number | undefined;
+    receivablesOMV: number | undefined;
+    receivablesFSV: number | undefined;
+    sharesOMV: number | undefined;
+    sharesFSV: number | undefined;
+    vehicleOMV: number | undefined;
+    vehicleFSV: number | undefined;
+    cureRate: number | undefined;
+    guaranteeIndicator: boolean;
+    guarantorPD: string | undefined;
+    guarantorLGD: string | undefined;
+    guaranteeValue: number | undefined;
+    guaranteeLevel: number | undefined;
+    contractId: string | undefined;
+    wholesaleEclUploadId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclDataLoanBookWholesaleEclUploadLookupTableDto implements IPagedResultDtoOfWholesaleEclDataLoanBookWholesaleEclUploadLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclDataLoanBookWholesaleEclUploadLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclDataLoanBookWholesaleEclUploadLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclDataLoanBookWholesaleEclUploadLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclDataLoanBookWholesaleEclUploadLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclDataLoanBookWholesaleEclUploadLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclDataLoanBookWholesaleEclUploadLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclDataLoanBookWholesaleEclUploadLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclDataLoanBookWholesaleEclUploadLookupTableDto implements IWholesaleEclDataLoanBookWholesaleEclUploadLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclDataLoanBookWholesaleEclUploadLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclDataLoanBookWholesaleEclUploadLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclDataLoanBookWholesaleEclUploadLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclDataLoanBookWholesaleEclUploadLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetWholesaleEclDataPaymentScheduleForViewDto implements IPagedResultDtoOfGetWholesaleEclDataPaymentScheduleForViewDto {
+    totalCount!: number | undefined;
+    items!: GetWholesaleEclDataPaymentScheduleForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWholesaleEclDataPaymentScheduleForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWholesaleEclDataPaymentScheduleForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWholesaleEclDataPaymentScheduleForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWholesaleEclDataPaymentScheduleForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWholesaleEclDataPaymentScheduleForViewDto {
+    totalCount: number | undefined;
+    items: GetWholesaleEclDataPaymentScheduleForViewDto[] | undefined;
+}
+
+export class GetWholesaleEclDataPaymentScheduleForViewDto implements IGetWholesaleEclDataPaymentScheduleForViewDto {
+    wholesaleEclDataPaymentSchedule!: WholesaleEclDataPaymentScheduleDto | undefined;
+    wholesaleEclUploadUploadComment!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclDataPaymentScheduleForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclDataPaymentSchedule = data["wholesaleEclDataPaymentSchedule"] ? WholesaleEclDataPaymentScheduleDto.fromJS(data["wholesaleEclDataPaymentSchedule"]) : <any>undefined;
+            this.wholesaleEclUploadUploadComment = data["wholesaleEclUploadUploadComment"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclDataPaymentScheduleForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclDataPaymentScheduleForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclDataPaymentSchedule"] = this.wholesaleEclDataPaymentSchedule ? this.wholesaleEclDataPaymentSchedule.toJSON() : <any>undefined;
+        data["wholesaleEclUploadUploadComment"] = this.wholesaleEclUploadUploadComment;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclDataPaymentScheduleForViewDto {
+    wholesaleEclDataPaymentSchedule: WholesaleEclDataPaymentScheduleDto | undefined;
+    wholesaleEclUploadUploadComment: string | undefined;
+}
+
+export class WholesaleEclDataPaymentScheduleDto implements IWholesaleEclDataPaymentScheduleDto {
+    contractRefNo!: string | undefined;
+    startDate!: moment.Moment | undefined;
+    component!: string | undefined;
+    noOfSchedules!: number | undefined;
+    frequency!: string | undefined;
+    amount!: number | undefined;
+    wholesaleEclUploadId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IWholesaleEclDataPaymentScheduleDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.contractRefNo = data["contractRefNo"];
+            this.startDate = data["startDate"] ? moment(data["startDate"].toString()) : <any>undefined;
+            this.component = data["component"];
+            this.noOfSchedules = data["noOfSchedules"];
+            this.frequency = data["frequency"];
+            this.amount = data["amount"];
+            this.wholesaleEclUploadId = data["wholesaleEclUploadId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclDataPaymentScheduleDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclDataPaymentScheduleDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contractRefNo"] = this.contractRefNo;
+        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
+        data["component"] = this.component;
+        data["noOfSchedules"] = this.noOfSchedules;
+        data["frequency"] = this.frequency;
+        data["amount"] = this.amount;
+        data["wholesaleEclUploadId"] = this.wholesaleEclUploadId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclDataPaymentScheduleDto {
+    contractRefNo: string | undefined;
+    startDate: moment.Moment | undefined;
+    component: string | undefined;
+    noOfSchedules: number | undefined;
+    frequency: string | undefined;
+    amount: number | undefined;
+    wholesaleEclUploadId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetWholesaleEclDataPaymentScheduleForEditOutput implements IGetWholesaleEclDataPaymentScheduleForEditOutput {
+    wholesaleEclDataPaymentSchedule!: CreateOrEditWholesaleEclDataPaymentScheduleDto | undefined;
+    wholesaleEclUploadUploadComment!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclDataPaymentScheduleForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclDataPaymentSchedule = data["wholesaleEclDataPaymentSchedule"] ? CreateOrEditWholesaleEclDataPaymentScheduleDto.fromJS(data["wholesaleEclDataPaymentSchedule"]) : <any>undefined;
+            this.wholesaleEclUploadUploadComment = data["wholesaleEclUploadUploadComment"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclDataPaymentScheduleForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclDataPaymentScheduleForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclDataPaymentSchedule"] = this.wholesaleEclDataPaymentSchedule ? this.wholesaleEclDataPaymentSchedule.toJSON() : <any>undefined;
+        data["wholesaleEclUploadUploadComment"] = this.wholesaleEclUploadUploadComment;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclDataPaymentScheduleForEditOutput {
+    wholesaleEclDataPaymentSchedule: CreateOrEditWholesaleEclDataPaymentScheduleDto | undefined;
+    wholesaleEclUploadUploadComment: string | undefined;
+}
+
+export class CreateOrEditWholesaleEclDataPaymentScheduleDto implements ICreateOrEditWholesaleEclDataPaymentScheduleDto {
+    contractRefNo!: string | undefined;
+    startDate!: moment.Moment | undefined;
+    component!: string | undefined;
+    noOfSchedules!: number | undefined;
+    frequency!: string | undefined;
+    amount!: number | undefined;
+    wholesaleEclUploadId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditWholesaleEclDataPaymentScheduleDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.contractRefNo = data["contractRefNo"];
+            this.startDate = data["startDate"] ? moment(data["startDate"].toString()) : <any>undefined;
+            this.component = data["component"];
+            this.noOfSchedules = data["noOfSchedules"];
+            this.frequency = data["frequency"];
+            this.amount = data["amount"];
+            this.wholesaleEclUploadId = data["wholesaleEclUploadId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWholesaleEclDataPaymentScheduleDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWholesaleEclDataPaymentScheduleDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contractRefNo"] = this.contractRefNo;
+        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
+        data["component"] = this.component;
+        data["noOfSchedules"] = this.noOfSchedules;
+        data["frequency"] = this.frequency;
+        data["amount"] = this.amount;
+        data["wholesaleEclUploadId"] = this.wholesaleEclUploadId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWholesaleEclDataPaymentScheduleDto {
+    contractRefNo: string | undefined;
+    startDate: moment.Moment | undefined;
+    component: string | undefined;
+    noOfSchedules: number | undefined;
+    frequency: string | undefined;
+    amount: number | undefined;
+    wholesaleEclUploadId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableDto implements IPagedResultDtoOfWholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableDto implements IWholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetWholesaleEclLgdAssumptionForViewDto implements IPagedResultDtoOfGetWholesaleEclLgdAssumptionForViewDto {
+    totalCount!: number | undefined;
+    items!: GetWholesaleEclLgdAssumptionForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWholesaleEclLgdAssumptionForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWholesaleEclLgdAssumptionForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWholesaleEclLgdAssumptionForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWholesaleEclLgdAssumptionForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWholesaleEclLgdAssumptionForViewDto {
+    totalCount: number | undefined;
+    items: GetWholesaleEclLgdAssumptionForViewDto[] | undefined;
+}
+
+export class GetWholesaleEclLgdAssumptionForViewDto implements IGetWholesaleEclLgdAssumptionForViewDto {
+    wholesaleEclLgdAssumption!: WholesaleEclLgdAssumptionDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclLgdAssumptionForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclLgdAssumption = data["wholesaleEclLgdAssumption"] ? WholesaleEclLgdAssumptionDto.fromJS(data["wholesaleEclLgdAssumption"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclLgdAssumptionForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclLgdAssumptionForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclLgdAssumption"] = this.wholesaleEclLgdAssumption ? this.wholesaleEclLgdAssumption.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclLgdAssumptionForViewDto {
+    wholesaleEclLgdAssumption: WholesaleEclLgdAssumptionDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class WholesaleEclLgdAssumptionDto implements IWholesaleEclLgdAssumptionDto {
+    inputName!: string | undefined;
+    value!: string | undefined;
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IWholesaleEclLgdAssumptionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.inputName = data["inputName"];
+            this.value = data["value"];
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclLgdAssumptionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclLgdAssumptionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["inputName"] = this.inputName;
+        data["value"] = this.value;
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclLgdAssumptionDto {
+    inputName: string | undefined;
+    value: string | undefined;
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetWholesaleEclLgdAssumptionForEditOutput implements IGetWholesaleEclLgdAssumptionForEditOutput {
+    wholesaleEclLgdAssumption!: CreateOrEditWholesaleEclLgdAssumptionDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclLgdAssumptionForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclLgdAssumption = data["wholesaleEclLgdAssumption"] ? CreateOrEditWholesaleEclLgdAssumptionDto.fromJS(data["wholesaleEclLgdAssumption"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclLgdAssumptionForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclLgdAssumptionForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclLgdAssumption"] = this.wholesaleEclLgdAssumption ? this.wholesaleEclLgdAssumption.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclLgdAssumptionForEditOutput {
+    wholesaleEclLgdAssumption: CreateOrEditWholesaleEclLgdAssumptionDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class CreateOrEditWholesaleEclLgdAssumptionDto implements ICreateOrEditWholesaleEclLgdAssumptionDto {
+    key!: string | undefined;
+    inputName!: string | undefined;
+    value!: string | undefined;
+    dataType!: DataTypeEnum | undefined;
+    isComputed!: boolean | undefined;
+    lgdGroup!: LdgInputAssumptionEnum | undefined;
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditWholesaleEclLgdAssumptionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.key = data["key"];
+            this.inputName = data["inputName"];
+            this.value = data["value"];
+            this.dataType = data["dataType"];
+            this.isComputed = data["isComputed"];
+            this.lgdGroup = data["lgdGroup"];
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWholesaleEclLgdAssumptionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWholesaleEclLgdAssumptionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["key"] = this.key;
+        data["inputName"] = this.inputName;
+        data["value"] = this.value;
+        data["dataType"] = this.dataType;
+        data["isComputed"] = this.isComputed;
+        data["lgdGroup"] = this.lgdGroup;
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWholesaleEclLgdAssumptionDto {
+    key: string | undefined;
+    inputName: string | undefined;
+    value: string | undefined;
+    dataType: DataTypeEnum | undefined;
+    isComputed: boolean | undefined;
+    lgdGroup: LdgInputAssumptionEnum | undefined;
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclLgdAssumptionWholesaleEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclLgdAssumptionWholesaleEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclLgdAssumptionWholesaleEclLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclLgdAssumptionWholesaleEclLookupTableDto implements IWholesaleEclLgdAssumptionWholesaleEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclLgdAssumptionWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclLgdAssumptionWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclLgdAssumptionWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclLgdAssumptionWholesaleEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetWholesaleEclPdAssumption12MonthsForViewDto implements IPagedResultDtoOfGetWholesaleEclPdAssumption12MonthsForViewDto {
+    totalCount!: number | undefined;
+    items!: GetWholesaleEclPdAssumption12MonthsForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWholesaleEclPdAssumption12MonthsForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWholesaleEclPdAssumption12MonthsForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWholesaleEclPdAssumption12MonthsForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWholesaleEclPdAssumption12MonthsForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWholesaleEclPdAssumption12MonthsForViewDto {
+    totalCount: number | undefined;
+    items: GetWholesaleEclPdAssumption12MonthsForViewDto[] | undefined;
+}
+
+export class GetWholesaleEclPdAssumption12MonthsForViewDto implements IGetWholesaleEclPdAssumption12MonthsForViewDto {
+    wholesaleEclPdAssumption12Months!: WholesaleEclPdAssumption12MonthsDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclPdAssumption12MonthsForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclPdAssumption12Months = data["wholesaleEclPdAssumption12Months"] ? WholesaleEclPdAssumption12MonthsDto.fromJS(data["wholesaleEclPdAssumption12Months"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclPdAssumption12MonthsForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclPdAssumption12MonthsForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclPdAssumption12Months"] = this.wholesaleEclPdAssumption12Months ? this.wholesaleEclPdAssumption12Months.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclPdAssumption12MonthsForViewDto {
+    wholesaleEclPdAssumption12Months: WholesaleEclPdAssumption12MonthsDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class WholesaleEclPdAssumption12MonthsDto implements IWholesaleEclPdAssumption12MonthsDto {
+    credit!: number | undefined;
+    pd!: number | undefined;
+    snPMappingEtiCreditPolicy!: string | undefined;
+    snPMappingBestFit!: string | undefined;
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IWholesaleEclPdAssumption12MonthsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.credit = data["credit"];
+            this.pd = data["pd"];
+            this.snPMappingEtiCreditPolicy = data["snPMappingEtiCreditPolicy"];
+            this.snPMappingBestFit = data["snPMappingBestFit"];
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclPdAssumption12MonthsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclPdAssumption12MonthsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["credit"] = this.credit;
+        data["pd"] = this.pd;
+        data["snPMappingEtiCreditPolicy"] = this.snPMappingEtiCreditPolicy;
+        data["snPMappingBestFit"] = this.snPMappingBestFit;
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclPdAssumption12MonthsDto {
+    credit: number | undefined;
+    pd: number | undefined;
+    snPMappingEtiCreditPolicy: string | undefined;
+    snPMappingBestFit: string | undefined;
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetWholesaleEclPdAssumption12MonthsForEditOutput implements IGetWholesaleEclPdAssumption12MonthsForEditOutput {
+    wholesaleEclPdAssumption12Months!: CreateOrEditWholesaleEclPdAssumption12MonthsDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclPdAssumption12MonthsForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclPdAssumption12Months = data["wholesaleEclPdAssumption12Months"] ? CreateOrEditWholesaleEclPdAssumption12MonthsDto.fromJS(data["wholesaleEclPdAssumption12Months"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclPdAssumption12MonthsForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclPdAssumption12MonthsForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclPdAssumption12Months"] = this.wholesaleEclPdAssumption12Months ? this.wholesaleEclPdAssumption12Months.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclPdAssumption12MonthsForEditOutput {
+    wholesaleEclPdAssumption12Months: CreateOrEditWholesaleEclPdAssumption12MonthsDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class CreateOrEditWholesaleEclPdAssumption12MonthsDto implements ICreateOrEditWholesaleEclPdAssumption12MonthsDto {
+    credit!: number;
+    pd!: number | undefined;
+    snPMappingEtiCreditPolicy!: string | undefined;
+    snPMappingBestFit!: string | undefined;
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditWholesaleEclPdAssumption12MonthsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.credit = data["credit"];
+            this.pd = data["pd"];
+            this.snPMappingEtiCreditPolicy = data["snPMappingEtiCreditPolicy"];
+            this.snPMappingBestFit = data["snPMappingBestFit"];
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWholesaleEclPdAssumption12MonthsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWholesaleEclPdAssumption12MonthsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["credit"] = this.credit;
+        data["pd"] = this.pd;
+        data["snPMappingEtiCreditPolicy"] = this.snPMappingEtiCreditPolicy;
+        data["snPMappingBestFit"] = this.snPMappingBestFit;
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWholesaleEclPdAssumption12MonthsDto {
+    credit: number;
+    pd: number | undefined;
+    snPMappingEtiCreditPolicy: string | undefined;
+    snPMappingBestFit: string | undefined;
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclPdAssumption12MonthsWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesaleEclPdAssumption12MonthsWholesaleEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclPdAssumption12MonthsWholesaleEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclPdAssumption12MonthsWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclPdAssumption12MonthsWholesaleEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclPdAssumption12MonthsWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclPdAssumption12MonthsWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclPdAssumption12MonthsWholesaleEclLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclPdAssumption12MonthsWholesaleEclLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclPdAssumption12MonthsWholesaleEclLookupTableDto implements IWholesaleEclPdAssumption12MonthsWholesaleEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclPdAssumption12MonthsWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclPdAssumption12MonthsWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclPdAssumption12MonthsWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclPdAssumption12MonthsWholesaleEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto implements IPagedResultDtoOfGetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto {
+    totalCount!: number | undefined;
+    items!: GetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto {
+    totalCount: number | undefined;
+    items: GetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto[] | undefined;
+}
+
+export class GetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto implements IGetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto {
+    wholesaleEclPdSnPCummulativeDefaultRates!: WholesaleEclPdSnPCummulativeDefaultRatesDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclPdSnPCummulativeDefaultRates = data["wholesaleEclPdSnPCummulativeDefaultRates"] ? WholesaleEclPdSnPCummulativeDefaultRatesDto.fromJS(data["wholesaleEclPdSnPCummulativeDefaultRates"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclPdSnPCummulativeDefaultRates"] = this.wholesaleEclPdSnPCummulativeDefaultRates ? this.wholesaleEclPdSnPCummulativeDefaultRates.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto {
+    wholesaleEclPdSnPCummulativeDefaultRates: WholesaleEclPdSnPCummulativeDefaultRatesDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class WholesaleEclPdSnPCummulativeDefaultRatesDto implements IWholesaleEclPdSnPCummulativeDefaultRatesDto {
+    key!: string | undefined;
+    rating!: string | undefined;
+    years!: number | undefined;
+    value!: number | undefined;
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IWholesaleEclPdSnPCummulativeDefaultRatesDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.key = data["key"];
+            this.rating = data["rating"];
+            this.years = data["years"];
+            this.value = data["value"];
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclPdSnPCummulativeDefaultRatesDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclPdSnPCummulativeDefaultRatesDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["key"] = this.key;
+        data["rating"] = this.rating;
+        data["years"] = this.years;
+        data["value"] = this.value;
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclPdSnPCummulativeDefaultRatesDto {
+    key: string | undefined;
+    rating: string | undefined;
+    years: number | undefined;
+    value: number | undefined;
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetWholesaleEclPdSnPCummulativeDefaultRatesForEditOutput implements IGetWholesaleEclPdSnPCummulativeDefaultRatesForEditOutput {
+    wholesaleEclPdSnPCummulativeDefaultRates!: CreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclPdSnPCummulativeDefaultRatesForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclPdSnPCummulativeDefaultRates = data["wholesaleEclPdSnPCummulativeDefaultRates"] ? CreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesDto.fromJS(data["wholesaleEclPdSnPCummulativeDefaultRates"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclPdSnPCummulativeDefaultRatesForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclPdSnPCummulativeDefaultRatesForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclPdSnPCummulativeDefaultRates"] = this.wholesaleEclPdSnPCummulativeDefaultRates ? this.wholesaleEclPdSnPCummulativeDefaultRates.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclPdSnPCummulativeDefaultRatesForEditOutput {
+    wholesaleEclPdSnPCummulativeDefaultRates: CreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class CreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesDto implements ICreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesDto {
+    key!: string | undefined;
+    rating!: string | undefined;
+    years!: number | undefined;
+    value!: number | undefined;
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.key = data["key"];
+            this.rating = data["rating"];
+            this.years = data["years"];
+            this.value = data["value"];
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["key"] = this.key;
+        data["rating"] = this.rating;
+        data["years"] = this.years;
+        data["value"] = this.value;
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesDto {
+    key: string | undefined;
+    rating: string | undefined;
+    years: number | undefined;
+    value: number | undefined;
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto implements IWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetWholesaleEclResultDetailForViewDto implements IPagedResultDtoOfGetWholesaleEclResultDetailForViewDto {
+    totalCount!: number | undefined;
+    items!: GetWholesaleEclResultDetailForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWholesaleEclResultDetailForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWholesaleEclResultDetailForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWholesaleEclResultDetailForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWholesaleEclResultDetailForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWholesaleEclResultDetailForViewDto {
+    totalCount: number | undefined;
+    items: GetWholesaleEclResultDetailForViewDto[] | undefined;
+}
+
+export class GetWholesaleEclResultDetailForViewDto implements IGetWholesaleEclResultDetailForViewDto {
+    wholesaleEclResultDetail!: WholesaleEclResultDetailDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+    wholesaleEclDataLoanBookCustomerName!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclResultDetailForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclResultDetail = data["wholesaleEclResultDetail"] ? WholesaleEclResultDetailDto.fromJS(data["wholesaleEclResultDetail"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+            this.wholesaleEclDataLoanBookCustomerName = data["wholesaleEclDataLoanBookCustomerName"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclResultDetailForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclResultDetailForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclResultDetail"] = this.wholesaleEclResultDetail ? this.wholesaleEclResultDetail.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        data["wholesaleEclDataLoanBookCustomerName"] = this.wholesaleEclDataLoanBookCustomerName;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclResultDetailForViewDto {
+    wholesaleEclResultDetail: WholesaleEclResultDetailDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+    wholesaleEclDataLoanBookCustomerName: string | undefined;
+}
+
+export class WholesaleEclResultDetailDto implements IWholesaleEclResultDetailDto {
+    contractID!: string | undefined;
+    accountNo!: string | undefined;
+    customerNo!: string | undefined;
+    segment!: string | undefined;
+    productType!: string | undefined;
+    sector!: string | undefined;
+    stage!: number | undefined;
+    outstandingBalance!: number | undefined;
+    preOverrideEclBest!: number | undefined;
+    preOverrideEclOptimistic!: number | undefined;
+    preOverrideEclDownturn!: number | undefined;
+    overrideStage!: number | undefined;
+    overrideTTRYears!: number | undefined;
+    overrideFSV!: number | undefined;
+    overrideOverlay!: number | undefined;
+    postOverrideEclBest!: number | undefined;
+    postOverrideEclOptimistic!: number | undefined;
+    postOverrideEclDownturn!: number | undefined;
+    preOverrideImpairment!: number | undefined;
+    postOverrideImpairment!: number | undefined;
+    wholesaleEclId!: string | undefined;
+    wholesaleEclDataLoanBookId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IWholesaleEclResultDetailDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.contractID = data["contractID"];
+            this.accountNo = data["accountNo"];
+            this.customerNo = data["customerNo"];
+            this.segment = data["segment"];
+            this.productType = data["productType"];
+            this.sector = data["sector"];
+            this.stage = data["stage"];
+            this.outstandingBalance = data["outstandingBalance"];
+            this.preOverrideEclBest = data["preOverrideEclBest"];
+            this.preOverrideEclOptimistic = data["preOverrideEclOptimistic"];
+            this.preOverrideEclDownturn = data["preOverrideEclDownturn"];
+            this.overrideStage = data["overrideStage"];
+            this.overrideTTRYears = data["overrideTTRYears"];
+            this.overrideFSV = data["overrideFSV"];
+            this.overrideOverlay = data["overrideOverlay"];
+            this.postOverrideEclBest = data["postOverrideEclBest"];
+            this.postOverrideEclOptimistic = data["postOverrideEclOptimistic"];
+            this.postOverrideEclDownturn = data["postOverrideEclDownturn"];
+            this.preOverrideImpairment = data["preOverrideImpairment"];
+            this.postOverrideImpairment = data["postOverrideImpairment"];
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.wholesaleEclDataLoanBookId = data["wholesaleEclDataLoanBookId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclResultDetailDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclResultDetailDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contractID"] = this.contractID;
+        data["accountNo"] = this.accountNo;
+        data["customerNo"] = this.customerNo;
+        data["segment"] = this.segment;
+        data["productType"] = this.productType;
+        data["sector"] = this.sector;
+        data["stage"] = this.stage;
+        data["outstandingBalance"] = this.outstandingBalance;
+        data["preOverrideEclBest"] = this.preOverrideEclBest;
+        data["preOverrideEclOptimistic"] = this.preOverrideEclOptimistic;
+        data["preOverrideEclDownturn"] = this.preOverrideEclDownturn;
+        data["overrideStage"] = this.overrideStage;
+        data["overrideTTRYears"] = this.overrideTTRYears;
+        data["overrideFSV"] = this.overrideFSV;
+        data["overrideOverlay"] = this.overrideOverlay;
+        data["postOverrideEclBest"] = this.postOverrideEclBest;
+        data["postOverrideEclOptimistic"] = this.postOverrideEclOptimistic;
+        data["postOverrideEclDownturn"] = this.postOverrideEclDownturn;
+        data["preOverrideImpairment"] = this.preOverrideImpairment;
+        data["postOverrideImpairment"] = this.postOverrideImpairment;
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["wholesaleEclDataLoanBookId"] = this.wholesaleEclDataLoanBookId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclResultDetailDto {
+    contractID: string | undefined;
+    accountNo: string | undefined;
+    customerNo: string | undefined;
+    segment: string | undefined;
+    productType: string | undefined;
+    sector: string | undefined;
+    stage: number | undefined;
+    outstandingBalance: number | undefined;
+    preOverrideEclBest: number | undefined;
+    preOverrideEclOptimistic: number | undefined;
+    preOverrideEclDownturn: number | undefined;
+    overrideStage: number | undefined;
+    overrideTTRYears: number | undefined;
+    overrideFSV: number | undefined;
+    overrideOverlay: number | undefined;
+    postOverrideEclBest: number | undefined;
+    postOverrideEclOptimistic: number | undefined;
+    postOverrideEclDownturn: number | undefined;
+    preOverrideImpairment: number | undefined;
+    postOverrideImpairment: number | undefined;
+    wholesaleEclId: string | undefined;
+    wholesaleEclDataLoanBookId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetWholesaleEclResultDetailForEditOutput implements IGetWholesaleEclResultDetailForEditOutput {
+    wholesaleEclResultDetail!: CreateOrEditWholesaleEclResultDetailDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+    wholesaleEclDataLoanBookCustomerName!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclResultDetailForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclResultDetail = data["wholesaleEclResultDetail"] ? CreateOrEditWholesaleEclResultDetailDto.fromJS(data["wholesaleEclResultDetail"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+            this.wholesaleEclDataLoanBookCustomerName = data["wholesaleEclDataLoanBookCustomerName"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclResultDetailForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclResultDetailForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclResultDetail"] = this.wholesaleEclResultDetail ? this.wholesaleEclResultDetail.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        data["wholesaleEclDataLoanBookCustomerName"] = this.wholesaleEclDataLoanBookCustomerName;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclResultDetailForEditOutput {
+    wholesaleEclResultDetail: CreateOrEditWholesaleEclResultDetailDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+    wholesaleEclDataLoanBookCustomerName: string | undefined;
+}
+
+export class CreateOrEditWholesaleEclResultDetailDto implements ICreateOrEditWholesaleEclResultDetailDto {
+    contractID!: string | undefined;
+    accountNo!: string | undefined;
+    customerNo!: string | undefined;
+    segment!: string | undefined;
+    productType!: string | undefined;
+    sector!: string | undefined;
+    stage!: number | undefined;
+    outstandingBalance!: number | undefined;
+    preOverrideEclBest!: number | undefined;
+    preOverrideEclOptimistic!: number | undefined;
+    preOverrideEclDownturn!: number | undefined;
+    overrideStage!: number | undefined;
+    overrideTTRYears!: number | undefined;
+    overrideFSV!: number | undefined;
+    overrideOverlay!: number | undefined;
+    postOverrideEclBest!: number | undefined;
+    postOverrideEclOptimistic!: number | undefined;
+    postOverrideEclDownturn!: number | undefined;
+    preOverrideImpairment!: number | undefined;
+    postOverrideImpairment!: number | undefined;
+    wholesaleEclId!: string | undefined;
+    wholesaleEclDataLoanBookId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditWholesaleEclResultDetailDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.contractID = data["contractID"];
+            this.accountNo = data["accountNo"];
+            this.customerNo = data["customerNo"];
+            this.segment = data["segment"];
+            this.productType = data["productType"];
+            this.sector = data["sector"];
+            this.stage = data["stage"];
+            this.outstandingBalance = data["outstandingBalance"];
+            this.preOverrideEclBest = data["preOverrideEclBest"];
+            this.preOverrideEclOptimistic = data["preOverrideEclOptimistic"];
+            this.preOverrideEclDownturn = data["preOverrideEclDownturn"];
+            this.overrideStage = data["overrideStage"];
+            this.overrideTTRYears = data["overrideTTRYears"];
+            this.overrideFSV = data["overrideFSV"];
+            this.overrideOverlay = data["overrideOverlay"];
+            this.postOverrideEclBest = data["postOverrideEclBest"];
+            this.postOverrideEclOptimistic = data["postOverrideEclOptimistic"];
+            this.postOverrideEclDownturn = data["postOverrideEclDownturn"];
+            this.preOverrideImpairment = data["preOverrideImpairment"];
+            this.postOverrideImpairment = data["postOverrideImpairment"];
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.wholesaleEclDataLoanBookId = data["wholesaleEclDataLoanBookId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWholesaleEclResultDetailDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWholesaleEclResultDetailDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contractID"] = this.contractID;
+        data["accountNo"] = this.accountNo;
+        data["customerNo"] = this.customerNo;
+        data["segment"] = this.segment;
+        data["productType"] = this.productType;
+        data["sector"] = this.sector;
+        data["stage"] = this.stage;
+        data["outstandingBalance"] = this.outstandingBalance;
+        data["preOverrideEclBest"] = this.preOverrideEclBest;
+        data["preOverrideEclOptimistic"] = this.preOverrideEclOptimistic;
+        data["preOverrideEclDownturn"] = this.preOverrideEclDownturn;
+        data["overrideStage"] = this.overrideStage;
+        data["overrideTTRYears"] = this.overrideTTRYears;
+        data["overrideFSV"] = this.overrideFSV;
+        data["overrideOverlay"] = this.overrideOverlay;
+        data["postOverrideEclBest"] = this.postOverrideEclBest;
+        data["postOverrideEclOptimistic"] = this.postOverrideEclOptimistic;
+        data["postOverrideEclDownturn"] = this.postOverrideEclDownturn;
+        data["preOverrideImpairment"] = this.preOverrideImpairment;
+        data["postOverrideImpairment"] = this.postOverrideImpairment;
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["wholesaleEclDataLoanBookId"] = this.wholesaleEclDataLoanBookId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWholesaleEclResultDetailDto {
+    contractID: string | undefined;
+    accountNo: string | undefined;
+    customerNo: string | undefined;
+    segment: string | undefined;
+    productType: string | undefined;
+    sector: string | undefined;
+    stage: number | undefined;
+    outstandingBalance: number | undefined;
+    preOverrideEclBest: number | undefined;
+    preOverrideEclOptimistic: number | undefined;
+    preOverrideEclDownturn: number | undefined;
+    overrideStage: number | undefined;
+    overrideTTRYears: number | undefined;
+    overrideFSV: number | undefined;
+    overrideOverlay: number | undefined;
+    postOverrideEclBest: number | undefined;
+    postOverrideEclOptimistic: number | undefined;
+    postOverrideEclDownturn: number | undefined;
+    preOverrideImpairment: number | undefined;
+    postOverrideImpairment: number | undefined;
+    wholesaleEclId: string | undefined;
+    wholesaleEclDataLoanBookId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclResultDetailWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesaleEclResultDetailWholesaleEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclResultDetailWholesaleEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclResultDetailWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclResultDetailWholesaleEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclResultDetailWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclResultDetailWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclResultDetailWholesaleEclLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclResultDetailWholesaleEclLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclResultDetailWholesaleEclLookupTableDto implements IWholesaleEclResultDetailWholesaleEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclResultDetailWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclResultDetailWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclResultDetailWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclResultDetailWholesaleEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclResultDetailWholesaleEclDataLoanBookLookupTableDto implements IPagedResultDtoOfWholesaleEclResultDetailWholesaleEclDataLoanBookLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclResultDetailWholesaleEclDataLoanBookLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclResultDetailWholesaleEclDataLoanBookLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclResultDetailWholesaleEclDataLoanBookLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclResultDetailWholesaleEclDataLoanBookLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclResultDetailWholesaleEclDataLoanBookLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclResultDetailWholesaleEclDataLoanBookLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclResultDetailWholesaleEclDataLoanBookLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclResultDetailWholesaleEclDataLoanBookLookupTableDto implements IWholesaleEclResultDetailWholesaleEclDataLoanBookLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclResultDetailWholesaleEclDataLoanBookLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclResultDetailWholesaleEclDataLoanBookLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclResultDetailWholesaleEclDataLoanBookLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclResultDetailWholesaleEclDataLoanBookLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetWholesaleEclResultSummaryForViewDto implements IPagedResultDtoOfGetWholesaleEclResultSummaryForViewDto {
+    totalCount!: number | undefined;
+    items!: GetWholesaleEclResultSummaryForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWholesaleEclResultSummaryForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWholesaleEclResultSummaryForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWholesaleEclResultSummaryForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWholesaleEclResultSummaryForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWholesaleEclResultSummaryForViewDto {
+    totalCount: number | undefined;
+    items: GetWholesaleEclResultSummaryForViewDto[] | undefined;
+}
+
+export class GetWholesaleEclResultSummaryForViewDto implements IGetWholesaleEclResultSummaryForViewDto {
+    wholesaleEclResultSummary!: WholesaleEclResultSummaryDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclResultSummaryForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclResultSummary = data["wholesaleEclResultSummary"] ? WholesaleEclResultSummaryDto.fromJS(data["wholesaleEclResultSummary"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclResultSummaryForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclResultSummaryForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclResultSummary"] = this.wholesaleEclResultSummary ? this.wholesaleEclResultSummary.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclResultSummaryForViewDto {
+    wholesaleEclResultSummary: WholesaleEclResultSummaryDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class WholesaleEclResultSummaryDto implements IWholesaleEclResultSummaryDto {
+    summaryType!: ResultSummaryTypeEnum | undefined;
+    title!: string | undefined;
+    preOverrideExposure!: number | undefined;
+    preOverrideImpairment!: number | undefined;
+    preOverrideCoverageRatio!: number | undefined;
+    postOverrideExposure!: number | undefined;
+    postOverrideImpairment!: number | undefined;
+    postOverrideCoverageRatio!: number | undefined;
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IWholesaleEclResultSummaryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.summaryType = data["summaryType"];
+            this.title = data["title"];
+            this.preOverrideExposure = data["preOverrideExposure"];
+            this.preOverrideImpairment = data["preOverrideImpairment"];
+            this.preOverrideCoverageRatio = data["preOverrideCoverageRatio"];
+            this.postOverrideExposure = data["postOverrideExposure"];
+            this.postOverrideImpairment = data["postOverrideImpairment"];
+            this.postOverrideCoverageRatio = data["postOverrideCoverageRatio"];
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclResultSummaryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclResultSummaryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["summaryType"] = this.summaryType;
+        data["title"] = this.title;
+        data["preOverrideExposure"] = this.preOverrideExposure;
+        data["preOverrideImpairment"] = this.preOverrideImpairment;
+        data["preOverrideCoverageRatio"] = this.preOverrideCoverageRatio;
+        data["postOverrideExposure"] = this.postOverrideExposure;
+        data["postOverrideImpairment"] = this.postOverrideImpairment;
+        data["postOverrideCoverageRatio"] = this.postOverrideCoverageRatio;
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclResultSummaryDto {
+    summaryType: ResultSummaryTypeEnum | undefined;
+    title: string | undefined;
+    preOverrideExposure: number | undefined;
+    preOverrideImpairment: number | undefined;
+    preOverrideCoverageRatio: number | undefined;
+    postOverrideExposure: number | undefined;
+    postOverrideImpairment: number | undefined;
+    postOverrideCoverageRatio: number | undefined;
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export enum ResultSummaryTypeEnum {
+    ByScenario = 0, 
+    ByStage = 1, 
+    ByProductType = 2, 
+    BySegementStage = 3, 
+}
+
+export class GetWholesaleEclResultSummaryForEditOutput implements IGetWholesaleEclResultSummaryForEditOutput {
+    wholesaleEclResultSummary!: CreateOrEditWholesaleEclResultSummaryDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclResultSummaryForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclResultSummary = data["wholesaleEclResultSummary"] ? CreateOrEditWholesaleEclResultSummaryDto.fromJS(data["wholesaleEclResultSummary"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclResultSummaryForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclResultSummaryForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclResultSummary"] = this.wholesaleEclResultSummary ? this.wholesaleEclResultSummary.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclResultSummaryForEditOutput {
+    wholesaleEclResultSummary: CreateOrEditWholesaleEclResultSummaryDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class CreateOrEditWholesaleEclResultSummaryDto implements ICreateOrEditWholesaleEclResultSummaryDto {
+    summaryType!: ResultSummaryTypeEnum | undefined;
+    title!: string | undefined;
+    preOverrideExposure!: number | undefined;
+    preOverrideImpairment!: number | undefined;
+    preOverrideCoverageRatio!: number | undefined;
+    postOverrideExposure!: number | undefined;
+    postOverrideImpairment!: number | undefined;
+    postOverrideCoverageRatio!: number | undefined;
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditWholesaleEclResultSummaryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.summaryType = data["summaryType"];
+            this.title = data["title"];
+            this.preOverrideExposure = data["preOverrideExposure"];
+            this.preOverrideImpairment = data["preOverrideImpairment"];
+            this.preOverrideCoverageRatio = data["preOverrideCoverageRatio"];
+            this.postOverrideExposure = data["postOverrideExposure"];
+            this.postOverrideImpairment = data["postOverrideImpairment"];
+            this.postOverrideCoverageRatio = data["postOverrideCoverageRatio"];
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWholesaleEclResultSummaryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWholesaleEclResultSummaryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["summaryType"] = this.summaryType;
+        data["title"] = this.title;
+        data["preOverrideExposure"] = this.preOverrideExposure;
+        data["preOverrideImpairment"] = this.preOverrideImpairment;
+        data["preOverrideCoverageRatio"] = this.preOverrideCoverageRatio;
+        data["postOverrideExposure"] = this.postOverrideExposure;
+        data["postOverrideImpairment"] = this.postOverrideImpairment;
+        data["postOverrideCoverageRatio"] = this.postOverrideCoverageRatio;
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWholesaleEclResultSummaryDto {
+    summaryType: ResultSummaryTypeEnum | undefined;
+    title: string | undefined;
+    preOverrideExposure: number | undefined;
+    preOverrideImpairment: number | undefined;
+    preOverrideCoverageRatio: number | undefined;
+    postOverrideExposure: number | undefined;
+    postOverrideImpairment: number | undefined;
+    postOverrideCoverageRatio: number | undefined;
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclResultSummaryWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesaleEclResultSummaryWholesaleEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclResultSummaryWholesaleEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclResultSummaryWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclResultSummaryWholesaleEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclResultSummaryWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclResultSummaryWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclResultSummaryWholesaleEclLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclResultSummaryWholesaleEclLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclResultSummaryWholesaleEclLookupTableDto implements IWholesaleEclResultSummaryWholesaleEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclResultSummaryWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclResultSummaryWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclResultSummaryWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclResultSummaryWholesaleEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetWholesaleEclResultSummaryKeyInputForViewDto implements IPagedResultDtoOfGetWholesaleEclResultSummaryKeyInputForViewDto {
+    totalCount!: number | undefined;
+    items!: GetWholesaleEclResultSummaryKeyInputForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWholesaleEclResultSummaryKeyInputForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWholesaleEclResultSummaryKeyInputForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWholesaleEclResultSummaryKeyInputForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWholesaleEclResultSummaryKeyInputForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWholesaleEclResultSummaryKeyInputForViewDto {
+    totalCount: number | undefined;
+    items: GetWholesaleEclResultSummaryKeyInputForViewDto[] | undefined;
+}
+
+export class GetWholesaleEclResultSummaryKeyInputForViewDto implements IGetWholesaleEclResultSummaryKeyInputForViewDto {
+    wholesaleEclResultSummaryKeyInput!: WholesaleEclResultSummaryKeyInputDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclResultSummaryKeyInputForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclResultSummaryKeyInput = data["wholesaleEclResultSummaryKeyInput"] ? WholesaleEclResultSummaryKeyInputDto.fromJS(data["wholesaleEclResultSummaryKeyInput"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclResultSummaryKeyInputForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclResultSummaryKeyInputForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclResultSummaryKeyInput"] = this.wholesaleEclResultSummaryKeyInput ? this.wholesaleEclResultSummaryKeyInput.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclResultSummaryKeyInputForViewDto {
+    wholesaleEclResultSummaryKeyInput: WholesaleEclResultSummaryKeyInputDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class WholesaleEclResultSummaryKeyInputDto implements IWholesaleEclResultSummaryKeyInputDto {
+    pdGrouping!: string | undefined;
+    exposure!: number | undefined;
+    collateral!: number | undefined;
+    unsecuredPercentage!: number | undefined;
+    percentageOfBook!: number | undefined;
+    months6CummulativeBestPDs!: number | undefined;
+    months12CummulativeBestPDs!: number | undefined;
+    months24CummulativeBestPDs!: number | undefined;
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IWholesaleEclResultSummaryKeyInputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.pdGrouping = data["pdGrouping"];
+            this.exposure = data["exposure"];
+            this.collateral = data["collateral"];
+            this.unsecuredPercentage = data["unsecuredPercentage"];
+            this.percentageOfBook = data["percentageOfBook"];
+            this.months6CummulativeBestPDs = data["months6CummulativeBestPDs"];
+            this.months12CummulativeBestPDs = data["months12CummulativeBestPDs"];
+            this.months24CummulativeBestPDs = data["months24CummulativeBestPDs"];
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclResultSummaryKeyInputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclResultSummaryKeyInputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pdGrouping"] = this.pdGrouping;
+        data["exposure"] = this.exposure;
+        data["collateral"] = this.collateral;
+        data["unsecuredPercentage"] = this.unsecuredPercentage;
+        data["percentageOfBook"] = this.percentageOfBook;
+        data["months6CummulativeBestPDs"] = this.months6CummulativeBestPDs;
+        data["months12CummulativeBestPDs"] = this.months12CummulativeBestPDs;
+        data["months24CummulativeBestPDs"] = this.months24CummulativeBestPDs;
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclResultSummaryKeyInputDto {
+    pdGrouping: string | undefined;
+    exposure: number | undefined;
+    collateral: number | undefined;
+    unsecuredPercentage: number | undefined;
+    percentageOfBook: number | undefined;
+    months6CummulativeBestPDs: number | undefined;
+    months12CummulativeBestPDs: number | undefined;
+    months24CummulativeBestPDs: number | undefined;
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetWholesaleEclResultSummaryKeyInputForEditOutput implements IGetWholesaleEclResultSummaryKeyInputForEditOutput {
+    wholesaleEclResultSummaryKeyInput!: CreateOrEditWholesaleEclResultSummaryKeyInputDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclResultSummaryKeyInputForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclResultSummaryKeyInput = data["wholesaleEclResultSummaryKeyInput"] ? CreateOrEditWholesaleEclResultSummaryKeyInputDto.fromJS(data["wholesaleEclResultSummaryKeyInput"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclResultSummaryKeyInputForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclResultSummaryKeyInputForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclResultSummaryKeyInput"] = this.wholesaleEclResultSummaryKeyInput ? this.wholesaleEclResultSummaryKeyInput.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclResultSummaryKeyInputForEditOutput {
+    wholesaleEclResultSummaryKeyInput: CreateOrEditWholesaleEclResultSummaryKeyInputDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class CreateOrEditWholesaleEclResultSummaryKeyInputDto implements ICreateOrEditWholesaleEclResultSummaryKeyInputDto {
+    pdGrouping!: string | undefined;
+    exposure!: number | undefined;
+    collateral!: number | undefined;
+    unsecuredPercentage!: number | undefined;
+    percentageOfBook!: number | undefined;
+    months6CummulativeBestPDs!: number | undefined;
+    months12CummulativeBestPDs!: number | undefined;
+    months24CummulativeBestPDs!: number | undefined;
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditWholesaleEclResultSummaryKeyInputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.pdGrouping = data["pdGrouping"];
+            this.exposure = data["exposure"];
+            this.collateral = data["collateral"];
+            this.unsecuredPercentage = data["unsecuredPercentage"];
+            this.percentageOfBook = data["percentageOfBook"];
+            this.months6CummulativeBestPDs = data["months6CummulativeBestPDs"];
+            this.months12CummulativeBestPDs = data["months12CummulativeBestPDs"];
+            this.months24CummulativeBestPDs = data["months24CummulativeBestPDs"];
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWholesaleEclResultSummaryKeyInputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWholesaleEclResultSummaryKeyInputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pdGrouping"] = this.pdGrouping;
+        data["exposure"] = this.exposure;
+        data["collateral"] = this.collateral;
+        data["unsecuredPercentage"] = this.unsecuredPercentage;
+        data["percentageOfBook"] = this.percentageOfBook;
+        data["months6CummulativeBestPDs"] = this.months6CummulativeBestPDs;
+        data["months12CummulativeBestPDs"] = this.months12CummulativeBestPDs;
+        data["months24CummulativeBestPDs"] = this.months24CummulativeBestPDs;
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWholesaleEclResultSummaryKeyInputDto {
+    pdGrouping: string | undefined;
+    exposure: number | undefined;
+    collateral: number | undefined;
+    unsecuredPercentage: number | undefined;
+    percentageOfBook: number | undefined;
+    months6CummulativeBestPDs: number | undefined;
+    months12CummulativeBestPDs: number | undefined;
+    months24CummulativeBestPDs: number | undefined;
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclResultSummaryKeyInputWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesaleEclResultSummaryKeyInputWholesaleEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclResultSummaryKeyInputWholesaleEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclResultSummaryKeyInputWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclResultSummaryKeyInputWholesaleEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclResultSummaryKeyInputWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclResultSummaryKeyInputWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclResultSummaryKeyInputWholesaleEclLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclResultSummaryKeyInputWholesaleEclLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclResultSummaryKeyInputWholesaleEclLookupTableDto implements IWholesaleEclResultSummaryKeyInputWholesaleEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclResultSummaryKeyInputWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclResultSummaryKeyInputWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclResultSummaryKeyInputWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclResultSummaryKeyInputWholesaleEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetWholesaleEclResultSummaryTopExposureForViewDto implements IPagedResultDtoOfGetWholesaleEclResultSummaryTopExposureForViewDto {
+    totalCount!: number | undefined;
+    items!: GetWholesaleEclResultSummaryTopExposureForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWholesaleEclResultSummaryTopExposureForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWholesaleEclResultSummaryTopExposureForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWholesaleEclResultSummaryTopExposureForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWholesaleEclResultSummaryTopExposureForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWholesaleEclResultSummaryTopExposureForViewDto {
+    totalCount: number | undefined;
+    items: GetWholesaleEclResultSummaryTopExposureForViewDto[] | undefined;
+}
+
+export class GetWholesaleEclResultSummaryTopExposureForViewDto implements IGetWholesaleEclResultSummaryTopExposureForViewDto {
+    wholesaleEclResultSummaryTopExposure!: WholesaleEclResultSummaryTopExposureDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+    wholesaleEclDataLoanBookCustomerName!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclResultSummaryTopExposureForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclResultSummaryTopExposure = data["wholesaleEclResultSummaryTopExposure"] ? WholesaleEclResultSummaryTopExposureDto.fromJS(data["wholesaleEclResultSummaryTopExposure"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+            this.wholesaleEclDataLoanBookCustomerName = data["wholesaleEclDataLoanBookCustomerName"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclResultSummaryTopExposureForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclResultSummaryTopExposureForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclResultSummaryTopExposure"] = this.wholesaleEclResultSummaryTopExposure ? this.wholesaleEclResultSummaryTopExposure.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        data["wholesaleEclDataLoanBookCustomerName"] = this.wholesaleEclDataLoanBookCustomerName;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclResultSummaryTopExposureForViewDto {
+    wholesaleEclResultSummaryTopExposure: WholesaleEclResultSummaryTopExposureDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+    wholesaleEclDataLoanBookCustomerName: string | undefined;
+}
+
+export class WholesaleEclResultSummaryTopExposureDto implements IWholesaleEclResultSummaryTopExposureDto {
+    preOverrideExposure!: number | undefined;
+    preOverrideImpairment!: number | undefined;
+    preOverrideCoverageRatio!: number | undefined;
+    postOverrideExposure!: number | undefined;
+    postOverrideImpairment!: number | undefined;
+    postOverrideCoverageRatio!: number | undefined;
+    contractId!: string | undefined;
+    wholesaleEclId!: string | undefined;
+    wholesaleEclDataLoanBookId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IWholesaleEclResultSummaryTopExposureDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.preOverrideExposure = data["preOverrideExposure"];
+            this.preOverrideImpairment = data["preOverrideImpairment"];
+            this.preOverrideCoverageRatio = data["preOverrideCoverageRatio"];
+            this.postOverrideExposure = data["postOverrideExposure"];
+            this.postOverrideImpairment = data["postOverrideImpairment"];
+            this.postOverrideCoverageRatio = data["postOverrideCoverageRatio"];
+            this.contractId = data["contractId"];
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.wholesaleEclDataLoanBookId = data["wholesaleEclDataLoanBookId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclResultSummaryTopExposureDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclResultSummaryTopExposureDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["preOverrideExposure"] = this.preOverrideExposure;
+        data["preOverrideImpairment"] = this.preOverrideImpairment;
+        data["preOverrideCoverageRatio"] = this.preOverrideCoverageRatio;
+        data["postOverrideExposure"] = this.postOverrideExposure;
+        data["postOverrideImpairment"] = this.postOverrideImpairment;
+        data["postOverrideCoverageRatio"] = this.postOverrideCoverageRatio;
+        data["contractId"] = this.contractId;
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["wholesaleEclDataLoanBookId"] = this.wholesaleEclDataLoanBookId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclResultSummaryTopExposureDto {
+    preOverrideExposure: number | undefined;
+    preOverrideImpairment: number | undefined;
+    preOverrideCoverageRatio: number | undefined;
+    postOverrideExposure: number | undefined;
+    postOverrideImpairment: number | undefined;
+    postOverrideCoverageRatio: number | undefined;
+    contractId: string | undefined;
+    wholesaleEclId: string | undefined;
+    wholesaleEclDataLoanBookId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetWholesaleEclResultSummaryTopExposureForEditOutput implements IGetWholesaleEclResultSummaryTopExposureForEditOutput {
+    wholesaleEclResultSummaryTopExposure!: CreateOrEditWholesaleEclResultSummaryTopExposureDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+    wholesaleEclDataLoanBookCustomerName!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclResultSummaryTopExposureForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclResultSummaryTopExposure = data["wholesaleEclResultSummaryTopExposure"] ? CreateOrEditWholesaleEclResultSummaryTopExposureDto.fromJS(data["wholesaleEclResultSummaryTopExposure"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+            this.wholesaleEclDataLoanBookCustomerName = data["wholesaleEclDataLoanBookCustomerName"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclResultSummaryTopExposureForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclResultSummaryTopExposureForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclResultSummaryTopExposure"] = this.wholesaleEclResultSummaryTopExposure ? this.wholesaleEclResultSummaryTopExposure.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        data["wholesaleEclDataLoanBookCustomerName"] = this.wholesaleEclDataLoanBookCustomerName;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclResultSummaryTopExposureForEditOutput {
+    wholesaleEclResultSummaryTopExposure: CreateOrEditWholesaleEclResultSummaryTopExposureDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+    wholesaleEclDataLoanBookCustomerName: string | undefined;
+}
+
+export class CreateOrEditWholesaleEclResultSummaryTopExposureDto implements ICreateOrEditWholesaleEclResultSummaryTopExposureDto {
+    preOverrideExposure!: number | undefined;
+    preOverrideImpairment!: number | undefined;
+    preOverrideCoverageRatio!: number | undefined;
+    postOverrideExposure!: number | undefined;
+    postOverrideImpairment!: number | undefined;
+    postOverrideCoverageRatio!: number | undefined;
+    contractId!: string | undefined;
+    wholesaleEclId!: string | undefined;
+    wholesaleEclDataLoanBookId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditWholesaleEclResultSummaryTopExposureDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.preOverrideExposure = data["preOverrideExposure"];
+            this.preOverrideImpairment = data["preOverrideImpairment"];
+            this.preOverrideCoverageRatio = data["preOverrideCoverageRatio"];
+            this.postOverrideExposure = data["postOverrideExposure"];
+            this.postOverrideImpairment = data["postOverrideImpairment"];
+            this.postOverrideCoverageRatio = data["postOverrideCoverageRatio"];
+            this.contractId = data["contractId"];
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.wholesaleEclDataLoanBookId = data["wholesaleEclDataLoanBookId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWholesaleEclResultSummaryTopExposureDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWholesaleEclResultSummaryTopExposureDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["preOverrideExposure"] = this.preOverrideExposure;
+        data["preOverrideImpairment"] = this.preOverrideImpairment;
+        data["preOverrideCoverageRatio"] = this.preOverrideCoverageRatio;
+        data["postOverrideExposure"] = this.postOverrideExposure;
+        data["postOverrideImpairment"] = this.postOverrideImpairment;
+        data["postOverrideCoverageRatio"] = this.postOverrideCoverageRatio;
+        data["contractId"] = this.contractId;
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["wholesaleEclDataLoanBookId"] = this.wholesaleEclDataLoanBookId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWholesaleEclResultSummaryTopExposureDto {
+    preOverrideExposure: number | undefined;
+    preOverrideImpairment: number | undefined;
+    preOverrideCoverageRatio: number | undefined;
+    postOverrideExposure: number | undefined;
+    postOverrideImpairment: number | undefined;
+    postOverrideCoverageRatio: number | undefined;
+    contractId: string | undefined;
+    wholesaleEclId: string | undefined;
+    wholesaleEclDataLoanBookId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclResultSummaryTopExposureWholesaleEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclResultSummaryTopExposureWholesaleEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclResultSummaryTopExposureWholesaleEclLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclResultSummaryTopExposureWholesaleEclLookupTableDto implements IWholesaleEclResultSummaryTopExposureWholesaleEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclResultSummaryTopExposureWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclResultSummaryTopExposureWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclResultSummaryTopExposureWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclResultSummaryTopExposureWholesaleEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableDto implements IPagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableDto implements IWholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetWholesaleEclForViewDto implements IPagedResultDtoOfGetWholesaleEclForViewDto {
+    totalCount!: number | undefined;
+    items!: GetWholesaleEclForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWholesaleEclForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWholesaleEclForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWholesaleEclForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWholesaleEclForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWholesaleEclForViewDto {
+    totalCount: number | undefined;
+    items: GetWholesaleEclForViewDto[] | undefined;
+}
+
+export class GetWholesaleEclForViewDto implements IGetWholesaleEclForViewDto {
+    wholesaleEcl!: WholesaleEclDto | undefined;
+    userName!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEcl = data["wholesaleEcl"] ? WholesaleEclDto.fromJS(data["wholesaleEcl"]) : <any>undefined;
+            this.userName = data["userName"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEcl"] = this.wholesaleEcl ? this.wholesaleEcl.toJSON() : <any>undefined;
+        data["userName"] = this.userName;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclForViewDto {
+    wholesaleEcl: WholesaleEclDto | undefined;
+    userName: string | undefined;
+}
+
+export class WholesaleEclDto implements IWholesaleEclDto {
+    reportingDate!: moment.Moment | undefined;
+    closedDate!: moment.Moment | undefined;
+    isApproved!: boolean | undefined;
+    status!: EclStatusEnum | undefined;
+    closedByUserId!: number | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IWholesaleEclDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.reportingDate = data["reportingDate"] ? moment(data["reportingDate"].toString()) : <any>undefined;
+            this.closedDate = data["closedDate"] ? moment(data["closedDate"].toString()) : <any>undefined;
+            this.isApproved = data["isApproved"];
+            this.status = data["status"];
+            this.closedByUserId = data["closedByUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["reportingDate"] = this.reportingDate ? this.reportingDate.toISOString() : <any>undefined;
+        data["closedDate"] = this.closedDate ? this.closedDate.toISOString() : <any>undefined;
+        data["isApproved"] = this.isApproved;
+        data["status"] = this.status;
+        data["closedByUserId"] = this.closedByUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclDto {
+    reportingDate: moment.Moment | undefined;
+    closedDate: moment.Moment | undefined;
+    isApproved: boolean | undefined;
+    status: EclStatusEnum | undefined;
+    closedByUserId: number | undefined;
+    id: string | undefined;
+}
+
+export enum EclStatusEnum {
+    Draft = 0, 
+    Submitted = 1, 
+    ApprovedAssumption = 2, 
+    ComputedPD = 3, 
+    ComputedSICR = 4, 
+    ComputedEAD = 5, 
+    ComputedLGD = 6, 
+    ComputedECL = 7, 
+    Completed = 8, 
+    Closed = 9, 
+}
+
+export class GetWholesaleEclForEditOutput implements IGetWholesaleEclForEditOutput {
+    wholesaleEcl!: CreateOrEditWholesaleEclDto | undefined;
+    userName!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEcl = data["wholesaleEcl"] ? CreateOrEditWholesaleEclDto.fromJS(data["wholesaleEcl"]) : <any>undefined;
+            this.userName = data["userName"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEcl"] = this.wholesaleEcl ? this.wholesaleEcl.toJSON() : <any>undefined;
+        data["userName"] = this.userName;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclForEditOutput {
+    wholesaleEcl: CreateOrEditWholesaleEclDto | undefined;
+    userName: string | undefined;
+}
+
+export class CreateOrEditWholesaleEclDto implements ICreateOrEditWholesaleEclDto {
+    reportingDate!: moment.Moment;
+    closedDate!: moment.Moment | undefined;
+    isApproved!: boolean;
+    status!: EclStatusEnum | undefined;
+    closedByUserId!: number | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditWholesaleEclDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.reportingDate = data["reportingDate"] ? moment(data["reportingDate"].toString()) : <any>undefined;
+            this.closedDate = data["closedDate"] ? moment(data["closedDate"].toString()) : <any>undefined;
+            this.isApproved = data["isApproved"];
+            this.status = data["status"];
+            this.closedByUserId = data["closedByUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWholesaleEclDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWholesaleEclDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["reportingDate"] = this.reportingDate ? this.reportingDate.toISOString() : <any>undefined;
+        data["closedDate"] = this.closedDate ? this.closedDate.toISOString() : <any>undefined;
+        data["isApproved"] = this.isApproved;
+        data["status"] = this.status;
+        data["closedByUserId"] = this.closedByUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWholesaleEclDto {
+    reportingDate: moment.Moment;
+    closedDate: moment.Moment | undefined;
+    isApproved: boolean;
+    status: EclStatusEnum | undefined;
+    closedByUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclUserLookupTableDto implements IPagedResultDtoOfWholesaleEclUserLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclUserLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclUserLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclUserLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclUserLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclUserLookupTableDto implements IWholesaleEclUserLookupTableDto {
+    id!: number | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclUserLookupTableDto {
+    id: number | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetWholesaleEclSicrApprovalForViewDto implements IPagedResultDtoOfGetWholesaleEclSicrApprovalForViewDto {
+    totalCount!: number | undefined;
+    items!: GetWholesaleEclSicrApprovalForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWholesaleEclSicrApprovalForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWholesaleEclSicrApprovalForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWholesaleEclSicrApprovalForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWholesaleEclSicrApprovalForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWholesaleEclSicrApprovalForViewDto {
+    totalCount: number | undefined;
+    items: GetWholesaleEclSicrApprovalForViewDto[] | undefined;
+}
+
+export class GetWholesaleEclSicrApprovalForViewDto implements IGetWholesaleEclSicrApprovalForViewDto {
+    wholesaleEclSicrApproval!: WholesaleEclSicrApprovalDto | undefined;
+    userName!: string | undefined;
+    wholesaleEclSicrOverrideComment!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclSicrApprovalForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclSicrApproval = data["wholesaleEclSicrApproval"] ? WholesaleEclSicrApprovalDto.fromJS(data["wholesaleEclSicrApproval"]) : <any>undefined;
+            this.userName = data["userName"];
+            this.wholesaleEclSicrOverrideComment = data["wholesaleEclSicrOverrideComment"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclSicrApprovalForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclSicrApprovalForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclSicrApproval"] = this.wholesaleEclSicrApproval ? this.wholesaleEclSicrApproval.toJSON() : <any>undefined;
+        data["userName"] = this.userName;
+        data["wholesaleEclSicrOverrideComment"] = this.wholesaleEclSicrOverrideComment;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclSicrApprovalForViewDto {
+    wholesaleEclSicrApproval: WholesaleEclSicrApprovalDto | undefined;
+    userName: string | undefined;
+    wholesaleEclSicrOverrideComment: string | undefined;
+}
+
+export class WholesaleEclSicrApprovalDto implements IWholesaleEclSicrApprovalDto {
+    reviewedDate!: moment.Moment | undefined;
+    reviewComment!: string | undefined;
+    status!: GeneralStatusEnum | undefined;
+    reviewedByUserId!: number | undefined;
+    wholesaleEclSicrId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IWholesaleEclSicrApprovalDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.reviewedDate = data["reviewedDate"] ? moment(data["reviewedDate"].toString()) : <any>undefined;
+            this.reviewComment = data["reviewComment"];
+            this.status = data["status"];
+            this.reviewedByUserId = data["reviewedByUserId"];
+            this.wholesaleEclSicrId = data["wholesaleEclSicrId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclSicrApprovalDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclSicrApprovalDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["reviewedDate"] = this.reviewedDate ? this.reviewedDate.toISOString() : <any>undefined;
+        data["reviewComment"] = this.reviewComment;
+        data["status"] = this.status;
+        data["reviewedByUserId"] = this.reviewedByUserId;
+        data["wholesaleEclSicrId"] = this.wholesaleEclSicrId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclSicrApprovalDto {
+    reviewedDate: moment.Moment | undefined;
+    reviewComment: string | undefined;
+    status: GeneralStatusEnum | undefined;
+    reviewedByUserId: number | undefined;
+    wholesaleEclSicrId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetWholesaleEclSicrApprovalForEditOutput implements IGetWholesaleEclSicrApprovalForEditOutput {
+    wholesaleEclSicrApproval!: CreateOrEditWholesaleEclSicrApprovalDto | undefined;
+    userName!: string | undefined;
+    wholesaleEclSicrOverrideComment!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclSicrApprovalForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclSicrApproval = data["wholesaleEclSicrApproval"] ? CreateOrEditWholesaleEclSicrApprovalDto.fromJS(data["wholesaleEclSicrApproval"]) : <any>undefined;
+            this.userName = data["userName"];
+            this.wholesaleEclSicrOverrideComment = data["wholesaleEclSicrOverrideComment"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclSicrApprovalForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclSicrApprovalForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclSicrApproval"] = this.wholesaleEclSicrApproval ? this.wholesaleEclSicrApproval.toJSON() : <any>undefined;
+        data["userName"] = this.userName;
+        data["wholesaleEclSicrOverrideComment"] = this.wholesaleEclSicrOverrideComment;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclSicrApprovalForEditOutput {
+    wholesaleEclSicrApproval: CreateOrEditWholesaleEclSicrApprovalDto | undefined;
+    userName: string | undefined;
+    wholesaleEclSicrOverrideComment: string | undefined;
+}
+
+export class CreateOrEditWholesaleEclSicrApprovalDto implements ICreateOrEditWholesaleEclSicrApprovalDto {
+    reviewedDate!: moment.Moment | undefined;
+    reviewComment!: string | undefined;
+    status!: GeneralStatusEnum | undefined;
+    reviewedByUserId!: number | undefined;
+    wholesaleEclSicrId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditWholesaleEclSicrApprovalDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.reviewedDate = data["reviewedDate"] ? moment(data["reviewedDate"].toString()) : <any>undefined;
+            this.reviewComment = data["reviewComment"];
+            this.status = data["status"];
+            this.reviewedByUserId = data["reviewedByUserId"];
+            this.wholesaleEclSicrId = data["wholesaleEclSicrId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWholesaleEclSicrApprovalDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWholesaleEclSicrApprovalDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["reviewedDate"] = this.reviewedDate ? this.reviewedDate.toISOString() : <any>undefined;
+        data["reviewComment"] = this.reviewComment;
+        data["status"] = this.status;
+        data["reviewedByUserId"] = this.reviewedByUserId;
+        data["wholesaleEclSicrId"] = this.wholesaleEclSicrId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWholesaleEclSicrApprovalDto {
+    reviewedDate: moment.Moment | undefined;
+    reviewComment: string | undefined;
+    status: GeneralStatusEnum | undefined;
+    reviewedByUserId: number | undefined;
+    wholesaleEclSicrId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclSicrApprovalUserLookupTableDto implements IPagedResultDtoOfWholesaleEclSicrApprovalUserLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclSicrApprovalUserLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclSicrApprovalUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclSicrApprovalUserLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclSicrApprovalUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclSicrApprovalUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclSicrApprovalUserLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclSicrApprovalUserLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclSicrApprovalUserLookupTableDto implements IWholesaleEclSicrApprovalUserLookupTableDto {
+    id!: number | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclSicrApprovalUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclSicrApprovalUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclSicrApprovalUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclSicrApprovalUserLookupTableDto {
+    id: number | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclSicrApprovalWholesaleEclSicrLookupTableDto implements IPagedResultDtoOfWholesaleEclSicrApprovalWholesaleEclSicrLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclSicrApprovalWholesaleEclSicrLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclSicrApprovalWholesaleEclSicrLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclSicrApprovalWholesaleEclSicrLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclSicrApprovalWholesaleEclSicrLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclSicrApprovalWholesaleEclSicrLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclSicrApprovalWholesaleEclSicrLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclSicrApprovalWholesaleEclSicrLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclSicrApprovalWholesaleEclSicrLookupTableDto implements IWholesaleEclSicrApprovalWholesaleEclSicrLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclSicrApprovalWholesaleEclSicrLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclSicrApprovalWholesaleEclSicrLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclSicrApprovalWholesaleEclSicrLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclSicrApprovalWholesaleEclSicrLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetWholesaleEclSicrForViewDto implements IPagedResultDtoOfGetWholesaleEclSicrForViewDto {
+    totalCount!: number | undefined;
+    items!: GetWholesaleEclSicrForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWholesaleEclSicrForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWholesaleEclSicrForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWholesaleEclSicrForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWholesaleEclSicrForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWholesaleEclSicrForViewDto {
+    totalCount: number | undefined;
+    items: GetWholesaleEclSicrForViewDto[] | undefined;
+}
+
+export class GetWholesaleEclSicrForViewDto implements IGetWholesaleEclSicrForViewDto {
+    wholesaleEclSicr!: WholesaleEclSicrDto | undefined;
+    wholesaleEclDataLoanBookContractNo!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclSicrForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclSicr = data["wholesaleEclSicr"] ? WholesaleEclSicrDto.fromJS(data["wholesaleEclSicr"]) : <any>undefined;
+            this.wholesaleEclDataLoanBookContractNo = data["wholesaleEclDataLoanBookContractNo"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclSicrForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclSicrForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclSicr"] = this.wholesaleEclSicr ? this.wholesaleEclSicr.toJSON() : <any>undefined;
+        data["wholesaleEclDataLoanBookContractNo"] = this.wholesaleEclDataLoanBookContractNo;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclSicrForViewDto {
+    wholesaleEclSicr: WholesaleEclSicrDto | undefined;
+    wholesaleEclDataLoanBookContractNo: string | undefined;
+}
+
+export class WholesaleEclSicrDto implements IWholesaleEclSicrDto {
+    computedSICR!: number | undefined;
+    overrideSICR!: string | undefined;
+    overrideComment!: string | undefined;
+    status!: GeneralStatusEnum | undefined;
+    wholesaleEclDataLoanBookId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IWholesaleEclSicrDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.computedSICR = data["computedSICR"];
+            this.overrideSICR = data["overrideSICR"];
+            this.overrideComment = data["overrideComment"];
+            this.status = data["status"];
+            this.wholesaleEclDataLoanBookId = data["wholesaleEclDataLoanBookId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclSicrDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclSicrDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["computedSICR"] = this.computedSICR;
+        data["overrideSICR"] = this.overrideSICR;
+        data["overrideComment"] = this.overrideComment;
+        data["status"] = this.status;
+        data["wholesaleEclDataLoanBookId"] = this.wholesaleEclDataLoanBookId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclSicrDto {
+    computedSICR: number | undefined;
+    overrideSICR: string | undefined;
+    overrideComment: string | undefined;
+    status: GeneralStatusEnum | undefined;
+    wholesaleEclDataLoanBookId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetWholesaleEclSicrForEditOutput implements IGetWholesaleEclSicrForEditOutput {
+    wholesaleEclSicr!: CreateOrEditWholesaleEclSicrDto | undefined;
+    wholesaleEclDataLoanBookContractNo!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclSicrForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclSicr = data["wholesaleEclSicr"] ? CreateOrEditWholesaleEclSicrDto.fromJS(data["wholesaleEclSicr"]) : <any>undefined;
+            this.wholesaleEclDataLoanBookContractNo = data["wholesaleEclDataLoanBookContractNo"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclSicrForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclSicrForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclSicr"] = this.wholesaleEclSicr ? this.wholesaleEclSicr.toJSON() : <any>undefined;
+        data["wholesaleEclDataLoanBookContractNo"] = this.wholesaleEclDataLoanBookContractNo;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclSicrForEditOutput {
+    wholesaleEclSicr: CreateOrEditWholesaleEclSicrDto | undefined;
+    wholesaleEclDataLoanBookContractNo: string | undefined;
+}
+
+export class CreateOrEditWholesaleEclSicrDto implements ICreateOrEditWholesaleEclSicrDto {
+    computedSICR!: number;
+    overrideSICR!: string | undefined;
+    overrideComment!: string | undefined;
+    status!: GeneralStatusEnum | undefined;
+    wholesaleEclDataLoanBookId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditWholesaleEclSicrDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.computedSICR = data["computedSICR"];
+            this.overrideSICR = data["overrideSICR"];
+            this.overrideComment = data["overrideComment"];
+            this.status = data["status"];
+            this.wholesaleEclDataLoanBookId = data["wholesaleEclDataLoanBookId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWholesaleEclSicrDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWholesaleEclSicrDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["computedSICR"] = this.computedSICR;
+        data["overrideSICR"] = this.overrideSICR;
+        data["overrideComment"] = this.overrideComment;
+        data["status"] = this.status;
+        data["wholesaleEclDataLoanBookId"] = this.wholesaleEclDataLoanBookId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWholesaleEclSicrDto {
+    computedSICR: number;
+    overrideSICR: string | undefined;
+    overrideComment: string | undefined;
+    status: GeneralStatusEnum | undefined;
+    wholesaleEclDataLoanBookId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclSicrWholesaleEclDataLoanBookLookupTableDto implements IPagedResultDtoOfWholesaleEclSicrWholesaleEclDataLoanBookLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclSicrWholesaleEclDataLoanBookLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclSicrWholesaleEclDataLoanBookLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclSicrWholesaleEclDataLoanBookLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclSicrWholesaleEclDataLoanBookLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclSicrWholesaleEclDataLoanBookLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclSicrWholesaleEclDataLoanBookLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclSicrWholesaleEclDataLoanBookLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclSicrWholesaleEclDataLoanBookLookupTableDto implements IWholesaleEclSicrWholesaleEclDataLoanBookLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclSicrWholesaleEclDataLoanBookLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclSicrWholesaleEclDataLoanBookLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclSicrWholesaleEclDataLoanBookLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclSicrWholesaleEclDataLoanBookLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetWholesaleEclUploadApprovalForViewDto implements IPagedResultDtoOfGetWholesaleEclUploadApprovalForViewDto {
+    totalCount!: number | undefined;
+    items!: GetWholesaleEclUploadApprovalForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWholesaleEclUploadApprovalForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWholesaleEclUploadApprovalForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWholesaleEclUploadApprovalForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWholesaleEclUploadApprovalForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWholesaleEclUploadApprovalForViewDto {
+    totalCount: number | undefined;
+    items: GetWholesaleEclUploadApprovalForViewDto[] | undefined;
+}
+
+export class GetWholesaleEclUploadApprovalForViewDto implements IGetWholesaleEclUploadApprovalForViewDto {
+    wholesaleEclUploadApproval!: WholesaleEclUploadApprovalDto | undefined;
+    wholesaleEclUploadUploadComment!: string | undefined;
+    userName!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclUploadApprovalForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclUploadApproval = data["wholesaleEclUploadApproval"] ? WholesaleEclUploadApprovalDto.fromJS(data["wholesaleEclUploadApproval"]) : <any>undefined;
+            this.wholesaleEclUploadUploadComment = data["wholesaleEclUploadUploadComment"];
+            this.userName = data["userName"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclUploadApprovalForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclUploadApprovalForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclUploadApproval"] = this.wholesaleEclUploadApproval ? this.wholesaleEclUploadApproval.toJSON() : <any>undefined;
+        data["wholesaleEclUploadUploadComment"] = this.wholesaleEclUploadUploadComment;
+        data["userName"] = this.userName;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclUploadApprovalForViewDto {
+    wholesaleEclUploadApproval: WholesaleEclUploadApprovalDto | undefined;
+    wholesaleEclUploadUploadComment: string | undefined;
+    userName: string | undefined;
+}
+
+export class WholesaleEclUploadApprovalDto implements IWholesaleEclUploadApprovalDto {
+    reviewedDate!: moment.Moment | undefined;
+    reviewComment!: string | undefined;
+    status!: GeneralStatusEnum | undefined;
+    wholesaleEclUploadId!: string | undefined;
+    reviewedByUserId!: number | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IWholesaleEclUploadApprovalDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.reviewedDate = data["reviewedDate"] ? moment(data["reviewedDate"].toString()) : <any>undefined;
+            this.reviewComment = data["reviewComment"];
+            this.status = data["status"];
+            this.wholesaleEclUploadId = data["wholesaleEclUploadId"];
+            this.reviewedByUserId = data["reviewedByUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclUploadApprovalDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclUploadApprovalDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["reviewedDate"] = this.reviewedDate ? this.reviewedDate.toISOString() : <any>undefined;
+        data["reviewComment"] = this.reviewComment;
+        data["status"] = this.status;
+        data["wholesaleEclUploadId"] = this.wholesaleEclUploadId;
+        data["reviewedByUserId"] = this.reviewedByUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclUploadApprovalDto {
+    reviewedDate: moment.Moment | undefined;
+    reviewComment: string | undefined;
+    status: GeneralStatusEnum | undefined;
+    wholesaleEclUploadId: string | undefined;
+    reviewedByUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class GetWholesaleEclUploadApprovalForEditOutput implements IGetWholesaleEclUploadApprovalForEditOutput {
+    wholesaleEclUploadApproval!: CreateOrEditWholesaleEclUploadApprovalDto | undefined;
+    wholesaleEclUploadUploadComment!: string | undefined;
+    userName!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclUploadApprovalForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclUploadApproval = data["wholesaleEclUploadApproval"] ? CreateOrEditWholesaleEclUploadApprovalDto.fromJS(data["wholesaleEclUploadApproval"]) : <any>undefined;
+            this.wholesaleEclUploadUploadComment = data["wholesaleEclUploadUploadComment"];
+            this.userName = data["userName"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclUploadApprovalForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclUploadApprovalForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclUploadApproval"] = this.wholesaleEclUploadApproval ? this.wholesaleEclUploadApproval.toJSON() : <any>undefined;
+        data["wholesaleEclUploadUploadComment"] = this.wholesaleEclUploadUploadComment;
+        data["userName"] = this.userName;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclUploadApprovalForEditOutput {
+    wholesaleEclUploadApproval: CreateOrEditWholesaleEclUploadApprovalDto | undefined;
+    wholesaleEclUploadUploadComment: string | undefined;
+    userName: string | undefined;
+}
+
+export class CreateOrEditWholesaleEclUploadApprovalDto implements ICreateOrEditWholesaleEclUploadApprovalDto {
+    reviewedDate!: moment.Moment | undefined;
+    reviewComment!: string | undefined;
+    status!: GeneralStatusEnum | undefined;
+    wholesaleEclUploadId!: string | undefined;
+    reviewedByUserId!: number | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditWholesaleEclUploadApprovalDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.reviewedDate = data["reviewedDate"] ? moment(data["reviewedDate"].toString()) : <any>undefined;
+            this.reviewComment = data["reviewComment"];
+            this.status = data["status"];
+            this.wholesaleEclUploadId = data["wholesaleEclUploadId"];
+            this.reviewedByUserId = data["reviewedByUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWholesaleEclUploadApprovalDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWholesaleEclUploadApprovalDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["reviewedDate"] = this.reviewedDate ? this.reviewedDate.toISOString() : <any>undefined;
+        data["reviewComment"] = this.reviewComment;
+        data["status"] = this.status;
+        data["wholesaleEclUploadId"] = this.wholesaleEclUploadId;
+        data["reviewedByUserId"] = this.reviewedByUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWholesaleEclUploadApprovalDto {
+    reviewedDate: moment.Moment | undefined;
+    reviewComment: string | undefined;
+    status: GeneralStatusEnum | undefined;
+    wholesaleEclUploadId: string | undefined;
+    reviewedByUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclUploadApprovalWholesaleEclUploadLookupTableDto implements IPagedResultDtoOfWholesaleEclUploadApprovalWholesaleEclUploadLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclUploadApprovalWholesaleEclUploadLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclUploadApprovalWholesaleEclUploadLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclUploadApprovalWholesaleEclUploadLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclUploadApprovalWholesaleEclUploadLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclUploadApprovalWholesaleEclUploadLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclUploadApprovalWholesaleEclUploadLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclUploadApprovalWholesaleEclUploadLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclUploadApprovalWholesaleEclUploadLookupTableDto implements IWholesaleEclUploadApprovalWholesaleEclUploadLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclUploadApprovalWholesaleEclUploadLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclUploadApprovalWholesaleEclUploadLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclUploadApprovalWholesaleEclUploadLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclUploadApprovalWholesaleEclUploadLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclUploadApprovalUserLookupTableDto implements IPagedResultDtoOfWholesaleEclUploadApprovalUserLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclUploadApprovalUserLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclUploadApprovalUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclUploadApprovalUserLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclUploadApprovalUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclUploadApprovalUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclUploadApprovalUserLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclUploadApprovalUserLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclUploadApprovalUserLookupTableDto implements IWholesaleEclUploadApprovalUserLookupTableDto {
+    id!: number | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclUploadApprovalUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclUploadApprovalUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclUploadApprovalUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclUploadApprovalUserLookupTableDto {
+    id: number | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetWholesaleEclUploadForViewDto implements IPagedResultDtoOfGetWholesaleEclUploadForViewDto {
+    totalCount!: number | undefined;
+    items!: GetWholesaleEclUploadForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWholesaleEclUploadForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWholesaleEclUploadForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWholesaleEclUploadForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWholesaleEclUploadForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWholesaleEclUploadForViewDto {
+    totalCount: number | undefined;
+    items: GetWholesaleEclUploadForViewDto[] | undefined;
+}
+
+export class GetWholesaleEclUploadForViewDto implements IGetWholesaleEclUploadForViewDto {
+    wholesaleEclUpload!: WholesaleEclUploadDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclUploadForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclUpload = data["wholesaleEclUpload"] ? WholesaleEclUploadDto.fromJS(data["wholesaleEclUpload"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclUploadForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclUploadForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclUpload"] = this.wholesaleEclUpload ? this.wholesaleEclUpload.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclUploadForViewDto {
+    wholesaleEclUpload: WholesaleEclUploadDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class WholesaleEclUploadDto implements IWholesaleEclUploadDto {
+    docType!: UploadDocTypeEnum | undefined;
+    uploadComment!: string | undefined;
+    status!: GeneralStatusEnum | undefined;
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IWholesaleEclUploadDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.docType = data["docType"];
+            this.uploadComment = data["uploadComment"];
+            this.status = data["status"];
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclUploadDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclUploadDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["docType"] = this.docType;
+        data["uploadComment"] = this.uploadComment;
+        data["status"] = this.status;
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclUploadDto {
+    docType: UploadDocTypeEnum | undefined;
+    uploadComment: string | undefined;
+    status: GeneralStatusEnum | undefined;
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export enum UploadDocTypeEnum {
+    General = 0, 
+    LoanBook = 1, 
+    PaymentSchedule = 2, 
+}
+
+export class GetWholesaleEclUploadForEditOutput implements IGetWholesaleEclUploadForEditOutput {
+    wholesaleEclUpload!: CreateOrEditWholesaleEclUploadDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclUploadForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclUpload = data["wholesaleEclUpload"] ? CreateOrEditWholesaleEclUploadDto.fromJS(data["wholesaleEclUpload"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclUploadForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclUploadForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclUpload"] = this.wholesaleEclUpload ? this.wholesaleEclUpload.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclUploadForEditOutput {
+    wholesaleEclUpload: CreateOrEditWholesaleEclUploadDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class CreateOrEditWholesaleEclUploadDto implements ICreateOrEditWholesaleEclUploadDto {
+    docType!: UploadDocTypeEnum | undefined;
+    uploadComment!: string | undefined;
+    status!: GeneralStatusEnum | undefined;
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditWholesaleEclUploadDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.docType = data["docType"];
+            this.uploadComment = data["uploadComment"];
+            this.status = data["status"];
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWholesaleEclUploadDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWholesaleEclUploadDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["docType"] = this.docType;
+        data["uploadComment"] = this.uploadComment;
+        data["status"] = this.status;
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWholesaleEclUploadDto {
+    docType: UploadDocTypeEnum | undefined;
+    uploadComment: string | undefined;
+    status: GeneralStatusEnum | undefined;
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclUploadWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesaleEclUploadWholesaleEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclUploadWholesaleEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclUploadWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclUploadWholesaleEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclUploadWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclUploadWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclUploadWholesaleEclLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclUploadWholesaleEclLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclUploadWholesaleEclLookupTableDto implements IWholesaleEclUploadWholesaleEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclUploadWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclUploadWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclUploadWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclUploadWholesaleEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
 }
 
 export class AdditionalData implements IAdditionalData {

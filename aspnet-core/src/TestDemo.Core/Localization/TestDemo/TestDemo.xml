@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="WholesaleEclResultSummaryTopExposure">Wholesale ecl result summary top exposure</text>
+  <texts>    <text name="RetailEclPdSnPCummulativeDefaultRate">Retail ecl pd sn p cummulative default rate</text>
+    <text name="CreateNewRetailEclPdSnPCummulativeDefaultRate">Create new retail ecl pd sn p cummulative default rate</text>
+    <text name="EditRetailEclPdSnPCummulativeDefaultRate">Edit retail ecl pd sn p cummulative default rate</text>
+    <text name="DeleteRetailEclPdSnPCummulativeDefaultRate">Delete retail ecl pd sn p cummulative default rate</text>
+    <text name="RetailEclPdAssumption12Month">Retail ecl pd assumption 1 2 month</text>
+    <text name="CreateNewRetailEclPdAssumption12Month">Create new retail ecl pd assumption 1 2 month</text>
+    <text name="EditRetailEclPdAssumption12Month">Edit retail ecl pd assumption 1 2 month</text>
+    <text name="DeleteRetailEclPdAssumption12Month">Delete retail ecl pd assumption 1 2 month</text>
+    <text name="RetailEclLgdAssumption">Retail ecl lgd assumption</text>
+    <text name="CreateNewRetailEclLgdAssumption">Create new retail ecl lgd assumption</text>
+    <text name="EditRetailEclLgdAssumption">Edit retail ecl lgd assumption</text>
+    <text name="DeleteRetailEclLgdAssumption">Delete retail ecl lgd assumption</text>
+    <text name="RetailEclEadInputAssumption">Retail ecl ead input assumption</text>
+    <text name="CreateNewRetailEclEadInputAssumption">Create new retail ecl ead input assumption</text>
+    <text name="EditRetailEclEadInputAssumption">Edit retail ecl ead input assumption</text>
+    <text name="DeleteRetailEclEadInputAssumption">Delete retail ecl ead input assumption</text>
+    <text name="RetailEclAssumptionApprovals">Retail ecl assumption approvals</text>
+    <text name="CreateNewRetailEclAssumptionApprovals">Create new retail ecl assumption approvals</text>
+    <text name="EditRetailEclAssumptionApprovals">Edit retail ecl assumption approvals</text>
+    <text name="DeleteRetailEclAssumptionApprovals">Delete retail ecl assumption approvals</text>
+    <text name="RetailAssumption">Retail assumption</text>
+    <text name="RetailEclAssumption">Retail ecl assumption</text>
+    <text name="CreateNewRetailEclAssumption">Create new retail ecl assumption</text>
+    <text name="EditRetailEclAssumption">Edit retail ecl assumption</text>
+    <text name="DeleteRetailEclAssumption">Delete retail ecl assumption</text>
+    <text name="RetailEclApproval">Retail ecl approval</text>
+    <text name="CreateNewRetailEclApproval">Create new retail ecl approval</text>
+    <text name="EditRetailEclApproval">Edit retail ecl approval</text>
+    <text name="DeleteRetailEclApproval">Delete retail ecl approval</text>
+    <text name="Retail">Retail</text>
+    <text name="RetailEcl">Retail ecl</text>
+    <text name="CreateNewRetailEcl">Create new retail ecl</text>
+    <text name="EditRetailEcl">Edit retail ecl</text>
+    <text name="DeleteRetailEcl">Delete retail ecl</text>
+    <text name="WholesaleEclResultSummaryTopExposure">Wholesale ecl result summary top exposure</text>
     <text name="WholesaleEclResultSummaryTopExposuresHeaderInfo">Wholesale ecl result summary top exposures header info</text>
     <text name="CreateNewWholesaleEclResultSummaryTopExposure">Create new wholesale ecl result summary top exposure</text>
     <text name="EditWholesaleEclResultSummaryTopExposure">Edit wholesale ecl result summary top exposure</text>
