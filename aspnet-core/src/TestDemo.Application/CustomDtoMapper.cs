@@ -1,3 +1,5 @@
+using TestDemo.RetailResults.Dtos;
+using TestDemo.RetailResults;
 using TestDemo.RetailComputation.Dtos;
 using TestDemo.RetailComputation;
 using TestDemo.RetailInputs.Dtos;
@@ -62,6 +64,14 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+           configuration.CreateMap<CreateOrEditRetailEclResultSummaryTopExposureDto, RetailEclResultSummaryTopExposure>().ReverseMap();
+           configuration.CreateMap<RetailEclResultSummaryTopExposureDto, RetailEclResultSummaryTopExposure>().ReverseMap();
+           configuration.CreateMap<CreateOrEditRetailEclResultSummaryKeyInputDto, RetailEclResultSummaryKeyInput>().ReverseMap();
+           configuration.CreateMap<RetailEclResultSummaryKeyInputDto, RetailEclResultSummaryKeyInput>().ReverseMap();
+           configuration.CreateMap<CreateOrEditRetailEclResultSummaryDto, RetailEclResultSummary>().ReverseMap();
+           configuration.CreateMap<RetailEclResultSummaryDto, RetailEclResultSummary>().ReverseMap();
+           configuration.CreateMap<CreateOrEditRetailEclResultDetailDto, RetailEclResultDetail>().ReverseMap();
+           configuration.CreateMap<RetailEclResultDetailDto, RetailEclResultDetail>().ReverseMap();
            configuration.CreateMap<CreateOrEditRetailEclComputedEadResultDto, RetailEclComputedEadResult>().ReverseMap();
            configuration.CreateMap<RetailEclComputedEadResultDto, RetailEclComputedEadResult>().ReverseMap();
            configuration.CreateMap<CreateOrEditRetailEclSicrApprovalDto, RetailEclSicrApproval>().ReverseMap();

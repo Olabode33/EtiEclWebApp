@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="RetailEclComputedEadResult">Retail ecl computed ead result</text>
+  <texts>    <text name="RetailEclResultSummaryTopExposure">Retail ecl result summary top exposure</text>
+    <text name="CreateNewRetailEclResultSummaryTopExposure">Create new retail ecl result summary top exposure</text>
+    <text name="EditRetailEclResultSummaryTopExposure">Edit retail ecl result summary top exposure</text>
+    <text name="DeleteRetailEclResultSummaryTopExposure">Delete retail ecl result summary top exposure</text>
+    <text name="RetailEclResultSummaryKeyInput">Retail ecl result summary key input</text>
+    <text name="CreateNewRetailEclResultSummaryKeyInput">Create new retail ecl result summary key input</text>
+    <text name="EditRetailEclResultSummaryKeyInput">Edit retail ecl result summary key input</text>
+    <text name="DeleteRetailEclResultSummaryKeyInput">Delete retail ecl result summary key input</text>
+    <text name="RetailEclResultSummary">Retail ecl result summary</text>
+    <text name="CreateNewRetailEclResultSummary">Create new retail ecl result summary</text>
+    <text name="EditRetailEclResultSummary">Edit retail ecl result summary</text>
+    <text name="DeleteRetailEclResultSummary">Delete retail ecl result summary</text>
+    <text name="RetailResults">Retail results</text>
+    <text name="RetailEclResultDetail">Retail ecl result detail</text>
+    <text name="CreateNewRetailEclResultDetail">Create new retail ecl result detail</text>
+    <text name="EditRetailEclResultDetail">Edit retail ecl result detail</text>
+    <text name="DeleteRetailEclResultDetail">Delete retail ecl result detail</text>
+    <text name="RetailEclComputedEadResult">Retail ecl computed ead result</text>
     <text name="CreateNewRetailEclComputedEadResult">Create new retail ecl computed ead result</text>
     <text name="EditRetailEclComputedEadResult">Edit retail ecl computed ead result</text>
     <text name="DeleteRetailEclComputedEadResult">Delete retail ecl computed ead result</text>

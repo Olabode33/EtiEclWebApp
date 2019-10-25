@@ -6,6 +6,26 @@ namespace TestDemo.Authorization
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_RetailEclResultSummaryTopExposures = "Pages.RetailEclResultSummaryTopExposures";
+        public const string Pages_RetailEclResultSummaryTopExposures_Create = "Pages.RetailEclResultSummaryTopExposures.Create";
+        public const string Pages_RetailEclResultSummaryTopExposures_Edit = "Pages.RetailEclResultSummaryTopExposures.Edit";
+        public const string Pages_RetailEclResultSummaryTopExposures_Delete = "Pages.RetailEclResultSummaryTopExposures.Delete";
+
+        public const string Pages_RetailEclResultSummaryKeyInputs = "Pages.RetailEclResultSummaryKeyInputs";
+        public const string Pages_RetailEclResultSummaryKeyInputs_Create = "Pages.RetailEclResultSummaryKeyInputs.Create";
+        public const string Pages_RetailEclResultSummaryKeyInputs_Edit = "Pages.RetailEclResultSummaryKeyInputs.Edit";
+        public const string Pages_RetailEclResultSummaryKeyInputs_Delete = "Pages.RetailEclResultSummaryKeyInputs.Delete";
+
+        public const string Pages_RetailEclResultSummaries = "Pages.RetailEclResultSummaries";
+        public const string Pages_RetailEclResultSummaries_Create = "Pages.RetailEclResultSummaries.Create";
+        public const string Pages_RetailEclResultSummaries_Edit = "Pages.RetailEclResultSummaries.Edit";
+        public const string Pages_RetailEclResultSummaries_Delete = "Pages.RetailEclResultSummaries.Delete";
+
+        public const string Pages_RetailEclResultDetails = "Pages.RetailEclResultDetails";
+        public const string Pages_RetailEclResultDetails_Create = "Pages.RetailEclResultDetails.Create";
+        public const string Pages_RetailEclResultDetails_Edit = "Pages.RetailEclResultDetails.Edit";
+        public const string Pages_RetailEclResultDetails_Delete = "Pages.RetailEclResultDetails.Delete";
+
         public const string Pages_RetailEclComputedEadResults = "Pages.RetailEclComputedEadResults";
         public const string Pages_RetailEclComputedEadResults_Create = "Pages.RetailEclComputedEadResults.Create";
         public const string Pages_RetailEclComputedEadResults_Edit = "Pages.RetailEclComputedEadResults.Edit";

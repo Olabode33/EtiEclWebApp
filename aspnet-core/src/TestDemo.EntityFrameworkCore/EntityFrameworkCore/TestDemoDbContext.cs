@@ -1,3 +1,4 @@
+using TestDemo.RetailResults;
 using TestDemo.RetailComputation;
 using TestDemo.RetailInputs;
 using TestDemo.RetailAssumption;
@@ -26,6 +27,14 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<RetailEclResultSummaryTopExposure> RetailEclResultSummaryTopExposures { get; set; }
+
+        public virtual DbSet<RetailEclResultSummaryKeyInput> RetailEclResultSummaryKeyInputs { get; set; }
+
+        public virtual DbSet<RetailEclResultSummary> RetailEclResultSummaries { get; set; }
+
+        public virtual DbSet<RetailEclResultDetail> RetailEclResultDetails { get; set; }
+
         public virtual DbSet<RetailEclComputedEadResult> RetailEclComputedEadResults { get; set; }
 
         public virtual DbSet<RetailEclSicrApproval> RetailEclSicrApprovals { get; set; }
@@ -168,7 +177,27 @@ namespace TestDemo.EntityFrameworkCore
            
            
            
-            modelBuilder.Entity<RetailEclComputedEadResult>(r =>
+           
+           
+           
+           
+            modelBuilder.Entity<RetailEclResultSummaryTopExposure>(r =>
+            {
+                r.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<RetailEclResultSummaryKeyInput>(r =>
+            {
+                r.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<RetailEclResultSummary>(r =>
+            {
+                r.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<RetailEclResultDetail>(r =>
+            {
+                r.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<RetailEclComputedEadResult>(r =>
             {
                 r.HasIndex(e => new { e.TenantId });
             });
