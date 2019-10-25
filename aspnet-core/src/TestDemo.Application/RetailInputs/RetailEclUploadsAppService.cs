@@ -44,8 +44,7 @@ namespace TestDemo.RetailInputs
 						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.UploadComment.Contains(input.Filter))
 						.WhereIf(input.DocTypeFilter > -1, e => e.DocType == docTypeFilter)
 						.WhereIf(!string.IsNullOrWhiteSpace(input.UploadCommentFilter),  e => e.UploadComment.ToLower() == input.UploadCommentFilter.ToLower().Trim())
-						.WhereIf(input.StatusFilter > -1, e => e.Status == statusFilter)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.RetailEclTenantIdFilter), e => e.RetailEclFk != null && e.RetailEclFk.TenantId.ToLower() == input.RetailEclTenantIdFilter.ToLower().Trim());
+						.WhereIf(input.StatusFilter > -1, e => e.Status == statusFilter);
 
 			var pagedAndFilteredRetailEclUploads = filteredRetailEclUploads
                 .OrderBy(input.Sorting ?? "id asc")

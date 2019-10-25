@@ -48,7 +48,6 @@ namespace TestDemo.RetailComputation
 						.WhereIf(input.MaxReviewedDateFilter != null, e => e.ReviewedDate <= input.MaxReviewedDateFilter)
 						.WhereIf(!string.IsNullOrWhiteSpace(input.ReviewCommentFilter),  e => e.ReviewComment.ToLower() == input.ReviewCommentFilter.ToLower().Trim())
 						.WhereIf(input.StatusFilter > -1, e => e.Status == statusFilter)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.RetailEclSicrTenantIdFilter), e => e.RetailEclSicrFk != null && e.RetailEclSicrFk.TenantId.ToLower() == input.RetailEclSicrTenantIdFilter.ToLower().Trim())
 						.WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.ReviewedByUserFk != null && e.ReviewedByUserFk.Name.ToLower() == input.UserNameFilter.ToLower().Trim());
 
 			var pagedAndFilteredRetailEclSicrApprovals = filteredRetailEclSicrApprovals

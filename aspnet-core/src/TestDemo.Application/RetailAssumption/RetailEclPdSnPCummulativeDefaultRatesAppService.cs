@@ -44,8 +44,7 @@ namespace TestDemo.RetailAssumption
 						.WhereIf(input.MaxYearsFilter != null, e => e.Years <= input.MaxYearsFilter)
 						.WhereIf(input.MinValueFilter != null, e => e.Value >= input.MinValueFilter)
 						.WhereIf(input.MaxValueFilter != null, e => e.Value <= input.MaxValueFilter)
-						.WhereIf(input.RequiresGroupApprovalFilter > -1,  e => Convert.ToInt32(e.RequiresGroupApproval) == input.RequiresGroupApprovalFilter )
-						.WhereIf(!string.IsNullOrWhiteSpace(input.RetailEclTenantIdFilter), e => e.RetailEclFk != null && e.RetailEclFk.TenantId.ToLower() == input.RetailEclTenantIdFilter.ToLower().Trim());
+						.WhereIf(input.RequiresGroupApprovalFilter > -1,  e => Convert.ToInt32(e.RequiresGroupApproval) == input.RequiresGroupApprovalFilter );
 
 			var pagedAndFilteredRetailEclPdSnPCummulativeDefaultRates = filteredRetailEclPdSnPCummulativeDefaultRates
                 .OrderBy(input.Sorting ?? "id asc")

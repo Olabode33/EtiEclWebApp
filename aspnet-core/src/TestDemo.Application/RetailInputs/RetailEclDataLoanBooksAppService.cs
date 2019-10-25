@@ -150,8 +150,7 @@ namespace TestDemo.RetailInputs
 						.WhereIf(input.MaxGuaranteeValueFilter != null, e => e.GuaranteeValue <= input.MaxGuaranteeValueFilter)
 						.WhereIf(input.MinGuaranteeLevelFilter != null, e => e.GuaranteeLevel >= input.MinGuaranteeLevelFilter)
 						.WhereIf(input.MaxGuaranteeLevelFilter != null, e => e.GuaranteeLevel <= input.MaxGuaranteeLevelFilter)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.ContractIdFilter),  e => e.ContractId.ToLower() == input.ContractIdFilter.ToLower().Trim())
-						.WhereIf(!string.IsNullOrWhiteSpace(input.RetailEclUploadTenantIdFilter), e => e.RetailEclUploadFk != null && e.RetailEclUploadFk.TenantId.ToLower() == input.RetailEclUploadTenantIdFilter.ToLower().Trim());
+						.WhereIf(!string.IsNullOrWhiteSpace(input.ContractIdFilter),  e => e.ContractId.ToLower() == input.ContractIdFilter.ToLower().Trim());
 
 			var pagedAndFilteredRetailEclDataLoanBooks = filteredRetailEclDataLoanBooks
                 .OrderBy(input.Sorting ?? "id asc")

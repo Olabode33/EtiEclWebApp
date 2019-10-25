@@ -52,8 +52,7 @@ namespace TestDemo.RetailResults
 						.WhereIf(input.MinMonths12CummulativeBestPDsFilter != null, e => e.Months12CummulativeBestPDs >= input.MinMonths12CummulativeBestPDsFilter)
 						.WhereIf(input.MaxMonths12CummulativeBestPDsFilter != null, e => e.Months12CummulativeBestPDs <= input.MaxMonths12CummulativeBestPDsFilter)
 						.WhereIf(input.MinMonths24CummulativeBestPDsFilter != null, e => e.Months24CummulativeBestPDs >= input.MinMonths24CummulativeBestPDsFilter)
-						.WhereIf(input.MaxMonths24CummulativeBestPDsFilter != null, e => e.Months24CummulativeBestPDs <= input.MaxMonths24CummulativeBestPDsFilter)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.RetailEclTenantIdFilter), e => e.RetailEclFk != null && e.RetailEclFk.TenantId.ToLower() == input.RetailEclTenantIdFilter.ToLower().Trim());
+						.WhereIf(input.MaxMonths24CummulativeBestPDsFilter != null, e => e.Months24CummulativeBestPDs <= input.MaxMonths24CummulativeBestPDsFilter);
 
 			var pagedAndFilteredRetailEclResultSummaryKeyInputs = filteredRetailEclResultSummaryKeyInputs
                 .OrderBy(input.Sorting ?? "id asc")

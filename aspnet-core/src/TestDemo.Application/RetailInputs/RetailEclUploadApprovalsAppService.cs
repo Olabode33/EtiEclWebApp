@@ -48,7 +48,6 @@ namespace TestDemo.RetailInputs
 						.WhereIf(input.MaxReviewedDateFilter != null, e => e.ReviewedDate <= input.MaxReviewedDateFilter)
 						.WhereIf(!string.IsNullOrWhiteSpace(input.ReviewCommentFilter),  e => e.ReviewComment.ToLower() == input.ReviewCommentFilter.ToLower().Trim())
 						.WhereIf(input.StatusFilter > -1, e => e.Status == statusFilter)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.RetailEclUploadTenantIdFilter), e => e.RetailEclUploadFk != null && e.RetailEclUploadFk.TenantId.ToLower() == input.RetailEclUploadTenantIdFilter.ToLower().Trim())
 						.WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.ReviewedByUserFk != null && e.ReviewedByUserFk.Name.ToLower() == input.UserNameFilter.ToLower().Trim());
 
 			var pagedAndFilteredRetailEclUploadApprovals = filteredRetailEclUploadApprovals

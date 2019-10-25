@@ -54,7 +54,6 @@ namespace TestDemo.RetailResults
 						.WhereIf(input.MaxPostOverrideImpairmentFilter != null, e => e.PostOverrideImpairment <= input.MaxPostOverrideImpairmentFilter)
 						.WhereIf(input.MinPostOverrideCoverageRatioFilter != null, e => e.PostOverrideCoverageRatio >= input.MinPostOverrideCoverageRatioFilter)
 						.WhereIf(input.MaxPostOverrideCoverageRatioFilter != null, e => e.PostOverrideCoverageRatio <= input.MaxPostOverrideCoverageRatioFilter)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.RetailEclTenantIdFilter), e => e.RetailEclFk != null && e.RetailEclFk.TenantId.ToLower() == input.RetailEclTenantIdFilter.ToLower().Trim())
 						.WhereIf(!string.IsNullOrWhiteSpace(input.RetailEclDataLoanBookContractNoFilter), e => e.RetailEclDataLoanBookFk != null && e.RetailEclDataLoanBookFk.ContractNo.ToLower() == input.RetailEclDataLoanBookContractNoFilter.ToLower().Trim());
 
 			var pagedAndFilteredRetailEclResultSummaryTopExposures = filteredRetailEclResultSummaryTopExposures

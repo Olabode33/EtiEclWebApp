@@ -48,8 +48,7 @@ namespace TestDemo.RetailAssumption
 						.WhereIf(input.DataTypeFilter > -1, e => e.DataType == dataTypeFilter)
 						.WhereIf(input.IsComputedFilter > -1,  e => Convert.ToInt32(e.IsComputed) == input.IsComputedFilter )
 						.WhereIf(input.LgdGroupFilter > -1, e => e.LgdGroup == lgdGroupFilter)
-						.WhereIf(input.RequiresGroupApprovalFilter > -1,  e => Convert.ToInt32(e.RequiresGroupApproval) == input.RequiresGroupApprovalFilter )
-						.WhereIf(!string.IsNullOrWhiteSpace(input.RetailEclTenantIdFilter), e => e.RetailEclFk != null && e.RetailEclFk.TenantId.ToLower() == input.RetailEclTenantIdFilter.ToLower().Trim());
+						.WhereIf(input.RequiresGroupApprovalFilter > -1,  e => Convert.ToInt32(e.RequiresGroupApproval) == input.RequiresGroupApprovalFilter );
 
 			var pagedAndFilteredRetailEclLgdAssumptions = filteredRetailEclLgdAssumptions
                 .OrderBy(input.Sorting ?? "id asc")

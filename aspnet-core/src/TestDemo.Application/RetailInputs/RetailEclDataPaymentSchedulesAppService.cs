@@ -46,8 +46,7 @@ namespace TestDemo.RetailInputs
 						.WhereIf(input.MaxNoOfSchedulesFilter != null, e => e.NoOfSchedules <= input.MaxNoOfSchedulesFilter)
 						.WhereIf(!string.IsNullOrWhiteSpace(input.FrequencyFilter),  e => e.Frequency.ToLower() == input.FrequencyFilter.ToLower().Trim())
 						.WhereIf(input.MinAmountFilter != null, e => e.Amount >= input.MinAmountFilter)
-						.WhereIf(input.MaxAmountFilter != null, e => e.Amount <= input.MaxAmountFilter)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.RetailEclUploadTenantIdFilter), e => e.RetailEclUploadFk != null && e.RetailEclUploadFk.TenantId.ToLower() == input.RetailEclUploadTenantIdFilter.ToLower().Trim());
+						.WhereIf(input.MaxAmountFilter != null, e => e.Amount <= input.MaxAmountFilter);
 
 			var pagedAndFilteredRetailEclDataPaymentSchedules = filteredRetailEclDataPaymentSchedules
                 .OrderBy(input.Sorting ?? "id asc")
