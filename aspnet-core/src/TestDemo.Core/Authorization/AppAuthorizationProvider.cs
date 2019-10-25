@@ -30,6 +30,55 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var retailEclComputedEadResults = pages.CreateChildPermission(AppPermissions.Pages_RetailEclComputedEadResults, L("RetailEclComputedEadResults"));
+            retailEclComputedEadResults.CreateChildPermission(AppPermissions.Pages_RetailEclComputedEadResults_Create, L("CreateNewRetailEclComputedEadResult"));
+            retailEclComputedEadResults.CreateChildPermission(AppPermissions.Pages_RetailEclComputedEadResults_Edit, L("EditRetailEclComputedEadResult"));
+            retailEclComputedEadResults.CreateChildPermission(AppPermissions.Pages_RetailEclComputedEadResults_Delete, L("DeleteRetailEclComputedEadResult"));
+
+
+
+            var retailEclSicrApprovals = pages.CreateChildPermission(AppPermissions.Pages_RetailEclSicrApprovals, L("RetailEclSicrApprovals"));
+            retailEclSicrApprovals.CreateChildPermission(AppPermissions.Pages_RetailEclSicrApprovals_Create, L("CreateNewRetailEclSicrApproval"));
+            retailEclSicrApprovals.CreateChildPermission(AppPermissions.Pages_RetailEclSicrApprovals_Edit, L("EditRetailEclSicrApproval"));
+            retailEclSicrApprovals.CreateChildPermission(AppPermissions.Pages_RetailEclSicrApprovals_Delete, L("DeleteRetailEclSicrApproval"));
+
+
+
+            var retailEclSicrs = pages.CreateChildPermission(AppPermissions.Pages_RetailEclSicrs, L("RetailEclSicrs"));
+            retailEclSicrs.CreateChildPermission(AppPermissions.Pages_RetailEclSicrs_Create, L("CreateNewRetailEclSicr"));
+            retailEclSicrs.CreateChildPermission(AppPermissions.Pages_RetailEclSicrs_Edit, L("EditRetailEclSicr"));
+            retailEclSicrs.CreateChildPermission(AppPermissions.Pages_RetailEclSicrs_Delete, L("DeleteRetailEclSicr"));
+
+
+
+            var retailEclDataPaymentSchedules = pages.CreateChildPermission(AppPermissions.Pages_RetailEclDataPaymentSchedules, L("RetailEclDataPaymentSchedules"));
+            retailEclDataPaymentSchedules.CreateChildPermission(AppPermissions.Pages_RetailEclDataPaymentSchedules_Create, L("CreateNewRetailEclDataPaymentSchedule"));
+            retailEclDataPaymentSchedules.CreateChildPermission(AppPermissions.Pages_RetailEclDataPaymentSchedules_Edit, L("EditRetailEclDataPaymentSchedule"));
+            retailEclDataPaymentSchedules.CreateChildPermission(AppPermissions.Pages_RetailEclDataPaymentSchedules_Delete, L("DeleteRetailEclDataPaymentSchedule"));
+
+
+
+            var retailEclDataLoanBooks = pages.CreateChildPermission(AppPermissions.Pages_RetailEclDataLoanBooks, L("RetailEclDataLoanBooks"));
+            retailEclDataLoanBooks.CreateChildPermission(AppPermissions.Pages_RetailEclDataLoanBooks_Create, L("CreateNewRetailEclDataLoanBook"));
+            retailEclDataLoanBooks.CreateChildPermission(AppPermissions.Pages_RetailEclDataLoanBooks_Edit, L("EditRetailEclDataLoanBook"));
+            retailEclDataLoanBooks.CreateChildPermission(AppPermissions.Pages_RetailEclDataLoanBooks_Delete, L("DeleteRetailEclDataLoanBook"));
+
+
+
+            var retailEclUploadApprovals = pages.CreateChildPermission(AppPermissions.Pages_RetailEclUploadApprovals, L("RetailEclUploadApprovals"));
+            retailEclUploadApprovals.CreateChildPermission(AppPermissions.Pages_RetailEclUploadApprovals_Create, L("CreateNewRetailEclUploadApproval"));
+            retailEclUploadApprovals.CreateChildPermission(AppPermissions.Pages_RetailEclUploadApprovals_Edit, L("EditRetailEclUploadApproval"));
+            retailEclUploadApprovals.CreateChildPermission(AppPermissions.Pages_RetailEclUploadApprovals_Delete, L("DeleteRetailEclUploadApproval"));
+
+
+
+            var retailEclUploads = pages.CreateChildPermission(AppPermissions.Pages_RetailEclUploads, L("RetailEclUploads"));
+            retailEclUploads.CreateChildPermission(AppPermissions.Pages_RetailEclUploads_Create, L("CreateNewRetailEclUpload"));
+            retailEclUploads.CreateChildPermission(AppPermissions.Pages_RetailEclUploads_Edit, L("EditRetailEclUpload"));
+            retailEclUploads.CreateChildPermission(AppPermissions.Pages_RetailEclUploads_Delete, L("DeleteRetailEclUpload"));
+
+
+
             var retailEclPdSnPCummulativeDefaultRates = pages.CreateChildPermission(AppPermissions.Pages_RetailEclPdSnPCummulativeDefaultRates, L("RetailEclPdSnPCummulativeDefaultRates"));
             retailEclPdSnPCummulativeDefaultRates.CreateChildPermission(AppPermissions.Pages_RetailEclPdSnPCummulativeDefaultRates_Create, L("CreateNewRetailEclPdSnPCummulativeDefaultRate"));
             retailEclPdSnPCummulativeDefaultRates.CreateChildPermission(AppPermissions.Pages_RetailEclPdSnPCummulativeDefaultRates_Edit, L("EditRetailEclPdSnPCummulativeDefaultRate"));

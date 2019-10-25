@@ -1,3 +1,7 @@
+using TestDemo.RetailComputation.Dtos;
+using TestDemo.RetailComputation;
+using TestDemo.RetailInputs.Dtos;
+using TestDemo.RetailInputs;
 using TestDemo.RetailAssumption.Dtos;
 using TestDemo.RetailAssumption;
 using TestDemo.Retail.Dtos;
@@ -58,6 +62,20 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+           configuration.CreateMap<CreateOrEditRetailEclComputedEadResultDto, RetailEclComputedEadResult>().ReverseMap();
+           configuration.CreateMap<RetailEclComputedEadResultDto, RetailEclComputedEadResult>().ReverseMap();
+           configuration.CreateMap<CreateOrEditRetailEclSicrApprovalDto, RetailEclSicrApproval>().ReverseMap();
+           configuration.CreateMap<RetailEclSicrApprovalDto, RetailEclSicrApproval>().ReverseMap();
+           configuration.CreateMap<CreateOrEditRetailEclSicrDto, RetailEclSicr>().ReverseMap();
+           configuration.CreateMap<RetailEclSicrDto, RetailEclSicr>().ReverseMap();
+           configuration.CreateMap<CreateOrEditRetailEclDataPaymentScheduleDto, RetailEclDataPaymentSchedule>().ReverseMap();
+           configuration.CreateMap<RetailEclDataPaymentScheduleDto, RetailEclDataPaymentSchedule>().ReverseMap();
+           configuration.CreateMap<CreateOrEditRetailEclDataLoanBookDto, RetailEclDataLoanBook>().ReverseMap();
+           configuration.CreateMap<RetailEclDataLoanBookDto, RetailEclDataLoanBook>().ReverseMap();
+           configuration.CreateMap<CreateOrEditRetailEclUploadApprovalDto, RetailEclUploadApproval>().ReverseMap();
+           configuration.CreateMap<RetailEclUploadApprovalDto, RetailEclUploadApproval>().ReverseMap();
+           configuration.CreateMap<CreateOrEditRetailEclUploadDto, RetailEclUpload>().ReverseMap();
+           configuration.CreateMap<RetailEclUploadDto, RetailEclUpload>().ReverseMap();
            configuration.CreateMap<CreateOrEditRetailEclPdSnPCummulativeDefaultRateDto, RetailEclPdSnPCummulativeDefaultRate>().ReverseMap();
            configuration.CreateMap<RetailEclPdSnPCummulativeDefaultRateDto, RetailEclPdSnPCummulativeDefaultRate>().ReverseMap();
            configuration.CreateMap<CreateOrEditRetailEclPdAssumption12MonthDto, RetailEclPdAssumption12Month>().ReverseMap();

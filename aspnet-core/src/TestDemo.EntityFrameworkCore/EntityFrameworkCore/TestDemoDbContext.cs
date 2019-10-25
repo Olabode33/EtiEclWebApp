@@ -1,3 +1,5 @@
+using TestDemo.RetailComputation;
+using TestDemo.RetailInputs;
 using TestDemo.RetailAssumption;
 using TestDemo.Retail;
 using TestDemo.WholesaleResult;
@@ -24,6 +26,20 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<RetailEclComputedEadResult> RetailEclComputedEadResults { get; set; }
+
+        public virtual DbSet<RetailEclSicrApproval> RetailEclSicrApprovals { get; set; }
+
+        public virtual DbSet<RetailEclSicr> RetailEclSicrs { get; set; }
+
+        public virtual DbSet<RetailEclDataPaymentSchedule> RetailEclDataPaymentSchedules { get; set; }
+
+        public virtual DbSet<RetailEclDataLoanBook> RetailEclDataLoanBooks { get; set; }
+
+        public virtual DbSet<RetailEclUploadApproval> RetailEclUploadApprovals { get; set; }
+
+        public virtual DbSet<RetailEclUpload> RetailEclUploads { get; set; }
+
         public virtual DbSet<RetailEclPdSnPCummulativeDefaultRate> RetailEclPdSnPCummulativeDefaultRates { get; set; }
 
         public virtual DbSet<RetailEclPdAssumption12Month> RetailEclPdAssumption12Months { get; set; }
@@ -145,7 +161,42 @@ namespace TestDemo.EntityFrameworkCore
            
            
            
-            modelBuilder.Entity<RetailEclPdSnPCummulativeDefaultRate>(r =>
+           
+           
+           
+           
+           
+           
+           
+            modelBuilder.Entity<RetailEclComputedEadResult>(r =>
+            {
+                r.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<RetailEclSicrApproval>(r =>
+            {
+                r.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<RetailEclSicr>(r =>
+            {
+                r.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<RetailEclDataPaymentSchedule>(r =>
+            {
+                r.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<RetailEclDataLoanBook>(r =>
+            {
+                r.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<RetailEclUploadApproval>(r =>
+            {
+                r.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<RetailEclUpload>(r =>
+            {
+                r.HasIndex(e => new { e.TenantId });
+            });
+ modelBuilder.Entity<RetailEclPdSnPCummulativeDefaultRate>(r =>
             {
                 r.HasIndex(e => new { e.TenantId });
             });

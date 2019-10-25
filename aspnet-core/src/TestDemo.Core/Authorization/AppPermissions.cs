@@ -6,6 +6,41 @@ namespace TestDemo.Authorization
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_RetailEclComputedEadResults = "Pages.RetailEclComputedEadResults";
+        public const string Pages_RetailEclComputedEadResults_Create = "Pages.RetailEclComputedEadResults.Create";
+        public const string Pages_RetailEclComputedEadResults_Edit = "Pages.RetailEclComputedEadResults.Edit";
+        public const string Pages_RetailEclComputedEadResults_Delete = "Pages.RetailEclComputedEadResults.Delete";
+
+        public const string Pages_RetailEclSicrApprovals = "Pages.RetailEclSicrApprovals";
+        public const string Pages_RetailEclSicrApprovals_Create = "Pages.RetailEclSicrApprovals.Create";
+        public const string Pages_RetailEclSicrApprovals_Edit = "Pages.RetailEclSicrApprovals.Edit";
+        public const string Pages_RetailEclSicrApprovals_Delete = "Pages.RetailEclSicrApprovals.Delete";
+
+        public const string Pages_RetailEclSicrs = "Pages.RetailEclSicrs";
+        public const string Pages_RetailEclSicrs_Create = "Pages.RetailEclSicrs.Create";
+        public const string Pages_RetailEclSicrs_Edit = "Pages.RetailEclSicrs.Edit";
+        public const string Pages_RetailEclSicrs_Delete = "Pages.RetailEclSicrs.Delete";
+
+        public const string Pages_RetailEclDataPaymentSchedules = "Pages.RetailEclDataPaymentSchedules";
+        public const string Pages_RetailEclDataPaymentSchedules_Create = "Pages.RetailEclDataPaymentSchedules.Create";
+        public const string Pages_RetailEclDataPaymentSchedules_Edit = "Pages.RetailEclDataPaymentSchedules.Edit";
+        public const string Pages_RetailEclDataPaymentSchedules_Delete = "Pages.RetailEclDataPaymentSchedules.Delete";
+
+        public const string Pages_RetailEclDataLoanBooks = "Pages.RetailEclDataLoanBooks";
+        public const string Pages_RetailEclDataLoanBooks_Create = "Pages.RetailEclDataLoanBooks.Create";
+        public const string Pages_RetailEclDataLoanBooks_Edit = "Pages.RetailEclDataLoanBooks.Edit";
+        public const string Pages_RetailEclDataLoanBooks_Delete = "Pages.RetailEclDataLoanBooks.Delete";
+
+        public const string Pages_RetailEclUploadApprovals = "Pages.RetailEclUploadApprovals";
+        public const string Pages_RetailEclUploadApprovals_Create = "Pages.RetailEclUploadApprovals.Create";
+        public const string Pages_RetailEclUploadApprovals_Edit = "Pages.RetailEclUploadApprovals.Edit";
+        public const string Pages_RetailEclUploadApprovals_Delete = "Pages.RetailEclUploadApprovals.Delete";
+
+        public const string Pages_RetailEclUploads = "Pages.RetailEclUploads";
+        public const string Pages_RetailEclUploads_Create = "Pages.RetailEclUploads.Create";
+        public const string Pages_RetailEclUploads_Edit = "Pages.RetailEclUploads.Edit";
+        public const string Pages_RetailEclUploads_Delete = "Pages.RetailEclUploads.Delete";
+
         public const string Pages_RetailEclPdSnPCummulativeDefaultRates = "Pages.RetailEclPdSnPCummulativeDefaultRates";
         public const string Pages_RetailEclPdSnPCummulativeDefaultRates_Create = "Pages.RetailEclPdSnPCummulativeDefaultRates.Create";
         public const string Pages_RetailEclPdSnPCummulativeDefaultRates_Edit = "Pages.RetailEclPdSnPCummulativeDefaultRates.Edit";

@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="RetailEclPdSnPCummulativeDefaultRate">Retail ecl pd sn p cummulative default rate</text>
+  <texts>    <text name="RetailEclComputedEadResult">Retail ecl computed ead result</text>
+    <text name="CreateNewRetailEclComputedEadResult">Create new retail ecl computed ead result</text>
+    <text name="EditRetailEclComputedEadResult">Edit retail ecl computed ead result</text>
+    <text name="DeleteRetailEclComputedEadResult">Delete retail ecl computed ead result</text>
+    <text name="RetailEclSicrApproval">Retail ecl sicr approval</text>
+    <text name="CreateNewRetailEclSicrApproval">Create new retail ecl sicr approval</text>
+    <text name="EditRetailEclSicrApproval">Edit retail ecl sicr approval</text>
+    <text name="DeleteRetailEclSicrApproval">Delete retail ecl sicr approval</text>
+    <text name="RetailComputation">Retail computation</text>
+    <text name="RetailEclSicr">Retail ecl sicr</text>
+    <text name="CreateNewRetailEclSicr">Create new retail ecl sicr</text>
+    <text name="EditRetailEclSicr">Edit retail ecl sicr</text>
+    <text name="DeleteRetailEclSicr">Delete retail ecl sicr</text>
+    <text name="RetailEclDataPaymentSchedule">Retail ecl data payment schedule</text>
+    <text name="CreateNewRetailEclDataPaymentSchedule">Create new retail ecl data payment schedule</text>
+    <text name="EditRetailEclDataPaymentSchedule">Edit retail ecl data payment schedule</text>
+    <text name="DeleteRetailEclDataPaymentSchedule">Delete retail ecl data payment schedule</text>
+    <text name="RetailEclDataLoanBook">Retail ecl data loan book</text>
+    <text name="CreateNewRetailEclDataLoanBook">Create new retail ecl data loan book</text>
+    <text name="EditRetailEclDataLoanBook">Edit retail ecl data loan book</text>
+    <text name="DeleteRetailEclDataLoanBook">Delete retail ecl data loan book</text>
+    <text name="RetailEclUploadApproval">Retail ecl upload approval</text>
+    <text name="CreateNewRetailEclUploadApproval">Create new retail ecl upload approval</text>
+    <text name="EditRetailEclUploadApproval">Edit retail ecl upload approval</text>
+    <text name="DeleteRetailEclUploadApproval">Delete retail ecl upload approval</text>
+    <text name="RetailInputs">Retail inputs</text>
+    <text name="RetailEclUpload">Retail ecl upload</text>
+    <text name="CreateNewRetailEclUpload">Create new retail ecl upload</text>
+    <text name="EditRetailEclUpload">Edit retail ecl upload</text>
+    <text name="DeleteRetailEclUpload">Delete retail ecl upload</text>
+    <text name="RetailEclPdSnPCummulativeDefaultRate">Retail ecl pd sn p cummulative default rate</text>
     <text name="CreateNewRetailEclPdSnPCummulativeDefaultRate">Create new retail ecl pd sn p cummulative default rate</text>
     <text name="EditRetailEclPdSnPCummulativeDefaultRate">Edit retail ecl pd sn p cummulative default rate</text>
     <text name="DeleteRetailEclPdSnPCummulativeDefaultRate">Delete retail ecl pd sn p cummulative default rate</text>

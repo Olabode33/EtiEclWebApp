@@ -1,3 +1,5 @@
+using TestDemo.RetailComputation;
+using TestDemo.RetailInputs;
 using TestDemo.RetailAssumption;
 using TestDemo.Retail;
 using TestDemo.WholesaleComputation;
@@ -19,6 +21,10 @@ namespace TestDemo.EntityHistory
 
         public static readonly Type[] HostSideTrackedTypes =
         {
+            typeof(RetailEclSicrApproval),
+            typeof(RetailEclSicr),
+            typeof(RetailEclUploadApproval),
+            typeof(RetailEclUpload),
             typeof(RetailEclPdSnPCummulativeDefaultRate),
             typeof(RetailEclPdAssumption12Month),
             typeof(RetailEclLgdAssumption),
@@ -45,6 +51,10 @@ namespace TestDemo.EntityHistory
 
         public static readonly Type[] TenantSideTrackedTypes =
         {
+            typeof(RetailEclSicrApproval),
+            typeof(RetailEclSicr),
+            typeof(RetailEclUploadApproval),
+            typeof(RetailEclUpload),
             typeof(RetailEclPdSnPCummulativeDefaultRate),
             typeof(RetailEclPdAssumption12Month),
             typeof(RetailEclLgdAssumption),
