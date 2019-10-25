@@ -44,8 +44,7 @@ namespace TestDemo.ObeInputs
 						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.UploadComment.Contains(input.Filter))
 						.WhereIf(input.DocTypeFilter > -1, e => e.DocType == docTypeFilter)
 						.WhereIf(!string.IsNullOrWhiteSpace(input.UploadCommentFilter),  e => e.UploadComment.ToLower() == input.UploadCommentFilter.ToLower().Trim())
-						.WhereIf(input.StatusFilter > -1, e => e.Status == statusFilter)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.ObeEclTenantIdFilter), e => e.ObeEclFk != null && e.ObeEclFk.TenantId.ToLower() == input.ObeEclTenantIdFilter.ToLower().Trim());
+						.WhereIf(input.StatusFilter > -1, e => e.Status == statusFilter);
 
 			var pagedAndFilteredObeEclUploads = filteredObeEclUploads
                 .OrderBy(input.Sorting ?? "id asc")

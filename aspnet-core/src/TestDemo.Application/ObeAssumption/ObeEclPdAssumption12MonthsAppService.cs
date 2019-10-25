@@ -44,8 +44,7 @@ namespace TestDemo.ObeAssumption
 						.WhereIf(input.MaxPDFilter != null, e => e.PD <= input.MaxPDFilter)
 						.WhereIf(!string.IsNullOrWhiteSpace(input.SnPMappingEtiCreditPolicyFilter),  e => e.SnPMappingEtiCreditPolicy.ToLower() == input.SnPMappingEtiCreditPolicyFilter.ToLower().Trim())
 						.WhereIf(!string.IsNullOrWhiteSpace(input.SnPMappingBestFitFilter),  e => e.SnPMappingBestFit.ToLower() == input.SnPMappingBestFitFilter.ToLower().Trim())
-						.WhereIf(input.RequiresGroupApprovalFilter > -1,  e => Convert.ToInt32(e.RequiresGroupApproval) == input.RequiresGroupApprovalFilter )
-						.WhereIf(!string.IsNullOrWhiteSpace(input.ObeEclTenantIdFilter), e => e.ObeEclFk != null && e.ObeEclFk.TenantId.ToLower() == input.ObeEclTenantIdFilter.ToLower().Trim());
+						.WhereIf(input.RequiresGroupApprovalFilter > -1,  e => Convert.ToInt32(e.RequiresGroupApproval) == input.RequiresGroupApprovalFilter );
 
 			var pagedAndFilteredObeEclPdAssumption12Months = filteredObeEclPdAssumption12Months
                 .OrderBy(input.Sorting ?? "id asc")

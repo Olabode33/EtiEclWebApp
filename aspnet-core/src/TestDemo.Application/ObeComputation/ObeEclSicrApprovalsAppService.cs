@@ -48,8 +48,7 @@ namespace TestDemo.ObeComputation
 						.WhereIf(input.MaxReviewedDateFilter != null, e => e.ReviewedDate <= input.MaxReviewedDateFilter)
 						.WhereIf(!string.IsNullOrWhiteSpace(input.ReviewCommentFilter),  e => e.ReviewComment.ToLower() == input.ReviewCommentFilter.ToLower().Trim())
 						.WhereIf(input.StatusFilter > -1, e => e.Status == statusFilter)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.ReviewedByUserFk != null && e.ReviewedByUserFk.Name.ToLower() == input.UserNameFilter.ToLower().Trim())
-						.WhereIf(!string.IsNullOrWhiteSpace(input.ObeEclSicrTenantIdFilter), e => e.ObeEclSicrFk != null && e.ObeEclSicrFk.TenantId.ToLower() == input.ObeEclSicrTenantIdFilter.ToLower().Trim());
+						.WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.ReviewedByUserFk != null && e.ReviewedByUserFk.Name.ToLower() == input.UserNameFilter.ToLower().Trim());
 
 			var pagedAndFilteredObeEclSicrApprovals = filteredObeEclSicrApprovals
                 .OrderBy(input.Sorting ?? "id asc")

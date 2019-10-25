@@ -44,8 +44,7 @@ namespace TestDemo.ObeAssumption
 						.WhereIf(input.MaxYearsFilter != null, e => e.Years <= input.MaxYearsFilter)
 						.WhereIf(input.MinValueFilter != null, e => e.Value >= input.MinValueFilter)
 						.WhereIf(input.MaxValueFilter != null, e => e.Value <= input.MaxValueFilter)
-						.WhereIf(input.RequiresGroupApprovalFilter > -1,  e => Convert.ToInt32(e.RequiresGroupApproval) == input.RequiresGroupApprovalFilter )
-						.WhereIf(!string.IsNullOrWhiteSpace(input.ObeEclTenantIdFilter), e => e.ObeEclFk != null && e.ObeEclFk.TenantId.ToLower() == input.ObeEclTenantIdFilter.ToLower().Trim());
+						.WhereIf(input.RequiresGroupApprovalFilter > -1,  e => Convert.ToInt32(e.RequiresGroupApproval) == input.RequiresGroupApprovalFilter );
 
 			var pagedAndFilteredObeEclPdSnPCummulativeDefaultRates = filteredObeEclPdSnPCummulativeDefaultRates
                 .OrderBy(input.Sorting ?? "id asc")

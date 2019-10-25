@@ -150,8 +150,7 @@ namespace TestDemo.ObeInputs
 						.WhereIf(input.MaxGuaranteeValueFilter != null, e => e.GuaranteeValue <= input.MaxGuaranteeValueFilter)
 						.WhereIf(input.MinGuaranteeLevelFilter != null, e => e.GuaranteeLevel >= input.MinGuaranteeLevelFilter)
 						.WhereIf(input.MaxGuaranteeLevelFilter != null, e => e.GuaranteeLevel <= input.MaxGuaranteeLevelFilter)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.ContractIdFilter),  e => e.ContractId.ToLower() == input.ContractIdFilter.ToLower().Trim())
-						.WhereIf(!string.IsNullOrWhiteSpace(input.ObeEclUploadTenantIdFilter), e => e.ObeEclUploadFk != null && e.ObeEclUploadFk.TenantId.ToLower() == input.ObeEclUploadTenantIdFilter.ToLower().Trim());
+						.WhereIf(!string.IsNullOrWhiteSpace(input.ContractIdFilter),  e => e.ContractId.ToLower() == input.ContractIdFilter.ToLower().Trim());
 
 			var pagedAndFilteredObeEclDataLoanBooks = filteredObeEclDataLoanBooks
                 .OrderBy(input.Sorting ?? "id asc")

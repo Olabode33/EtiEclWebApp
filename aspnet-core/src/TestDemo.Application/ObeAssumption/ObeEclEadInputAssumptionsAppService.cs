@@ -48,8 +48,7 @@ namespace TestDemo.ObeAssumption
 						.WhereIf(input.DatatypeFilter > -1, e => e.Datatype == datatypeFilter)
 						.WhereIf(input.IsComputedFilter > -1,  e => Convert.ToInt32(e.IsComputed) == input.IsComputedFilter )
 						.WhereIf(input.EadGroupFilter > -1, e => e.EadGroup == eadGroupFilter)
-						.WhereIf(input.RequiresGroupApprovalFilter > -1,  e => Convert.ToInt32(e.RequiresGroupApproval) == input.RequiresGroupApprovalFilter )
-						.WhereIf(!string.IsNullOrWhiteSpace(input.ObeEclTenantIdFilter), e => e.ObeEclFk != null && e.ObeEclFk.TenantId.ToLower() == input.ObeEclTenantIdFilter.ToLower().Trim());
+						.WhereIf(input.RequiresGroupApprovalFilter > -1,  e => Convert.ToInt32(e.RequiresGroupApproval) == input.RequiresGroupApprovalFilter );
 
 			var pagedAndFilteredObeEclEadInputAssumptions = filteredObeEclEadInputAssumptions
                 .OrderBy(input.Sorting ?? "id asc")

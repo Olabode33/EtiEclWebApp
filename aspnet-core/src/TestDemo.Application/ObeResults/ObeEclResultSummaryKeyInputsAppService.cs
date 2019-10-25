@@ -52,8 +52,7 @@ namespace TestDemo.ObeResults
 						.WhereIf(input.MinMonths12CummulativeBestPDsFilter != null, e => e.Months12CummulativeBestPDs >= input.MinMonths12CummulativeBestPDsFilter)
 						.WhereIf(input.MaxMonths12CummulativeBestPDsFilter != null, e => e.Months12CummulativeBestPDs <= input.MaxMonths12CummulativeBestPDsFilter)
 						.WhereIf(input.MinMonths24CummulativeBestPDsFilter != null, e => e.Months24CummulativeBestPDs >= input.MinMonths24CummulativeBestPDsFilter)
-						.WhereIf(input.MaxMonths24CummulativeBestPDsFilter != null, e => e.Months24CummulativeBestPDs <= input.MaxMonths24CummulativeBestPDsFilter)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.ObeEclTenantIdFilter), e => e.ObeEclFk != null && e.ObeEclFk.TenantId.ToLower() == input.ObeEclTenantIdFilter.ToLower().Trim());
+						.WhereIf(input.MaxMonths24CummulativeBestPDsFilter != null, e => e.Months24CummulativeBestPDs <= input.MaxMonths24CummulativeBestPDsFilter);
 
 			var pagedAndFilteredObeEclResultSummaryKeyInputs = filteredObeEclResultSummaryKeyInputs
                 .OrderBy(input.Sorting ?? "id asc")
