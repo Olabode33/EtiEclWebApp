@@ -5,16 +5,18 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
+using Abp.Organizations;
 
 namespace TestDemo.ObeResults
 {
 	[Table("ObeEclResultSummaryTopExposures")]
-    public class ObeEclResultSummaryTopExposure : FullAuditedEntity<Guid> , IMayHaveTenant
+    public class ObeEclResultSummaryTopExposure : FullAuditedEntity<Guid> , IMayHaveTenant, IMustHaveOrganizationUnit
     {
 			public int? TenantId { get; set; }
-			
+        public virtual long OrganizationUnitId { get; set; }
 
-		public virtual double? PreOverrideExposure { get; set; }
+
+        public virtual double? PreOverrideExposure { get; set; }
 		
 		public virtual double? PreOverrideImpairment { get; set; }
 		

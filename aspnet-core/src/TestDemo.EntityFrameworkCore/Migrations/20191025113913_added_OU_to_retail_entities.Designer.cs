@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestDemo.EntityFrameworkCore;
 
 namespace TestDemo.Migrations
 {
     [DbContext(typeof(TestDemoDbContext))]
-    partial class TestDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191025113913_added_OU_to_retail_entities")]
+    partial class added_OU_to_retail_entities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1524,8 +1526,6 @@ namespace TestDemo.Migrations
 
                     b.Property<long?>("LastModifierUserId");
 
-                    b.Property<long>("OrganizationUnitId");
-
                     b.Property<DateTime>("ReportingDate");
 
                     b.Property<int>("Status");
@@ -1561,8 +1561,6 @@ namespace TestDemo.Migrations
                     b.Property<long?>("LastModifierUserId");
 
                     b.Property<Guid?>("ObeEclId");
-
-                    b.Property<long>("OrganizationUnitId");
 
                     b.Property<string>("ReviewComment");
 
@@ -1616,8 +1614,6 @@ namespace TestDemo.Migrations
 
                     b.Property<Guid?>("ObeEclId");
 
-                    b.Property<long>("OrganizationUnitId");
-
                     b.Property<bool>("RequiresGroupApproval");
 
                     b.Property<int?>("TenantId");
@@ -1661,8 +1657,6 @@ namespace TestDemo.Migrations
                     b.Property<Guid?>("ObeEclId");
 
                     b.Property<string>("OldValue");
-
-                    b.Property<long>("OrganizationUnitId");
 
                     b.Property<bool>("RequiresGroupApproval");
 
@@ -1716,8 +1710,6 @@ namespace TestDemo.Migrations
 
                     b.Property<Guid?>("ObeEclId");
 
-                    b.Property<long>("OrganizationUnitId");
-
                     b.Property<bool>("RequiresGroupApproval");
 
                     b.Property<int?>("TenantId");
@@ -1764,8 +1756,6 @@ namespace TestDemo.Migrations
 
                     b.Property<Guid?>("ObeEclId");
 
-                    b.Property<long>("OrganizationUnitId");
-
                     b.Property<bool>("RequiresGroupApproval");
 
                     b.Property<int?>("TenantId");
@@ -1803,8 +1793,6 @@ namespace TestDemo.Migrations
                     b.Property<long?>("LastModifierUserId");
 
                     b.Property<Guid?>("ObeEclId");
-
-                    b.Property<long>("OrganizationUnitId");
 
                     b.Property<double?>("PD");
 
@@ -1848,8 +1836,6 @@ namespace TestDemo.Migrations
 
                     b.Property<Guid?>("ObeEclId");
 
-                    b.Property<long>("OrganizationUnitId");
-
                     b.Property<string>("Rating");
 
                     b.Property<bool>("RequiresGroupApproval");
@@ -1892,8 +1878,6 @@ namespace TestDemo.Migrations
 
                     b.Property<Guid?>("ObeEclDataLoanBookId");
 
-                    b.Property<long>("OrganizationUnitId");
-
                     b.Property<int?>("TenantId");
 
                     b.HasKey("Id");
@@ -1927,8 +1911,6 @@ namespace TestDemo.Migrations
                     b.Property<long?>("LastModifierUserId");
 
                     b.Property<Guid?>("ObeEclDataLoanBookId");
-
-                    b.Property<long>("OrganizationUnitId");
 
                     b.Property<string>("OverrideComment");
 
@@ -1967,8 +1949,6 @@ namespace TestDemo.Migrations
                     b.Property<long?>("LastModifierUserId");
 
                     b.Property<Guid?>("ObeEclSicrId");
-
-                    b.Property<long>("OrganizationUnitId");
 
                     b.Property<string>("ReviewComment");
 
@@ -2088,8 +2068,6 @@ namespace TestDemo.Migrations
 
                     b.Property<Guid?>("ObeEclUploadId");
 
-                    b.Property<long>("OrganizationUnitId");
-
                     b.Property<double?>("OriginalBalanceLCY");
 
                     b.Property<int?>("OriginalRating");
@@ -2196,8 +2174,6 @@ namespace TestDemo.Migrations
 
                     b.Property<Guid?>("ObeEclUploadId");
 
-                    b.Property<long>("OrganizationUnitId");
-
                     b.Property<DateTime?>("StartDate");
 
                     b.Property<int?>("TenantId");
@@ -2234,8 +2210,6 @@ namespace TestDemo.Migrations
 
                     b.Property<Guid?>("ObeEclId");
 
-                    b.Property<long>("OrganizationUnitId");
-
                     b.Property<int>("Status");
 
                     b.Property<int?>("TenantId");
@@ -2271,8 +2245,6 @@ namespace TestDemo.Migrations
                     b.Property<long?>("LastModifierUserId");
 
                     b.Property<Guid?>("ObeEclUploadId");
-
-                    b.Property<long>("OrganizationUnitId");
 
                     b.Property<string>("ReviewComment");
 
@@ -2323,8 +2295,6 @@ namespace TestDemo.Migrations
                     b.Property<Guid?>("ObeEclDataLoanBookId");
 
                     b.Property<Guid?>("ObeEclId");
-
-                    b.Property<long>("OrganizationUnitId");
 
                     b.Property<double?>("OutstandingBalance");
 
@@ -2404,8 +2374,6 @@ namespace TestDemo.Migrations
 
                     b.Property<Guid?>("ObeEclId");
 
-                    b.Property<long>("OrganizationUnitId");
-
                     b.Property<string>("PDGrouping");
 
                     b.Property<double?>("PercentageOfBook");
@@ -2445,8 +2413,6 @@ namespace TestDemo.Migrations
                     b.Property<Guid?>("ObeEclDataLoanBookId");
 
                     b.Property<Guid?>("ObeEclId");
-
-                    b.Property<long>("OrganizationUnitId");
 
                     b.Property<double?>("PostOverrideCoverageRatio");
 
@@ -2493,8 +2459,6 @@ namespace TestDemo.Migrations
                     b.Property<long?>("LastModifierUserId");
 
                     b.Property<Guid?>("ObeEclId");
-
-                    b.Property<long>("OrganizationUnitId");
 
                     b.Property<double?>("PostOverrideCoverageRatio");
 

@@ -5,16 +5,18 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
+using Abp.Organizations;
 
 namespace TestDemo.OBE
 {
 	[Table("ObeEcls")]
-    public class ObeEcl : FullAuditedEntity<Guid> , IMayHaveTenant
+    public class ObeEcl : FullAuditedEntity<Guid> , IMayHaveTenant, IMustHaveOrganizationUnit
     {
 			public int? TenantId { get; set; }
-			
+        public virtual long OrganizationUnitId { get; set; }
 
-		[Required]
+
+        [Required]
 		public virtual DateTime ReportingDate { get; set; }
 		
 		public virtual DateTime? ClosedDate { get; set; }

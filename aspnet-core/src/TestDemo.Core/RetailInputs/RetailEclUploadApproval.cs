@@ -7,17 +7,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
 using Abp.Auditing;
+using Abp.Organizations;
 
 namespace TestDemo.RetailInputs
 {
 	[Table("RetailEclUploadApprovals")]
     [Audited]
-    public class RetailEclUploadApproval : FullAuditedEntity<Guid> , IMayHaveTenant
+    public class RetailEclUploadApproval : FullAuditedEntity<Guid> , IMayHaveTenant, IMustHaveOrganizationUnit
     {
 			public int? TenantId { get; set; }
-			
+        public virtual long OrganizationUnitId { get; set; }
 
-		public virtual DateTime? ReviewedDate { get; set; }
+
+        public virtual DateTime? ReviewedDate { get; set; }
 		
 		public virtual string ReviewComment { get; set; }
 		

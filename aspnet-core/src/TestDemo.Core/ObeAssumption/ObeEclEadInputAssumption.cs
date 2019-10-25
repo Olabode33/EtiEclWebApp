@@ -7,17 +7,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
 using Abp.Auditing;
+using Abp.Organizations;
 
 namespace TestDemo.ObeAssumption
 {
 	[Table("ObeEclEadInputAssumptions")]
     [Audited]
-    public class ObeEclEadInputAssumption : FullAuditedEntity<Guid> , IMayHaveTenant
+    public class ObeEclEadInputAssumption : FullAuditedEntity<Guid> , IMayHaveTenant, IMustHaveOrganizationUnit
     {
 			public int? TenantId { get; set; }
-			
+        public virtual long OrganizationUnitId { get; set; }
 
-		public virtual string Key { get; set; }
+
+        public virtual string Key { get; set; }
 		
 		public virtual string InputName { get; set; }
 		

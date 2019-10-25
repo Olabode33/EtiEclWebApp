@@ -5,16 +5,18 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
+using Abp.Organizations;
 
 namespace TestDemo.ObeResults
 {
 	[Table("ObesaleEclResultSummaries")]
-    public class ObesaleEclResultSummary : FullAuditedEntity<Guid> , IMayHaveTenant
+    public class ObesaleEclResultSummary : FullAuditedEntity<Guid> , IMayHaveTenant, IMustHaveOrganizationUnit
     {
 			public int? TenantId { get; set; }
-			
+        public virtual long OrganizationUnitId { get; set; }
 
-		public virtual ResultSummaryTypeEnum SummaryType { get; set; }
+
+        public virtual ResultSummaryTypeEnum SummaryType { get; set; }
 		
 		public virtual string Title { get; set; }
 		

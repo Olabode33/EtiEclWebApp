@@ -4,16 +4,18 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
+using Abp.Organizations;
 
 namespace TestDemo.RetailInputs
 {
 	[Table("RetailEclDataLoanBooks")]
-    public class RetailEclDataLoanBook : FullAuditedEntity<Guid> , IMayHaveTenant
+    public class RetailEclDataLoanBook : FullAuditedEntity<Guid> , IMayHaveTenant, IMustHaveOrganizationUnit
     {
 			public int? TenantId { get; set; }
-			
+        public virtual long OrganizationUnitId { get; set; }
 
-		public virtual string CustomerNo { get; set; }
+
+        public virtual string CustomerNo { get; set; }
 		
 		public virtual string AccountNo { get; set; }
 		
