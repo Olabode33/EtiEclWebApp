@@ -13,6 +13,9 @@ import { WholesaleEclsComponent } from './wholesale/wholesaleEcls/wholesaleEcls.
 import { AssumptionsComponent } from './eclShared/assumptions/assumptions.component';
 import { PdInputSnPCummulativeDefaultRatesComponent } from './eclShared/pdInputSnPCummulativeDefaultRates/pdInputSnPCummulativeDefaultRates.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { WorkspaceComponent } from './workspace/workspace.component';
+import { CreateEditWholesaleEclComponent } from './wholesale/createEdit-wholesaleEcl/createEdit-wholesaleEcl.component';
+import { ViewWholesaleEclComponent } from './wholesale/view-wholesaleEcl/view-wholesaleEcl.component';
 
 @NgModule({
     imports: [
@@ -32,7 +35,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
                     { path: 'wholesale/wholesaleEcls', component: WholesaleEclsComponent, data: { permission: 'Pages.WholesaleEcls' }  },
                     { path: 'eclShared/assumptions', component: AssumptionsComponent, data: { permission: 'Pages.Assumptions' }  },
                     { path: 'eclShared/pdInputSnPCummulativeDefaultRates', component: PdInputSnPCummulativeDefaultRatesComponent, data: { permission: 'Pages.PdInputSnPCummulativeDefaultRates' }  },
-                    { path: 'dashboard', component: DashboardComponent, data: { permission: 'Pages.Tenant.Dashboard' } }
+                    { path: 'dashboard', component: DashboardComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
+                    { path: 'workspace', component: WorkspaceComponent },
+                    { path: 'wholesale/ecl/create', component: CreateEditWholesaleEclComponent},
+                    { path: 'wholesale/ecl/view/:eclId', component: ViewWholesaleEclComponent}
                 ]
             }
         ])

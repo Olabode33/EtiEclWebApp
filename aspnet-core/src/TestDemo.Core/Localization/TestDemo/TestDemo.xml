@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="ObeEclResultSummaryTopExposure">Obe ecl result summary top exposure</text>
+  <texts>    <text name="AuditInfo">Audit Information</text>    <text name="NewEcl">New Ecl</text>    <text name="ResultSummary">Result Summary</text>    <text name="ResultDetails">Result Details</text>    <text name="UploadedData">Uploaded Data</text>    <text name="GoBack">Back</text>    <text name="GeneralAssumptions">General Assumptions</text>    <text name="PdAssumptions">PD Assumptions</text>    <text name="EadAssumptions">EAD Assumptions</text>    <text name="LgdAssumptions">LGD Assumptions</text>    <text name="AssumptionAwaitingApproval">Assumptions awaiting approval</text>    <text name="RawDataLoanBook">Loan Book</text>    <text name="RawDataPaymentSchedule">Payment Schedule</text>    <text name="EclOverrides">Overrides</text>    <text name="Result">Result</text>    <text name="ViewEcl">View ECL details</text>    <text name="SubmitOrSaveAsDraft">Submit for approval or save as draft</text>
+    <text name="WholesaleEclSuccessfullyCreated">Wholesale ECL successfully created!</text>
+    <text name="SelectFramework">-- Select Framework --</text>
+    <text name="SelectOU">-- Select Subsidiary --</text>
+    <text name="SelectStatus">-- Select Status --</text>
+    <text name="CreatedBy">Created By</text>
+    <text name="Subsidiary">Subsidiary</text>
+    <text name="Framework">Framework</text>
+    <text name="WorkspaceWelcome">Hello {0},</text>
+    <text name="WorkspaceHeaderInfo">Welcome to your workspace!</text>
+    <text name="ObeEclResultSummaryTopExposure">Obe ecl result summary top exposure</text>
     <text name="CreateNewObeEclResultSummaryTopExposure">Create new obe ecl result summary top exposure</text>
     <text name="EditObeEclResultSummaryTopExposure">Edit obe ecl result summary top exposure</text>
     <text name="DeleteObeEclResultSummaryTopExposure">Delete obe ecl result summary top exposure</text>
@@ -76,7 +86,7 @@
     <text name="CreateNewObeEclApproval">Create new obe ecl approval</text>
     <text name="EditObeEclApproval">Edit obe ecl approval</text>
     <text name="DeleteObeEclApproval">Delete obe ecl approval</text>
-    <text name="OBE">O b e</text>
+    <text name="OBE">OBE</text>
     <text name="ObeEcl">Obe ecl</text>
     <text name="CreateNewObeEcl">Create new obe ecl</text>
     <text name="EditObeEcl">Edit obe ecl</text>
@@ -387,7 +397,7 @@
     <text name="CreateNewWholesaleEcl">Create new wholesale ecl</text>
     <text name="EditWholesaleEcl">Edit wholesale ecl</text>
     <text name="DeleteWholesaleEcl">Delete wholesale ecl</text>
-    <text name="WholesaleEcls">Wholesale ecls</text>
+    <text name="WholesaleEcls">Wholesale ECL</text>
     <text name="PickUser">Pick user</text>
     <text name="ReportingDateRange">Reporting date range</text>
     <text name="ClosedDateRange">Closed date range</text>
@@ -652,14 +662,10 @@
     <text name="Apply">Apply</text>
     <text name="CustomRange">Custom range</text>
     <text name="DashboardNoteForMpaVersion">
-      <![CDATA[
-      See Demo for Multi-Page Application version with <strong>ASP.NET MVC</strong> and <strong>jQuery</strong>.
-      ]]>
+      <![CDATA[      See Demo for Multi-Page Application version with <strong>ASP.NET MVC</strong> and <strong>jQuery</strong>.      ]]>
     </text>
     <text name="DashboardNoteForSpaVersion">
-      <![CDATA[
-      Notice: There is also a <strong>Single-Page Application</strong> version built using ASP.NET MVC and <strong>AngularJs</strong>.
-      ]]>
+      <![CDATA[      Notice: There is also a <strong>Single-Page Application</strong> version built using ASP.NET MVC and <strong>AngularJs</strong>.      ]]>
     </text>
     <text name="SeeDemo">See demo</text>
     <text name="Edition">Edition</text>
@@ -835,14 +841,7 @@
     <text name="YouDontHaveAnyFriend">You don't have any friends. Write a username to above input box and click "Add Friend" button.</text>
     <text name="YouDontHaveAnyBlockedFriend">You don't have any blocked users. In order to block a friend, select a friend and select block from actions dropdown.</text>
     <text name="ChatUserSearch_Hint">
-      <![CDATA[
-      Write only username for same tenant users, <br>
-      <strong>[tenancyName]\[userName]</strong> for other tenant's users <br><br>
-      for example: <br>
-      .\admin -> for host admin <br>
-      Test\admin -> for test tenant's admin <br>
-      admin -> for your tenant's admin
-      ]]>
+      <![CDATA[      Write only username for same tenant users, <br>      <strong>[tenancyName]\[userName]</strong> for other tenant's users <br><br>      for example: <br>      .\admin -> for host admin <br>      Test\admin -> for test tenant's admin <br>      admin -> for your tenant's admin      ]]>
     </text>
     <text name="AddFriend">Add friend</text>
     <text name="TypeAMessageHere">Type a message here...</text>

@@ -18,34 +18,35 @@ export class AppNavigationService {
     getMenu(): AppMenu {
         return new AppMenu('MainMenu', 'MainMenu', [
             new AppMenuItem('Dashboard', 'Pages.Administration.Host.Dashboard', 'flaticon-line-graph', '/app/admin/hostDashboard'),
+            new AppMenuItem('Home', 'Pages.Tenant.Dashboard', 'fa fa-home', '/app/main/workspace'),
             new AppMenuItem('Dashboard', 'Pages.Tenant.Dashboard', 'flaticon-line-graph', '/app/main/dashboard'),
             new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants'),
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
-           
-            new AppMenuItem('PdInputSnPCummulativeDefaultRates', 'Pages.PdInputSnPCummulativeDefaultRates', 'flaticon-more', '/app/main/eclShared/pdInputSnPCummulativeDefaultRates'),
-            
-            new AppMenuItem('Assumptions', 'Pages.Assumptions', 'flaticon-more', '/app/main/eclShared/assumptions'),
-            
-            new AppMenuItem('WholesaleEcls', 'Pages.WholesaleEcls', 'flaticon-more', '/app/main/wholesale/wholesaleEcls'),
-            
-            new AppMenuItem('WholesaleEclPdAssumption12Monthses', 'Pages.WholesaleEclPdAssumption12Monthses', 'flaticon-more', '/app/main/wholesaleAssumption/wholesaleEclPdAssumption12Monthses'),
-            
-            new AppMenuItem('WholesaleEclPdSnPCummulativeDefaultRateses', 'Pages.WholesaleEclPdSnPCummulativeDefaultRateses', 'flaticon-more', '/app/main/wholesaleAssumption/wholesaleEclPdSnPCummulativeDefaultRateses'),
-            
-            new AppMenuItem('WholesaleEclUploads', 'Pages.WholesaleEclUploads', 'flaticon-more', '/app/main/wholesaleInputs/wholesaleEclUploads'),
-            
-            new AppMenuItem('WholesaleEclDataLoanBooks', 'Pages.WholesaleEclDataLoanBooks', 'flaticon-more', '/app/main/wholesaleInputs/wholesaleEclDataLoanBooks'),
-            
-            new AppMenuItem('WholesaleEclDataPaymentSchedules', 'Pages.WholesaleEclDataPaymentSchedules', 'flaticon-more', '/app/main/wholesaleInputs/wholesaleEclDataPaymentSchedules'),
-            
-            new AppMenuItem('WholesaleEclSicrs', 'Pages.WholesaleEclSicrs', 'flaticon-more', '/app/main/wholesaleComputation/wholesaleEclSicrs'),
-            
-            new AppMenuItem('WholesaleEclResultSummaries', 'Pages.WholesaleEclResultSummaries', 'flaticon-more', '/app/main/wholesaleResult/wholesaleEclResultSummaries'),
-            
-            new AppMenuItem('WholesaleEclResultSummaryKeyInputs', 'Pages.WholesaleEclResultSummaryKeyInputs', 'flaticon-more', '/app/main/wholesaleResults/wholesaleEclResultSummaryKeyInputs'),
-            
-            new AppMenuItem('WholesaleEclResultSummaryTopExposures', 'Pages.WholesaleEclResultSummaryTopExposures', 'flaticon-more', '/app/main/wholesaleResults/wholesaleEclResultSummaryTopExposures'),
-             new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
+
+            // new AppMenuItem('PdInputSnPCummulativeDefaultRates', 'Pages.PdInputSnPCummulativeDefaultRates', 'flaticon-more', '/app/main/eclShared/pdInputSnPCummulativeDefaultRates'),
+
+            // new AppMenuItem('Assumptions', 'Pages.Assumptions', 'flaticon-more', '/app/main/eclShared/assumptions'),
+
+            // new AppMenuItem('WholesaleEcls', 'Pages.WholesaleEcls', 'flaticon-more', '/app/main/wholesale/wholesaleEcls'),
+
+            // new AppMenuItem('WholesaleEclPdAssumption12Monthses', 'Pages.WholesaleEclPdAssumption12Monthses', 'flaticon-more', '/app/main/wholesaleAssumption/wholesaleEclPdAssumption12Monthses'),
+
+            // new AppMenuItem('WholesaleEclPdSnPCummulativeDefaultRateses', 'Pages.WholesaleEclPdSnPCummulativeDefaultRateses', 'flaticon-more', '/app/main/wholesaleAssumption/wholesaleEclPdSnPCummulativeDefaultRateses'),
+
+            // new AppMenuItem('WholesaleEclUploads', 'Pages.WholesaleEclUploads', 'flaticon-more', '/app/main/wholesaleInputs/wholesaleEclUploads'),
+
+            // new AppMenuItem('WholesaleEclDataLoanBooks', 'Pages.WholesaleEclDataLoanBooks', 'flaticon-more', '/app/main/wholesaleInputs/wholesaleEclDataLoanBooks'),
+
+            // new AppMenuItem('WholesaleEclDataPaymentSchedules', 'Pages.WholesaleEclDataPaymentSchedules', 'flaticon-more', '/app/main/wholesaleInputs/wholesaleEclDataPaymentSchedules'),
+
+            // new AppMenuItem('WholesaleEclSicrs', 'Pages.WholesaleEclSicrs', 'flaticon-more', '/app/main/wholesaleComputation/wholesaleEclSicrs'),
+
+            // new AppMenuItem('WholesaleEclResultSummaries', 'Pages.WholesaleEclResultSummaries', 'flaticon-more', '/app/main/wholesaleResult/wholesaleEclResultSummaries'),
+
+            // new AppMenuItem('WholesaleEclResultSummaryKeyInputs', 'Pages.WholesaleEclResultSummaryKeyInputs', 'flaticon-more', '/app/main/wholesaleResults/wholesaleEclResultSummaryKeyInputs'),
+
+            // new AppMenuItem('WholesaleEclResultSummaryTopExposures', 'Pages.WholesaleEclResultSummaryTopExposures', 'flaticon-more', '/app/main/wholesaleResults/wholesaleEclResultSummaryTopExposures'),
+            new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
                 new AppMenuItem('OrganizationUnits', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),
                 new AppMenuItem('Users', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),

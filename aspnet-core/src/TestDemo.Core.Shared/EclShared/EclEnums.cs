@@ -58,4 +58,9 @@ namespace TestDemo.EclShared
     {
         General, EadInputAssumption, LgdInputAssumption, Pd12MonthsAssumption, PdSnPAssumption
     }
+
+    public static class EclEnums
+    {
+        
+    }
 }

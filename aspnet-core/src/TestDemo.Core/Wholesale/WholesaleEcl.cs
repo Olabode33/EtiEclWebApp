@@ -12,7 +12,7 @@ namespace TestDemo.Wholesale
 {
 	[Table("WholesaleEcls")]
     [Audited]
-    public class WholesaleEcl : Entity<Guid> , IMayHaveTenant, IMustHaveOrganizationUnit
+    public class WholesaleEcl : FullAuditedEntity<Guid> , IMayHaveTenant, IMustHaveOrganizationUnit
     {
 			public int? TenantId { get; set; }
 			public virtual long OrganizationUnitId { get; set; }

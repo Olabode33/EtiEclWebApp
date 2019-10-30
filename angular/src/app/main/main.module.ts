@@ -51,7 +51,7 @@ import { CreateOrEditPdInputSnPCummulativeDefaultRateModalComponent } from './ec
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { PaginatorModule } from 'primeng/paginator';
 import { EditorModule } from 'primeng/editor';
-import { InputMaskModule } from 'primeng/inputmask';import { FileUploadModule } from 'primeng/fileupload';
+import { InputMaskModule } from 'primeng/inputmask'; import { FileUploadModule } from 'primeng/fileupload';
 import { TableModule } from 'primeng/table';
 
 import { UtilsModule } from '@shared/utils/utils.module';
@@ -63,16 +63,19 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { BsDatepickerModule, BsDatepickerConfig, BsDaterangepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { NgxBootstrapDatePickerConfigService } from 'assets/ngx-bootstrap/ngx-bootstrap-datepicker-config.service';
+import { WorkspaceComponent } from './workspace/workspace.component';
+import { CreateEditWholesaleEclComponent } from './wholesale/createEdit-wholesaleEcl/createEdit-wholesaleEcl.component';
+import { ViewWholesaleEclComponent } from './wholesale/view-wholesaleEcl/view-wholesaleEcl.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
 @NgModule({
     imports: [
-		FileUploadModule,
-		AutoCompleteModule,
-		PaginatorModule,
-		EditorModule,
-		InputMaskModule,		TableModule,
+        FileUploadModule,
+        AutoCompleteModule,
+        PaginatorModule,
+        EditorModule,
+        InputMaskModule, TableModule,
 
         CommonModule,
         FormsModule,
@@ -89,41 +92,44 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
-		WholesaleEclResultSummaryTopExposuresComponent,
-		CreateOrEditWholesaleEclResultSummaryTopExposureModalComponent,
-    WholesaleEclResultSummaryTopExposureWholesaleEclLookupTableModalComponent,
-    WholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableModalComponent,
-		WholesaleEclResultSummaryKeyInputsComponent,
-		CreateOrEditWholesaleEclResultSummaryKeyInputModalComponent,
-    WholesaleEclResultSummaryKeyInputWholesaleEclLookupTableModalComponent,
-		WholesaleEclResultSummariesComponent,
-		CreateOrEditWholesaleEclResultSummaryModalComponent,
-    WholesaleEclResultSummaryWholesaleEclLookupTableModalComponent,
-		WholesaleEclSicrsComponent,
-		CreateOrEditWholesaleEclSicrModalComponent,
-    WholesaleEclSicrWholesaleEclDataLoanBookLookupTableModalComponent,
-		WholesaleEclDataPaymentSchedulesComponent,
-		CreateOrEditWholesaleEclDataPaymentScheduleModalComponent,
-    WholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableModalComponent,
-		WholesaleEclDataLoanBooksComponent,
-		CreateOrEditWholesaleEclDataLoanBookModalComponent,
-    WholesaleEclDataLoanBookWholesaleEclUploadLookupTableModalComponent,
-		WholesaleEclUploadsComponent,
-		CreateOrEditWholesaleEclUploadModalComponent,
-    WholesaleEclUploadWholesaleEclLookupTableModalComponent,
-		WholesaleEclPdSnPCummulativeDefaultRatesesComponent,
-		CreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesModalComponent,
-    WholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableModalComponent,
-		WholesaleEclPdAssumption12MonthsesComponent,
-		CreateOrEditWholesaleEclPdAssumption12MonthsModalComponent,
-    WholesaleEclPdAssumption12MonthsWholesaleEclLookupTableModalComponent,
-		WholesaleEclsComponent,
-		CreateOrEditWholesaleEclModalComponent,
-    WholesaleEclUserLookupTableModalComponent,
-		AssumptionsComponent,
-		CreateOrEditAssumptionModalComponent,
-		PdInputSnPCummulativeDefaultRatesComponent,
-		CreateOrEditPdInputSnPCummulativeDefaultRateModalComponent,
+        ViewWholesaleEclComponent,
+        CreateEditWholesaleEclComponent,
+        WorkspaceComponent,
+        WholesaleEclResultSummaryTopExposuresComponent,
+        CreateOrEditWholesaleEclResultSummaryTopExposureModalComponent,
+        WholesaleEclResultSummaryTopExposureWholesaleEclLookupTableModalComponent,
+        WholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableModalComponent,
+        WholesaleEclResultSummaryKeyInputsComponent,
+        CreateOrEditWholesaleEclResultSummaryKeyInputModalComponent,
+        WholesaleEclResultSummaryKeyInputWholesaleEclLookupTableModalComponent,
+        WholesaleEclResultSummariesComponent,
+        CreateOrEditWholesaleEclResultSummaryModalComponent,
+        WholesaleEclResultSummaryWholesaleEclLookupTableModalComponent,
+        WholesaleEclSicrsComponent,
+        CreateOrEditWholesaleEclSicrModalComponent,
+        WholesaleEclSicrWholesaleEclDataLoanBookLookupTableModalComponent,
+        WholesaleEclDataPaymentSchedulesComponent,
+        CreateOrEditWholesaleEclDataPaymentScheduleModalComponent,
+        WholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableModalComponent,
+        WholesaleEclDataLoanBooksComponent,
+        CreateOrEditWholesaleEclDataLoanBookModalComponent,
+        WholesaleEclDataLoanBookWholesaleEclUploadLookupTableModalComponent,
+        WholesaleEclUploadsComponent,
+        CreateOrEditWholesaleEclUploadModalComponent,
+        WholesaleEclUploadWholesaleEclLookupTableModalComponent,
+        WholesaleEclPdSnPCummulativeDefaultRatesesComponent,
+        CreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesModalComponent,
+        WholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableModalComponent,
+        WholesaleEclPdAssumption12MonthsesComponent,
+        CreateOrEditWholesaleEclPdAssumption12MonthsModalComponent,
+        WholesaleEclPdAssumption12MonthsWholesaleEclLookupTableModalComponent,
+        WholesaleEclsComponent,
+        CreateOrEditWholesaleEclModalComponent,
+        WholesaleEclUserLookupTableModalComponent,
+        AssumptionsComponent,
+        CreateOrEditAssumptionModalComponent,
+        PdInputSnPCummulativeDefaultRatesComponent,
+        CreateOrEditPdInputSnPCummulativeDefaultRateModalComponent,
         DashboardComponent
     ],
     providers: [

@@ -2,24 +2,20 @@
     <div class="kt-container" *ngIf="useBottomDiv">
         <div class="kt-footer__bottom">
             <div class="kt-footer__copyright">
-                TestDemo <span
-                    *ngIf="appSession.tenant && appSession.tenant.edition && appSession.tenant.edition.displayName">
-                    {{appSession.tenant.edition.displayName}}</span> | v{{appSession.application.version}}
-                [{{releaseDate}}]
+                Developed by Pwc
             </div>
             <div class="kt-footer__menu">
+                ECL Engine
             </div>
         </div>
     </div>
     <div class="kt-container" *ngIf="!useBottomDiv">
         <div class="kt-footer__wrapper">
             <div class="kt-footer__copyright">
-                TestDemo <span
-                    *ngIf="appSession.tenant && appSession.tenant.edition && appSession.tenant.edition.displayName">
-                    {{appSession.tenant.edition.displayName}}</span> | v{{appSession.application.version}}
-                [{{releaseDate}}]
+                Developed by PwC
             </div>
             <div class="kt-footer__menu">
+                ECL Engine
             </div>
         </div>
     </div>
