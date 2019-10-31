@@ -16,6 +16,9 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.WholesaleInputs;
+using System.Data;
+using TestDemo.Utils;
 
 namespace TestDemo.Wholesale
 {
@@ -25,6 +28,8 @@ namespace TestDemo.Wholesale
         private readonly IRepository<WholesaleEcl, Guid> _wholesaleEclRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
         private readonly UserManager _userManager;
+        private readonly IRepository<WholesaleEclUpload, Guid> _wholesaleEclUploadRepository;
+        private readonly IRepository<WholesaleEclDataLoanBook, Guid> _wholesaleEclLoanBookRepository;
 
 
         public WholesaleEclsAppService(
@@ -171,6 +176,15 @@ namespace TestDemo.Wholesale
                 totalCount,
                 lookupTableDtoList
             );
+        }
+
+        public async Task RunEcl(EntityDto<Guid> input)
+        {
+            var uploadedData = await _wholesaleEclUploadRepository.FirstOrDefaultAsync(x => x.WholesaleEclId == input.Id);
+            var loanbookData = await _wholesaleEclLoanBookRepository.GetAll().Where(x => x.WholesaleEclUploadId == uploadedData.Id).ToListAsync();
+            DataTable loanbookDatatable = DataTableUtil.ToDataTable(loanbookData);
+            
+
         }
     }
 }

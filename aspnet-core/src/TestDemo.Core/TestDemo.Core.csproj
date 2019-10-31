@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\common.props"></Import>
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -40,5 +40,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TestDemo.Core.Shared\TestDemo.Core.Shared.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="EclEngine\WholesaleEngine\" />
   </ItemGroup>
 </Project>
