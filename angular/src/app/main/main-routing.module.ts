@@ -16,6 +16,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { WorkspaceComponent } from './workspace/workspace.component';
 import { CreateEditWholesaleEclComponent } from './wholesale/createEdit-wholesaleEcl/createEdit-wholesaleEcl.component';
 import { ViewWholesaleEclComponent } from './wholesale/view-wholesaleEcl/view-wholesaleEcl.component';
+import { CreateEditRetailEclComponent } from './retail/createEdit-retailEcl/createEdit-retailEcl.component';
 
 @NgModule({
     imports: [
@@ -38,7 +39,9 @@ import { ViewWholesaleEclComponent } from './wholesale/view-wholesaleEcl/view-wh
                     { path: 'dashboard', component: DashboardComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
                     { path: 'workspace', component: WorkspaceComponent },
                     { path: 'wholesale/ecl/create', component: CreateEditWholesaleEclComponent},
-                    { path: 'wholesale/ecl/view/:eclId', component: ViewWholesaleEclComponent}
+                    { path: 'wholesale/ecl/view/:eclId', component: ViewWholesaleEclComponent},
+                    { path: 'retail/ecl/create', component: CreateEditRetailEclComponent},
+                    { path: 'retail/ecl/view/:eclId', component: ViewWholesaleEclComponent}
                 ]
             }
         ])
