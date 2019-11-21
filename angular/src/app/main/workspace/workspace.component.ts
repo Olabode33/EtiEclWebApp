@@ -84,7 +84,12 @@ export class WorkspaceComponent extends AppComponentBase implements OnInit {
     }
 
     navigateToCreateRetailEcl(): void {
-        this._router.navigate(['../wholesale/ecl/create'], { relativeTo: this._activatedRoute});
+        this._router.navigate(['../retail/ecl/create'], { relativeTo: this._activatedRoute});
+    }
+
+    navigateToViewRetailEcl(eclId: string): void {
+        console.log(eclId);
+        this._router.navigate(['../retail/ecl/view', eclId], { relativeTo: this._activatedRoute});
     }
 
     navigateToCreateObeEcl(): void {

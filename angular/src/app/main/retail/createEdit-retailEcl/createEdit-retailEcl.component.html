@@ -1,0 +1,346 @@
+<div [@routerTransition]>
+
+  <div class="kt-subheader kt-grid__item">
+
+      <div class="kt-subheader__main">
+          <h3 class="kt-subheader__title">
+              <span>{{l("RetailECLs")}}</span>
+          </h3>
+          <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+          <span class="kt-subheader__desc">
+              {{l("CreateNewECL")}}
+          </span>
+      </div>
+      <div class="kt-subheader__toolbar">
+          <div class="kt-subheader__wrapper">
+              <button *ngIf="wizardCurrentStep > 1" (click)="goBack()" class="btn btn-outline-primary">
+                  <i class="fa fa-backward" style="font-size: 1.2rem !important;"></i>
+                  {{l("Previous")}}
+              </button>
+              <button *ngIf="wizardCurrentStep < wizardLastStep" (click)="goNext()" class="btn btn-primary">
+                  {{l("Next")}} &nbsp;
+                  <i class="fa fa-forward" style="font-size: 1.2rem !important;"></i>
+              </button>
+              <button *ngIf="wizardCurrentStep == wizardLastStep" (click)="finish()" class="btn btn-success">
+                  <i class="fa fa-save" style="font-size: 1.2rem !important;"></i>
+                  {{l("Submit")}}                        
+              </button>
+          </div>
+      </div>
+
+  </div>
+  <div class="kt-content">
+      <div class="stepwizard col-md-8 offset-md-2">
+          <div class="stepwizard-row setup-panel">
+              <div class="stepwizard-step">
+                  <a href="javascript:void(0);"
+                      class="btn btn-{{wizardCurrentStep == 1 ? 'primary' : wizardStep1Completed == 1 ? 'success' : wizardStep1Completed == 2 ? 'danger' : 'light' }} btn-circle">1</a>
+                  <p>&nbsp;</p>
+              </div>
+              <div class="stepwizard-step">
+                  <a href="javascript:void(0);"
+                      class="btn btn-{{wizardCurrentStep == 2 ? 'primary' : wizardStep2Completed == 1 ? 'success' : wizardStep2Completed == 2 ? 'danger' : 'light' }} btn-circle">2</a>
+                  <p>&nbsp;</p>
+              </div>
+              <div class="stepwizard-step">
+                  <a href="javascript:void(0);"
+                      class="btn btn-{{wizardCurrentStep == 3 ? 'primary' : wizardStep3Completed == 1 ? 'success' : wizardStep3Completed == 2 ? 'danger' : 'light' }} btn-circle">3</a>
+                  <p>&nbsp;</p>
+              </div>
+              <div class="stepwizard-step">
+                  <a href="javascript:void(0);"
+                      class="btn btn-{{wizardCurrentStep == 4 ? 'primary' : wizardStep4Completed == 1 ? 'success' : wizardStep4Completed == 2 ? 'danger' : 'light' }} btn-circle">4</a>
+                  <p>&nbsp;</p>
+              </div>
+              <div class="stepwizard-step">
+                  <a href="javascript:void(0);"
+                      class="btn btn-{{wizardCurrentStep == 5 ? 'primary' : 'light'}} btn-circle">5</a>
+                  <p>&nbsp;</p>
+              </div>
+          </div>
+      </div>
+
+      <form role="form" action="" method="post">
+          <div *ngIf="wizardCurrentStep === 1" class="row setup-content" id="step-1">
+              <div class="col-sm-8 offset-md-2">
+                  <div class="col-md-12 wizard-content p-3">
+                      <h3 class="mb-5">1. Scenario Input</h3>
+                      <div class="form-group">
+                          <label for="WholesaleECL_ReportingDate">{{l("ReportingDate")}}</label>
+                          <input required class="form-control m-input col-md-4" type="datetime" bsDatepicker
+                              [(ngModel)]="wholesaleECL.reportingDate._d" id="WholesaleECL_ReportingDate"
+                              name="WholesaleECL_ReportingDate">
+                      </div>
+                      <div class="row">
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Credit Index Threshold Downturn Recoveries</label>
+                              <input maxlength="200" type="text" required="required" class="form-control"
+                                  placeholder="Enter credit index threshold downturn recoveries">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Best Estimate Scenario (Likelihood)</label>
+                              <input maxlength="200" type="number" required="required" class="form-control"
+                                  [(ngModel)]="fake_be_scenario" placeholder="Enter best estimate scenario">
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Optimistic Scenario (Likelihood)</label>
+                              <input maxlength="200" type="number" required="required" class="form-control"
+                                  [(ngModel)]="fake_o_scenario" placeholder="Enter optimistic scenario">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Downturn Scenario (Likelihood)</label>
+                              <input maxlength="200" type="number" required="required" class="form-control"
+                                  [(ngModel)]="fake_d_scenario" disabled placeholder="Enter downturn scenario">
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col">
+                              <button class="btn btn-primary btn-elevate btn-pill pull-right" type="button"
+                                  (click)="goNext()">
+                                  Next
+                                  <i class="fa fa-forward" style="font-size: 1rem;"></i>
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div *ngIf="wizardCurrentStep === 2" class="row setup-content" id="step-2">
+              <div class="col-md-8 offset-md-2">
+                  <div class="col-md-12 wizard-content p-3">
+                      <h3 class="mb-5">2. Transaction Criteria</h3>
+                      <p><b>Quantitative Criteria</b></p>
+                      <p><b>Absolute Credit Quality</b></p>
+                      <div class="row">
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Criteria</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Threshold</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                      </div>
+                      <p><b>Relative Credit Quality</b></p>
+                      <div class="row">
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Criteria</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Threshold</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                      </div>
+                      <p><b>Qualitative Criteria</b></p>
+                      <p><b>Forward Transitions</b></p>
+                      <div class="row">
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Credit Rating Rank (Low/High Risk)</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Credit Rating Rank (Notches) - Low Risk</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Credit Rating Rank (Notches) - High Risk</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Credit Rating Default Indicator</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Use Watchlist Indicator?</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Use Restructure Indicator?</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Stage 1 -> Stage 2 (dpd)</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Stage 2 -> Stage 3 (dpd)</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                      </div>
+                      <p><b>Backward Transitions</b></p>
+                      <div class="row">
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Stage 2 -> Stage 1 (days)</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Stage 3 -> Stage 2 (days)</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col">
+                              <button class="btn btn-outline-primary btn-elevate btn-pill pull-left" type="button"
+                                  (click)="goBack()">
+                                  <i class="fa fa-backward" style="font-size: 1rem;"></i>
+                                  Previous
+                              </button>
+                              <button class="btn btn-primary btn-elevate btn-pill pull-right" type="button"
+                                  (click)="goNext()">
+                                  Next
+                                  <i class="fa fa-forward" style="font-size: 1rem;"></i>
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div *ngIf="wizardCurrentStep === 3" class="row setup-content" id="step-3">
+              <div class="col-md-8 offset-md-2">
+                  <div class="col-md-12 wizard-content p-3">
+                      <h3 class="mb-5">3. Input Assumptions</h3>
+                      <p><b>EAD Assumptions</b></p>
+                      <div class="row">
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Conversion Factor (OBE)</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Pre-payment Factor</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                      </div>
+                      <p><b>LGD Assumptions</b></p>
+                      <p>Cost of Recovery: Collateral Value {{'=<'}} NGN1bn</p>
+                      <div class="row">
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Collateral Value</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Debenture</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Cash</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Inventory</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Plant & Equipment</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Residential Property</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Commercial Property</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Receivables</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Shares</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Vehicles</label>
+                              <input maxlength="200" type="text" required="required" class="form-control">
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col">
+                              <button class="btn btn-outline-primary btn-elevate btn-pill pull-left" type="button"
+                                  (click)="goBack()">
+                                  <i class="fa fa-backward" style="font-size: 1rem;"></i>
+                                  Previous
+                              </button>
+                              <button class="btn btn-primary btn-elevate btn-pill pull-right" type="button"
+                                  (click)="goNext()">
+                                  Next
+                                  <i class="fa fa-forward" style="font-size: 1rem;"></i>
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div *ngIf="wizardCurrentStep === 4" class="row setup-content" id="step-4">
+              <div class="col-md-8 offset-md-2">
+                  <div class="col-md-12 wizard-content p-3">
+                      <h3 class="mb-5">4. Upload Data</h3>
+                      <div class="row">
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Loan snap-book</label><br>
+                              <p-fileUpload mode="basic" id="DefaultFileUploadFileInput" name="DefaultFileUploadFileInput[]" [url]="uploadUrl" 
+                                              maxFileSize="1000000" (onUpload)="onUpload($event)" (onBeforeSend)="onBeforeSend($event)" 
+                                              [auto]="true" chooseLabel="Browse" accept=".xls,.xlsx">
+                              </p-fileUpload>
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label class="control-label">Payment schedule</label><br>
+                              <p-fileUpload mode="basic" id="DefaultFileUploadFileInput" name="DefaultFileUploadFileInput[]" [url]="uploadUrl" 
+                                            maxFileSize="1000000" (onUpload)="onUpload($event)" (onBeforeSend)="onBeforeSend($event)" 
+                                            [auto]="true" chooseLabel="Browse" accept=".xls,.xlsx">
+                              </p-fileUpload>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col">
+                              <button class="btn btn-outline-primary btn-elevate btn-pill pull-left" type="button"
+                                  (click)="goBack()">
+                                  <i class="fa fa-backward" style="font-size: 1rem;"></i>
+                                  Previous
+                              </button>
+                              <button class="btn btn-primary btn-elevate btn-pill pull-right" type="button" (click)="goNext()">
+                                  Next
+                                  <i class="fa fa-forward" style="font-size: 1rem;"></i>
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div *ngIf="wizardCurrentStep === 5" class="row setup-content" id="step-5">
+              <div class="col-md-8 offset-md-2">
+                  <div class="col-md-12 wizard-content p-3">
+                      <h3 class="mb-5">5. Finish</h3>
+                      <p>Submit for approval?</p><br>
+                      <div class="row">
+                          <div class="col">
+                              <button class="btn btn-outline-primary btn-elevate btn-pill pull-left" type="button"
+                                  (click)="goBack()">
+                                  <i class="fa fa-backward" style="font-size: 1rem;"></i>
+                                  Previous
+                              </button>
+                              <button class="btn btn-success btn-elevate btn-pill pull-right" type="button"
+                                  (click)="finish()">
+                                  <i class="fa fa-save" style="font-size: 1rem;"></i>
+                                  Submit
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </form>
+
+  </div>
+</div>
