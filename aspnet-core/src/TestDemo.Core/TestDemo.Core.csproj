@@ -25,6 +25,7 @@
     <PackageReference Include="Stripe.net" Version="25.3.0" />
     <PackageReference Include="PayPal" Version="2.0.0-rc2" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="TimeZoneConverter" Version="3.1.0" />
     <PackageReference Include="Abp.AspNetZeroCore" Version="1.2.2" />
   </ItemGroup>
@@ -42,6 +43,7 @@
     <ProjectReference Include="..\TestDemo.Core.Shared\TestDemo.Core.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="EclEngine\WholesaleEngine\" />
+    <Folder Include="EclLibrary\BaseEngine\" />
+    <Folder Include="EclLibrary\WholesaleEngine\" />
   </ItemGroup>
 </Project>

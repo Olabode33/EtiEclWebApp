@@ -35,11 +35,15 @@ namespace TestDemo.Wholesale
         public WholesaleEclsAppService(
             IRepository<WholesaleEcl, Guid> wholesaleEclRepository, 
             IRepository<User, long> lookup_userRepository,
-            UserManager userManager)
+            UserManager userManager,
+            IRepository<WholesaleEclUpload, Guid> wholesaleEclUploadRepository,
+            IRepository<WholesaleEclDataLoanBook, Guid> wholesaleEclLoanBookRepository)
         {
             _wholesaleEclRepository = wholesaleEclRepository;
             _lookup_userRepository = lookup_userRepository;
             _userManager = userManager;
+            _wholesaleEclUploadRepository = wholesaleEclUploadRepository;
+            _wholesaleEclLoanBookRepository = wholesaleEclLoanBookRepository;
         }
 
         public async Task<PagedResultDto<GetWholesaleEclForViewDto>> GetAll(GetAllWholesaleEclsInput input)
@@ -178,13 +182,25 @@ namespace TestDemo.Wholesale
             );
         }
 
-        public async Task RunEcl(EntityDto<Guid> input)
+        public async Task<string> RunEcl(EntityDto<Guid> input)
         {
             var uploadedData = await _wholesaleEclUploadRepository.FirstOrDefaultAsync(x => x.WholesaleEclId == input.Id);
-            var loanbookData = await _wholesaleEclLoanBookRepository.GetAll().Where(x => x.WholesaleEclUploadId == uploadedData.Id).ToListAsync();
-            DataTable loanbookDatatable = DataTableUtil.ToDataTable(loanbookData);
-            
+            if (uploadedData == null)
+            {
+                return "No upload";
+            }
 
+            var loanbookData = await _wholesaleEclLoanBookRepository.GetAll().Where(x => x.WholesaleEclUploadId == uploadedData.Id).ToListAsync();
+            if (loanbookData.Count == 0)
+            {
+                return "No Data";
+            }
+
+            DataTable loanbookDatatable = DataTableUtil.ToDataTable(loanbookData);
+
+            return "Sample";
+            //PdInputEngine PdInputEngine = new PdInputEngine();
+            //return PdInputEngine.RunPdEngine(loanbookDatatable);
         }
     }
 }
