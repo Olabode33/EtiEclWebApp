@@ -164,9 +164,9 @@ saveRetailEcl(): void {
       this.l('SubmitOrSaveAsDraft'),
       (isConfirmed) => {
           if (isConfirmed) {
-              this.retailECL.status =  GeneralStatusEnum.Submitted;
+              this.retailECL.status =  EclStatusEnum.Submitted;
           } else {
-              this.retailECL.status = GeneralStatusEnum.Draft;
+              this.retailECL.status = EclStatusEnum.Draft;
           }
           this._retailEcLsServiceProxy.createOrEdit(this.retailECL)
                   .subscribe(() => {

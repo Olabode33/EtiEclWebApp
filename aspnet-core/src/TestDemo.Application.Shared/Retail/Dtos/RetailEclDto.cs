@@ -13,7 +13,7 @@ namespace TestDemo.Retail.Dtos
 
 		public bool IsApproved { get; set; }
 
-		public GeneralStatusEnum Status { get; set; }
+		public EclStatusEnum Status { get; set; }
 
 
 		 public long? ClosedByUserId { get; set; }

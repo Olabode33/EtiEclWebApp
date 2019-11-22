@@ -26,7 +26,7 @@ namespace TestDemo.Retail
 		[Required]
 		public virtual bool IsApproved { get; set; }
 		
-		public virtual GeneralStatusEnum Status { get; set; }
+		public virtual EclStatusEnum Status { get; set; }
 		
 
 		public virtual long? ClosedByUserId { get; set; }

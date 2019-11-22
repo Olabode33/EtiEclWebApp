@@ -66,6 +66,23 @@ namespace TestDemo.EclShared
                                   Status = w.Status,
                                   Id = w.Id
                               }
+                          ).Union(
+                            from w in _retailEclRepository.GetAll().WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
+
+                            join ou in _organizationUnitRepository.GetAll() on w.OrganizationUnitId equals ou.Id
+
+                            join u in _lookup_userRepository.GetAll() on w.CreatorUserId equals u.Id into u1
+                            from u2 in u1.DefaultIfEmpty()
+                            select new GetAllEclForWorkspaceDto()
+                            {
+                                Framework = FrameworkEnum.Retail,
+                                CreatedByUserName = u2 == null ? "" : u2.FullName,
+                                DateCreated = w.CreationTime,
+                                ReportingDate = w.ReportingDate,
+                                OrganisationUnitName = ou == null ? "" : ou.DisplayName,
+                                Status = w.Status,
+                                Id = w.Id
+                            }
                           );
 
             var pagedEcls = allEcl

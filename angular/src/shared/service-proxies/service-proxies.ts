@@ -30334,6 +30334,62 @@ export class WholesaleEclsServiceProxy {
         }
         return _observableOf<PagedResultDtoOfWholesaleEclUserLookupTableDto>(<any>null);
     }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    runEcl(input: EntityDtoOfGuid | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEcls/RunEcl";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRunEcl(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRunEcl(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processRunEcl(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
 }
 
 @Injectable()
@@ -53097,7 +53153,7 @@ export class RetailEclDto implements IRetailEclDto {
     reportingDate!: moment.Moment | undefined;
     closedDate!: moment.Moment | undefined;
     isApproved!: boolean | undefined;
-    status!: GeneralStatusEnum | undefined;
+    status!: EclStatusEnum | undefined;
     closedByUserId!: number | undefined;
     id!: string | undefined;
 
@@ -53144,7 +53200,7 @@ export interface IRetailEclDto {
     reportingDate: moment.Moment | undefined;
     closedDate: moment.Moment | undefined;
     isApproved: boolean | undefined;
-    status: GeneralStatusEnum | undefined;
+    status: EclStatusEnum | undefined;
     closedByUserId: number | undefined;
     id: string | undefined;
 }
@@ -53193,7 +53249,7 @@ export class CreateOrEditRetailEclDto implements ICreateOrEditRetailEclDto {
     reportingDate!: moment.Moment;
     closedDate!: moment.Moment | undefined;
     isApproved!: boolean;
-    status!: GeneralStatusEnum | undefined;
+    status!: EclStatusEnum | undefined;
     closedByUserId!: number | undefined;
     id!: string | undefined;
 
@@ -53240,7 +53296,7 @@ export interface ICreateOrEditRetailEclDto {
     reportingDate: moment.Moment;
     closedDate: moment.Moment | undefined;
     isApproved: boolean;
-    status: GeneralStatusEnum | undefined;
+    status: EclStatusEnum | undefined;
     closedByUserId: number | undefined;
     id: string | undefined;
 }
