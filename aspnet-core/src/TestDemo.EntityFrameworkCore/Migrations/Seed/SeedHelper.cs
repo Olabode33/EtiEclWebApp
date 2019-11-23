@@ -6,6 +6,7 @@ using Abp.EntityFrameworkCore.Uow;
 using Abp.MultiTenancy;
 using Microsoft.EntityFrameworkCore;
 using TestDemo.EntityFrameworkCore;
+using TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio;
 using TestDemo.Migrations.Seed.Host;
 using TestDemo.Migrations.Seed.Tenants;
 
@@ -28,6 +29,9 @@ namespace TestDemo.Migrations.Seed
             //Default tenant seed (in host database).
             new DefaultTenantBuilder(context).Create();
             new TenantRoleAndUserBuilder(context, 1).Create();
+
+            //Default framework / portfolio assumption
+            new DefaultAssumptionBuilder(context).Create();
         }
 
         private static void WithDbContext<TDbContext>(IIocResolver iocResolver, Action<TDbContext> contextAction)

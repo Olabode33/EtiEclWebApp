@@ -6,12 +6,12 @@ namespace TestDemo.EclShared
 {
     public enum DataTypeEnum
     {
-        String = 1, Datetime, Double
+        String = 1, Datetime, Double, Int
     }
 
     public enum FrameworkEnum
     {
-        General, Wholesale, Retail, OBE
+        All, Wholesale, Retail, OBE
     }
 
     public enum ModuleEnum
@@ -51,7 +51,7 @@ namespace TestDemo.EclShared
 
     public enum AssumptionGroupEnum
     {
-        General, ScenarioInputs, AbsoluteCreditQuality, RelativeCreditQuality, ForwardTransitions, BackwardTransitions
+        General, ScenarioInputs, AbsoluteCreditQuality, RelativeCreditQuality, ForwardTransitions, BackwardTransitions, CreditRatingRank
     }
 
     public enum AssumptionTypeEnum
