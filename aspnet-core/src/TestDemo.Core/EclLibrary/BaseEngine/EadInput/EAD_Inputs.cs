@@ -21,6 +21,13 @@ namespace EAD_Inputs_Automation
         public string base_rate;
         public string current_contractual_ir;
         public string post_ip_contractural_ir;
+        public double outstanding_balance_lcy;
+        public string product_type;
+        public double months_to_expiry;
+        public string segment;
+        public double rem_interest_moritorium;
+        public double credit_limit_lcy;
+        public string interest_divisor;
 
     }
 }

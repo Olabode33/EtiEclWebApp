@@ -15,9 +15,9 @@ namespace EAD_Inputs_Automation
             dt.Columns.Add(ColumnNames.contract_no, typeof(string));
             dt.Columns.Add(ColumnNames.segment, typeof(string));
             dt.Columns.Add(ColumnNames.currency, typeof(string));
-            dt.Columns.Add("PRODUCT_TYPE", typeof(string));
-            dt.Columns.Add("CREDIT_LIMIT_LCY", typeof(string));
-            dt.Columns.Add("ORIGINAL_BALANCE_LCY", typeof(string));
+            dt.Columns.Add(ColumnNames.product_type, typeof(string));
+            dt.Columns.Add(ColumnNames.credit_limit_lcy, typeof(string));
+            dt.Columns.Add(ColumnNames.original_bal_lcy, typeof(string));
             dt.Columns.Add("OUTSTANDING_BALANCE_LCY", typeof(string));
             dt.Columns.Add("CONTRACT_START_DATE", typeof(string));
             dt.Columns.Add("CONTRACT_END_DATE", typeof(string));
@@ -40,6 +40,9 @@ namespace EAD_Inputs_Automation
         public static DataTable LifeTimeEADs()
         {
             DataTable dt = new DataTable();
+            dt.Columns.Add(ColumnNames.contract_no, typeof(string));
+            dt.Columns.Add(ColumnNames.segment, typeof(string));
+            dt.Columns.Add(ColumnNames.credit_limit_lcy, typeof(string));
             dt.Columns.Add(ColumnNames.start_date, typeof(string));
             dt.Columns.Add(ColumnNames.end_date, typeof(string));
             dt.Columns.Add(ColumnNames.remaining_ip, typeof(string));
@@ -66,6 +69,35 @@ namespace EAD_Inputs_Automation
                 dt.Columns.Add(columns.ToString(), typeof(string));
                 columns++;
             }
+            return dt;
+        }
+        
+        public static DataTable ProjectionTable(string type)
+        {
+            DataTable dt = new DataTable();
+
+            if (type == VariableNames.filterValue_eir)
+            {
+                dt.Columns.Add(ColumnNames.eir_group, typeof(string));
+                dt.Columns.Add(ColumnNames.months, typeof(string));
+                dt.Columns.Add(ColumnNames.value, typeof(double));
+            }
+            else if (type.Contains(VariableNames.filterValue_cir))
+            {
+                dt.Columns.Add(ColumnNames.cir_group, typeof(string));
+                dt.Columns.Add(ColumnNames.months, typeof(string));
+                dt.Columns.Add(ColumnNames.value, typeof(double));
+                dt.Columns.Add(ColumnNames.cir_effective, typeof(double));
+            }
+            else
+            {
+                dt.Columns.Add(ColumnNames.contract_no, typeof(string));
+                dt.Columns.Add(ColumnNames.eir_group, typeof(string));
+                dt.Columns.Add(ColumnNames.cir_group, typeof(string));
+                dt.Columns.Add(ColumnNames.months, typeof(string));
+                dt.Columns.Add(ColumnNames.value, typeof(double));
+            }
+            
             return dt;
         }
     }

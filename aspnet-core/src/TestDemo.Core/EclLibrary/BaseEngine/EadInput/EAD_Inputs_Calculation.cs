@@ -9,190 +9,257 @@ using System.Threading.Tasks;
 
 namespace EAD_Inputs_Automation
 {
-    class EAD_Inputs_Calculation
+    public class EAD_Inputs_Calculation
     {
-        public static String virProjections = "0.14";
-        public static string tempString = String.Empty; //for holding temporary values
-        public static String Non_Expired = "31";   ///this is called OD_PERFORMACE_PAST_EXPIRY on the excel and it is obtained from the EAD calibration. It will be obtained from the DB
-        public static String Expired = "22";///this is called EXP_OD_PERFORMACE_PAST_EXPIRY on the excel and it is obtained from the EAD calibration. It will be obtained from the DB
-        public static String Corporate = "100%";///It will be obtained from the DB
-        public static String Commercial = "100%";///It will be obtained from the DB
-        public static String Consumer = "100%";///It will be obtained from the DB
-        public static String Conversion_Factor_OBE = "100";///It will be obtained from the DB
-        public static DateTime reportingDate = new DateTime(2016, 12, 31);
+        public String virProjections = "0.14"; //GOTTEN FROM DB
+        public string tempString = String.Empty; //for holding temporary values
+        public String Non_Expired = "31";   ///this is called OD_PERFORMACE_PAST_EXPIRY on the excel and it is obtained from the EAD calibration. It will be obtained from the DB
+        public String Expired = "22";///this is called EXP_OD_PERFORMACE_PAST_EXPIRY on the excel and it is obtained from the EAD calibration. It will be obtained from the DB
+        public double Corporate = 1;///It will be obtained from the DB
+        public double Commercial = 1;///It will be obtained from the DB
+        public double Consumer = 1;///It will be obtained from the DB
+        public double Conversion_Factor_OBE = 1;///It will be obtained from the DB this is in percentage
+        public DateTime reportingDate = new DateTime(2016, 12, 31);
         public void EAD_Inputs_START(DataTable oldDt)
         {
-            DataTable mainDT = Helper.RevisedTable();
+            DataTable refinedRawData = Tables.RevisedTable();
             ///Get contract IDs
             ///
             //mainDT = Get_Contract_IDs(mainDT, oldDt);
-            mainDT = PopulateMain(Get_Contract_IDs(mainDT, oldDt), oldDt);
-            DataTable lifeTimeEAD_w = LifeTimeEADs_W(mainDT);
+            refinedRawData = PopulateMain(Get_Contract_IDs(refinedRawData, oldDt), oldDt);
+            DataTable lifeTimeEAD_w = LifeTimeEADs_W(refinedRawData);
 
-            DataTable distinctValues = new DataView(lifeTimeEAD_w).ToTable(true, ColumnNames.cir_base_premium);
+            /*DataTable distinctValues = new DataView(lifeTimeEAD_w).ToTable(true, ColumnNames.cir_base_premium);
             distinctValues.DefaultView.Sort = ColumnNames.cir_base_premium;
             distinctValues = distinctValues.DefaultView.ToTable();
 
             DataTable distinctValues2 = new DataView(lifeTimeEAD_w).ToTable(true, ColumnNames.eir_base_premium);
             distinctValues2.DefaultView.Sort = ColumnNames.eir_base_premium;
-            distinctValues2 = distinctValues2.DefaultView.ToTable();
+            distinctValues2 = distinctValues2.DefaultView.ToTable();*/
+
+            DataTable distinctContractID = new DataView(refinedRawData).ToTable(true, ColumnNames.contract_no);
+            distinctContractID.DefaultView.Sort = ColumnNames.contract_no;
+            distinctContractID = distinctContractID.DefaultView.ToTable();
 
             //Perform Projections
-            var maximumDate = mainDT.AsEnumerable().Select(x => Convert.ToDateTime(x.Field<string>(ColumnNames.contract_end_dt))).Max();
+            var maximumDate = refinedRawData.AsEnumerable().Select(x => Convert.ToDateTime(x.Field<string>(ColumnNames.contract_end_dt))).Max();
             double noOfDays = (maximumDate - reportingDate).Days;
-            double noOfColumns = Math.Ceiling(noOfDays * 12 / 365);
-            Projections(noOfColumns, distinctValues, distinctValues2);
+            double noOfMonths = Math.Ceiling(noOfDays * 12 / 365);
+
+            //work on payment schedule
+            //let us imagine we have a table with contract ids and their components
+
+            //populate for EIR projections
+            string filterValue = VariableNames.filterValue_eir;
+            DataTable EIR_Projection = Projections(lifeTimeEAD_w, distinctContractID, noOfMonths, filterValue);
+
+            //populate for CIR projections
+            filterValue = VariableNames.filterValue_cir;
+            DataTable CIR_Projection = Projections(lifeTimeEAD_w, distinctContractID, noOfMonths, filterValue);
+
+            //populate for Lifetime EAD projections
+
+            filterValue = VariableNames.filterValue_lifetime;
+            NewMethod(refinedRawData, lifeTimeEAD_w, distinctContractID, noOfMonths, filterValue, CIR_Projection);
+
         }
 
-        private void Projections(double noOfColumns, DataTable CIR_dt, DataTable EIR_dt)
+        private void NewMethod(DataTable refinedRawData, DataTable lifeTimeEAD_w, DataTable distinctContractID, double noOfMonths, string filterValue, DataTable CIR_Projection)
         {
-            //Perform EIR projections
-            DataTable projectionTable = Tables.DynamicTable(noOfColumns);
-            string base_premium, groupvalue;
-
-            for (int i = 0; i < EIR_dt.Rows.Count; i++)
-            {//EIR projections
-                projectionTable.Rows.Add();
-
-                groupvalue = EIR_dt.Rows[i][ColumnNames.eir_base_premium].ToString();
-               // groupvalue = (base_premium == "EXP") ? base_premium : "EIR" + base_premium;
-                projectionTable.Rows[i][ColumnNames.key] = groupvalue;
-
-                int j = 0;
-                double value = 0;
-                while (j <= noOfColumns)
-                {
-                    if (j != 0)
-                    {
-                        if (groupvalue == "EXP")
-                        {
-                            value = 0;
-                        }
-                        else
-                        {
-                            var temp = groupvalue.Split('_');
-                            if (temp[1] != "FIXED")
-                            {
-                                value = Math.Round((Convert.ToDouble(virProjections) * 100) + Convert.ToDouble(temp[2].Substring(0, temp[2].Length - 1)), 1);
-                            }
-                            else
-                            {
-                                value = Convert.ToDouble(virProjections);
-                            }
-                        }
-                    }
-                   
-                    projectionTable.Rows[i][j+1] = value.ToString();
-                    j++;
-                }
-            }
-
-            //Insert Table to DB here
-            //
-
-            //Perform CIR projections
-            projectionTable.Clear();
-            for (int i = 0; i < EIR_dt.Rows.Count; i++)
+            DataTable lifetimeEadInputs = Tables.ProjectionTable(filterValue);
+            for (int contractIndex = 0; contractIndex < distinctContractID.Rows.Count; contractIndex++)
             {
-                projectionTable.Rows.Add();
-
-                groupvalue = EIR_dt.Rows[i][ColumnNames.eir_base_premium].ToString();
-             //   groupvalue = (base_premium == "EXP") ? base_premium : "CIR" + base_premium;
-                projectionTable.Rows[i][ColumnNames.key] = groupvalue;
-
-                int j = 0;
-                double value = 0;
-                while (j <= noOfColumns)
+                EAD_Inputs obj = new EAD_Inputs()
                 {
-                    if (j != 0)
+                    outstanding_balance_lcy = Convert.ToDouble(refinedRawData.Rows[contractIndex][ColumnNames.outstanding_bal_lcy]),
+                    product_type = refinedRawData.Rows[contractIndex][ColumnNames.product_type].ToString(),
+                    months_to_expiry = Convert.ToDouble(refinedRawData.Rows[contractIndex][ColumnNames.mths_to_expiry]),
+                    segment = refinedRawData.Rows[contractIndex][ColumnNames.segment].ToString(),
+                    credit_limit_lcy = Convert.ToDouble(refinedRawData.Rows[contractIndex][ColumnNames.credit_limit_lcy]),
+                    rem_interest_moritorium = Convert.ToDouble(refinedRawData.Rows[contractIndex][ColumnNames.rem_interest_moritorium]),
+                    interest_divisor = refinedRawData.Rows[contractIndex][ColumnNames.interest_divisor].ToString(),
+                };
+
+                string contract = distinctContractID.Rows[contractIndex][ColumnNames.contract_no].ToString();
+                string eir_group_value = lifeTimeEAD_w.AsEnumerable().Where(x => x.Field<string>(ColumnNames.contract_no) == contract).Select(x => x.Field<string>(ColumnNames.eir_base_premium)).First();
+                string cir_group_value = lifeTimeEAD_w.AsEnumerable().Where(x => x.Field<string>(ColumnNames.contract_no) == contract).Select(x => x.Field<string>(ColumnNames.cir_base_premium)).First();
+
+                for (double monthIndex = 0; monthIndex <= noOfMonths; monthIndex++)
+                {
+                    if (monthIndex == 0)
                     {
-                        if (groupvalue.Contains("RIP@")) //(ISNUMBER(SEARCH("RIP@", $B4)))
+                        double value = projection_Calulcation_lifetimeEAD_0(obj.outstanding_balance_lcy, obj.product_type);
+
+                        lifetimeEadInputs.Rows.Add(new object[]
                         {
-                            var split = groupvalue.Split(new string[] { "RIP" }, StringSplitOptions.None);
-                            int posti = split[0].IndexOf('(');
-                            int len = split[0].Length;
-                            double a_value = Convert.ToDouble(groupvalue.Substring(posti + 1, len - posti - 1));
-                             
-                            if (Convert.ToDouble(j) <= a_value)  //(C$3 <= NUMBERVALUE(MID($B4, FIND("(", $B4) + 1, FIND("RIP@", $B4) - FIND("(", $B4) - 1)))
+                            contract,
+                            eir_group_value,
+                            cir_group_value,
+                            monthIndex,
+                            value
+                        });
+                    }
+                    else
+                    {
+                        double overallvalue = 0, value1, value2;
+                        double month_0 = lifetimeEadInputs.AsEnumerable().Where(x => x.Field<string>(ColumnNames.months) == VariableNames._month0 && x.Field<string>(ColumnNames.contract_no) == contract)
+                                        .Select(x => x.Field<double>(ColumnNames.value)).First();
+
+                        if (obj.product_type != VariableNames._productType_loan && obj.product_type != VariableNames._productType_lease & obj.product_type != VariableNames._productType_mortgage)
+                        {
+                            if (monthIndex <= obj.months_to_expiry)
                             {
-                                //x = MID($B4, FIND("RIP@", $B4) + 4, FIND(")", $B4) - FIND("RIP@", $B4) - 4)
-                                posti = split[1].IndexOf('@');
-                                int posti2 = split[1].IndexOf(')');
-                                var b_value = groupvalue.Substring(posti + 1, posti2 - 1);
-                                //value = 
-                            }
-                            else 
-                            {
-                                split = groupvalue.Split(new string[] { "_" }, StringSplitOptions.None);
-                                string s_value = split[1];
-                                if (s_value != "FIXED") //(MID($B4, FIND(")_", $B4) + 2, FIND("_", $B4, FIND(")_", $B4) + 3) - FIND(")_", $B4) - 2) <> "FIXED")
+                                if (obj.segment == VariableNames._corporate)
                                 {
-                                    //INDEX(VIR_PROJECTIONS, MATCH(MID($B4, FIND(")_", $B4) + 2, FIND("_", $B4, FIND(")_", $B4) + 3) - FIND(")_", $B4) - 2), INDEX(VIR_PROJECTIONS, 0, 1), 1), 1 + C$3)
-                                    value = (Convert.ToDouble(virProjections) * 100);
+                                    value1 = obj.outstanding_balance_lcy + Math.Max((obj.credit_limit_lcy - obj.outstanding_balance_lcy) * Corporate, 0);
+                                }
+
+                                else if (obj.segment == VariableNames._consumer)
+                                {
+                                    value1 = obj.outstanding_balance_lcy + Math.Max((obj.credit_limit_lcy - obj.outstanding_balance_lcy) * Convert.ToDouble(Consumer), 0);
+                                }
+                                else if (obj.segment == VariableNames._commercial)
+                                {
+                                    value1 = obj.outstanding_balance_lcy + Math.Max((obj.credit_limit_lcy - obj.outstanding_balance_lcy) * Convert.ToDouble(Commercial), 0);
+                                }
+                                else //OBE
+                                {
+                                    value1 = obj.outstanding_balance_lcy + Math.Max((obj.credit_limit_lcy - obj.outstanding_balance_lcy) * Convert.ToDouble(Corporate), 0);
+                                }
+
+                                if (obj.product_type != VariableNames._productType_od && obj.product_type != VariableNames._productType_card)
+                                {
+                                    value2 = Convert.ToDouble(Conversion_Factor_OBE);
                                 }
                                 else
                                 {
-                                    value = 0;
+                                    value2 = 1;
                                 }
+
+                                overallvalue = value1 * value2;
                             }
-                            // x = x + RIGHT($B4, FIND("_", Reversestr($B4)) - 1))
-                            value += Convert.ToDouble(split[2].Substring(0, split[2].Length - 1));
                         }
                         else
                         {
-                            if (groupvalue != "EXP")
+                            string component = ""; //this should be obtained from the payment schedule
+                            double d_value;
+                            if (monthIndex <= obj.months_to_expiry)
                             {
-                                var split = groupvalue.Split(new string[] { "_" }, StringSplitOptions.None);
-                                if (split[1] != "FIXED") //(MID($B4, 5, FIND("_", $B4, 5) - 5) <> "FIXED")
+                                double c_value = CIR_Projection.AsEnumerable().Where(x => x.Field<string>(ColumnNames.cir_group) == cir_group_value && x.Field<string>(ColumnNames.months) == (monthIndex + 1).ToString()).
+                                                Select(x => x.Field<double>(ColumnNames.cir_effective)).First();
+                                if (component != VariableNames._amortise)
                                 {
-                                    value = (Convert.ToDouble(virProjections) * 100);
+                                    int a_value = (monthIndex > obj.rem_interest_moritorium || obj.rem_interest_moritorium == 0) ? 1 : 0;
+                                    int b_value = (obj.interest_divisor != "1") ? 1 : 0;
+
+                                    d_value = a_value * b_value * c_value * month_0;
                                 }
                                 else
                                 {
-                                    value = 0;
+                                    d_value = c_value * month_0;
                                 }
 
-                                value = Math.Round(value + Convert.ToDouble(split[2].Substring(0, split[2].Length - 1)), 1);
+                                double e_value = month_0 + d_value; // - ('Payment Schedule'!D4*INDEX(FX_PROJECTIONS, $L4, T$3+1)
+
+                                if (obj.interest_divisor == VariableNames._interestDivisior)
+                                {
+                                    //x = ($H4=T$3)*SUMPRODUCT(OFFSET(T4, 0, -1, 1, -T$3), OFFSET(CIR_EFF_MONTHLY_RANGE, $M4-1, T$3, 1, -T$3))*($H4+$G4)/T$3
+
+                                }
+                                else
+                                {
+
+                                }
                             }
                             else
                             {
-                                value = 0;
+
                             }
                         }
+
+                        lifetimeEadInputs.Rows.Add(new object[]
+                        {
+                            contract,
+                            eir_group_value,
+                            cir_group_value,
+                            monthIndex,
+                            overallvalue
+                        });
                     }
-                    projectionTable.Rows[i][j + 1] = value.ToString();
-                    j++;
                 }
+
             }
-
-            /*  for (int i = 0; i < lifetimeEAD.Rows.Count; i++)
-              {
-                  //Lifetime EAD projections
-                  projectionTable.Rows.Add();
-                  projectionTable.Rows[i][ColumnNames.key] = lifetimeEAD.Rows[i][ColumnNames.contract_no].ToString();
-                  projectionTable.Rows[i]["0"] = projection_Calulcation_lifetimeEAD_0(Convert.ToDouble(lifetimeEAD.Rows[i][ColumnNames.outstanding_bal_lcy].ToString()), lifetimeEAD.Rows[i][ColumnNames.product_type].ToString());
-
-                  string segment = lifetimeEAD.Rows[i][ColumnNames.segment].ToString();
-
-                  int j = 2;
-                  while (j <= noOfColumns)
-                  {
-                      projectionTable.Rows[i][j] = "";
-                      j++;
-
-              }
-              //perform EIR and CIR projections
-              //=IF($B4="EXP", 0,IF(MID($B4, 5, FIND("_", $B4, 5) - 5) <> "FIXED", INDEX(VIR_PROJECTIONS, MATCH(MID($B4, 5, FIND("_", $B4, 5) - 5),
-              //INDEX(VIR_PROJECTIONS, 0, 1), 1), 1 + C$3), 0) + RIGHT($B4, FIND("_", Reversestr($B4)) - 1))
-             */
         }
 
-        private static double projection_Calulcation_lifetimeEAD_0(double outstanding_bal_lcy, string product_type)
+        private DataTable Projections (DataTable lifeTimeEAD_w, DataTable distinctContractID, double noOfMonths, string filterValue)
+        {
+            DataTable projectionTable = Tables.ProjectionTable(filterValue);
+            for (int contractIndex = 0; contractIndex < distinctContractID.Rows.Count; contractIndex++)
+            {
+                string contract = distinctContractID.Rows[contractIndex][ColumnNames.contract_no].ToString();
+                string group_value;
+                if (filterValue == VariableNames.filterValue_eir)
+                {
+                    group_value = lifeTimeEAD_w.AsEnumerable().Where(x => x.Field<string>(ColumnNames.contract_no) == contract).Select(x => x.Field<string>(ColumnNames.eir_base_premium)).First();
+                }
+                else
+                {
+                    group_value = lifeTimeEAD_w.AsEnumerable().Where(x => x.Field<string>(ColumnNames.contract_no) == contract).Select(x => x.Field<string>(ColumnNames.cir_base_premium)).First();
+                }
+
+                for (double monthIndex = 0; monthIndex < noOfMonths; monthIndex++)
+                {
+                    double value;
+                    if (group_value == VariableNames.expired)
+                    {
+                        value = 0;
+                    }
+                    else
+                    {
+                        var temp = group_value.Split(VariableNames._splitValue);
+                        if (temp[1] != VariableNames._fixed)
+                        {
+                            value = Math.Round((Convert.ToDouble(virProjections) * 100) + Convert.ToDouble(temp[2].Substring(0, temp[2].Length - 1)), 1) / 100;
+                        }
+                        else
+                        {
+                            value = Convert.ToDouble(virProjections)/100;
+                        }
+                    }
+
+                    if (filterValue == VariableNames.filterValue_cir) //calculate the cir effective
+                    {
+                        double effectiveValue, power = Convert.ToDouble(1m/12m);
+                        //(1 + C$) ^ (1/12)-1
+                        effectiveValue = Math.Pow(1 + value, power) - 1;
+                        projectionTable.Rows.Add(new object[]
+                        {
+                            group_value,
+                            monthIndex + 1,
+                            value,
+                            effectiveValue
+                        });
+                    }
+                    else
+                    {
+                        projectionTable.Rows.Add(new object[]
+                        {
+                            group_value,
+                            monthIndex + 1,
+                            value
+                        });
+                    }
+                }
+            }
+            return projectionTable;
+        }
+
+        private double projection_Calulcation_lifetimeEAD_0(double outstanding_bal_lcy, string product_type)
         {
             double value;
-            if (product_type != "LOAN" && product_type != "LEASE" && product_type != "MORTGAGE" && product_type != "OD" && product_type != "CARD")
+            if (product_type != VariableNames._productType_loan && product_type != VariableNames._productType_lease && product_type != VariableNames._productType_mortgage && product_type != VariableNames._productType_od && product_type != VariableNames._productType_card)
             {
-                value = Convert.ToDouble(Conversion_Factor_OBE);
+                value = Conversion_Factor_OBE;
             }
             else
             {
@@ -267,7 +334,7 @@ namespace EAD_Inputs_Automation
             return value;
         }
         */
-        private static DataTable Get_Contract_IDs(DataTable maindt, DataTable oldDT)
+        public virtual DataTable Get_Contract_IDs(DataTable maindt, DataTable oldDT)
         {
             for (int i =0; i < oldDT.Rows.Count; i++)
             {
@@ -307,7 +374,7 @@ namespace EAD_Inputs_Automation
             return maindt;
         }
 
-        private static DataTable PopulateMain (DataTable mainDT, DataTable oldDT)
+        public virtual DataTable PopulateMain(DataTable mainDT, DataTable oldDT)
         {
             ////
             //populate the mainDT (this is the revised table)
@@ -318,7 +385,7 @@ namespace EAD_Inputs_Automation
                 var checkNumber = int.TryParse(getValuefromContractNo, out int n);
                 
                 var query = oldDT.AsEnumerable().Where(x => x.Field<string>(ColumnNames.contract_no) == mainDT.Rows[i][ColumnNames.contract_no].ToString());
-                if (Contract_No.Substring(0,3) == "EXP" && !checkNumber)
+                if (Contract_No.Substring(0,3) == VariableNames.expired && !checkNumber)
                 {
                     
                     /*mainDT.Rows[i][ColumnNames.segment] = String.Empty;
@@ -380,7 +447,7 @@ namespace EAD_Inputs_Automation
             return mainDT;
         }
 
-        private static DataTable LifeTimeEADs_W(DataTable mainDT)
+        public virtual DataTable LifeTimeEADs_W(DataTable mainDT)
         {
             ///end DB
             DataTable lifetimeEAD_w = Tables.LifeTimeEADs();
@@ -396,13 +463,19 @@ namespace EAD_Inputs_Automation
                     contract_start_dt = mainDT.Rows[i][ColumnNames.contract_strt_dt].ToString(),
                     contract_end_dt = mainDT.Rows[i][ColumnNames.contract_end_dt].ToString(),
                     introductory_period = mainDT.Rows[i][ColumnNames.introductory_period].ToString(),
-                    start_date = mainDT.Rows[i][ColumnNames.start_date].ToString(),
+                    //start_date = mainDT.Rows[i][ColumnNames.start_date].ToString(),
                     contract_no = mainDT.Rows[i][ColumnNames.contract_no].ToString(),
                     interest_rate_type = mainDT.Rows[i][ColumnNames.interest_rate_type].ToString(),
                     base_rate = mainDT.Rows[i][ColumnNames.base_rate].ToString(),
                     current_contractual_ir = mainDT.Rows[i][ColumnNames.current_contractual_ir].ToString(),
                     post_ip_contractural_ir = mainDT.Rows[i][ColumnNames.post_ip_contractural_ir].ToString(),
+                    segment = mainDT.Rows[i][ColumnNames.segment].ToString(),
+                    credit_limit_lcy = Convert.ToDouble(mainDT.Rows[i][ColumnNames.credit_limit_lcy])
                 };
+
+                lifetimeEAD_w.Rows[i][ColumnNames.contract_no] = obj.contract_no;
+                lifetimeEAD_w.Rows[i][ColumnNames.segment] = obj.segment;
+                lifetimeEAD_w.Rows[i][ColumnNames.credit_limit_lcy] = obj.credit_limit_lcy;
 
                 lifetimeEAD_w.Rows[i][ColumnNames.start_date] = S_E_Date(obj.restructure_start_dt, obj.restructure_indicator, obj.contract_start_dt);
 
@@ -412,12 +485,12 @@ namespace EAD_Inputs_Automation
                 //remaining IP
                 lifetimeEAD_w.Rows[i][ColumnNames.remaining_ip] = Remaining_IP(obj, reportingDate);
                 
-                if (obj.contract_no.Substring(0, 3) == "EXP")
+                if (obj.contract_no.Substring(0, 3) == VariableNames.expired)
                 {
-                    lifetimeEAD_w.Rows[i][ColumnNames.revised_base] = "EXP";
+                    lifetimeEAD_w.Rows[i][ColumnNames.revised_base] = VariableNames.expired;
                     lifetimeEAD_w.Rows[i][ColumnNames.cir_premium] = String.Empty;
-                    lifetimeEAD_w.Rows[i][ColumnNames.cir_base_premium] = "EXP";
-                    lifetimeEAD_w.Rows[i][ColumnNames.eir_base_premium] = "EXP";
+                    lifetimeEAD_w.Rows[i][ColumnNames.cir_base_premium] = VariableNames.expired;
+                    lifetimeEAD_w.Rows[i][ColumnNames.eir_base_premium] = VariableNames.expired;
                     lifetimeEAD_w.Rows[i][ColumnNames.mths_in_force] = String.Empty;
                     lifetimeEAD_w.Rows[i][ColumnNames.mths_to_expiry] = "0";
                 }
@@ -434,7 +507,7 @@ namespace EAD_Inputs_Automation
                        
 
                     ///start CIR Base Premium 
-                    ///=IF(LEFT($B5, 3) = "EXP", "EXP", "CIR"& IF(AA5<>"", "(" & $AA5 & "RIP@" & ROUND(((1+$R5/12)^12-1)*100, 1) & "%)_", "_")& 
+                    ///=IF(LEFT($B5, 3) = VariableNames.expired, VariableNames.expired, "CIR"& IF(AA5<>"", "(" & $AA5 & "RIP@" & ROUND(((1+$R5/12)^12-1)*100, 1) & "%)_", "_")& 
                     ///$AB5 & "_" & IF(AC5<0, ROUND($AC5*100, 1) & "%", "+" & ROUND($AC5*100, 1) & "%"))
                     ///
                   /*  double value1, value2 = 0;
@@ -473,7 +546,7 @@ namespace EAD_Inputs_Automation
                     //end EIR base premium
 
                     //start Months in Force
-                    //=IF(LEFT($B5, 3) = "EXP", "",ROUND(YEARFRAC($Y5, REPORT_DATE, 1) * 12, 0))
+                    //=IF(LEFT($B5, 3) = VariableNames.expired, "",ROUND(YEARFRAC($Y5, REPORT_DATE, 1) * 12, 0))
                     //THIS NEEDS TO BE UPDATED///
                     /*var wer = DateTime.ParseExact("07/08/2019", "MM/dd/yyyy", null);
                     var real = lifetimeEAD_w.Rows[i][ColumnNames.start_date].ToString();
@@ -510,7 +583,7 @@ namespace EAD_Inputs_Automation
             return lifetimeEAD_w; 
         }
 
-        private static string S_E_Date(string restructure_dt, string restructure_indicator, string contract_dt)
+        private string S_E_Date(string restructure_dt, string restructure_indicator, string contract_dt)
         {
             string value = String.Empty;
             if (!String.IsNullOrEmpty(restructure_dt) && restructure_indicator == "1")
@@ -551,11 +624,11 @@ namespace EAD_Inputs_Automation
 
         private static string Revised_Base(string interest_rate_type, string base_rate)
         {
-            ///=IF(LEFT($B5, 3) = "EXP", "EXP", IF($U5 <> "FLOATING", "FIXED",  IF($Q5 <> "", $Q5, "MPR")))
+            ///=IF(LEFT($B5, 3) = VariableNames.expired, VariableNames.expired, IF($U5 <> "FLOATING", VariableNames._fixed,  IF($Q5 <> "", $Q5, "MPR")))
             string value = String.Empty;
             if (interest_rate_type != "FLOATING")
             {
-                value = "FIXED";
+                value = VariableNames._fixed;
             }
             else
             {
@@ -571,13 +644,13 @@ namespace EAD_Inputs_Automation
             return value;
         }
 
-        private static double CIR_EIR_Premium(string L_revisedBase, string AA_Value)
+        private double CIR_EIR_Premium(string L_revisedBase, string AA_Value)
         {
-            //// = IF(LEFT($B5, 3) = "EXP", "",ROUND((((1 + IF($AA5 = "", $V5, $T5) / 12) ^ 12) - 1) - IF($AB5 <> "FIXED", INDEX(VIR_PROJECTIONS, MATCH($AB5, INDEX(VIR_PROJECTIONS, 0, 1), 1), 2), 0), 3))
+            //// = IF(LEFT($B5, 3) = VariableNames.expired, "",ROUND((((1 + IF($AA5 = "", $V5, $T5) / 12) ^ 12) - 1) - IF($AB5 <> VariableNames._fixed, INDEX(VIR_PROJECTIONS, MATCH($AB5, INDEX(VIR_PROJECTIONS, 0, 1), 1), 2), 0), 3))
             double value1 = (String.IsNullOrEmpty(AA_Value)) ? 0 : Math.Pow((Convert.ToDouble(AA_Value) / 1200) + 1, 12) - 1;
             double value2;
 
-            if (L_revisedBase != "FIXED")
+            if (L_revisedBase != VariableNames._fixed)
             {
                 value2 = Convert.ToDouble(virProjections);
             }
@@ -625,7 +698,7 @@ namespace EAD_Inputs_Automation
 
         private static string EIR_Base_Premium(string revised_base, string eir_premium)
         {
-            //=IF(LEFT($B5, 3) = "EXP", "EXP", "EIR_" & $AB5 & "_" & IF(AD5<0, ROUND($AD5*100, 1) & "%", "+" & ROUND($AD5*100, 1) & "%"))
+            //=IF(LEFT($B5, 3) = VariableNames.expired, VariableNames.expired, "EIR_" & $AB5 & "_" & IF(AD5<0, ROUND($AD5*100, 1) & "%", "+" & ROUND($AD5*100, 1) & "%"))
             string value;
             string concatenateValue1 = "EIR_" + revised_base + "_";
 
@@ -655,7 +728,7 @@ namespace EAD_Inputs_Automation
             return value;
         }
 
-        private static string Interest_Divisor(string ir_payment_struct)
+        private string Interest_Divisor(string ir_payment_struct)
         {
             //=IF($P5="B","B", IF($P5 = "H", 6, IF($P5 = "Y", 12, IF($P5 = "M", 1, IF($P5 = "Q", 3, IF($P5 = "S", "Error",IF($P5 = "", "",)))))))
             string value = String.Empty;
@@ -686,9 +759,9 @@ namespace EAD_Inputs_Automation
             return value;
         }
 
-        private static double Months_To_Expiry (DateTime reportingDate, DateTime endDate, string productType)
+        private double Months_To_Expiry (DateTime reportingDate, DateTime endDate, string productType)
         {
-            //=IF(LEFT($B5, 3) = "EXP", 0,
+            //=IF(LEFT($B5, 3) = VariableNames.expired, 0,
             //IF(AND($Z5 < REPORT_DATE, OR($E5 = "OD", $E5 = "CARD")), IF(REPORT_DATE > EOMONTH($Z5, EXP_OD_PERFORMANCE_PAST_EXPIRY), 0, ROUND(YEARFRAC(REPORT_DATE, EOMONTH($Z5, EXP_OD_PERFORMANCE_PAST_EXPIRY), 1) * 12, 0)),
             //MAX(IF(OR($E5 = "OD", $E5 = "CARD"), ROUND(YEARFRAC(REPORT_DATE, EOMONTH($Z5, OD_PERFORMANCE_PAST_EXPIRY), 1) * 12, 0),
             //ROUND(YEARFRAC(REPORT_DATE, EOMONTH($Z5, 0), 1) * 12, 0)),
@@ -717,7 +790,7 @@ namespace EAD_Inputs_Automation
             return value;
         }
 
-        private static double First_Interest_Month(string interest_divisor, double mths_to_expiry, double rem_interest_moritorium, double mths_in_force, double ipt_o_period)
+        private double First_Interest_Month(string interest_divisor, double mths_to_expiry, double rem_interest_moritorium, double mths_in_force, double ipt_o_period)
         {
             double value = 0;
             // = IF(interest_divisor <> "", IF(interest_divisor = "B", mths_to_expiry, iF(rem_interest_moritorium <> "", IF(rem_interest_moritorium > 0, rem_interest_moritorium + interest_divisor,
@@ -752,11 +825,19 @@ namespace EAD_Inputs_Automation
                 return value;
         }
                 
-        private static DateTime EndOfMonth(DateTime myDate, int numberOfMonths)
+        private DateTime EndOfMonth(DateTime myDate, int numberOfMonths)
         {
             DateTime startOfMonth = new DateTime(myDate.Year, myDate.Month, 1);
             var endOfMonth = startOfMonth.AddMonths(numberOfMonths).AddDays(-1);
             return endOfMonth;
+        }
+
+        private double Offset(DataTable dt, int index, string columnName, double reference, int row, int column, int height = 0, int width = 0)
+        {
+            double value = 0;
+            var q = dt.Rows[index][columnName].ToString(); 
+            row = row + index;
+            return value;
         }
 
     }

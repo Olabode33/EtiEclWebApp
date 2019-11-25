@@ -63,5 +63,11 @@ namespace EAD_Inputs_Automation
 
         public const string key = "GROUP";
 
+        public const string eir_group = "EIR_GROUP";
+        public const string cir_group = "CIR_GROUP";
+        public const string months = "MONTHS";
+        public const string value = "VALUE";
+        public const string cir_effective = "CIR_EFFECTIVE";
+
     }
 }
