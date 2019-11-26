@@ -86,10 +86,10 @@ namespace TestDemo.EclShared
             var eadInputAssumption = ObjectMapper.Map<EadInputAssumption>(input);
 
 			
-			if (AbpSession.TenantId != null)
-			{
-				eadInputAssumption.TenantId = (int?) AbpSession.TenantId;
-			}
+			////if (AbpSession.TenantId != null)
+			////{
+			////	eadInputAssumption.TenantId = (int?) AbpSession.TenantId;
+			////}
 		
 
             await _eadInputAssumptionRepository.InsertAsync(eadInputAssumption);

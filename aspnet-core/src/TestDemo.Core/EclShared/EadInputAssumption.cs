@@ -11,11 +11,8 @@ namespace TestDemo.EclShared
 {
 	[Table("EadInputAssumptions")]
     [Audited]
-    public class EadInputAssumption : FullAuditedEntity<Guid> , IMayHaveTenant
+    public class EadInputAssumption : FullAuditedEntity<Guid>
     {
-			public int? TenantId { get; set; }
-			
-
 		public virtual string Key { get; set; }
 		
 		public virtual string InputName { get; set; }

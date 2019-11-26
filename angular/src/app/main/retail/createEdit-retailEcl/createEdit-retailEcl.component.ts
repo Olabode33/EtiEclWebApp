@@ -197,6 +197,7 @@ export class CreateEditRetailEclComponent extends AppComponentBase implements On
     loadEadInputAssumptions(): void {
         this._eclSharedServiceProxy.getEadInputAssumptionSnapshot(FrameworkEnum.Retail).subscribe(result => {
             this.eadInputAssumptions = result;
+            console.log(this.eadInputAssumptions);
         });
     }
 

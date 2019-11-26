@@ -571,10 +571,10 @@ namespace TestDemo.EntityFrameworkCore
                        {
                            w.HasIndex(e => new { e.TenantId });
                        });
-            modelBuilder.Entity<EadInputAssumption>(x =>
-                       {
-                           x.HasIndex(e => new { e.TenantId });
-                       });
+            //modelBuilder.Entity<EadInputAssumption>(x =>
+            //           {
+            //               x.HasIndex(e => new { e.TenantId });
+            //           });
             modelBuilder.Entity<BinaryObject>(b =>
                        {
                            b.HasIndex(e => new { e.TenantId });

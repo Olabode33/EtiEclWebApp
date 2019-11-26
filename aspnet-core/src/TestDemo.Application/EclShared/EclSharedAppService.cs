@@ -37,7 +37,10 @@ namespace TestDemo.EclShared
             IRepository<ObeEcl, Guid> obeEclRepository, 
             IRepository<User, long> lookup_userRepository,
             IRepository<OrganizationUnit, long> organizationUnitRepository,
-            UserManager userManager)
+            IRepository<Assumption, Guid> frameworkAssumptionRepository,
+            IRepository<EadInputAssumption, Guid> eadAssumptionRepository,
+            IRepository<LgdInputAssumption, Guid> lgdAssumptionRepository,
+        UserManager userManager)
         {
             _wholesaleEclRepository = wholesaleEclRepository;
             _retailEclRepository = retailEclRepository;
@@ -45,6 +48,9 @@ namespace TestDemo.EclShared
             _lookup_userRepository = lookup_userRepository;
             _organizationUnitRepository = organizationUnitRepository;
             _userManager = userManager;
+            _frameworkAssumptionRepository = frameworkAssumptionRepository;
+            _eadAssumptionRepository = eadAssumptionRepository;
+            _lgdAssumptionRepository = lgdAssumptionRepository;
         }
 
         public async Task<PagedResultDto<GetAllEclForWorkspaceDto>> GetAllEclForWorkspace(GetAllForLookupTableInput input)
