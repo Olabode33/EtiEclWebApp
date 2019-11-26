@@ -22,11 +22,11 @@ namespace TestDemo.WholesaleComputation
 	[AbpAuthorize(AppPermissions.Pages_WholesalePdLifetimeBests)]
     public class WholesalePdLifetimeBestsAppService : TestDemoAppServiceBase, IWholesalePdLifetimeBestsAppService
     {
-		 private readonly IRepository<WholesalePdScenarioLifetime, Guid> _wholesalePdLifetimeBestRepository;
+		 private readonly IRepository<WholesalePdLifetimeBest, Guid> _wholesalePdLifetimeBestRepository;
 		 private readonly IRepository<WholesaleEcl,Guid> _lookup_wholesaleEclRepository;
 		 
 
-		  public WholesalePdLifetimeBestsAppService(IRepository<WholesalePdScenarioLifetime, Guid> wholesalePdLifetimeBestRepository , IRepository<WholesaleEcl, Guid> lookup_wholesaleEclRepository) 
+		  public WholesalePdLifetimeBestsAppService(IRepository<WholesalePdLifetimeBest, Guid> wholesalePdLifetimeBestRepository , IRepository<WholesaleEcl, Guid> lookup_wholesaleEclRepository) 
 		  {
 			_wholesalePdLifetimeBestRepository = wholesalePdLifetimeBestRepository;
 			_lookup_wholesaleEclRepository = lookup_wholesaleEclRepository;
@@ -93,7 +93,7 @@ namespace TestDemo.WholesaleComputation
 		 [AbpAuthorize(AppPermissions.Pages_WholesalePdLifetimeBests_Create)]
 		 protected virtual async Task Create(CreateOrEditWholesalePdLifetimeBestDto input)
          {
-            var wholesalePdLifetimeBest = ObjectMapper.Map<WholesalePdScenarioLifetime>(input);
+            var wholesalePdLifetimeBest = ObjectMapper.Map<WholesalePdLifetimeBest>(input);
 
 			
 

@@ -30,6 +30,111 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var obePdLifetimeBests = pages.CreateChildPermission(AppPermissions.Pages_ObePdLifetimeBests, L("ObePdLifetimeBests"));
+            obePdLifetimeBests.CreateChildPermission(AppPermissions.Pages_ObePdLifetimeBests_Create, L("CreateNewObePdLifetimeBest"));
+            obePdLifetimeBests.CreateChildPermission(AppPermissions.Pages_ObePdLifetimeBests_Edit, L("EditObePdLifetimeBest"));
+            obePdLifetimeBests.CreateChildPermission(AppPermissions.Pages_ObePdLifetimeBests_Delete, L("DeleteObePdLifetimeBest"));
+
+
+
+            var retailPdRedefaultLifetimeDownturns = pages.CreateChildPermission(AppPermissions.Pages_RetailPdRedefaultLifetimeDownturns, L("RetailPdRedefaultLifetimeDownturns"));
+            retailPdRedefaultLifetimeDownturns.CreateChildPermission(AppPermissions.Pages_RetailPdRedefaultLifetimeDownturns_Create, L("CreateNewRetailPdRedefaultLifetimeDownturn"));
+            retailPdRedefaultLifetimeDownturns.CreateChildPermission(AppPermissions.Pages_RetailPdRedefaultLifetimeDownturns_Edit, L("EditRetailPdRedefaultLifetimeDownturn"));
+            retailPdRedefaultLifetimeDownturns.CreateChildPermission(AppPermissions.Pages_RetailPdRedefaultLifetimeDownturns_Delete, L("DeleteRetailPdRedefaultLifetimeDownturn"));
+
+
+
+            var retailPdRedefaultLifetimeOptimistics = pages.CreateChildPermission(AppPermissions.Pages_RetailPdRedefaultLifetimeOptimistics, L("RetailPdRedefaultLifetimeOptimistics"));
+            retailPdRedefaultLifetimeOptimistics.CreateChildPermission(AppPermissions.Pages_RetailPdRedefaultLifetimeOptimistics_Create, L("CreateNewRetailPdRedefaultLifetimeOptimistic"));
+            retailPdRedefaultLifetimeOptimistics.CreateChildPermission(AppPermissions.Pages_RetailPdRedefaultLifetimeOptimistics_Edit, L("EditRetailPdRedefaultLifetimeOptimistic"));
+            retailPdRedefaultLifetimeOptimistics.CreateChildPermission(AppPermissions.Pages_RetailPdRedefaultLifetimeOptimistics_Delete, L("DeleteRetailPdRedefaultLifetimeOptimistic"));
+
+
+
+            var retailPdRedefaultLifetimeBests = pages.CreateChildPermission(AppPermissions.Pages_RetailPdRedefaultLifetimeBests, L("RetailPdRedefaultLifetimeBests"));
+            retailPdRedefaultLifetimeBests.CreateChildPermission(AppPermissions.Pages_RetailPdRedefaultLifetimeBests_Create, L("CreateNewRetailPdRedefaultLifetimeBest"));
+            retailPdRedefaultLifetimeBests.CreateChildPermission(AppPermissions.Pages_RetailPdRedefaultLifetimeBests_Edit, L("EditRetailPdRedefaultLifetimeBest"));
+            retailPdRedefaultLifetimeBests.CreateChildPermission(AppPermissions.Pages_RetailPdRedefaultLifetimeBests_Delete, L("DeleteRetailPdRedefaultLifetimeBest"));
+
+
+
+            var retailPdLifetimeDownturns = pages.CreateChildPermission(AppPermissions.Pages_RetailPdLifetimeDownturns, L("RetailPdLifetimeDownturns"));
+            retailPdLifetimeDownturns.CreateChildPermission(AppPermissions.Pages_RetailPdLifetimeDownturns_Create, L("CreateNewRetailPdLifetimeDownturn"));
+            retailPdLifetimeDownturns.CreateChildPermission(AppPermissions.Pages_RetailPdLifetimeDownturns_Edit, L("EditRetailPdLifetimeDownturn"));
+            retailPdLifetimeDownturns.CreateChildPermission(AppPermissions.Pages_RetailPdLifetimeDownturns_Delete, L("DeleteRetailPdLifetimeDownturn"));
+
+
+
+            var retailPdLifetimeOptimistics = pages.CreateChildPermission(AppPermissions.Pages_RetailPdLifetimeOptimistics, L("RetailPdLifetimeOptimistics"));
+            retailPdLifetimeOptimistics.CreateChildPermission(AppPermissions.Pages_RetailPdLifetimeOptimistics_Create, L("CreateNewRetailPdLifetimeOptimistic"));
+            retailPdLifetimeOptimistics.CreateChildPermission(AppPermissions.Pages_RetailPdLifetimeOptimistics_Edit, L("EditRetailPdLifetimeOptimistic"));
+            retailPdLifetimeOptimistics.CreateChildPermission(AppPermissions.Pages_RetailPdLifetimeOptimistics_Delete, L("DeleteRetailPdLifetimeOptimistic"));
+
+
+
+            var retailPdLifetimeBests = pages.CreateChildPermission(AppPermissions.Pages_RetailPdLifetimeBests, L("RetailPdLifetimeBests"));
+            retailPdLifetimeBests.CreateChildPermission(AppPermissions.Pages_RetailPdLifetimeBests_Create, L("CreateNewRetailPdLifetimeBest"));
+            retailPdLifetimeBests.CreateChildPermission(AppPermissions.Pages_RetailPdLifetimeBests_Edit, L("EditRetailPdLifetimeBest"));
+            retailPdLifetimeBests.CreateChildPermission(AppPermissions.Pages_RetailPdLifetimeBests_Delete, L("DeleteRetailPdLifetimeBest"));
+
+
+
+            var wholesalePdRedefaultLifetimeDownturns = pages.CreateChildPermission(AppPermissions.Pages_WholesalePdRedefaultLifetimeDownturns, L("WholesalePdRedefaultLifetimeDownturns"));
+            wholesalePdRedefaultLifetimeDownturns.CreateChildPermission(AppPermissions.Pages_WholesalePdRedefaultLifetimeDownturns_Create, L("CreateNewWholesalePdRedefaultLifetimeDownturn"));
+            wholesalePdRedefaultLifetimeDownturns.CreateChildPermission(AppPermissions.Pages_WholesalePdRedefaultLifetimeDownturns_Edit, L("EditWholesalePdRedefaultLifetimeDownturn"));
+            wholesalePdRedefaultLifetimeDownturns.CreateChildPermission(AppPermissions.Pages_WholesalePdRedefaultLifetimeDownturns_Delete, L("DeleteWholesalePdRedefaultLifetimeDownturn"));
+
+
+
+            var wholesalePdRedefaultLifetimeOptimistics = pages.CreateChildPermission(AppPermissions.Pages_WholesalePdRedefaultLifetimeOptimistics, L("WholesalePdRedefaultLifetimeOptimistics"));
+            wholesalePdRedefaultLifetimeOptimistics.CreateChildPermission(AppPermissions.Pages_WholesalePdRedefaultLifetimeOptimistics_Create, L("CreateNewWholesalePdRedefaultLifetimeOptimistic"));
+            wholesalePdRedefaultLifetimeOptimistics.CreateChildPermission(AppPermissions.Pages_WholesalePdRedefaultLifetimeOptimistics_Edit, L("EditWholesalePdRedefaultLifetimeOptimistic"));
+            wholesalePdRedefaultLifetimeOptimistics.CreateChildPermission(AppPermissions.Pages_WholesalePdRedefaultLifetimeOptimistics_Delete, L("DeleteWholesalePdRedefaultLifetimeOptimistic"));
+
+
+
+            var wholesalePdLifetimeDownturns = pages.CreateChildPermission(AppPermissions.Pages_WholesalePdLifetimeDownturns, L("WholesalePdLifetimeDownturns"));
+            wholesalePdLifetimeDownturns.CreateChildPermission(AppPermissions.Pages_WholesalePdLifetimeDownturns_Create, L("CreateNewWholesalePdLifetimeDownturn"));
+            wholesalePdLifetimeDownturns.CreateChildPermission(AppPermissions.Pages_WholesalePdLifetimeDownturns_Edit, L("EditWholesalePdLifetimeDownturn"));
+            wholesalePdLifetimeDownturns.CreateChildPermission(AppPermissions.Pages_WholesalePdLifetimeDownturns_Delete, L("DeleteWholesalePdLifetimeDownturn"));
+
+
+
+            var wholesalePdLifetimeOptimistics = pages.CreateChildPermission(AppPermissions.Pages_WholesalePdLifetimeOptimistics, L("WholesalePdLifetimeOptimistics"));
+            wholesalePdLifetimeOptimistics.CreateChildPermission(AppPermissions.Pages_WholesalePdLifetimeOptimistics_Create, L("CreateNewWholesalePdLifetimeOptimistic"));
+            wholesalePdLifetimeOptimistics.CreateChildPermission(AppPermissions.Pages_WholesalePdLifetimeOptimistics_Edit, L("EditWholesalePdLifetimeOptimistic"));
+            wholesalePdLifetimeOptimistics.CreateChildPermission(AppPermissions.Pages_WholesalePdLifetimeOptimistics_Delete, L("DeleteWholesalePdLifetimeOptimistic"));
+
+
+
+            var retailLgdContractDatas = pages.CreateChildPermission(AppPermissions.Pages_RetailLgdContractDatas, L("RetailLgdContractDatas"));
+            retailLgdContractDatas.CreateChildPermission(AppPermissions.Pages_RetailLgdContractDatas_Create, L("CreateNewRetailLgdContractData"));
+            retailLgdContractDatas.CreateChildPermission(AppPermissions.Pages_RetailLgdContractDatas_Edit, L("EditRetailLgdContractData"));
+            retailLgdContractDatas.CreateChildPermission(AppPermissions.Pages_RetailLgdContractDatas_Delete, L("DeleteRetailLgdContractData"));
+
+
+
+            var retailEadInputs = pages.CreateChildPermission(AppPermissions.Pages_RetailEadInputs, L("RetailEadInputs"));
+            retailEadInputs.CreateChildPermission(AppPermissions.Pages_RetailEadInputs_Create, L("CreateNewRetailEadInput"));
+            retailEadInputs.CreateChildPermission(AppPermissions.Pages_RetailEadInputs_Edit, L("EditRetailEadInput"));
+            retailEadInputs.CreateChildPermission(AppPermissions.Pages_RetailEadInputs_Delete, L("DeleteRetailEadInput"));
+
+
+
+            var retailEadEirProjetions = pages.CreateChildPermission(AppPermissions.Pages_RetailEadEirProjetions, L("RetailEadEirProjetions"));
+            retailEadEirProjetions.CreateChildPermission(AppPermissions.Pages_RetailEadEirProjetions_Create, L("CreateNewRetailEadEirProjetion"));
+            retailEadEirProjetions.CreateChildPermission(AppPermissions.Pages_RetailEadEirProjetions_Edit, L("EditRetailEadEirProjetion"));
+            retailEadEirProjetions.CreateChildPermission(AppPermissions.Pages_RetailEadEirProjetions_Delete, L("DeleteRetailEadEirProjetion"));
+
+
+
+            var retailEadCirProjections = pages.CreateChildPermission(AppPermissions.Pages_RetailEadCirProjections, L("RetailEadCirProjections"));
+            retailEadCirProjections.CreateChildPermission(AppPermissions.Pages_RetailEadCirProjections_Create, L("CreateNewRetailEadCirProjection"));
+            retailEadCirProjections.CreateChildPermission(AppPermissions.Pages_RetailEadCirProjections_Edit, L("EditRetailEadCirProjection"));
+            retailEadCirProjections.CreateChildPermission(AppPermissions.Pages_RetailEadCirProjections_Delete, L("DeleteRetailEadCirProjection"));
+
+
+
             var wholesalePdRedefaultLifetimes = pages.CreateChildPermission(AppPermissions.Pages_WholesalePdRedefaultLifetimes, L("WholesalePdRedefaultLifetimes"));
             wholesalePdRedefaultLifetimes.CreateChildPermission(AppPermissions.Pages_WholesalePdRedefaultLifetimes_Create, L("CreateNewWholesalePdRedefaultLifetime"));
             wholesalePdRedefaultLifetimes.CreateChildPermission(AppPermissions.Pages_WholesalePdRedefaultLifetimes_Edit, L("EditWholesalePdRedefaultLifetime"));

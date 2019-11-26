@@ -9,9 +9,9 @@ using Abp.Auditing;
 
 namespace TestDemo.WholesaleComputation
 {
-	[Table("WholesalePdScenarioLifetimes")]
+	[Table("WholesalePdLifetimeBests")]
     [Audited]
-    public class WholesalePdScenarioLifetime : Entity<Guid> 
+    public class WholesalePdLifetimeBest : Entity<Guid> 
     {
 
 		public virtual string PdGroup { get; set; }
@@ -19,8 +19,6 @@ namespace TestDemo.WholesaleComputation
 		public virtual int Month { get; set; }
 		
 		public virtual double Value { get; set; }
-		
-		public virtual ScenarioEnum Scenario { get; set; }
 		
 
 		public virtual Guid WholesaleEclId { get; set; }

@@ -1,4 +1,5 @@
-﻿using TestDemo.LgdCalibrationResult;
+﻿using TestDemo.WholesaleComputatoin;
+using TestDemo.LgdCalibrationResult;
 using TestDemo.LgdCalibrationResult;
 using TestDemo.EadCalibrationResult;
 using TestDemo.GeneralCalibrationResult;
@@ -37,9 +38,41 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
-        public virtual DbSet<WholesalePdScenarioRedefaultLifetime> WholesalePdRedefaultLifetimes { get; set; }
+        public virtual DbSet<ObePdLifetimeBest> ObePdLifetimeBests { get; set; }
 
-        public virtual DbSet<WholesalePdScenarioLifetime> WholesalePdLifetimeBests { get; set; }
+        public virtual DbSet<RetailPdRedefaultLifetimeDownturn> RetailPdRedefaultLifetimeDownturns { get; set; }
+
+        public virtual DbSet<RetailPdRedefaultLifetimeOptimistic> RetailPdRedefaultLifetimeOptimistics { get; set; }
+
+        public virtual DbSet<RetailPdRedefaultLifetimeBest> RetailPdRedefaultLifetimeBests { get; set; }
+
+        public virtual DbSet<RetailPdLifetimeDownturn> RetailPdLifetimeDownturns { get; set; }
+
+        public virtual DbSet<RetailPdLifetimeOptimistic> RetailPdLifetimeOptimistics { get; set; }
+
+        public virtual DbSet<RetailPdLifetimeBest> RetailPdLifetimeBests { get; set; }
+
+        public virtual DbSet<WholesalePdRedefaultLifetimeDownturn> WholesalePdRedefaultLifetimeDownturns { get; set; }
+
+        public virtual DbSet<WholesalePdRedefaultLifetimeOptimistic> WholesalePdRedefaultLifetimeOptimistics { get; set; }
+
+        public virtual DbSet<WholesalePdLifetimeDownturn> WholesalePdLifetimeDownturns { get; set; }
+
+        public virtual DbSet<WholesalePdLifetimeOptimistic> WholesalePdLifetimeOptimistics { get; set; }
+
+        public virtual DbSet<RetailLgdContractData> RetailLgdContractDatas { get; set; }
+
+        public virtual DbSet<RetailLgdCollateralTypeData> RetailLgdContractDatas { get; set; }
+
+        public virtual DbSet<RetailEadInput> RetailEadInputs { get; set; }
+
+        public virtual DbSet<RetailEadEirProjetion> RetailEadEirProjetions { get; set; }
+
+        public virtual DbSet<RetailEadCirProjection> RetailEadCirProjections { get; set; }
+
+        public virtual DbSet<WholesalePdRedefaultLifetimeBest> WholesalePdRedefaultLifetimes { get; set; }
+
+        public virtual DbSet<WholesalePdLifetimeBest> WholesalePdLifetimeBests { get; set; }
 
         public virtual DbSet<WholesalePdMapping> WholesalePdMappings { get; set; }
 

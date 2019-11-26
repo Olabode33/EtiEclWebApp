@@ -1,4 +1,6 @@
-﻿using TestDemo.LgdCalibrationResult.Dtos;
+﻿using TestDemo.WholesaleComputatoin.Dtos;
+using TestDemo.WholesaleComputatoin;
+using TestDemo.LgdCalibrationResult.Dtos;
 using TestDemo.LgdCalibrationResult;
 using TestDemo.EadCalibrationResult;
 using TestDemo.GeneralCalibrationResult.Dtos;
@@ -81,10 +83,42 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
-            configuration.CreateMap<CreateOrEditWholesalePdRedefaultLifetimeDto, WholesalePdScenarioRedefaultLifetime>().ReverseMap();
-            configuration.CreateMap<WholesalePdRedefaultLifetimeDto, WholesalePdScenarioRedefaultLifetime>().ReverseMap();
-            configuration.CreateMap<CreateOrEditWholesalePdLifetimeBestDto, WholesalePdScenarioLifetime>().ReverseMap();
-            configuration.CreateMap<WholesalePdLifetimeBestDto, WholesalePdScenarioLifetime>().ReverseMap();
+            configuration.CreateMap<CreateOrEditObePdLifetimeBestDto, ObePdLifetimeBest>().ReverseMap();
+            configuration.CreateMap<ObePdLifetimeBestDto, ObePdLifetimeBest>().ReverseMap();
+            configuration.CreateMap<CreateOrEditRetailPdRedefaultLifetimeDownturnDto, RetailPdRedefaultLifetimeDownturn>().ReverseMap();
+            configuration.CreateMap<RetailPdRedefaultLifetimeDownturnDto, RetailPdRedefaultLifetimeDownturn>().ReverseMap();
+            configuration.CreateMap<CreateOrEditRetailPdRedefaultLifetimeOptimisticDto, RetailPdRedefaultLifetimeOptimistic>().ReverseMap();
+            configuration.CreateMap<RetailPdRedefaultLifetimeOptimisticDto, RetailPdRedefaultLifetimeOptimistic>().ReverseMap();
+            configuration.CreateMap<CreateOrEditRetailPdRedefaultLifetimeBestDto, RetailPdRedefaultLifetimeBest>().ReverseMap();
+            configuration.CreateMap<RetailPdRedefaultLifetimeBestDto, RetailPdRedefaultLifetimeBest>().ReverseMap();
+            configuration.CreateMap<CreateOrEditRetailPdLifetimeDownturnDto, RetailPdLifetimeDownturn>().ReverseMap();
+            configuration.CreateMap<RetailPdLifetimeDownturnDto, RetailPdLifetimeDownturn>().ReverseMap();
+            configuration.CreateMap<CreateOrEditRetailPdLifetimeOptimisticDto, RetailPdLifetimeOptimistic>().ReverseMap();
+            configuration.CreateMap<RetailPdLifetimeOptimisticDto, RetailPdLifetimeOptimistic>().ReverseMap();
+            configuration.CreateMap<CreateOrEditRetailPdLifetimeBestDto, RetailPdLifetimeBest>().ReverseMap();
+            configuration.CreateMap<RetailPdLifetimeBestDto, RetailPdLifetimeBest>().ReverseMap();
+            configuration.CreateMap<CreateOrEditWholesalePdRedefaultLifetimeDownturnDto, WholesalePdRedefaultLifetimeDownturn>().ReverseMap();
+            configuration.CreateMap<WholesalePdRedefaultLifetimeDownturnDto, WholesalePdRedefaultLifetimeDownturn>().ReverseMap();
+            configuration.CreateMap<CreateOrEditWholesalePdRedefaultLifetimeOptimisticDto, WholesalePdRedefaultLifetimeOptimistic>().ReverseMap();
+            configuration.CreateMap<WholesalePdRedefaultLifetimeOptimisticDto, WholesalePdRedefaultLifetimeOptimistic>().ReverseMap();
+            configuration.CreateMap<CreateOrEditWholesalePdLifetimeDownturnDto, WholesalePdLifetimeDownturn>().ReverseMap();
+            configuration.CreateMap<WholesalePdLifetimeDownturnDto, WholesalePdLifetimeDownturn>().ReverseMap();
+            configuration.CreateMap<CreateOrEditWholesalePdLifetimeOptimisticDto, WholesalePdLifetimeOptimistic>().ReverseMap();
+            configuration.CreateMap<WholesalePdLifetimeOptimisticDto, WholesalePdLifetimeOptimistic>().ReverseMap();
+            configuration.CreateMap<CreateOrEditRetailLgdContractDataDto, RetailLgdContractData>().ReverseMap();
+            configuration.CreateMap<RetailLgdContractDataDto, RetailLgdContractData>().ReverseMap();
+            configuration.CreateMap<CreateOrEditRetailLgdContractDataDto, RetailLgdCollateralTypeData>().ReverseMap();
+            configuration.CreateMap<RetailLgdContractDataDto, RetailLgdCollateralTypeData>().ReverseMap();
+            configuration.CreateMap<CreateOrEditRetailEadInputDto, RetailEadInput>().ReverseMap();
+            configuration.CreateMap<RetailEadInputDto, RetailEadInput>().ReverseMap();
+            configuration.CreateMap<CreateOrEditRetailEadEirProjetionDto, RetailEadEirProjetion>().ReverseMap();
+            configuration.CreateMap<RetailEadEirProjetionDto, RetailEadEirProjetion>().ReverseMap();
+            configuration.CreateMap<CreateOrEditRetailEadCirProjectionDto, RetailEadCirProjection>().ReverseMap();
+            configuration.CreateMap<RetailEadCirProjectionDto, RetailEadCirProjection>().ReverseMap();
+            configuration.CreateMap<CreateOrEditWholesalePdRedefaultLifetimeDto, WholesalePdRedefaultLifetimeBest>().ReverseMap();
+            configuration.CreateMap<WholesalePdRedefaultLifetimeDto, WholesalePdRedefaultLifetimeBest>().ReverseMap();
+            configuration.CreateMap<CreateOrEditWholesalePdLifetimeBestDto, WholesalePdLifetimeBest>().ReverseMap();
+            configuration.CreateMap<WholesalePdLifetimeBestDto, WholesalePdLifetimeBest>().ReverseMap();
             configuration.CreateMap<CreateOrEditWholesalePdMappingDto, WholesalePdMapping>().ReverseMap();
             configuration.CreateMap<WholesalePdMappingDto, WholesalePdMapping>().ReverseMap();
             configuration.CreateMap<CreateOrEditWholesaleLgdCollateralTypeDataDto, WholesaleLgdCollateralTypeData>().ReverseMap();

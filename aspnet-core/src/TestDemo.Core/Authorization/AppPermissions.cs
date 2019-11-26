@@ -6,6 +6,81 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_ObePdLifetimeBests = "Pages.ObePdLifetimeBests";
+        public const string Pages_ObePdLifetimeBests_Create = "Pages.ObePdLifetimeBests.Create";
+        public const string Pages_ObePdLifetimeBests_Edit = "Pages.ObePdLifetimeBests.Edit";
+        public const string Pages_ObePdLifetimeBests_Delete = "Pages.ObePdLifetimeBests.Delete";
+
+        public const string Pages_RetailPdRedefaultLifetimeDownturns = "Pages.RetailPdRedefaultLifetimeDownturns";
+        public const string Pages_RetailPdRedefaultLifetimeDownturns_Create = "Pages.RetailPdRedefaultLifetimeDownturns.Create";
+        public const string Pages_RetailPdRedefaultLifetimeDownturns_Edit = "Pages.RetailPdRedefaultLifetimeDownturns.Edit";
+        public const string Pages_RetailPdRedefaultLifetimeDownturns_Delete = "Pages.RetailPdRedefaultLifetimeDownturns.Delete";
+
+        public const string Pages_RetailPdRedefaultLifetimeOptimistics = "Pages.RetailPdRedefaultLifetimeOptimistics";
+        public const string Pages_RetailPdRedefaultLifetimeOptimistics_Create = "Pages.RetailPdRedefaultLifetimeOptimistics.Create";
+        public const string Pages_RetailPdRedefaultLifetimeOptimistics_Edit = "Pages.RetailPdRedefaultLifetimeOptimistics.Edit";
+        public const string Pages_RetailPdRedefaultLifetimeOptimistics_Delete = "Pages.RetailPdRedefaultLifetimeOptimistics.Delete";
+
+        public const string Pages_RetailPdRedefaultLifetimeBests = "Pages.RetailPdRedefaultLifetimeBests";
+        public const string Pages_RetailPdRedefaultLifetimeBests_Create = "Pages.RetailPdRedefaultLifetimeBests.Create";
+        public const string Pages_RetailPdRedefaultLifetimeBests_Edit = "Pages.RetailPdRedefaultLifetimeBests.Edit";
+        public const string Pages_RetailPdRedefaultLifetimeBests_Delete = "Pages.RetailPdRedefaultLifetimeBests.Delete";
+
+        public const string Pages_RetailPdLifetimeDownturns = "Pages.RetailPdLifetimeDownturns";
+        public const string Pages_RetailPdLifetimeDownturns_Create = "Pages.RetailPdLifetimeDownturns.Create";
+        public const string Pages_RetailPdLifetimeDownturns_Edit = "Pages.RetailPdLifetimeDownturns.Edit";
+        public const string Pages_RetailPdLifetimeDownturns_Delete = "Pages.RetailPdLifetimeDownturns.Delete";
+
+        public const string Pages_RetailPdLifetimeOptimistics = "Pages.RetailPdLifetimeOptimistics";
+        public const string Pages_RetailPdLifetimeOptimistics_Create = "Pages.RetailPdLifetimeOptimistics.Create";
+        public const string Pages_RetailPdLifetimeOptimistics_Edit = "Pages.RetailPdLifetimeOptimistics.Edit";
+        public const string Pages_RetailPdLifetimeOptimistics_Delete = "Pages.RetailPdLifetimeOptimistics.Delete";
+
+        public const string Pages_RetailPdLifetimeBests = "Pages.RetailPdLifetimeBests";
+        public const string Pages_RetailPdLifetimeBests_Create = "Pages.RetailPdLifetimeBests.Create";
+        public const string Pages_RetailPdLifetimeBests_Edit = "Pages.RetailPdLifetimeBests.Edit";
+        public const string Pages_RetailPdLifetimeBests_Delete = "Pages.RetailPdLifetimeBests.Delete";
+
+        public const string Pages_WholesalePdRedefaultLifetimeDownturns = "Pages.WholesalePdRedefaultLifetimeDownturns";
+        public const string Pages_WholesalePdRedefaultLifetimeDownturns_Create = "Pages.WholesalePdRedefaultLifetimeDownturns.Create";
+        public const string Pages_WholesalePdRedefaultLifetimeDownturns_Edit = "Pages.WholesalePdRedefaultLifetimeDownturns.Edit";
+        public const string Pages_WholesalePdRedefaultLifetimeDownturns_Delete = "Pages.WholesalePdRedefaultLifetimeDownturns.Delete";
+
+        public const string Pages_WholesalePdRedefaultLifetimeOptimistics = "Pages.WholesalePdRedefaultLifetimeOptimistics";
+        public const string Pages_WholesalePdRedefaultLifetimeOptimistics_Create = "Pages.WholesalePdRedefaultLifetimeOptimistics.Create";
+        public const string Pages_WholesalePdRedefaultLifetimeOptimistics_Edit = "Pages.WholesalePdRedefaultLifetimeOptimistics.Edit";
+        public const string Pages_WholesalePdRedefaultLifetimeOptimistics_Delete = "Pages.WholesalePdRedefaultLifetimeOptimistics.Delete";
+
+        public const string Pages_WholesalePdLifetimeDownturns = "Pages.WholesalePdLifetimeDownturns";
+        public const string Pages_WholesalePdLifetimeDownturns_Create = "Pages.WholesalePdLifetimeDownturns.Create";
+        public const string Pages_WholesalePdLifetimeDownturns_Edit = "Pages.WholesalePdLifetimeDownturns.Edit";
+        public const string Pages_WholesalePdLifetimeDownturns_Delete = "Pages.WholesalePdLifetimeDownturns.Delete";
+
+        public const string Pages_WholesalePdLifetimeOptimistics = "Pages.WholesalePdLifetimeOptimistics";
+        public const string Pages_WholesalePdLifetimeOptimistics_Create = "Pages.WholesalePdLifetimeOptimistics.Create";
+        public const string Pages_WholesalePdLifetimeOptimistics_Edit = "Pages.WholesalePdLifetimeOptimistics.Edit";
+        public const string Pages_WholesalePdLifetimeOptimistics_Delete = "Pages.WholesalePdLifetimeOptimistics.Delete";
+
+        public const string Pages_RetailLgdContractDatas = "Pages.RetailLgdContractDatas";
+        public const string Pages_RetailLgdContractDatas_Create = "Pages.RetailLgdContractDatas.Create";
+        public const string Pages_RetailLgdContractDatas_Edit = "Pages.RetailLgdContractDatas.Edit";
+        public const string Pages_RetailLgdContractDatas_Delete = "Pages.RetailLgdContractDatas.Delete";
+
+        public const string Pages_RetailEadInputs = "Pages.RetailEadInputs";
+        public const string Pages_RetailEadInputs_Create = "Pages.RetailEadInputs.Create";
+        public const string Pages_RetailEadInputs_Edit = "Pages.RetailEadInputs.Edit";
+        public const string Pages_RetailEadInputs_Delete = "Pages.RetailEadInputs.Delete";
+
+        public const string Pages_RetailEadEirProjetions = "Pages.RetailEadEirProjetions";
+        public const string Pages_RetailEadEirProjetions_Create = "Pages.RetailEadEirProjetions.Create";
+        public const string Pages_RetailEadEirProjetions_Edit = "Pages.RetailEadEirProjetions.Edit";
+        public const string Pages_RetailEadEirProjetions_Delete = "Pages.RetailEadEirProjetions.Delete";
+
+        public const string Pages_RetailEadCirProjections = "Pages.RetailEadCirProjections";
+        public const string Pages_RetailEadCirProjections_Create = "Pages.RetailEadCirProjections.Create";
+        public const string Pages_RetailEadCirProjections_Edit = "Pages.RetailEadCirProjections.Edit";
+        public const string Pages_RetailEadCirProjections_Delete = "Pages.RetailEadCirProjections.Delete";
+
         public const string Pages_WholesalePdRedefaultLifetimes = "Pages.WholesalePdRedefaultLifetimes";
         public const string Pages_WholesalePdRedefaultLifetimes_Create = "Pages.WholesalePdRedefaultLifetimes.Create";
         public const string Pages_WholesalePdRedefaultLifetimes_Edit = "Pages.WholesalePdRedefaultLifetimes.Edit";
