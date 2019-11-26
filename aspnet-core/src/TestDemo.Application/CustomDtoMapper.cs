@@ -1,3 +1,10 @@
+﻿using TestDemo.LgdCalibrationResult.Dtos;
+using TestDemo.LgdCalibrationResult;
+using TestDemo.EadCalibrationResult;
+using TestDemo.GeneralCalibrationResult.Dtos;
+using TestDemo.GeneralCalibrationResult;
+using TestDemo.PdCalibrationResult.Dtos;
+using TestDemo.PdCalibrationResult;
 using TestDemo.ObeResults.Dtos;
 using TestDemo.ObeResults;
 using TestDemo.ObeComputation.Dtos;
@@ -74,6 +81,44 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditWholesalePdRedefaultLifetimeDto, WholesalePdScenarioRedefaultLifetime>().ReverseMap();
+            configuration.CreateMap<WholesalePdRedefaultLifetimeDto, WholesalePdScenarioRedefaultLifetime>().ReverseMap();
+            configuration.CreateMap<CreateOrEditWholesalePdLifetimeBestDto, WholesalePdScenarioLifetime>().ReverseMap();
+            configuration.CreateMap<WholesalePdLifetimeBestDto, WholesalePdScenarioLifetime>().ReverseMap();
+            configuration.CreateMap<CreateOrEditWholesalePdMappingDto, WholesalePdMapping>().ReverseMap();
+            configuration.CreateMap<WholesalePdMappingDto, WholesalePdMapping>().ReverseMap();
+            configuration.CreateMap<CreateOrEditWholesaleLgdCollateralTypeDataDto, WholesaleLgdCollateralTypeData>().ReverseMap();
+            configuration.CreateMap<WholesaleLgdCollateralTypeDataDto, WholesaleLgdCollateralTypeData>().ReverseMap();
+            configuration.CreateMap<CreateOrEditWholesaleLgdContractDataDto, WholesaleLgdContractData>().ReverseMap();
+            configuration.CreateMap<WholesaleLgdContractDataDto, WholesaleLgdContractData>().ReverseMap();
+            configuration.CreateMap<CreateOrEditWholesaleEadEirProjectionDto, WholesaleEadEirProjection>().ReverseMap();
+            configuration.CreateMap<WholesaleEadEirProjectionDto, WholesaleEadEirProjection>().ReverseMap();
+            configuration.CreateMap<CreateOrEditWholesaleEadCirProjectionDto, WholesaleEadCirProjection>().ReverseMap();
+            configuration.CreateMap<WholesaleEadCirProjectionDto, WholesaleEadCirProjection>().ReverseMap();
+            configuration.CreateMap<CreateOrEditWholesaleEadInputDto, WholesaleEadInput>().ReverseMap();
+            configuration.CreateMap<WholesaleEadInputDto, WholesaleEadInput>().ReverseMap();
+            configuration.CreateMap<CreateOrEditCalibrationResultLgdDto, CalibrationResultLgd>().ReverseMap();
+            configuration.CreateMap<CalibrationResultLgdDto, CalibrationResultLgd>().ReverseMap();
+            configuration.CreateMap<CreateOrEditCalibrationResultDto, GeneralCalibrationResult.GeneralCalibrationResult>().ReverseMap();
+            configuration.CreateMap<CalibrationResultDto, GeneralCalibrationResult.GeneralCalibrationResult>().ReverseMap();
+            configuration.CreateMap<CreateOrEditPdScenarioMacroeconomicProjectionDto, CalibrationResultPdScenarioMacroeconomicProjection>().ReverseMap();
+            configuration.CreateMap<PdScenarioMacroeconomicProjectionDto, CalibrationResultPdScenarioMacroeconomicProjection>().ReverseMap();
+            configuration.CreateMap<CreateOrEditPdStatisticalInputDto, CalibrationResultPdStatisticalInput>().ReverseMap();
+            configuration.CreateMap<PdStatisticalInputDto, CalibrationResultPdStatisticalInput>().ReverseMap();
+            configuration.CreateMap<CreateOrEditPdEtiNplDto, CalibrationResultPdEtiNpl>().ReverseMap();
+            configuration.CreateMap<PdEtiNplDto, CalibrationResultPdEtiNpl>().ReverseMap();
+            configuration.CreateMap<CreateOrEditPdHistoricIndexDto, CalibrationResultPdHistoricIndex>().ReverseMap();
+            configuration.CreateMap<PdHistoricIndexDto, CalibrationResultPdHistoricIndex>().ReverseMap();
+            configuration.CreateMap<CreateOrEditPdCummulativeSurvivalDto, CalibrationResultPdCummulativeSurvival>().ReverseMap();
+            configuration.CreateMap<PdCummulativeSurvivalDto, CalibrationResultPdCummulativeSurvival>().ReverseMap();
+            configuration.CreateMap<CreateOrEditPdMarginalDefaultRateDto, CalibrationResultPdMarginalDefaultRate>().ReverseMap();
+            configuration.CreateMap<PdMarginalDefaultRateDto, CalibrationResultPdMarginalDefaultRate>().ReverseMap();
+            configuration.CreateMap<CreateOrEditPdUpperboundDto, CalibrationResultPdUpperbound>().ReverseMap();
+            configuration.CreateMap<PdUpperboundDto, CalibrationResultPdUpperbound>().ReverseMap();
+            configuration.CreateMap<CreateOrEditPdSnPCummulativeDefaultRateDto, CalibrationResultPdSnPCummulativeDefaultRate>().ReverseMap();
+            configuration.CreateMap<PdSnPCummulativeDefaultRateDto, CalibrationResultPdSnPCummulativeDefaultRate>().ReverseMap();
+            configuration.CreateMap<CreateOrEditPd12MonthPdDto, CalibrationResult12MonthPd>().ReverseMap();
+            configuration.CreateMap<Pd12MonthPdDto, CalibrationResult12MonthPd>().ReverseMap();
            configuration.CreateMap<CreateOrEditObeEclResultSummaryTopExposureDto, ObeEclResultSummaryTopExposure>().ReverseMap();
            configuration.CreateMap<ObeEclResultSummaryTopExposureDto, ObeEclResultSummaryTopExposure>().ReverseMap();
            configuration.CreateMap<CreateOrEditObeEclResultSummaryKeyInputDto, ObeEclResultSummaryKeyInput>().ReverseMap();

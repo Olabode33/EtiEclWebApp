@@ -46,7 +46,7 @@ namespace TestDemo.EclShared
 
     public enum LdgInputAssumptionEnum
     {
-        General, UnsecuredRecoveries, CostOfRecoveryHigh, CostOfRecoveryLow, CollateralGrowthBest, CollateralGrowthOptimistic, CollateralGrowthDownturn, CollateralTTR, CollateralProjectionBest, CollateralProjectionOptimistic, CollateralProjectionDownturn
+        General, UnsecuredRecoveries, CostOfRecoveryHigh, CostOfRecoveryLow, CollateralGrowthBest, CollateralGrowthOptimistic, CollateralGrowthDownturn, CollateralTTR, CollateralProjectionBest, CollateralProjectionOptimistic, CollateralProjectionDownturn, Haircut
     }
 
     public enum AssumptionGroupEnum
@@ -57,6 +57,16 @@ namespace TestDemo.EclShared
     public enum AssumptionTypeEnum
     {
         General, EadInputAssumption, LgdInputAssumption, Pd12MonthsAssumption, PdSnPAssumption
+    }
+
+    public enum CalibrationResultGroupEnum
+    {
+        IndexWeight, PdInputs, EadInputs, LgdInputs, Haircuts
+    }
+
+    public enum ScenarioEnum
+    {
+        Best = 1, Optimistic, Downturn
     }
 
     public static class EclEnums

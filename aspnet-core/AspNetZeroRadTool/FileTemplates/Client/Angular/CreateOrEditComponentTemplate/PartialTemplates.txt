@@ -17,7 +17,7 @@
 			"templates" : [
 					{
 					"type" : "DateTime",
-					"content" : "this.{{property_Name_Here}} = null;
+					"content" : "    this.{{property_Name_Here}} = null;
 "
 					}
 				]
@@ -29,7 +29,7 @@
 					{
 					"type" : "DateTime",
 					"content" : "
-            {{property_Name_Here}}: Date;"
+    {{property_Name_Here}}: Date;"
 					}
 				]
 		},
@@ -105,8 +105,8 @@
 					{
 					"relation" : "single",
 					"preventDuplicate":true,
-					"content" : "import { {{Entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModalComponent } from './{{entity_Name_Here}}-{{nP_Foreign_Entity_Name_Here}}-lookup-table-modal.component';
-"
+					"content" : "
+import { {{Entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModalComponent } from './{{entity_Name_Here}}-{{nP_Foreign_Entity_Name_Here}}-lookup-table-modal.component';"
 					}
 				]
 		},
@@ -125,7 +125,7 @@
 			"templates" : [
 					{
 					"relation" : "single",
-					"content" : "        openSelect{{NP_Foreign_Entity_Name_Here}}Modal{{NP_Duplication_Number_Here}}() {
+					"content" : "    openSelect{{NP_Foreign_Entity_Name_Here}}Modal{{NP_Duplication_Number_Here}}() {
         this.{{entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModal{{NP_Duplication_Number_Here}}.id = this.{{entity_Name_Here}}.{{nP_Name_Here}};
         this.{{entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModal{{NP_Duplication_Number_Here}}.displayName = this.{{nP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}};
         this.{{entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModal{{NP_Duplication_Number_Here}}.show();
@@ -139,7 +139,7 @@
 			"templates" : [
 					{
 					"relation" : "single",
-					"content" : "        set{{NP_Name_Here}}Null() {
+					"content" : "    set{{NP_Name_Here}}Null() {
         this.{{entity_Name_Here}}.{{nP_Name_Here}} = null;
         this.{{nP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}}{{NP_Duplication_Number_Here}} = '';
     }
@@ -152,7 +152,7 @@
 			"templates" : [
 					{
 					"relation" : "single",
-					"content" : "        getNew{{NP_Name_Here}}() {
+					"content" : "    getNew{{NP_Name_Here}}() {
         this.{{entity_Name_Here}}.{{nP_Name_Here}} = this.{{entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModal{{NP_Duplication_Number_Here}}.id;
         this.{{nP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}}{{NP_Duplication_Number_Here}} = this.{{entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModal{{NP_Duplication_Number_Here}}.displayName;
     }

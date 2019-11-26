@@ -51,7 +51,8 @@
 					{
 					"relation" : "single",
 					"preventDuplicate" : true,
-					"content" : ", {{NP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}}{{NP_Duplication_Number_Here}} = get{{Entity_Name_Here}}ForViewDto.{{NP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}}{{NP_Duplication_Number_Here}} 
+					"content" : "
+                , {{NP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}}{{NP_Duplication_Number_Here}} = get{{Entity_Name_Here}}ForViewDto.{{NP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}}{{NP_Duplication_Number_Here}} 
 "
 					}
 				]
@@ -88,8 +89,7 @@
 
             var model = new {{Entity_Name_Here}}ViewModel()
             {
-				{{Entity_Name_Here}} = get{{Entity_Name_Here}}ForViewDto.{{Entity_Name_Here}}
-{{NP_Looped_ViewMethod_Here}}
+                {{Entity_Name_Here}} = get{{Entity_Name_Here}}ForViewDto.{{Entity_Name_Here}}{{NP_Looped_ViewMethod_Here}}
             };
 
             return PartialView(\"_View{{Entity_Name_Here}}Modal\", model);

@@ -72,6 +72,7 @@ export class {{Entity_Name_Plural_Here}}Component extends AppComponentBase {
     delete{{Entity_Name_Here}}({{entity_Name_Here}}: {{Entity_Name_Here}}Dto): void {
         this.message.confirm(
             '',
+            this.l('AreYouSure'),
             (isConfirmed) => {
                 if (isConfirmed) {
                     this._{{entity_Name_Plural_Here}}ServiceProxy.delete({{entity_Name_Here}}.id)

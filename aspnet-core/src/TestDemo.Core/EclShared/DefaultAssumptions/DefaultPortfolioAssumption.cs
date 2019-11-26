@@ -6,7 +6,7 @@ namespace TestDemo.EclShared.DefaultAssumptions
 {
     public static class DefaultPortfolioAssumption
     {
-        public static class AssumptionKey
+        public static class FrameworkAssumptionKey
         {
             public const string CreditIndexThreshold = "CreditIndexThresholdforDownturnRecoveries";
             public const string BestScenarioLikelihood = "BestEstimateScenarioLikelihood";

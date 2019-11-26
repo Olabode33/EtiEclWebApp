@@ -1,3 +1,8 @@
+﻿using TestDemo.LgdCalibrationResult;
+using TestDemo.LgdCalibrationResult;
+using TestDemo.EadCalibrationResult;
+using TestDemo.GeneralCalibrationResult;
+using TestDemo.PdCalibrationResult;
 using TestDemo.ObeResults;
 using TestDemo.ObeComputation;
 using TestDemo.ObeInputs;
@@ -32,6 +37,44 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<WholesalePdScenarioRedefaultLifetime> WholesalePdRedefaultLifetimes { get; set; }
+
+        public virtual DbSet<WholesalePdScenarioLifetime> WholesalePdLifetimeBests { get; set; }
+
+        public virtual DbSet<WholesalePdMapping> WholesalePdMappings { get; set; }
+
+        public virtual DbSet<WholesaleLgdCollateralTypeData> WholesaleLgdCollateralTypeDatas { get; set; }
+
+        public virtual DbSet<WholesaleLgdContractData> WholesaleLgdContractDatas { get; set; }
+
+        public virtual DbSet<WholesaleEadEirProjection> WholesaleEadEirProjections { get; set; }
+
+        public virtual DbSet<WholesaleEadCirProjection> WholesaleEadCirProjections { get; set; }
+
+        public virtual DbSet<WholesaleEadInput> WholesaleEadInputs { get; set; }
+
+        public virtual DbSet<CalibrationResultLgd> CalibrationResultLgds { get; set; }
+
+        //public virtual DbSet<CalibrationResult> CalibrationResults { get; set; }
+
+        public virtual DbSet<CalibrationResultPdScenarioMacroeconomicProjection> PdScenarioMacroeconomicProjections { get; set; }
+
+        public virtual DbSet<CalibrationResultPdStatisticalInput> PdStatisticalInputs { get; set; }
+
+        public virtual DbSet<CalibrationResultPdEtiNpl> PdEtiNpls { get; set; }
+
+        public virtual DbSet<CalibrationResultPdHistoricIndex> PdHistoricIndexes { get; set; }
+
+        public virtual DbSet<CalibrationResultPdCummulativeSurvival> PdCummulativeSurvivals { get; set; }
+
+        public virtual DbSet<CalibrationResultPdMarginalDefaultRate> PdMarginalDefaultRates { get; set; }
+
+        public virtual DbSet<CalibrationResultPdUpperbound> PdUpperbounds { get; set; }
+
+        public virtual DbSet<CalibrationResultPdSnPCummulativeDefaultRate> PdSnPCummulativeDefaultRates { get; set; }
+
+        public virtual DbSet<CalibrationResult12MonthPd> Pd12MonthPds { get; set; }
+
         public virtual DbSet<ObeEclResultSummaryTopExposure> ObeEclResultSummaryTopExposures { get; set; }
 
         public virtual DbSet<ObeEclResultSummaryKeyInput> ObeEclResultSummaryKeyInputs { get; set; }

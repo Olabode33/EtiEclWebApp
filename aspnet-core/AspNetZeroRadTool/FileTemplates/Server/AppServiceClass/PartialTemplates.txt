@@ -35,17 +35,17 @@
 					{
 					"type" : "string",
 					"content" : "
-						.WhereIf(!string.IsNullOrWhiteSpace(input.{{Property_Name_Here}}Filter),  e => e.{{Property_Name_Here}}.ToLower() == input.{{Property_Name_Here}}Filter.ToLower().Trim())"
+						.WhereIf(!string.IsNullOrWhiteSpace(input.{{Property_Name_Here}}Filter),  e => e.{{Property_Name_Here}} == input.{{Property_Name_Here}}Filter)"
 					},
 					{
 					"type" : "bool",
 					"content" : "
-						.WhereIf(input.{{Property_Name_Here}}Filter > -1,  e => Convert.ToInt32(e.{{Property_Name_Here}}) == input.{{Property_Name_Here}}Filter )"
+						.WhereIf(input.{{Property_Name_Here}}Filter > -1,  e => (input.{{Property_Name_Here}}Filter == 1 && e.{{Property_Name_Here}}) || (input.{{Property_Name_Here}}Filter == 0 && !e.{{Property_Name_Here}}) )"
 					},
 					{
 					"type" : "default",
 					"content" : "
-						.WhereIf(!string.IsNullOrWhiteSpace(input.{{Property_Name_Here}}Filter.ToString()),  e => e.{{Property_Name_Here}}.ToString() == input.{{Property_Name_Here}}Filter.ToString().Trim())"
+						.WhereIf(!string.IsNullOrWhiteSpace(input.{{Property_Name_Here}}Filter.ToString()),  e => e.{{Property_Name_Here}}.ToString() == input.{{Property_Name_Here}}Filter.ToString())"
 					}
 				]
 		},
@@ -89,7 +89,7 @@
 					"relation" : "single",
 					"preventDuplicate" : true,
 					"content" : "
-						.WhereIf(!string.IsNullOrWhiteSpace(input.{{NP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}}{{NP_Duplication_Number_Here}}Filter), e => e.{{NP_Object_Name_Here}}Fk != null && e.{{NP_Object_Name_Here}}Fk.{{NP_Display_Property_Name_Here}}.ToLower() == input.{{NP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}}{{NP_Duplication_Number_Here}}Filter.ToLower().Trim())"
+						.WhereIf(!string.IsNullOrWhiteSpace(input.{{NP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}}{{NP_Duplication_Number_Here}}Filter), e => e.{{NP_Object_Name_Here}}Fk != null && e.{{NP_Object_Name_Here}}Fk.{{NP_Display_Property_Name_Here}} == input.{{NP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}}{{NP_Duplication_Number_Here}}Filter)"
 					}
 				]
 		},

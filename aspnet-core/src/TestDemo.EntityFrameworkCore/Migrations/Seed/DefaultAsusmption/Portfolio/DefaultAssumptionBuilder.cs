@@ -34,13 +34,13 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
         private void CreateDefaultAssumption(FrameworkEnum framework)
         {
             //Credit Index Threshold for Downturn Recoveries
-            var creditIndexThreshold = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.AssumptionKey.CreditIndexThreshold
+            var creditIndexThreshold = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditIndexThreshold
                                                                                                   && x.Framework == framework);
             if(creditIndexThreshold == null)
             {
                 _context.Assumptions.Add(new Assumption() {
                     AssumptionGroup = AssumptionGroupEnum.ScenarioInputs,
-                    Key = DefaultPortfolioAssumption.AssumptionKey.CreditIndexThreshold,
+                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditIndexThreshold,
                     InputName = DefaultPortfolioAssumption.InputName.CreditIndexThreshold,
                     Value = DefaultPortfolioAssumption.InputValue.CreditIndexThreshold,
                     DataType = DataTypeEnum.Double,
@@ -52,14 +52,14 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
             }
 
             //Best Estimate Scenario(Likelihood)
-            var bestScenarioLikelihood = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.AssumptionKey.BestScenarioLikelihood
+            var bestScenarioLikelihood = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.BestScenarioLikelihood
                                                                                                     && x.Framework == framework);
             if (bestScenarioLikelihood == null)
             {
                 _context.Assumptions.Add(new Assumption()
                 {
                     AssumptionGroup = AssumptionGroupEnum.ScenarioInputs,
-                    Key = DefaultPortfolioAssumption.AssumptionKey.BestScenarioLikelihood,
+                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.BestScenarioLikelihood,
                     InputName = DefaultPortfolioAssumption.InputName.BestScenarioLikelihood,
                     Value = DefaultPortfolioAssumption.InputValue.BestScenarioLikelihood,
                     DataType = DataTypeEnum.Double,
@@ -71,14 +71,14 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
             }
 
             //Optimistic Scenario(Likelihood)
-            var optimisticScenarioLikelihood = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.AssumptionKey.OptimisticScenarioLikelihood
+            var optimisticScenarioLikelihood = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.OptimisticScenarioLikelihood
                                                                                                           && x.Framework == framework);
             if (optimisticScenarioLikelihood == null)
             {
                 _context.Assumptions.Add(new Assumption()
                 {
                     AssumptionGroup = AssumptionGroupEnum.ScenarioInputs,
-                    Key = DefaultPortfolioAssumption.AssumptionKey.OptimisticScenarioLikelihood,
+                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.OptimisticScenarioLikelihood,
                     InputName = DefaultPortfolioAssumption.InputName.OptimisticScenarioLikelihood,
                     Value = DefaultPortfolioAssumption.InputValue.OptimisticScenarioLikelihood,
                     DataType = DataTypeEnum.Double,
@@ -90,14 +90,14 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
             }
 
             //Downturn Estimate Scenario(Likelihood)
-            var downturnScenarioLikelihood = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.AssumptionKey.DownturnScenarioLikelihood
+            var downturnScenarioLikelihood = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.DownturnScenarioLikelihood
                                                                                                         && x.Framework == framework);
             if (bestScenarioLikelihood == null)
             {
                 _context.Assumptions.Add(new Assumption()
                 {
                     AssumptionGroup = AssumptionGroupEnum.ScenarioInputs,
-                    Key = DefaultPortfolioAssumption.AssumptionKey.DownturnScenarioLikelihood,
+                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.DownturnScenarioLikelihood,
                     InputName = DefaultPortfolioAssumption.InputName.DownturnScenarioLikelihood,
                     Value = DefaultPortfolioAssumption.InputValue.DownturnScenarioLikelihood,
                     DataType = DataTypeEnum.Double,
@@ -109,14 +109,14 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
             }
 
             //Absolute Credit Quality Criteria
-            var absoluteCreditQualityCriteria = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.AssumptionKey.AbsoluteCreditQualityCriteria
+            var absoluteCreditQualityCriteria = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.AbsoluteCreditQualityCriteria
                                                                                                            && x.Framework == framework);
             if (absoluteCreditQualityCriteria == null)
             {
                 _context.Assumptions.Add(new Assumption()
                 {
                     AssumptionGroup = AssumptionGroupEnum.AbsoluteCreditQuality,
-                    Key = DefaultPortfolioAssumption.AssumptionKey.AbsoluteCreditQualityCriteria,
+                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.AbsoluteCreditQualityCriteria,
                     InputName = DefaultPortfolioAssumption.InputName.AbsoluteCreditQualityCriteria,
                     Value = DefaultPortfolioAssumption.InputValue.AbsoluteCreditQualityCriteria,
                     DataType = DataTypeEnum.String,
@@ -128,14 +128,14 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
             }
 
             //Absolute Credit Quality Threshold
-            var absoluteCreditQualityThreshold = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.AssumptionKey.AbsoluteCreditQualityThreshold
+            var absoluteCreditQualityThreshold = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.AbsoluteCreditQualityThreshold
                                                                                                             && x.Framework == framework);
             if (absoluteCreditQualityThreshold == null)
             {
                 _context.Assumptions.Add(new Assumption()
                 {
                     AssumptionGroup = AssumptionGroupEnum.AbsoluteCreditQuality,
-                    Key = DefaultPortfolioAssumption.AssumptionKey.AbsoluteCreditQualityThreshold,
+                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.AbsoluteCreditQualityThreshold,
                     InputName = DefaultPortfolioAssumption.InputName.AbsoluteCreditQualityThreshold,
                     Value = DefaultPortfolioAssumption.InputValue.AbsoluteCreditQualityThreshold,
                     DataType = DataTypeEnum.Double,
@@ -147,14 +147,14 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
             }
 
             //Relative Credit Quality Criteria
-            var relativeCreditQualityCriteria = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.AssumptionKey.RelativeCreditQualityCriteria
+            var relativeCreditQualityCriteria = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.RelativeCreditQualityCriteria
                                                                                                            && x.Framework == framework);
             if (relativeCreditQualityCriteria == null)
             {
                 _context.Assumptions.Add(new Assumption()
                 {
                     AssumptionGroup = AssumptionGroupEnum.RelativeCreditQuality,
-                    Key = DefaultPortfolioAssumption.AssumptionKey.RelativeCreditQualityCriteria,
+                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.RelativeCreditQualityCriteria,
                     InputName = DefaultPortfolioAssumption.InputName.RelativeCreditQualityCriteria,
                     Value = DefaultPortfolioAssumption.InputValue.RelativeCreditQualityCriteria,
                     DataType = DataTypeEnum.String,
@@ -166,14 +166,14 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
             }
 
             //Relative Credit Quality Threshold
-            var relativeCreditQualityThreshold = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.AssumptionKey.RelativeCreditQualityThreshold
+            var relativeCreditQualityThreshold = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.RelativeCreditQualityThreshold
                                                                                                             && x.Framework == framework);
             if (relativeCreditQualityThreshold == null)
             {
                 _context.Assumptions.Add(new Assumption()
                 {
                     AssumptionGroup = AssumptionGroupEnum.RelativeCreditQuality,
-                    Key = DefaultPortfolioAssumption.AssumptionKey.RelativeCreditQualityThreshold,
+                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.RelativeCreditQualityThreshold,
                     InputName = DefaultPortfolioAssumption.InputName.RelativeCreditQualityThreshold,
                     Value = DefaultPortfolioAssumption.InputValue.RelativeCreditQualityThreshold,
                     DataType = DataTypeEnum.Double,
@@ -185,14 +185,14 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
             }
 
             //Credit Rating Rank Low / High Risk
-            var creditRatingRankLowHighRisk = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.AssumptionKey.CreditRatingRankLowHighRisk
+            var creditRatingRankLowHighRisk = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingRankLowHighRisk
                                                                                                          && x.Framework == framework);
             if (creditRatingRankLowHighRisk == null)
             {
                 _context.Assumptions.Add(new Assumption()
                 {
                     AssumptionGroup = AssumptionGroupEnum.ForwardTransitions,
-                    Key = DefaultPortfolioAssumption.AssumptionKey.CreditRatingRankLowHighRisk,
+                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingRankLowHighRisk,
                     InputName = DefaultPortfolioAssumption.InputName.CreditRatingRankLowHighRisk,
                     Value = DefaultPortfolioAssumption.InputValue.CreditRatingRankLowHighRisk,
                     DataType = DataTypeEnum.Int,
@@ -204,14 +204,14 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
             }
 
             //Credit Rating Rank Low Risk
-            var creditRatingRankLowRisk = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.AssumptionKey.CreditRatingRankLowRisk
+            var creditRatingRankLowRisk = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingRankLowRisk
                                                                                                      && x.Framework == framework);
             if (creditRatingRankLowRisk == null)
             {
                 _context.Assumptions.Add(new Assumption()
                 {
                     AssumptionGroup = AssumptionGroupEnum.ForwardTransitions,
-                    Key = DefaultPortfolioAssumption.AssumptionKey.CreditRatingRankLowRisk,
+                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingRankLowRisk,
                     InputName = DefaultPortfolioAssumption.InputName.CreditRatingRankLowRisk,
                     Value = DefaultPortfolioAssumption.InputValue.CreditRatingRankLowRisk,
                     DataType = DataTypeEnum.Int,
@@ -223,14 +223,14 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
             }
 
             //Credit Rating Rank High Risk
-            var creditRatingRankHighRisk = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.AssumptionKey.CreditRatingRankHighRisk
+            var creditRatingRankHighRisk = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingRankHighRisk
                                                                                                       && x.Framework == framework);
             if (creditRatingRankHighRisk == null)
             {
                 _context.Assumptions.Add(new Assumption()
                 {
                     AssumptionGroup = AssumptionGroupEnum.ForwardTransitions,
-                    Key = DefaultPortfolioAssumption.AssumptionKey.CreditRatingRankHighRisk,
+                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingRankHighRisk,
                     InputName = DefaultPortfolioAssumption.InputName.CreditRatingRankHighRisk,
                     Value = DefaultPortfolioAssumption.InputValue.CreditRatingRankHighRisk,
                     DataType = DataTypeEnum.Int,
@@ -242,14 +242,14 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
             }
 
             //Credit Rating Default Indicator
-            var creditRatingDefaultIndicator = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.AssumptionKey.CreditRatingDefaultIndicator
+            var creditRatingDefaultIndicator = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingDefaultIndicator
                                                                                                           && x.Framework == framework);
             if (creditRatingDefaultIndicator == null)
             {
                 _context.Assumptions.Add(new Assumption()
                 {
                     AssumptionGroup = AssumptionGroupEnum.ForwardTransitions,
-                    Key = DefaultPortfolioAssumption.AssumptionKey.CreditRatingDefaultIndicator,
+                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingDefaultIndicator,
                     InputName = DefaultPortfolioAssumption.InputName.CreditRatingDefaultIndicator,
                     Value = DefaultPortfolioAssumption.InputValue.CreditRatingDefaultIndicator,
                     DataType = DataTypeEnum.Int,
@@ -261,14 +261,14 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
             }
 
             //Use Watchlist Indicator
-            var useWatchlistIndicator = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.AssumptionKey.UseWatchlistIndicator
+            var useWatchlistIndicator = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.UseWatchlistIndicator
                                                                                                    && x.Framework == framework);
             if (useWatchlistIndicator == null)
             {
                 _context.Assumptions.Add(new Assumption()
                 {
                     AssumptionGroup = AssumptionGroupEnum.ForwardTransitions,
-                    Key = DefaultPortfolioAssumption.AssumptionKey.UseWatchlistIndicator,
+                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.UseWatchlistIndicator,
                     InputName = DefaultPortfolioAssumption.InputName.UseWatchlistIndicator,
                     Value = DefaultPortfolioAssumption.InputValue.UseWatchlistIndicator,
                     DataType = DataTypeEnum.String,
@@ -280,14 +280,14 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
             }
 
             //Use Restructure Indicator
-            var useRestructureIndicator = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.AssumptionKey.UseRestructureIndicator
+            var useRestructureIndicator = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.UseRestructureIndicator
                                                                                                      && x.Framework == framework);
             if (useRestructureIndicator == null)
             {
                 _context.Assumptions.Add(new Assumption()
                 {
                     AssumptionGroup = AssumptionGroupEnum.ForwardTransitions,
-                    Key = DefaultPortfolioAssumption.AssumptionKey.UseRestructureIndicator,
+                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.UseRestructureIndicator,
                     InputName = DefaultPortfolioAssumption.InputName.UseRestructureIndicator,
                     Value = DefaultPortfolioAssumption.InputValue.UseRestructureIndicator,
                     DataType = DataTypeEnum.String,
@@ -299,14 +299,14 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
             }
 
             //Forward Transition Stage 1 to Stage 2
-            var stage1to2 = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.AssumptionKey.ForwardTransitionStage1to2
+            var stage1to2 = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.ForwardTransitionStage1to2
                                                                                        && x.Framework == framework);
             if (stage1to2 == null)
             {
                 _context.Assumptions.Add(new Assumption()
                 {
                     AssumptionGroup = AssumptionGroupEnum.ForwardTransitions,
-                    Key = DefaultPortfolioAssumption.AssumptionKey.ForwardTransitionStage1to2,
+                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.ForwardTransitionStage1to2,
                     InputName = DefaultPortfolioAssumption.InputName.ForwardTransitionStage1to2,
                     Value = DefaultPortfolioAssumption.InputValue.ForwardTransitionStage1to2,
                     DataType = DataTypeEnum.Int,
@@ -318,14 +318,14 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
             }
 
             //Forward Transition Stage 2 to Stage 3
-            var stage2to3 = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.AssumptionKey.ForwardTransitionStage2to3
+            var stage2to3 = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.ForwardTransitionStage2to3
                                                                                        && x.Framework == framework);
             if (stage2to3 == null)
             {
                 _context.Assumptions.Add(new Assumption()
                 {
                     AssumptionGroup = AssumptionGroupEnum.ForwardTransitions,
-                    Key = DefaultPortfolioAssumption.AssumptionKey.ForwardTransitionStage2to3,
+                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.ForwardTransitionStage2to3,
                     InputName = DefaultPortfolioAssumption.InputName.ForwardTransitionStage2to3,
                     Value = DefaultPortfolioAssumption.InputValue.ForwardTransitionStage2to3,
                     DataType = DataTypeEnum.Int,
@@ -337,14 +337,14 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
             }
 
             //Backward Transition Stage 2 to Stage 1
-            var stage2to1 = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.AssumptionKey.BackwardTransitionsStage2to1
+            var stage2to1 = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.BackwardTransitionsStage2to1
                                                                                        && x.Framework == framework);
             if (stage2to1 == null)
             {
                 _context.Assumptions.Add(new Assumption()
                 {
                     AssumptionGroup = AssumptionGroupEnum.BackwardTransitions,
-                    Key = DefaultPortfolioAssumption.AssumptionKey.BackwardTransitionsStage2to1,
+                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.BackwardTransitionsStage2to1,
                     InputName = DefaultPortfolioAssumption.InputName.BackwardTransitionsStage2to1,
                     Value = DefaultPortfolioAssumption.InputValue.BackwardTransitionsStage2to1,
                     DataType = DataTypeEnum.Int,
@@ -356,14 +356,14 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
             }
 
             //Backward Transition Stage 3 to Stage 2
-            var stage3to2 = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.AssumptionKey.BackwardTransitionsStage3to2
+            var stage3to2 = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.BackwardTransitionsStage3to2
                                                                                        && x.Framework == framework);
             if (stage3to2 == null)
             {
                 _context.Assumptions.Add(new Assumption()
                 {
                     AssumptionGroup = AssumptionGroupEnum.BackwardTransitions,
-                    Key = DefaultPortfolioAssumption.AssumptionKey.BackwardTransitionsStage3to2,
+                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.BackwardTransitionsStage3to2,
                     InputName = DefaultPortfolioAssumption.InputName.BackwardTransitionsStage3to2,
                     Value = DefaultPortfolioAssumption.InputValue.BackwardTransitionsStage3to2,
                     DataType = DataTypeEnum.Int,
@@ -386,14 +386,14 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
                 if (rating >= 2 && rating <= 6)
                 {
                     //Plus
-                    var rankPlus = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.AssumptionKey.CreditRatingRank + rankCount.ToString()
+                    var rankPlus = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingRank + rankCount.ToString()
                                                                                               && x.Framework == framework);
                     if (rankPlus == null)
                     {
                         _context.Assumptions.Add(new Assumption()
                         {
                             AssumptionGroup = AssumptionGroupEnum.CreditRatingRank,
-                            Key = DefaultPortfolioAssumption.AssumptionKey.CreditRatingRank + rankCount.ToString(),
+                            Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingRank + rankCount.ToString(),
                             InputName = DefaultPortfolioAssumption.InputName.CreditRatingRank + rankCount.ToString(),
                             Value = rating.ToString() + "+",
                             DataType = DataTypeEnum.String,
@@ -406,14 +406,14 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
                     }
 
                     //Norm
-                    var rankNorm = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.AssumptionKey.CreditRatingRank + rankCount.ToString()
+                    var rankNorm = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingRank + rankCount.ToString()
                                                                                               && x.Framework == framework);
                     if (rankNorm == null)
                     {
                         _context.Assumptions.Add(new Assumption()
                         {
                             AssumptionGroup = AssumptionGroupEnum.CreditRatingRank,
-                            Key = DefaultPortfolioAssumption.AssumptionKey.CreditRatingRank + rankCount.ToString(),
+                            Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingRank + rankCount.ToString(),
                             InputName = DefaultPortfolioAssumption.InputName.CreditRatingRank + rankCount.ToString(),
                             Value = rating.ToString(),
                             DataType = DataTypeEnum.String,
@@ -426,14 +426,14 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
                     }
 
                     //Minus
-                    var rankMinus = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.AssumptionKey.CreditRatingRank + rankCount.ToString()
+                    var rankMinus = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingRank + rankCount.ToString()
                                                                                               && x.Framework == framework);
                     if (rankMinus == null)
                     {
                         _context.Assumptions.Add(new Assumption()
                         {
                             AssumptionGroup = AssumptionGroupEnum.CreditRatingRank,
-                            Key = DefaultPortfolioAssumption.AssumptionKey.CreditRatingRank + rankCount.ToString(),
+                            Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingRank + rankCount.ToString(),
                             InputName = DefaultPortfolioAssumption.InputName.CreditRatingRank + rankCount.ToString(),
                             Value = rating.ToString() + "-",
                             DataType = DataTypeEnum.String,
@@ -447,14 +447,14 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
                 }
                 else
                 {
-                    var rank = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.AssumptionKey.CreditRatingRank + rankCount.ToString()
+                    var rank = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingRank + rankCount.ToString()
                                                                                           && x.Framework == framework);
                     if (rank == null)
                     {
                         _context.Assumptions.Add(new Assumption()
                         {
                             AssumptionGroup = AssumptionGroupEnum.CreditRatingRank,
-                            Key = DefaultPortfolioAssumption.AssumptionKey.CreditRatingRank + rankCount.ToString(),
+                            Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingRank + rankCount.ToString(),
                             InputName = DefaultPortfolioAssumption.InputName.CreditRatingRank + rankCount.ToString(),
                             Value = rating.ToString(),
                             DataType = DataTypeEnum.String,

@@ -1,4 +1,4 @@
-using Abp.Authorization;
+﻿using Abp.Authorization;
 using Abp.Configuration.Startup;
 using Abp.Localization;
 using Abp.MultiTenancy;
@@ -29,6 +29,153 @@ namespace TestDemo.Authorization
             //COMMON PERMISSIONS (FOR BOTH OF TENANTS AND HOST)
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
+
+            var wholesalePdRedefaultLifetimes = pages.CreateChildPermission(AppPermissions.Pages_WholesalePdRedefaultLifetimes, L("WholesalePdRedefaultLifetimes"));
+            wholesalePdRedefaultLifetimes.CreateChildPermission(AppPermissions.Pages_WholesalePdRedefaultLifetimes_Create, L("CreateNewWholesalePdRedefaultLifetime"));
+            wholesalePdRedefaultLifetimes.CreateChildPermission(AppPermissions.Pages_WholesalePdRedefaultLifetimes_Edit, L("EditWholesalePdRedefaultLifetime"));
+            wholesalePdRedefaultLifetimes.CreateChildPermission(AppPermissions.Pages_WholesalePdRedefaultLifetimes_Delete, L("DeleteWholesalePdRedefaultLifetime"));
+
+
+
+            var wholesalePdLifetimeBests = pages.CreateChildPermission(AppPermissions.Pages_WholesalePdLifetimeBests, L("WholesalePdLifetimeBests"));
+            wholesalePdLifetimeBests.CreateChildPermission(AppPermissions.Pages_WholesalePdLifetimeBests_Create, L("CreateNewWholesalePdLifetimeBest"));
+            wholesalePdLifetimeBests.CreateChildPermission(AppPermissions.Pages_WholesalePdLifetimeBests_Edit, L("EditWholesalePdLifetimeBest"));
+            wholesalePdLifetimeBests.CreateChildPermission(AppPermissions.Pages_WholesalePdLifetimeBests_Delete, L("DeleteWholesalePdLifetimeBest"));
+
+
+
+            var wholesalePdMappings = pages.CreateChildPermission(AppPermissions.Pages_WholesalePdMappings, L("WholesalePdMappings"));
+            wholesalePdMappings.CreateChildPermission(AppPermissions.Pages_WholesalePdMappings_Create, L("CreateNewWholesalePdMapping"));
+            wholesalePdMappings.CreateChildPermission(AppPermissions.Pages_WholesalePdMappings_Edit, L("EditWholesalePdMapping"));
+            wholesalePdMappings.CreateChildPermission(AppPermissions.Pages_WholesalePdMappings_Delete, L("DeleteWholesalePdMapping"));
+
+
+
+            var wholesaleLgdCollateralTypeDatas = pages.CreateChildPermission(AppPermissions.Pages_WholesaleLgdCollateralTypeDatas, L("WholesaleLgdCollateralTypeDatas"));
+            wholesaleLgdCollateralTypeDatas.CreateChildPermission(AppPermissions.Pages_WholesaleLgdCollateralTypeDatas_Create, L("CreateNewWholesaleLgdCollateralTypeData"));
+            wholesaleLgdCollateralTypeDatas.CreateChildPermission(AppPermissions.Pages_WholesaleLgdCollateralTypeDatas_Edit, L("EditWholesaleLgdCollateralTypeData"));
+            wholesaleLgdCollateralTypeDatas.CreateChildPermission(AppPermissions.Pages_WholesaleLgdCollateralTypeDatas_Delete, L("DeleteWholesaleLgdCollateralTypeData"));
+
+
+
+            var wholesaleLgdContractDatas = pages.CreateChildPermission(AppPermissions.Pages_WholesaleLgdContractDatas, L("WholesaleLgdContractDatas"));
+            wholesaleLgdContractDatas.CreateChildPermission(AppPermissions.Pages_WholesaleLgdContractDatas_Create, L("CreateNewWholesaleLgdContractData"));
+            wholesaleLgdContractDatas.CreateChildPermission(AppPermissions.Pages_WholesaleLgdContractDatas_Edit, L("EditWholesaleLgdContractData"));
+            wholesaleLgdContractDatas.CreateChildPermission(AppPermissions.Pages_WholesaleLgdContractDatas_Delete, L("DeleteWholesaleLgdContractData"));
+
+
+
+            var wholesaleEadEirProjections = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEadEirProjections, L("WholesaleEadEirProjections"));
+            wholesaleEadEirProjections.CreateChildPermission(AppPermissions.Pages_WholesaleEadEirProjections_Create, L("CreateNewWholesaleEadEirProjection"));
+            wholesaleEadEirProjections.CreateChildPermission(AppPermissions.Pages_WholesaleEadEirProjections_Edit, L("EditWholesaleEadEirProjection"));
+            wholesaleEadEirProjections.CreateChildPermission(AppPermissions.Pages_WholesaleEadEirProjections_Delete, L("DeleteWholesaleEadEirProjection"));
+
+
+
+            var wholesaleEadCirProjections = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEadCirProjections, L("WholesaleEadCirProjections"));
+            wholesaleEadCirProjections.CreateChildPermission(AppPermissions.Pages_WholesaleEadCirProjections_Create, L("CreateNewWholesaleEadCirProjection"));
+            wholesaleEadCirProjections.CreateChildPermission(AppPermissions.Pages_WholesaleEadCirProjections_Edit, L("EditWholesaleEadCirProjection"));
+            wholesaleEadCirProjections.CreateChildPermission(AppPermissions.Pages_WholesaleEadCirProjections_Delete, L("DeleteWholesaleEadCirProjection"));
+
+
+
+            var wholesaleEadInputs = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEadInputs, L("WholesaleEadInputs"));
+            wholesaleEadInputs.CreateChildPermission(AppPermissions.Pages_WholesaleEadInputs_Create, L("CreateNewWholesaleEadInput"));
+            wholesaleEadInputs.CreateChildPermission(AppPermissions.Pages_WholesaleEadInputs_Edit, L("EditWholesaleEadInput"));
+            wholesaleEadInputs.CreateChildPermission(AppPermissions.Pages_WholesaleEadInputs_Delete, L("DeleteWholesaleEadInput"));
+
+
+
+            var calibrationResultLgds = pages.CreateChildPermission(AppPermissions.Pages_CalibrationResultLgds, L("CalibrationResultLgds"));
+            calibrationResultLgds.CreateChildPermission(AppPermissions.Pages_CalibrationResultLgds_Create, L("CreateNewCalibrationResultLgd"));
+            calibrationResultLgds.CreateChildPermission(AppPermissions.Pages_CalibrationResultLgds_Edit, L("EditCalibrationResultLgd"));
+            calibrationResultLgds.CreateChildPermission(AppPermissions.Pages_CalibrationResultLgds_Delete, L("DeleteCalibrationResultLgd"));
+
+
+
+            var calibrationResultLgdCureRates = pages.CreateChildPermission(AppPermissions.Pages_CalibrationResultLgdCureRates, L("CalibrationResultLgdCureRates"));
+            calibrationResultLgdCureRates.CreateChildPermission(AppPermissions.Pages_CalibrationResultLgdCureRates_Create, L("CreateNewCalibrationResultLgdCureRate"));
+            calibrationResultLgdCureRates.CreateChildPermission(AppPermissions.Pages_CalibrationResultLgdCureRates_Edit, L("EditCalibrationResultLgdCureRate"));
+            calibrationResultLgdCureRates.CreateChildPermission(AppPermissions.Pages_CalibrationResultLgdCureRates_Delete, L("DeleteCalibrationResultLgdCureRate"));
+
+
+
+            var eadCirProjections = pages.CreateChildPermission(AppPermissions.Pages_EadCirProjections, L("EadCirProjections"));
+            eadCirProjections.CreateChildPermission(AppPermissions.Pages_EadCirProjections_Create, L("CreateNewEadCirProjection"));
+            eadCirProjections.CreateChildPermission(AppPermissions.Pages_EadCirProjections_Edit, L("EditEadCirProjection"));
+            eadCirProjections.CreateChildPermission(AppPermissions.Pages_EadCirProjections_Delete, L("DeleteEadCirProjection"));
+
+
+
+            var calibrationResults = pages.CreateChildPermission(AppPermissions.Pages_CalibrationResults, L("CalibrationResults"));
+            calibrationResults.CreateChildPermission(AppPermissions.Pages_CalibrationResults_Create, L("CreateNewCalibrationResult"));
+            calibrationResults.CreateChildPermission(AppPermissions.Pages_CalibrationResults_Edit, L("EditCalibrationResult"));
+            calibrationResults.CreateChildPermission(AppPermissions.Pages_CalibrationResults_Delete, L("DeleteCalibrationResult"));
+
+
+
+            var pdScenarioMacroeconomicProjections = pages.CreateChildPermission(AppPermissions.Pages_PdScenarioMacroeconomicProjections, L("PdScenarioMacroeconomicProjections"));
+            pdScenarioMacroeconomicProjections.CreateChildPermission(AppPermissions.Pages_PdScenarioMacroeconomicProjections_Create, L("CreateNewPdScenarioMacroeconomicProjection"));
+            pdScenarioMacroeconomicProjections.CreateChildPermission(AppPermissions.Pages_PdScenarioMacroeconomicProjections_Edit, L("EditPdScenarioMacroeconomicProjection"));
+            pdScenarioMacroeconomicProjections.CreateChildPermission(AppPermissions.Pages_PdScenarioMacroeconomicProjections_Delete, L("DeletePdScenarioMacroeconomicProjection"));
+
+
+
+            var pdStatisticalInputs = pages.CreateChildPermission(AppPermissions.Pages_PdStatisticalInputs, L("PdStatisticalInputs"));
+            pdStatisticalInputs.CreateChildPermission(AppPermissions.Pages_PdStatisticalInputs_Create, L("CreateNewPdStatisticalInput"));
+            pdStatisticalInputs.CreateChildPermission(AppPermissions.Pages_PdStatisticalInputs_Edit, L("EditPdStatisticalInput"));
+            pdStatisticalInputs.CreateChildPermission(AppPermissions.Pages_PdStatisticalInputs_Delete, L("DeletePdStatisticalInput"));
+
+
+
+            var pdEtiNpls = pages.CreateChildPermission(AppPermissions.Pages_PdEtiNpls, L("PdEtiNpls"));
+            pdEtiNpls.CreateChildPermission(AppPermissions.Pages_PdEtiNpls_Create, L("CreateNewPdEtiNpl"));
+            pdEtiNpls.CreateChildPermission(AppPermissions.Pages_PdEtiNpls_Edit, L("EditPdEtiNpl"));
+            pdEtiNpls.CreateChildPermission(AppPermissions.Pages_PdEtiNpls_Delete, L("DeletePdEtiNpl"));
+
+
+
+            var pdHistoricIndexes = pages.CreateChildPermission(AppPermissions.Pages_PdHistoricIndexes, L("PdHistoricIndexes"));
+            pdHistoricIndexes.CreateChildPermission(AppPermissions.Pages_PdHistoricIndexes_Create, L("CreateNewPdHistoricIndex"));
+            pdHistoricIndexes.CreateChildPermission(AppPermissions.Pages_PdHistoricIndexes_Edit, L("EditPdHistoricIndex"));
+            pdHistoricIndexes.CreateChildPermission(AppPermissions.Pages_PdHistoricIndexes_Delete, L("DeletePdHistoricIndex"));
+
+
+
+            var pdCummulativeSurvivals = pages.CreateChildPermission(AppPermissions.Pages_PdCummulativeSurvivals, L("PdCummulativeSurvivals"));
+            pdCummulativeSurvivals.CreateChildPermission(AppPermissions.Pages_PdCummulativeSurvivals_Create, L("CreateNewPdCummulativeSurvival"));
+            pdCummulativeSurvivals.CreateChildPermission(AppPermissions.Pages_PdCummulativeSurvivals_Edit, L("EditPdCummulativeSurvival"));
+            pdCummulativeSurvivals.CreateChildPermission(AppPermissions.Pages_PdCummulativeSurvivals_Delete, L("DeletePdCummulativeSurvival"));
+
+
+
+            var pdMarginalDefaultRates = pages.CreateChildPermission(AppPermissions.Pages_PdMarginalDefaultRates, L("PdMarginalDefaultRates"));
+            pdMarginalDefaultRates.CreateChildPermission(AppPermissions.Pages_PdMarginalDefaultRates_Create, L("CreateNewPdMarginalDefaultRate"));
+            pdMarginalDefaultRates.CreateChildPermission(AppPermissions.Pages_PdMarginalDefaultRates_Edit, L("EditPdMarginalDefaultRate"));
+            pdMarginalDefaultRates.CreateChildPermission(AppPermissions.Pages_PdMarginalDefaultRates_Delete, L("DeletePdMarginalDefaultRate"));
+
+
+
+            var pdUpperbounds = pages.CreateChildPermission(AppPermissions.Pages_PdUpperbounds, L("PdUpperbounds"));
+            pdUpperbounds.CreateChildPermission(AppPermissions.Pages_PdUpperbounds_Create, L("CreateNewPdUpperbound"));
+            pdUpperbounds.CreateChildPermission(AppPermissions.Pages_PdUpperbounds_Edit, L("EditPdUpperbound"));
+            pdUpperbounds.CreateChildPermission(AppPermissions.Pages_PdUpperbounds_Delete, L("DeletePdUpperbound"));
+
+
+
+            var pdSnPCummulativeDefaultRates = pages.CreateChildPermission(AppPermissions.Pages_PdSnPCummulativeDefaultRates, L("PdSnPCummulativeDefaultRates"));
+            pdSnPCummulativeDefaultRates.CreateChildPermission(AppPermissions.Pages_PdSnPCummulativeDefaultRates_Create, L("CreateNewPdSnPCummulativeDefaultRate"));
+            pdSnPCummulativeDefaultRates.CreateChildPermission(AppPermissions.Pages_PdSnPCummulativeDefaultRates_Edit, L("EditPdSnPCummulativeDefaultRate"));
+            pdSnPCummulativeDefaultRates.CreateChildPermission(AppPermissions.Pages_PdSnPCummulativeDefaultRates_Delete, L("DeletePdSnPCummulativeDefaultRate"));
+
+
+
+            var pd12MonthPds = pages.CreateChildPermission(AppPermissions.Pages_Pd12MonthPds, L("Pd12MonthPds"));
+            pd12MonthPds.CreateChildPermission(AppPermissions.Pages_Pd12MonthPds_Create, L("CreateNewPd12MonthPd"));
+            pd12MonthPds.CreateChildPermission(AppPermissions.Pages_Pd12MonthPds_Edit, L("EditPd12MonthPd"));
+            pd12MonthPds.CreateChildPermission(AppPermissions.Pages_Pd12MonthPds_Delete, L("DeletePd12MonthPd"));
+
+
 
             var obeEclResultSummaryTopExposures = pages.CreateChildPermission(AppPermissions.Pages_ObeEclResultSummaryTopExposures, L("ObeEclResultSummaryTopExposures"));
             obeEclResultSummaryTopExposures.CreateChildPermission(AppPermissions.Pages_ObeEclResultSummaryTopExposures_Create, L("CreateNewObeEclResultSummaryTopExposure"));

@@ -1,4 +1,4 @@
-namespace TestDemo.Authorization
+﻿namespace TestDemo.Authorization
 {
     /// <summary>
     /// Defines string constants for application's permission names.
@@ -6,6 +6,111 @@ namespace TestDemo.Authorization
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_WholesalePdRedefaultLifetimes = "Pages.WholesalePdRedefaultLifetimes";
+        public const string Pages_WholesalePdRedefaultLifetimes_Create = "Pages.WholesalePdRedefaultLifetimes.Create";
+        public const string Pages_WholesalePdRedefaultLifetimes_Edit = "Pages.WholesalePdRedefaultLifetimes.Edit";
+        public const string Pages_WholesalePdRedefaultLifetimes_Delete = "Pages.WholesalePdRedefaultLifetimes.Delete";
+
+        public const string Pages_WholesalePdLifetimeBests = "Pages.WholesalePdLifetimeBests";
+        public const string Pages_WholesalePdLifetimeBests_Create = "Pages.WholesalePdLifetimeBests.Create";
+        public const string Pages_WholesalePdLifetimeBests_Edit = "Pages.WholesalePdLifetimeBests.Edit";
+        public const string Pages_WholesalePdLifetimeBests_Delete = "Pages.WholesalePdLifetimeBests.Delete";
+
+        public const string Pages_WholesalePdMappings = "Pages.WholesalePdMappings";
+        public const string Pages_WholesalePdMappings_Create = "Pages.WholesalePdMappings.Create";
+        public const string Pages_WholesalePdMappings_Edit = "Pages.WholesalePdMappings.Edit";
+        public const string Pages_WholesalePdMappings_Delete = "Pages.WholesalePdMappings.Delete";
+
+        public const string Pages_WholesaleLgdCollateralTypeDatas = "Pages.WholesaleLgdCollateralTypeDatas";
+        public const string Pages_WholesaleLgdCollateralTypeDatas_Create = "Pages.WholesaleLgdCollateralTypeDatas.Create";
+        public const string Pages_WholesaleLgdCollateralTypeDatas_Edit = "Pages.WholesaleLgdCollateralTypeDatas.Edit";
+        public const string Pages_WholesaleLgdCollateralTypeDatas_Delete = "Pages.WholesaleLgdCollateralTypeDatas.Delete";
+
+        public const string Pages_WholesaleLgdContractDatas = "Pages.WholesaleLgdContractDatas";
+        public const string Pages_WholesaleLgdContractDatas_Create = "Pages.WholesaleLgdContractDatas.Create";
+        public const string Pages_WholesaleLgdContractDatas_Edit = "Pages.WholesaleLgdContractDatas.Edit";
+        public const string Pages_WholesaleLgdContractDatas_Delete = "Pages.WholesaleLgdContractDatas.Delete";
+
+        public const string Pages_WholesaleEadEirProjections = "Pages.WholesaleEadEirProjections";
+        public const string Pages_WholesaleEadEirProjections_Create = "Pages.WholesaleEadEirProjections.Create";
+        public const string Pages_WholesaleEadEirProjections_Edit = "Pages.WholesaleEadEirProjections.Edit";
+        public const string Pages_WholesaleEadEirProjections_Delete = "Pages.WholesaleEadEirProjections.Delete";
+
+        public const string Pages_WholesaleEadCirProjections = "Pages.WholesaleEadCirProjections";
+        public const string Pages_WholesaleEadCirProjections_Create = "Pages.WholesaleEadCirProjections.Create";
+        public const string Pages_WholesaleEadCirProjections_Edit = "Pages.WholesaleEadCirProjections.Edit";
+        public const string Pages_WholesaleEadCirProjections_Delete = "Pages.WholesaleEadCirProjections.Delete";
+
+        public const string Pages_WholesaleEadInputs = "Pages.WholesaleEadInputs";
+        public const string Pages_WholesaleEadInputs_Create = "Pages.WholesaleEadInputs.Create";
+        public const string Pages_WholesaleEadInputs_Edit = "Pages.WholesaleEadInputs.Edit";
+        public const string Pages_WholesaleEadInputs_Delete = "Pages.WholesaleEadInputs.Delete";
+
+        public const string Pages_CalibrationResultLgds = "Pages.CalibrationResultLgds";
+        public const string Pages_CalibrationResultLgds_Create = "Pages.CalibrationResultLgds.Create";
+        public const string Pages_CalibrationResultLgds_Edit = "Pages.CalibrationResultLgds.Edit";
+        public const string Pages_CalibrationResultLgds_Delete = "Pages.CalibrationResultLgds.Delete";
+
+        public const string Pages_CalibrationResultLgdCureRates = "Pages.CalibrationResultLgdCureRates";
+        public const string Pages_CalibrationResultLgdCureRates_Create = "Pages.CalibrationResultLgdCureRates.Create";
+        public const string Pages_CalibrationResultLgdCureRates_Edit = "Pages.CalibrationResultLgdCureRates.Edit";
+        public const string Pages_CalibrationResultLgdCureRates_Delete = "Pages.CalibrationResultLgdCureRates.Delete";
+
+        public const string Pages_EadCirProjections = "Pages.EadCirProjections";
+        public const string Pages_EadCirProjections_Create = "Pages.EadCirProjections.Create";
+        public const string Pages_EadCirProjections_Edit = "Pages.EadCirProjections.Edit";
+        public const string Pages_EadCirProjections_Delete = "Pages.EadCirProjections.Delete";
+
+        public const string Pages_CalibrationResults = "Pages.CalibrationResults";
+        public const string Pages_CalibrationResults_Create = "Pages.CalibrationResults.Create";
+        public const string Pages_CalibrationResults_Edit = "Pages.CalibrationResults.Edit";
+        public const string Pages_CalibrationResults_Delete = "Pages.CalibrationResults.Delete";
+
+        public const string Pages_PdScenarioMacroeconomicProjections = "Pages.PdScenarioMacroeconomicProjections";
+        public const string Pages_PdScenarioMacroeconomicProjections_Create = "Pages.PdScenarioMacroeconomicProjections.Create";
+        public const string Pages_PdScenarioMacroeconomicProjections_Edit = "Pages.PdScenarioMacroeconomicProjections.Edit";
+        public const string Pages_PdScenarioMacroeconomicProjections_Delete = "Pages.PdScenarioMacroeconomicProjections.Delete";
+
+        public const string Pages_PdStatisticalInputs = "Pages.PdStatisticalInputs";
+        public const string Pages_PdStatisticalInputs_Create = "Pages.PdStatisticalInputs.Create";
+        public const string Pages_PdStatisticalInputs_Edit = "Pages.PdStatisticalInputs.Edit";
+        public const string Pages_PdStatisticalInputs_Delete = "Pages.PdStatisticalInputs.Delete";
+
+        public const string Pages_PdEtiNpls = "Pages.PdEtiNpls";
+        public const string Pages_PdEtiNpls_Create = "Pages.PdEtiNpls.Create";
+        public const string Pages_PdEtiNpls_Edit = "Pages.PdEtiNpls.Edit";
+        public const string Pages_PdEtiNpls_Delete = "Pages.PdEtiNpls.Delete";
+
+        public const string Pages_PdHistoricIndexes = "Pages.PdHistoricIndexes";
+        public const string Pages_PdHistoricIndexes_Create = "Pages.PdHistoricIndexes.Create";
+        public const string Pages_PdHistoricIndexes_Edit = "Pages.PdHistoricIndexes.Edit";
+        public const string Pages_PdHistoricIndexes_Delete = "Pages.PdHistoricIndexes.Delete";
+
+        public const string Pages_PdCummulativeSurvivals = "Pages.PdCummulativeSurvivals";
+        public const string Pages_PdCummulativeSurvivals_Create = "Pages.PdCummulativeSurvivals.Create";
+        public const string Pages_PdCummulativeSurvivals_Edit = "Pages.PdCummulativeSurvivals.Edit";
+        public const string Pages_PdCummulativeSurvivals_Delete = "Pages.PdCummulativeSurvivals.Delete";
+
+        public const string Pages_PdMarginalDefaultRates = "Pages.PdMarginalDefaultRates";
+        public const string Pages_PdMarginalDefaultRates_Create = "Pages.PdMarginalDefaultRates.Create";
+        public const string Pages_PdMarginalDefaultRates_Edit = "Pages.PdMarginalDefaultRates.Edit";
+        public const string Pages_PdMarginalDefaultRates_Delete = "Pages.PdMarginalDefaultRates.Delete";
+
+        public const string Pages_PdUpperbounds = "Pages.PdUpperbounds";
+        public const string Pages_PdUpperbounds_Create = "Pages.PdUpperbounds.Create";
+        public const string Pages_PdUpperbounds_Edit = "Pages.PdUpperbounds.Edit";
+        public const string Pages_PdUpperbounds_Delete = "Pages.PdUpperbounds.Delete";
+
+        public const string Pages_PdSnPCummulativeDefaultRates = "Pages.PdSnPCummulativeDefaultRates";
+        public const string Pages_PdSnPCummulativeDefaultRates_Create = "Pages.PdSnPCummulativeDefaultRates.Create";
+        public const string Pages_PdSnPCummulativeDefaultRates_Edit = "Pages.PdSnPCummulativeDefaultRates.Edit";
+        public const string Pages_PdSnPCummulativeDefaultRates_Delete = "Pages.PdSnPCummulativeDefaultRates.Delete";
+
+        public const string Pages_Pd12MonthPds = "Pages.Pd12MonthPds";
+        public const string Pages_Pd12MonthPds_Create = "Pages.Pd12MonthPds.Create";
+        public const string Pages_Pd12MonthPds_Edit = "Pages.Pd12MonthPds.Edit";
+        public const string Pages_Pd12MonthPds_Delete = "Pages.Pd12MonthPds.Delete";
+
         public const string Pages_ObeEclResultSummaryTopExposures = "Pages.ObeEclResultSummaryTopExposures";
         public const string Pages_ObeEclResultSummaryTopExposures_Create = "Pages.ObeEclResultSummaryTopExposures.Create";
         public const string Pages_ObeEclResultSummaryTopExposures_Edit = "Pages.ObeEclResultSummaryTopExposures.Edit";
