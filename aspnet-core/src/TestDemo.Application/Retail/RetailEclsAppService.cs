@@ -16,6 +16,7 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace TestDemo.Retail
 {
@@ -35,7 +36,7 @@ namespace TestDemo.Retail
 
 		 public async Task<PagedResultDto<GetRetailEclForViewDto>> GetAll(GetAllRetailEclsInput input)
          {
-			var statusFilter = (GeneralStatusEnum) input.StatusFilter;
+			var statusFilter = (EclStatusEnum) input.StatusFilter;
 			
 			var filteredRetailEcls = _retailEclRepository.GetAll()
 						.Include( e => e.ClosedByUserFk)
@@ -107,8 +108,15 @@ namespace TestDemo.Retail
          {
             var retailEcl = ObjectMapper.Map<RetailEcl>(input);
 
-			
-			if (AbpSession.TenantId != null)
+            var user = await UserManager.GetUserByIdAsync((long)AbpSession.UserId);
+            var userSubsidiaries = await UserManager.GetOrganizationUnitsAsync(user);
+
+            if (userSubsidiaries.Count > 0)
+            {
+                retailEcl.OrganizationUnitId = userSubsidiaries[0].Id;
+            }
+
+            if (AbpSession.TenantId != null)
 			{
 				retailEcl.TenantId = (int?) AbpSession.TenantId;
 			}
