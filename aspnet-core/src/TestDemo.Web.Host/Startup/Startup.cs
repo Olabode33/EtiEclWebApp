@@ -100,7 +100,7 @@ namespace TestDemo.Web.Startup
                     options.ParameterFilter<SwaggerEnumParameterFilter>();
                     options.SchemaFilter<SwaggerEnumSchemaFilter>();
                     options.OperationFilter<SwaggerOperationIdFilter>();
-                    options.OperationFilter<SwaggerOperationFilter>();
+                    //options.OperationFilter<SwaggerOperationFilter>();
                     options.CustomDefaultSchemaIdSelector();
 
                     //Note: This is just for showing Authorize button on the UI. 

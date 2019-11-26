@@ -64,11 +64,6 @@ namespace TestDemo.EclShared
         IndexWeight, PdInputs, EadInputs, LgdInputs, Haircuts
     }
 
-    public enum ScenarioEnum
-    {
-        Best = 1, Optimistic, Downturn
-    }
-
     public static class EclEnums
     {
         

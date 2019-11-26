@@ -1,6 +1,6 @@
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EclStatusEnum, CreateOrEditWholesaleEclDto, WholesaleEclsServiceProxy } from '@shared/service-proxies/service-proxies';
+import { EclStatusEnum, CreateOrEditWholesaleEclDto, WholesaleEclsServiceProxy, AssumptionDto, EadInputAssumptionDto, LgdAssumptionDto } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -27,6 +27,9 @@ export class CreateEditWholesaleEclComponent extends AppComponentBase implements
     uploadedFiles: any[] = [];
 
     wholesaleECL: CreateOrEditWholesaleEclDto = new CreateOrEditWholesaleEclDto();
+    frameworkAssumptions: AssumptionDto[] = new Array();
+    eadInputAssumptions: EadInputAssumptionDto[] = new Array();
+    lgdInputAssumptions: LgdAssumptionDto[] = new Array();
 
     wizardStep1Completed = 0;
     wizardStep2Completed = 0;
@@ -80,6 +83,8 @@ export class CreateEditWholesaleEclComponent extends AppComponentBase implements
         //this.displayQuestion();
 
     }
+
+
 
     isValid(): boolean {
         switch (this.wizardCurrentStep) {
@@ -173,6 +178,10 @@ export class CreateEditWholesaleEclComponent extends AppComponentBase implements
                         });
             }
         );
+    }
+
+    getFrameworkAssumptions(): void {
+        
     }
 
 }

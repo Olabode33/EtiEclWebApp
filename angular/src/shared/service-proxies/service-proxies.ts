@@ -2480,6 +2480,183 @@ export class EclSharedServiceProxy {
         }
         return _observableOf<PagedResultDtoOfGetAllEclForWorkspaceDto>(<any>null);
     }
+
+    /**
+     * @return Success
+     */
+    getFrameworkAssumptionSnapshot(framework: FrameworkEnum): Observable<AssumptionDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/EclShared/GetFrameworkAssumptionSnapshot?";
+        if (framework === undefined || framework === null)
+            throw new Error("The parameter 'framework' must be defined and cannot be null.");
+        else
+            url_ += "framework=" + encodeURIComponent("" + framework) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetFrameworkAssumptionSnapshot(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetFrameworkAssumptionSnapshot(<any>response_);
+                } catch (e) {
+                    return <Observable<AssumptionDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<AssumptionDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetFrameworkAssumptionSnapshot(response: HttpResponseBase): Observable<AssumptionDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(AssumptionDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<AssumptionDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getEadInputAssumptionSnapshot(framework: FrameworkEnum): Observable<EadInputAssumptionDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/EclShared/GetEadInputAssumptionSnapshot?";
+        if (framework === undefined || framework === null)
+            throw new Error("The parameter 'framework' must be defined and cannot be null.");
+        else
+            url_ += "framework=" + encodeURIComponent("" + framework) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetEadInputAssumptionSnapshot(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetEadInputAssumptionSnapshot(<any>response_);
+                } catch (e) {
+                    return <Observable<EadInputAssumptionDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<EadInputAssumptionDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetEadInputAssumptionSnapshot(response: HttpResponseBase): Observable<EadInputAssumptionDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(EadInputAssumptionDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<EadInputAssumptionDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getLgdInputAssumptionSnapshot(framework: FrameworkEnum): Observable<LgdAssumptionDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/EclShared/GetLgdInputAssumptionSnapshot?";
+        if (framework === undefined || framework === null)
+            throw new Error("The parameter 'framework' must be defined and cannot be null.");
+        else
+            url_ += "framework=" + encodeURIComponent("" + framework) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLgdInputAssumptionSnapshot(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLgdInputAssumptionSnapshot(<any>response_);
+                } catch (e) {
+                    return <Observable<LgdAssumptionDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LgdAssumptionDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLgdInputAssumptionSnapshot(response: HttpResponseBase): Observable<LgdAssumptionDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(LgdAssumptionDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LgdAssumptionDto[]>(<any>null);
+    }
 }
 
 @Injectable()
@@ -5880,306 +6057,6 @@ export class ObeEclAssumptionsServiceProxy {
             }));
         }
         return _observableOf<PagedResultDtoOfObeEclAssumptionObeEclLookupTableDto>(<any>null);
-    }
-}
-
-@Injectable()
-export class ObeEclComputedEadResultsServiceProxy {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
-    }
-
-    /**
-     * @param filter (optional) 
-     * @param lifetimeEADFilter (optional) 
-     * @param obeEclDataLoanBookContractNoFilter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
-     * @return Success
-     */
-    getAll(filter: string | null | undefined, lifetimeEADFilter: string | null | undefined, obeEclDataLoanBookContractNoFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetObeEclComputedEadResultForViewDto> {
-        let url_ = this.baseUrl + "/api/services/app/ObeEclComputedEadResults/GetAll?";
-        if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (lifetimeEADFilter !== undefined)
-            url_ += "LifetimeEADFilter=" + encodeURIComponent("" + lifetimeEADFilter) + "&"; 
-        if (obeEclDataLoanBookContractNoFilter !== undefined)
-            url_ += "ObeEclDataLoanBookContractNoFilter=" + encodeURIComponent("" + obeEclDataLoanBookContractNoFilter) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAll(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetAll(<any>response_);
-                } catch (e) {
-                    return <Observable<PagedResultDtoOfGetObeEclComputedEadResultForViewDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<PagedResultDtoOfGetObeEclComputedEadResultForViewDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetObeEclComputedEadResultForViewDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfGetObeEclComputedEadResultForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetObeEclComputedEadResultForViewDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<PagedResultDtoOfGetObeEclComputedEadResultForViewDto>(<any>null);
-    }
-
-    /**
-     * @param id (optional) 
-     * @return Success
-     */
-    getObeEclComputedEadResultForEdit(id: string | null | undefined): Observable<GetObeEclComputedEadResultForEditOutput> {
-        let url_ = this.baseUrl + "/api/services/app/ObeEclComputedEadResults/GetObeEclComputedEadResultForEdit?";
-        if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetObeEclComputedEadResultForEdit(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetObeEclComputedEadResultForEdit(<any>response_);
-                } catch (e) {
-                    return <Observable<GetObeEclComputedEadResultForEditOutput>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<GetObeEclComputedEadResultForEditOutput>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetObeEclComputedEadResultForEdit(response: HttpResponseBase): Observable<GetObeEclComputedEadResultForEditOutput> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? GetObeEclComputedEadResultForEditOutput.fromJS(resultData200) : new GetObeEclComputedEadResultForEditOutput();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<GetObeEclComputedEadResultForEditOutput>(<any>null);
-    }
-
-    /**
-     * @param input (optional) 
-     * @return Success
-     */
-    createOrEdit(input: CreateOrEditObeEclComputedEadResultDto | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/ObeEclComputedEadResults/CreateOrEdit";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(input);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreateOrEdit(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCreateOrEdit(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param id (optional) 
-     * @return Success
-     */
-    delete(id: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/ObeEclComputedEadResults/Delete?";
-        if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDelete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDelete(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processDelete(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param filter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
-     * @return Success
-     */
-    getAllObeEclDataLoanBookForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfObeEclComputedEadResultObeEclDataLoanBookLookupTableDto> {
-        let url_ = this.baseUrl + "/api/services/app/ObeEclComputedEadResults/GetAllObeEclDataLoanBookForLookupTable?";
-        if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllObeEclDataLoanBookForLookupTable(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetAllObeEclDataLoanBookForLookupTable(<any>response_);
-                } catch (e) {
-                    return <Observable<PagedResultDtoOfObeEclComputedEadResultObeEclDataLoanBookLookupTableDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<PagedResultDtoOfObeEclComputedEadResultObeEclDataLoanBookLookupTableDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetAllObeEclDataLoanBookForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfObeEclComputedEadResultObeEclDataLoanBookLookupTableDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfObeEclComputedEadResultObeEclDataLoanBookLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfObeEclComputedEadResultObeEclDataLoanBookLookupTableDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<PagedResultDtoOfObeEclComputedEadResultObeEclDataLoanBookLookupTableDto>(<any>null);
     }
 }
 
@@ -15493,306 +15370,6 @@ export class RetailEclAssumptionsServiceProxy {
             }));
         }
         return _observableOf<PagedResultDtoOfRetailEclAssumptionRetailEclLookupTableDto>(<any>null);
-    }
-}
-
-@Injectable()
-export class RetailEclComputedEadResultsServiceProxy {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
-    }
-
-    /**
-     * @param filter (optional) 
-     * @param lifetimeEADFilter (optional) 
-     * @param retailEclDataLoanBookCustomerNameFilter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
-     * @return Success
-     */
-    getAll(filter: string | null | undefined, lifetimeEADFilter: string | null | undefined, retailEclDataLoanBookCustomerNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetRetailEclComputedEadResultForViewDto> {
-        let url_ = this.baseUrl + "/api/services/app/RetailEclComputedEadResults/GetAll?";
-        if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (lifetimeEADFilter !== undefined)
-            url_ += "LifetimeEADFilter=" + encodeURIComponent("" + lifetimeEADFilter) + "&"; 
-        if (retailEclDataLoanBookCustomerNameFilter !== undefined)
-            url_ += "RetailEclDataLoanBookCustomerNameFilter=" + encodeURIComponent("" + retailEclDataLoanBookCustomerNameFilter) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAll(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetAll(<any>response_);
-                } catch (e) {
-                    return <Observable<PagedResultDtoOfGetRetailEclComputedEadResultForViewDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<PagedResultDtoOfGetRetailEclComputedEadResultForViewDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetRetailEclComputedEadResultForViewDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfGetRetailEclComputedEadResultForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetRetailEclComputedEadResultForViewDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<PagedResultDtoOfGetRetailEclComputedEadResultForViewDto>(<any>null);
-    }
-
-    /**
-     * @param id (optional) 
-     * @return Success
-     */
-    getRetailEclComputedEadResultForEdit(id: string | null | undefined): Observable<GetRetailEclComputedEadResultForEditOutput> {
-        let url_ = this.baseUrl + "/api/services/app/RetailEclComputedEadResults/GetRetailEclComputedEadResultForEdit?";
-        if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetRetailEclComputedEadResultForEdit(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetRetailEclComputedEadResultForEdit(<any>response_);
-                } catch (e) {
-                    return <Observable<GetRetailEclComputedEadResultForEditOutput>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<GetRetailEclComputedEadResultForEditOutput>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetRetailEclComputedEadResultForEdit(response: HttpResponseBase): Observable<GetRetailEclComputedEadResultForEditOutput> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? GetRetailEclComputedEadResultForEditOutput.fromJS(resultData200) : new GetRetailEclComputedEadResultForEditOutput();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<GetRetailEclComputedEadResultForEditOutput>(<any>null);
-    }
-
-    /**
-     * @param input (optional) 
-     * @return Success
-     */
-    createOrEdit(input: CreateOrEditRetailEclComputedEadResultDto | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/RetailEclComputedEadResults/CreateOrEdit";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(input);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreateOrEdit(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCreateOrEdit(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param id (optional) 
-     * @return Success
-     */
-    delete(id: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/RetailEclComputedEadResults/Delete?";
-        if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDelete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDelete(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processDelete(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param filter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
-     * @return Success
-     */
-    getAllRetailEclDataLoanBookForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfRetailEclComputedEadResultRetailEclDataLoanBookLookupTableDto> {
-        let url_ = this.baseUrl + "/api/services/app/RetailEclComputedEadResults/GetAllRetailEclDataLoanBookForLookupTable?";
-        if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllRetailEclDataLoanBookForLookupTable(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetAllRetailEclDataLoanBookForLookupTable(<any>response_);
-                } catch (e) {
-                    return <Observable<PagedResultDtoOfRetailEclComputedEadResultRetailEclDataLoanBookLookupTableDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<PagedResultDtoOfRetailEclComputedEadResultRetailEclDataLoanBookLookupTableDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetAllRetailEclDataLoanBookForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfRetailEclComputedEadResultRetailEclDataLoanBookLookupTableDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfRetailEclComputedEadResultRetailEclDataLoanBookLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfRetailEclComputedEadResultRetailEclDataLoanBookLookupTableDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<PagedResultDtoOfRetailEclComputedEadResultRetailEclDataLoanBookLookupTableDto>(<any>null);
     }
 }
 
@@ -26332,306 +25909,6 @@ export class WholesaleEclAssumptionsServiceProxy {
 }
 
 @Injectable()
-export class WholesaleEclComputedEadResultsServiceProxy {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
-    }
-
-    /**
-     * @param filter (optional) 
-     * @param lifetimeEADFilter (optional) 
-     * @param wholesaleEclDataLoanBookCustomerNameFilter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
-     * @return Success
-     */
-    getAll(filter: string | null | undefined, lifetimeEADFilter: string | null | undefined, wholesaleEclDataLoanBookCustomerNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto> {
-        let url_ = this.baseUrl + "/api/services/app/WholesaleEclComputedEadResults/GetAll?";
-        if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (lifetimeEADFilter !== undefined)
-            url_ += "LifetimeEADFilter=" + encodeURIComponent("" + lifetimeEADFilter) + "&"; 
-        if (wholesaleEclDataLoanBookCustomerNameFilter !== undefined)
-            url_ += "WholesaleEclDataLoanBookCustomerNameFilter=" + encodeURIComponent("" + wholesaleEclDataLoanBookCustomerNameFilter) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAll(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetAll(<any>response_);
-                } catch (e) {
-                    return <Observable<PagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<PagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<PagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto>(<any>null);
-    }
-
-    /**
-     * @param id (optional) 
-     * @return Success
-     */
-    getWholesaleEclComputedEadResultForEdit(id: string | null | undefined): Observable<GetWholesaleEclComputedEadResultForEditOutput> {
-        let url_ = this.baseUrl + "/api/services/app/WholesaleEclComputedEadResults/GetWholesaleEclComputedEadResultForEdit?";
-        if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetWholesaleEclComputedEadResultForEdit(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetWholesaleEclComputedEadResultForEdit(<any>response_);
-                } catch (e) {
-                    return <Observable<GetWholesaleEclComputedEadResultForEditOutput>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<GetWholesaleEclComputedEadResultForEditOutput>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetWholesaleEclComputedEadResultForEdit(response: HttpResponseBase): Observable<GetWholesaleEclComputedEadResultForEditOutput> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? GetWholesaleEclComputedEadResultForEditOutput.fromJS(resultData200) : new GetWholesaleEclComputedEadResultForEditOutput();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<GetWholesaleEclComputedEadResultForEditOutput>(<any>null);
-    }
-
-    /**
-     * @param input (optional) 
-     * @return Success
-     */
-    createOrEdit(input: CreateOrEditWholesaleEclComputedEadResultDto | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/WholesaleEclComputedEadResults/CreateOrEdit";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(input);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreateOrEdit(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCreateOrEdit(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param id (optional) 
-     * @return Success
-     */
-    delete(id: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/WholesaleEclComputedEadResults/Delete?";
-        if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDelete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDelete(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processDelete(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param filter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
-     * @return Success
-     */
-    getAllWholesaleEclDataLoanBookForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto> {
-        let url_ = this.baseUrl + "/api/services/app/WholesaleEclComputedEadResults/GetAllWholesaleEclDataLoanBookForLookupTable?";
-        if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllWholesaleEclDataLoanBookForLookupTable(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetAllWholesaleEclDataLoanBookForLookupTable(<any>response_);
-                } catch (e) {
-                    return <Observable<PagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<PagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetAllWholesaleEclDataLoanBookForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<PagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto>(<any>null);
-    }
-}
-
-@Injectable()
 export class WholesaleEclDataLoanBooksServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -32431,8 +31708,13 @@ export interface IGetAssumptionForViewDto {
 }
 
 export class AssumptionDto implements IAssumptionDto {
+    key!: string | undefined;
     inputName!: string | undefined;
     value!: string | undefined;
+    dataType!: DataTypeEnum | undefined;
+    assumptionGroup!: AssumptionGroupEnum | undefined;
+    isComputed!: boolean | undefined;
+    requiresGroupApproval!: boolean | undefined;
     id!: string | undefined;
 
     constructor(data?: IAssumptionDto) {
@@ -32446,8 +31728,13 @@ export class AssumptionDto implements IAssumptionDto {
 
     init(data?: any) {
         if (data) {
+            this.key = data["key"];
             this.inputName = data["inputName"];
             this.value = data["value"];
+            this.dataType = data["dataType"];
+            this.assumptionGroup = data["assumptionGroup"];
+            this.isComputed = data["isComputed"];
+            this.requiresGroupApproval = data["requiresGroupApproval"];
             this.id = data["id"];
         }
     }
@@ -32461,17 +31748,44 @@ export class AssumptionDto implements IAssumptionDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["key"] = this.key;
         data["inputName"] = this.inputName;
         data["value"] = this.value;
+        data["dataType"] = this.dataType;
+        data["assumptionGroup"] = this.assumptionGroup;
+        data["isComputed"] = this.isComputed;
+        data["requiresGroupApproval"] = this.requiresGroupApproval;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface IAssumptionDto {
+    key: string | undefined;
     inputName: string | undefined;
     value: string | undefined;
+    dataType: DataTypeEnum | undefined;
+    assumptionGroup: AssumptionGroupEnum | undefined;
+    isComputed: boolean | undefined;
+    requiresGroupApproval: boolean | undefined;
     id: string | undefined;
+}
+
+export enum DataTypeEnum {
+    String = 1, 
+    Datetime = 2, 
+    Double = 3, 
+    Int = 4, 
+}
+
+export enum AssumptionGroupEnum {
+    General = 0, 
+    ScenarioInputs = 1, 
+    AbsoluteCreditQuality = 2, 
+    RelativeCreditQuality = 3, 
+    ForwardTransitions = 4, 
+    BackwardTransitions = 5, 
+    CreditRatingRank = 6, 
 }
 
 export class GetAssumptionForEditOutput implements IGetAssumptionForEditOutput {
@@ -32564,21 +31878,6 @@ export interface ICreateOrEditAssumptionDto {
     dataType: DataTypeEnum | undefined;
     assumptionGroup: AssumptionGroupEnum | undefined;
     id: string | undefined;
-}
-
-export enum DataTypeEnum {
-    String = 1, 
-    Datetime = 2, 
-    Double = 3, 
-}
-
-export enum AssumptionGroupEnum {
-    General = 0, 
-    ScenarioInputs = 1, 
-    AbsoluteCreditQuality = 2, 
-    RelativeCreditQuality = 3, 
-    ForwardTransitions = 4, 
-    BackwardTransitions = 5, 
 }
 
 export class PagedResultDtoOfAuditLogListDto implements IPagedResultDtoOfAuditLogListDto {
@@ -33807,8 +33106,13 @@ export interface IGetEadInputAssumptionForViewDto {
 }
 
 export class EadInputAssumptionDto implements IEadInputAssumptionDto {
+    key!: string | undefined;
     inputName!: string | undefined;
     value!: string | undefined;
+    dataType!: DataTypeEnum | undefined;
+    assumptionGroup!: EadInputGroupEnum | undefined;
+    isComputed!: boolean | undefined;
+    requiresGroupApproval!: boolean | undefined;
     id!: string | undefined;
 
     constructor(data?: IEadInputAssumptionDto) {
@@ -33822,8 +33126,13 @@ export class EadInputAssumptionDto implements IEadInputAssumptionDto {
 
     init(data?: any) {
         if (data) {
+            this.key = data["key"];
             this.inputName = data["inputName"];
             this.value = data["value"];
+            this.dataType = data["dataType"];
+            this.assumptionGroup = data["assumptionGroup"];
+            this.isComputed = data["isComputed"];
+            this.requiresGroupApproval = data["requiresGroupApproval"];
             this.id = data["id"];
         }
     }
@@ -33837,17 +33146,34 @@ export class EadInputAssumptionDto implements IEadInputAssumptionDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["key"] = this.key;
         data["inputName"] = this.inputName;
         data["value"] = this.value;
+        data["dataType"] = this.dataType;
+        data["assumptionGroup"] = this.assumptionGroup;
+        data["isComputed"] = this.isComputed;
+        data["requiresGroupApproval"] = this.requiresGroupApproval;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface IEadInputAssumptionDto {
+    key: string | undefined;
     inputName: string | undefined;
     value: string | undefined;
+    dataType: DataTypeEnum | undefined;
+    assumptionGroup: EadInputGroupEnum | undefined;
+    isComputed: boolean | undefined;
+    requiresGroupApproval: boolean | undefined;
     id: string | undefined;
+}
+
+export enum EadInputGroupEnum {
+    General = 0, 
+    CreditConversionFactors = 1, 
+    VariableInterestRateProjections = 2, 
+    ExchangeRateProjections = 3, 
 }
 
 export class GetEadInputAssumptionForEditOutput implements IGetEadInputAssumptionForEditOutput {
@@ -34039,7 +33365,7 @@ export interface IGetAllEclForWorkspaceDto {
 }
 
 export enum FrameworkEnum {
-    General = 0, 
+    All = 0, 
     Wholesale = 1, 
     Retail = 2, 
     OBE = 3, 
@@ -34056,6 +33382,85 @@ export enum EclStatusEnum {
     ComputedECL = 7, 
     Completed = 8, 
     Closed = 9, 
+}
+
+export class LgdAssumptionDto implements ILgdAssumptionDto {
+    key!: string | undefined;
+    inputName!: string | undefined;
+    value!: string | undefined;
+    dataType!: DataTypeEnum | undefined;
+    assumptionGroup!: LdgInputAssumptionEnum | undefined;
+    isComputed!: boolean | undefined;
+    requiresGroupApproval!: boolean | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ILgdAssumptionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.key = data["key"];
+            this.inputName = data["inputName"];
+            this.value = data["value"];
+            this.dataType = data["dataType"];
+            this.assumptionGroup = data["assumptionGroup"];
+            this.isComputed = data["isComputed"];
+            this.requiresGroupApproval = data["requiresGroupApproval"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): LgdAssumptionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LgdAssumptionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["key"] = this.key;
+        data["inputName"] = this.inputName;
+        data["value"] = this.value;
+        data["dataType"] = this.dataType;
+        data["assumptionGroup"] = this.assumptionGroup;
+        data["isComputed"] = this.isComputed;
+        data["requiresGroupApproval"] = this.requiresGroupApproval;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ILgdAssumptionDto {
+    key: string | undefined;
+    inputName: string | undefined;
+    value: string | undefined;
+    dataType: DataTypeEnum | undefined;
+    assumptionGroup: LdgInputAssumptionEnum | undefined;
+    isComputed: boolean | undefined;
+    requiresGroupApproval: boolean | undefined;
+    id: string | undefined;
+}
+
+export enum LdgInputAssumptionEnum {
+    General = 0, 
+    UnsecuredRecoveries = 1, 
+    CostOfRecoveryHigh = 2, 
+    CostOfRecoveryLow = 3, 
+    CollateralGrowthBest = 4, 
+    CollateralGrowthOptimistic = 5, 
+    CollateralGrowthDownturn = 6, 
+    CollateralTTR = 7, 
+    CollateralProjectionBest = 8, 
+    CollateralProjectionOptimistic = 9, 
+    CollateralProjectionDownturn = 10, 
+    Haircut = 11, 
 }
 
 export class ListResultDtoOfEditionListDto implements IListResultDtoOfEditionListDto {
@@ -36755,7 +36160,7 @@ export interface IPagedResultDtoOfGetLgdAssumptionUnsecuredRecoveryForViewDto {
 }
 
 export class GetLgdAssumptionUnsecuredRecoveryForViewDto implements IGetLgdAssumptionUnsecuredRecoveryForViewDto {
-    lgdAssumptionUnsecuredRecovery!: LgdAssumptionUnsecuredRecoveryDto | undefined;
+    lgdAssumptionUnsecuredRecovery!: LgdAssumptionDto | undefined;
 
     constructor(data?: IGetLgdAssumptionUnsecuredRecoveryForViewDto) {
         if (data) {
@@ -36768,7 +36173,7 @@ export class GetLgdAssumptionUnsecuredRecoveryForViewDto implements IGetLgdAssum
 
     init(data?: any) {
         if (data) {
-            this.lgdAssumptionUnsecuredRecovery = data["lgdAssumptionUnsecuredRecovery"] ? LgdAssumptionUnsecuredRecoveryDto.fromJS(data["lgdAssumptionUnsecuredRecovery"]) : <any>undefined;
+            this.lgdAssumptionUnsecuredRecovery = data["lgdAssumptionUnsecuredRecovery"] ? LgdAssumptionDto.fromJS(data["lgdAssumptionUnsecuredRecovery"]) : <any>undefined;
         }
     }
 
@@ -36787,51 +36192,7 @@ export class GetLgdAssumptionUnsecuredRecoveryForViewDto implements IGetLgdAssum
 }
 
 export interface IGetLgdAssumptionUnsecuredRecoveryForViewDto {
-    lgdAssumptionUnsecuredRecovery: LgdAssumptionUnsecuredRecoveryDto | undefined;
-}
-
-export class LgdAssumptionUnsecuredRecoveryDto implements ILgdAssumptionUnsecuredRecoveryDto {
-    inputName!: string | undefined;
-    value!: string | undefined;
-    id!: string | undefined;
-
-    constructor(data?: ILgdAssumptionUnsecuredRecoveryDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.inputName = data["inputName"];
-            this.value = data["value"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): LgdAssumptionUnsecuredRecoveryDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new LgdAssumptionUnsecuredRecoveryDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["inputName"] = this.inputName;
-        data["value"] = this.value;
-        data["id"] = this.id;
-        return data; 
-    }
-}
-
-export interface ILgdAssumptionUnsecuredRecoveryDto {
-    inputName: string | undefined;
-    value: string | undefined;
-    id: string | undefined;
+    lgdAssumptionUnsecuredRecovery: LgdAssumptionDto | undefined;
 }
 
 export class GetLgdAssumptionUnsecuredRecoveryForEditOutput implements IGetLgdAssumptionUnsecuredRecoveryForEditOutput {
@@ -36924,20 +36285,6 @@ export interface ICreateOrEditLgdAssumptionUnsecuredRecoveryDto {
     isComputed: boolean | undefined;
     lgdGroup: LdgInputAssumptionEnum | undefined;
     id: string | undefined;
-}
-
-export enum LdgInputAssumptionEnum {
-    General = 0, 
-    UnsecuredRecoveries = 1, 
-    CostOfRecoveryHigh = 2, 
-    CostOfRecoveryLow = 3, 
-    CollateralGrowthBest = 4, 
-    CollateralGrowthOptimistic = 5, 
-    CollateralGrowthDownturn = 6, 
-    CollateralTTR = 7, 
-    CollateralProjectionBest = 8, 
-    CollateralProjectionOptimistic = 9, 
-    CollateralProjectionDownturn = 10, 
 }
 
 export enum UserNotificationState {
@@ -38644,310 +37991,6 @@ export interface IObeEclAssumptionObeEclLookupTableDto {
     displayName: string | undefined;
 }
 
-export class PagedResultDtoOfGetObeEclComputedEadResultForViewDto implements IPagedResultDtoOfGetObeEclComputedEadResultForViewDto {
-    totalCount!: number | undefined;
-    items!: GetObeEclComputedEadResultForViewDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfGetObeEclComputedEadResultForViewDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(GetObeEclComputedEadResultForViewDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfGetObeEclComputedEadResultForViewDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfGetObeEclComputedEadResultForViewDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfGetObeEclComputedEadResultForViewDto {
-    totalCount: number | undefined;
-    items: GetObeEclComputedEadResultForViewDto[] | undefined;
-}
-
-export class GetObeEclComputedEadResultForViewDto implements IGetObeEclComputedEadResultForViewDto {
-    obeEclComputedEadResult!: ObeEclComputedEadResultDto | undefined;
-    obeEclDataLoanBookContractNo!: string | undefined;
-
-    constructor(data?: IGetObeEclComputedEadResultForViewDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.obeEclComputedEadResult = data["obeEclComputedEadResult"] ? ObeEclComputedEadResultDto.fromJS(data["obeEclComputedEadResult"]) : <any>undefined;
-            this.obeEclDataLoanBookContractNo = data["obeEclDataLoanBookContractNo"];
-        }
-    }
-
-    static fromJS(data: any): GetObeEclComputedEadResultForViewDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetObeEclComputedEadResultForViewDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["obeEclComputedEadResult"] = this.obeEclComputedEadResult ? this.obeEclComputedEadResult.toJSON() : <any>undefined;
-        data["obeEclDataLoanBookContractNo"] = this.obeEclDataLoanBookContractNo;
-        return data; 
-    }
-}
-
-export interface IGetObeEclComputedEadResultForViewDto {
-    obeEclComputedEadResult: ObeEclComputedEadResultDto | undefined;
-    obeEclDataLoanBookContractNo: string | undefined;
-}
-
-export class ObeEclComputedEadResultDto implements IObeEclComputedEadResultDto {
-    lifetimeEAD!: string | undefined;
-    obeEclDataLoanBookId!: string | undefined;
-    id!: string | undefined;
-
-    constructor(data?: IObeEclComputedEadResultDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.lifetimeEAD = data["lifetimeEAD"];
-            this.obeEclDataLoanBookId = data["obeEclDataLoanBookId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): ObeEclComputedEadResultDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ObeEclComputedEadResultDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["lifetimeEAD"] = this.lifetimeEAD;
-        data["obeEclDataLoanBookId"] = this.obeEclDataLoanBookId;
-        data["id"] = this.id;
-        return data; 
-    }
-}
-
-export interface IObeEclComputedEadResultDto {
-    lifetimeEAD: string | undefined;
-    obeEclDataLoanBookId: string | undefined;
-    id: string | undefined;
-}
-
-export class GetObeEclComputedEadResultForEditOutput implements IGetObeEclComputedEadResultForEditOutput {
-    obeEclComputedEadResult!: CreateOrEditObeEclComputedEadResultDto | undefined;
-    obeEclDataLoanBookContractNo!: string | undefined;
-
-    constructor(data?: IGetObeEclComputedEadResultForEditOutput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.obeEclComputedEadResult = data["obeEclComputedEadResult"] ? CreateOrEditObeEclComputedEadResultDto.fromJS(data["obeEclComputedEadResult"]) : <any>undefined;
-            this.obeEclDataLoanBookContractNo = data["obeEclDataLoanBookContractNo"];
-        }
-    }
-
-    static fromJS(data: any): GetObeEclComputedEadResultForEditOutput {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetObeEclComputedEadResultForEditOutput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["obeEclComputedEadResult"] = this.obeEclComputedEadResult ? this.obeEclComputedEadResult.toJSON() : <any>undefined;
-        data["obeEclDataLoanBookContractNo"] = this.obeEclDataLoanBookContractNo;
-        return data; 
-    }
-}
-
-export interface IGetObeEclComputedEadResultForEditOutput {
-    obeEclComputedEadResult: CreateOrEditObeEclComputedEadResultDto | undefined;
-    obeEclDataLoanBookContractNo: string | undefined;
-}
-
-export class CreateOrEditObeEclComputedEadResultDto implements ICreateOrEditObeEclComputedEadResultDto {
-    lifetimeEAD!: string | undefined;
-    obeEclDataLoanBookId!: string | undefined;
-    id!: string | undefined;
-
-    constructor(data?: ICreateOrEditObeEclComputedEadResultDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.lifetimeEAD = data["lifetimeEAD"];
-            this.obeEclDataLoanBookId = data["obeEclDataLoanBookId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): CreateOrEditObeEclComputedEadResultDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new CreateOrEditObeEclComputedEadResultDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["lifetimeEAD"] = this.lifetimeEAD;
-        data["obeEclDataLoanBookId"] = this.obeEclDataLoanBookId;
-        data["id"] = this.id;
-        return data; 
-    }
-}
-
-export interface ICreateOrEditObeEclComputedEadResultDto {
-    lifetimeEAD: string | undefined;
-    obeEclDataLoanBookId: string | undefined;
-    id: string | undefined;
-}
-
-export class PagedResultDtoOfObeEclComputedEadResultObeEclDataLoanBookLookupTableDto implements IPagedResultDtoOfObeEclComputedEadResultObeEclDataLoanBookLookupTableDto {
-    totalCount!: number | undefined;
-    items!: ObeEclComputedEadResultObeEclDataLoanBookLookupTableDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfObeEclComputedEadResultObeEclDataLoanBookLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(ObeEclComputedEadResultObeEclDataLoanBookLookupTableDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfObeEclComputedEadResultObeEclDataLoanBookLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfObeEclComputedEadResultObeEclDataLoanBookLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfObeEclComputedEadResultObeEclDataLoanBookLookupTableDto {
-    totalCount: number | undefined;
-    items: ObeEclComputedEadResultObeEclDataLoanBookLookupTableDto[] | undefined;
-}
-
-export class ObeEclComputedEadResultObeEclDataLoanBookLookupTableDto implements IObeEclComputedEadResultObeEclDataLoanBookLookupTableDto {
-    id!: string | undefined;
-    displayName!: string | undefined;
-
-    constructor(data?: IObeEclComputedEadResultObeEclDataLoanBookLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.displayName = data["displayName"];
-        }
-    }
-
-    static fromJS(data: any): ObeEclComputedEadResultObeEclDataLoanBookLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ObeEclComputedEadResultObeEclDataLoanBookLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["displayName"] = this.displayName;
-        return data; 
-    }
-}
-
-export interface IObeEclComputedEadResultObeEclDataLoanBookLookupTableDto {
-    id: string | undefined;
-    displayName: string | undefined;
-}
-
 export class PagedResultDtoOfGetObeEclDataLoanBookForViewDto implements IPagedResultDtoOfGetObeEclDataLoanBookForViewDto {
     totalCount!: number | undefined;
     items!: GetObeEclDataLoanBookForViewDto[] | undefined;
@@ -40302,13 +39345,6 @@ export interface IObeEclEadInputAssumptionDto {
     requiresGroupApproval: boolean | undefined;
     obeEclId: string | undefined;
     id: string | undefined;
-}
-
-export enum EadInputGroupEnum {
-    General = 0, 
-    CreditConversionFactors = 1, 
-    VariableInterestRateProjections = 2, 
-    ExchangeRateProjections = 3, 
 }
 
 export class GetObeEclEadInputAssumptionForEditOutput implements IGetObeEclEadInputAssumptionForEditOutput {
@@ -48449,310 +47485,6 @@ export class RetailEclAssumptionRetailEclLookupTableDto implements IRetailEclAss
 }
 
 export interface IRetailEclAssumptionRetailEclLookupTableDto {
-    id: string | undefined;
-    displayName: string | undefined;
-}
-
-export class PagedResultDtoOfGetRetailEclComputedEadResultForViewDto implements IPagedResultDtoOfGetRetailEclComputedEadResultForViewDto {
-    totalCount!: number | undefined;
-    items!: GetRetailEclComputedEadResultForViewDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfGetRetailEclComputedEadResultForViewDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(GetRetailEclComputedEadResultForViewDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfGetRetailEclComputedEadResultForViewDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfGetRetailEclComputedEadResultForViewDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfGetRetailEclComputedEadResultForViewDto {
-    totalCount: number | undefined;
-    items: GetRetailEclComputedEadResultForViewDto[] | undefined;
-}
-
-export class GetRetailEclComputedEadResultForViewDto implements IGetRetailEclComputedEadResultForViewDto {
-    retailEclComputedEadResult!: RetailEclComputedEadResultDto | undefined;
-    retailEclDataLoanBookCustomerName!: string | undefined;
-
-    constructor(data?: IGetRetailEclComputedEadResultForViewDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.retailEclComputedEadResult = data["retailEclComputedEadResult"] ? RetailEclComputedEadResultDto.fromJS(data["retailEclComputedEadResult"]) : <any>undefined;
-            this.retailEclDataLoanBookCustomerName = data["retailEclDataLoanBookCustomerName"];
-        }
-    }
-
-    static fromJS(data: any): GetRetailEclComputedEadResultForViewDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetRetailEclComputedEadResultForViewDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["retailEclComputedEadResult"] = this.retailEclComputedEadResult ? this.retailEclComputedEadResult.toJSON() : <any>undefined;
-        data["retailEclDataLoanBookCustomerName"] = this.retailEclDataLoanBookCustomerName;
-        return data; 
-    }
-}
-
-export interface IGetRetailEclComputedEadResultForViewDto {
-    retailEclComputedEadResult: RetailEclComputedEadResultDto | undefined;
-    retailEclDataLoanBookCustomerName: string | undefined;
-}
-
-export class RetailEclComputedEadResultDto implements IRetailEclComputedEadResultDto {
-    lifetimeEAD!: string | undefined;
-    retailEclDataLoanBookId!: string | undefined;
-    id!: string | undefined;
-
-    constructor(data?: IRetailEclComputedEadResultDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.lifetimeEAD = data["lifetimeEAD"];
-            this.retailEclDataLoanBookId = data["retailEclDataLoanBookId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): RetailEclComputedEadResultDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new RetailEclComputedEadResultDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["lifetimeEAD"] = this.lifetimeEAD;
-        data["retailEclDataLoanBookId"] = this.retailEclDataLoanBookId;
-        data["id"] = this.id;
-        return data; 
-    }
-}
-
-export interface IRetailEclComputedEadResultDto {
-    lifetimeEAD: string | undefined;
-    retailEclDataLoanBookId: string | undefined;
-    id: string | undefined;
-}
-
-export class GetRetailEclComputedEadResultForEditOutput implements IGetRetailEclComputedEadResultForEditOutput {
-    retailEclComputedEadResult!: CreateOrEditRetailEclComputedEadResultDto | undefined;
-    retailEclDataLoanBookCustomerName!: string | undefined;
-
-    constructor(data?: IGetRetailEclComputedEadResultForEditOutput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.retailEclComputedEadResult = data["retailEclComputedEadResult"] ? CreateOrEditRetailEclComputedEadResultDto.fromJS(data["retailEclComputedEadResult"]) : <any>undefined;
-            this.retailEclDataLoanBookCustomerName = data["retailEclDataLoanBookCustomerName"];
-        }
-    }
-
-    static fromJS(data: any): GetRetailEclComputedEadResultForEditOutput {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetRetailEclComputedEadResultForEditOutput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["retailEclComputedEadResult"] = this.retailEclComputedEadResult ? this.retailEclComputedEadResult.toJSON() : <any>undefined;
-        data["retailEclDataLoanBookCustomerName"] = this.retailEclDataLoanBookCustomerName;
-        return data; 
-    }
-}
-
-export interface IGetRetailEclComputedEadResultForEditOutput {
-    retailEclComputedEadResult: CreateOrEditRetailEclComputedEadResultDto | undefined;
-    retailEclDataLoanBookCustomerName: string | undefined;
-}
-
-export class CreateOrEditRetailEclComputedEadResultDto implements ICreateOrEditRetailEclComputedEadResultDto {
-    lifetimeEAD!: string | undefined;
-    retailEclDataLoanBookId!: string | undefined;
-    id!: string | undefined;
-
-    constructor(data?: ICreateOrEditRetailEclComputedEadResultDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.lifetimeEAD = data["lifetimeEAD"];
-            this.retailEclDataLoanBookId = data["retailEclDataLoanBookId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): CreateOrEditRetailEclComputedEadResultDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new CreateOrEditRetailEclComputedEadResultDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["lifetimeEAD"] = this.lifetimeEAD;
-        data["retailEclDataLoanBookId"] = this.retailEclDataLoanBookId;
-        data["id"] = this.id;
-        return data; 
-    }
-}
-
-export interface ICreateOrEditRetailEclComputedEadResultDto {
-    lifetimeEAD: string | undefined;
-    retailEclDataLoanBookId: string | undefined;
-    id: string | undefined;
-}
-
-export class PagedResultDtoOfRetailEclComputedEadResultRetailEclDataLoanBookLookupTableDto implements IPagedResultDtoOfRetailEclComputedEadResultRetailEclDataLoanBookLookupTableDto {
-    totalCount!: number | undefined;
-    items!: RetailEclComputedEadResultRetailEclDataLoanBookLookupTableDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfRetailEclComputedEadResultRetailEclDataLoanBookLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(RetailEclComputedEadResultRetailEclDataLoanBookLookupTableDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfRetailEclComputedEadResultRetailEclDataLoanBookLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfRetailEclComputedEadResultRetailEclDataLoanBookLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfRetailEclComputedEadResultRetailEclDataLoanBookLookupTableDto {
-    totalCount: number | undefined;
-    items: RetailEclComputedEadResultRetailEclDataLoanBookLookupTableDto[] | undefined;
-}
-
-export class RetailEclComputedEadResultRetailEclDataLoanBookLookupTableDto implements IRetailEclComputedEadResultRetailEclDataLoanBookLookupTableDto {
-    id!: string | undefined;
-    displayName!: string | undefined;
-
-    constructor(data?: IRetailEclComputedEadResultRetailEclDataLoanBookLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.displayName = data["displayName"];
-        }
-    }
-
-    static fromJS(data: any): RetailEclComputedEadResultRetailEclDataLoanBookLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new RetailEclComputedEadResultRetailEclDataLoanBookLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["displayName"] = this.displayName;
-        return data; 
-    }
-}
-
-export interface IRetailEclComputedEadResultRetailEclDataLoanBookLookupTableDto {
     id: string | undefined;
     displayName: string | undefined;
 }
@@ -60580,310 +59312,6 @@ export class WholesaleEclAssumptionWholesaleEclLookupTableDto implements IWholes
 }
 
 export interface IWholesaleEclAssumptionWholesaleEclLookupTableDto {
-    id: string | undefined;
-    displayName: string | undefined;
-}
-
-export class PagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto implements IPagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto {
-    totalCount!: number | undefined;
-    items!: GetWholesaleEclComputedEadResultForViewDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(GetWholesaleEclComputedEadResultForViewDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfGetWholesaleEclComputedEadResultForViewDto {
-    totalCount: number | undefined;
-    items: GetWholesaleEclComputedEadResultForViewDto[] | undefined;
-}
-
-export class GetWholesaleEclComputedEadResultForViewDto implements IGetWholesaleEclComputedEadResultForViewDto {
-    wholesaleEclComputedEadResult!: WholesaleEclComputedEadResultDto | undefined;
-    wholesaleEclDataLoanBookCustomerName!: string | undefined;
-
-    constructor(data?: IGetWholesaleEclComputedEadResultForViewDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.wholesaleEclComputedEadResult = data["wholesaleEclComputedEadResult"] ? WholesaleEclComputedEadResultDto.fromJS(data["wholesaleEclComputedEadResult"]) : <any>undefined;
-            this.wholesaleEclDataLoanBookCustomerName = data["wholesaleEclDataLoanBookCustomerName"];
-        }
-    }
-
-    static fromJS(data: any): GetWholesaleEclComputedEadResultForViewDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetWholesaleEclComputedEadResultForViewDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["wholesaleEclComputedEadResult"] = this.wholesaleEclComputedEadResult ? this.wholesaleEclComputedEadResult.toJSON() : <any>undefined;
-        data["wholesaleEclDataLoanBookCustomerName"] = this.wholesaleEclDataLoanBookCustomerName;
-        return data; 
-    }
-}
-
-export interface IGetWholesaleEclComputedEadResultForViewDto {
-    wholesaleEclComputedEadResult: WholesaleEclComputedEadResultDto | undefined;
-    wholesaleEclDataLoanBookCustomerName: string | undefined;
-}
-
-export class WholesaleEclComputedEadResultDto implements IWholesaleEclComputedEadResultDto {
-    lifetimeEAD!: string | undefined;
-    wholesaleEclDataLoanBookId!: string | undefined;
-    id!: string | undefined;
-
-    constructor(data?: IWholesaleEclComputedEadResultDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.lifetimeEAD = data["lifetimeEAD"];
-            this.wholesaleEclDataLoanBookId = data["wholesaleEclDataLoanBookId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): WholesaleEclComputedEadResultDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new WholesaleEclComputedEadResultDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["lifetimeEAD"] = this.lifetimeEAD;
-        data["wholesaleEclDataLoanBookId"] = this.wholesaleEclDataLoanBookId;
-        data["id"] = this.id;
-        return data; 
-    }
-}
-
-export interface IWholesaleEclComputedEadResultDto {
-    lifetimeEAD: string | undefined;
-    wholesaleEclDataLoanBookId: string | undefined;
-    id: string | undefined;
-}
-
-export class GetWholesaleEclComputedEadResultForEditOutput implements IGetWholesaleEclComputedEadResultForEditOutput {
-    wholesaleEclComputedEadResult!: CreateOrEditWholesaleEclComputedEadResultDto | undefined;
-    wholesaleEclDataLoanBookCustomerName!: string | undefined;
-
-    constructor(data?: IGetWholesaleEclComputedEadResultForEditOutput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.wholesaleEclComputedEadResult = data["wholesaleEclComputedEadResult"] ? CreateOrEditWholesaleEclComputedEadResultDto.fromJS(data["wholesaleEclComputedEadResult"]) : <any>undefined;
-            this.wholesaleEclDataLoanBookCustomerName = data["wholesaleEclDataLoanBookCustomerName"];
-        }
-    }
-
-    static fromJS(data: any): GetWholesaleEclComputedEadResultForEditOutput {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetWholesaleEclComputedEadResultForEditOutput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["wholesaleEclComputedEadResult"] = this.wholesaleEclComputedEadResult ? this.wholesaleEclComputedEadResult.toJSON() : <any>undefined;
-        data["wholesaleEclDataLoanBookCustomerName"] = this.wholesaleEclDataLoanBookCustomerName;
-        return data; 
-    }
-}
-
-export interface IGetWholesaleEclComputedEadResultForEditOutput {
-    wholesaleEclComputedEadResult: CreateOrEditWholesaleEclComputedEadResultDto | undefined;
-    wholesaleEclDataLoanBookCustomerName: string | undefined;
-}
-
-export class CreateOrEditWholesaleEclComputedEadResultDto implements ICreateOrEditWholesaleEclComputedEadResultDto {
-    lifetimeEAD!: string | undefined;
-    wholesaleEclDataLoanBookId!: string | undefined;
-    id!: string | undefined;
-
-    constructor(data?: ICreateOrEditWholesaleEclComputedEadResultDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.lifetimeEAD = data["lifetimeEAD"];
-            this.wholesaleEclDataLoanBookId = data["wholesaleEclDataLoanBookId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): CreateOrEditWholesaleEclComputedEadResultDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new CreateOrEditWholesaleEclComputedEadResultDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["lifetimeEAD"] = this.lifetimeEAD;
-        data["wholesaleEclDataLoanBookId"] = this.wholesaleEclDataLoanBookId;
-        data["id"] = this.id;
-        return data; 
-    }
-}
-
-export interface ICreateOrEditWholesaleEclComputedEadResultDto {
-    lifetimeEAD: string | undefined;
-    wholesaleEclDataLoanBookId: string | undefined;
-    id: string | undefined;
-}
-
-export class PagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto implements IPagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto {
-    totalCount!: number | undefined;
-    items!: WholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(WholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto {
-    totalCount: number | undefined;
-    items: WholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto[] | undefined;
-}
-
-export class WholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto implements IWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto {
-    id!: string | undefined;
-    displayName!: string | undefined;
-
-    constructor(data?: IWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.displayName = data["displayName"];
-        }
-    }
-
-    static fromJS(data: any): WholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new WholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["displayName"] = this.displayName;
-        return data; 
-    }
-}
-
-export interface IWholesaleEclComputedEadResultWholesaleEclDataLoanBookLookupTableDto {
     id: string | undefined;
     displayName: string | undefined;
 }
