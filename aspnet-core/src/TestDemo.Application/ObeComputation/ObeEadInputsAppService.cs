@@ -37,8 +37,7 @@ namespace TestDemo.ObeComputation
 			
 			var filteredObeEadInputs = _obeEadInputRepository.GetAll()
 						.Include( e => e.ObeEclFk)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.ContractId.Contains(input.Filter) || e.EIR_GROUP.Contains(input.Filter) || e.CIR_GROUP.Contains(input.Filter))
-						.WhereIf(!string.IsNullOrWhiteSpace(input.ObeEclTenantIdFilter), e => e.ObeEclFk != null && e.ObeEclFk.TenantId == input.ObeEclTenantIdFilter);
+						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.ContractId.Contains(input.Filter) || e.EIR_GROUP.Contains(input.Filter) || e.CIR_GROUP.Contains(input.Filter));
 
 			var pagedAndFilteredObeEadInputs = filteredObeEadInputs
                 .OrderBy(input.Sorting ?? "id asc")

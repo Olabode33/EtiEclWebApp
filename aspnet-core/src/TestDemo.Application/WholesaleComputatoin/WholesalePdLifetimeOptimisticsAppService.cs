@@ -15,6 +15,7 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.WholesaleComputation;
 
 namespace TestDemo.WholesaleComputatoin
 {
@@ -37,8 +38,7 @@ namespace TestDemo.WholesaleComputatoin
 			
 			var filteredWholesalePdLifetimeOptimistics = _wholesalePdLifetimeOptimisticRepository.GetAll()
 						.Include( e => e.WholesaleEclFk)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.PdGroup.Contains(input.Filter))
-						.WhereIf(!string.IsNullOrWhiteSpace(input.WholesaleEclTenantIdFilter), e => e.WholesaleEclFk != null && e.WholesaleEclFk.TenantId == input.WholesaleEclTenantIdFilter);
+						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.PdGroup.Contains(input.Filter));
 
 			var pagedAndFilteredWholesalePdLifetimeOptimistics = filteredWholesalePdLifetimeOptimistics
                 .OrderBy(input.Sorting ?? "id asc")

@@ -38,8 +38,7 @@ namespace TestDemo.RetailComputation
 			var filteredRetailLgdContractDatas = _retailLgdContractDataRepository.GetAll()
 						.Include( e => e.RetailEclFk)
 						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.CONTRACT_NO.Contains(input.Filter))
-						.WhereIf(!string.IsNullOrWhiteSpace(input.CONTRACT_NOFilter),  e => e.CONTRACT_NO == input.CONTRACT_NOFilter)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.RetailEclTenantIdFilter), e => e.RetailEclFk != null && e.RetailEclFk.TenantId == input.RetailEclTenantIdFilter);
+						.WhereIf(!string.IsNullOrWhiteSpace(input.CONTRACT_NOFilter),  e => e.CONTRACT_NO == input.CONTRACT_NOFilter);
 
 			var pagedAndFilteredRetailLgdContractDatas = filteredRetailLgdContractDatas
                 .OrderBy(input.Sorting ?? "id asc")

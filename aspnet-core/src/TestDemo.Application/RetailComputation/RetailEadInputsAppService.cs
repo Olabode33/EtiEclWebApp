@@ -37,8 +37,7 @@ namespace TestDemo.RetailComputation
 			
 			var filteredRetailEadInputs = _retailEadInputRepository.GetAll()
 						.Include( e => e.RetailEclFk)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.ContractId.Contains(input.Filter) || e.EIR_GROUP.Contains(input.Filter) || e.CIR_GROUP.Contains(input.Filter))
-						.WhereIf(!string.IsNullOrWhiteSpace(input.RetailEclTenantIdFilter), e => e.RetailEclFk != null && e.RetailEclFk.TenantId == input.RetailEclTenantIdFilter);
+						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.ContractId.Contains(input.Filter) || e.EIR_GROUP.Contains(input.Filter) || e.CIR_GROUP.Contains(input.Filter));
 
 			var pagedAndFilteredRetailEadInputs = filteredRetailEadInputs
                 .OrderBy(input.Sorting ?? "id asc")

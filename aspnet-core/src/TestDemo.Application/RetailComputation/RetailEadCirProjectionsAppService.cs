@@ -36,9 +36,7 @@ namespace TestDemo.RetailComputation
          {
 			
 			var filteredRetailEadCirProjections = _retailEadCirProjectionRepository.GetAll()
-						.Include( e => e.RetailEclFk)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.CIR_GROUP.Contains(input.Filter) || e.CIR_EFFECTIVE.Contains(input.Filter))
-						.WhereIf(!string.IsNullOrWhiteSpace(input.RetailEclTenantIdFilter), e => e.RetailEclFk != null && e.RetailEclFk.TenantId == input.RetailEclTenantIdFilter);
+						.Include( e => e.RetailEclFk);
 
 			var pagedAndFilteredRetailEadCirProjections = filteredRetailEadCirProjections
                 .OrderBy(input.Sorting ?? "id asc")

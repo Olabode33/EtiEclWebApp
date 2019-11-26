@@ -37,8 +37,7 @@ namespace TestDemo.ObeComputation
 			
 			var filteredObeLgdContractDatas = _obeLgdContractDataRepository.GetAll()
 						.Include( e => e.ObeEclFk)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.CONTRACT_NO.Contains(input.Filter))
-						.WhereIf(!string.IsNullOrWhiteSpace(input.ObeEclTenantIdFilter), e => e.ObeEclFk != null && e.ObeEclFk.TenantId == input.ObeEclTenantIdFilter);
+						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.CONTRACT_NO.Contains(input.Filter));
 
 			var pagedAndFilteredObeLgdContractDatas = filteredObeLgdContractDatas
                 .OrderBy(input.Sorting ?? "id asc")

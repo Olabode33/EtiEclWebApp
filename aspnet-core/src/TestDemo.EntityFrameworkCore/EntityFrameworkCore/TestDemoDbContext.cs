@@ -86,7 +86,7 @@ namespace TestDemo.EntityFrameworkCore
 
         public virtual DbSet<RetailLgdContractData> RetailLgdContractDatas { get; set; }
 
-        public virtual DbSet<RetailLgdCollateralTypeData> RetailLgdContractDatas { get; set; }
+        public virtual DbSet<RetailLgdCollateralTypeData> RetailLgdCollateralTypeDatas { get; set; }
 
         public virtual DbSet<RetailEadInput> RetailEadInputs { get; set; }
 

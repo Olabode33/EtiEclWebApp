@@ -37,8 +37,7 @@ namespace TestDemo.ObeComputation
 			
 			var filteredObePdLifetimeOptimistics = _obePdLifetimeOptimisticRepository.GetAll()
 						.Include( e => e.ObeEclFk)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.PdGroup.Contains(input.Filter))
-						.WhereIf(!string.IsNullOrWhiteSpace(input.ObeEclTenantIdFilter), e => e.ObeEclFk != null && e.ObeEclFk.TenantId == input.ObeEclTenantIdFilter);
+						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.PdGroup.Contains(input.Filter));
 
 			var pagedAndFilteredObePdLifetimeOptimistics = filteredObePdLifetimeOptimistics
                 .OrderBy(input.Sorting ?? "id asc")

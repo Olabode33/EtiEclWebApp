@@ -37,8 +37,7 @@ namespace TestDemo.WholesaleComputation
 			
 			var filteredWholesalePdRedefaultLifetimeDownturns = _wholesalePdRedefaultLifetimeDownturnRepository.GetAll()
 						.Include( e => e.WholesaleEclFk)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.PdGroup.Contains(input.Filter))
-						.WhereIf(!string.IsNullOrWhiteSpace(input.WholesaleEclTenantIdFilter), e => e.WholesaleEclFk != null && e.WholesaleEclFk.TenantId == input.WholesaleEclTenantIdFilter);
+						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.PdGroup.Contains(input.Filter));
 
 			var pagedAndFilteredWholesalePdRedefaultLifetimeDownturns = filteredWholesalePdRedefaultLifetimeDownturns
                 .OrderBy(input.Sorting ?? "id asc")

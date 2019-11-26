@@ -37,8 +37,7 @@ namespace TestDemo.RetailComputation
 			
 			var filteredRetailPdMappings = _retailPdMappingRepository.GetAll()
 						.Include( e => e.RetailEclFk)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.ContractId.Contains(input.Filter) || e.PdGroup.Contains(input.Filter))
-						.WhereIf(!string.IsNullOrWhiteSpace(input.RetailEclTenantIdFilter), e => e.RetailEclFk != null && e.RetailEclFk.TenantId == input.RetailEclTenantIdFilter);
+						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.ContractId.Contains(input.Filter) || e.PdGroup.Contains(input.Filter));
 
 			var pagedAndFilteredRetailPdMappings = filteredRetailPdMappings
                 .OrderBy(input.Sorting ?? "id asc")
