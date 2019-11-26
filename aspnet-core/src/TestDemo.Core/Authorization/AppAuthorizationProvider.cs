@@ -30,6 +30,90 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var obePdMappings = pages.CreateChildPermission(AppPermissions.Pages_ObePdMappings, L("ObePdMappings"));
+            obePdMappings.CreateChildPermission(AppPermissions.Pages_ObePdMappings_Create, L("CreateNewObePdMapping"));
+            obePdMappings.CreateChildPermission(AppPermissions.Pages_ObePdMappings_Edit, L("EditObePdMapping"));
+            obePdMappings.CreateChildPermission(AppPermissions.Pages_ObePdMappings_Delete, L("DeleteObePdMapping"));
+
+
+
+            var retailPdMappings = pages.CreateChildPermission(AppPermissions.Pages_RetailPdMappings, L("RetailPdMappings"));
+            retailPdMappings.CreateChildPermission(AppPermissions.Pages_RetailPdMappings_Create, L("CreateNewRetailPdMapping"));
+            retailPdMappings.CreateChildPermission(AppPermissions.Pages_RetailPdMappings_Edit, L("EditRetailPdMapping"));
+            retailPdMappings.CreateChildPermission(AppPermissions.Pages_RetailPdMappings_Delete, L("DeleteRetailPdMapping"));
+
+
+
+            var obePdRedefaultLifetimeDownturns = pages.CreateChildPermission(AppPermissions.Pages_ObePdRedefaultLifetimeDownturns, L("ObePdRedefaultLifetimeDownturns"));
+            obePdRedefaultLifetimeDownturns.CreateChildPermission(AppPermissions.Pages_ObePdRedefaultLifetimeDownturns_Create, L("CreateNewObePdRedefaultLifetimeDownturn"));
+            obePdRedefaultLifetimeDownturns.CreateChildPermission(AppPermissions.Pages_ObePdRedefaultLifetimeDownturns_Edit, L("EditObePdRedefaultLifetimeDownturn"));
+            obePdRedefaultLifetimeDownturns.CreateChildPermission(AppPermissions.Pages_ObePdRedefaultLifetimeDownturns_Delete, L("DeleteObePdRedefaultLifetimeDownturn"));
+
+
+
+            var obePdRedefaultLifetimeOptimistics = pages.CreateChildPermission(AppPermissions.Pages_ObePdRedefaultLifetimeOptimistics, L("ObePdRedefaultLifetimeOptimistics"));
+            obePdRedefaultLifetimeOptimistics.CreateChildPermission(AppPermissions.Pages_ObePdRedefaultLifetimeOptimistics_Create, L("CreateNewObePdRedefaultLifetimeOptimistic"));
+            obePdRedefaultLifetimeOptimistics.CreateChildPermission(AppPermissions.Pages_ObePdRedefaultLifetimeOptimistics_Edit, L("EditObePdRedefaultLifetimeOptimistic"));
+            obePdRedefaultLifetimeOptimistics.CreateChildPermission(AppPermissions.Pages_ObePdRedefaultLifetimeOptimistics_Delete, L("DeleteObePdRedefaultLifetimeOptimistic"));
+
+
+
+            var obePdRedefaultLifetimeBests = pages.CreateChildPermission(AppPermissions.Pages_ObePdRedefaultLifetimeBests, L("ObePdRedefaultLifetimeBests"));
+            obePdRedefaultLifetimeBests.CreateChildPermission(AppPermissions.Pages_ObePdRedefaultLifetimeBests_Create, L("CreateNewObePdRedefaultLifetimeBest"));
+            obePdRedefaultLifetimeBests.CreateChildPermission(AppPermissions.Pages_ObePdRedefaultLifetimeBests_Edit, L("EditObePdRedefaultLifetimeBest"));
+            obePdRedefaultLifetimeBests.CreateChildPermission(AppPermissions.Pages_ObePdRedefaultLifetimeBests_Delete, L("DeleteObePdRedefaultLifetimeBest"));
+
+
+
+            var obePdLifetimeDownturns = pages.CreateChildPermission(AppPermissions.Pages_ObePdLifetimeDownturns, L("ObePdLifetimeDownturns"));
+            obePdLifetimeDownturns.CreateChildPermission(AppPermissions.Pages_ObePdLifetimeDownturns_Create, L("CreateNewObePdLifetimeDownturn"));
+            obePdLifetimeDownturns.CreateChildPermission(AppPermissions.Pages_ObePdLifetimeDownturns_Edit, L("EditObePdLifetimeDownturn"));
+            obePdLifetimeDownturns.CreateChildPermission(AppPermissions.Pages_ObePdLifetimeDownturns_Delete, L("DeleteObePdLifetimeDownturn"));
+
+
+
+            var obePdLifetimeOptimistics = pages.CreateChildPermission(AppPermissions.Pages_ObePdLifetimeOptimistics, L("ObePdLifetimeOptimistics"));
+            obePdLifetimeOptimistics.CreateChildPermission(AppPermissions.Pages_ObePdLifetimeOptimistics_Create, L("CreateNewObePdLifetimeOptimistic"));
+            obePdLifetimeOptimistics.CreateChildPermission(AppPermissions.Pages_ObePdLifetimeOptimistics_Edit, L("EditObePdLifetimeOptimistic"));
+            obePdLifetimeOptimistics.CreateChildPermission(AppPermissions.Pages_ObePdLifetimeOptimistics_Delete, L("DeleteObePdLifetimeOptimistic"));
+
+
+
+            var obeLgdContractDatas = pages.CreateChildPermission(AppPermissions.Pages_ObeLgdContractDatas, L("ObeLgdContractDatas"));
+            obeLgdContractDatas.CreateChildPermission(AppPermissions.Pages_ObeLgdContractDatas_Create, L("CreateNewObeLgdContractData"));
+            obeLgdContractDatas.CreateChildPermission(AppPermissions.Pages_ObeLgdContractDatas_Edit, L("EditObeLgdContractData"));
+            obeLgdContractDatas.CreateChildPermission(AppPermissions.Pages_ObeLgdContractDatas_Delete, L("DeleteObeLgdContractData"));
+
+
+
+            var obeLgdCollateralTypeDatas = pages.CreateChildPermission(AppPermissions.Pages_ObeLgdCollateralTypeDatas, L("ObeLgdCollateralTypeDatas"));
+            obeLgdCollateralTypeDatas.CreateChildPermission(AppPermissions.Pages_ObeLgdCollateralTypeDatas_Create, L("CreateNewObeLgdCollateralTypeData"));
+            obeLgdCollateralTypeDatas.CreateChildPermission(AppPermissions.Pages_ObeLgdCollateralTypeDatas_Edit, L("EditObeLgdCollateralTypeData"));
+            obeLgdCollateralTypeDatas.CreateChildPermission(AppPermissions.Pages_ObeLgdCollateralTypeDatas_Delete, L("DeleteObeLgdCollateralTypeData"));
+
+
+
+            var obeEadInputs = pages.CreateChildPermission(AppPermissions.Pages_ObeEadInputs, L("ObeEadInputs"));
+            obeEadInputs.CreateChildPermission(AppPermissions.Pages_ObeEadInputs_Create, L("CreateNewObeEadInput"));
+            obeEadInputs.CreateChildPermission(AppPermissions.Pages_ObeEadInputs_Edit, L("EditObeEadInput"));
+            obeEadInputs.CreateChildPermission(AppPermissions.Pages_ObeEadInputs_Delete, L("DeleteObeEadInput"));
+
+
+
+            var obeEadEirProjections = pages.CreateChildPermission(AppPermissions.Pages_ObeEadEirProjections, L("ObeEadEirProjections"));
+            obeEadEirProjections.CreateChildPermission(AppPermissions.Pages_ObeEadEirProjections_Create, L("CreateNewObeEadEirProjection"));
+            obeEadEirProjections.CreateChildPermission(AppPermissions.Pages_ObeEadEirProjections_Edit, L("EditObeEadEirProjection"));
+            obeEadEirProjections.CreateChildPermission(AppPermissions.Pages_ObeEadEirProjections_Delete, L("DeleteObeEadEirProjection"));
+
+
+
+            var obeEadCirProjections = pages.CreateChildPermission(AppPermissions.Pages_ObeEadCirProjections, L("ObeEadCirProjections"));
+            obeEadCirProjections.CreateChildPermission(AppPermissions.Pages_ObeEadCirProjections_Create, L("CreateNewObeEadCirProjection"));
+            obeEadCirProjections.CreateChildPermission(AppPermissions.Pages_ObeEadCirProjections_Edit, L("EditObeEadCirProjection"));
+            obeEadCirProjections.CreateChildPermission(AppPermissions.Pages_ObeEadCirProjections_Delete, L("DeleteObeEadCirProjection"));
+
+
+
             var obePdLifetimeBests = pages.CreateChildPermission(AppPermissions.Pages_ObePdLifetimeBests, L("ObePdLifetimeBests"));
             obePdLifetimeBests.CreateChildPermission(AppPermissions.Pages_ObePdLifetimeBests_Create, L("CreateNewObePdLifetimeBest"));
             obePdLifetimeBests.CreateChildPermission(AppPermissions.Pages_ObePdLifetimeBests_Edit, L("EditObePdLifetimeBest"));

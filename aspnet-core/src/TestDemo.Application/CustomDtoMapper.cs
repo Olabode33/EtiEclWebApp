@@ -83,6 +83,30 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditObePdMappingDto, ObePdMapping>().ReverseMap();
+            configuration.CreateMap<ObePdMappingDto, ObePdMapping>().ReverseMap();
+            configuration.CreateMap<CreateOrEditRetailPdMappingDto, RetailPdMapping>().ReverseMap();
+            configuration.CreateMap<RetailPdMappingDto, RetailPdMapping>().ReverseMap();
+            configuration.CreateMap<CreateOrEditObePdRedefaultLifetimeDownturnDto, ObePdRedefaultLifetimeDownturn>().ReverseMap();
+            configuration.CreateMap<ObePdRedefaultLifetimeDownturnDto, ObePdRedefaultLifetimeDownturn>().ReverseMap();
+            configuration.CreateMap<CreateOrEditObePdRedefaultLifetimeOptimisticDto, ObePdRedefaultLifetimeOptimistic>().ReverseMap();
+            configuration.CreateMap<ObePdRedefaultLifetimeOptimisticDto, ObePdRedefaultLifetimeOptimistic>().ReverseMap();
+            configuration.CreateMap<CreateOrEditObePdRedefaultLifetimeBestDto, ObePdRedefaultLifetimeBest>().ReverseMap();
+            configuration.CreateMap<ObePdRedefaultLifetimeBestDto, ObePdRedefaultLifetimeBest>().ReverseMap();
+            configuration.CreateMap<CreateOrEditObePdLifetimeDownturnDto, ObePdLifetimeDownturn>().ReverseMap();
+            configuration.CreateMap<ObePdLifetimeDownturnDto, ObePdLifetimeDownturn>().ReverseMap();
+            configuration.CreateMap<CreateOrEditObePdLifetimeOptimisticDto, ObePdLifetimeOptimistic>().ReverseMap();
+            configuration.CreateMap<ObePdLifetimeOptimisticDto, ObePdLifetimeOptimistic>().ReverseMap();
+            configuration.CreateMap<CreateOrEditObeLgdContractDataDto, ObeLgdContractData>().ReverseMap();
+            configuration.CreateMap<ObeLgdContractDataDto, ObeLgdContractData>().ReverseMap();
+            configuration.CreateMap<CreateOrEditObeLgdCollateralTypeDataDto, ObeLgdCollateralTypeData>().ReverseMap();
+            configuration.CreateMap<ObeLgdCollateralTypeDataDto, ObeLgdCollateralTypeData>().ReverseMap();
+            configuration.CreateMap<CreateOrEditObeEadInputDto, ObeEadInput>().ReverseMap();
+            configuration.CreateMap<ObeEadInputDto, ObeEadInput>().ReverseMap();
+            configuration.CreateMap<CreateOrEditObeEadEirProjectionDto, ObeEadEirProjection>().ReverseMap();
+            configuration.CreateMap<ObeEadEirProjectionDto, ObeEadEirProjection>().ReverseMap();
+            configuration.CreateMap<CreateOrEditObeEadCirProjectionDto, ObeEadCirProjection>().ReverseMap();
+            configuration.CreateMap<ObeEadCirProjectionDto, ObeEadCirProjection>().ReverseMap();
             configuration.CreateMap<CreateOrEditObePdLifetimeBestDto, ObePdLifetimeBest>().ReverseMap();
             configuration.CreateMap<ObePdLifetimeBestDto, ObePdLifetimeBest>().ReverseMap();
             configuration.CreateMap<CreateOrEditRetailPdRedefaultLifetimeDownturnDto, RetailPdRedefaultLifetimeDownturn>().ReverseMap();

@@ -38,6 +38,30 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<ObePdMapping> ObePdMappings { get; set; }
+
+        public virtual DbSet<RetailPdMapping> RetailPdMappings { get; set; }
+
+        public virtual DbSet<ObePdRedefaultLifetimeDownturn> ObePdRedefaultLifetimeDownturns { get; set; }
+
+        public virtual DbSet<ObePdRedefaultLifetimeOptimistic> ObePdRedefaultLifetimeOptimistics { get; set; }
+
+        public virtual DbSet<ObePdRedefaultLifetimeBest> ObePdRedefaultLifetimeBests { get; set; }
+
+        public virtual DbSet<ObePdLifetimeDownturn> ObePdLifetimeDownturns { get; set; }
+
+        public virtual DbSet<ObePdLifetimeOptimistic> ObePdLifetimeOptimistics { get; set; }
+
+        public virtual DbSet<ObeLgdContractData> ObeLgdContractDatas { get; set; }
+
+        public virtual DbSet<ObeLgdCollateralTypeData> ObeLgdCollateralTypeDatas { get; set; }
+
+        public virtual DbSet<ObeEadInput> ObeEadInputs { get; set; }
+
+        public virtual DbSet<ObeEadEirProjection> ObeEadEirProjections { get; set; }
+
+        public virtual DbSet<ObeEadCirProjection> ObeEadCirProjections { get; set; }
+
         public virtual DbSet<ObePdLifetimeBest> ObePdLifetimeBests { get; set; }
 
         public virtual DbSet<RetailPdRedefaultLifetimeDownturn> RetailPdRedefaultLifetimeDownturns { get; set; }

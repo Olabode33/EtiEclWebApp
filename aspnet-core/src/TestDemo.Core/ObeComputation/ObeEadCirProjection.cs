@@ -1,14 +1,14 @@
-﻿using TestDemo.Retail;
+﻿using TestDemo.OBE;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
 
-namespace TestDemo.RetailComputation
+namespace TestDemo.ObeComputation
 {
-	[Table("RetailEadCirProjections")]
-    public class RetailEadCirProjection : Entity<Guid> 
+	[Table("ObeEadCirProjections")]
+    public class ObeEadCirProjection : Entity<Guid> 
     {
 
 		public virtual string CIR_GROUP { get; set; }
@@ -20,10 +20,10 @@ namespace TestDemo.RetailComputation
 		public virtual double CIR_EFFECTIVE { get; set; }
 		
 
-		public virtual Guid? RetailEclId { get; set; }
+		public virtual Guid ObeEclId { get; set; }
 		
-        [ForeignKey("RetailEclId")]
-		public RetailEcl RetailEclFk { get; set; }
+        [ForeignKey("ObeEclId")]
+		public ObeEcl ObeEclFk { get; set; }
 		
     }
 }
