@@ -16,4 +16,9 @@
   <ItemGroup>
     <PackageReference Update="NETStandard.Library" Version="2.0.3" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CalibrationResult\Dtos\" />
+    <Folder Include="GeneralCalibrationResult\Dtos\" />
+    <Folder Include="PdCalibrationResult\Dtos\" />
+  </ItemGroup>
 </Project>

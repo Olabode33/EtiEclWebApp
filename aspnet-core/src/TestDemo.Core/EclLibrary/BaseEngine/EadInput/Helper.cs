@@ -1,4 +1,4 @@
-﻿using ClosedXML.Excel;
+﻿//using ClosedXML.Excel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,44 +15,44 @@ namespace EAD_Inputs_Automation
         public static DataTable ReadExcel(string fileName)
         {
             DataTable dt = new DataTable();
-            using (XLWorkbook wb = new XLWorkbook(fileName))
-            {
+            //using (XLWorkbook wb = new XLWorkbook(fileName))
+            //{
 
-                var ws = wb.Worksheets.Worksheet(1);
-                var range = ws.RangeUsed();
-                var Columns = ws.Columns();
-                var rows = ws.Rows();
-                bool firstRow = true;
-                foreach (IXLRow row in ws.Rows())
-                {
-                    //Use the first row to add columns to DataTable.
-                    if (firstRow)
-                    {
-                        foreach (IXLCell cell in row.Cells())
-                        {
-                            dt.Columns.Add(cell.Value.ToString());
-                        }
-                        firstRow = false;
-                    }
-                    else
-                    {
-                        //Add rows to DataTable.
-                        dt.Rows.Add();
-                        int i = 0;
+            //    var ws = wb.Worksheets.Worksheet(1);
+            //    var range = ws.RangeUsed();
+            //    var Columns = ws.Columns();
+            //    var rows = ws.Rows();
+            //    bool firstRow = true;
+            //    foreach (IXLRow row in ws.Rows())
+            //    {
+            //        //Use the first row to add columns to DataTable.
+            //        if (firstRow)
+            //        {
+            //            foreach (IXLCell cell in row.Cells())
+            //            {
+            //                dt.Columns.Add(cell.Value.ToString());
+            //            }
+            //            firstRow = false;
+            //        }
+            //        else
+            //        {
+            //            //Add rows to DataTable.
+            //            dt.Rows.Add();
+            //            int i = 0;
 
-                        for (int j = 1; j < dt.Columns.Count + 1; j++)
-                        {
-                            dt.Rows[dt.Rows.Count - 1][i] = row.Cell(j).Value;
-                            if (dt.Columns.Count - 1 > i)
-                            {
-                                i++;
-                            }
-                        }
+            //            for (int j = 1; j < dt.Columns.Count + 1; j++)
+            //            {
+            //                dt.Rows[dt.Rows.Count - 1][i] = row.Cell(j).Value;
+            //                if (dt.Columns.Count - 1 > i)
+            //                {
+            //                    i++;
+            //                }
+            //            }
 
-                    }
+            //        }
 
-                }
-            }
+            //    }
+            //}
             return dt;
         }
 

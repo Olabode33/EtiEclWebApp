@@ -24,6 +24,11 @@ namespace TestDemo.EclShared
         private readonly IRepository<ObeEcl, Guid> _obeEclRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
+        private readonly IRepository<Assumption, Guid> _frameworkAssumptionRepository;
+        private readonly IRepository<EadInputAssumption, Guid> _eadAssumptionRepository;
+        private readonly IRepository<LgdInputAssumption, Guid> _lgdAssumptionRepository;
+        private readonly IRepository<PdInputAssumption12Month, Guid> _pd12MonthAssumptionRepository;
+        private readonly IRepository<PdInputSnPCummulativeDefaultRate, Guid> _pdSnPCummulativeAssumptionRepository;
         private readonly UserManager _userManager;
 
         public EclSharedAppService(
@@ -83,6 +88,23 @@ namespace TestDemo.EclShared
                                 Status = w.Status,
                                 Id = w.Id
                             }
+                          ).Union(
+                            from w in _obeEclRepository.GetAll().WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
+
+                            join ou in _organizationUnitRepository.GetAll() on w.OrganizationUnitId equals ou.Id
+
+                            join u in _lookup_userRepository.GetAll() on w.CreatorUserId equals u.Id into u1
+                            from u2 in u1.DefaultIfEmpty()
+                            select new GetAllEclForWorkspaceDto()
+                            {
+                                Framework = FrameworkEnum.OBE,
+                                CreatedByUserName = u2 == null ? "" : u2.FullName,
+                                DateCreated = w.CreationTime,
+                                ReportingDate = w.ReportingDate,
+                                OrganisationUnitName = ou == null ? "" : ou.DisplayName,
+                                Status = w.Status,
+                                Id = w.Id
+                            }
                           );
 
             var pagedEcls = allEcl
@@ -95,6 +117,63 @@ namespace TestDemo.EclShared
                 totalCount,
                 await pagedEcls.ToListAsync()
             );
+        }
+
+        public async Task<List<AssumptionDto>> GetFrameworkAssumptionSnapshot(FrameworkEnum framework)
+        {
+            var assumptions = await _frameworkAssumptionRepository.GetAll()
+                                                                .Where(x => x.Framework == framework)
+                                                                .Select(x => new AssumptionDto
+                                                                {
+                                                                    AssumptionGroup = x.AssumptionGroup,
+                                                                    Key = x.Key,
+                                                                    InputName = x.InputName,
+                                                                    Value = x.Value,
+                                                                    DataType = x.DataType,
+                                                                    IsComputed = x.IsComputed,
+                                                                    RequiresGroupApproval = x.RequiresGroupApproval,
+                                                                    Id = x.Id
+                                                                }).ToListAsync();
+
+            return assumptions;
+        }
+
+        public async Task<List<EadInputAssumptionDto>> GetEadInputAssumptionSnapshot(FrameworkEnum framework)
+        {
+            var assumptions = await _eadAssumptionRepository.GetAll()
+                                                            .Where(x => x.Framework == framework)
+                                                            .Select(x => new EadInputAssumptionDto
+                                                            {
+                                                                AssumptionGroup = x.EadGroup,
+                                                                Key = x.Key,
+                                                                InputName = x.InputName,
+                                                                Value = x.Value,
+                                                                DataType = x.Datatype,
+                                                                IsComputed = x.IsComputed,
+                                                                RequiresGroupApproval = x.RequiresGroupApproval,
+                                                                Id = x.Id
+                                                            }).ToListAsync();
+
+            return assumptions;
+        }
+
+        public async Task<List<LgdAssumptionDto>> GetLgdInputAssumptionSnapshot(FrameworkEnum framework)
+        {
+            var assumptions = await _lgdAssumptionRepository.GetAll()
+                                                                .Where(x => x.Framework == framework)
+                                                                .Select(x => new LgdAssumptionDto
+                                                                {
+                                                                    AssumptionGroup = x.LgdGroup,
+                                                                    Key = x.Key,
+                                                                    InputName = x.InputName,
+                                                                    Value = x.Value,
+                                                                    DataType = x.DataType,
+                                                                    IsComputed = x.IsComputed,
+                                                                    RequiresGroupApproval = x.RequiresGroupApproval,
+                                                                    Id = x.Id
+                                                                }).ToListAsync();
+
+            return assumptions;
         }
     }
 }

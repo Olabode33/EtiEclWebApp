@@ -27,6 +27,10 @@ namespace TestDemo.EclShared.DefaultAssumptions
             public const string BackwardTransitionsStage2to1 = "BackwardTransitionsProbationPeriodStage2to1";
             public const string BackwardTransitionsStage3to2 = "BackwardTransitionsProbationPeriodStage3to2";
             public const string CreditRatingRank = "CreditRatingRank";
+            public const string RedefaultAdjustmentFactor = "RedefaultAdjustmentFactor";
+            public const string SnPMapping = "SnPMapping";
+            public const string BehaviouralLifeNonExpired = "BehaviouralLifeNonExpired";
+            public const string BehaviouralLifeExpired = "BehaviouralLifeExpired";
         }
 
         public static class InputName
@@ -50,6 +54,10 @@ namespace TestDemo.EclShared.DefaultAssumptions
             public const string BackwardTransitionsStage2to1 = "Backward Transitions (Probation Period) Stage 2 -> Stage 1 (days)";
             public const string BackwardTransitionsStage3to2 = "Backward Transitions (Probation Period) Stage 3 -> Stage 2 (days)";
             public const string CreditRatingRank = "Credit Rating Rank ";
+            public const string RedefaultAdjustmentFactor = "Re-default Adjustment Factor";
+            public const string SnPMapping = "S&P Mapping";
+            public const string BehaviouralLifeNonExpired = "Non-Expired";
+            public const string BehaviouralLifeExpired = "Expired";
         }
 
         public static class InputValue
@@ -72,6 +80,10 @@ namespace TestDemo.EclShared.DefaultAssumptions
             public const string ForwardTransitionStage2to3 = "90";
             public const string BackwardTransitionsStage2to1 = "90";
             public const string BackwardTransitionsStage3to2 = "90";
+            public const string RedefaultAdjustmentFactor = "4.81926373701449";
+            public const string SnPMapping = "Best Fit";
+            public const string BehaviouralLifeNonExpired = "31";
+            public const string BehaviouralLifeExpired = "22";
         }
     }
 }

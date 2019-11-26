@@ -8,11 +8,13 @@ namespace TestDemo.EclShared.Dtos
 {
     public class AssumptionDto : EntityDto<Guid>
     {
+        public string Key { get; set; }
 		public string InputName { get; set; }
-
 		public string Value { get; set; }
-
-
+        public DataTypeEnum DataType { get; set; }
+        public AssumptionGroupEnum AssumptionGroup { get; set; }
+        public bool IsComputed { get; set; }
+        public bool RequiresGroupApproval { get; set; }
 
     }
 }

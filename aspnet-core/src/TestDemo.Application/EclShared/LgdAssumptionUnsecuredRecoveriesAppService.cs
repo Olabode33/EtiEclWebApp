@@ -44,7 +44,7 @@ namespace TestDemo.EclShared
 
 			var lgdAssumptionUnsecuredRecoveries = from o in pagedAndFilteredLgdAssumptionUnsecuredRecoveries
                          select new GetLgdAssumptionUnsecuredRecoveryForViewDto() {
-							LgdAssumptionUnsecuredRecovery = new LgdAssumptionUnsecuredRecoveryDto
+							LgdAssumptionUnsecuredRecovery = new LgdAssumptionDto
 							{
                                 InputName = o.InputName,
                                 Value = o.Value,
