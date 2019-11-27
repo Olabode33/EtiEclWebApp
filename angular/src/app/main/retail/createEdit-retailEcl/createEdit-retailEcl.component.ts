@@ -1,3 +1,4 @@
+import { CreateRetailEclAndAssumptions } from './../../../../shared/service-proxies/service-proxies';
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EclStatusEnum, CreateOrEditRetailEclDto, RetailEclsServiceProxy, GeneralStatusEnum, EclSharedServiceProxy, AssumptionDto, EadInputAssumptionDto, LgdAssumptionDto, FrameworkEnum } from '@shared/service-proxies/service-proxies';
@@ -25,8 +26,12 @@ import { AppConsts } from '@shared/AppConsts';
 export class CreateEditRetailEclComponent extends AppComponentBase implements OnInit {
 
     uploadUrl: string;
-    uploadedFiles: any[] = [];
+    uploadedLoanbookFiles: any[] = [];
+    uploadedPaymentScheduleFiles: any[] = [];
+    paymentScheduleFiles: any[] = [];
+    loanbookFiles: any[] = [];
 
+    retailEclAndAssumption: CreateRetailEclAndAssumptions = new CreateRetailEclAndAssumptions();
     retailECL: CreateOrEditRetailEclDto = new CreateOrEditRetailEclDto();
     frameworkAssumptions: AssumptionDto[] = new Array();
     eadInputAssumptions: EadInputAssumptionDto[] = new Array();
@@ -160,9 +165,16 @@ export class CreateEditRetailEclComponent extends AppComponentBase implements On
     }
 
     // upload completed event
-    onUpload(event): void {
+    onUploadLoanbook(event): void {
         for (const file of event.files) {
-            this.uploadedFiles.push(file);
+            this.uploadedLoanbookFiles.push(file);
+            console.log(this.uploadedLoanbookFiles);
+        }
+    }
+    onUploadPaymentSchedule(event): void {
+        for (const file of event.files) {
+            this.uploadedPaymentScheduleFiles.push(file);
+            console.log(this.uploadedPaymentScheduleFiles);
         }
     }
 
@@ -179,7 +191,14 @@ export class CreateEditRetailEclComponent extends AppComponentBase implements On
                 } else {
                     this.retailECL.status = EclStatusEnum.Draft;
                 }
-                this._retailEcLsServiceProxy.createOrEdit(this.retailECL)
+
+                this.retailEclAndAssumption = new CreateRetailEclAndAssumptions();
+                this.retailEclAndAssumption.retailEcl = this.retailECL;
+                this.retailEclAndAssumption.frameworkAssumptions = this.frameworkAssumptions;
+                this.retailEclAndAssumption.eadInputAssumptionDtos = this.eadInputAssumptions;
+                this.retailEclAndAssumption.lgdInputAssumptionDtos = this.lgdInputAssumptions;
+
+                this._retailEcLsServiceProxy.createEclAndAssumption(this.retailEclAndAssumption)
                     .subscribe(() => {
                         this.navigateToWorkSpace();
                         this.message.success('RetailEclSuccessfullyCreated');

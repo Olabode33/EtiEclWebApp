@@ -4,6 +4,7 @@ using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using TestDemo.Retail.Dtos;
 using TestDemo.Dto;
+using TestDemo.RetailAssumption.Dtos;
 
 namespace TestDemo.Retail
 {
@@ -17,8 +18,9 @@ namespace TestDemo.Retail
 
 		Task Delete(EntityDto<Guid> input);
 
-		
-		Task<PagedResultDto<RetailEclUserLookupTableDto>> GetAllUserForLookupTable(GetAllForLookupTableInput input);
-		
+        Task CreateEclAndAssumption(CreateRetailEclAndAssumptions input);
+
+        //Task<PagedResultDto<RetailEclUserLookupTableDto>> GetAllUserForLookupTable(GetAllForLookupTableInput input);
+
     }
 }

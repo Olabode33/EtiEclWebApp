@@ -17,57 +17,71 @@ using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using TestDemo.RetailAssumption;
+using TestDemo.EclShared.Dtos;
+using TestDemo.RetailAssumption.Dtos;
 
 namespace TestDemo.Retail
 {
-	[AbpAuthorize(AppPermissions.Pages_RetailEcls)]
+    [AbpAuthorize(AppPermissions.Pages_RetailEcls)]
     public class RetailEclsAppService : TestDemoAppServiceBase, IRetailEclsAppService
     {
-		 private readonly IRepository<RetailEcl, Guid> _retailEclRepository;
-		 private readonly IRepository<User,long> _lookup_userRepository;
-		 
+        private readonly IRepository<RetailEcl, Guid> _retailEclRepository;
+        private readonly IRepository<User, long> _lookup_userRepository;
+        private readonly IRetailEclAssumptionsAppService _retailEclAssumptionAppService;
+        private readonly IRetailEclEadInputAssumptionsAppService _retailEclEadInputAssumptionsAppService;
+        private readonly IRetailEclLgdAssumptionsAppService _retailEclLgdAssumptionsAppService;
 
-		  public RetailEclsAppService(IRepository<RetailEcl, Guid> retailEclRepository , IRepository<User, long> lookup_userRepository) 
-		  {
-			_retailEclRepository = retailEclRepository;
-			_lookup_userRepository = lookup_userRepository;
-		
-		  }
 
-		 public async Task<PagedResultDto<GetRetailEclForViewDto>> GetAll(GetAllRetailEclsInput input)
-         {
-			var statusFilter = (EclStatusEnum) input.StatusFilter;
-			
-			var filteredRetailEcls = _retailEclRepository.GetAll()
-						.Include( e => e.ClosedByUserFk)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false )
-						.WhereIf(input.MinReportingDateFilter != null, e => e.ReportingDate >= input.MinReportingDateFilter)
-						.WhereIf(input.MaxReportingDateFilter != null, e => e.ReportingDate <= input.MaxReportingDateFilter)
-						.WhereIf(input.MinClosedDateFilter != null, e => e.ClosedDate >= input.MinClosedDateFilter)
-						.WhereIf(input.MaxClosedDateFilter != null, e => e.ClosedDate <= input.MaxClosedDateFilter)
-						.WhereIf(input.IsApprovedFilter > -1,  e => Convert.ToInt32(e.IsApproved) == input.IsApprovedFilter )
-						.WhereIf(input.StatusFilter > -1, e => e.Status == statusFilter)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.ClosedByUserFk != null && e.ClosedByUserFk.Name.ToLower() == input.UserNameFilter.ToLower().Trim());
+        public RetailEclsAppService(IRepository<RetailEcl, Guid> retailEclRepository, 
+                                    IRepository<User, long> lookup_userRepository,
+                                    IRetailEclAssumptionsAppService retailEclAssumptionAppService,
+                                    IRetailEclEadInputAssumptionsAppService retailEclEadInputAssumptionsAppService,
+                                    IRetailEclLgdAssumptionsAppService retailEclLgdAssumptionsAppService
+                                    )
+        {
+            _retailEclRepository = retailEclRepository;
+            _lookup_userRepository = lookup_userRepository;
+            _retailEclAssumptionAppService = retailEclAssumptionAppService;
+            _retailEclEadInputAssumptionsAppService = retailEclEadInputAssumptionsAppService;
+            _retailEclLgdAssumptionsAppService = retailEclLgdAssumptionsAppService;
+        }
 
-			var pagedAndFilteredRetailEcls = filteredRetailEcls
+        public async Task<PagedResultDto<GetRetailEclForViewDto>> GetAll(GetAllRetailEclsInput input)
+        {
+            var statusFilter = (EclStatusEnum)input.StatusFilter;
+
+            var filteredRetailEcls = _retailEclRepository.GetAll()
+                        .Include(e => e.ClosedByUserFk)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false)
+                        .WhereIf(input.MinReportingDateFilter != null, e => e.ReportingDate >= input.MinReportingDateFilter)
+                        .WhereIf(input.MaxReportingDateFilter != null, e => e.ReportingDate <= input.MaxReportingDateFilter)
+                        .WhereIf(input.MinClosedDateFilter != null, e => e.ClosedDate >= input.MinClosedDateFilter)
+                        .WhereIf(input.MaxClosedDateFilter != null, e => e.ClosedDate <= input.MaxClosedDateFilter)
+                        .WhereIf(input.IsApprovedFilter > -1, e => Convert.ToInt32(e.IsApproved) == input.IsApprovedFilter)
+                        .WhereIf(input.StatusFilter > -1, e => e.Status == statusFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.ClosedByUserFk != null && e.ClosedByUserFk.Name.ToLower() == input.UserNameFilter.ToLower().Trim());
+
+            var pagedAndFilteredRetailEcls = filteredRetailEcls
                 .OrderBy(input.Sorting ?? "id asc")
                 .PageBy(input);
 
-			var retailEcls = from o in pagedAndFilteredRetailEcls
-                         join o1 in _lookup_userRepository.GetAll() on o.ClosedByUserId equals o1.Id into j1
-                         from s1 in j1.DefaultIfEmpty()
-                         
-                         select new GetRetailEclForViewDto() {
-							RetailEcl = new RetailEclDto
-							{
-                                ReportingDate = o.ReportingDate,
-                                ClosedDate = o.ClosedDate,
-                                IsApproved = o.IsApproved,
-                                Status = o.Status,
-                                Id = o.Id
-							},
-                         	UserName = s1 == null ? "" : s1.Name.ToString()
-						};
+            var retailEcls = from o in pagedAndFilteredRetailEcls
+                             join o1 in _lookup_userRepository.GetAll() on o.ClosedByUserId equals o1.Id into j1
+                             from s1 in j1.DefaultIfEmpty()
+
+                             select new GetRetailEclForViewDto()
+                             {
+                                 RetailEcl = new RetailEclDto
+                                 {
+                                     ReportingDate = o.ReportingDate,
+                                     ClosedDate = o.ClosedDate,
+                                     IsApproved = o.IsApproved,
+                                     Status = o.Status,
+                                     Id = o.Id
+                                 },
+                                 UserName = s1 == null ? "" : s1.Name.ToString()
+                             };
 
             var totalCount = await filteredRetailEcls.CountAsync();
 
@@ -75,37 +89,47 @@ namespace TestDemo.Retail
                 totalCount,
                 await retailEcls.ToListAsync()
             );
-         }
-		 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEcls_Edit)]
-		 public async Task<GetRetailEclForEditOutput> GetRetailEclForEdit(EntityDto<Guid> input)
-         {
-            var retailEcl = await _retailEclRepository.FirstOrDefaultAsync(input.Id);
-           
-		    var output = new GetRetailEclForEditOutput {RetailEcl = ObjectMapper.Map<CreateOrEditRetailEclDto>(retailEcl)};
+        }
 
-		    if (output.RetailEcl.ClosedByUserId != null)
+        [AbpAuthorize(AppPermissions.Pages_RetailEcls_Edit)]
+        public async Task<GetRetailEclForEditOutput> GetRetailEclForEdit(EntityDto<Guid> input)
+        {
+            var retailEcl = await _retailEclRepository.FirstOrDefaultAsync(input.Id);
+
+            var output = new GetRetailEclForEditOutput { RetailEcl = ObjectMapper.Map<CreateOrEditRetailEclDto>(retailEcl) };
+
+            if (output.RetailEcl.ClosedByUserId != null)
             {
                 var _lookupUser = await _lookup_userRepository.FirstOrDefaultAsync((long)output.RetailEcl.ClosedByUserId);
                 output.UserName = _lookupUser.Name.ToString();
             }
-			
+
             return output;
-         }
+        }
 
-		 public async Task CreateOrEdit(CreateOrEditRetailEclDto input)
-         {
-            if(input.Id == null){
-				await Create(input);
-			}
-			else{
-				await Update(input);
-			}
-         }
+        public async Task CreateOrEdit(CreateOrEditRetailEclDto input)
+        {
+            if (input.Id == null)
+            {
+                await Create(input);
+            }
+            else
+            {
+                await Update(input);
+            }
+        }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEcls_Create)]
-		 protected virtual async Task Create(CreateOrEditRetailEclDto input)
-         {
+        public async Task CreateEclAndAssumption(CreateRetailEclAndAssumptions input)
+        {
+            Guid eclId = await CreateAndGetId(input.RetailEcl);
+            await SaveFrameworkAssumption(input.FrameworkAssumptions, eclId);
+            await SaveEadInputAssumption(input.EadInputAssumptionDtos, eclId);
+            await SaveLgdInputAssumption(input.LgdInputAssumptionDtos, eclId);
+        }
+
+        [AbpAuthorize(AppPermissions.Pages_RetailEcls_Create)]
+        protected virtual async Task Create(CreateOrEditRetailEclDto input)
+        {
             var retailEcl = ObjectMapper.Map<RetailEcl>(input);
 
             var user = await UserManager.GetUserByIdAsync((long)AbpSession.UserId);
@@ -117,54 +141,131 @@ namespace TestDemo.Retail
             }
 
             if (AbpSession.TenantId != null)
-			{
-				retailEcl.TenantId = (int?) AbpSession.TenantId;
-			}
-		
+            {
+                retailEcl.TenantId = (int?)AbpSession.TenantId;
+            }
+
 
             await _retailEclRepository.InsertAsync(retailEcl);
-         }
+        }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEcls_Edit)]
-		 protected virtual async Task Update(CreateOrEditRetailEclDto input)
-         {
+        protected virtual async Task<Guid> CreateAndGetId(CreateOrEditRetailEclDto input)
+        {
+            var retailEcl = ObjectMapper.Map<RetailEcl>(input);
+
+            var user = await UserManager.GetUserByIdAsync((long)AbpSession.UserId);
+            var userSubsidiaries = await UserManager.GetOrganizationUnitsAsync(user);
+
+            if (userSubsidiaries.Count > 0)
+            {
+                retailEcl.OrganizationUnitId = userSubsidiaries[0].Id;
+            }
+
+            if (AbpSession.TenantId != null)
+            {
+                retailEcl.TenantId = (int?)AbpSession.TenantId;
+            }
+
+
+            Guid id = await _retailEclRepository.InsertAndGetIdAsync(retailEcl);
+            return id;
+        }
+
+        [AbpAuthorize(AppPermissions.Pages_RetailEcls_Edit)]
+        protected virtual async Task Update(CreateOrEditRetailEclDto input)
+        {
             var retailEcl = await _retailEclRepository.FirstOrDefaultAsync((Guid)input.Id);
-             ObjectMapper.Map(input, retailEcl);
-         }
+            ObjectMapper.Map(input, retailEcl);
+        }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEcls_Delete)]
-         public async Task Delete(EntityDto<Guid> input)
-         {
+        protected virtual async Task SaveFrameworkAssumption(List<AssumptionDto> assumptions, Guid eclId)
+        {
+            foreach (var assumption in assumptions)
+            {
+                await _retailEclAssumptionAppService.CreateOrEdit(new CreateOrEditRetailEclAssumptionDto()
+                                                                        {
+                                                                            RetailEclId = eclId,
+                                                                            AssumptionGroup = assumption.AssumptionGroup,
+                                                                            Key = assumption.Key,
+                                                                            InputName = assumption.InputName,
+                                                                            Value = assumption.Value,
+                                                                            Datatype = assumption.DataType,
+                                                                            IsComputed = assumption.IsComputed,
+                                                                            RequiresGroupApproval = assumption.RequiresGroupApproval
+                                                                        });
+            }
+        }
+
+        protected virtual async Task SaveEadInputAssumption(List<EadInputAssumptionDto> assumptions, Guid eclId)
+        {
+            foreach (var assumption in assumptions)
+            {
+                await _retailEclEadInputAssumptionsAppService.CreateOrEdit(new CreateOrEditRetailEclEadInputAssumptionDto()
+                {
+                    RetailEclId = eclId,
+                    EadGroup = assumption.AssumptionGroup,
+                    Key = assumption.Key,
+                    InputName = assumption.InputName,
+                    Value = assumption.Value,
+                    Datatype = assumption.DataType,
+                    IsComputed = assumption.IsComputed,
+                    RequiresGroupApproval = assumption.RequiresGroupApproval
+                });
+            }
+        }
+
+        protected virtual async Task SaveLgdInputAssumption(List<LgdAssumptionDto> assumptions, Guid eclId)
+        {
+            foreach (var assumption in assumptions)
+            {
+                await _retailEclLgdAssumptionsAppService.CreateOrEdit(new CreateOrEditRetailEclLgdAssumptionDto()
+                {
+                    RetailEclId = eclId,
+                    LgdGroup = assumption.AssumptionGroup,
+                    Key = assumption.Key,
+                    InputName = assumption.InputName,
+                    Value = assumption.Value,
+                    DataType = assumption.DataType,
+                    IsComputed = assumption.IsComputed,
+                    RequiresGroupApproval = assumption.RequiresGroupApproval
+                });
+            }
+        }
+
+        [AbpAuthorize(AppPermissions.Pages_RetailEcls_Delete)]
+        public async Task Delete(EntityDto<Guid> input)
+        {
             await _retailEclRepository.DeleteAsync(input.Id);
-         } 
+        }
 
-		[AbpAuthorize(AppPermissions.Pages_RetailEcls)]
-         public async Task<PagedResultDto<RetailEclUserLookupTableDto>> GetAllUserForLookupTable(GetAllForLookupTableInput input)
-         {
-             var query = _lookup_userRepository.GetAll().WhereIf(
-                    !string.IsNullOrWhiteSpace(input.Filter),
-                   e=> e.Name.ToString().Contains(input.Filter)
-                );
+        //[AbpAuthorize(AppPermissions.Pages_RetailEcls)]
+        //public async Task<PagedResultDto<RetailEclUserLookupTableDto>> GetAllUserForLookupTable(GetAllForLookupTableInput input)
+        //{
+        //    var query = _lookup_userRepository.GetAll().WhereIf(
+        //           !string.IsNullOrWhiteSpace(input.Filter),
+        //          e => e.Name.ToString().Contains(input.Filter)
+        //       );
 
-            var totalCount = await query.CountAsync();
+        //    var totalCount = await query.CountAsync();
 
-            var userList = await query
-                .PageBy(input)
-                .ToListAsync();
+        //    var userList = await query
+        //        .PageBy(input)
+        //        .ToListAsync();
 
-			var lookupTableDtoList = new List<RetailEclUserLookupTableDto>();
-			foreach(var user in userList){
-				lookupTableDtoList.Add(new RetailEclUserLookupTableDto
-				{
-					Id = user.Id,
-					DisplayName = user.Name?.ToString()
-				});
-			}
+        //    var lookupTableDtoList = new List<RetailEclUserLookupTableDto>();
+        //    foreach (var user in userList)
+        //    {
+        //        lookupTableDtoList.Add(new RetailEclUserLookupTableDto
+        //        {
+        //            Id = user.Id,
+        //            DisplayName = user.Name?.ToString()
+        //        });
+        //    }
 
-            return new PagedResultDto<RetailEclUserLookupTableDto>(
-                totalCount,
-                lookupTableDtoList
-            );
-         }
+        //    return new PagedResultDto<RetailEclUserLookupTableDto>(
+        //        totalCount,
+        //        lookupTableDtoList
+        //    );
+        //}
     }
 }

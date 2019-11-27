@@ -157,19 +157,31 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label class="control-label">Loan Book</label><br>
-                                <p-fileUpload mode="basic" id="DefaultFileUploadFileInput"
-                                    name="DefaultFileUploadFileInput[]" [url]="uploadUrl" maxFileSize="1000000"
-                                    (onUpload)="onUpload($event)" (onBeforeSend)="onBeforeSend($event)" [auto]="true"
+                                <p-fileUpload mode="basic" id="LoanbookFileInput"
+                                    name="loanbookFiles[]" [url]="uploadUrl" maxFileSize="1000000"
+                                    (onUpload)="onUploadLoanbook($event)" (onBeforeSend)="onBeforeSend($event)" [auto]="true"
                                     chooseLabel="Browse" accept=".xls,.xlsx">
-                                </p-fileUpload>
+                                    <!-- <ng-template pTemplate="content">
+                                        <ul *ngIf="uploadedLoanbookFiles.length">
+                                            <li *ngFor="let file of uploadedLoanbookFiles">{{file.name}} - {{file.size}} bytes</li>
+                                        </ul>
+                                    </ng-template> -->
+                                </p-fileUpload><br>
+                                <span *ngIf="uploadedLoanbookFiles.length > 0" class="text-success"><i class="fa fa-check-circle"></i> Successfully uploaded!</span>
                             </div>
                             <div class="form-group col-md-6">
                                 <label class="control-label">Payment schedule</label><br>
-                                <p-fileUpload mode="basic" id="DefaultFileUploadFileInput"
-                                    name="DefaultFileUploadFileInput[]" [url]="uploadUrl" maxFileSize="1000000"
-                                    (onUpload)="onUpload($event)" (onBeforeSend)="onBeforeSend($event)" [auto]="true"
+                                <p-fileUpload mode="basic" id="PaymentScheduleFileInput"
+                                    name="paymentScheduleFiles[]" [url]="uploadUrl" maxFileSize="1000000"
+                                    (onUpload)="onUploadPaymentSchedule($event)" (onBeforeSend)="onBeforeSend($event)" [auto]="true"
                                     chooseLabel="Browse" accept=".xls,.xlsx">
-                                </p-fileUpload>
+                                    <!-- <ng-template pTemplate="content">
+                                        <ul *ngIf="uploadedPaymentScheduleFiles.length">
+                                            <li *ngFor="let file of uploadedPaymentScheduleFiles">{{file.name}} - {{file.size}} bytes</li>
+                                        </ul>
+                                    </ng-template> -->
+                                </p-fileUpload><br>
+                                <span *ngIf="uploadedPaymentScheduleFiles.length > 0" class="text-success"><i class="fa fa-check-circle"></i> Successfully uploaded!</span>
                             </div>
                         </div>
                         <div class="row">

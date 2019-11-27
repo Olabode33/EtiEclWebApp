@@ -19352,6 +19352,58 @@ export class RetailEclsServiceProxy {
     }
 
     /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createEclAndAssumption(input: CreateRetailEclAndAssumptions | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEcls/CreateEclAndAssumption";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateEclAndAssumption(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateEclAndAssumption(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateEclAndAssumption(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -19399,69 +19451,6 @@ export class RetailEclsServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param filter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
-     * @return Success
-     */
-    getAllUserForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfRetailEclUserLookupTableDto> {
-        let url_ = this.baseUrl + "/api/services/app/RetailEcls/GetAllUserForLookupTable?";
-        if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllUserForLookupTable(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetAllUserForLookupTable(<any>response_);
-                } catch (e) {
-                    return <Observable<PagedResultDtoOfRetailEclUserLookupTableDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<PagedResultDtoOfRetailEclUserLookupTableDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetAllUserForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfRetailEclUserLookupTableDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfRetailEclUserLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfRetailEclUserLookupTableDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<PagedResultDtoOfRetailEclUserLookupTableDto>(<any>null);
     }
 }
 
@@ -52033,11 +52022,13 @@ export interface ICreateOrEditRetailEclDto {
     id: string | undefined;
 }
 
-export class PagedResultDtoOfRetailEclUserLookupTableDto implements IPagedResultDtoOfRetailEclUserLookupTableDto {
-    totalCount!: number | undefined;
-    items!: RetailEclUserLookupTableDto[] | undefined;
+export class CreateRetailEclAndAssumptions implements ICreateRetailEclAndAssumptions {
+    retailEcl!: CreateOrEditRetailEclDto | undefined;
+    frameworkAssumptions!: AssumptionDto[] | undefined;
+    eadInputAssumptionDtos!: EadInputAssumptionDto[] | undefined;
+    lgdInputAssumptionDtos!: LgdAssumptionDto[] | undefined;
 
-    constructor(data?: IPagedResultDtoOfRetailEclUserLookupTableDto) {
+    constructor(data?: ICreateRetailEclAndAssumptions) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -52048,77 +52039,59 @@ export class PagedResultDtoOfRetailEclUserLookupTableDto implements IPagedResult
 
     init(data?: any) {
         if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(RetailEclUserLookupTableDto.fromJS(item));
+            this.retailEcl = data["retailEcl"] ? CreateOrEditRetailEclDto.fromJS(data["retailEcl"]) : <any>undefined;
+            if (data["frameworkAssumptions"] && data["frameworkAssumptions"].constructor === Array) {
+                this.frameworkAssumptions = [] as any;
+                for (let item of data["frameworkAssumptions"])
+                    this.frameworkAssumptions!.push(AssumptionDto.fromJS(item));
+            }
+            if (data["eadInputAssumptionDtos"] && data["eadInputAssumptionDtos"].constructor === Array) {
+                this.eadInputAssumptionDtos = [] as any;
+                for (let item of data["eadInputAssumptionDtos"])
+                    this.eadInputAssumptionDtos!.push(EadInputAssumptionDto.fromJS(item));
+            }
+            if (data["lgdInputAssumptionDtos"] && data["lgdInputAssumptionDtos"].constructor === Array) {
+                this.lgdInputAssumptionDtos = [] as any;
+                for (let item of data["lgdInputAssumptionDtos"])
+                    this.lgdInputAssumptionDtos!.push(LgdAssumptionDto.fromJS(item));
             }
         }
     }
 
-    static fromJS(data: any): PagedResultDtoOfRetailEclUserLookupTableDto {
+    static fromJS(data: any): CreateRetailEclAndAssumptions {
         data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfRetailEclUserLookupTableDto();
+        let result = new CreateRetailEclAndAssumptions();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
+        data["retailEcl"] = this.retailEcl ? this.retailEcl.toJSON() : <any>undefined;
+        if (this.frameworkAssumptions && this.frameworkAssumptions.constructor === Array) {
+            data["frameworkAssumptions"] = [];
+            for (let item of this.frameworkAssumptions)
+                data["frameworkAssumptions"].push(item.toJSON());
+        }
+        if (this.eadInputAssumptionDtos && this.eadInputAssumptionDtos.constructor === Array) {
+            data["eadInputAssumptionDtos"] = [];
+            for (let item of this.eadInputAssumptionDtos)
+                data["eadInputAssumptionDtos"].push(item.toJSON());
+        }
+        if (this.lgdInputAssumptionDtos && this.lgdInputAssumptionDtos.constructor === Array) {
+            data["lgdInputAssumptionDtos"] = [];
+            for (let item of this.lgdInputAssumptionDtos)
+                data["lgdInputAssumptionDtos"].push(item.toJSON());
         }
         return data; 
     }
 }
 
-export interface IPagedResultDtoOfRetailEclUserLookupTableDto {
-    totalCount: number | undefined;
-    items: RetailEclUserLookupTableDto[] | undefined;
-}
-
-export class RetailEclUserLookupTableDto implements IRetailEclUserLookupTableDto {
-    id!: number | undefined;
-    displayName!: string | undefined;
-
-    constructor(data?: IRetailEclUserLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.displayName = data["displayName"];
-        }
-    }
-
-    static fromJS(data: any): RetailEclUserLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new RetailEclUserLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["displayName"] = this.displayName;
-        return data; 
-    }
-}
-
-export interface IRetailEclUserLookupTableDto {
-    id: number | undefined;
-    displayName: string | undefined;
+export interface ICreateRetailEclAndAssumptions {
+    retailEcl: CreateOrEditRetailEclDto | undefined;
+    frameworkAssumptions: AssumptionDto[] | undefined;
+    eadInputAssumptionDtos: EadInputAssumptionDto[] | undefined;
+    lgdInputAssumptionDtos: LgdAssumptionDto[] | undefined;
 }
 
 export class PagedResultDtoOfGetRetailEclSicrApprovalForViewDto implements IPagedResultDtoOfGetRetailEclSicrApprovalForViewDto {
