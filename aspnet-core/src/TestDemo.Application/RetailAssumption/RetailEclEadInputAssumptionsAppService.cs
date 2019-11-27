@@ -97,6 +97,15 @@ namespace TestDemo.RetailAssumption
             return output;
          }
 
+        public async Task<List<CreateOrEditRetailEclEadInputAssumptionDto>> GetRetailEclEadInputAssumptionsList(EntityDto<Guid> input)
+        {
+            var assumptions = await _retailEclEadInputAssumptionRepository.GetAll()
+                                                                          .Where(x => x.RetailEclId == input.Id)
+                                                                          .Select(x => ObjectMapper.Map<CreateOrEditRetailEclEadInputAssumptionDto>(x))
+                                                                          .ToListAsync();
+            return assumptions;
+        }
+
 		 public async Task CreateOrEdit(CreateOrEditRetailEclEadInputAssumptionDto input)
          {
             if(input.Id == null){

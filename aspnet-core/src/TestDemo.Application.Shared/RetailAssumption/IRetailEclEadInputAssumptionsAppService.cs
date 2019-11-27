@@ -4,6 +4,7 @@ using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using TestDemo.RetailAssumption.Dtos;
 using TestDemo.Dto;
+using System.Collections.Generic;
 
 namespace TestDemo.RetailAssumption
 {
@@ -13,7 +14,9 @@ namespace TestDemo.RetailAssumption
 
 		Task<GetRetailEclEadInputAssumptionForEditOutput> GetRetailEclEadInputAssumptionForEdit(EntityDto<Guid> input);
 
-		Task CreateOrEdit(CreateOrEditRetailEclEadInputAssumptionDto input);
+        Task<List<CreateOrEditRetailEclEadInputAssumptionDto>> GetRetailEclEadInputAssumptionsList(EntityDto<Guid> input);
+
+        Task CreateOrEdit(CreateOrEditRetailEclEadInputAssumptionDto input);
 
 		Task Delete(EntityDto<Guid> input);
 

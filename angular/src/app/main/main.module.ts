@@ -67,6 +67,7 @@ import { WorkspaceComponent } from './workspace/workspace.component';
 import { CreateEditWholesaleEclComponent } from './wholesale/createEdit-wholesaleEcl/createEdit-wholesaleEcl.component';
 import { ViewWholesaleEclComponent } from './wholesale/view-wholesaleEcl/view-wholesaleEcl.component';
 import { CreateEditRetailEclComponent } from './retail/createEdit-retailEcl/createEdit-retailEcl.component';
+import { ViewRetailEclComponent } from './retail/view-retailEcl/view-retailEcl.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -93,6 +94,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+        ViewRetailEclComponent,
         CreateEditRetailEclComponent,
         ViewWholesaleEclComponent,
         CreateEditWholesaleEclComponent,

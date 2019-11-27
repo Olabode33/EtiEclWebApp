@@ -100,4 +100,18 @@ export class WorkspaceComponent extends AppComponentBase implements OnInit {
         this._router.navigate(['../dashboard'], { relativeTo: this._activatedRoute});
     }
 
+    viewEcl(framework: FrameworkEnum, eclId: string): void {
+        switch (framework) {
+            case FrameworkEnum.OBE:
+                this.navigateToDashboard();
+                break;
+            case FrameworkEnum.Retail:
+                this.navigateToViewRetailEcl(eclId);
+                break;
+            case FrameworkEnum.Wholesale:
+                this.navigateToViewWholesaleEcl(eclId);
+                break;
+        }
+    }
+
 }

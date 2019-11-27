@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Identity;
 using TestDemo.RetailAssumption;
 using TestDemo.EclShared.Dtos;
 using TestDemo.RetailAssumption.Dtos;
+using Abp.Organizations;
 
 namespace TestDemo.Retail
 {
@@ -28,13 +29,15 @@ namespace TestDemo.Retail
     {
         private readonly IRepository<RetailEcl, Guid> _retailEclRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
+        private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
         private readonly IRetailEclAssumptionsAppService _retailEclAssumptionAppService;
         private readonly IRetailEclEadInputAssumptionsAppService _retailEclEadInputAssumptionsAppService;
         private readonly IRetailEclLgdAssumptionsAppService _retailEclLgdAssumptionsAppService;
 
 
-        public RetailEclsAppService(IRepository<RetailEcl, Guid> retailEclRepository, 
+        public RetailEclsAppService(IRepository<RetailEcl, Guid> retailEclRepository,
                                     IRepository<User, long> lookup_userRepository,
+                                    IRepository<OrganizationUnit, long> organizationUnitRepository,
                                     IRetailEclAssumptionsAppService retailEclAssumptionAppService,
                                     IRetailEclEadInputAssumptionsAppService retailEclEadInputAssumptionsAppService,
                                     IRetailEclLgdAssumptionsAppService retailEclLgdAssumptionsAppService
@@ -45,6 +48,7 @@ namespace TestDemo.Retail
             _retailEclAssumptionAppService = retailEclAssumptionAppService;
             _retailEclEadInputAssumptionsAppService = retailEclEadInputAssumptionsAppService;
             _retailEclLgdAssumptionsAppService = retailEclLgdAssumptionsAppService;
+            _organizationUnitRepository = organizationUnitRepository;
         }
 
         public async Task<PagedResultDto<GetRetailEclForViewDto>> GetAll(GetAllRetailEclsInput input)
@@ -101,8 +105,39 @@ namespace TestDemo.Retail
             if (output.RetailEcl.ClosedByUserId != null)
             {
                 var _lookupUser = await _lookup_userRepository.FirstOrDefaultAsync((long)output.RetailEcl.ClosedByUserId);
-                output.UserName = _lookupUser.Name.ToString();
+                output.ClosedByUserName = _lookupUser.Name.ToString();
             }
+
+            return output;
+        }
+
+        [AbpAuthorize(AppPermissions.Pages_RetailEcls_Edit)]
+        public async Task<GetRetailEclForEditOutput> GetRetailEclDetailsForEdit(EntityDto<Guid> input)
+        {
+            var retailEcl = await _retailEclRepository.FirstOrDefaultAsync(input.Id);
+
+            var output = new GetRetailEclForEditOutput { RetailEcl = ObjectMapper.Map<CreateOrEditRetailEclDto>(retailEcl) };
+            if (retailEcl.CreatorUserId != null)
+            {
+                var _creatorUser = await _lookup_userRepository.FirstOrDefaultAsync((long)retailEcl.CreatorUserId);
+                output.CreatedByUserName = _creatorUser.FullName.ToString();
+            }
+
+            if (retailEcl.OrganizationUnitId != null)
+            {
+                var ou = await _organizationUnitRepository.FirstOrDefaultAsync((long)retailEcl.OrganizationUnitId);
+                output.Country = ou.DisplayName;
+            }
+
+            if (output.RetailEcl.ClosedByUserId != null)
+            {
+                var _lookupUser = await _lookup_userRepository.FirstOrDefaultAsync((long)output.RetailEcl.ClosedByUserId);
+                output.ClosedByUserName = _lookupUser.FullName.ToString();
+            }
+
+            output.FrameworkAssumption = await _retailEclAssumptionAppService.GetRetailEclAssumptionsList(input);
+            output.EadInputAssumptions = await _retailEclEadInputAssumptionsAppService.GetRetailEclEadInputAssumptionsList(input);
+            output.LgdInputAssumptions = await _retailEclLgdAssumptionsAppService.GetRetailEclLgdAssumptionsList(input);
 
             return output;
         }

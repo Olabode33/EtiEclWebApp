@@ -146,7 +146,7 @@
 
 												<li>
 													<a href="javascript:;" *ngIf="permission.isGranted('Pages.WholesaleEcls.Edit')"
-														(click)="navigateToViewWholesaleEcl(record.id)">{{l('View')}}</a>
+														(click)="viewEcl(record.framework, record.id)">{{l('View')}}</a>
 												</li>
                                             </ul>
                                         </div>
@@ -168,7 +168,7 @@
                                     <td style="width:150px">
 										<span class="ui-column-title"> {{l('ReportingDate')}}</span>
                                         <span *ngIf="record.reportingDate">
-											{{record.reportingDate | momentFormat:'L'}}
+											{{record.reportingDate | momentFormat:'ll'}}
                                         </span>
                                         <span *ngIf="!record.reportingDate">-</span>
                                     </td>

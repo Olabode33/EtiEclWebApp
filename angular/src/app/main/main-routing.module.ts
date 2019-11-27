@@ -1,3 +1,4 @@
+import { ViewRetailEclComponent } from './retail/view-retailEcl/view-retailEcl.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { WholesaleEclResultSummaryTopExposuresComponent } from './wholesaleResults/wholesaleEclResultSummaryTopExposures/wholesaleEclResultSummaryTopExposures.component';
@@ -41,7 +42,7 @@ import { CreateEditRetailEclComponent } from './retail/createEdit-retailEcl/crea
                     { path: 'wholesale/ecl/create', component: CreateEditWholesaleEclComponent},
                     { path: 'wholesale/ecl/view/:eclId', component: ViewWholesaleEclComponent},
                     { path: 'retail/ecl/create', component: CreateEditRetailEclComponent},
-                    { path: 'retail/ecl/view/:eclId', component: ViewWholesaleEclComponent}
+                    { path: 'retail/ecl/view/:eclId', component: ViewRetailEclComponent}
                 ]
             }
         ])

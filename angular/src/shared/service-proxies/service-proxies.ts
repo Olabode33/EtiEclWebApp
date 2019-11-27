@@ -15208,6 +15208,64 @@ export class RetailEclAssumptionsServiceProxy {
     }
 
     /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getRetailEclAssumptionsList(id: string | null | undefined): Observable<CreateOrEditRetailEclAssumptionDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclAssumptions/GetRetailEclAssumptionsList?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRetailEclAssumptionsList(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRetailEclAssumptionsList(<any>response_);
+                } catch (e) {
+                    return <Observable<CreateOrEditRetailEclAssumptionDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CreateOrEditRetailEclAssumptionDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRetailEclAssumptionsList(response: HttpResponseBase): Observable<CreateOrEditRetailEclAssumptionDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(CreateOrEditRetailEclAssumptionDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CreateOrEditRetailEclAssumptionDto[]>(<any>null);
+    }
+
+    /**
      * @param input (optional) 
      * @return Success
      */
@@ -16486,6 +16544,64 @@ export class RetailEclEadInputAssumptionsServiceProxy {
     }
 
     /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getRetailEclEadInputAssumptionsList(id: string | null | undefined): Observable<CreateOrEditRetailEclEadInputAssumptionDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclEadInputAssumptions/GetRetailEclEadInputAssumptionsList?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRetailEclEadInputAssumptionsList(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRetailEclEadInputAssumptionsList(<any>response_);
+                } catch (e) {
+                    return <Observable<CreateOrEditRetailEclEadInputAssumptionDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CreateOrEditRetailEclEadInputAssumptionDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRetailEclEadInputAssumptionsList(response: HttpResponseBase): Observable<CreateOrEditRetailEclEadInputAssumptionDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(CreateOrEditRetailEclEadInputAssumptionDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CreateOrEditRetailEclEadInputAssumptionDto[]>(<any>null);
+    }
+
+    /**
      * @param input (optional) 
      * @return Success
      */
@@ -16801,6 +16917,64 @@ export class RetailEclLgdAssumptionsServiceProxy {
             }));
         }
         return _observableOf<GetRetailEclLgdAssumptionForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getRetailEclLgdAssumptionsList(id: string | null | undefined): Observable<CreateOrEditRetailEclLgdAssumptionDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclLgdAssumptions/GetRetailEclLgdAssumptionsList?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRetailEclLgdAssumptionsList(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRetailEclLgdAssumptionsList(<any>response_);
+                } catch (e) {
+                    return <Observable<CreateOrEditRetailEclLgdAssumptionDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CreateOrEditRetailEclLgdAssumptionDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRetailEclLgdAssumptionsList(response: HttpResponseBase): Observable<CreateOrEditRetailEclLgdAssumptionDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(CreateOrEditRetailEclLgdAssumptionDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CreateOrEditRetailEclLgdAssumptionDto[]>(<any>null);
     }
 
     /**
@@ -19278,6 +19452,60 @@ export class RetailEclsServiceProxy {
     }
 
     protected processGetRetailEclForEdit(response: HttpResponseBase): Observable<GetRetailEclForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetRetailEclForEditOutput.fromJS(resultData200) : new GetRetailEclForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetRetailEclForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getRetailEclDetailsForEdit(id: string | null | undefined): Observable<GetRetailEclForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEcls/GetRetailEclDetailsForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRetailEclDetailsForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRetailEclDetailsForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetRetailEclForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetRetailEclForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRetailEclDetailsForEdit(response: HttpResponseBase): Observable<GetRetailEclForEditOutput> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -51928,7 +52156,12 @@ export interface IRetailEclDto {
 
 export class GetRetailEclForEditOutput implements IGetRetailEclForEditOutput {
     retailEcl!: CreateOrEditRetailEclDto | undefined;
-    userName!: string | undefined;
+    country!: string | undefined;
+    createdByUserName!: string | undefined;
+    closedByUserName!: string | undefined;
+    frameworkAssumption!: CreateOrEditRetailEclAssumptionDto[] | undefined;
+    eadInputAssumptions!: CreateOrEditRetailEclEadInputAssumptionDto[] | undefined;
+    lgdInputAssumptions!: CreateOrEditRetailEclLgdAssumptionDto[] | undefined;
 
     constructor(data?: IGetRetailEclForEditOutput) {
         if (data) {
@@ -51942,7 +52175,24 @@ export class GetRetailEclForEditOutput implements IGetRetailEclForEditOutput {
     init(data?: any) {
         if (data) {
             this.retailEcl = data["retailEcl"] ? CreateOrEditRetailEclDto.fromJS(data["retailEcl"]) : <any>undefined;
-            this.userName = data["userName"];
+            this.country = data["country"];
+            this.createdByUserName = data["createdByUserName"];
+            this.closedByUserName = data["closedByUserName"];
+            if (data["frameworkAssumption"] && data["frameworkAssumption"].constructor === Array) {
+                this.frameworkAssumption = [] as any;
+                for (let item of data["frameworkAssumption"])
+                    this.frameworkAssumption!.push(CreateOrEditRetailEclAssumptionDto.fromJS(item));
+            }
+            if (data["eadInputAssumptions"] && data["eadInputAssumptions"].constructor === Array) {
+                this.eadInputAssumptions = [] as any;
+                for (let item of data["eadInputAssumptions"])
+                    this.eadInputAssumptions!.push(CreateOrEditRetailEclEadInputAssumptionDto.fromJS(item));
+            }
+            if (data["lgdInputAssumptions"] && data["lgdInputAssumptions"].constructor === Array) {
+                this.lgdInputAssumptions = [] as any;
+                for (let item of data["lgdInputAssumptions"])
+                    this.lgdInputAssumptions!.push(CreateOrEditRetailEclLgdAssumptionDto.fromJS(item));
+            }
         }
     }
 
@@ -51956,14 +52206,36 @@ export class GetRetailEclForEditOutput implements IGetRetailEclForEditOutput {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["retailEcl"] = this.retailEcl ? this.retailEcl.toJSON() : <any>undefined;
-        data["userName"] = this.userName;
+        data["country"] = this.country;
+        data["createdByUserName"] = this.createdByUserName;
+        data["closedByUserName"] = this.closedByUserName;
+        if (this.frameworkAssumption && this.frameworkAssumption.constructor === Array) {
+            data["frameworkAssumption"] = [];
+            for (let item of this.frameworkAssumption)
+                data["frameworkAssumption"].push(item.toJSON());
+        }
+        if (this.eadInputAssumptions && this.eadInputAssumptions.constructor === Array) {
+            data["eadInputAssumptions"] = [];
+            for (let item of this.eadInputAssumptions)
+                data["eadInputAssumptions"].push(item.toJSON());
+        }
+        if (this.lgdInputAssumptions && this.lgdInputAssumptions.constructor === Array) {
+            data["lgdInputAssumptions"] = [];
+            for (let item of this.lgdInputAssumptions)
+                data["lgdInputAssumptions"].push(item.toJSON());
+        }
         return data; 
     }
 }
 
 export interface IGetRetailEclForEditOutput {
     retailEcl: CreateOrEditRetailEclDto | undefined;
-    userName: string | undefined;
+    country: string | undefined;
+    createdByUserName: string | undefined;
+    closedByUserName: string | undefined;
+    frameworkAssumption: CreateOrEditRetailEclAssumptionDto[] | undefined;
+    eadInputAssumptions: CreateOrEditRetailEclEadInputAssumptionDto[] | undefined;
+    lgdInputAssumptions: CreateOrEditRetailEclLgdAssumptionDto[] | undefined;
 }
 
 export class CreateOrEditRetailEclDto implements ICreateOrEditRetailEclDto {
