@@ -6,7 +6,7 @@ namespace TestDemo.EclShared
 {
     public enum DataTypeEnum
     {
-        String = 1, Datetime, Double, Int
+        String = 1, Datetime, Double, Int, DoublePercentage, DoubleMoney, StringDropdown, DoubleDropDown, IntDropdown
     }
 
     public enum FrameworkEnum
@@ -46,7 +46,7 @@ namespace TestDemo.EclShared
 
     public enum LdgInputAssumptionEnum
     {
-        General, UnsecuredRecoveries, CostOfRecoveryHigh, CostOfRecoveryLow, CollateralGrowthBest, CollateralGrowthOptimistic, CollateralGrowthDownturn, CollateralTTR, CollateralProjectionBest, CollateralProjectionOptimistic, CollateralProjectionDownturn, Haircut
+        General, UnsecuredRecoveriesCureRate, UnsecuredRecoveriesTimeInDefault, CostOfRecoveryHigh, CostOfRecoveryLow, CollateralGrowthBest, CollateralGrowthOptimistic, CollateralGrowthDownturn, CollateralTTR, CollateralProjectionBest, CollateralProjectionOptimistic, CollateralProjectionDownturn, Haircut
     }
 
     public enum AssumptionGroupEnum

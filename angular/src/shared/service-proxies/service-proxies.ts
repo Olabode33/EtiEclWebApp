@@ -31993,6 +31993,11 @@ export enum DataTypeEnum {
     Datetime = 2, 
     Double = 3, 
     Int = 4, 
+    DoublePercentage = 5, 
+    DoubleMoney = 6, 
+    StringDropdown = 7, 
+    DoubleDropDown = 8, 
+    IntDropdown = 9, 
 }
 
 export enum AssumptionGroupEnum {
@@ -33667,17 +33672,18 @@ export interface ILgdAssumptionDto {
 
 export enum LdgInputAssumptionEnum {
     General = 0, 
-    UnsecuredRecoveries = 1, 
-    CostOfRecoveryHigh = 2, 
-    CostOfRecoveryLow = 3, 
-    CollateralGrowthBest = 4, 
-    CollateralGrowthOptimistic = 5, 
-    CollateralGrowthDownturn = 6, 
-    CollateralTTR = 7, 
-    CollateralProjectionBest = 8, 
-    CollateralProjectionOptimistic = 9, 
-    CollateralProjectionDownturn = 10, 
-    Haircut = 11, 
+    UnsecuredRecoveriesCureRate = 1, 
+    UnsecuredRecoveriesTimeInDefault = 2, 
+    CostOfRecoveryHigh = 3, 
+    CostOfRecoveryLow = 4, 
+    CollateralGrowthBest = 5, 
+    CollateralGrowthOptimistic = 6, 
+    CollateralGrowthDownturn = 7, 
+    CollateralTTR = 8, 
+    CollateralProjectionBest = 9, 
+    CollateralProjectionOptimistic = 10, 
+    CollateralProjectionDownturn = 11, 
+    Haircut = 12, 
 }
 
 export class ListResultDtoOfEditionListDto implements IListResultDtoOfEditionListDto {

@@ -62,7 +62,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
                     Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.BestScenarioLikelihood,
                     InputName = DefaultPortfolioAssumption.InputName.BestScenarioLikelihood,
                     Value = DefaultPortfolioAssumption.InputValue.BestScenarioLikelihood,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = false,
                     RequiresGroupApproval = true,
@@ -81,7 +81,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
                     Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.OptimisticScenarioLikelihood,
                     InputName = DefaultPortfolioAssumption.InputName.OptimisticScenarioLikelihood,
                     Value = DefaultPortfolioAssumption.InputValue.OptimisticScenarioLikelihood,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = false,
                     RequiresGroupApproval = true,
@@ -92,7 +92,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
             //Downturn Estimate Scenario(Likelihood)
             var downturnScenarioLikelihood = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.DownturnScenarioLikelihood
                                                                                                         && x.Framework == framework);
-            if (bestScenarioLikelihood == null)
+            if (downturnScenarioLikelihood == null)
             {
                 _context.Assumptions.Add(new Assumption()
                 {
@@ -100,7 +100,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
                     Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.DownturnScenarioLikelihood,
                     InputName = DefaultPortfolioAssumption.InputName.DownturnScenarioLikelihood,
                     Value = DefaultPortfolioAssumption.InputValue.DownturnScenarioLikelihood,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = false,
                     RequiresGroupApproval = true,
@@ -138,7 +138,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
                     Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.AbsoluteCreditQualityThreshold,
                     InputName = DefaultPortfolioAssumption.InputName.AbsoluteCreditQualityThreshold,
                     Value = DefaultPortfolioAssumption.InputValue.AbsoluteCreditQualityThreshold,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = false,
                     RequiresGroupApproval = true,
@@ -176,7 +176,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
                     Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.RelativeCreditQualityThreshold,
                     InputName = DefaultPortfolioAssumption.InputName.RelativeCreditQualityThreshold,
                     Value = DefaultPortfolioAssumption.InputValue.RelativeCreditQualityThreshold,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = false,
                     RequiresGroupApproval = true,

@@ -58,11 +58,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerCardCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CustomerCard,
                     Value = DefaultLgdAssumptions.InputValue.CureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -75,11 +75,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerLeaseCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CustomerLease,
                     Value = DefaultLgdAssumptions.InputValue.CureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -92,11 +92,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerLoanCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CustomerLoan,
                     Value = DefaultLgdAssumptions.InputValue.CureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -109,11 +109,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerMortgageCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CustomerMortgage,
                     Value = DefaultLgdAssumptions.InputValue.CureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -126,11 +126,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerOdCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CustomerOd,
                     Value = DefaultLgdAssumptions.InputValue.CureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -149,11 +149,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialCardCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CommercialCard,
                     Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -166,11 +166,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialLeaseCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CommercialLease,
                     Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -183,11 +183,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialLoanCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CommercialLoan,
                     Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -200,11 +200,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialMortgageCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CommercialMortgage,
                     Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -217,11 +217,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialOdCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CommercialOd,
                     Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -235,11 +235,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateLeaseCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CorporateLease,
                     Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -252,11 +252,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateLoanCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CorporateLoan,
                     Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -269,11 +269,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateMortgageCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CorporateMortgage,
                     Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -286,11 +286,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateOdCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CorporateOd,
                     Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -310,11 +310,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialAdvancePaymentGuaranteeCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CommercialAdvancePaymentGuarantee,
                     Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -327,11 +327,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialBidBondCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CommercialBidBond,
                     Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -344,11 +344,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialCustomsBondCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CommercialCustomsBond,
                     Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -361,11 +361,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialLetterOfCreditCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CommercialLetterOfCredit,
                     Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -378,11 +378,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialOtherBondGuaranteeCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CommercialOtherBondGuarantee,
                     Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -395,11 +395,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialPerformanceBondCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CommercialPerformanceBond,
                     Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -412,11 +412,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialTenderBondCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CommercialPerformanceBond,
                     Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -431,11 +431,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerOtherBondsGuaranteeCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CustomerOtherBondGuarantee,
                     Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -450,11 +450,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateAdvancePaymentGuaranteeCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CorporateAdvancePaymentGuarantee,
                     Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -467,11 +467,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateBidBondCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CorporateBidBond,
                     Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -484,11 +484,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateCustomsBondCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CorporateCustomsBond,
                     Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -501,11 +501,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateLetterOfCreditCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CorporateLetterOfCredit,
                     Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -518,11 +518,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateOtherBondGuaranteeCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CorporateOtherBondGuarantee,
                     Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -535,11 +535,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporatePerformanceBondCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CorporatePerformanceBond,
                     Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -552,11 +552,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateTenderBondCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CorporatePerformanceBond,
                     Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -575,11 +575,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerCardBestTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CustomerCard,
-                    Value = DefaultLgdAssumptions.InputValue.CureRate,
-                    DataType = DataTypeEnum.Double,
+                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -592,11 +592,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerLeaseBestTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CustomerLease,
-                    Value = DefaultLgdAssumptions.InputValue.CureRate,
-                    DataType = DataTypeEnum.Double,
+                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -609,11 +609,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerLoanBestTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CustomerLoan,
-                    Value = DefaultLgdAssumptions.InputValue.CureRate,
-                    DataType = DataTypeEnum.Double,
+                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -626,11 +626,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerMortgageBestTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CustomerMortgage,
-                    Value = DefaultLgdAssumptions.InputValue.CureRate,
-                    DataType = DataTypeEnum.Double,
+                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -643,11 +643,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerOdBestTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CustomerOd,
-                    Value = DefaultLgdAssumptions.InputValue.CureRate,
-                    DataType = DataTypeEnum.Double,
+                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -666,11 +666,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialCardBestTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CommercialCard,
                     Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -683,11 +683,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialLeaseBestTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CommercialLease,
                     Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -700,11 +700,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialLoanBestTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CommercialLoan,
                     Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -717,11 +717,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialMortgageBestTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CommercialMortgage,
                     Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -734,11 +734,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialOdBestTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CommercialOd,
                     Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -752,11 +752,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateLeaseBestTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CorporateLease,
                     Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -769,11 +769,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateLoanBestTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CorporateLoan,
                     Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -786,11 +786,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateMortgageBestTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CorporateMortgage,
                     Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -803,11 +803,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateOdBestTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CorporateOd,
                     Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -827,11 +827,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialAdvancePaymentGuaranteeTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CommercialAdvancePaymentGuarantee,
                     Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -844,11 +844,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialBidBondTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CommercialBidBond,
                     Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -861,11 +861,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialCustomsBondTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CommercialCustomsBond,
                     Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -878,11 +878,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialLetterOfCreditTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CommercialLetterOfCredit,
                     Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -895,11 +895,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialOtherBondGuaranteeTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CommercialOtherBondGuarantee,
                     Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -912,11 +912,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialPerformanceBondTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CommercialPerformanceBond,
                     Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -929,11 +929,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialTenderBondTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CommercialPerformanceBond,
                     Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -948,11 +948,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerOtherBondsGuaranteeTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CustomerOtherBondGuarantee,
                     Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -967,11 +967,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateAdvancePaymentGuaranteeTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CorporateAdvancePaymentGuarantee,
                     Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -984,11 +984,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateBidBondBestTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CorporateBidBond,
                     Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -1001,11 +1001,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateCustomsBondTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CorporateCustomsBond,
                     Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -1018,11 +1018,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateLetterOfCreditBestTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CorporateLetterOfCredit,
                     Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -1035,11 +1035,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateOtherBondGuaranteeTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CorporateOtherBondGuarantee,
                     Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -1052,11 +1052,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporatePerformanceBondTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CorporatePerformanceBond,
                     Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -1069,11 +1069,11 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveries,
+                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateTenderBondTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CorporatePerformanceBond,
                     Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.Double,
+                    DataType = DataTypeEnum.DoublePercentage,
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
@@ -1111,7 +1111,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
                         Key = corHighKeys[i],
                         InputName = i == 0 ? DefaultLgdAssumptions.InputName.CostOfRecoveryHighCollateralValue : corName[i - 1],
                         Value = i == 0 ? DefaultLgdAssumptions.InputValue.CollateralValue : DefaultLgdAssumptions.InputValue.CostOfRecoveryHigh,
-                        DataType = DataTypeEnum.Double,
+                        DataType = i == 0 ? DataTypeEnum.DoubleMoney : DataTypeEnum.DoublePercentage,
                         Framework = framework,
                         IsComputed = false,
                         RequiresGroupApproval = true,
@@ -1132,7 +1132,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
                         Key = corLowKeys[i],
                         InputName = i == 0 ? DefaultLgdAssumptions.InputName.CostOfRecoveryHighCollateralValue : corName[i - 1],
                         Value = i == 0 ? DefaultLgdAssumptions.InputValue.CollateralValue : DefaultLgdAssumptions.InputValue.CostOfRecoveryLow,
-                        DataType = DataTypeEnum.Double,
+                        DataType = i == 0 ? DataTypeEnum.DoubleMoney : DataTypeEnum.DoublePercentage,
                         Framework = framework,
                         IsComputed = false,
                         RequiresGroupApproval = true,
@@ -1184,7 +1184,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
                         Key = bestKeys[i],
                         InputName = name[i],
                         Value = bestValue[i],
-                        DataType = DataTypeEnum.Double,
+                        DataType = DataTypeEnum.DoublePercentage,
                         Framework = framework,
                         IsComputed = false,
                         RequiresGroupApproval = true,
@@ -1205,7 +1205,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
                         Key = optimisticKeys[i],
                         InputName = name[i],
                         Value = bestValue[i],
-                        DataType = DataTypeEnum.Double,
+                        DataType = DataTypeEnum.DoublePercentage,
                         Framework = framework,
                         IsComputed = false,
                         RequiresGroupApproval = true,
@@ -1226,7 +1226,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
                         Key = downturnKeys[i],
                         InputName = name[i],
                         Value = (Convert.ToDouble(bestValue[i]) * 0.92 - 0.08).ToString(),
-                        DataType = DataTypeEnum.Double,
+                        DataType = DataTypeEnum.DoublePercentage,
                         Framework = framework,
                         IsComputed = false,
                         RequiresGroupApproval = true,
@@ -1301,7 +1301,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
                         Key = keys[i],
                         InputName = name[i],
                         Value = value[i],
-                        DataType = DataTypeEnum.Double,
+                        DataType = DataTypeEnum.DoublePercentage,
                         Framework = framework,
                         IsComputed = true,
                         RequiresGroupApproval = true,
@@ -1345,7 +1345,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
                         Key = bestKeys[i],
                         InputName = name[i],
                         Value = "1.0",
-                        DataType = DataTypeEnum.Double,
+                        DataType = DataTypeEnum.DoublePercentage,
                         Framework = framework,
                         IsComputed = false,
                         RequiresGroupApproval = true,
@@ -1366,7 +1366,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
                         Key = optimisticKeys[i],
                         InputName = name[i],
                         Value = "1.0",
-                        DataType = DataTypeEnum.Double,
+                        DataType = DataTypeEnum.DoublePercentage,
                         Framework = framework,
                         IsComputed = false,
                         RequiresGroupApproval = true,
@@ -1387,7 +1387,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
                         Key = downturnKeys[i],
                         InputName = name[i],
                         Value = "1.0",
-                        DataType = DataTypeEnum.Double,
+                        DataType = DataTypeEnum.DoublePercentage,
                         Framework = framework,
                         IsComputed = false,
                         RequiresGroupApproval = true,

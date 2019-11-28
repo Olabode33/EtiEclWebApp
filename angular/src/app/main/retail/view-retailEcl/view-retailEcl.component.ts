@@ -1,7 +1,7 @@
-import { EadInputGroupEnum, LdgInputAssumptionEnum } from './../../../../shared/service-proxies/service-proxies';
+import { EadInputGroupEnum, LdgInputAssumptionEnum, CreateOrEditObeEclLgdAssumptionDto } from './../../../../shared/service-proxies/service-proxies';
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EclStatusEnum, CreateOrEditWholesaleEclDto, WholesaleEclsServiceProxy, RetailEclsServiceProxy, GetRetailEclForEditOutput, CreateOrEditRetailEclAssumptionDto, CreateOrEditRetailEclEadInputAssumptionDto, CreateOrEditRetailEclLgdAssumptionDto, CreateOrEditRetailEclDto, AssumptionGroupEnum } from '@shared/service-proxies/service-proxies';
+import { EclStatusEnum, CreateOrEditWholesaleEclDto, WholesaleEclsServiceProxy, RetailEclsServiceProxy, GetRetailEclForEditOutput, CreateOrEditRetailEclAssumptionDto, CreateOrEditRetailEclEadInputAssumptionDto, CreateOrEditRetailEclLgdAssumptionDto, CreateOrEditRetailEclDto, AssumptionGroupEnum, DataTypeEnum } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -32,12 +32,13 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
     eadInputAssumptions: CreateOrEditRetailEclEadInputAssumptionDto[] = new Array();
     lgdInputAssumptions: CreateOrEditRetailEclLgdAssumptionDto[] = new Array();
 
+    dataTypeEnum = DataTypeEnum;
     eclStatusEnum = EclStatusEnum;
     assumptionGroupEnum = AssumptionGroupEnum;
     eadAssumptionGroupEnum = EadInputGroupEnum;
     lgdAssumptionGroupEnum = LdgInputAssumptionEnum;
 
-    //General Assumption Group
+    //General Assumption Groups
     scenarioAssumptionGroup: CreateOrEditRetailEclAssumptionDto[] = new Array();
     absoluteCreditQualityAssumptionGroup: CreateOrEditRetailEclAssumptionDto[] = new Array();
     relativeCreditQualityAssumptionGroup: CreateOrEditRetailEclAssumptionDto[] = new Array();
@@ -48,6 +49,27 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
     showRelative = false;
     showForward = false;
     showBackWard = false;
+
+    //Ead Assumptions Groups
+    ccfGroup: CreateOrEditRetailEclEadInputAssumptionDto[] = new Array();
+    virGroup: CreateOrEditRetailEclEadInputAssumptionDto[] = new Array();
+    exchangeRateGroup: CreateOrEditRetailEclEadInputAssumptionDto[] = new Array();
+    showCcfGroup = false;
+    showVirGroup = false;
+    showExchangeRateGroup = false;
+
+    //Lgd Assumption Groups
+    timeToDefaultGroup: CreateOrEditRetailEclLgdAssumptionDto[] = new Array();
+    cureRateGroup: CreateOrEditRetailEclLgdAssumptionDto[] = new Array();
+    corHighGroup: CreateOrEditRetailEclLgdAssumptionDto[] = new Array();
+    corLowGroup: CreateOrEditRetailEclLgdAssumptionDto[] = new Array();
+    collateralGrowthGroup: CreateOrEditRetailEclLgdAssumptionDto[] = new Array();
+    collateralTTRGroup: CreateOrEditRetailEclLgdAssumptionDto[] = new Array();
+    showUnsecuredRecoveries = false;
+    showCorHigh = false;
+    showCorLow = false;
+    showCollateralGrowth = false;
+    showTTR = false;
 
     constructor(
         injector: Injector,
@@ -79,16 +101,35 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
                                         this.lgdInputAssumptions = result.lgdInputAssumptions;
 
                                         this.extractGeneralAssumptionGroups();
+                                        this.extractEadAssumptionGroups();
+                                        this.extractLgdAssumptionGroups();
                                     });
     }
 
-    extractGeneralAssumptionGroups(): void{
+    extractGeneralAssumptionGroups(): void {
         //Extract general assumption to groups
         this.scenarioAssumptionGroup = this.frameworkAssumptions.filter(x => x.assumptionGroup === this.assumptionGroupEnum.ScenarioInputs);
         this.absoluteCreditQualityAssumptionGroup = this.frameworkAssumptions.filter(x => x.assumptionGroup === this.assumptionGroupEnum.AbsoluteCreditQuality);
         this.relativeCreditQualityAssumptionGroup = this.frameworkAssumptions.filter(x => x.assumptionGroup === this.assumptionGroupEnum.RelativeCreditQuality);
         this.forwardTransitionsAssumptionGroup = this.frameworkAssumptions.filter(x => x.assumptionGroup === this.assumptionGroupEnum.ForwardTransitions);
         this.backwardTransitionAssumptionGroup = this.frameworkAssumptions.filter(x => x.assumptionGroup === this.assumptionGroupEnum.BackwardTransitions);
+    }
+
+    extractEadAssumptionGroups(): void {
+        //Extract general assumption to groups
+        this.ccfGroup = this.eadInputAssumptions.filter(x => x.eadGroup === this.eadAssumptionGroupEnum.CreditConversionFactors);
+        this.virGroup = this.eadInputAssumptions.filter(x => x.eadGroup === this.eadAssumptionGroupEnum.VariableInterestRateProjections);
+        this.exchangeRateGroup = this.eadInputAssumptions.filter(x => x.eadGroup === this.eadAssumptionGroupEnum.ExchangeRateProjections);
+    }
+
+    extractLgdAssumptionGroups(): void {
+        //Extract general assumption to groups
+        this.cureRateGroup = this.lgdInputAssumptions.filter(x => x.lgdGroup === this.lgdAssumptionGroupEnum.UnsecuredRecoveriesCureRate);
+        this.timeToDefaultGroup = this.lgdInputAssumptions.filter(x => x.lgdGroup === this.lgdAssumptionGroupEnum.UnsecuredRecoveriesTimeInDefault);
+        this.corHighGroup = this.lgdInputAssumptions.filter(x => x.lgdGroup === this.lgdAssumptionGroupEnum.CostOfRecoveryHigh);
+        this.corLowGroup = this.lgdInputAssumptions.filter(x => x.lgdGroup === this.lgdAssumptionGroupEnum.CostOfRecoveryLow);
+        this.collateralGrowthGroup = this.lgdInputAssumptions.filter(x => x.lgdGroup === this.lgdAssumptionGroupEnum.CollateralGrowthBest);
+        this.collateralTTRGroup = this.lgdInputAssumptions.filter(x => x.lgdGroup === this.lgdAssumptionGroupEnum.CollateralTTR);
     }
 
     editEcl() {
