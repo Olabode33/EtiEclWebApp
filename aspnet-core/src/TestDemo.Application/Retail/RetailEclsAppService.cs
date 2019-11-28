@@ -33,6 +33,7 @@ namespace TestDemo.Retail
         private readonly IRetailEclAssumptionsAppService _retailEclAssumptionAppService;
         private readonly IRetailEclEadInputAssumptionsAppService _retailEclEadInputAssumptionsAppService;
         private readonly IRetailEclLgdAssumptionsAppService _retailEclLgdAssumptionsAppService;
+        private readonly IRetailEclApprovalsAppService _retailEclApprovalsAppService;
 
 
         public RetailEclsAppService(IRepository<RetailEcl, Guid> retailEclRepository,
@@ -40,7 +41,8 @@ namespace TestDemo.Retail
                                     IRepository<OrganizationUnit, long> organizationUnitRepository,
                                     IRetailEclAssumptionsAppService retailEclAssumptionAppService,
                                     IRetailEclEadInputAssumptionsAppService retailEclEadInputAssumptionsAppService,
-                                    IRetailEclLgdAssumptionsAppService retailEclLgdAssumptionsAppService
+                                    IRetailEclLgdAssumptionsAppService retailEclLgdAssumptionsAppService,
+                                    IRetailEclApprovalsAppService retailEclApprovalsAppService
                                     )
         {
             _retailEclRepository = retailEclRepository;
@@ -48,6 +50,7 @@ namespace TestDemo.Retail
             _retailEclAssumptionAppService = retailEclAssumptionAppService;
             _retailEclEadInputAssumptionsAppService = retailEclEadInputAssumptionsAppService;
             _retailEclLgdAssumptionsAppService = retailEclLgdAssumptionsAppService;
+            _retailEclApprovalsAppService = retailEclApprovalsAppService;
             _organizationUnitRepository = organizationUnitRepository;
         }
 
@@ -265,6 +268,15 @@ namespace TestDemo.Retail
                     RequiresGroupApproval = assumption.RequiresGroupApproval
                 });
             }
+        }
+
+
+        public virtual async Task ApproveRejectEcl(CreateOrEditRetailEclApprovalDto input)
+        {
+            var ecl = await _retailEclRepository.FirstOrDefaultAsync((Guid)input.RetailEclId);
+            ecl.Status = input.Status == GeneralStatusEnum.Approved ? EclStatusEnum.Approved : EclStatusEnum.Draft;
+            ObjectMapper.Map(ecl, ecl);
+            await _retailEclApprovalsAppService.CreateOrEdit(input);
         }
 
         [AbpAuthorize(AppPermissions.Pages_RetailEcls_Delete)]

@@ -1,4 +1,4 @@
-import { EadInputGroupEnum, LdgInputAssumptionEnum, CreateOrEditObeEclLgdAssumptionDto } from './../../../../shared/service-proxies/service-proxies';
+import { EadInputGroupEnum, LdgInputAssumptionEnum, CreateOrEditObeEclLgdAssumptionDto, CreateOrEditRetailEclApprovalDto } from './../../../../shared/service-proxies/service-proxies';
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EclStatusEnum, CreateOrEditWholesaleEclDto, WholesaleEclsServiceProxy, RetailEclsServiceProxy, GetRetailEclForEditOutput, CreateOrEditRetailEclAssumptionDto, CreateOrEditRetailEclEadInputAssumptionDto, CreateOrEditRetailEclLgdAssumptionDto, CreateOrEditRetailEclDto, AssumptionGroupEnum, DataTypeEnum } from '@shared/service-proxies/service-proxies';
@@ -15,6 +15,7 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import { AppConsts } from '@shared/AppConsts';
 import { Location } from '@angular/common';
+import { ApproveEclModalComponent } from '@app/main/eclShared/approve-ecl-modal/approve-ecl-modal.component';
 
 @Component({
     selector: 'app-view-retailEcl',
@@ -24,6 +25,8 @@ import { Location } from '@angular/common';
     animations: [appModuleAnimation()]
 })
 export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
+
+    @ViewChild('aproveEclModal', {static: true}) approveEclModel: ApproveEclModalComponent;
 
     _eclId = '';
     retailEclDetails: GetRetailEclForEditOutput = new GetRetailEclForEditOutput();
@@ -88,6 +91,15 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
         this._activatedRoute.paramMap.subscribe(params => {
             this._eclId = params.get('eclId');
             this.getEclDetails();
+
+            let retailEcl = new CreateOrEditRetailEclApprovalDto();
+            retailEcl.retailEclId = this._eclId;
+
+            this.approveEclModel.configure({
+                title: this.l('ApproveRetailEcl'),
+                serviceProxy: this._retailEcLsServiceProxy,
+                dataSource: retailEcl
+            });
         });
     }
 
@@ -137,7 +149,7 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
     }
 
     approveEcl() {
-        this.notify.info('Yet to be implemented!!!');
+        this.approveEclModel.show();
     }
 
     runEclComputation() {
