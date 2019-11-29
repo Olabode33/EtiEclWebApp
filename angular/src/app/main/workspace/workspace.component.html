@@ -174,7 +174,8 @@
                                     </td>
                                     <td style="width:150px">
                                         <span class="ui-column-title"> {{l('Status')}}</span>
-                                        <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline kt-badge--unified-warning">
+                                        <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline 
+                                                     kt-badge--unified-{{record.status == eclStatusEnum.Completed ? 'success' : 'warning'}}">
                                             {{l( eclStatusEnum[record.status])}}
                                         </span>
                                     </td>

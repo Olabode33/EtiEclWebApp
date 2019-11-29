@@ -33649,13 +33649,14 @@ export enum EclStatusEnum {
     Draft = 0, 
     Submitted = 1, 
     Approved = 2, 
-    ComputedPD = 3, 
-    ComputedSICR = 4, 
-    ComputedEAD = 5, 
-    ComputedLGD = 6, 
-    ComputedECL = 7, 
-    Completed = 8, 
-    Closed = 9, 
+    Running = 3, 
+    ComputedPD = 4, 
+    ComputedSICR = 5, 
+    ComputedEAD = 6, 
+    ComputedLGD = 7, 
+    ComputedECL = 8, 
+    Completed = 9, 
+    Closed = 10, 
 }
 
 export class LgdAssumptionDto implements ILgdAssumptionDto {
