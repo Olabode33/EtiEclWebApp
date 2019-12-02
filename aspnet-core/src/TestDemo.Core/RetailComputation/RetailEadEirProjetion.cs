@@ -8,7 +8,7 @@ using Abp.Domain.Entities;
 namespace TestDemo.RetailComputation
 {
 	[Table("RetailEadEirProjetions")]
-    public class RetailEadEirProjetion : Entity<Guid> 
+    public class RetailEadEirProjection : Entity<Guid> 
     {
 
 		public virtual string EIR_Group { get; set; }

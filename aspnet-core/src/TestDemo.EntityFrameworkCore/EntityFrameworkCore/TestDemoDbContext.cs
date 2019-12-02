@@ -90,7 +90,7 @@ namespace TestDemo.EntityFrameworkCore
 
         public virtual DbSet<RetailEadInput> RetailEadInputs { get; set; }
 
-        public virtual DbSet<RetailEadEirProjetion> RetailEadEirProjetions { get; set; }
+        public virtual DbSet<RetailEadEirProjection> RetailEadEirProjetions { get; set; }
 
         public virtual DbSet<RetailEadCirProjection> RetailEadCirProjections { get; set; }
 
@@ -283,214 +283,202 @@ namespace TestDemo.EntityFrameworkCore
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<WholesalePdLifetimeBest>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<WholesalePdLifetimeOptimistic>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<WholesalePdLifetimeDownturn>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<WholesalePdRedefaultLifetimeBest>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<WholesalePdRedefaultLifetimeOptimistic>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<WholesalePdRedefaultLifetimeDownturn>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<WholesalePdMapping>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<WholesaleEadCirProjection>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<WholesaleEadEirProjection>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<WholesaleEadInput>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<WholesaleLgdCollateralTypeData>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<WholesaleLgdContractData>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+
+            modelBuilder.Entity<RetailPdLifetimeBest>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<RetailPdLifetimeOptimistic>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<RetailPdLifetimeDownturn>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<RetailPdRedefaultLifetimeBest>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<RetailPdRedefaultLifetimeOptimistic>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<RetailPdRedefaultLifetimeDownturn>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<RetailPdMapping>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<RetailEadCirProjection>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<RetailEadEirProjection>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<RetailEadInput>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<RetailLgdCollateralTypeData>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<RetailLgdContractData>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
 
 
+            modelBuilder.Entity<ObePdLifetimeBest>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<ObePdLifetimeOptimistic>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<ObePdLifetimeDownturn>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<ObePdRedefaultLifetimeBest>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<ObePdRedefaultLifetimeOptimistic>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<ObePdRedefaultLifetimeDownturn>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<ObePdMapping>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<ObeEadCirProjection>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<ObeEadEirProjection>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<ObeEadInput>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<ObeLgdCollateralTypeData>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<ObeLgdContractData>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
             modelBuilder.Entity<ObeEclResultSummaryTopExposure>(o =>
             {
                 o.HasIndex(e => new { e.TenantId });
+                o.Property(x => x.Id).HasDefaultValueSql("NEWID()");
             });
- modelBuilder.Entity<ObeEclResultSummaryKeyInput>(o =>
-            {
-                o.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<ObesaleEclResultSummary>(o =>
-            {
-                o.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<ObeEclResultDetail>(o =>
-            {
-                o.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<ObeEclComputedEadResult>(o =>
-            {
-                o.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<ObeEclSicrApproval>(o =>
-            {
-                o.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<ObeEclSicr>(o =>
-            {
-                o.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<ObeEclDataPaymentSchedule>(o =>
-            {
-                o.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<ObeEclDataLoanBook>(o =>
-            {
-                o.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<ObeEclUploadApproval>(o =>
-            {
-                o.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<ObeEclUpload>(o =>
-            {
-                o.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<ObeEclPdSnPCummulativeDefaultRate>(o =>
-            {
-                o.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<ObeEclPdAssumption12Month>(o =>
-            {
-                o.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<ObeEclLgdAssumption>(o =>
-            {
-                o.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<ObeEclEadInputAssumption>(o =>
-            {
-                o.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<ObeEclAssumptionApproval>(o =>
-            {
-                o.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<ObeEclAssumption>(o =>
-            {
-                o.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<ObeEclApproval>(o =>
-            {
-                o.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<ObeEcl>(o =>
-            {
-                o.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<RetailEclResultSummaryTopExposure>(r =>
-            {
-                r.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<RetailEclResultSummaryKeyInput>(r =>
-            {
-                r.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<RetailEclResultSummary>(r =>
-            {
-                r.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<RetailEclResultDetail>(r =>
-            {
-                r.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<RetailEclComputedEadResult>(r =>
-            {
-                r.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<RetailEclSicrApproval>(r =>
-            {
-                r.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<RetailEclSicr>(r =>
-            {
-                r.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<RetailEclDataPaymentSchedule>(r =>
-            {
-                r.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<RetailEclDataLoanBook>(r =>
-            {
-                r.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<RetailEclUploadApproval>(r =>
-            {
-                r.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<RetailEclUpload>(r =>
-            {
-                r.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<RetailEclPdSnPCummulativeDefaultRate>(r =>
-            {
-                r.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<RetailEclPdAssumption12Month>(r =>
-            {
-                r.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<RetailEclLgdAssumption>(r =>
-            {
-                r.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<RetailEclEadInputAssumption>(r =>
-            {
-                r.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<RetailEclAssumptionApproval>(r =>
-            {
-                r.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<RetailEclAssumption>(r =>
-            {
-                r.HasIndex(e => new { e.TenantId });
-            });
- modelBuilder.Entity<RetailEclApproval>(r =>
+            modelBuilder.Entity<ObeEclResultSummaryKeyInput>(o =>
+                       {
+                           o.HasIndex(e => new { e.TenantId });
+                           o.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                       });
+            modelBuilder.Entity<ObesaleEclResultSummary>(o =>
+                       {
+                           o.HasIndex(e => new { e.TenantId });
+                           o.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                       });
+            modelBuilder.Entity<ObeEclResultDetail>(o =>
+                       {
+                           o.HasIndex(e => new { e.TenantId });
+                           o.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                       });
+            modelBuilder.Entity<ObeEclComputedEadResult>(o =>
+                       {
+                           o.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<ObeEclSicrApproval>(o =>
+                       {
+                           o.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<ObeEclSicr>(o =>
+                       {
+                           o.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<ObeEclDataPaymentSchedule>(o =>
+                       {
+                           o.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<ObeEclDataLoanBook>(o =>
+                       {
+                           o.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<ObeEclUploadApproval>(o =>
+                       {
+                           o.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<ObeEclUpload>(o =>
+                       {
+                           o.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<ObeEclPdSnPCummulativeDefaultRate>(o =>
+                       {
+                           o.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<ObeEclPdAssumption12Month>(o =>
+                       {
+                           o.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<ObeEclLgdAssumption>(o =>
+                       {
+                           o.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<ObeEclEadInputAssumption>(o =>
+                       {
+                           o.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<ObeEclAssumptionApproval>(o =>
+                       {
+                           o.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<ObeEclAssumption>(o =>
+                       {
+                           o.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<ObeEclApproval>(o =>
+                       {
+                           o.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<ObeEcl>(o =>
+                       {
+                           o.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<RetailEclResultSummaryTopExposure>(r =>
+                       {
+                           r.HasIndex(e => new { e.TenantId });
+                           r.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                       });
+            modelBuilder.Entity<RetailEclResultSummaryKeyInput>(r =>
+                       {
+                           r.HasIndex(e => new { e.TenantId });
+                           r.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                       });
+            modelBuilder.Entity<RetailEclResultSummary>(r =>
+                       {
+                           r.HasIndex(e => new { e.TenantId });
+                           r.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                       });
+            modelBuilder.Entity<RetailEclResultDetail>(r =>
+                       {
+                           r.HasIndex(e => new { e.TenantId });
+                           r.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                       });
+            modelBuilder.Entity<RetailEclComputedEadResult>(r =>
                        {
                            r.HasIndex(e => new { e.TenantId });
                        });
+            modelBuilder.Entity<RetailEclSicrApproval>(r =>
+                       {
+                           r.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<RetailEclSicr>(r =>
+                       {
+                           r.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<RetailEclDataPaymentSchedule>(r =>
+                       {
+                           r.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<RetailEclDataLoanBook>(r =>
+                       {
+                           r.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<RetailEclUploadApproval>(r =>
+                       {
+                           r.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<RetailEclUpload>(r =>
+                       {
+                           r.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<RetailEclPdSnPCummulativeDefaultRate>(r =>
+                       {
+                           r.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<RetailEclPdAssumption12Month>(r =>
+                       {
+                           r.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<RetailEclLgdAssumption>(r =>
+                       {
+                           r.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<RetailEclEadInputAssumption>(r =>
+                       {
+                           r.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<RetailEclAssumptionApproval>(r =>
+                       {
+                           r.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<RetailEclAssumption>(r =>
+                       {
+                           r.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<RetailEclApproval>(r =>
+                                  {
+                                      r.HasIndex(e => new { e.TenantId });
+                                  });
             modelBuilder.Entity<RetailEcl>(r =>
                        {
                            r.HasIndex(e => new { e.TenantId });
@@ -498,18 +486,22 @@ namespace TestDemo.EntityFrameworkCore
             modelBuilder.Entity<WholesaleEclResultSummaryTopExposure>(w =>
                        {
                            w.HasIndex(e => new { e.TenantId });
+                           w.Property(x => x.Id).HasDefaultValueSql("NEWID()");
                        });
             modelBuilder.Entity<WholesaleEclResultSummaryKeyInput>(w =>
                        {
                            w.HasIndex(e => new { e.TenantId });
+                           w.Property(x => x.Id).HasDefaultValueSql("NEWID()");
                        });
             modelBuilder.Entity<WholesaleEclResultSummary>(w =>
                        {
                            w.HasIndex(e => new { e.TenantId });
+                           w.Property(x => x.Id).HasDefaultValueSql("NEWID()");
                        });
             modelBuilder.Entity<WholesaleEclResultDetail>(w =>
                        {
                            w.HasIndex(e => new { e.TenantId });
+                           w.Property(x => x.Id).HasDefaultValueSql("NEWID()");
                        });
             modelBuilder.Entity<WholesaleEclComputedEadResult>(w =>
                        {
