@@ -27,8 +27,7 @@ namespace TestDemo.EclShared
         private readonly IRepository<Assumption, Guid> _frameworkAssumptionRepository;
         private readonly IRepository<EadInputAssumption, Guid> _eadAssumptionRepository;
         private readonly IRepository<LgdInputAssumption, Guid> _lgdAssumptionRepository;
-        private readonly IRepository<PdInputAssumption12Month, Guid> _pd12MonthAssumptionRepository;
-        private readonly IRepository<PdInputSnPCummulativeDefaultRate, Guid> _pdSnPCummulativeAssumptionRepository;
+        private readonly IRepository<PdInputAssumptionSnPCummulativeDefaultRate, Guid> _pdSnPCummulativeAssumptionRepository;
         private readonly UserManager _userManager;
 
         public EclSharedAppService(

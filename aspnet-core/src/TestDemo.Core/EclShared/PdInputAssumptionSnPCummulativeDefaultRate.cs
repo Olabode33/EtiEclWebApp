@@ -4,12 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
 using Abp.Auditing;
+using Abp.Organizations;
 
 namespace TestDemo.EclShared
 {
-	[Table("PdInputSnPCummulativeDefaultRates")]
+	[Table("PdInputAssumptionSnPCummulativeDefaultRates")]
     [Audited]
-    public class PdInputSnPCummulativeDefaultRate : FullAuditedEntity<Guid> 
+    public class PdInputAssumptionSnPCummulativeDefaultRate : FullAuditedEntity<Guid>, IMustHaveOrganizationUnit
     {
 
 		public virtual string Key { get; set; }
@@ -22,8 +23,9 @@ namespace TestDemo.EclShared
 		
 		public virtual bool RequiresGroupApproval { get; set; }
 
+        public virtual GeneralStatusEnum Status { get; set; }
+
         public virtual FrameworkEnum Framework { get; set; }
-
-
+        public long OrganizationUnitId { get; set; }
     }
 }

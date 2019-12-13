@@ -12,7 +12,7 @@ namespace TestDemo.WholesaleAssumption.Dtos
 
 		public string Value { get; set; }
 
-		public EadInputGroupEnum EadGroup { get; set; }
+		public EadInputAssumptionGroupEnum EadGroup { get; set; }
 
 
 		 public Guid WholesaleEclId { get; set; }

@@ -39,14 +39,33 @@ namespace TestDemo.EclShared
         ByScenario, ByStage, ByProductType, BySegementStage
     }
 
-    public enum EadInputGroupEnum
+    public enum EadInputAssumptionGroupEnum
     {
-        General, CreditConversionFactors, VariableInterestRateProjections, ExchangeRateProjections
+        General, CreditConversionFactors, VariableInterestRateProjections, ExchangeRateProjections, BehaviouralLife
     }
 
-    public enum LdgInputAssumptionEnum
+    public enum LdgInputAssumptionGroupEnum
     {
-        General, UnsecuredRecoveriesCureRate, UnsecuredRecoveriesTimeInDefault, CostOfRecoveryHigh, CostOfRecoveryLow, CollateralGrowthBest, CollateralGrowthOptimistic, CollateralGrowthDownturn, CollateralTTR, CollateralProjectionBest, CollateralProjectionOptimistic, CollateralProjectionDownturn, Haircut
+        General, UnsecuredRecoveriesCureRate, UnsecuredRecoveriesTimeInDefault, CostOfRecoveryHigh, CostOfRecoveryLow, CollateralGrowthBest, CollateralGrowthOptimistic, CollateralGrowthDownturn, CollateralTTR, CollateralProjectionBest, CollateralProjectionOptimistic, CollateralProjectionDownturn, Haircut, PdAssumptions
+    }
+
+    public enum PdInputAssumptionGroupEnum
+    {
+        General, CreditPD, CreditEtiPolicy, CreditBestFit,  StatisticsIndexWeights
+    }
+
+    public enum PdInputAssumptionHistoricalIndexEtiNplEnum
+    {
+        Actual, Standarised, NplSeries
+    }
+
+    public enum PdInputAssumptionMacroEconomicInputGroupEnum
+    {
+        General, StatisticalInputsPrimeLending, StatisticalInputsOilExports, StatisticalInputsRealGdpGrowthRate, DifferencedRealGdpGrowthRate,
+        BestProjectionInputsPrimeLending, BestProjectionOilExports, BestProjectionRealGdpGrowthRate, BestProjectionDifferencedRealGdpGrowthRate,
+        OptimisticProjectionInputsPrimeLending, OptimisticProjectionOilExports, OptimisticProjectionRealGdpGrowthRate, OptimisticProjectionDifferencedRealGdpGrowthRate,
+        DownturnProjectionInputsPrimeLending, DownturnProjectionOilExports, DownturnProjectionRealGdpGrowthRate, DownturnProjectionDifferencedRealGdpGrowthRate,
+
     }
 
     public enum AssumptionGroupEnum

@@ -79,7 +79,6 @@
             ]
         });
 
-
         function get{{Entity_Name_Plural_Here}}() {
             dataTable.ajax.reload();
         }
@@ -132,6 +131,5 @@
 			get{{Entity_Name_Plural_Here}}();
 		  }
 		});
-
     });
 })();

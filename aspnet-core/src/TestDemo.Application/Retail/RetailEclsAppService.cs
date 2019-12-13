@@ -21,6 +21,8 @@ using TestDemo.RetailAssumption;
 using TestDemo.EclShared.Dtos;
 using TestDemo.RetailAssumption.Dtos;
 using Abp.Organizations;
+using Abp.BackgroundJobs;
+using TestDemo.EclLibrary.BaseEngine.PDInput;
 
 namespace TestDemo.Retail
 {
@@ -34,7 +36,7 @@ namespace TestDemo.Retail
         private readonly IRetailEclEadInputAssumptionsAppService _retailEclEadInputAssumptionsAppService;
         private readonly IRetailEclLgdAssumptionsAppService _retailEclLgdAssumptionsAppService;
         private readonly IRetailEclApprovalsAppService _retailEclApprovalsAppService;
-
+        private readonly IBackgroundJobManager _backgroundJobManager;
 
         public RetailEclsAppService(IRepository<RetailEcl, Guid> retailEclRepository,
                                     IRepository<User, long> lookup_userRepository,
@@ -42,7 +44,8 @@ namespace TestDemo.Retail
                                     IRetailEclAssumptionsAppService retailEclAssumptionAppService,
                                     IRetailEclEadInputAssumptionsAppService retailEclEadInputAssumptionsAppService,
                                     IRetailEclLgdAssumptionsAppService retailEclLgdAssumptionsAppService,
-                                    IRetailEclApprovalsAppService retailEclApprovalsAppService
+                                    IRetailEclApprovalsAppService retailEclApprovalsAppService,
+                                    IBackgroundJobManager backgroundJobManager
                                     )
         {
             _retailEclRepository = retailEclRepository;
@@ -52,6 +55,7 @@ namespace TestDemo.Retail
             _retailEclLgdAssumptionsAppService = retailEclLgdAssumptionsAppService;
             _retailEclApprovalsAppService = retailEclApprovalsAppService;
             _organizationUnitRepository = organizationUnitRepository;
+            _backgroundJobManager = backgroundJobManager;
         }
 
         public async Task<PagedResultDto<GetRetailEclForViewDto>> GetAll(GetAllRetailEclsInput input)
@@ -283,6 +287,11 @@ namespace TestDemo.Retail
         public async Task Delete(EntityDto<Guid> input)
         {
             await _retailEclRepository.DeleteAsync(input.Id);
+        }
+
+        public async Task RunEcl(EntityDto<Guid> input)
+        {
+            await _backgroundJobManager.EnqueueAsync<RunRetailPdJob, RetailPdJobArgs>(new RetailPdJobArgs { RetailEclId = input.Id });
         }
 
         //[AbpAuthorize(AppPermissions.Pages_RetailEcls)]

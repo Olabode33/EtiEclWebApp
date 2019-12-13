@@ -30,7 +30,7 @@ namespace TestDemo.ObeAssumption
 		[Required]
 		public virtual bool IsComputed { get; set; }
 		
-		public virtual LdgInputAssumptionEnum LgdGroup { get; set; }
+		public virtual LdgInputAssumptionGroupEnum LgdGroup { get; set; }
 		
 		[Required]
 		public virtual bool RequiresGroupApproval { get; set; }

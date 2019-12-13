@@ -20,25 +20,37 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
 
         public void Create()
         {
-            //Wholesale
-            CreateGeneralEadAssumption(FrameworkEnum.Wholesale);
-            CreateWholesaleAddtionalEadAssumption();
-            //Retail
-            CreateGeneralEadAssumption(FrameworkEnum.Retail);
-            //OBE
-            CreateGeneralEadAssumption(FrameworkEnum.OBE);
+            long[] ous = _context.OrganizationUnits.IgnoreQueryFilters().Select(x => x.Id).ToArray();
+
+            foreach (long ou in ous)
+            {
+                Create(ou);
+            }
         }
 
-        private void CreateGeneralEadAssumption(FrameworkEnum framework)
+        public void Create(long ou)
         {
+            //Wholesale
+            CreateGeneralEadAssumption(FrameworkEnum.Wholesale, ou);
+            CreateWholesaleAddtionalEadAssumption();
+            //Retail
+            CreateGeneralEadAssumption(FrameworkEnum.Retail, ou);
+            //OBE
+            CreateGeneralEadAssumption(FrameworkEnum.OBE, ou);
+        }
+
+        private void CreateGeneralEadAssumption(FrameworkEnum framework, long ou)
+        {
+            CreateCreditConversionFactor(framework, ou);
+
             //Conversion factor OBE
             var conversionFactorOBE = _context.EadInputAssumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultEadAssumption.EadAssumptionKey.ConversionFactorOBE
-                                                                                     && x.Framework == framework);
+                                                                                                         && x.Framework == framework && x.OrganizationUnitId == ou);
             if (conversionFactorOBE == null)
             {
                 _context.EadInputAssumptions.Add(new EadInputAssumption()
                 {
-                    EadGroup = EadInputGroupEnum.General,
+                    EadGroup = EadInputAssumptionGroupEnum.General,
                     Key = DefaultEadAssumption.EadAssumptionKey.ConversionFactorOBE,
                     InputName = DefaultEadAssumption.InputName.ConversionFactorOBE,
                     Value = DefaultEadAssumption.InputValue.ConversionFactorOBE,
@@ -52,12 +64,12 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
 
             //Prepayment Factor
             var prepaymentFactor = _context.EadInputAssumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultEadAssumption.EadAssumptionKey.PrePaymentFactor
-                                                                                     && x.Framework == framework);
+                                                                                                      && x.Framework == framework && x.OrganizationUnitId == ou);
             if (prepaymentFactor == null)
             {
                 _context.EadInputAssumptions.Add(new EadInputAssumption()
                 {
-                    EadGroup = EadInputGroupEnum.General,
+                    EadGroup = EadInputAssumptionGroupEnum.General,
                     Key = DefaultEadAssumption.EadAssumptionKey.PrePaymentFactor,
                     InputName = DefaultEadAssumption.InputName.PrePaymentFactor,
                     Value = DefaultEadAssumption.InputValue.PrePaymentFactor,
@@ -69,84 +81,15 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
                 _context.SaveChanges();
             }
 
-            //Credit Conversion Factor
-            var ccfCorporate = _context.EadInputAssumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultEadAssumption.EadAssumptionKey.CreditConversionFactorCorporate
-                                                                                     && x.Framework == framework);
-            if (ccfCorporate == null)
-            {
-                _context.EadInputAssumptions.Add(new EadInputAssumption()
-                {
-                    EadGroup = EadInputGroupEnum.CreditConversionFactors,
-                    Key = DefaultEadAssumption.EadAssumptionKey.CreditConversionFactorCorporate,
-                    InputName = DefaultEadAssumption.InputName.CreditConversionFactorCorporate,
-                    Value = DefaultEadAssumption.InputValue.CreditConversionFactorCorporate,
-                    Datatype = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var ccfCommercial = _context.EadInputAssumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultEadAssumption.EadAssumptionKey.CreditConversionFactorCommercial
-                                                                                     && x.Framework == framework);
-            if (ccfCommercial == null)
-            {
-                _context.EadInputAssumptions.Add(new EadInputAssumption()
-                {
-                    EadGroup = EadInputGroupEnum.CreditConversionFactors,
-                    Key = DefaultEadAssumption.EadAssumptionKey.CreditConversionFactorCommercial,
-                    InputName = DefaultEadAssumption.InputName.CreditConversionFactorCommercial,
-                    Value = DefaultEadAssumption.InputValue.CreditConversionFactorCommercial,
-                    Datatype = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var ccfConsumer = _context.EadInputAssumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultEadAssumption.EadAssumptionKey.CreditConversionFactorConsumer
-                                                                                     && x.Framework == framework);
-            if (ccfConsumer == null)
-            {
-                _context.EadInputAssumptions.Add(new EadInputAssumption()
-                {
-                    EadGroup = EadInputGroupEnum.CreditConversionFactors,
-                    Key = DefaultEadAssumption.EadAssumptionKey.CreditConversionFactorConsumer,
-                    InputName = DefaultEadAssumption.InputName.CreditConversionFactorConsumer,
-                    Value = DefaultEadAssumption.InputValue.CreditConversionFactorConsumer,
-                    Datatype = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var ccfObe = _context.EadInputAssumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultEadAssumption.EadAssumptionKey.CreditConversionFactorObe
-                                                                                     && x.Framework == framework);
-            if (ccfObe == null)
-            {
-                _context.EadInputAssumptions.Add(new EadInputAssumption()
-                {
-                    EadGroup = EadInputGroupEnum.CreditConversionFactors,
-                    Key = DefaultEadAssumption.EadAssumptionKey.CreditConversionFactorObe,
-                    InputName = DefaultEadAssumption.InputName.CreditConversionFactorObe,
-                    Value = DefaultEadAssumption.InputValue.CreditConversionFactorObe,
-                    Datatype = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
 
             //Variable Interest Rate Projection
             var virMpr = _context.EadInputAssumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultEadAssumption.EadAssumptionKey.VariableInterestRateProjectionMpr
-                                                                                     && x.Framework == framework);
+                                                                                     && x.Framework == framework && x.OrganizationUnitId == ou);
             if (virMpr == null)
             {
                 _context.EadInputAssumptions.Add(new EadInputAssumption()
                 {
-                    EadGroup = EadInputGroupEnum.VariableInterestRateProjections,
+                    EadGroup = EadInputAssumptionGroupEnum.VariableInterestRateProjections,
                     Key = DefaultEadAssumption.EadAssumptionKey.VariableInterestRateProjectionMpr,
                     InputName = DefaultEadAssumption.InputName.VariableInterestRateProjectionMpr,
                     Value = DefaultEadAssumption.InputValue.VariableInterestRateProjectionMpr,
@@ -165,7 +108,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
             {
                 _context.EadInputAssumptions.Add(new EadInputAssumption()
                 {
-                    EadGroup = EadInputGroupEnum.ExchangeRateProjections,
+                    EadGroup = EadInputAssumptionGroupEnum.ExchangeRateProjections,
                     Key = DefaultEadAssumption.EadAssumptionKey.ExchangeRateProjectionNgn,
                     InputName = DefaultEadAssumption.InputName.ExchangeRateProjectionNgn,
                     Value = DefaultEadAssumption.InputValue.ExchangeRateProjectionNgn,
@@ -182,7 +125,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
             {
                 _context.EadInputAssumptions.Add(new EadInputAssumption()
                 {
-                    EadGroup = EadInputGroupEnum.ExchangeRateProjections,
+                    EadGroup = EadInputAssumptionGroupEnum.ExchangeRateProjections,
                     Key = DefaultEadAssumption.EadAssumptionKey.ExchangeRateProjectionUsd,
                     InputName = DefaultEadAssumption.InputName.ExchangeRateProjectionUsd,
                     Value = DefaultEadAssumption.InputValue.ExchangeRateProjectionUsd,
@@ -199,7 +142,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
             {
                 _context.EadInputAssumptions.Add(new EadInputAssumption()
                 {
-                    EadGroup = EadInputGroupEnum.ExchangeRateProjections,
+                    EadGroup = EadInputAssumptionGroupEnum.ExchangeRateProjections,
                     Key = DefaultEadAssumption.EadAssumptionKey.ExchangeRateProjectionXoF,
                     InputName = DefaultEadAssumption.InputName.ExchangeRateProjectionXoF,
                     Value = DefaultEadAssumption.InputValue.ExchangeRateProjectionXoF,
@@ -216,7 +159,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
             {
                 _context.EadInputAssumptions.Add(new EadInputAssumption()
                 {
-                    EadGroup = EadInputGroupEnum.ExchangeRateProjections,
+                    EadGroup = EadInputAssumptionGroupEnum.ExchangeRateProjections,
                     Key = DefaultEadAssumption.EadAssumptionKey.ExchangeRateProjectionCad,
                     InputName = DefaultEadAssumption.InputName.ExchangeRateProjectionCad,
                     Value = DefaultEadAssumption.InputValue.ExchangeRateProjectionCad,
@@ -233,7 +176,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
             {
                 _context.EadInputAssumptions.Add(new EadInputAssumption()
                 {
-                    EadGroup = EadInputGroupEnum.ExchangeRateProjections,
+                    EadGroup = EadInputAssumptionGroupEnum.ExchangeRateProjections,
                     Key = DefaultEadAssumption.EadAssumptionKey.ExchangeRateProjectionEur,
                     InputName = DefaultEadAssumption.InputName.ExchangeRateProjectionEur,
                     Value = DefaultEadAssumption.InputValue.ExchangeRateProjectionEur,
@@ -250,7 +193,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
             {
                 _context.EadInputAssumptions.Add(new EadInputAssumption()
                 {
-                    EadGroup = EadInputGroupEnum.ExchangeRateProjections,
+                    EadGroup = EadInputAssumptionGroupEnum.ExchangeRateProjections,
                     Key = DefaultEadAssumption.EadAssumptionKey.ExchangeRateProjectionGbp,
                     InputName = DefaultEadAssumption.InputName.ExchangeRateProjectionGbp,
                     Value = DefaultEadAssumption.InputValue.ExchangeRateProjectionGbp,
@@ -267,7 +210,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
             {
                 _context.EadInputAssumptions.Add(new EadInputAssumption()
                 {
-                    EadGroup = EadInputGroupEnum.ExchangeRateProjections,
+                    EadGroup = EadInputAssumptionGroupEnum.ExchangeRateProjections,
                     Key = DefaultEadAssumption.EadAssumptionKey.ExchangeRateProjectionJpy,
                     InputName = DefaultEadAssumption.InputName.ExchangeRateProjectionJpy,
                     Value = DefaultEadAssumption.InputValue.ExchangeRateProjectionJpy,
@@ -284,7 +227,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
             {
                 _context.EadInputAssumptions.Add(new EadInputAssumption()
                 {
-                    EadGroup = EadInputGroupEnum.ExchangeRateProjections,
+                    EadGroup = EadInputAssumptionGroupEnum.ExchangeRateProjections,
                     Key = DefaultEadAssumption.EadAssumptionKey.ExchangeRateProjectionKes,
                     InputName = DefaultEadAssumption.InputName.ExchangeRateProjectionKes,
                     Value = DefaultEadAssumption.InputValue.ExchangeRateProjectionKes,
@@ -301,7 +244,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
             {
                 _context.EadInputAssumptions.Add(new EadInputAssumption()
                 {
-                    EadGroup = EadInputGroupEnum.ExchangeRateProjections,
+                    EadGroup = EadInputAssumptionGroupEnum.ExchangeRateProjections,
                     Key = DefaultEadAssumption.EadAssumptionKey.ExchangeRateProjectionZar,
                     InputName = DefaultEadAssumption.InputName.ExchangeRateProjectionZar,
                     Value = DefaultEadAssumption.InputValue.ExchangeRateProjectionZar,
@@ -314,6 +257,40 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
             }
         }
 
+        private void CreateCreditConversionFactor(FrameworkEnum framework, long ou)
+        {
+            string[] ccfKeys = { DefaultEadAssumption.EadAssumptionKey.CreditConversionFactorCorporate, DefaultEadAssumption.EadAssumptionKey.CreditConversionFactorCommercial,
+                                 DefaultEadAssumption.EadAssumptionKey.CreditConversionFactorConsumer, DefaultEadAssumption.EadAssumptionKey.CreditConversionFactorObe};
+            string[] ccfNames = { DefaultEadAssumption.InputName.CreditConversionFactorCorporate, DefaultEadAssumption.InputName.CreditConversionFactorCommercial,
+                                  DefaultEadAssumption.InputName.CreditConversionFactorConsumer, DefaultEadAssumption.InputName.CreditConversionFactorObe};
+            string[] ccfValues = { DefaultEadAssumption.InputValue.CreditConversionFactorCorporate, DefaultEadAssumption.InputValue.CreditConversionFactorCommercial,
+                                   DefaultEadAssumption.InputValue.CreditConversionFactorConsumer, DefaultEadAssumption.InputValue.CreditConversionFactorObe};
+
+            //Credit Conversion Factor
+            for (int i = 0; i < ccfKeys.Length; i++)
+            {
+                var ccf = _context.EadInputAssumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == ccfKeys[i] && x.Framework == framework && x.OrganizationUnitId == ou);
+                if (ccf == null)
+                {
+                    _context.EadInputAssumptions.Add(new EadInputAssumption()
+                    {
+                        EadGroup = EadInputAssumptionGroupEnum.CreditConversionFactors,
+                        Key = ccfKeys[i],
+                        InputName = ccfNames[i],
+                        Value = ccfValues[i],
+                        Datatype = DataTypeEnum.DoublePercentage,
+                        Framework = framework,
+                        IsComputed = false,
+                        RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved
+                    });
+                    _context.SaveChanges();
+                }
+            }
+        }
+
         private void CreateWholesaleAddtionalEadAssumption()
         {
             var libor180 = _context.EadInputAssumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultEadAssumption.EadAssumptionKey.VariableInterestRateProjection180DaysLibor
@@ -322,7 +299,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
             {
                 _context.EadInputAssumptions.Add(new EadInputAssumption()
                 {
-                    EadGroup = EadInputGroupEnum.VariableInterestRateProjections,
+                    EadGroup = EadInputAssumptionGroupEnum.VariableInterestRateProjections,
                     Key = DefaultEadAssumption.EadAssumptionKey.VariableInterestRateProjection180DaysLibor,
                     InputName = DefaultEadAssumption.InputName.VariableInterestRateProjection180DaysLibor,
                     Value = DefaultEadAssumption.InputValue.VariableInterestRateProjection180DaysLibor,
@@ -340,7 +317,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
             {
                 _context.EadInputAssumptions.Add(new EadInputAssumption()
                 {
-                    EadGroup = EadInputGroupEnum.VariableInterestRateProjections,
+                    EadGroup = EadInputAssumptionGroupEnum.VariableInterestRateProjections,
                     Key = DefaultEadAssumption.EadAssumptionKey.VariableInterestRateProjection3MonthsLibor,
                     InputName = DefaultEadAssumption.InputName.VariableInterestRateProjection3MonthsLibor,
                     Value = DefaultEadAssumption.InputValue.VariableInterestRateProjection3MonthsLibor,
@@ -358,7 +335,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
             {
                 _context.EadInputAssumptions.Add(new EadInputAssumption()
                 {
-                    EadGroup = EadInputGroupEnum.VariableInterestRateProjections,
+                    EadGroup = EadInputAssumptionGroupEnum.VariableInterestRateProjections,
                     Key = DefaultEadAssumption.EadAssumptionKey.VariableInterestRateProjection90DaysLibor,
                     InputName = DefaultEadAssumption.InputName.VariableInterestRateProjection90DaysLibor,
                     Value = DefaultEadAssumption.InputValue.VariableInterestRateProjection90DaysLibor,
@@ -376,7 +353,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
             {
                 _context.EadInputAssumptions.Add(new EadInputAssumption()
                 {
-                    EadGroup = EadInputGroupEnum.VariableInterestRateProjections,
+                    EadGroup = EadInputAssumptionGroupEnum.VariableInterestRateProjections,
                     Key = DefaultEadAssumption.EadAssumptionKey.VariableInterestRateProjectionAveragePreceding90DaysNibor,
                     InputName = DefaultEadAssumption.InputName.VariableInterestRateProjectionAveragePreceding90DaysNibor,
                     Value = DefaultEadAssumption.InputValue.VariableInterestRateProjectionAveragePreceding90DaysNibor,
@@ -394,7 +371,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
             {
                 _context.EadInputAssumptions.Add(new EadInputAssumption()
                 {
-                    EadGroup = EadInputGroupEnum.VariableInterestRateProjections,
+                    EadGroup = EadInputAssumptionGroupEnum.VariableInterestRateProjections,
                     Key = DefaultEadAssumption.EadAssumptionKey.VariableInterestRateProjectionLibor,
                     InputName = DefaultEadAssumption.InputName.VariableInterestRateProjectionLibor,
                     Value = DefaultEadAssumption.InputValue.VariableInterestRateProjectionLibor,

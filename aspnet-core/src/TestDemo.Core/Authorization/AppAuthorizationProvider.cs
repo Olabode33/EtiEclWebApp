@@ -30,6 +30,34 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var pdInputAssumptionNplIndexes = pages.CreateChildPermission(AppPermissions.Pages_PdInputAssumptionNplIndexes, L("PdInputAssumptionNplIndexes"));
+            pdInputAssumptionNplIndexes.CreateChildPermission(AppPermissions.Pages_PdInputAssumptionNplIndexes_Create, L("CreateNewPdInputAssumptionNplIndex"));
+            pdInputAssumptionNplIndexes.CreateChildPermission(AppPermissions.Pages_PdInputAssumptionNplIndexes_Edit, L("EditPdInputAssumptionNplIndex"));
+            pdInputAssumptionNplIndexes.CreateChildPermission(AppPermissions.Pages_PdInputAssumptionNplIndexes_Delete, L("DeletePdInputAssumptionNplIndex"));
+
+
+
+            var pdInputAssumptionStatisticals = pages.CreateChildPermission(AppPermissions.Pages_PdInputAssumptionStatisticals, L("PdInputAssumptionStatisticals"));
+            pdInputAssumptionStatisticals.CreateChildPermission(AppPermissions.Pages_PdInputAssumptionStatisticals_Create, L("CreateNewPdInputAssumptionStatistical"));
+            pdInputAssumptionStatisticals.CreateChildPermission(AppPermissions.Pages_PdInputAssumptionStatisticals_Edit, L("EditPdInputAssumptionStatistical"));
+            pdInputAssumptionStatisticals.CreateChildPermission(AppPermissions.Pages_PdInputAssumptionStatisticals_Delete, L("DeletePdInputAssumptionStatistical"));
+
+
+
+            var pdInputAssumptionNonInternalModels = pages.CreateChildPermission(AppPermissions.Pages_PdInputAssumptionNonInternalModels, L("PdInputAssumptionNonInternalModels"));
+            pdInputAssumptionNonInternalModels.CreateChildPermission(AppPermissions.Pages_PdInputAssumptionNonInternalModels_Create, L("CreateNewPdInputAssumptionNonInternalModel"));
+            pdInputAssumptionNonInternalModels.CreateChildPermission(AppPermissions.Pages_PdInputAssumptionNonInternalModels_Edit, L("EditPdInputAssumptionNonInternalModel"));
+            pdInputAssumptionNonInternalModels.CreateChildPermission(AppPermissions.Pages_PdInputAssumptionNonInternalModels_Delete, L("DeletePdInputAssumptionNonInternalModel"));
+
+
+
+            var pdInputAssumptions = pages.CreateChildPermission(AppPermissions.Pages_PdInputAssumptions, L("PdInputAssumptions"));
+            pdInputAssumptions.CreateChildPermission(AppPermissions.Pages_PdInputAssumptions_Create, L("CreateNewPdInputAssumption"));
+            pdInputAssumptions.CreateChildPermission(AppPermissions.Pages_PdInputAssumptions_Edit, L("EditPdInputAssumption"));
+            pdInputAssumptions.CreateChildPermission(AppPermissions.Pages_PdInputAssumptions_Delete, L("DeletePdInputAssumption"));
+
+
+
             var obePdMappings = pages.CreateChildPermission(AppPermissions.Pages_ObePdMappings, L("ObePdMappings"));
             obePdMappings.CreateChildPermission(AppPermissions.Pages_ObePdMappings_Create, L("CreateNewObePdMapping"));
             obePdMappings.CreateChildPermission(AppPermissions.Pages_ObePdMappings_Edit, L("EditObePdMapping"));

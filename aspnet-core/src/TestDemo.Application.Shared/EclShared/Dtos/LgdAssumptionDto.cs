@@ -12,7 +12,7 @@ namespace TestDemo.EclShared.Dtos
 		public string InputName { get; set; }
 		public string Value { get; set; }
         public DataTypeEnum DataType { get; set; }
-        public LdgInputAssumptionEnum AssumptionGroup { get; set; }
+        public LdgInputAssumptionGroupEnum AssumptionGroup { get; set; }
         public bool IsComputed { get; set; }
         public bool RequiresGroupApproval { get; set; }
     }

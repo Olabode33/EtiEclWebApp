@@ -6,6 +6,26 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_PdInputAssumptionNplIndexes = "Pages.PdInputAssumptionNplIndexes";
+        public const string Pages_PdInputAssumptionNplIndexes_Create = "Pages.PdInputAssumptionNplIndexes.Create";
+        public const string Pages_PdInputAssumptionNplIndexes_Edit = "Pages.PdInputAssumptionNplIndexes.Edit";
+        public const string Pages_PdInputAssumptionNplIndexes_Delete = "Pages.PdInputAssumptionNplIndexes.Delete";
+
+        public const string Pages_PdInputAssumptionStatisticals = "Pages.PdInputAssumptionStatisticals";
+        public const string Pages_PdInputAssumptionStatisticals_Create = "Pages.PdInputAssumptionStatisticals.Create";
+        public const string Pages_PdInputAssumptionStatisticals_Edit = "Pages.PdInputAssumptionStatisticals.Edit";
+        public const string Pages_PdInputAssumptionStatisticals_Delete = "Pages.PdInputAssumptionStatisticals.Delete";
+
+        public const string Pages_PdInputAssumptionNonInternalModels = "Pages.PdInputAssumptionNonInternalModels";
+        public const string Pages_PdInputAssumptionNonInternalModels_Create = "Pages.PdInputAssumptionNonInternalModels.Create";
+        public const string Pages_PdInputAssumptionNonInternalModels_Edit = "Pages.PdInputAssumptionNonInternalModels.Edit";
+        public const string Pages_PdInputAssumptionNonInternalModels_Delete = "Pages.PdInputAssumptionNonInternalModels.Delete";
+
+        public const string Pages_PdInputAssumptions = "Pages.PdInputAssumptions";
+        public const string Pages_PdInputAssumptions_Create = "Pages.PdInputAssumptions.Create";
+        public const string Pages_PdInputAssumptions_Edit = "Pages.PdInputAssumptions.Edit";
+        public const string Pages_PdInputAssumptions_Delete = "Pages.PdInputAssumptions.Delete";
+
         public const string Pages_ObePdMappings = "Pages.ObePdMappings";
         public const string Pages_ObePdMappings_Create = "Pages.ObePdMappings.Create";
         public const string Pages_ObePdMappings_Edit = "Pages.ObePdMappings.Edit";

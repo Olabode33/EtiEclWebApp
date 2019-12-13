@@ -18,7 +18,7 @@ namespace TestDemo.RetailAssumption.Dtos
 
 		public bool IsComputed { get; set; }
 
-		public EadInputGroupEnum EadGroup { get; set; }
+		public EadInputAssumptionGroupEnum EadGroup { get; set; }
 
 		public bool RequiresGroupApproval { get; set; }
 

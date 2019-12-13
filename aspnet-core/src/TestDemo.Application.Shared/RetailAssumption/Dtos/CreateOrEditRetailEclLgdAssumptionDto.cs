@@ -26,7 +26,7 @@ namespace TestDemo.RetailAssumption.Dtos
 		public bool IsComputed { get; set; }
 		
 		
-		public LdgInputAssumptionEnum LgdGroup { get; set; }
+		public LdgInputAssumptionGroupEnum LgdGroup { get; set; }
 		
 		
 		[Required]

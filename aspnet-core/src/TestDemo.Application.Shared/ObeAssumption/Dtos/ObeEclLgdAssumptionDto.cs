@@ -18,7 +18,7 @@ namespace TestDemo.ObeAssumption.Dtos
 
 		public bool IsComputed { get; set; }
 
-		public LdgInputAssumptionEnum LgdGroup { get; set; }
+		public LdgInputAssumptionGroupEnum LgdGroup { get; set; }
 
 		public bool RequiresGroupApproval { get; set; }
 

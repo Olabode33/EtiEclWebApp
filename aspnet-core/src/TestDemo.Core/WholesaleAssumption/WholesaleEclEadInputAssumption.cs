@@ -28,7 +28,7 @@ namespace TestDemo.WholesaleAssumption
 		
 		public virtual bool IsComputed { get; set; }
 		
-		public virtual EadInputGroupEnum EadGroup { get; set; }
+		public virtual EadInputAssumptionGroupEnum EadGroup { get; set; }
 		
 		public virtual bool RequiresGroupApproval { get; set; }
 		

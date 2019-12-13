@@ -38,6 +38,14 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<PdInputAssumptionNplIndex> PdInputAssumptionNplIndexes { get; set; }
+
+        public virtual DbSet<PdInputAssumptionMacroeconomicInput> PdInputAssumptionStatisticals { get; set; }
+
+        public virtual DbSet<PdInputAssumptionNonInternalModel> PdInputAssumptionNonInternalModels { get; set; }
+
+        public virtual DbSet<PdInputAssumption> PdInputAssumptions { get; set; }
+
         public virtual DbSet<ObePdMapping> ObePdMappings { get; set; }
 
         public virtual DbSet<RetailPdMapping> RetailPdMappings { get; set; }
@@ -249,9 +257,7 @@ namespace TestDemo.EntityFrameworkCore
 
         public virtual DbSet<Assumption> Assumptions { get; set; }
 
-        public virtual DbSet<PdInputSnPCummulativeDefaultRate> PdInputSnPCummulativeDefaultRates { get; set; }
-
-        public virtual DbSet<PdInputAssumption12Month> PdInputAssumption12Months { get; set; }
+        public virtual DbSet<PdInputAssumptionSnPCummulativeDefaultRate> PdInputSnPCummulativeDefaultRates { get; set; }
 
         public virtual DbSet<LgdInputAssumption> LgdAssumption { get; set; }
 

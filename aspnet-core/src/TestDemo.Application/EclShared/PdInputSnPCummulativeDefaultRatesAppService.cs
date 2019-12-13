@@ -20,10 +20,10 @@ namespace TestDemo.EclShared
 	[AbpAuthorize(AppPermissions.Pages_PdInputSnPCummulativeDefaultRates)]
     public class PdInputSnPCummulativeDefaultRatesAppService : TestDemoAppServiceBase, IPdInputSnPCummulativeDefaultRatesAppService
     {
-		 private readonly IRepository<PdInputSnPCummulativeDefaultRate, Guid> _pdInputSnPCummulativeDefaultRateRepository;
+		 private readonly IRepository<PdInputAssumptionSnPCummulativeDefaultRate, Guid> _pdInputSnPCummulativeDefaultRateRepository;
 		 
 
-		  public PdInputSnPCummulativeDefaultRatesAppService(IRepository<PdInputSnPCummulativeDefaultRate, Guid> pdInputSnPCummulativeDefaultRateRepository ) 
+		  public PdInputSnPCummulativeDefaultRatesAppService(IRepository<PdInputAssumptionSnPCummulativeDefaultRate, Guid> pdInputSnPCummulativeDefaultRateRepository ) 
 		  {
 			_pdInputSnPCummulativeDefaultRateRepository = pdInputSnPCummulativeDefaultRateRepository;
 			
@@ -82,7 +82,7 @@ namespace TestDemo.EclShared
 		 [AbpAuthorize(AppPermissions.Pages_PdInputSnPCummulativeDefaultRates_Create)]
 		 protected virtual async Task Create(CreateOrEditPdInputSnPCummulativeDefaultRateDto input)
          {
-            var pdInputSnPCummulativeDefaultRate = ObjectMapper.Map<PdInputSnPCummulativeDefaultRate>(input);
+            var pdInputSnPCummulativeDefaultRate = ObjectMapper.Map<PdInputAssumptionSnPCummulativeDefaultRate>(input);
 
 			
 

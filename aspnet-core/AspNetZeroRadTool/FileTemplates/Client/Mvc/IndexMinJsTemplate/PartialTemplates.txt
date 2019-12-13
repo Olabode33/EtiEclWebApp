@@ -34,7 +34,7 @@
 					{
 					"type" : "default",
 					"content" : ",
-					{{property_Name_Here}}Filter: $('#{{Property_Name_Here}}FilterId').val()"
+					{{Dp_Property_Name_Here}}Filter: $('#{{Property_Name_Here}}FilterId').val()"
 					}
 				]
 		}
@@ -83,7 +83,7 @@
 			"content": ",
 						render: function ({{property_Name_Here}}) {
 							if ({{property_Name_Here}}) {
-								return '<div class=\"text-center\"><i class=\"fa fa-check-circle kt--font-success\" title=\"True\"></i></div>';
+								return '<div class=\"text-center\"><i class=\"fa fa-check kt--font-success\" title=\"True\"></i></div>';
 							}
 							return '<div class=\"text-center\"><i class=\"fa fa-times-circle\" title=\"False\"></i></div>';
 					}

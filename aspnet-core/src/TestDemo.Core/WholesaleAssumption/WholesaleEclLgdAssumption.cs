@@ -29,7 +29,7 @@ namespace TestDemo.WholesaleAssumption
 		
 		public virtual bool IsComputed { get; set; }
 		
-		public virtual LdgInputAssumptionEnum LgdGroup { get; set; }
+		public virtual LdgInputAssumptionGroupEnum LgdGroup { get; set; }
 		
 		public virtual bool RequiresGroupApproval { get; set; }
 		

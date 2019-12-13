@@ -20,6 +20,5 @@ namespace TestDemo.PdCalibrationResult
 		
 		public virtual double RealGdpGrowthRate { get; set; }
 		
-
     }
 }

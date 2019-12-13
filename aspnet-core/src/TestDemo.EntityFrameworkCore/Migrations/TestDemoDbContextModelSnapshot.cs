@@ -1164,6 +1164,8 @@ namespace TestDemo.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("CanAffiliateEdit");
+
                     b.Property<DateTime>("CreationTime");
 
                     b.Property<long?>("CreatorUserId");
@@ -1190,7 +1192,11 @@ namespace TestDemo.Migrations
 
                     b.Property<long?>("LastModifierUserId");
 
+                    b.Property<long>("OrganizationUnitId");
+
                     b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<int>("Status");
 
                     b.Property<string>("Value");
 
@@ -1203,6 +1209,8 @@ namespace TestDemo.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("CanAffiliateEdit");
 
                     b.Property<DateTime>("CreationTime");
 
@@ -1230,7 +1238,11 @@ namespace TestDemo.Migrations
 
                     b.Property<int>("LgdGroup");
 
+                    b.Property<long>("OrganizationUnitId");
+
                     b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<int>("Status");
 
                     b.Property<string>("Value");
 
@@ -1239,16 +1251,18 @@ namespace TestDemo.Migrations
                     b.ToTable("LgdInputAssumptions");
                 });
 
-            modelBuilder.Entity("TestDemo.EclShared.PdInputAssumption12Month", b =>
+            modelBuilder.Entity("TestDemo.EclShared.PdInputAssumption", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("CanAffiliateEdit");
 
                     b.Property<DateTime>("CreationTime");
 
                     b.Property<long?>("CreatorUserId");
 
-                    b.Property<int>("Credit");
+                    b.Property<int>("DataType");
 
                     b.Property<long?>("DeleterUserId");
 
@@ -1256,26 +1270,166 @@ namespace TestDemo.Migrations
 
                     b.Property<int>("Framework");
 
+                    b.Property<string>("InputName");
+
+                    b.Property<bool>("IsComputed");
+
                     b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
 
                     b.Property<DateTime?>("LastModificationTime");
 
                     b.Property<long?>("LastModifierUserId");
 
-                    b.Property<double?>("PD");
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<int>("PdGroup");
 
                     b.Property<bool>("RequiresGroupApproval");
 
-                    b.Property<string>("SnPMappingBestFit");
+                    b.Property<int>("Status");
 
-                    b.Property<string>("SnPMappingEtiCreditPolicy");
+                    b.Property<string>("Value");
 
                     b.HasKey("Id");
 
-                    b.ToTable("PdInputAssumption12Months");
+                    b.ToTable("PdInputAssumptions");
                 });
 
-            modelBuilder.Entity("TestDemo.EclShared.PdInputSnPCummulativeDefaultRate", b =>
+            modelBuilder.Entity("TestDemo.EclShared.PdInputAssumptionMacroeconomicInput", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("CanAffiliateEdit");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<int>("Framework");
+
+                    b.Property<string>("InputName");
+
+                    b.Property<string>("IsComputed");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<int>("MacroEconomicInputGroup");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<int>("Status");
+
+                    b.Property<double>("Value");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PdInputAssumptionMacroeconomicInputs");
+                });
+
+            modelBuilder.Entity("TestDemo.EclShared.PdInputAssumptionNonInternalModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("CanAffiliateEdit");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<double>("CummulativeSurvival");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<int>("Framework");
+
+                    b.Property<bool>("IsComputed");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<double>("MarginalDefaultRate");
+
+                    b.Property<int>("Month");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<string>("PdGroup");
+
+                    b.Property<bool>("RequiresGroupApproval");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PdInputAssumptionNonInternalModels");
+                });
+
+            modelBuilder.Entity("TestDemo.EclShared.PdInputAssumptionNplIndex", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("CanAffiliateEdit");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<int>("Framework");
+
+                    b.Property<bool>("IsComputed");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<int>("NplIndexGroup");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<int>("Status");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PdInputAssumptionNplIndexes");
+                });
+
+            modelBuilder.Entity("TestDemo.EclShared.PdInputAssumptionSnPCummulativeDefaultRate", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -1298,9 +1452,13 @@ namespace TestDemo.Migrations
 
                     b.Property<long?>("LastModifierUserId");
 
+                    b.Property<long>("OrganizationUnitId");
+
                     b.Property<string>("Rating");
 
                     b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<int>("Status");
 
                     b.Property<double?>("Value");
 
@@ -1308,7 +1466,7 @@ namespace TestDemo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PdInputSnPCummulativeDefaultRates");
+                    b.ToTable("PdInputAssumptionSnPCummulativeDefaultRates");
                 });
 
             modelBuilder.Entity("TestDemo.Friendships.Friendship", b =>

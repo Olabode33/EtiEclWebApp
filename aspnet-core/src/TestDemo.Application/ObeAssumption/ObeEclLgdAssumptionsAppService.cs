@@ -37,7 +37,7 @@ namespace TestDemo.ObeAssumption
 		 public async Task<PagedResultDto<GetObeEclLgdAssumptionForViewDto>> GetAll(GetAllObeEclLgdAssumptionsInput input)
          {
 			var dataTypeFilter = (DataTypeEnum) input.DataTypeFilter;
-			var lgdGroupFilter = (LdgInputAssumptionEnum) input.LgdGroupFilter;
+			var lgdGroupFilter = (LdgInputAssumptionGroupEnum) input.LgdGroupFilter;
 			
 			var filteredObeEclLgdAssumptions = _obeEclLgdAssumptionRepository.GetAll()
 						.Include( e => e.ObeEclFk)

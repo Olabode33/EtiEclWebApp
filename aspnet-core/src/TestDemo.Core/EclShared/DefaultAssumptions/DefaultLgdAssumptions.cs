@@ -158,6 +158,21 @@ namespace TestDemo.EclShared.DefaultAssumptions
             public const string CollateralProjectionDownturnReceivables = "CollateralProjectionDownturnReceivables";
             public const string CollateralProjectionDownturnShares = "CollateralProjectionDownturnShares";
             public const string CollateralProjectionDownturnVehicle = "CollateralProjectionDownturnVehicle";
+            public const string PdGroupAssumption1 = "PdGroupAssumption1";
+            public const string PdGroupAssumption2 = "PdGroupAssumption2";
+            public const string PdGroupAssumption3 = "PdGroupAssumption3";
+            public const string PdGroupAssumption4 = "PdGroupAssumption4";
+            public const string PdGroupAssumption5 = "PdGroupAssumption5";
+            public const string PdGroupAssumption6 = "PdGroupAssumption6";
+            public const string PdGroupAssumption7 = "PdGroupAssumption7";
+            public const string PdGroupAssumption8 = "PdGroupAssumption8";
+            public const string PdGroupAssumption9 = "PdGroupAssumption9";
+            public const string PdGroupAssumption10 = "PdGroupAssumption10";
+            public const string PdGroupAssumptionConsStage1 = "PdGroupAssumptionConsStage1";
+            public const string PdGroupAssumptionConsStage2 = "PdGroupAssumptionConsStage2";
+            public const string PdGroupAssumptionCommStage1 = "PdGroupAssumptionCommStage1";
+            public const string PdGroupAssumptionCommStage2 = "PdGroupAssumptionCommStage2";
+            public const string PdGroupAssumptionExp = "PdGroupAssumptionExp";
         }
 
         public static class InputName
@@ -202,6 +217,21 @@ namespace TestDemo.EclShared.DefaultAssumptions
             public const string Vehicle = "Vehicle";
             public const string CostOfRecoveryHighCollateralValue = "Collateral Value =< NGN1bn";
             public const string CostOfRecoveryLowCollateralValue = "Collateral Value > NGN1bn";
+            public const string PdGroupAssumption1 = "1";
+            public const string PdGroupAssumption2 = "2";
+            public const string PdGroupAssumption3 = "3";
+            public const string PdGroupAssumption4 = "4";
+            public const string PdGroupAssumption5 = "5";
+            public const string PdGroupAssumption6 = "6";
+            public const string PdGroupAssumption7 = "7";
+            public const string PdGroupAssumption8 = "8";
+            public const string PdGroupAssumption9 = "9";
+            public const string PdGroupAssumption10 = "10";
+            public const string PdGroupAssumptionConsStage1 = "CONS_STAGE_1";
+            public const string PdGroupAssumptionConsStage2 = "CONS_STAGE_2";
+            public const string PdGroupAssumptionCommStage1 = "COMM_STAGE_1";
+            public const string PdGroupAssumptionCommStage2 = "COMM_STAGE_2";
+            public const string PdGroupAssumptionExp = "EXP";
         }
 
         public static class InputValue
@@ -239,6 +269,22 @@ namespace TestDemo.EclShared.DefaultAssumptions
             public const string HaircutReceivables = "0.28";
             public const string HaircutShares = "0.00";
             public const string HaircutVehicle = "0.47";
+            public const string PdGroupAssumption1 = "0.00109820943948866";
+            public const string PdGroupAssumption2 = "0.00214957684286022";
+            public const string PdGroupAssumption3 = "0.00420746757149746";
+            public const string PdGroupAssumption4 = "0.00823547361147019";
+            public const string PdGroupAssumption5 = "0.0161196787503898";
+            public const string PdGroupAssumption6 = "0.0315518032446686";
+            public const string PdGroupAssumption7 = "0.0617578242969767";
+            public const string PdGroupAssumption8 = "0.120881485990526";
+            public const string PdGroupAssumption9 = "0.236607001972916";
+            public const string PdGroupAssumption10 = "1.0";
+            public const string PdGroupAssumptionConsStage1 = "0.00352863947136861";
+            public const string PdGroupAssumptionConsStage2 = "0.0474799591082186";
+            public const string PdGroupAssumptionCommStage1 = "0.0413910526607457";
+            public const string PdGroupAssumptionCommStage2 = "0.18036470285699";
+            public const string PdGroupAssumptionExp = "1.0";
+
         }
     }
 }

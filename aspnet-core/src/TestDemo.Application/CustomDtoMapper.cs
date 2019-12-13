@@ -75,6 +75,14 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditPdInputAssumptionNplIndexDto, PdInputAssumptionNplIndex>().ReverseMap();
+            configuration.CreateMap<PdInputAssumptionNplIndexDto, PdInputAssumptionNplIndex>().ReverseMap();
+            configuration.CreateMap<CreateOrEditPdInputAssumptionStatisticalDto, PdInputAssumptionMacroeconomicInput>().ReverseMap();
+            configuration.CreateMap<PdInputAssumptionStatisticalDto, PdInputAssumptionMacroeconomicInput>().ReverseMap();
+            configuration.CreateMap<CreateOrEditPdInputAssumptionNonInternalModelDto, PdInputAssumptionNonInternalModel>().ReverseMap();
+            configuration.CreateMap<PdInputAssumptionNonInternalModelDto, PdInputAssumptionNonInternalModel>().ReverseMap();
+            configuration.CreateMap<CreateOrEditPdInputAssumptionDto, PdInputAssumption>().ReverseMap();
+            configuration.CreateMap<PdInputAssumptionDto, PdInputAssumption>().ReverseMap();
            configuration.CreateMap<CreateOrEditObeEclResultSummaryTopExposureDto, ObeEclResultSummaryTopExposure>().ReverseMap();
            configuration.CreateMap<ObeEclResultSummaryTopExposureDto, ObeEclResultSummaryTopExposure>().ReverseMap();
            configuration.CreateMap<CreateOrEditObeEclResultSummaryKeyInputDto, ObeEclResultSummaryKeyInput>().ReverseMap();
@@ -189,10 +197,8 @@ namespace TestDemo
            configuration.CreateMap<WholesaleEclDto, WholesaleEcl>().ReverseMap();
            configuration.CreateMap<CreateOrEditAssumptionDto, Assumption>().ReverseMap();
            configuration.CreateMap<AssumptionDto, Assumption>().ReverseMap();
-           configuration.CreateMap<CreateOrEditPdInputSnPCummulativeDefaultRateDto, PdInputSnPCummulativeDefaultRate>().ReverseMap();
-           configuration.CreateMap<PdInputSnPCummulativeDefaultRateDto, PdInputSnPCummulativeDefaultRate>().ReverseMap();
-           configuration.CreateMap<CreateOrEditPdInputAssumption12MonthDto, PdInputAssumption12Month>().ReverseMap();
-           configuration.CreateMap<PdInputAssumption12MonthDto, PdInputAssumption12Month>().ReverseMap();
+           configuration.CreateMap<CreateOrEditPdInputSnPCummulativeDefaultRateDto, PdInputAssumptionSnPCummulativeDefaultRate>().ReverseMap();
+           configuration.CreateMap<PdInputSnPCummulativeDefaultRateDto, PdInputAssumptionSnPCummulativeDefaultRate>().ReverseMap();
            configuration.CreateMap<CreateOrEditLgdAssumptionUnsecuredRecoveryDto, LgdInputAssumption>().ReverseMap();
            configuration.CreateMap<LgdAssumptionDto, LgdInputAssumption>().ReverseMap();
            configuration.CreateMap<CreateOrEditEadInputAssumptionDto, EadInputAssumption>().ReverseMap();

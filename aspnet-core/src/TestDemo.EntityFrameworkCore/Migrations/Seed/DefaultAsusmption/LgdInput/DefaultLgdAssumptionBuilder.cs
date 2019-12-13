@@ -20,418 +20,197 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
 
         public void Create()
         {
-            //Retail
-            CreateRetailUnsecuredRecoveryCureRate();
-            CreateRetailUnsecuredRecoveryTimeInDefault();
-            CreateCostOfRecovery(FrameworkEnum.Retail);
-            CreateCollateralGrowth(FrameworkEnum.Retail);
-            CreateTTR(FrameworkEnum.Retail);
-            CreateHaircut(FrameworkEnum.Retail);
-            CreateCollateralProjection(FrameworkEnum.Retail);
+            long[] ous = _context.OrganizationUnits.IgnoreQueryFilters().Select(x => x.Id).ToArray();
 
-            //Wholesale
-            CreateWholesaleUnsecuredRecoveryCureRate();
-            CreateWholesaleUnsecuredRecoveryTimeInDefault();
-            CreateCostOfRecovery(FrameworkEnum.Wholesale);
-            CreateCollateralGrowth(FrameworkEnum.Wholesale);
-            CreateTTR(FrameworkEnum.Wholesale);
-            CreateHaircut(FrameworkEnum.Wholesale);
-            CreateCollateralProjection(FrameworkEnum.Wholesale);
-
-            //OBE
-            CreateObeUnsecuredRecoveryCureRate();
-            CreateObeUnsecuredRecoveryTimeInDefault();
-            CreateCostOfRecovery(FrameworkEnum.OBE);
-            CreateCollateralGrowth(FrameworkEnum.OBE);
-            CreateTTR(FrameworkEnum.OBE);
-            CreateHaircut(FrameworkEnum.OBE);
-            CreateCollateralProjection(FrameworkEnum.OBE);
+            foreach (long ou in ous)
+            {
+                Create(ou);
+            }
         }
 
-        private void CreateRetailUnsecuredRecoveryCureRate()
+        public void Create(long ou)
+        {
+            //Retail
+            CreateRetailUnsecuredRecoveryCureRate(ou);
+            CreateRetailUnsecuredRecoveryTimeInDefault(ou);
+            CreateCostOfRecovery(FrameworkEnum.Retail, ou);
+            CreateCollateralGrowth(FrameworkEnum.Retail, ou);
+            CreateTTR(FrameworkEnum.Retail, ou);
+            CreateHaircut(FrameworkEnum.Retail, ou);
+            CreateCollateralProjection(FrameworkEnum.Retail, ou);
+
+            //Wholesale
+            CreateWholesaleUnsecuredRecoveryCureRate(ou);
+            CreateWholesaleUnsecuredRecoveryTimeInDefault(ou);
+            CreateCostOfRecovery(FrameworkEnum.Wholesale, ou);
+            CreateCollateralGrowth(FrameworkEnum.Wholesale, ou);
+            CreateTTR(FrameworkEnum.Wholesale, ou);
+            CreateHaircut(FrameworkEnum.Wholesale, ou);
+            CreateCollateralProjection(FrameworkEnum.Wholesale, ou);
+
+            //OBE
+            CreateObeUnsecuredRecoveryCureRate(ou);
+            CreateObeUnsecuredRecoveryTimeInDefault(ou);
+            CreateCostOfRecovery(FrameworkEnum.OBE, ou);
+            CreateCollateralGrowth(FrameworkEnum.OBE, ou);
+            CreateTTR(FrameworkEnum.OBE, ou);
+            CreateHaircut(FrameworkEnum.OBE, ou);
+            CreateCollateralProjection(FrameworkEnum.OBE, ou);
+            CreatePdAssumption(FrameworkEnum.OBE, ou);
+        }
+
+        private void CreateRetailUnsecuredRecoveryCureRate(long ou)
         {
             FrameworkEnum framework = FrameworkEnum.Retail;
 
-            var customerCard = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerCardCureRate
-                                                                                     && x.Framework == framework);
-            if (customerCard == null)
+            string[] commkeys = new string[] { DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerCardCureRate, DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerLeaseCureRate,
+                                               DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerLoanCureRate, DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerMortgageCureRate,
+                                               DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerOdCureRate };
+            string[] cusName = new string[] {DefaultLgdAssumptions.InputName.CustomerCard, DefaultLgdAssumptions.InputName.CustomerLease, DefaultLgdAssumptions.InputName.CustomerLoan,
+                                             DefaultLgdAssumptions.InputName.CustomerMortgage, DefaultLgdAssumptions.InputName.CustomerOd};
+
+            for (int i = 0; i < commkeys.Length; i++)
             {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
+                var ttr = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == commkeys[i] && x.Framework == framework && x.OrganizationUnitId == ou);
+                if (ttr == null)
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerCardCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CustomerCard,
-                    Value = DefaultLgdAssumptions.InputValue.CureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var customerLease = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerLeaseCureRate
-                                                                                     && x.Framework == framework);
-            if (customerLease == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerLeaseCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CustomerLease,
-                    Value = DefaultLgdAssumptions.InputValue.CureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var customerLoan = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerLoanCureRate
-                                                                                     && x.Framework == framework);
-            if (customerLoan == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerLoanCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CustomerLoan,
-                    Value = DefaultLgdAssumptions.InputValue.CureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var customerMortgage = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerMortgageCureRate
-                                                                                     && x.Framework == framework);
-            if (customerMortgage == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerMortgageCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CustomerMortgage,
-                    Value = DefaultLgdAssumptions.InputValue.CureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var customerOd = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerOdCureRate
-                                                                                     && x.Framework == framework);
-            if (customerOd == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerOdCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CustomerOd,
-                    Value = DefaultLgdAssumptions.InputValue.CureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
+                    _context.LgdAssumption.Add(new LgdInputAssumption()
+                    {
+                        LgdGroup = LdgInputAssumptionGroupEnum.UnsecuredRecoveriesCureRate,
+                        Key = commkeys[i],
+                        InputName = cusName[i],
+                        Value = DefaultLgdAssumptions.InputValue.CureRate,
+                        DataType = DataTypeEnum.DoublePercentage,
+                        Framework = framework,
+                        IsComputed = true,
+                        RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved
+                    });
+                    _context.SaveChanges();
+                }
             }
         }
 
-        private void CreateWholesaleUnsecuredRecoveryCureRate()
+        private void CreateWholesaleUnsecuredRecoveryCureRate(long ou)
         {
             FrameworkEnum framework = FrameworkEnum.Wholesale;
 
-            var commercialCard = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialCardCureRate
-                                                                                     && x.Framework == framework);
-            if (commercialCard == null)
+            string[] commkeys = new string[] { DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialCardCureRate, DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialLeaseCureRate,
+                                               DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialLoanCureRate, DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialMortgageCureRate,
+                                               DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialOdCureRate };
+            string[] cusName = new string[] {DefaultLgdAssumptions.InputName.CommercialCard, DefaultLgdAssumptions.InputName.CommercialLease, DefaultLgdAssumptions.InputName.CommercialLoan,
+                                             DefaultLgdAssumptions.InputName.CommercialMortgage, DefaultLgdAssumptions.InputName.CommercialOd};
+
+            string[] copkeys = new string[] {  DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateLeaseCureRate,
+                                               DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateLoanCureRate, DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateMortgageCureRate,
+                                               DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateOdCureRate };
+            string[] copName = new string[] {DefaultLgdAssumptions.InputName.CorporateLease, DefaultLgdAssumptions.InputName.CorporateLoan,
+                                             DefaultLgdAssumptions.InputName.CorporateMortgage, DefaultLgdAssumptions.InputName.CorporateOd};
+
+            //Commercial
+            for (int i = 0; i < commkeys.Length; i++)
             {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
+                var ttr = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == commkeys[i] && x.Framework == framework && x.OrganizationUnitId == ou);
+                if (ttr == null)
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialCardCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CommercialCard,
-                    Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var commercialLease = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialLeaseCureRate
-                                                                                     && x.Framework == framework);
-            if (commercialLease == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialLeaseCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CommercialLease,
-                    Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var commercialLoan = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialLoanCureRate
-                                                                                     && x.Framework == framework);
-            if (commercialLoan == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialLoanCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CommercialLoan,
-                    Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var commercialMortgage = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialMortgageCureRate
-                                                                                     && x.Framework == framework);
-            if (commercialMortgage == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialMortgageCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CommercialMortgage,
-                    Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var commercialOd = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialOdCureRate
-                                                                                     && x.Framework == framework);
-            if (commercialOd == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialOdCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CommercialOd,
-                    Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
+                    _context.LgdAssumption.Add(new LgdInputAssumption()
+                    {
+                        LgdGroup = LdgInputAssumptionGroupEnum.UnsecuredRecoveriesCureRate,
+                        Key = commkeys[i],
+                        InputName = cusName[i],
+                        Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
+                        DataType = DataTypeEnum.DoublePercentage,
+                        Framework = framework,
+                        IsComputed = true,
+                        RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved
+                    });
+                    _context.SaveChanges();
+                }
             }
 
-            var corporateLease = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateLeaseCureRate
-                                                                                     && x.Framework == framework);
-            if (corporateLease == null)
+            //Corporate
+            for (int i = 0; i < copkeys.Length; i++)
             {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
+                var ttr = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == copkeys[i] && x.Framework == framework && x.OrganizationUnitId == ou);
+                if (ttr == null)
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateLeaseCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CorporateLease,
-                    Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var corporateLoan = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateLoanCureRate
-                                                                                     && x.Framework == framework);
-            if (corporateLoan == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateLoanCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CorporateLoan,
-                    Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var corporateMortgage = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateMortgageCureRate
-                                                                                     && x.Framework == framework);
-            if (corporateMortgage == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateMortgageCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CorporateMortgage,
-                    Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var corporateOd = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateOdCureRate
-                                                                                     && x.Framework == framework);
-            if (corporateOd == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateOdCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CorporateOd,
-                    Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
+                    _context.LgdAssumption.Add(new LgdInputAssumption()
+                    {
+                        LgdGroup = LdgInputAssumptionGroupEnum.UnsecuredRecoveriesCureRate,
+                        Key = copkeys[i],
+                        InputName = copName[i],
+                        Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
+                        DataType = DataTypeEnum.DoublePercentage,
+                        Framework = framework,
+                        IsComputed = true,
+                        RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved
+                    });
+                    _context.SaveChanges();
+                }
             }
         }
 
-        private void CreateObeUnsecuredRecoveryCureRate()
+        private void CreateObeUnsecuredRecoveryCureRate(long ou)
         {
             FrameworkEnum framework = FrameworkEnum.OBE;
 
+            string[] commkeys = new string[] { DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialAdvancePaymentGuaranteeCureRate, DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialBidBondCureRate,
+                                               DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialCustomsBondCureRate, DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialLetterOfCreditCureRate,
+                                               DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialOtherBondGuaranteeCureRate, DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialPerformanceBondCureRate,
+                                               DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialTenderBondCureRate};
+            string[] cusName = new string[] {DefaultLgdAssumptions.InputName.CommercialAdvancePaymentGuarantee, DefaultLgdAssumptions.InputName.CommercialBidBond, DefaultLgdAssumptions.InputName.CommercialCustomsBond,
+                                          DefaultLgdAssumptions.InputName.CommercialLetterOfCredit, DefaultLgdAssumptions.InputName.CommercialOtherBondGuarantee, DefaultLgdAssumptions.InputName.CommercialPerformanceBond,
+                                          DefaultLgdAssumptions.InputName.CommercialTenderBond };
+
+            string[] copkeys = new string[] { DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateAdvancePaymentGuaranteeCureRate, DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateBidBondCureRate,
+                                               DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateCustomsBondCureRate, DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateLetterOfCreditCureRate,
+                                               DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateOtherBondGuaranteeCureRate, DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporatePerformanceBondCureRate,
+                                               DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateTenderBondCureRate};
+            string[] copName = new string[] {DefaultLgdAssumptions.InputName.CorporateAdvancePaymentGuarantee, DefaultLgdAssumptions.InputName.CorporateBidBond, DefaultLgdAssumptions.InputName.CorporateCustomsBond,
+                                              DefaultLgdAssumptions.InputName.CorporateLetterOfCredit, DefaultLgdAssumptions.InputName.CorporateOtherBondGuarantee, DefaultLgdAssumptions.InputName.CorporatePerformanceBond,
+                                              DefaultLgdAssumptions.InputName.CorporateTenderBond };
+
             //Commercial
-            var commercialAdPayment = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialAdvancePaymentGuaranteeCureRate
-                                                                                     && x.Framework == framework);
-            if (commercialAdPayment == null)
+            for (int i = 0; i < commkeys.Length; i++)
             {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
+                var ttr = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == commkeys[i] && x.Framework == framework && x.OrganizationUnitId == ou);
+                if (ttr == null)
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialAdvancePaymentGuaranteeCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CommercialAdvancePaymentGuarantee,
-                    Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
+                    _context.LgdAssumption.Add(new LgdInputAssumption()
+                    {
+                        LgdGroup = LdgInputAssumptionGroupEnum.UnsecuredRecoveriesCureRate,
+                        Key = commkeys[i],
+                        InputName = cusName[i],
+                        Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
+                        DataType = DataTypeEnum.DoublePercentage,
+                        Framework = framework,
+                        IsComputed = true,
+                        RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved
+                    });
+                    _context.SaveChanges();
+                }
             }
-            var commercialBidBond = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialBidBondCureRate
-                                                                                     && x.Framework == framework);
-            if (commercialBidBond == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialBidBondCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CommercialBidBond,
-                    Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var commercialCustomBond = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialCustomsBondCureRate
-                                                                                     && x.Framework == framework);
-            if (commercialCustomBond == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialCustomsBondCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CommercialCustomsBond,
-                    Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var commercialLoC = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialLetterOfCreditCureRate
-                                                                                     && x.Framework == framework);
-            if (commercialLoC == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialLetterOfCreditCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CommercialLetterOfCredit,
-                    Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var commercialObg = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialOtherBondGuaranteeCureRate
-                                                                                     && x.Framework == framework);
-            if (commercialObg == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialOtherBondGuaranteeCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CommercialOtherBondGuarantee,
-                    Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var commercialPBond = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialPerformanceBondCureRate
-                                                                                     && x.Framework == framework);
-            if (commercialPBond == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialPerformanceBondCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CommercialPerformanceBond,
-                    Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var commercialTBond = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialTenderBondCureRate
-                                                                                     && x.Framework == framework);
-            if (commercialTBond == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialTenderBondCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CommercialPerformanceBond,
-                    Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
+
 
             //Customer
             var customerObg = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerOtherBondsGuaranteeCureRate
-                                                                                     && x.Framework == framework);
+                                                                                           && x.Framework == framework && x.OrganizationUnitId == ou);
             if (customerObg == null)
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
+                    LgdGroup = LdgInputAssumptionGroupEnum.UnsecuredRecoveriesCureRate,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerOtherBondsGuaranteeCureRate,
                     InputName = DefaultLgdAssumptions.InputName.CustomerOtherBondGuarantee,
                     Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
@@ -439,516 +218,189 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
+                    CanAffiliateEdit = false,
+                    OrganizationUnitId = ou,
+                    Status = GeneralStatusEnum.Approved
                 });
                 _context.SaveChanges();
             }
 
             //Corporate
-            var corpAdPayment = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateAdvancePaymentGuaranteeCureRate
-                                                                                     && x.Framework == framework);
-            if (corpAdPayment == null)
+            for (int i = 0; i < copkeys.Length; i++)
             {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
+                var ttr = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == copkeys[i] && x.Framework == framework && x.OrganizationUnitId == ou);
+                if (ttr == null)
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateAdvancePaymentGuaranteeCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CorporateAdvancePaymentGuarantee,
-                    Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var corpBidBond = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateBidBondCureRate
-                                                                                     && x.Framework == framework);
-            if (corpBidBond == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateBidBondCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CorporateBidBond,
-                    Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var corpCustomBond = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateCustomsBondCureRate
-                                                                                     && x.Framework == framework);
-            if (corpCustomBond == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateCustomsBondCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CorporateCustomsBond,
-                    Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var corpLoC = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateLetterOfCreditCureRate
-                                                                                     && x.Framework == framework);
-            if (corpLoC == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateLetterOfCreditCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CorporateLetterOfCredit,
-                    Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var corpObg = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateOtherBondGuaranteeCureRate
-                                                                                     && x.Framework == framework);
-            if (corpObg == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateOtherBondGuaranteeCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CorporateOtherBondGuarantee,
-                    Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var corpPBond = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporatePerformanceBondCureRate
-                                                                                     && x.Framework == framework);
-            if (corpPBond == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporatePerformanceBondCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CorporatePerformanceBond,
-                    Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var corpTBond = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateTenderBondCureRate
-                                                                                     && x.Framework == framework);
-            if (corpTBond == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesCureRate,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateTenderBondCureRate,
-                    InputName = DefaultLgdAssumptions.InputName.CorporatePerformanceBond,
-                    Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
+                    _context.LgdAssumption.Add(new LgdInputAssumption()
+                    {
+                        LgdGroup = LdgInputAssumptionGroupEnum.UnsecuredRecoveriesCureRate,
+                        Key = copkeys[i],
+                        InputName = copName[i],
+                        Value = DefaultLgdAssumptions.InputValue.WholesaleObeCureRate,
+                        DataType = DataTypeEnum.DoublePercentage,
+                        Framework = framework,
+                        IsComputed = true,
+                        RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved
+                    });
+                    _context.SaveChanges();
+                }
             }
         }
 
-        private void CreateRetailUnsecuredRecoveryTimeInDefault()
+        private void CreateRetailUnsecuredRecoveryTimeInDefault(long ou)
         {
             FrameworkEnum framework = FrameworkEnum.Retail;
+            string[] commkeys = new string[] { DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerCardBestTimeInDefault, DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerLeaseBestTimeInDefault,
+                                               DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerLoanBestTimeInDefault, DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerMortgageBestTimeInDefault,
+                                               DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerOdBestTimeInDefault };
+            string[] cusName = new string[] {DefaultLgdAssumptions.InputName.CustomerCard, DefaultLgdAssumptions.InputName.CustomerLease, DefaultLgdAssumptions.InputName.CustomerLoan,
+                                             DefaultLgdAssumptions.InputName.CustomerMortgage, DefaultLgdAssumptions.InputName.CustomerOd};
 
-            var customerCard = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerCardBestTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (customerCard == null)
+            for (int i = 0; i < commkeys.Length; i++)
             {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
+                var ttr = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == commkeys[i] && x.Framework == framework && x.OrganizationUnitId == ou);
+                if (ttr == null)
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerCardBestTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CustomerCard,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var customerLease = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerLeaseBestTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (customerLease == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerLeaseBestTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CustomerLease,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var customerLoan = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerLoanBestTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (customerLoan == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerLoanBestTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CustomerLoan,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var customerMortgage = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerMortgageBestTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (customerMortgage == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerMortgageBestTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CustomerMortgage,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var customerOd = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerOdBestTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (customerOd == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerOdBestTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CustomerOd,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
+                    _context.LgdAssumption.Add(new LgdInputAssumption()
+                    {
+                        LgdGroup = LdgInputAssumptionGroupEnum.UnsecuredRecoveriesTimeInDefault,
+                        Key = commkeys[i],
+                        InputName = cusName[i],
+                        Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
+                        DataType = DataTypeEnum.DoublePercentage,
+                        Framework = framework,
+                        IsComputed = true,
+                        RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved
+                    });
+                    _context.SaveChanges();
+                }
             }
         }
 
-        private void CreateWholesaleUnsecuredRecoveryTimeInDefault()
+        private void CreateWholesaleUnsecuredRecoveryTimeInDefault(long ou)
         {
             FrameworkEnum framework = FrameworkEnum.Wholesale;
 
-            var commercialCard = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialCardBestTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (commercialCard == null)
+            string[] commkeys = new string[] { DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialCardBestTimeInDefault, DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialLeaseBestTimeInDefault,
+                                               DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialLoanBestTimeInDefault, DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialMortgageBestTimeInDefault,
+                                               DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialOdBestTimeInDefault };
+            string[] cusName = new string[] {DefaultLgdAssumptions.InputName.CommercialCard, DefaultLgdAssumptions.InputName.CommercialLease, DefaultLgdAssumptions.InputName.CommercialLoan,
+                                             DefaultLgdAssumptions.InputName.CommercialMortgage, DefaultLgdAssumptions.InputName.CommercialOd};
+
+            string[] copkeys = new string[] {  DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateLeaseBestTimeInDefault,
+                                               DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateLoanBestTimeInDefault, DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateMortgageBestTimeInDefault,
+                                               DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateOdBestTimeInDefault };
+            string[] copName = new string[] {DefaultLgdAssumptions.InputName.CorporateLease, DefaultLgdAssumptions.InputName.CorporateLoan,
+                                             DefaultLgdAssumptions.InputName.CorporateMortgage, DefaultLgdAssumptions.InputName.CorporateOd};
+
+            //Commercial
+            for (int i = 0; i < commkeys.Length; i++)
             {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
+                var ttr = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == commkeys[i] && x.Framework == framework && x.OrganizationUnitId == ou);
+                if (ttr == null)
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialCardBestTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CommercialCard,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var commercialLease = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialLeaseBestTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (commercialLease == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialLeaseBestTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CommercialLease,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var commercialLoan = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialLoanBestTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (commercialLoan == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialLoanBestTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CommercialLoan,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var commercialMortgage = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialMortgageBestTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (commercialMortgage == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialMortgageBestTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CommercialMortgage,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var commercialOd = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialOdBestTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (commercialOd == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialOdBestTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CommercialOd,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
+                    _context.LgdAssumption.Add(new LgdInputAssumption()
+                    {
+                        LgdGroup = LdgInputAssumptionGroupEnum.UnsecuredRecoveriesTimeInDefault,
+                        Key = commkeys[i],
+                        InputName = cusName[i],
+                        Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
+                        DataType = DataTypeEnum.DoublePercentage,
+                        Framework = framework,
+                        IsComputed = true,
+                        RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved
+                    });
+                    _context.SaveChanges();
+                }
             }
 
-            var corporateLease = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateLeaseBestTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (corporateLease == null)
+            //Corporate
+            for (int i = 0; i < copkeys.Length; i++)
             {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
+                var ttr = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == copkeys[i] && x.Framework == framework && x.OrganizationUnitId == ou);
+                if (ttr == null)
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateLeaseBestTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CorporateLease,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var corporateLoan = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateLoanBestTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (corporateLoan == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateLoanBestTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CorporateLoan,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var corporateMortgage = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateMortgageBestTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (corporateMortgage == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateMortgageBestTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CorporateMortgage,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var corporateOd = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateOdBestTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (corporateOd == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateOdBestTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CorporateOd,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
+                    _context.LgdAssumption.Add(new LgdInputAssumption()
+                    {
+                        LgdGroup = LdgInputAssumptionGroupEnum.UnsecuredRecoveriesTimeInDefault,
+                        Key = copkeys[i],
+                        InputName = copName[i],
+                        Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
+                        DataType = DataTypeEnum.DoublePercentage,
+                        Framework = framework,
+                        IsComputed = true,
+                        RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved
+                    });
+                    _context.SaveChanges();
+                }
             }
         }
 
-        private void CreateObeUnsecuredRecoveryTimeInDefault()
+        private void CreateObeUnsecuredRecoveryTimeInDefault(long ou)
         {
             FrameworkEnum framework = FrameworkEnum.OBE;
 
+            string[] commkeys = new string[] { DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialAdvancePaymentGuaranteeTimeInDefault, DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialBidBondTimeInDefault,
+                                               DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialCustomsBondTimeInDefault, DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialLetterOfCreditTimeInDefault,
+                                               DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialOtherBondGuaranteeTimeInDefault, DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialPerformanceBondTimeInDefault,
+                                               DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialTenderBondTimeInDefault};
+            string[] cusName = new string[] {DefaultLgdAssumptions.InputName.CommercialAdvancePaymentGuarantee, DefaultLgdAssumptions.InputName.CommercialBidBond, DefaultLgdAssumptions.InputName.CommercialCustomsBond,
+                                          DefaultLgdAssumptions.InputName.CommercialLetterOfCredit, DefaultLgdAssumptions.InputName.CommercialOtherBondGuarantee, DefaultLgdAssumptions.InputName.CommercialPerformanceBond,
+                                          DefaultLgdAssumptions.InputName.CommercialTenderBond };
+
+            string[] copkeys = new string[] { DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateAdvancePaymentGuaranteeTimeInDefault, DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateBidBondBestTimeInDefault,
+                                               DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateCustomsBondTimeInDefault, DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateLetterOfCreditBestTimeInDefault,
+                                               DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateOtherBondGuaranteeTimeInDefault, DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporatePerformanceBondTimeInDefault,
+                                               DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateTenderBondTimeInDefault};
+            string[] copName = new string[] {DefaultLgdAssumptions.InputName.CorporateAdvancePaymentGuarantee, DefaultLgdAssumptions.InputName.CorporateBidBond, DefaultLgdAssumptions.InputName.CorporateCustomsBond,
+                                              DefaultLgdAssumptions.InputName.CorporateLetterOfCredit, DefaultLgdAssumptions.InputName.CorporateOtherBondGuarantee, DefaultLgdAssumptions.InputName.CorporatePerformanceBond,
+                                              DefaultLgdAssumptions.InputName.CorporateTenderBond };
+
             //Commercial
-            var commercialAdPayment = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialAdvancePaymentGuaranteeTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (commercialAdPayment == null)
+            for (int i = 0; i < commkeys.Length; i++)
             {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
+                var ttr = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == commkeys[i] && x.Framework == framework && x.OrganizationUnitId == ou);
+                if (ttr == null)
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialAdvancePaymentGuaranteeTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CommercialAdvancePaymentGuarantee,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var commercialBidBond = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialBidBondTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (commercialBidBond == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialBidBondTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CommercialBidBond,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var commercialCustomBond = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialCustomsBondTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (commercialCustomBond == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialCustomsBondTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CommercialCustomsBond,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var commercialLoC = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialLetterOfCreditTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (commercialLoC == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialLetterOfCreditTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CommercialLetterOfCredit,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var commercialObg = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialOtherBondGuaranteeTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (commercialObg == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialOtherBondGuaranteeTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CommercialOtherBondGuarantee,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var commercialPBond = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialPerformanceBondTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (commercialPBond == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialPerformanceBondTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CommercialPerformanceBond,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var commercialTBond = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialTenderBondTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (commercialTBond == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCommercialTenderBondTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CommercialPerformanceBond,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
+                    _context.LgdAssumption.Add(new LgdInputAssumption()
+                    {
+                        LgdGroup = LdgInputAssumptionGroupEnum.UnsecuredRecoveriesTimeInDefault,
+                        Key = commkeys[i],
+                        InputName = cusName[i],
+                        Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
+                        DataType = DataTypeEnum.DoublePercentage,
+                        Framework = framework,
+                        IsComputed = true,
+                        RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved
+                    });
+                    _context.SaveChanges();
+                }
             }
 
+            
             //Customer
             var customerObg = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerOtherBondsGuaranteeTimeInDefault
-                                                                                     && x.Framework == framework);
+                                                                                           && x.Framework == framework && x.OrganizationUnitId == ou);
             if (customerObg == null)
             {
                 _context.LgdAssumption.Add(new LgdInputAssumption()
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
+                    LgdGroup = LdgInputAssumptionGroupEnum.UnsecuredRecoveriesTimeInDefault,
                     Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCustomerOtherBondsGuaranteeTimeInDefault,
                     InputName = DefaultLgdAssumptions.InputName.CustomerOtherBondGuarantee,
                     Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
@@ -956,133 +408,39 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
                     Framework = framework,
                     IsComputed = true,
                     RequiresGroupApproval = true,
+                    CanAffiliateEdit = false,
+                    OrganizationUnitId = ou,
+                    Status = GeneralStatusEnum.Approved
                 });
                 _context.SaveChanges();
             }
 
             //Corporate
-            var corpAdPayment = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateAdvancePaymentGuaranteeTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (corpAdPayment == null)
+            for (int i = 0; i < copkeys.Length; i++)
             {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
+                var ttr = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == copkeys[i] && x.Framework == framework && x.OrganizationUnitId == ou);
+                if (ttr == null)
                 {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateAdvancePaymentGuaranteeTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CorporateAdvancePaymentGuarantee,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var corpBidBond = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateBidBondBestTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (corpBidBond == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateBidBondBestTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CorporateBidBond,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var corpCustomBond = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateCustomsBondTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (corpCustomBond == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateCustomsBondTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CorporateCustomsBond,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var corpLoC = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateLetterOfCreditBestTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (corpLoC == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateLetterOfCreditBestTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CorporateLetterOfCredit,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var corpObg = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateOtherBondGuaranteeTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (corpObg == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateOtherBondGuaranteeTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CorporateOtherBondGuarantee,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var corpPBond = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporatePerformanceBondTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (corpPBond == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporatePerformanceBondTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CorporatePerformanceBond,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-            var corpTBond = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateTenderBondTimeInDefault
-                                                                                     && x.Framework == framework);
-            if (corpTBond == null)
-            {
-                _context.LgdAssumption.Add(new LgdInputAssumption()
-                {
-                    LgdGroup = LdgInputAssumptionEnum.UnsecuredRecoveriesTimeInDefault,
-                    Key = DefaultLgdAssumptions.LgdAssumptionKey.UnsecuredRecoveriesCorporateTenderBondTimeInDefault,
-                    InputName = DefaultLgdAssumptions.InputName.CorporatePerformanceBond,
-                    Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = true,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
+                    _context.LgdAssumption.Add(new LgdInputAssumption()
+                    {
+                        LgdGroup = LdgInputAssumptionGroupEnum.UnsecuredRecoveriesTimeInDefault,
+                        Key = copkeys[i],
+                        InputName = copName[i],
+                        Value = DefaultLgdAssumptions.InputValue.TimeInDefault,
+                        DataType = DataTypeEnum.DoublePercentage,
+                        Framework = framework,
+                        IsComputed = true,
+                        RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved
+                    });
+                    _context.SaveChanges();
+                }
             }
         }
 
-        private void CreateCostOfRecovery(FrameworkEnum framework)
+        private void CreateCostOfRecovery(FrameworkEnum framework, long ou)
         {
             string[] corHighKeys = new string[] {DefaultLgdAssumptions.LgdAssumptionKey.CostOfRecoveryHighCollateralValue, DefaultLgdAssumptions.LgdAssumptionKey.CostOfRecoveryHighDebenture,
                                           DefaultLgdAssumptions.LgdAssumptionKey.CostOfRecoveryHighCash, DefaultLgdAssumptions.LgdAssumptionKey.CostOfRecoveryHighInventory,
@@ -1101,13 +459,12 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
 
             for (int i = 0; i < corHighKeys.Length; i++)
             {
-                var corHigh = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == corHighKeys[i]
-                                                                                     && x.Framework == framework);
+                var corHigh = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == corHighKeys[i] && x.Framework == framework && x.OrganizationUnitId == ou);
                 if (corHigh == null)
                 {
                     _context.LgdAssumption.Add(new LgdInputAssumption()
                     {
-                        LgdGroup = LdgInputAssumptionEnum.CostOfRecoveryHigh,
+                        LgdGroup = LdgInputAssumptionGroupEnum.CostOfRecoveryHigh,
                         Key = corHighKeys[i],
                         InputName = i == 0 ? DefaultLgdAssumptions.InputName.CostOfRecoveryHighCollateralValue : corName[i - 1],
                         Value = i == 0 ? DefaultLgdAssumptions.InputValue.CollateralValue : DefaultLgdAssumptions.InputValue.CostOfRecoveryHigh,
@@ -1115,6 +472,9 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
                         Framework = framework,
                         IsComputed = false,
                         RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved
                     });
                     _context.SaveChanges();
                 }
@@ -1122,13 +482,12 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
 
             for (int i = 0; i < corLowKeys.Length; i++)
             {
-                var corLow = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == corLowKeys[i]
-                                                                                     && x.Framework == framework);
+                var corLow = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == corLowKeys[i] && x.Framework == framework && x.OrganizationUnitId == ou);
                 if (corLow == null)
                 {
                     _context.LgdAssumption.Add(new LgdInputAssumption()
                     {
-                        LgdGroup = LdgInputAssumptionEnum.CostOfRecoveryLow,
+                        LgdGroup = LdgInputAssumptionGroupEnum.CostOfRecoveryLow,
                         Key = corLowKeys[i],
                         InputName = i == 0 ? DefaultLgdAssumptions.InputName.CostOfRecoveryHighCollateralValue : corName[i - 1],
                         Value = i == 0 ? DefaultLgdAssumptions.InputValue.CollateralValue : DefaultLgdAssumptions.InputValue.CostOfRecoveryLow,
@@ -1136,13 +495,16 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
                         Framework = framework,
                         IsComputed = false,
                         RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved
                     });
                     _context.SaveChanges();
                 }
             }
         }
 
-        private void CreateCollateralGrowth(FrameworkEnum framework)
+        private void CreateCollateralGrowth(FrameworkEnum framework, long ou)
         {
             string[] name = new string[] {DefaultLgdAssumptions.InputName.Debenture, DefaultLgdAssumptions.InputName.Cash, DefaultLgdAssumptions.InputName.Inventory,
                                           DefaultLgdAssumptions.InputName.PlantEquipment, DefaultLgdAssumptions.InputName.ResidentialProperty, DefaultLgdAssumptions.InputName.CommercialProperty,
@@ -1175,12 +537,12 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             //Best
             for (int i = 0; i < bestKeys.Length; i++)
             {
-                var best = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == bestKeys[i] && x.Framework == framework);
+                var best = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == bestKeys[i] && x.Framework == framework && x.OrganizationUnitId == ou);
                 if (best == null)
                 {
                     _context.LgdAssumption.Add(new LgdInputAssumption()
                     {
-                        LgdGroup = LdgInputAssumptionEnum.CollateralGrowthBest,
+                        LgdGroup = LdgInputAssumptionGroupEnum.CollateralGrowthBest,
                         Key = bestKeys[i],
                         InputName = name[i],
                         Value = bestValue[i],
@@ -1188,6 +550,9 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
                         Framework = framework,
                         IsComputed = false,
                         RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved
                     });
                     _context.SaveChanges();
                 }
@@ -1196,12 +561,12 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             //Optimistic
             for (int i = 0; i < optimisticKeys.Length; i++)
             {
-                var op = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == optimisticKeys[i] && x.Framework == framework);
+                var op = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == optimisticKeys[i] && x.Framework == framework && x.OrganizationUnitId == ou);
                 if (op == null)
                 {
                     _context.LgdAssumption.Add(new LgdInputAssumption()
                     {
-                        LgdGroup = LdgInputAssumptionEnum.CollateralGrowthOptimistic,
+                        LgdGroup = LdgInputAssumptionGroupEnum.CollateralGrowthOptimistic,
                         Key = optimisticKeys[i],
                         InputName = name[i],
                         Value = bestValue[i],
@@ -1209,6 +574,9 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
                         Framework = framework,
                         IsComputed = false,
                         RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved
                     });
                     _context.SaveChanges();
                 }
@@ -1217,12 +585,12 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             //Downturn
             for (int i = 0; i < downturnKeys.Length; i++)
             {
-                var downturn = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == downturnKeys[i] && x.Framework == framework);
+                var downturn = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == downturnKeys[i] && x.Framework == framework && x.OrganizationUnitId == ou);
                 if (downturn == null)
                 {
                     _context.LgdAssumption.Add(new LgdInputAssumption()
                     {
-                        LgdGroup = LdgInputAssumptionEnum.CollateralGrowthDownturn,
+                        LgdGroup = LdgInputAssumptionGroupEnum.CollateralGrowthDownturn,
                         Key = downturnKeys[i],
                         InputName = name[i],
                         Value = (Convert.ToDouble(bestValue[i]) * 0.92 - 0.08).ToString(),
@@ -1230,6 +598,9 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
                         Framework = framework,
                         IsComputed = false,
                         RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved
                     });
                     _context.SaveChanges();
                 }
@@ -1237,7 +608,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
 
         }
 
-        private void CreateTTR(FrameworkEnum framework)
+        private void CreateTTR(FrameworkEnum framework, long ou)
         {
             string[] keys = new string[] { DefaultLgdAssumptions.LgdAssumptionKey.CollateralTypeTtrYearsDebenture, DefaultLgdAssumptions.LgdAssumptionKey.CollateralTypeTtrYearsCash,
                                            DefaultLgdAssumptions.LgdAssumptionKey.CollateralTypeTtrYearsInventory, DefaultLgdAssumptions.LgdAssumptionKey.CollateralTypeTtrYearsPlantEquipment,
@@ -1255,12 +626,12 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
 
             for (int i = 0; i < keys.Length; i++)
             {
-                var ttr = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == keys[i] && x.Framework == framework);
+                var ttr = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == keys[i] && x.Framework == framework && x.OrganizationUnitId == ou);
                 if (ttr == null)
                 {
                     _context.LgdAssumption.Add(new LgdInputAssumption()
                     {
-                        LgdGroup = LdgInputAssumptionEnum.CollateralTTR,
+                        LgdGroup = LdgInputAssumptionGroupEnum.CollateralTTR,
                         Key = keys[i],
                         InputName = name[i],
                         Value = value[i],
@@ -1268,13 +639,16 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
                         Framework = framework,
                         IsComputed = false,
                         RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved
                     });
                     _context.SaveChanges();
                 }
             }
         }
 
-        private void CreateHaircut(FrameworkEnum framework)
+        private void CreateHaircut(FrameworkEnum framework, long ou)
         {
             string[] keys = new string[] { DefaultLgdAssumptions.LgdAssumptionKey.HaircutDebenture, DefaultLgdAssumptions.LgdAssumptionKey.HaircutCash,
                                            DefaultLgdAssumptions.LgdAssumptionKey.HaircutInventory, DefaultLgdAssumptions.LgdAssumptionKey.HaircutPlantEquipment,
@@ -1292,12 +666,12 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
 
             for (int i = 0; i < keys.Length; i++)
             {
-                var ttr = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == keys[i] && x.Framework == framework);
+                var ttr = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == keys[i] && x.Framework == framework && x.OrganizationUnitId == ou);
                 if (ttr == null)
                 {
                     _context.LgdAssumption.Add(new LgdInputAssumption()
                     {
-                        LgdGroup = LdgInputAssumptionEnum.Haircut,
+                        LgdGroup = LdgInputAssumptionGroupEnum.Haircut,
                         Key = keys[i],
                         InputName = name[i],
                         Value = value[i],
@@ -1305,13 +679,16 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
                         Framework = framework,
                         IsComputed = true,
                         RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved
                     });
                     _context.SaveChanges();
                 }
             }
         }
 
-        private void CreateCollateralProjection(FrameworkEnum framework)
+        private void CreateCollateralProjection(FrameworkEnum framework, long ou)
         {
             string[] bestKeys = new string[] { DefaultLgdAssumptions.LgdAssumptionKey.CollateralProjectionBestDebenture, DefaultLgdAssumptions.LgdAssumptionKey.CollateralProjectionBestCash,
                                                DefaultLgdAssumptions.LgdAssumptionKey.CollateralProjectionBestInventory, DefaultLgdAssumptions.LgdAssumptionKey.CollateralProjectionBestPlantEquipment,
@@ -1336,12 +713,12 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             //Collateral Projection Best
             for (int i = 0; i < bestKeys.Length; i++)
             {
-                var best = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == bestKeys[i] && x.Framework == framework);
+                var best = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == bestKeys[i] && x.Framework == framework && x.OrganizationUnitId == ou);
                 if (best == null)
                 {
                     _context.LgdAssumption.Add(new LgdInputAssumption()
                     {
-                        LgdGroup = LdgInputAssumptionEnum.CollateralProjectionBest,
+                        LgdGroup = LdgInputAssumptionGroupEnum.CollateralProjectionBest,
                         Key = bestKeys[i],
                         InputName = name[i],
                         Value = "1.0",
@@ -1349,6 +726,9 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
                         Framework = framework,
                         IsComputed = false,
                         RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved
                     });
                     _context.SaveChanges();
                 }
@@ -1357,12 +737,12 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             //Collateral Projection Optimistic
             for (int i = 0; i < optimisticKeys.Length; i++)
             {
-                var op = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == optimisticKeys[i] && x.Framework == framework);
+                var op = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == optimisticKeys[i] && x.Framework == framework && x.OrganizationUnitId == ou);
                 if (op == null)
                 {
                     _context.LgdAssumption.Add(new LgdInputAssumption()
                     {
-                        LgdGroup = LdgInputAssumptionEnum.CollateralProjectionOptimistic,
+                        LgdGroup = LdgInputAssumptionGroupEnum.CollateralProjectionOptimistic,
                         Key = optimisticKeys[i],
                         InputName = name[i],
                         Value = "1.0",
@@ -1370,6 +750,9 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
                         Framework = framework,
                         IsComputed = false,
                         RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved
                     });
                     _context.SaveChanges();
                 }
@@ -1378,12 +761,12 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             //Collateral Projection Downturn
             for (int i = 0; i < downturnKeys.Length; i++)
             {
-                var downturn = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == downturnKeys[i] && x.Framework == framework);
+                var downturn = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == downturnKeys[i] && x.Framework == framework && x.OrganizationUnitId == ou);
                 if (downturn == null)
                 {
                     _context.LgdAssumption.Add(new LgdInputAssumption()
                     {
-                        LgdGroup = LdgInputAssumptionEnum.CollateralProjectionDownturn,
+                        LgdGroup = LdgInputAssumptionGroupEnum.CollateralProjectionDownturn,
                         Key = downturnKeys[i],
                         InputName = name[i],
                         Value = "1.0",
@@ -1391,10 +774,62 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
                         Framework = framework,
                         IsComputed = false,
                         RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved
                     });
                     _context.SaveChanges();
                 }
             }
         }
+
+        private void CreatePdAssumption(FrameworkEnum framework, long ou)
+        {
+            string[] keys = new string[] { DefaultLgdAssumptions.LgdAssumptionKey.PdGroupAssumption1, DefaultLgdAssumptions.LgdAssumptionKey.PdGroupAssumption2,
+                                           DefaultLgdAssumptions.LgdAssumptionKey.PdGroupAssumption3, DefaultLgdAssumptions.LgdAssumptionKey.PdGroupAssumption4,
+                                           DefaultLgdAssumptions.LgdAssumptionKey.PdGroupAssumption6, DefaultLgdAssumptions.LgdAssumptionKey.PdGroupAssumption7,
+                                           DefaultLgdAssumptions.LgdAssumptionKey.PdGroupAssumption8, DefaultLgdAssumptions.LgdAssumptionKey.PdGroupAssumption9,
+                                           DefaultLgdAssumptions.LgdAssumptionKey.PdGroupAssumption10, DefaultLgdAssumptions.LgdAssumptionKey.PdGroupAssumptionConsStage1,
+                                           DefaultLgdAssumptions.LgdAssumptionKey.PdGroupAssumptionConsStage2, DefaultLgdAssumptions.LgdAssumptionKey.PdGroupAssumptionCommStage1,
+                                           DefaultLgdAssumptions.LgdAssumptionKey.PdGroupAssumptionCommStage2, DefaultLgdAssumptions.LgdAssumptionKey.PdGroupAssumptionExp};
+            string[] name = new string[] { DefaultLgdAssumptions.InputName.PdGroupAssumption1, DefaultLgdAssumptions.InputName.PdGroupAssumption2,
+                                           DefaultLgdAssumptions.InputName.PdGroupAssumption3, DefaultLgdAssumptions.InputName.PdGroupAssumption4,
+                                           DefaultLgdAssumptions.InputName.PdGroupAssumption6, DefaultLgdAssumptions.InputName.PdGroupAssumption7,
+                                           DefaultLgdAssumptions.InputName.PdGroupAssumption8, DefaultLgdAssumptions.InputName.PdGroupAssumption9,
+                                           DefaultLgdAssumptions.InputName.PdGroupAssumption10, DefaultLgdAssumptions.InputName.PdGroupAssumptionConsStage1,
+                                           DefaultLgdAssumptions.InputName.PdGroupAssumptionConsStage2, DefaultLgdAssumptions.InputName.PdGroupAssumptionCommStage1,
+                                           DefaultLgdAssumptions.InputName.PdGroupAssumptionCommStage2, DefaultLgdAssumptions.InputName.PdGroupAssumptionExp};
+            string[] value = new string[] { DefaultLgdAssumptions.InputValue.PdGroupAssumption1, DefaultLgdAssumptions.InputValue.PdGroupAssumption2,
+                                           DefaultLgdAssumptions.InputValue.PdGroupAssumption3, DefaultLgdAssumptions.InputValue.PdGroupAssumption4,
+                                           DefaultLgdAssumptions.InputValue.PdGroupAssumption6, DefaultLgdAssumptions.InputValue.PdGroupAssumption7,
+                                           DefaultLgdAssumptions.InputValue.PdGroupAssumption8, DefaultLgdAssumptions.InputValue.PdGroupAssumption9,
+                                           DefaultLgdAssumptions.InputValue.PdGroupAssumption10, DefaultLgdAssumptions.InputValue.PdGroupAssumptionConsStage1,
+                                           DefaultLgdAssumptions.InputValue.PdGroupAssumptionConsStage2, DefaultLgdAssumptions.InputValue.PdGroupAssumptionCommStage1,
+                                           DefaultLgdAssumptions.InputValue.PdGroupAssumptionCommStage2, DefaultLgdAssumptions.InputValue.PdGroupAssumptionExp};
+
+            for (int i = 0; i < keys.Length; i++)
+            {
+                var ttr = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == keys[i] && x.Framework == framework && x.OrganizationUnitId == ou);
+                if (ttr == null)
+                {
+                    _context.LgdAssumption.Add(new LgdInputAssumption()
+                    {
+                        LgdGroup = LdgInputAssumptionGroupEnum.PdAssumptions,
+                        Key = keys[i],
+                        InputName = name[i],
+                        Value = value[i],
+                        DataType = DataTypeEnum.Double,
+                        Framework = framework,
+                        IsComputed = true,
+                        RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved
+                    });
+                    _context.SaveChanges();
+                }
+            }
+        }
+
     }
 }

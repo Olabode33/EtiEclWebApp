@@ -37,7 +37,7 @@ namespace TestDemo.RetailAssumption
 		 public async Task<PagedResultDto<GetRetailEclEadInputAssumptionForViewDto>> GetAll(GetAllRetailEclEadInputAssumptionsInput input)
          {
 			var datatypeFilter = (DataTypeEnum) input.DatatypeFilter;
-			var eadGroupFilter = (EadInputGroupEnum) input.EadGroupFilter;
+			var eadGroupFilter = (EadInputAssumptionGroupEnum) input.EadGroupFilter;
 			
 			var filteredRetailEclEadInputAssumptions = _retailEclEadInputAssumptionRepository.GetAll()
 						.Include( e => e.RetailEclFk)
