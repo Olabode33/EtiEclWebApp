@@ -8,17 +8,29 @@ namespace TestDemo.EclShared.DefaultAssumptions
     {
         public static class PdAssumptionKey
         {
-            public const string CreditPdKeyPrefix = "CreditPd";
+            public const int MaxHistoricalIndex = 32;
             public const int MaxCreditPd = 10;
+            public const int MaxProjectionMonths = 28;
+            public const int MaxSnPCummulativeRatesRating = 7;
+
+            public const string CreditPdKeyPrefix = "CreditPd";
             public const string CreditPdEtiPolicyKeyPrefix = "CreditPdEtiPolicy";
             public const string CreditPdBestFitKeyPrefix = "CreditPdBestFit";
             public const string Upperbound12MonthPdPrefix = "Upperbound12MonthPd";
+
+            public const string SnPMappingAAA = "SnPMappingAAA";
+            public const string SnPMappingAA = "SnPMappingAA";
+            public const string SnPMappingA = "SnPMappingA";
+            public const string SnPMappingBBB = "SnPMappingBBB";
+            public const string SnPMappingBB = "SnPMappingBB";
+            public const string SnPMappingB = "SnPMappingB";
+            public const string SnPMappingCCC = "SnPMappingCCC";
+
             public const string StatisticsIndexWeightsW1 = "StatisticsIndexWeightsW1";
             public const string StatisticsIndexWeightsW2 = "StatisticsIndexWeightsW2";
             public const string StatisticsIndexWeightsStandardDeviation = "StatisticsIndexWeightsStandardDeviation";
             public const string StatisticsIndexWeightsAverage = "StatisticsIndexWeightsAverage";
 
-            public const int MaxHistoricalIndex = 32;
             public const string HistoricalIndexActualPrefix = "HistoricalIndexActual";
             public const string HistoricalIndexStandardisedPrefix = "HistoricalIndexStandardised";
             public const string EtiNplSeriesPrefix = "EtiNplSeries";
@@ -39,7 +51,6 @@ namespace TestDemo.EclShared.DefaultAssumptions
             public const string StatisticalInputsRealGdpGrowthRatePrincipalComponentScore1 = "StatisticalInputsRealGdpGrowthRatePrincipalComponentScore1";
             public const string StatisticalInputsRealGdpGrowthRatePrincipalComponentScore2 = "StatisticalInputsRealGdpGrowthRatePrincipalComponentScore2";
 
-            public const int MaxProjectionMonths = 28;
             public const string BestProjectionInputsPrimeLendingPrefix = "BestProjectionInputsPrimeLending";
             public const string BestProjectionOilExportsPrefix = "BestProjectionOilExports";
             public const string BestProjectionRealGdpGrowthRatePrefix = "BestProjectionRealGdpGrowthRate";
