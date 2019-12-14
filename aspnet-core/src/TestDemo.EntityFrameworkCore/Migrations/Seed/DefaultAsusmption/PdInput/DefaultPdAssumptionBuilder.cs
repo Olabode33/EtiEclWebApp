@@ -157,5 +157,51 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
                 }
             }
         }
+
+        private void CreateNonInternalModelInput(FrameworkEnum framework, long ou)
+        {
+            const int maxPdGroup = DefaultPdAssumption.PdAssumptionKey.MaxNonnInteralPdGroup;
+            const int maxProjectionMonths = DefaultPdAssumption.PdAssumptionKey.MaxNonInternalProjectionMonths;
+
+            string[] defaultKeys = new string[] { DefaultPdAssumption.PdAssumptionKey.NonInternalModelConsStage1, DefaultPdAssumption.PdAssumptionKey.NonInternalModelConsStage2,
+                                                  DefaultPdAssumption.PdAssumptionKey.NonInternalModelCommStage1, DefaultPdAssumption.PdAssumptionKey.NonInternalModelCommStage2 };
+            string[] pdGroups = new string[] { DefaultPdAssumption.InputName.PdGroupConsStage1, DefaultPdAssumption.InputName.PdGroupConsStage2, DefaultPdAssumption.InputName.PdGroupCommStage1, DefaultPdAssumption.InputName.PdGroupCommStage2 };
+
+
+            double[,] defaultValues = DefaultPdAssumption.InputValue.NonInternalMarginalDefaultValues;
+            double[,] cummValues = DefaultPdAssumption.InputValue.NonInternalCummulativeValues;
+
+
+            for (int pdGroup = 0; pdGroup < maxPdGroup; pdGroup++)
+            {
+                for (int month = 0; month < maxProjectionMonths; month++)
+                {
+                    var non = _context.PdInputAssumptionNonInternalModels.IgnoreQueryFilters().FirstAsync(x => x.Key == defaultKeys[pdGroup]
+                                                                                                           && x.Month == month + 1 && x.Framework == framework && x.OrganizationUnitId == ou);
+                    if (non == null)
+                    {
+                        _context.PdInputAssumptionNonInternalModels.Add(new PdInputAssumptionNonInternalModel()
+                        {
+                            
+                            Framework = framework,
+                            Key = defaultKeys[pdGroup],
+                            OrganizationUnitId = ou,
+                            PdGroup = pdGroups[pdGroup],
+                            Month = month + 1,
+                            MarginalDefaultRate = defaultValues[month, pdGroup],
+                            CummulativeSurvival = cummValues[month, pdGroup],
+                            RequiresGroupApproval = true,
+                            CanAffiliateEdit = false
+                        });
+                    }
+                }
+            }
+            
+        }
+
+        private void CreateHistoricalIndex(FrameworkEnum framework, long ou)
+        {
+
+        }
     }
 }
