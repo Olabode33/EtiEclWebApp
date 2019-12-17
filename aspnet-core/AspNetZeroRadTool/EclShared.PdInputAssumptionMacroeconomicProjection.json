@@ -1,0 +1,390 @@
+{
+  "IsRegenerate": false,
+  "MenuPosition": null,
+  "RelativeNamespace": "EclShared",
+  "EntityName": "PdInputAssumptionMacroeconomicProjection",
+  "EntityNamePlural": "PdInputAssumptionMacroeconomicProjections",
+  "TableName": "PdInputAssumptionMacroeconomicProjections",
+  "PrimaryKeyType": "Guid",
+  "BaseClass": "FullAuditedEntity",
+  "EntityHistory": true,
+  "AutoMigration": false,
+  "UpdateDatabase": false,
+  "CreateUserInterface": false,
+  "CreateViewOnly": false,
+  "CreateExcelExport": false,
+  "PagePermission": {
+    "Host": false,
+    "Tenant": false
+  },
+  "Properties": [
+    {
+      "Name": "Key",
+      "Type": "string",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": false
+      }
+    },
+    {
+      "Name": "Date",
+      "Type": "DateTime",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": false
+      }
+    },
+    {
+      "Name": "InputName",
+      "Type": "string",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": false
+      }
+    },
+    {
+      "Name": "BestValue",
+      "Type": "double",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": false
+      }
+    },
+    {
+      "Name": "OptimisticValue",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": false
+      }
+    },
+    {
+      "Name": "DownturnValue",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": false
+      }
+    },
+    {
+      "Name": "MacroeconomicGroup",
+      "Type": "PdInputAssumptionMacroEconomicInputGroupEnum",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": false
+      }
+    },
+    {
+      "Name": "IsComputed",
+      "Type": "bool",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": false
+      }
+    },
+    {
+      "Name": "CanAffiliateEdit",
+      "Type": "bool",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": false
+      }
+    },
+    {
+      "Name": "RequiresGroupApproval",
+      "Type": "bool",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": false
+      }
+    },
+    {
+      "Name": "Status",
+      "Type": "GeneralStatusEnum",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": false
+      }
+    },
+    {
+      "Name": "Framework",
+      "Type": "FrameworkEnum",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": false
+      }
+    },
+    {
+      "Name": "OrganizationUnitId",
+      "Type": "long",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": false
+      }
+    }
+  ],
+  "NavigationProperties": [],
+  "EnumDefinitions": [
+    {
+      "Name": "PdInputAssumptionMacroEconomicInputGroupEnum",
+      "Namespace": "TestDemo.EclShared",
+      "EnumProperties": [
+        {
+          "Name": "General",
+          "Value": 0
+        },
+        {
+          "Name": "StatisticalInputsPrimeLending",
+          "Value": 1
+        },
+        {
+          "Name": "StatisticalInputsOilExports",
+          "Value": 2
+        },
+        {
+          "Name": "StatisticalInputsRealGdpGrowthRate",
+          "Value": 3
+        },
+        {
+          "Name": "DifferencedRealGdpGrowthRate",
+          "Value": 4
+        },
+        {
+          "Name": "BestProjectionInputsPrimeLending",
+          "Value": 5
+        },
+        {
+          "Name": "BestProjectionOilExports",
+          "Value": 6
+        },
+        {
+          "Name": "BestProjectionRealGdpGrowthRate",
+          "Value": 7
+        },
+        {
+          "Name": "BestProjectionDifferencedRealGdpGrowthRate",
+          "Value": 8
+        },
+        {
+          "Name": "OptimisticProjectionInputsPrimeLending",
+          "Value": 9
+        },
+        {
+          "Name": "OptimisticProjectionOilExports",
+          "Value": 10
+        },
+        {
+          "Name": "OptimisticProjectionRealGdpGrowthRate",
+          "Value": 11
+        },
+        {
+          "Name": "OptimisticProjectionDifferencedRealGdpGrowthRate",
+          "Value": 12
+        },
+        {
+          "Name": "DownturnProjectionInputsPrimeLending",
+          "Value": 13
+        },
+        {
+          "Name": "DownturnProjectionOilExports",
+          "Value": 14
+        },
+        {
+          "Name": "DownturnProjectionRealGdpGrowthRate",
+          "Value": 15
+        },
+        {
+          "Name": "DownturnProjectionDifferencedRealGdpGrowthRate",
+          "Value": 16
+        }
+      ]
+    },
+    {
+      "Name": "GeneralStatusEnum",
+      "Namespace": "TestDemo.EclShared",
+      "EnumProperties": [
+        {
+          "Name": "Draft",
+          "Value": 0
+        },
+        {
+          "Name": "Submitted",
+          "Value": 1
+        },
+        {
+          "Name": "Approved",
+          "Value": 2
+        },
+        {
+          "Name": "Rejected",
+          "Value": 3
+        }
+      ]
+    },
+    {
+      "Name": "FrameworkEnum",
+      "Namespace": "TestDemo.EclShared",
+      "EnumProperties": [
+        {
+          "Name": "All",
+          "Value": 0
+        },
+        {
+          "Name": "Wholesale",
+          "Value": 1
+        },
+        {
+          "Name": "Retail",
+          "Value": 2
+        },
+        {
+          "Name": "OBE",
+          "Value": 3
+        }
+      ]
+    }
+  ]
+}

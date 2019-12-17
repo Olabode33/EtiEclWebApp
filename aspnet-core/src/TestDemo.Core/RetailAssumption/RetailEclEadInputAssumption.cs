@@ -34,9 +34,10 @@ namespace TestDemo.RetailAssumption
 		
 		[Required]
 		public virtual bool RequiresGroupApproval { get; set; }
-		
 
-		public virtual Guid RetailEclId { get; set; }
+        public virtual bool CanAffiliateEdit { get; set; }
+
+        public virtual Guid RetailEclId { get; set; }
 		
         [ForeignKey("RetailEclId")]
 		public RetailEcl RetailEclFk { get; set; }

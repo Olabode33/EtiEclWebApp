@@ -1,4 +1,4 @@
-import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
+﻿import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
 import { AppSessionService } from '@shared/common/session/app-session.service';
 
 import { Injectable } from '@angular/core';
@@ -25,7 +25,9 @@ export class AppNavigationService {
             new AppMenuItem('Assumptions', 'Pages.Assumptions', 'fa fa-list-ul', '/app/main/eclShared/assumptions'),
             new AppMenuItem('Calibration', 'Pages.Assumptions', 'fa fa-bezier-curve', '/app/main/eclShared/assumptions'),
             new AppMenuItem('Configuration', 'Pages.Assumptions', 'fa fa-wrench', '/app/main/eclShared/assumptions'),
-            new AppMenuItem('Administration', '', 'fa fa-cogs', '', [
+           
+            new AppMenuItem('WholesaleEclPdAssumptionMacroeconomicInputs', 'Pages.WholesaleEclPdAssumptionMacroeconomicInputs', 'flaticon-more', '/app/main/wholesaleAssumption/wholesaleEclPdAssumptionMacroeconomicInputs'),
+             new AppMenuItem('Administration', '', 'fa fa-cogs', '', [
                 new AppMenuItem('OrganizationUnits', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),
                 new AppMenuItem('Users', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),

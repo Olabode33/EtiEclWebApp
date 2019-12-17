@@ -30,6 +30,118 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var obeEclPdAssumptionNonInternalModels = pages.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptionNonInternalModels, L("ObeEclPdAssumptionNonInternalModels"));
+            obeEclPdAssumptionNonInternalModels.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptionNonInternalModels_Create, L("CreateNewObeEclPdAssumptionNonInternalModel"));
+            obeEclPdAssumptionNonInternalModels.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptionNonInternalModels_Edit, L("EditObeEclPdAssumptionNonInternalModel"));
+            obeEclPdAssumptionNonInternalModels.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptionNonInternalModels_Delete, L("DeleteObeEclPdAssumptionNonInternalModel"));
+
+
+
+            var retailEclPdAssumptionNonInteralModels = pages.CreateChildPermission(AppPermissions.Pages_RetailEclPdAssumptionNonInteralModels, L("RetailEclPdAssumptionNonInteralModels"));
+            retailEclPdAssumptionNonInteralModels.CreateChildPermission(AppPermissions.Pages_RetailEclPdAssumptionNonInteralModels_Create, L("CreateNewRetailEclPdAssumptionNonInteralModel"));
+            retailEclPdAssumptionNonInteralModels.CreateChildPermission(AppPermissions.Pages_RetailEclPdAssumptionNonInteralModels_Edit, L("EditRetailEclPdAssumptionNonInteralModel"));
+            retailEclPdAssumptionNonInteralModels.CreateChildPermission(AppPermissions.Pages_RetailEclPdAssumptionNonInteralModels_Delete, L("DeleteRetailEclPdAssumptionNonInteralModel"));
+
+
+
+            var obeEclPdAssumptionNplIndexes = pages.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptionNplIndexes, L("ObeEclPdAssumptionNplIndexes"));
+            obeEclPdAssumptionNplIndexes.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptionNplIndexes_Create, L("CreateNewObeEclPdAssumptionNplIndex"));
+            obeEclPdAssumptionNplIndexes.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptionNplIndexes_Edit, L("EditObeEclPdAssumptionNplIndex"));
+            obeEclPdAssumptionNplIndexes.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptionNplIndexes_Delete, L("DeleteObeEclPdAssumptionNplIndex"));
+
+
+
+            var retailEclPdAssumptionNplIndexes = pages.CreateChildPermission(AppPermissions.Pages_RetailEclPdAssumptionNplIndexes, L("RetailEclPdAssumptionNplIndexes"));
+            retailEclPdAssumptionNplIndexes.CreateChildPermission(AppPermissions.Pages_RetailEclPdAssumptionNplIndexes_Create, L("CreateNewRetailEclPdAssumptionNplIndex"));
+            retailEclPdAssumptionNplIndexes.CreateChildPermission(AppPermissions.Pages_RetailEclPdAssumptionNplIndexes_Edit, L("EditRetailEclPdAssumptionNplIndex"));
+            retailEclPdAssumptionNplIndexes.CreateChildPermission(AppPermissions.Pages_RetailEclPdAssumptionNplIndexes_Delete, L("DeleteRetailEclPdAssumptionNplIndex"));
+
+
+
+            var obeEclPdAssumptionMacroeconomicProjections = pages.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptionMacroeconomicProjections, L("ObeEclPdAssumptionMacroeconomicProjections"));
+            obeEclPdAssumptionMacroeconomicProjections.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptionMacroeconomicProjections_Create, L("CreateNewObeEclPdAssumptionMacroeconomicProjection"));
+            obeEclPdAssumptionMacroeconomicProjections.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptionMacroeconomicProjections_Edit, L("EditObeEclPdAssumptionMacroeconomicProjection"));
+            obeEclPdAssumptionMacroeconomicProjections.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptionMacroeconomicProjections_Delete, L("DeleteObeEclPdAssumptionMacroeconomicProjection"));
+
+
+
+            var retailEclPdAssumptionMacroeconomicProjections = pages.CreateChildPermission(AppPermissions.Pages_RetailEclPdAssumptionMacroeconomicProjections, L("RetailEclPdAssumptionMacroeconomicProjections"));
+            retailEclPdAssumptionMacroeconomicProjections.CreateChildPermission(AppPermissions.Pages_RetailEclPdAssumptionMacroeconomicProjections_Create, L("CreateNewRetailEclPdAssumptionMacroeconomicProjection"));
+            retailEclPdAssumptionMacroeconomicProjections.CreateChildPermission(AppPermissions.Pages_RetailEclPdAssumptionMacroeconomicProjections_Edit, L("EditRetailEclPdAssumptionMacroeconomicProjection"));
+            retailEclPdAssumptionMacroeconomicProjections.CreateChildPermission(AppPermissions.Pages_RetailEclPdAssumptionMacroeconomicProjections_Delete, L("DeleteRetailEclPdAssumptionMacroeconomicProjection"));
+
+
+
+            var obeEclPdAssumptionMacroeconomicInputses = pages.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptionMacroeconomicInputses, L("ObeEclPdAssumptionMacroeconomicInputses"));
+            obeEclPdAssumptionMacroeconomicInputses.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptionMacroeconomicInputses_Create, L("CreateNewObeEclPdAssumptionMacroeconomicInputs"));
+            obeEclPdAssumptionMacroeconomicInputses.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptionMacroeconomicInputses_Edit, L("EditObeEclPdAssumptionMacroeconomicInputs"));
+            obeEclPdAssumptionMacroeconomicInputses.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptionMacroeconomicInputses_Delete, L("DeleteObeEclPdAssumptionMacroeconomicInputs"));
+
+
+
+            var retailEclPdAssumptionMacroeconomicInputs = pages.CreateChildPermission(AppPermissions.Pages_RetailEclPdAssumptionMacroeconomicInputs, L("RetailEclPdAssumptionMacroeconomicInputs"));
+            retailEclPdAssumptionMacroeconomicInputs.CreateChildPermission(AppPermissions.Pages_RetailEclPdAssumptionMacroeconomicInputs_Create, L("CreateNewRetailEclPdAssumptionMacroeconomicInput"));
+            retailEclPdAssumptionMacroeconomicInputs.CreateChildPermission(AppPermissions.Pages_RetailEclPdAssumptionMacroeconomicInputs_Edit, L("EditRetailEclPdAssumptionMacroeconomicInput"));
+            retailEclPdAssumptionMacroeconomicInputs.CreateChildPermission(AppPermissions.Pages_RetailEclPdAssumptionMacroeconomicInputs_Delete, L("DeleteRetailEclPdAssumptionMacroeconomicInput"));
+
+
+
+            var obeEclPdAssumptions = pages.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptions, L("ObeEclPdAssumptions"));
+            obeEclPdAssumptions.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptions_Create, L("CreateNewObeEclPdAssumption"));
+            obeEclPdAssumptions.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptions_Edit, L("EditObeEclPdAssumption"));
+            obeEclPdAssumptions.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptions_Delete, L("DeleteObeEclPdAssumption"));
+
+
+
+            var retailEclPdAssumptions = pages.CreateChildPermission(AppPermissions.Pages_RetailEclPdAssumptions, L("RetailEclPdAssumptions"));
+            retailEclPdAssumptions.CreateChildPermission(AppPermissions.Pages_RetailEclPdAssumptions_Create, L("CreateNewRetailEclPdAssumption"));
+            retailEclPdAssumptions.CreateChildPermission(AppPermissions.Pages_RetailEclPdAssumptions_Edit, L("EditRetailEclPdAssumption"));
+            retailEclPdAssumptions.CreateChildPermission(AppPermissions.Pages_RetailEclPdAssumptions_Delete, L("DeleteRetailEclPdAssumption"));
+
+
+
+            var wholesaleEclPdAssumptionNplIndexes = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEclPdAssumptionNplIndexes, L("WholesaleEclPdAssumptionNplIndexes"));
+            wholesaleEclPdAssumptionNplIndexes.CreateChildPermission(AppPermissions.Pages_WholesaleEclPdAssumptionNplIndexes_Create, L("CreateNewWholesaleEclPdAssumptionNplIndex"));
+            wholesaleEclPdAssumptionNplIndexes.CreateChildPermission(AppPermissions.Pages_WholesaleEclPdAssumptionNplIndexes_Edit, L("EditWholesaleEclPdAssumptionNplIndex"));
+            wholesaleEclPdAssumptionNplIndexes.CreateChildPermission(AppPermissions.Pages_WholesaleEclPdAssumptionNplIndexes_Delete, L("DeleteWholesaleEclPdAssumptionNplIndex"));
+
+
+
+            var wholesalePdAssumptionNonInternalModels = pages.CreateChildPermission(AppPermissions.Pages_WholesalePdAssumptionNonInternalModels, L("WholesalePdAssumptionNonInternalModels"));
+            wholesalePdAssumptionNonInternalModels.CreateChildPermission(AppPermissions.Pages_WholesalePdAssumptionNonInternalModels_Create, L("CreateNewWholesalePdAssumptionNonInternalModel"));
+            wholesalePdAssumptionNonInternalModels.CreateChildPermission(AppPermissions.Pages_WholesalePdAssumptionNonInternalModels_Edit, L("EditWholesalePdAssumptionNonInternalModel"));
+            wholesalePdAssumptionNonInternalModels.CreateChildPermission(AppPermissions.Pages_WholesalePdAssumptionNonInternalModels_Delete, L("DeleteWholesalePdAssumptionNonInternalModel"));
+
+
+
+            var wholesaleEclPdAssumptionMacroeconomicProjections = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEclPdAssumptionMacroeconomicProjections, L("WholesaleEclPdAssumptionMacroeconomicProjections"));
+            wholesaleEclPdAssumptionMacroeconomicProjections.CreateChildPermission(AppPermissions.Pages_WholesaleEclPdAssumptionMacroeconomicProjections_Create, L("CreateNewWholesaleEclPdAssumptionMacroeconomicProjection"));
+            wholesaleEclPdAssumptionMacroeconomicProjections.CreateChildPermission(AppPermissions.Pages_WholesaleEclPdAssumptionMacroeconomicProjections_Edit, L("EditWholesaleEclPdAssumptionMacroeconomicProjection"));
+            wholesaleEclPdAssumptionMacroeconomicProjections.CreateChildPermission(AppPermissions.Pages_WholesaleEclPdAssumptionMacroeconomicProjections_Delete, L("DeleteWholesaleEclPdAssumptionMacroeconomicProjection"));
+
+
+
+            var wholesaleEclPdAssumptionMacroeconomicInputs = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEclPdAssumptionMacroeconomicInputs, L("WholesaleEclPdAssumptionMacroeconomicInputs"));
+            wholesaleEclPdAssumptionMacroeconomicInputs.CreateChildPermission(AppPermissions.Pages_WholesaleEclPdAssumptionMacroeconomicInputs_Create, L("CreateNewWholesaleEclPdAssumptionMacroeconomicInput"));
+            wholesaleEclPdAssumptionMacroeconomicInputs.CreateChildPermission(AppPermissions.Pages_WholesaleEclPdAssumptionMacroeconomicInputs_Edit, L("EditWholesaleEclPdAssumptionMacroeconomicInput"));
+            wholesaleEclPdAssumptionMacroeconomicInputs.CreateChildPermission(AppPermissions.Pages_WholesaleEclPdAssumptionMacroeconomicInputs_Delete, L("DeleteWholesaleEclPdAssumptionMacroeconomicInput"));
+
+
+
+            var wholesaleEclPdAssumptions = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEclPdAssumptions, L("WholesaleEclPdAssumptions"));
+            wholesaleEclPdAssumptions.CreateChildPermission(AppPermissions.Pages_WholesaleEclPdAssumptions_Create, L("CreateNewWholesaleEclPdAssumption"));
+            wholesaleEclPdAssumptions.CreateChildPermission(AppPermissions.Pages_WholesaleEclPdAssumptions_Edit, L("EditWholesaleEclPdAssumption"));
+            wholesaleEclPdAssumptions.CreateChildPermission(AppPermissions.Pages_WholesaleEclPdAssumptions_Delete, L("DeleteWholesaleEclPdAssumption"));
+
+
+
+            var pdInputAssumptionMacroeconomicProjections = pages.CreateChildPermission(AppPermissions.Pages_PdInputAssumptionMacroeconomicProjections, L("PdInputAssumptionMacroeconomicProjections"));
+            pdInputAssumptionMacroeconomicProjections.CreateChildPermission(AppPermissions.Pages_PdInputAssumptionMacroeconomicProjections_Create, L("CreateNewPdInputAssumptionMacroeconomicProjection"));
+            pdInputAssumptionMacroeconomicProjections.CreateChildPermission(AppPermissions.Pages_PdInputAssumptionMacroeconomicProjections_Edit, L("EditPdInputAssumptionMacroeconomicProjection"));
+            pdInputAssumptionMacroeconomicProjections.CreateChildPermission(AppPermissions.Pages_PdInputAssumptionMacroeconomicProjections_Delete, L("DeletePdInputAssumptionMacroeconomicProjection"));
+
+
+
             var pdInputAssumptionNplIndexes = pages.CreateChildPermission(AppPermissions.Pages_PdInputAssumptionNplIndexes, L("PdInputAssumptionNplIndexes"));
             pdInputAssumptionNplIndexes.CreateChildPermission(AppPermissions.Pages_PdInputAssumptionNplIndexes_Create, L("CreateNewPdInputAssumptionNplIndex"));
             pdInputAssumptionNplIndexes.CreateChildPermission(AppPermissions.Pages_PdInputAssumptionNplIndexes_Edit, L("EditPdInputAssumptionNplIndex"));

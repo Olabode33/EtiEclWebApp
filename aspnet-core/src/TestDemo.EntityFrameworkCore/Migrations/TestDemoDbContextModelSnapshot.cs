@@ -1126,6 +1126,8 @@ namespace TestDemo.Migrations
 
                     b.Property<int>("AssumptionGroup");
 
+                    b.Property<bool>("CanAffiliateEdit");
+
                     b.Property<DateTime>("CreationTime");
 
                     b.Property<long?>("CreatorUserId");
@@ -1149,6 +1151,8 @@ namespace TestDemo.Migrations
                     b.Property<DateTime?>("LastModificationTime");
 
                     b.Property<long?>("LastModifierUserId");
+
+                    b.Property<long>("OrganizationUnitId");
 
                     b.Property<bool>("RequiresGroupApproval");
 
@@ -1316,7 +1320,7 @@ namespace TestDemo.Migrations
 
                     b.Property<string>("InputName");
 
-                    b.Property<string>("IsComputed");
+                    b.Property<bool>("IsComputed");
 
                     b.Property<bool>("IsDeleted");
 
@@ -1339,6 +1343,56 @@ namespace TestDemo.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PdInputAssumptionMacroeconomicInputs");
+                });
+
+            modelBuilder.Entity("TestDemo.EclShared.PdInputAssumptionMacroeconomicProjection", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("BestValue");
+
+                    b.Property<bool>("CanAffiliateEdit");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<double>("DownturnValue");
+
+                    b.Property<int>("Framework");
+
+                    b.Property<string>("InputName");
+
+                    b.Property<bool>("IsComputed");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<int>("MacroeconomicGroup");
+
+                    b.Property<double>("OptimisticValue");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PdInputAssumptionMacroeconomicProjections");
                 });
 
             modelBuilder.Entity("TestDemo.EclShared.PdInputAssumptionNonInternalModel", b =>
@@ -1390,6 +1444,8 @@ namespace TestDemo.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<double>("Actual");
+
                     b.Property<bool>("CanAffiliateEdit");
 
                     b.Property<DateTime>("CreationTime");
@@ -1401,6 +1457,8 @@ namespace TestDemo.Migrations
                     b.Property<long?>("DeleterUserId");
 
                     b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<double>("EtiNplSeries");
 
                     b.Property<int>("Framework");
 
@@ -1414,15 +1472,13 @@ namespace TestDemo.Migrations
 
                     b.Property<long?>("LastModifierUserId");
 
-                    b.Property<int>("NplIndexGroup");
-
                     b.Property<long>("OrganizationUnitId");
 
                     b.Property<bool>("RequiresGroupApproval");
 
-                    b.Property<int>("Status");
+                    b.Property<double>("Standardised");
 
-                    b.Property<string>("Value");
+                    b.Property<int>("Status");
 
                     b.HasKey("Id");
 
@@ -1778,6 +1834,8 @@ namespace TestDemo.Migrations
 
                     b.Property<int>("AssumptionGroup");
 
+                    b.Property<bool>("CanAffiliateEdit");
+
                     b.Property<DateTime>("CreationTime");
 
                     b.Property<long?>("CreatorUserId");
@@ -1876,6 +1934,8 @@ namespace TestDemo.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("CanAffiliateEdit");
+
                     b.Property<DateTime>("CreationTime");
 
                     b.Property<long?>("CreatorUserId");
@@ -1923,6 +1983,8 @@ namespace TestDemo.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("CanAffiliateEdit");
 
                     b.Property<DateTime>("CreationTime");
 
@@ -3402,6 +3464,8 @@ namespace TestDemo.Migrations
 
                     b.Property<int>("AssumptionGroup");
 
+                    b.Property<bool>("CanAffiliateEdit");
+
                     b.Property<DateTime>("CreationTime");
 
                     b.Property<long?>("CreatorUserId");
@@ -3500,6 +3564,8 @@ namespace TestDemo.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("CanAffiliateEdit");
+
                     b.Property<DateTime>("CreationTime");
 
                     b.Property<long?>("CreatorUserId");
@@ -3547,6 +3613,8 @@ namespace TestDemo.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("CanAffiliateEdit");
 
                     b.Property<DateTime>("CreationTime");
 
@@ -4761,6 +4829,8 @@ namespace TestDemo.Migrations
 
                     b.Property<int>("AssumptionGroup");
 
+                    b.Property<bool>("CanAffiliateEdit");
+
                     b.Property<DateTime>("CreationTime");
 
                     b.Property<long?>("CreatorUserId");
@@ -4857,6 +4927,8 @@ namespace TestDemo.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("CanAffiliateEdit");
+
                     b.Property<DateTime>("CreationTime");
 
                     b.Property<long?>("CreatorUserId");
@@ -4904,6 +4976,8 @@ namespace TestDemo.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("CanAffiliateEdit");
 
                     b.Property<DateTime>("CreationTime");
 

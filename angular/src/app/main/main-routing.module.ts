@@ -1,5 +1,6 @@
-import { ViewRetailEclComponent } from './retail/view-retailEcl/view-retailEcl.component';
+﻿import { ViewRetailEclComponent } from './retail/view-retailEcl/view-retailEcl.component';
 import { NgModule } from '@angular/core';
+import { WholesaleEclPdAssumptionMacroeconomicInputsComponent } from './wholesaleAssumption/wholesaleEclPdAssumptionMacroeconomicInputs/wholesaleEclPdAssumptionMacroeconomicInputs.component';
 import { RouterModule } from '@angular/router';
 import { WholesaleEclResultSummaryTopExposuresComponent } from './wholesaleResults/wholesaleEclResultSummaryTopExposures/wholesaleEclResultSummaryTopExposures.component';
 import { WholesaleEclResultSummaryKeyInputsComponent } from './wholesaleResults/wholesaleEclResultSummaryKeyInputs/wholesaleEclResultSummaryKeyInputs.component';
@@ -25,6 +26,7 @@ import { CreateEditRetailEclComponent } from './retail/createEdit-retailEcl/crea
             {
                 path: '',
                 children: [
+                    { path: 'wholesaleAssumption/wholesaleEclPdAssumptionMacroeconomicInputs', component: WholesaleEclPdAssumptionMacroeconomicInputsComponent, data: { permission: 'Pages.WholesaleEclPdAssumptionMacroeconomicInputs' }  },
                     { path: 'wholesaleResults/wholesaleEclResultSummaryTopExposures', component: WholesaleEclResultSummaryTopExposuresComponent, data: { permission: 'Pages.WholesaleEclResultSummaryTopExposures' }  },
                     { path: 'wholesaleResults/wholesaleEclResultSummaryKeyInputs', component: WholesaleEclResultSummaryKeyInputsComponent, data: { permission: 'Pages.WholesaleEclResultSummaryKeyInputs' }  },
                     { path: 'wholesaleResult/wholesaleEclResultSummaries', component: WholesaleEclResultSummariesComponent, data: { permission: 'Pages.WholesaleEclResultSummaries' }  },

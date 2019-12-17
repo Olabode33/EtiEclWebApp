@@ -6,6 +6,86 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_ObeEclPdAssumptionNonInternalModels = "Pages.ObeEclPdAssumptionNonInternalModels";
+        public const string Pages_ObeEclPdAssumptionNonInternalModels_Create = "Pages.ObeEclPdAssumptionNonInternalModels.Create";
+        public const string Pages_ObeEclPdAssumptionNonInternalModels_Edit = "Pages.ObeEclPdAssumptionNonInternalModels.Edit";
+        public const string Pages_ObeEclPdAssumptionNonInternalModels_Delete = "Pages.ObeEclPdAssumptionNonInternalModels.Delete";
+
+        public const string Pages_RetailEclPdAssumptionNonInteralModels = "Pages.RetailEclPdAssumptionNonInteralModels";
+        public const string Pages_RetailEclPdAssumptionNonInteralModels_Create = "Pages.RetailEclPdAssumptionNonInteralModels.Create";
+        public const string Pages_RetailEclPdAssumptionNonInteralModels_Edit = "Pages.RetailEclPdAssumptionNonInteralModels.Edit";
+        public const string Pages_RetailEclPdAssumptionNonInteralModels_Delete = "Pages.RetailEclPdAssumptionNonInteralModels.Delete";
+
+        public const string Pages_ObeEclPdAssumptionNplIndexes = "Pages.ObeEclPdAssumptionNplIndexes";
+        public const string Pages_ObeEclPdAssumptionNplIndexes_Create = "Pages.ObeEclPdAssumptionNplIndexes.Create";
+        public const string Pages_ObeEclPdAssumptionNplIndexes_Edit = "Pages.ObeEclPdAssumptionNplIndexes.Edit";
+        public const string Pages_ObeEclPdAssumptionNplIndexes_Delete = "Pages.ObeEclPdAssumptionNplIndexes.Delete";
+
+        public const string Pages_RetailEclPdAssumptionNplIndexes = "Pages.RetailEclPdAssumptionNplIndexes";
+        public const string Pages_RetailEclPdAssumptionNplIndexes_Create = "Pages.RetailEclPdAssumptionNplIndexes.Create";
+        public const string Pages_RetailEclPdAssumptionNplIndexes_Edit = "Pages.RetailEclPdAssumptionNplIndexes.Edit";
+        public const string Pages_RetailEclPdAssumptionNplIndexes_Delete = "Pages.RetailEclPdAssumptionNplIndexes.Delete";
+
+        public const string Pages_ObeEclPdAssumptionMacroeconomicProjections = "Pages.ObeEclPdAssumptionMacroeconomicProjections";
+        public const string Pages_ObeEclPdAssumptionMacroeconomicProjections_Create = "Pages.ObeEclPdAssumptionMacroeconomicProjections.Create";
+        public const string Pages_ObeEclPdAssumptionMacroeconomicProjections_Edit = "Pages.ObeEclPdAssumptionMacroeconomicProjections.Edit";
+        public const string Pages_ObeEclPdAssumptionMacroeconomicProjections_Delete = "Pages.ObeEclPdAssumptionMacroeconomicProjections.Delete";
+
+        public const string Pages_RetailEclPdAssumptionMacroeconomicProjections = "Pages.RetailEclPdAssumptionMacroeconomicProjections";
+        public const string Pages_RetailEclPdAssumptionMacroeconomicProjections_Create = "Pages.RetailEclPdAssumptionMacroeconomicProjections.Create";
+        public const string Pages_RetailEclPdAssumptionMacroeconomicProjections_Edit = "Pages.RetailEclPdAssumptionMacroeconomicProjections.Edit";
+        public const string Pages_RetailEclPdAssumptionMacroeconomicProjections_Delete = "Pages.RetailEclPdAssumptionMacroeconomicProjections.Delete";
+
+        public const string Pages_ObeEclPdAssumptionMacroeconomicInputses = "Pages.ObeEclPdAssumptionMacroeconomicInputses";
+        public const string Pages_ObeEclPdAssumptionMacroeconomicInputses_Create = "Pages.ObeEclPdAssumptionMacroeconomicInputses.Create";
+        public const string Pages_ObeEclPdAssumptionMacroeconomicInputses_Edit = "Pages.ObeEclPdAssumptionMacroeconomicInputses.Edit";
+        public const string Pages_ObeEclPdAssumptionMacroeconomicInputses_Delete = "Pages.ObeEclPdAssumptionMacroeconomicInputses.Delete";
+
+        public const string Pages_RetailEclPdAssumptionMacroeconomicInputs = "Pages.RetailEclPdAssumptionMacroeconomicInputs";
+        public const string Pages_RetailEclPdAssumptionMacroeconomicInputs_Create = "Pages.RetailEclPdAssumptionMacroeconomicInputs.Create";
+        public const string Pages_RetailEclPdAssumptionMacroeconomicInputs_Edit = "Pages.RetailEclPdAssumptionMacroeconomicInputs.Edit";
+        public const string Pages_RetailEclPdAssumptionMacroeconomicInputs_Delete = "Pages.RetailEclPdAssumptionMacroeconomicInputs.Delete";
+
+        public const string Pages_ObeEclPdAssumptions = "Pages.ObeEclPdAssumptions";
+        public const string Pages_ObeEclPdAssumptions_Create = "Pages.ObeEclPdAssumptions.Create";
+        public const string Pages_ObeEclPdAssumptions_Edit = "Pages.ObeEclPdAssumptions.Edit";
+        public const string Pages_ObeEclPdAssumptions_Delete = "Pages.ObeEclPdAssumptions.Delete";
+
+        public const string Pages_RetailEclPdAssumptions = "Pages.RetailEclPdAssumptions";
+        public const string Pages_RetailEclPdAssumptions_Create = "Pages.RetailEclPdAssumptions.Create";
+        public const string Pages_RetailEclPdAssumptions_Edit = "Pages.RetailEclPdAssumptions.Edit";
+        public const string Pages_RetailEclPdAssumptions_Delete = "Pages.RetailEclPdAssumptions.Delete";
+
+        public const string Pages_WholesaleEclPdAssumptionNplIndexes = "Pages.WholesaleEclPdAssumptionNplIndexes";
+        public const string Pages_WholesaleEclPdAssumptionNplIndexes_Create = "Pages.WholesaleEclPdAssumptionNplIndexes.Create";
+        public const string Pages_WholesaleEclPdAssumptionNplIndexes_Edit = "Pages.WholesaleEclPdAssumptionNplIndexes.Edit";
+        public const string Pages_WholesaleEclPdAssumptionNplIndexes_Delete = "Pages.WholesaleEclPdAssumptionNplIndexes.Delete";
+
+        public const string Pages_WholesalePdAssumptionNonInternalModels = "Pages.WholesalePdAssumptionNonInternalModels";
+        public const string Pages_WholesalePdAssumptionNonInternalModels_Create = "Pages.WholesalePdAssumptionNonInternalModels.Create";
+        public const string Pages_WholesalePdAssumptionNonInternalModels_Edit = "Pages.WholesalePdAssumptionNonInternalModels.Edit";
+        public const string Pages_WholesalePdAssumptionNonInternalModels_Delete = "Pages.WholesalePdAssumptionNonInternalModels.Delete";
+
+        public const string Pages_WholesaleEclPdAssumptionMacroeconomicProjections = "Pages.WholesaleEclPdAssumptionMacroeconomicProjections";
+        public const string Pages_WholesaleEclPdAssumptionMacroeconomicProjections_Create = "Pages.WholesaleEclPdAssumptionMacroeconomicProjections.Create";
+        public const string Pages_WholesaleEclPdAssumptionMacroeconomicProjections_Edit = "Pages.WholesaleEclPdAssumptionMacroeconomicProjections.Edit";
+        public const string Pages_WholesaleEclPdAssumptionMacroeconomicProjections_Delete = "Pages.WholesaleEclPdAssumptionMacroeconomicProjections.Delete";
+
+        public const string Pages_WholesaleEclPdAssumptionMacroeconomicInputs = "Pages.WholesaleEclPdAssumptionMacroeconomicInputs";
+        public const string Pages_WholesaleEclPdAssumptionMacroeconomicInputs_Create = "Pages.WholesaleEclPdAssumptionMacroeconomicInputs.Create";
+        public const string Pages_WholesaleEclPdAssumptionMacroeconomicInputs_Edit = "Pages.WholesaleEclPdAssumptionMacroeconomicInputs.Edit";
+        public const string Pages_WholesaleEclPdAssumptionMacroeconomicInputs_Delete = "Pages.WholesaleEclPdAssumptionMacroeconomicInputs.Delete";
+
+        public const string Pages_WholesaleEclPdAssumptions = "Pages.WholesaleEclPdAssumptions";
+        public const string Pages_WholesaleEclPdAssumptions_Create = "Pages.WholesaleEclPdAssumptions.Create";
+        public const string Pages_WholesaleEclPdAssumptions_Edit = "Pages.WholesaleEclPdAssumptions.Edit";
+        public const string Pages_WholesaleEclPdAssumptions_Delete = "Pages.WholesaleEclPdAssumptions.Delete";
+
+        public const string Pages_PdInputAssumptionMacroeconomicProjections = "Pages.PdInputAssumptionMacroeconomicProjections";
+        public const string Pages_PdInputAssumptionMacroeconomicProjections_Create = "Pages.PdInputAssumptionMacroeconomicProjections.Create";
+        public const string Pages_PdInputAssumptionMacroeconomicProjections_Edit = "Pages.PdInputAssumptionMacroeconomicProjections.Edit";
+        public const string Pages_PdInputAssumptionMacroeconomicProjections_Delete = "Pages.PdInputAssumptionMacroeconomicProjections.Delete";
+
         public const string Pages_PdInputAssumptionNplIndexes = "Pages.PdInputAssumptionNplIndexes";
         public const string Pages_PdInputAssumptionNplIndexes_Create = "Pages.PdInputAssumptionNplIndexes.Create";
         public const string Pages_PdInputAssumptionNplIndexes_Edit = "Pages.PdInputAssumptionNplIndexes.Edit";

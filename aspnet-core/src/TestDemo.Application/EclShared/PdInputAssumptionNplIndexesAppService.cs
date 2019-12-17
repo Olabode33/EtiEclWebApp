@@ -36,7 +36,7 @@ namespace TestDemo.EclShared
          {
 			
 			var filteredPdInputAssumptionNplIndexes = _pdInputAssumptionNplIndexRepository.GetAll()
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.Key.Contains(input.Filter) || e.Value.Contains(input.Filter));
+						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.Key.Contains(input.Filter) );
 
 			var pagedAndFilteredPdInputAssumptionNplIndexes = filteredPdInputAssumptionNplIndexes
                 .OrderBy(input.Sorting ?? "id asc")

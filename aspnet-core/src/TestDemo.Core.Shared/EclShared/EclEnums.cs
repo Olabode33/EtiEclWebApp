@@ -62,10 +62,7 @@ namespace TestDemo.EclShared
     public enum PdInputAssumptionMacroEconomicInputGroupEnum
     {
         General, StatisticalInputsPrimeLending, StatisticalInputsOilExports, StatisticalInputsRealGdpGrowthRate, DifferencedRealGdpGrowthRate,
-        BestProjectionInputsPrimeLending, BestProjectionOilExports, BestProjectionRealGdpGrowthRate, BestProjectionDifferencedRealGdpGrowthRate,
-        OptimisticProjectionInputsPrimeLending, OptimisticProjectionOilExports, OptimisticProjectionRealGdpGrowthRate, OptimisticProjectionDifferencedRealGdpGrowthRate,
-        DownturnProjectionInputsPrimeLending, DownturnProjectionOilExports, DownturnProjectionRealGdpGrowthRate, DownturnProjectionDifferencedRealGdpGrowthRate,
-
+        ProjectionPrimeLending, ProjectionOilExports, ProjectionRealGdpGrowthRate, ProjectionDifferencedRealGdpGrowthRate,
     }
 
     public enum AssumptionGroupEnum

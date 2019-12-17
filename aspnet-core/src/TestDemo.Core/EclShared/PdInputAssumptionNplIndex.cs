@@ -19,10 +19,12 @@ namespace TestDemo.EclShared
 		public virtual string Key { get; set; }
 		
 		public virtual DateTime Date { get; set; }
-		
-		public virtual string Value { get; set; }
-		
-		public virtual PdInputAssumptionHistoricalIndexEtiNplEnum NplIndexGroup { get; set; }
+
+        public virtual double Actual { get; set; }
+
+        public virtual double Standardised { get; set; }
+
+        public virtual double EtiNplSeries { get; set; }
 		
 		public virtual GeneralStatusEnum Status { get; set; }
 		

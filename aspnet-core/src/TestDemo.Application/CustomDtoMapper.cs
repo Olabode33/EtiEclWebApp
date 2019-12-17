@@ -75,6 +75,38 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditObeEclPdAssumptionNonInternalModelDto, ObeEclPdAssumptionNonInternalModel>().ReverseMap();
+            configuration.CreateMap<ObeEclPdAssumptionNonInternalModelDto, ObeEclPdAssumptionNonInternalModel>().ReverseMap();
+            configuration.CreateMap<CreateOrEditRetailEclPdAssumptionNonInteralModelDto, RetailEclPdAssumptionNonInteralModel>().ReverseMap();
+            configuration.CreateMap<RetailEclPdAssumptionNonInteralModelDto, RetailEclPdAssumptionNonInteralModel>().ReverseMap();
+            configuration.CreateMap<CreateOrEditObeEclPdAssumptionNplIndexDto, ObeEclPdAssumptionNplIndex>().ReverseMap();
+            configuration.CreateMap<ObeEclPdAssumptionNplIndexDto, ObeEclPdAssumptionNplIndex>().ReverseMap();
+            configuration.CreateMap<CreateOrEditRetailEclPdAssumptionNplIndexDto, RetailEclPdAssumptionNplIndex>().ReverseMap();
+            configuration.CreateMap<RetailEclPdAssumptionNplIndexDto, RetailEclPdAssumptionNplIndex>().ReverseMap();
+            configuration.CreateMap<CreateOrEditObeEclPdAssumptionMacroeconomicProjectionDto, ObeEclPdAssumptionMacroeconomicProjection>().ReverseMap();
+            configuration.CreateMap<ObeEclPdAssumptionMacroeconomicProjectionDto, ObeEclPdAssumptionMacroeconomicProjection>().ReverseMap();
+            configuration.CreateMap<CreateOrEditRetailEclPdAssumptionMacroeconomicProjectionDto, RetailEclPdAssumptionMacroeconomicProjection>().ReverseMap();
+            configuration.CreateMap<RetailEclPdAssumptionMacroeconomicProjectionDto, RetailEclPdAssumptionMacroeconomicProjection>().ReverseMap();
+            configuration.CreateMap<CreateOrEditObeEclPdAssumptionMacroeconomicInputsDto, ObeEclPdAssumptionMacroeconomicInputs>().ReverseMap();
+            configuration.CreateMap<ObeEclPdAssumptionMacroeconomicInputsDto, ObeEclPdAssumptionMacroeconomicInputs>().ReverseMap();
+            configuration.CreateMap<CreateOrEditRetailEclPdAssumptionMacroeconomicInputDto, RetailEclPdAssumptionMacroeconomicInput>().ReverseMap();
+            configuration.CreateMap<RetailEclPdAssumptionMacroeconomicInputDto, RetailEclPdAssumptionMacroeconomicInput>().ReverseMap();
+            configuration.CreateMap<CreateOrEditObeEclPdAssumptionDto, ObeEclPdAssumption>().ReverseMap();
+            configuration.CreateMap<ObeEclPdAssumptionDto, ObeEclPdAssumption>().ReverseMap();
+            configuration.CreateMap<CreateOrEditRetailEclPdAssumptionDto, RetailEclPdAssumption>().ReverseMap();
+            configuration.CreateMap<RetailEclPdAssumptionDto, RetailEclPdAssumption>().ReverseMap();
+            configuration.CreateMap<CreateOrEditWholesaleEclPdAssumptionNplIndexDto, WholesaleEclPdAssumptionNplIndex>().ReverseMap();
+            configuration.CreateMap<WholesaleEclPdAssumptionNplIndexDto, WholesaleEclPdAssumptionNplIndex>().ReverseMap();
+            configuration.CreateMap<CreateOrEditWholesalePdAssumptionNonInternalModelDto, WholesalePdAssumptionNonInternalModel>().ReverseMap();
+            configuration.CreateMap<WholesalePdAssumptionNonInternalModelDto, WholesalePdAssumptionNonInternalModel>().ReverseMap();
+            configuration.CreateMap<CreateOrEditWholesaleEclPdAssumptionMacroeconomicProjectionDto, WholesaleEclPdAssumptionMacroeconomicProjection>().ReverseMap();
+            configuration.CreateMap<WholesaleEclPdAssumptionMacroeconomicProjectionDto, WholesaleEclPdAssumptionMacroeconomicProjection>().ReverseMap();
+            configuration.CreateMap<CreateOrEditWholesaleEclPdAssumptionMacroeconomicInputDto, WholesaleEclPdAssumptionMacroeconomicInput>().ReverseMap();
+            configuration.CreateMap<WholesaleEclPdAssumptionMacroeconomicInputDto, WholesaleEclPdAssumptionMacroeconomicInput>().ReverseMap();
+            configuration.CreateMap<CreateOrEditWholesaleEclPdAssumptionDto, WholesaleEclPdAssumption>().ReverseMap();
+            configuration.CreateMap<WholesaleEclPdAssumptionDto, WholesaleEclPdAssumption>().ReverseMap();
+            configuration.CreateMap<CreateOrEditPdInputAssumptionMacroeconomicProjectionDto, PdInputAssumptionMacroeconomicProjection>().ReverseMap();
+            configuration.CreateMap<PdInputAssumptionMacroeconomicProjectionDto, PdInputAssumptionMacroeconomicProjection>().ReverseMap();
             configuration.CreateMap<CreateOrEditPdInputAssumptionNplIndexDto, PdInputAssumptionNplIndex>().ReverseMap();
             configuration.CreateMap<PdInputAssumptionNplIndexDto, PdInputAssumptionNplIndex>().ReverseMap();
             configuration.CreateMap<CreateOrEditPdInputAssumptionStatisticalDto, PdInputAssumptionMacroeconomicInput>().ReverseMap();

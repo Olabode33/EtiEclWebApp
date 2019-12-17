@@ -42,6 +42,7 @@ namespace TestDemo.EclShared.DefaultAssumptions
             public const string HistoricalIndexActualPrefix = "HistoricalIndexActual";
             public const string HistoricalIndexStandardisedPrefix = "HistoricalIndexStandardised";
             public const string EtiNplSeriesPrefix = "EtiNplSeries";
+            public const string HistoricalIndexQuarterPrefix = "HistoricalIndexQ";
 
             public const string StatisticalInputsPrimeLendingMean = "StatisticalInputsPrimeLendingMean";
             public const string StatisticalInputsPrimeLendingStandardDeviation = "StatisticalInputsPrimeLendingStandardDeviation";
@@ -59,23 +60,21 @@ namespace TestDemo.EclShared.DefaultAssumptions
             public const string StatisticalInputsRealGdpGrowthRatePrincipalComponentScore1 = "StatisticalInputsRealGdpGrowthRatePrincipalComponentScore1";
             public const string StatisticalInputsRealGdpGrowthRatePrincipalComponentScore2 = "StatisticalInputsRealGdpGrowthRatePrincipalComponentScore2";
 
-            public const string BestProjectionInputsPrimeLendingPrefix = "BestProjectionInputsPrimeLending";
-            public const string BestProjectionOilExportsPrefix = "BestProjectionOilExports";
-            public const string BestProjectionRealGdpGrowthRatePrefix = "BestProjectionRealGdpGrowthRate";
-            public const string BestProjectionDifferencedRealGdpGrowthRatePrefix = "BestProjectionDifferencedRealGdpGrowthRate";
-            public const string OptimisticProjectionInputsPrimeLendingPrefix = "OptimisticProjectionInputsPrimeLending";
-            public const string OptimisticProjectionOilExportsPrefix = "OptimisticProjectionOilExports";
-            public const string OptimisticProjectionRealGdpGrowthRatePrefix = "OptimisticProjectionRealGdpGrowthRate";
-            public const string OptimisticProjectionDifferencedRealGdpGrowthRatePrefix = "OptimisticProjectionDifferencedRealGdpGrowthRate";
-            public const string DownturnProjectionInputsPrimeLendingPrefix = "DownturnProjectionInputsPrimeLending";
-            public const string DownturnProjectionOilExportsPrefix = "DownturnProjectionOilExports";
-            public const string DownturnProjectionRealGdpGrowthRatePrefix = "DownturnProjectionRealGdpGrowthRate";
-            public const string DownturnProjectionDifferencedRealGdpGrowthRatePrefix = "DownturnProjectionDifferencedRealGdpGrowthRate";
+            public const string MacroeconomicProjectionInputsPrimeLendingPrefix = "MacroeconomicProjectionInputsPrimeLending";
+            public const string MacroeconomicProjectionOilExportsPrefix = "MacroeconomicProjectionOilExports";
+            public const string MacroeconomicProjectionRealGdpGrowthRatePrefix = "MacroeconomicProjectionRealGdpGrowthRate";
+            public const string MacroeconomicProjectionDifferencedRealGdpGrowthRatePrefix = "MacroeconomicProjectionDifferencedRealGdpGrowthRate";
         }
 
         public static class InputName
         {
-            //
+            //Statistical Index Weight
+            public const string StatisticalIndexWeightW1 = "Index Weight W1";
+            public const string StatisticalIndexWeightW2 = "Index Weight W1";
+            public const string StatisticalIndexWeightStandardDeviation = "Index Weight Standard Deviation";
+            public const string StatisticalIndexWeightAverage = "Index Weight Average";
+
+            //Statistical Inputs
             public const string StatisticalInputsMean = "Mean";
             public const string StatisticalInputsStandardDeviation = "Standard Deviation";
             public const string StatisticalInputsEigenvalues = "Eigenvalues";
@@ -97,6 +96,12 @@ namespace TestDemo.EclShared.DefaultAssumptions
             public const string RatingsB = "B";
             public const string RatingsCCC = "CCC";
             public const string RatingsD = "D";
+
+            //Macroeconomic Projection
+            public const string MacroeconomicProjectionPrimeLending = "Prime Lending Rate (%)";
+            public const string MacroeconomicProjectionOilExport = "Oil Exports (USD'm)";
+            public const string MacroeconomicProjectionGdpGrowth = "Real GDP Growth Rate (%)";
+            public const string MacroeconomicProjectionDifferencedGdpGrowth = "Differenced Real GDP Growth Rate (%)";
         }
 
         public static class InputValue
@@ -137,6 +142,18 @@ namespace TestDemo.EclShared.DefaultAssumptions
             public const string CreditPd9_BestFit = "CCC";
             public const string CreditPd10_BestFit = "CCC";
 
+            public const double StatisticalIndexW1 = 0.58;
+            public const double StatisticalIndexW2 = 0.42;
+            public const double StatisticalIndexStandardDeviatio = 0.84;
+            public const double StatisticalIndexAvearage = 0.00;
+
+            //Statistical Inputs
+            public static double[] StatisticalInputPrimeLending = new double[] { 16.91, 1.11, 1.52, 0.73, 0.17 };
+            public static double[] StatisticalInputOilExports = new double[] { 18606.52, 5573.94, 1.12, -0.66, 0.42 };
+            public static double[] StatisticalInputGdpGrowth = new double[] {  -0.26, 1.24, 0.36, 0.17, 0.89 };
+
+
+            //Non-internal Model
             public static double[,] NonInternalMarginalDefaultValues = new double[PdAssumptionKey.MaxNonInternalProjectionMonths, PdAssumptionKey.MaxNonnInteralPdGroup]{
                                                                                     { 0.000163084122119295, 0.0133646723869717, 0.000292608537635242, 0.0224198726893341 },
                                                                                     { 0.000163084122119295, 0.0133646723869717, 0.000292608537635242, 0.0224198726893341 },
@@ -622,6 +639,45 @@ namespace TestDemo.EclShared.DefaultAssumptions
                 { 0.921152090414194, 0.880516028671442, 0.167218295264035, 0.138524772807794 },
                 { 0.920833210527548, 0.880211215976195, 0.165929922539384, 0.137457476082324 }
             };
+
+            //Macro-economic model
+            public static string[] HistoricalIndexDate = new string[] {"2009-03-31","2009-06-30", "2009-09-30", "2009-12-31",
+                                                                       "2010-03-31", "2010-06-30", "2010-09-30", "2010-12-31",
+                                                                       "2011-03-31", "2011-06-30", "2011-09-30", "2011-12-31",
+                                                                       "2012-03-31", "2012-06-30", "2012-09-30", "2012-12-31",
+                                                                       "2013-03-31", "2013-06-30", "2013-09-30", "2013-12-31",
+                                                                       "2014-03-31", "2014-06-30", "2014-09-30", "2014-12-31",
+                                                                       "2015-03-31", "2015-06-30", "2015-09-30", "2015-12-31",
+                                                                       "2016-03-31", "2016-06-30", "2016-09-30", "2016-12-31"};
+            //Macro-economic projections
+            public static string[] MacroeconomicProjectionDate = new string[] {"2016-03-31", "2016-06-30", "2016-09-30", "2016-12-31",
+                                                                               "2017-03-31", "2017-06-30", "2017-09-30", "2017-12-31",
+                                                                               "2018-03-31", "2018-06-30", "2018-09-30", "2018-12-31",
+                                                                               "2019-03-31", "2019-06-30", "2019-09-30", "2019-12-31",
+                                                                               "2020-03-31", "2020-06-30", "2020-09-30", "2020-12-31",
+                                                                               "2021-03-31", "2021-06-30", "2021-09-30", "2021-12-31",
+                                                                               "2022-03-31", "2022-06-30", "2022-09-30", "2022-12-31" };
+
+
+            public static double[] HistoricalIndexActual = new double[] { -0.625854455275635, -1.80348542962092, 1.81891618871537, 1.33983800967755, 1.47860535986325, 1.26100532849036, 1.21906008055837, 0.757446265471478, 0.22876595759205, -0.763401911305572, -0.669485587226374, -1.61385106240239, -0.191985975567675, -0.609816994702729, 0.257292685936015, 0.438944546914496, -0.888115271200889, 0.0818868961877547, 0.22919644478146, -0.21849265151891, 0.34307295277668, -0.174470387082317, 0.103757311621295, -0.251574098530102, -0.251699768043672, -0.99312496733012, -0.437866399419864, 0.346934352047545, 0.197295482457322, -0.653403225019291, 0.00969657113321359, 0.0349137501071141 };
+            public static double[] HistoricalIndexStandardised = new double[] { -0.744846944640842, -2.14637860389136, 2.1647431831703, 1.59457880247295, 1.75972971884019, 1.50075781705868, 1.45083760078339, 0.901458049560751, 0.272260783815197, -0.908546030750988, -0.796773578781807, -1.92068942355498, -0.228487895406711, -0.725760312905968, 0.306211243492205, 0.522400219214975, -1.05697089900988, 0.0974558923647431, 0.27277311869599, -0.260034234061572, 0.408300745496845, -0.207642102176551, 0.123484487314115, -0.299405392200293, -0.299554955013863, -1.18194588426383, -0.521117085642104, 0.412896305094905, 0.234806888500072, -0.777633508352451, 0.0115401613253356, 0.0415518334525543 };
+            public static double[] HistoricalIndexNplSeries = new double[] { 0.0465122332294269, 0.105446454657796, 0.285275933021577, 0.382477288211133, 0.405025670714304, 0.322759614200389, 0.219407483504469, 0.24306, 0.206673466481902, 0.0905585349604633, 0.0507602057739988, 0.059, 0.06, 0.04, 0.0372721303261889, 0.0463, 0.0417, 0.0308, 0.0351, 0.0593, 0.0561, 0.0222612203771274, 0.0373466360426162, 0.0468477759607759, 0.0526399855636345, 0.0313021517303864, 0.0390247714906672, 0.101747301755425, 0.119205207441604, 0.0768127013798171, 0.0783279466468615, 0.0911129218938252 };
+
+            //Best
+            public static double[] MacroecoBestProjectionPrimeLending = new double[] { 16.69, 16.56, 17.14, 17.08, 17.16, 17.55, 17.64, 17.69, 17.74, 16.7654084302061, 16.8154084302061, 16.8654084302061, 16.9154084302061, 16.9654084302061, 16.7550832269541, 16.8050832269541, 16.8550832269541, 16.9050832269541, 16.9550832269541, 17.0050832269541, 17.0550832269541, 17.1050832269541, 17.1550832269541, 17.2050832269541, 16.8487417635395, 16.8987417635395, 16.9487417635395, 16.9987417635395 };
+            public static double[] MacroecoBestProjectionOilExport = new double[] { 7045.39910718547, 8299.34350634626, 7444.756575241, 9239.53978932432, 9247.89, 9062.57622809992, 8760.63959648114, 9810.6804938738, 8345.30722363335, 8366.47830384812, 8320.85805032831, 9319.48481863517, 8220.87688427339, 8036.78205956064, 8204.40356053361, 8977.06994524282, 9250.55846460047, 9365.761842087, 9642.79844619148, 10704.8293564295, 10730.8922105636, 10844.393493311, 11145.4775943678, 12295.143182268, 11530.6959514872, 11163.6658913081, 11480.4672981925, 12656.8612251272 };
+            public static double[] MacroecoBestProjectionGdpGrowth = new double[] { -0.665936721292992, -1.48693680701277, -2.34082894664718, -1.7277383960996, -0.517454673429329, 0.55, 2.51756667060183, 2.0044591416164, 1.42162990050316, 1.79945265689749, 3.2313535526417, 3.45527215627088, 3.34002171497845, 3.19558275968215, 3.46140269015902, 3.55050003138226, 5.07498108975128, 5.36734105479701, 5.38325565036062, 5.34434212554074, 5.52676886852792, 5.59725014246844, 5.61553404380724, 5.68456409834313, 5.41456420870219, 5.13534338672421, 5.16252978596372, 5.55524317002063 };
+
+            //Optimistic
+            public static double[] MacroecoOptimisticProjectionPrimeLending = new double[] { 16.69, 16.56, 17.14, 17.08, 17.16, 17.55, 16.7654084302061, 16.8154084302061, 16.8654084302061, 16.9154084302061, 16.9654084302061, 17.0154084302061, 16.7550832269541, 16.8050832269541, 16.8550832269541, 16.9050832269541, 16.8487417635395, 16.8987417635395, 16.9487417635395, 16.9987417635395, 16.8844560492537, 16.9344560492537, 16.9844560492537, 17.0344560492537, 16.5487417635395, 16.5987417635395, 16.6487417635395, 16.6987417635395 };
+            public static double[] MacroecoOptimisticProjectionOilExport = new double[] { 7045.39910718547, 8299.34350634626, 7444.756575241, 9239.53978932432, 9247.89, 9062.57622809992, 9417.68756621722, 10325.4384210215, 10264.7711623608, 10203.1077136287, 10185.9384915385, 10312.6222865836, 10631.0726584867, 10758.7539175048, 10982.9789503481, 11207.9592308801, 11564.3526092443, 11629.979098868, 11694.6840055426, 11724.3687877405, 12099.4117951461, 12482.3332621595, 12873.2738755593, 13288.2918138001, 13121.1832111729, 13181.3264117017, 13134.0817451861, 13300.2599633376 };
+            public static double[] MacroecoOptimisticProjectionGdpGrowth = new double[] { -0.665936721292992, -1.48693680701277, -2.34082894664718, -1.7277383960996, -0.517454673429329, 0.55, 2.51756667060183, 2.0044591416164, 1.42162990050316, 1.79945265689749, 3.2313535526417, 3.45527215627088, 3.34002171497845, 3.19558275968215, 3.46140269015902, 3.55050003138226, 5.07498108975128, 5.36734105479701, 5.38325565036062, 5.34434212554074, 5.52676886852792, 5.59725014246844, 5.61553404380724, 5.68456409834313, 5.41456420870219, 5.13534338672421, 5.16252978596372, 5.55524317002063 };
+
+            //Downturn
+            public static double[] MacroecoDownturnProjectionPrimeLending = new double[] { 16.69, 16.56, 17.14, 17.08, 17.16, 17.55, 16.7654084302061, 16.8154084302061, 16.8654084302061, 16.9154084302061, 16.9654084302061, 17.0154084302061, 16.7550832269541, 16.8050832269541, 16.8550832269541, 16.9050832269541, 16.8487417635395, 16.8987417635395, 16.9487417635395, 16.9987417635395, 16.8844560492537, 16.9344560492537, 16.9844560492537, 17.0344560492537, 16.5487417635395, 16.5987417635395, 16.6487417635395, 16.6987417635395 };
+            public static double[] MacroecoDownturnProjectionOilExport = new double[] { 7045.39910718547, 8299.34350634626, 7444.756575241, 9239.53978932432, 9247.89, 9062.57622809992, 7008.51167718491, 6540.45366258253, 5263.32365746286, 4232.05825225928, 3263.85212011916, 3143.47385333424, 3293.33055328497, 3341.22792469095, 4028.08892235241, 4087.78353911408, 4152.66899211589, 4218.30025492232, 4713.1592867165, 4815.03183866537, 4890.37842483295, 4966.61668657648, 5043.76254667409, 5127.9735950304, 5918.80411767843, 5840.16266436662, 5702.95654725184, 5564.06691949761 };
+            public static double[] MacroecoDownturnProjectionGdpGrowth = new double[] { -0.665936721292992, -1.48693680701277, -2.34082894664718, -1.7277383960996, -0.517454673429329, 0.55, 1.75467944020751, 0.319895304011775, -1.45815234222481, -2.91704379401002, -2.93187518866664, -1.36179889874142, -1.23736034088332, -0.222952159227985, 1.70900322273979, 1.27122211076263, 1.31983834666238, 1.15672648083638, 0.641331341289497, 0.284361406582079, 0.199458655657403, 0.0787867008832155, -0.417476772352177, -0.678649543472543, 0.104983714299456, -0.0342514073057187, -0.00746770905413197, -0.535653007444348 };
+
         }
     }
 }

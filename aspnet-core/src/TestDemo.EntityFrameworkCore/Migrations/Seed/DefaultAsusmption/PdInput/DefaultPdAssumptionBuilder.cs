@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using TestDemo.EclShared;
 using TestDemo.EclShared.DefaultAssumptions;
@@ -17,6 +18,60 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
             _context = context;
         }
 
+        public void Create()
+        {
+            long[] ous = _context.OrganizationUnits.IgnoreQueryFilters().Select(x => x.Id).ToArray();
+
+            foreach (long ou in ous)
+            {
+                Create(ou);
+            }
+        }
+
+        public void Create(long ou)
+        {
+            //Wholesale
+            Create12MonthPdsCreditPds(FrameworkEnum.Wholesale, ou);
+            Create12MonthPdsSnPEtiPolicy(FrameworkEnum.Wholesale, ou);
+            Create12MonthPdsSnPBestFit(FrameworkEnum.Wholesale, ou);
+            CreateSnPCummulativeDefaultRates(FrameworkEnum.Wholesale, ou);
+            CreateNonInternalModelInput(FrameworkEnum.Wholesale, ou);
+            CreateHistoricalIndex(FrameworkEnum.Wholesale, ou);
+            CreateStatisticalIndexWeights(FrameworkEnum.Wholesale, ou);
+            CreateStatisticalInputs(FrameworkEnum.Wholesale, ou);
+            CreateMacroEconomicPrimeLendingProjection(FrameworkEnum.Wholesale, ou);
+            CreateMacroEconomicOilExportProjection(FrameworkEnum.Wholesale, ou);
+            CreateMacroEconomicGdpGrowthProjection(FrameworkEnum.Wholesale, ou);
+            CreateMacroEconomicDifferencedGdpGrowthProjection(FrameworkEnum.Wholesale, ou);
+
+            //Retail
+            Create12MonthPdsCreditPds(FrameworkEnum.Retail, ou);
+            Create12MonthPdsSnPEtiPolicy(FrameworkEnum.Retail, ou);
+            Create12MonthPdsSnPBestFit(FrameworkEnum.Retail, ou);
+            CreateSnPCummulativeDefaultRates(FrameworkEnum.Retail, ou);
+            CreateNonInternalModelInput(FrameworkEnum.Retail, ou);
+            CreateHistoricalIndex(FrameworkEnum.Retail, ou);
+            CreateStatisticalIndexWeights(FrameworkEnum.Retail, ou);
+            CreateStatisticalInputs(FrameworkEnum.Retail, ou);
+            CreateMacroEconomicPrimeLendingProjection(FrameworkEnum.Retail, ou);
+            CreateMacroEconomicOilExportProjection(FrameworkEnum.Retail, ou);
+            CreateMacroEconomicGdpGrowthProjection(FrameworkEnum.Retail, ou);
+            CreateMacroEconomicDifferencedGdpGrowthProjection(FrameworkEnum.Retail, ou);
+
+            //OBE
+            Create12MonthPdsCreditPds(FrameworkEnum.OBE, ou);
+            Create12MonthPdsSnPEtiPolicy(FrameworkEnum.OBE, ou);
+            Create12MonthPdsSnPBestFit(FrameworkEnum.OBE, ou);
+            CreateSnPCummulativeDefaultRates(FrameworkEnum.OBE, ou);
+            CreateNonInternalModelInput(FrameworkEnum.OBE, ou);
+            CreateHistoricalIndex(FrameworkEnum.OBE, ou);
+            CreateStatisticalIndexWeights(FrameworkEnum.OBE, ou);
+            CreateStatisticalInputs(FrameworkEnum.OBE, ou);
+            CreateMacroEconomicPrimeLendingProjection(FrameworkEnum.OBE, ou);
+            CreateMacroEconomicOilExportProjection(FrameworkEnum.OBE, ou);
+            CreateMacroEconomicGdpGrowthProjection(FrameworkEnum.OBE, ou);
+            CreateMacroEconomicDifferencedGdpGrowthProjection(FrameworkEnum.OBE, ou);
+        }
 
         private void Create12MonthPdsCreditPds(FrameworkEnum framework, long ou)
         {
@@ -26,16 +81,16 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
                                             DefaultPdAssumption.InputValue.CreditPd5, DefaultPdAssumption.InputValue.CreditPd6, DefaultPdAssumption.InputValue.CreditPd7, DefaultPdAssumption.InputValue.CreditPd8,
                                             DefaultPdAssumption.InputValue.CreditPd9, DefaultPdAssumption.InputValue.CreditPd10};
 
-            for (int i = 0; i <= maxCredit; i++)
+            for (int i = 0; i < maxCredit; i++)
             {
-                var cpd = _context.PdInputAssumptions.IgnoreQueryFilters().FirstAsync(x => x.Key == prefix + i.ToString() && x.Framework == framework && x.OrganizationUnitId == ou);
+                var cpd = _context.PdInputAssumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == prefix + (i + 1).ToString() && x.Framework == framework && x.OrganizationUnitId == ou);
                 if (cpd == null)
                 {
                     _context.PdInputAssumptions.Add(new PdInputAssumption()
                     {
                         PdGroup = PdInputAssumptionGroupEnum.CreditPD,
-                        Key = prefix + i.ToString(),
-                        InputName = i.ToString(),
+                        Key = prefix + (i + 1).ToString(),
+                        InputName = (i + 1).ToString(),
                         Value = values[i],
                         DataType = DataTypeEnum.Double,
                         Framework = framework,
@@ -45,6 +100,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
                         OrganizationUnitId = ou,
                         Status = GeneralStatusEnum.Approved
                     });
+                    _context.SaveChanges();
                 }
             }
         }
@@ -57,16 +113,16 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
                                             DefaultPdAssumption.InputValue.CreditPd5_EtiPolicy, DefaultPdAssumption.InputValue.CreditPd6_EtiPolicy, DefaultPdAssumption.InputValue.CreditPd7_EtiPolicy, DefaultPdAssumption.InputValue.CreditPd8_EtiPolicy,
                                             DefaultPdAssumption.InputValue.CreditPd9_EtiPolicy, DefaultPdAssumption.InputValue.CreditPd10_EtiPolicy};
 
-            for (int i = 0; i <= maxCredit; i++)
+            for (int i = 0; i < maxCredit; i++)
             {
-                var cpd = _context.PdInputAssumptions.IgnoreQueryFilters().FirstAsync(x => x.Key == prefix + i.ToString() && x.Framework == framework && x.OrganizationUnitId == ou);
+                var cpd = _context.PdInputAssumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == prefix + (i + 1).ToString() && x.Framework == framework && x.OrganizationUnitId == ou);
                 if (cpd == null)
                 {
                     _context.PdInputAssumptions.Add(new PdInputAssumption()
                     {
                         PdGroup = PdInputAssumptionGroupEnum.CreditEtiPolicy,
-                        Key = prefix + i.ToString(),
-                        InputName = i.ToString(),
+                        Key = prefix + (i + 1).ToString(),
+                        InputName = (i + 1).ToString(),
                         Value = values[i],
                         DataType = DataTypeEnum.StringDropdown,
                         Framework = framework,
@@ -74,8 +130,9 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
                         RequiresGroupApproval = true,
                         CanAffiliateEdit = false,
                         OrganizationUnitId = ou,
-                        Status = GeneralStatusEnum.Approved
+                        Status = GeneralStatusEnum.Approved,
                     });
+                    _context.SaveChanges();
                 }
             }
         }
@@ -88,16 +145,16 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
                                             DefaultPdAssumption.InputValue.CreditPd5_BestFit, DefaultPdAssumption.InputValue.CreditPd6_BestFit, DefaultPdAssumption.InputValue.CreditPd7_BestFit, DefaultPdAssumption.InputValue.CreditPd8_BestFit,
                                             DefaultPdAssumption.InputValue.CreditPd9_BestFit, DefaultPdAssumption.InputValue.CreditPd10_BestFit};
 
-            for (int i = 0; i <= maxCredit; i++)
+            for (int i = 0; i < maxCredit; i++)
             {
-                var cpd = _context.PdInputAssumptions.IgnoreQueryFilters().FirstAsync(x => x.Key == prefix + i.ToString() && x.Framework == framework && x.OrganizationUnitId == ou);
+                var cpd = _context.PdInputAssumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == prefix + (i + 1).ToString() && x.Framework == framework && x.OrganizationUnitId == ou);
                 if (cpd == null)
                 {
                     _context.PdInputAssumptions.Add(new PdInputAssumption()
                     {
                         PdGroup = PdInputAssumptionGroupEnum.CreditBestFit,
-                        Key = prefix + i.ToString(),
-                        InputName = i.ToString(),
+                        Key = prefix + (i + 1).ToString(),
+                        InputName = (i + 1).ToString(),
                         Value = values[i],
                         DataType = DataTypeEnum.String,
                         Framework = framework,
@@ -107,6 +164,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
                         OrganizationUnitId = ou,
                         Status = GeneralStatusEnum.Approved
                     });
+                    _context.SaveChanges();
                 }
             }
         }
@@ -138,7 +196,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
             {
                 for (int year = 0; year < maxYears; year++)
                 {
-                    var snp = _context.PdInputSnPCummulativeDefaultRates.IgnoreQueryFilters().FirstAsync(x => x.Key == ratingKeys[rating]
+                    var snp = _context.PdInputSnPCummulativeDefaultRates.IgnoreQueryFilters().FirstOrDefault(x => x.Key == ratingKeys[rating]
                                                                                                            && x.Years == year + 1 && x.Framework == framework && x.OrganizationUnitId == ou);
                     if (snp == null)
                     {
@@ -153,6 +211,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
                             Status = GeneralStatusEnum.Approved,
                             Years = year + 1
                         });
+                        _context.SaveChanges();
                     }
                 }
             }
@@ -176,7 +235,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
             {
                 for (int month = 0; month < maxProjectionMonths; month++)
                 {
-                    var non = _context.PdInputAssumptionNonInternalModels.IgnoreQueryFilters().FirstAsync(x => x.Key == defaultKeys[pdGroup]
+                    var non = _context.PdInputAssumptionNonInternalModels.IgnoreQueryFilters().FirstOrDefault(x => x.Key == defaultKeys[pdGroup]
                                                                                                            && x.Month == month + 1 && x.Framework == framework && x.OrganizationUnitId == ou);
                     if (non == null)
                     {
@@ -191,8 +250,10 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
                             MarginalDefaultRate = defaultValues[month, pdGroup],
                             CummulativeSurvival = cummValues[month, pdGroup],
                             RequiresGroupApproval = true,
-                            CanAffiliateEdit = false
+                            CanAffiliateEdit = false,
+                            IsComputed = true
                         });
+                        _context.SaveChanges();
                     }
                 }
             }
@@ -201,7 +262,301 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
 
         private void CreateHistoricalIndex(FrameworkEnum framework, long ou)
         {
+            string keyPrefix = DefaultPdAssumption.PdAssumptionKey.HistoricalIndexQuarterPrefix;
+            string[] quarters = DefaultPdAssumption.InputValue.HistoricalIndexDate;
+            double[] actuals = DefaultPdAssumption.InputValue.HistoricalIndexActual;
+            double[] standardised = DefaultPdAssumption.InputValue.HistoricalIndexStandardised;
+            double[] series = DefaultPdAssumption.InputValue.HistoricalIndexNplSeries;
 
+            for (int i = 0; i < quarters.Length; i++)
+            {
+                var hi = _context.PdInputAssumptionNplIndexes.IgnoreQueryFilters().FirstOrDefault(x => x.Key == keyPrefix + i.ToString() && x.Framework == framework && x.OrganizationUnitId == ou);
+                if(hi == null)
+                {
+                    _context.PdInputAssumptionNplIndexes.Add(new PdInputAssumptionNplIndex()
+                    {
+                        Framework = framework,
+                        Key = keyPrefix + i.ToString(),
+                        OrganizationUnitId = ou,
+                        Date = DateTime.Parse(quarters[i]),
+                        Actual = actuals[i],
+                        Standardised = standardised[i],
+                        EtiNplSeries = series[i],
+                        CanAffiliateEdit = false,
+                        RequiresGroupApproval = true,
+                        Status = GeneralStatusEnum.Approved,
+                        IsComputed = true
+                    });
+                    _context.SaveChanges();
+                }
+            }
+        }
+
+        private void CreateStatisticalIndexWeights(FrameworkEnum framework, long ou)
+        {
+            string[] keys = new string[] { DefaultPdAssumption.PdAssumptionKey.StatisticsIndexWeightsW1, DefaultPdAssumption.PdAssumptionKey.StatisticsIndexWeightsW2,
+                                           DefaultPdAssumption.PdAssumptionKey.StatisticsIndexWeightsStandardDeviation, DefaultPdAssumption.PdAssumptionKey.StatisticsIndexWeightsAverage };
+            string[] names = new string[] { DefaultPdAssumption.InputName.StatisticalIndexWeightW1, DefaultPdAssumption.InputName.StatisticalIndexWeightW2,
+                                            DefaultPdAssumption.InputName.StatisticalIndexWeightStandardDeviation, DefaultPdAssumption.InputName.StatisticalIndexWeightAverage };
+            double[] values = new double[] { DefaultPdAssumption.InputValue.StatisticalIndexW1, DefaultPdAssumption.InputValue.StatisticalIndexW2,
+                                             DefaultPdAssumption.InputValue.StatisticalIndexStandardDeviatio, DefaultPdAssumption.InputValue.StatisticalIndexAvearage };
+
+            for (int i = 0; i < keys.Length; i++)
+            {
+                var w = _context.PdInputAssumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == keys[i] && x.Framework == framework && x.OrganizationUnitId == ou);
+                if (w == null)
+                {
+                    _context.Add(new PdInputAssumption()
+                    {
+                        Framework = framework,
+                        Key = keys[i],
+                        OrganizationUnitId = ou,
+                        PdGroup = PdInputAssumptionGroupEnum.StatisticsIndexWeights,
+                        InputName = names[i],
+                        Value = values[i].ToString(),
+                        DataType = DataTypeEnum.Double,
+                        RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        Status = GeneralStatusEnum.Approved,
+                        IsComputed = true
+                    });
+                    _context.SaveChanges();
+                }
+            }
+        }
+
+        private void CreateStatisticalInputs(FrameworkEnum framework, long ou)
+        {
+            string[] names = new string[] { DefaultPdAssumption.InputName.StatisticalInputsMean, DefaultPdAssumption.InputName.StatisticalInputsStandardDeviation, DefaultPdAssumption.InputName.StatisticalInputsEigenvalues,
+                                            DefaultPdAssumption.InputName.StatisticalInputsPrincipalComponentScore1, DefaultPdAssumption.InputName.StatisticalInputsPrincipalComponentScore2 };
+
+            //Prime
+            string[] primeLendingkeys = new string[] { DefaultPdAssumption.PdAssumptionKey.StatisticalInputsPrimeLendingMean, DefaultPdAssumption.PdAssumptionKey.StatisticalInputsPrimeLendingStandardDeviation,
+                                                       DefaultPdAssumption.PdAssumptionKey.StatisticalInputsPrimeLendingEigenvalues, DefaultPdAssumption.PdAssumptionKey.StatisticalInputsPrimeLendingPrincipalComponentScore1,
+                                                       DefaultPdAssumption.PdAssumptionKey.StatisticalInputsPrimeLendingPrincipalComponentScore2 };
+            double[] primeLendingValues = DefaultPdAssumption.InputValue.StatisticalInputPrimeLending;
+            
+            //Oil Exports
+            string[] oilexportkeys = new string[] { DefaultPdAssumption.PdAssumptionKey.StatisticalInputsOilExportsMean, DefaultPdAssumption.PdAssumptionKey.StatisticalInputsOilExportsStandardDeviation,
+                                                       DefaultPdAssumption.PdAssumptionKey.StatisticalInputsOilExportsEigenvalues, DefaultPdAssumption.PdAssumptionKey.StatisticalInputsOilExportsPrincipalComponentScore1,
+                                                       DefaultPdAssumption.PdAssumptionKey.StatisticalInputsOilExportsPrincipalComponentScore2 };
+            double[] oilexportValues = DefaultPdAssumption.InputValue.StatisticalInputOilExports;
+
+
+            //GDP Growth
+            string[] gdpkeys = new string[] { DefaultPdAssumption.PdAssumptionKey.StatisticalInputsRealGdpGrowthRateMean, DefaultPdAssumption.PdAssumptionKey.StatisticalInputsRealGdpGrowthRateStandardDeviation,
+                                                       DefaultPdAssumption.PdAssumptionKey.StatisticalInputsRealGdpGrowthRateEigenvalues, DefaultPdAssumption.PdAssumptionKey.StatisticalInputsRealGdpGrowthRatePrincipalComponentScore1,
+                                                       DefaultPdAssumption.PdAssumptionKey.StatisticalInputsRealGdpGrowthRatePrincipalComponentScore2 };
+            double[] gdpValues = DefaultPdAssumption.InputValue.StatisticalInputGdpGrowth;
+
+
+            //Prime
+            for (int p = 0; p < names.Length; p++)
+            {
+                var prime = _context.PdInputAssumptionStatisticals.IgnoreQueryFilters().FirstOrDefault(x => x.Key == primeLendingkeys[p] && x.Framework == framework && x.OrganizationUnitId == ou);
+                if(prime == null)
+                {
+                    _context.Add(new PdInputAssumptionMacroeconomicInput()
+                    {
+                        CanAffiliateEdit = false,
+                        Framework = framework,
+                        InputName = names[p],
+                        Key = primeLendingkeys[p],
+                        MacroEconomicInputGroup = PdInputAssumptionMacroEconomicInputGroupEnum.StatisticalInputsPrimeLending,
+                        RequiresGroupApproval = true,
+                        IsComputed = true,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved,
+                        Value = primeLendingValues[p]
+                    });
+                    _context.SaveChanges();
+                }
+            }
+            //Oil Exports
+            for (int p = 0; p < names.Length; p++)
+            {
+                var prime = _context.PdInputAssumptionStatisticals.IgnoreQueryFilters().FirstOrDefault(x => x.Key == oilexportkeys[p] && x.Framework == framework && x.OrganizationUnitId == ou);
+                if(prime == null)
+                {
+                    _context.Add(new PdInputAssumptionMacroeconomicInput()
+                    {
+                        CanAffiliateEdit = false,
+                        Framework = framework,
+                        InputName = names[p],
+                        Key = oilexportkeys[p],
+                        MacroEconomicInputGroup = PdInputAssumptionMacroEconomicInputGroupEnum.StatisticalInputsOilExports,
+                        RequiresGroupApproval = true,
+                        IsComputed = true,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved,
+                        Value = oilexportValues[p]
+                    });
+                    _context.SaveChanges();
+                }
+            }
+            //Gdp growth rate
+            for (int p = 0; p < names.Length; p++)
+            {
+                var prime = _context.PdInputAssumptionStatisticals.IgnoreQueryFilters().FirstOrDefault(x => x.Key == gdpkeys[p] && x.Framework == framework && x.OrganizationUnitId == ou);
+                if(prime == null)
+                {
+                    _context.PdInputAssumptionStatisticals.Add(new PdInputAssumptionMacroeconomicInput()
+                    {
+                        CanAffiliateEdit = false,
+                        Framework = framework,
+                        InputName = names[p],
+                        Key = gdpkeys[p],
+                        MacroEconomicInputGroup = PdInputAssumptionMacroEconomicInputGroupEnum.StatisticalInputsRealGdpGrowthRate,
+                        RequiresGroupApproval = true,
+                        IsComputed = true,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved,
+                        Value = gdpValues[p]
+                    });
+                    _context.SaveChanges();
+                }
+            }
+
+        }
+
+        private void CreateMacroEconomicPrimeLendingProjection(FrameworkEnum framework, long ou)
+        {
+            string[] quarters = DefaultPdAssumption.InputValue.MacroeconomicProjectionDate;
+            double[] best = DefaultPdAssumption.InputValue.MacroecoBestProjectionPrimeLending;
+            double[] optimistic = DefaultPdAssumption.InputValue.MacroecoOptimisticProjectionPrimeLending;
+            double[] downturn = DefaultPdAssumption.InputValue.MacroecoDownturnProjectionPrimeLending;
+            
+            //Prime
+            for (int q = 0; q < quarters.Length; q++)
+            {
+                var c = _context.PdInputAssumptionMacroeconomicProjections.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPdAssumption.PdAssumptionKey.MacroeconomicProjectionInputsPrimeLendingPrefix + q.ToString()
+                                                                                                                 && x.Framework == framework && x.OrganizationUnitId == ou);
+                if(c == null)
+                {
+                    _context.PdInputAssumptionMacroeconomicProjections.Add(new PdInputAssumptionMacroeconomicProjection()
+                    {
+                        MacroeconomicGroup = PdInputAssumptionMacroEconomicInputGroupEnum.ProjectionPrimeLending,
+                        Key = DefaultPdAssumption.PdAssumptionKey.MacroeconomicProjectionInputsPrimeLendingPrefix + q.ToString(),
+                        Date = DateTime.Parse(quarters[q]),
+                        InputName = DefaultPdAssumption.InputName.MacroeconomicProjectionPrimeLending,
+                        BestValue = best[q],
+                        OptimisticValue = optimistic[q],
+                        DownturnValue = downturn[q],
+                        Framework = framework,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        RequiresGroupApproval = true,
+                        Status = GeneralStatusEnum.Approved,
+                        IsComputed = false
+                    });
+                    _context.SaveChanges();
+                }
+            }
+        }
+
+        private void CreateMacroEconomicOilExportProjection(FrameworkEnum framework, long ou)
+        {
+            string[] quarters = DefaultPdAssumption.InputValue.MacroeconomicProjectionDate;
+            double[] best = DefaultPdAssumption.InputValue.MacroecoBestProjectionOilExport;
+            double[] optimistic = DefaultPdAssumption.InputValue.MacroecoOptimisticProjectionOilExport;
+            double[] downturn = DefaultPdAssumption.InputValue.MacroecoDownturnProjectionOilExport;
+
+            //Oil Exports
+            for (int q = 0; q < quarters.Length; q++)
+            {
+                var c = _context.PdInputAssumptionMacroeconomicProjections.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPdAssumption.PdAssumptionKey.MacroeconomicProjectionOilExportsPrefix + q.ToString()
+                                                                                                                 && x.Framework == framework && x.OrganizationUnitId == ou);
+                if (c == null)
+                {
+                    _context.PdInputAssumptionMacroeconomicProjections.Add(new PdInputAssumptionMacroeconomicProjection()
+                    {
+                        MacroeconomicGroup = PdInputAssumptionMacroEconomicInputGroupEnum.ProjectionOilExports,
+                        Key = DefaultPdAssumption.PdAssumptionKey.MacroeconomicProjectionOilExportsPrefix + q.ToString(),
+                        Date = DateTime.Parse(quarters[q]),
+                        InputName = DefaultPdAssumption.InputName.MacroeconomicProjectionOilExport,
+                        BestValue = best[q],
+                        OptimisticValue = optimistic[q],
+                        DownturnValue = downturn[q],
+                        Framework = framework,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        RequiresGroupApproval = true,
+                        Status = GeneralStatusEnum.Approved,
+                        IsComputed = false
+                    });
+                    _context.SaveChanges();
+                }
+            }
+        }
+
+        private void CreateMacroEconomicGdpGrowthProjection(FrameworkEnum framework, long ou)
+        {
+            string[] quarters = DefaultPdAssumption.InputValue.MacroeconomicProjectionDate;
+            double[] best = DefaultPdAssumption.InputValue.MacroecoBestProjectionGdpGrowth;
+            double[] optimistic = DefaultPdAssumption.InputValue.MacroecoOptimisticProjectionGdpGrowth;
+            double[] downturn = DefaultPdAssumption.InputValue.MacroecoDownturnProjectionGdpGrowth;
+
+            //GDP Growth
+            for (int q = 0; q < quarters.Length; q++)
+            {
+                var c = _context.PdInputAssumptionMacroeconomicProjections.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPdAssumption.PdAssumptionKey.MacroeconomicProjectionRealGdpGrowthRatePrefix + q.ToString()
+                                                                                                                 && x.Framework == framework && x.OrganizationUnitId == ou);
+                if (c == null)
+                {
+                    _context.PdInputAssumptionMacroeconomicProjections.Add(new PdInputAssumptionMacroeconomicProjection()
+                    {
+                        MacroeconomicGroup = PdInputAssumptionMacroEconomicInputGroupEnum.ProjectionRealGdpGrowthRate,
+                        Key = DefaultPdAssumption.PdAssumptionKey.MacroeconomicProjectionRealGdpGrowthRatePrefix + q.ToString(),
+                        Date = DateTime.Parse(quarters[q]),
+                        InputName = DefaultPdAssumption.InputName.MacroeconomicProjectionGdpGrowth,
+                        BestValue = best[q],
+                        OptimisticValue = optimistic[q],
+                        DownturnValue = downturn[q],
+                        Framework = framework,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        RequiresGroupApproval = true,
+                        Status = GeneralStatusEnum.Approved,
+                        IsComputed = false
+                    });
+                    _context.SaveChanges();
+                }
+            }
+        }
+
+        private void CreateMacroEconomicDifferencedGdpGrowthProjection(FrameworkEnum framework, long ou)
+        {
+            string[] quarters = DefaultPdAssumption.InputValue.MacroeconomicProjectionDate;
+            double[] best = DefaultPdAssumption.InputValue.MacroecoBestProjectionGdpGrowth;
+            double[] optimistic = DefaultPdAssumption.InputValue.MacroecoOptimisticProjectionGdpGrowth;
+            double[] downturn = DefaultPdAssumption.InputValue.MacroecoDownturnProjectionGdpGrowth;
+
+            //GDP Growth
+            for (int q = 0; q < quarters.Length; q++)
+            {
+                var c = _context.PdInputAssumptionMacroeconomicProjections.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPdAssumption.PdAssumptionKey.MacroeconomicProjectionDifferencedRealGdpGrowthRatePrefix + q.ToString()
+                                                                                                                 && x.Framework == framework && x.OrganizationUnitId == ou);
+                if (c == null)
+                {
+                    _context.PdInputAssumptionMacroeconomicProjections.Add(new PdInputAssumptionMacroeconomicProjection()
+                    {
+                        MacroeconomicGroup = PdInputAssumptionMacroEconomicInputGroupEnum.ProjectionDifferencedRealGdpGrowthRate,
+                        Key = DefaultPdAssumption.PdAssumptionKey.MacroeconomicProjectionDifferencedRealGdpGrowthRatePrefix + q.ToString(),
+                        Date = DateTime.Parse(quarters[q]),
+                        InputName = DefaultPdAssumption.InputName.MacroeconomicProjectionDifferencedGdpGrowth,
+                        BestValue = q == 0 ? 0 : best[q] - best[q - 1],
+                        OptimisticValue = q == 0 ? 0 : optimistic[q] - optimistic[q - 1],
+                        DownturnValue = q == 0 ? 0 : downturn[q] - downturn[q - 1],
+                        Framework = framework,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        RequiresGroupApproval = true,
+                        Status = GeneralStatusEnum.Approved,
+                        IsComputed = false
+                    });
+                    _context.SaveChanges();
+                }
+            }
         }
     }
 }

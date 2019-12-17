@@ -38,6 +38,38 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<ObeEclPdAssumptionNonInternalModel> ObeEclPdAssumptionNonInternalModels { get; set; }
+
+        public virtual DbSet<RetailEclPdAssumptionNonInteralModel> RetailEclPdAssumptionNonInteralModels { get; set; }
+
+        public virtual DbSet<ObeEclPdAssumptionNplIndex> ObeEclPdAssumptionNplIndexes { get; set; }
+
+        public virtual DbSet<RetailEclPdAssumptionNplIndex> RetailEclPdAssumptionNplIndexes { get; set; }
+
+        public virtual DbSet<ObeEclPdAssumptionMacroeconomicProjection> ObeEclPdAssumptionMacroeconomicProjections { get; set; }
+
+        public virtual DbSet<RetailEclPdAssumptionMacroeconomicProjection> RetailEclPdAssumptionMacroeconomicProjections { get; set; }
+
+        public virtual DbSet<ObeEclPdAssumptionMacroeconomicInputs> ObeEclPdAssumptionMacroeconomicInputses { get; set; }
+
+        public virtual DbSet<RetailEclPdAssumptionMacroeconomicInput> RetailEclPdAssumptionMacroeconomicInputs { get; set; }
+
+        public virtual DbSet<ObeEclPdAssumption> ObeEclPdAssumptions { get; set; }
+
+        public virtual DbSet<RetailEclPdAssumption> RetailEclPdAssumptions { get; set; }
+
+        public virtual DbSet<WholesaleEclPdAssumptionNplIndex> WholesaleEclPdAssumptionNplIndexes { get; set; }
+
+        public virtual DbSet<WholesalePdAssumptionNonInternalModel> WholesalePdAssumptionNonInternalModels { get; set; }
+
+        public virtual DbSet<WholesaleEclPdAssumptionMacroeconomicProjection> WholesaleEclPdAssumptionMacroeconomicProjections { get; set; }
+
+        public virtual DbSet<WholesaleEclPdAssumptionMacroeconomicInput> WholesaleEclPdAssumptionMacroeconomicInputs { get; set; }
+
+        public virtual DbSet<WholesaleEclPdAssumption> WholesaleEclPdAssumptions { get; set; }
+
+        public virtual DbSet<PdInputAssumptionMacroeconomicProjection> PdInputAssumptionMacroeconomicProjections { get; set; }
+
         public virtual DbSet<PdInputAssumptionNplIndex> PdInputAssumptionNplIndexes { get; set; }
 
         public virtual DbSet<PdInputAssumptionMacroeconomicInput> PdInputAssumptionStatisticals { get; set; }

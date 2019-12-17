@@ -1,7 +1,12 @@
-import { CommonModule } from '@angular/common';
+﻿import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
+import { WholesaleEclPdAssumptionMacroeconomicInputsComponent } from './wholesaleAssumption/wholesaleEclPdAssumptionMacroeconomicInputs/wholesaleEclPdAssumptionMacroeconomicInputs.component';
+import { ViewWholesaleEclPdAssumptionMacroeconomicInputModalComponent } from './wholesaleAssumption/wholesaleEclPdAssumptionMacroeconomicInputs/view-wholesaleEclPdAssumptionMacroeconomicInput-modal.component';
+import { CreateOrEditWholesaleEclPdAssumptionMacroeconomicInputModalComponent } from './wholesaleAssumption/wholesaleEclPdAssumptionMacroeconomicInputs/create-or-edit-wholesaleEclPdAssumptionMacroeconomicInput-modal.component';
+import { WholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableModalComponent } from './wholesaleAssumption/wholesaleEclPdAssumptionMacroeconomicInputs/wholesaleEclPdAssumptionMacroeconomicInput-wholesaleEcl-lookup-table-modal.component';
+
 import { WholesaleEclResultSummaryTopExposuresComponent } from './wholesaleResults/wholesaleEclResultSummaryTopExposures/wholesaleEclResultSummaryTopExposures.component';
 import { CreateOrEditWholesaleEclResultSummaryTopExposureModalComponent } from './wholesaleResults/wholesaleEclResultSummaryTopExposures/create-or-edit-wholesaleEclResultSummaryTopExposure-modal.component';
 import { WholesaleEclResultSummaryTopExposureWholesaleEclLookupTableModalComponent } from './wholesaleResults/wholesaleEclResultSummaryTopExposures/wholesaleEclResultSummaryTopExposure-wholesaleEcl-lookup-table-modal.component';
@@ -95,6 +100,9 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+		WholesaleEclPdAssumptionMacroeconomicInputsComponent,
+		ViewWholesaleEclPdAssumptionMacroeconomicInputModalComponent,		CreateOrEditWholesaleEclPdAssumptionMacroeconomicInputModalComponent,
+    WholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableModalComponent,
         ApproveEclModalComponent,
         ViewRetailEclComponent,
         CreateEditRetailEclComponent,

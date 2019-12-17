@@ -36,7 +36,7 @@ namespace TestDemo.EclShared
          {
 			
 			var filteredPdInputAssumptionStatisticals = _pdInputAssumptionStatisticalRepository.GetAll()
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.Key.Contains(input.Filter) || e.InputName.Contains(input.Filter) || e.IsComputed.Contains(input.Filter))
+						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.Key.Contains(input.Filter) || e.InputName.Contains(input.Filter))
 						.WhereIf(input.CanAffiliateEditFilter > -1,  e => (input.CanAffiliateEditFilter == 1 && e.CanAffiliateEdit) || (input.CanAffiliateEditFilter == 0 && !e.CanAffiliateEdit) );
 
 			var pagedAndFilteredPdInputAssumptionStatisticals = filteredPdInputAssumptionStatisticals

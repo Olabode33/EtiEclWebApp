@@ -34,9 +34,10 @@ namespace TestDemo.ObeAssumption
 		
 		[Required]
 		public virtual bool RequiresGroupApproval { get; set; }
-		
 
-		public virtual Guid? ObeEclId { get; set; }
+        public virtual bool CanAffiliateEdit { get; set; }
+
+        public virtual Guid? ObeEclId { get; set; }
 		
         [ForeignKey("ObeEclId")]
 		public ObeEcl ObeEclFk { get; set; }

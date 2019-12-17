@@ -31,9 +31,10 @@ namespace TestDemo.WholesaleAssumption
 		public virtual EadInputAssumptionGroupEnum EadGroup { get; set; }
 		
 		public virtual bool RequiresGroupApproval { get; set; }
-		
 
-		public virtual Guid WholesaleEclId { get; set; }
+        public virtual bool CanAffiliateEdit { get; set; }
+
+        public virtual Guid WholesaleEclId { get; set; }
 		
         [ForeignKey("WholesaleEclId")]
 		public WholesaleEcl WholesaleEclFk { get; set; }

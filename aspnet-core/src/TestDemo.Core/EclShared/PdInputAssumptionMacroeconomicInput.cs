@@ -24,7 +24,7 @@ namespace TestDemo.EclShared
 		
 		public virtual PdInputAssumptionMacroEconomicInputGroupEnum MacroEconomicInputGroup { get; set; }
 		
-		public virtual string IsComputed { get; set; }
+		public virtual bool IsComputed { get; set; }
 
         public virtual bool CanAffiliateEdit { get; set; }
 

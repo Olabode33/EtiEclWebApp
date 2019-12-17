@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using TestDemo.EntityFrameworkCore;
 using TestDemo.Migrations.Seed.DefaultAsusmption.EadInput;
 using TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput;
+using TestDemo.Migrations.Seed.DefaultAsusmption.PdInput;
 using TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio;
 using TestDemo.Migrations.Seed.Host;
 using TestDemo.Migrations.Seed.Tenants;
@@ -32,6 +33,11 @@ namespace TestDemo.Migrations.Seed
             new DefaultTenantBuilder(context).Create();
             new TenantRoleAndUserBuilder(context, 1).Create();
 
+            SeedAssumptionData(context);
+        }
+
+        private static void SeedAssumptionData(TestDemoDbContext context)
+        {
             //Default framework / portfolio assumption
             new DefaultAssumptionBuilder(context).Create();
 
@@ -40,6 +46,9 @@ namespace TestDemo.Migrations.Seed
 
             //Default lgd input assumption
             new DefaultLgdAssumptionBuilder(context).Create();
+
+            //Default Pd input assumption
+            new DefaultPdAssumptionBuilder(context).Create();
         }
 
         private static void WithDbContext<TDbContext>(IIocResolver iocResolver, Action<TDbContext> contextAction)

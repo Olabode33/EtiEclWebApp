@@ -18,365 +18,99 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
             _context = context;
         }
 
+
         public void Create()
         {
-            //Wholesale
-            CreateDefaultAssumption(FrameworkEnum.Wholesale);
-            CreateCreditRatingRank(FrameworkEnum.Wholesale);
-            //Retail
-            CreateDefaultAssumption(FrameworkEnum.Retail);
-            CreateCreditRatingRank(FrameworkEnum.Retail);
-            //OBE
-            CreateDefaultAssumption(FrameworkEnum.OBE);
-            CreateCreditRatingRank(FrameworkEnum.OBE);
+            long[] ous = _context.OrganizationUnits.IgnoreQueryFilters().Select(x => x.Id).ToArray();
+
+            foreach (long ou in ous)
+            {
+                Create(ou);
+            }
         }
 
-        private void CreateDefaultAssumption(FrameworkEnum framework)
+
+        public void Create(long ou)
         {
-            //Credit Index Threshold for Downturn Recoveries
-            var creditIndexThreshold = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditIndexThreshold
-                                                                                                  && x.Framework == framework);
-            if(creditIndexThreshold == null)
-            {
-                _context.Assumptions.Add(new Assumption() {
-                    AssumptionGroup = AssumptionGroupEnum.ScenarioInputs,
-                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditIndexThreshold,
-                    InputName = DefaultPortfolioAssumption.InputName.CreditIndexThreshold,
-                    Value = DefaultPortfolioAssumption.InputValue.CreditIndexThreshold,
-                    DataType = DataTypeEnum.Double,
-                    Framework = framework,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
+            //Wholesale
+            CreateDefaultAssumption(FrameworkEnum.Wholesale, ou);
+            CreateCreditRatingRank(FrameworkEnum.Wholesale, ou);
+            //Retail
+            CreateDefaultAssumption(FrameworkEnum.Retail, ou);
+            CreateCreditRatingRank(FrameworkEnum.Retail, ou);
+            //OBE
+            CreateDefaultAssumption(FrameworkEnum.OBE, ou);
+            CreateCreditRatingRank(FrameworkEnum.OBE, ou);
+        }
 
-            //Best Estimate Scenario(Likelihood)
-            var bestScenarioLikelihood = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.BestScenarioLikelihood
-                                                                                                    && x.Framework == framework);
-            if (bestScenarioLikelihood == null)
-            {
-                _context.Assumptions.Add(new Assumption()
-                {
-                    AssumptionGroup = AssumptionGroupEnum.ScenarioInputs,
-                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.BestScenarioLikelihood,
-                    InputName = DefaultPortfolioAssumption.InputName.BestScenarioLikelihood,
-                    Value = DefaultPortfolioAssumption.InputValue.BestScenarioLikelihood,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
+        private void CreateDefaultAssumption(FrameworkEnum framework, long ou)
+        {
+            string[] keys = new string[] { DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditIndexThreshold, DefaultPortfolioAssumption.FrameworkAssumptionKey.BestScenarioLikelihood,
+                                           DefaultPortfolioAssumption.FrameworkAssumptionKey.OptimisticScenarioLikelihood, DefaultPortfolioAssumption.FrameworkAssumptionKey.DownturnScenarioLikelihood,
+                                           DefaultPortfolioAssumption.FrameworkAssumptionKey.AbsoluteCreditQualityCriteria, DefaultPortfolioAssumption.FrameworkAssumptionKey.AbsoluteCreditQualityThreshold,
+                                           DefaultPortfolioAssumption.FrameworkAssumptionKey.RelativeCreditQualityCriteria, DefaultPortfolioAssumption.FrameworkAssumptionKey.RelativeCreditQualityThreshold,
+                                           DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingRankLowHighRisk, DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingRankLowRisk,
+                                           DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingRankHighRisk, DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingDefaultIndicator,
+                                           DefaultPortfolioAssumption.FrameworkAssumptionKey.UseWatchlistIndicator, DefaultPortfolioAssumption.FrameworkAssumptionKey.UseRestructureIndicator,
+                                           DefaultPortfolioAssumption.FrameworkAssumptionKey.ForwardTransitionStage1to2, DefaultPortfolioAssumption.FrameworkAssumptionKey.ForwardTransitionStage2to3,
+                                           DefaultPortfolioAssumption.FrameworkAssumptionKey.BackwardTransitionsStage2to1, DefaultPortfolioAssumption.FrameworkAssumptionKey.BackwardTransitionsStage3to2};
 
-            //Optimistic Scenario(Likelihood)
-            var optimisticScenarioLikelihood = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.OptimisticScenarioLikelihood
-                                                                                                          && x.Framework == framework);
-            if (optimisticScenarioLikelihood == null)
-            {
-                _context.Assumptions.Add(new Assumption()
-                {
-                    AssumptionGroup = AssumptionGroupEnum.ScenarioInputs,
-                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.OptimisticScenarioLikelihood,
-                    InputName = DefaultPortfolioAssumption.InputName.OptimisticScenarioLikelihood,
-                    Value = DefaultPortfolioAssumption.InputValue.OptimisticScenarioLikelihood,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
+            string[] names = new string[] { DefaultPortfolioAssumption.InputName.CreditIndexThreshold, DefaultPortfolioAssumption.InputName.BestScenarioLikelihood,
+                                           DefaultPortfolioAssumption.InputName.OptimisticScenarioLikelihood, DefaultPortfolioAssumption.InputName.DownturnScenarioLikelihood,
+                                           DefaultPortfolioAssumption.InputName.AbsoluteCreditQualityCriteria, DefaultPortfolioAssumption.InputName.AbsoluteCreditQualityThreshold,
+                                           DefaultPortfolioAssumption.InputName.RelativeCreditQualityCriteria, DefaultPortfolioAssumption.InputName.RelativeCreditQualityThreshold,
+                                           DefaultPortfolioAssumption.InputName.CreditRatingRankLowHighRisk, DefaultPortfolioAssumption.InputName.CreditRatingRankLowRisk,
+                                           DefaultPortfolioAssumption.InputName.CreditRatingRankHighRisk, DefaultPortfolioAssumption.InputName.CreditRatingDefaultIndicator,
+                                           DefaultPortfolioAssumption.InputName.UseWatchlistIndicator, DefaultPortfolioAssumption.InputName.UseRestructureIndicator,
+                                           DefaultPortfolioAssumption.InputName.ForwardTransitionStage1to2, DefaultPortfolioAssumption.InputName.ForwardTransitionStage2to3,
+                                           DefaultPortfolioAssumption.InputName.BackwardTransitionsStage2to1, DefaultPortfolioAssumption.InputName.BackwardTransitionsStage3to2 };
 
-            //Downturn Estimate Scenario(Likelihood)
-            var downturnScenarioLikelihood = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.DownturnScenarioLikelihood
-                                                                                                        && x.Framework == framework);
-            if (downturnScenarioLikelihood == null)
-            {
-                _context.Assumptions.Add(new Assumption()
-                {
-                    AssumptionGroup = AssumptionGroupEnum.ScenarioInputs,
-                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.DownturnScenarioLikelihood,
-                    InputName = DefaultPortfolioAssumption.InputName.DownturnScenarioLikelihood,
-                    Value = DefaultPortfolioAssumption.InputValue.DownturnScenarioLikelihood,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
+            string[] values = new string[] { DefaultPortfolioAssumption.InputValue.CreditIndexThreshold, DefaultPortfolioAssumption.InputValue.BestScenarioLikelihood,
+                                           DefaultPortfolioAssumption.InputValue.OptimisticScenarioLikelihood, DefaultPortfolioAssumption.InputValue.DownturnScenarioLikelihood,
+                                           DefaultPortfolioAssumption.InputValue.AbsoluteCreditQualityCriteria, DefaultPortfolioAssumption.InputValue.AbsoluteCreditQualityThreshold,
+                                           DefaultPortfolioAssumption.InputValue.RelativeCreditQualityCriteria, DefaultPortfolioAssumption.InputValue.RelativeCreditQualityThreshold,
+                                           DefaultPortfolioAssumption.InputValue.CreditRatingRankLowHighRisk, DefaultPortfolioAssumption.InputValue.CreditRatingRankLowRisk,
+                                           DefaultPortfolioAssumption.InputValue.CreditRatingRankHighRisk, DefaultPortfolioAssumption.InputValue.CreditRatingDefaultIndicator,
+                                           DefaultPortfolioAssumption.InputValue.UseWatchlistIndicator, DefaultPortfolioAssumption.InputValue.UseRestructureIndicator,
+                                           DefaultPortfolioAssumption.InputValue.ForwardTransitionStage1to2, DefaultPortfolioAssumption.InputValue.ForwardTransitionStage2to3,
+                                           DefaultPortfolioAssumption.InputValue.BackwardTransitionsStage2to1, DefaultPortfolioAssumption.InputValue.BackwardTransitionsStage3to2 };
+            DataTypeEnum[] dataTypes = new DataTypeEnum[] { DataTypeEnum.Double, DataTypeEnum.DoublePercentage, DataTypeEnum.DoublePercentage, DataTypeEnum.DoublePercentage,
+                                                            DataTypeEnum.String, DataTypeEnum.DoublePercentage, DataTypeEnum.String, DataTypeEnum.DoublePercentage,
+                                                            DataTypeEnum.Int, DataTypeEnum.Int, DataTypeEnum.Int, DataTypeEnum.Int, DataTypeEnum.String, DataTypeEnum.String,
+                                                            DataTypeEnum.Int, DataTypeEnum.Int, DataTypeEnum.Int, DataTypeEnum.Int};
+            AssumptionGroupEnum[] groupEnums = new AssumptionGroupEnum[] { AssumptionGroupEnum.ScenarioInputs, AssumptionGroupEnum.ScenarioInputs, AssumptionGroupEnum.ScenarioInputs, AssumptionGroupEnum.ScenarioInputs,
+                                                                           AssumptionGroupEnum.AbsoluteCreditQuality, AssumptionGroupEnum.AbsoluteCreditQuality,
+                                                                           AssumptionGroupEnum.RelativeCreditQuality, AssumptionGroupEnum.RelativeCreditQuality,
+                                                                           AssumptionGroupEnum.ForwardTransitions, AssumptionGroupEnum.ForwardTransitions, AssumptionGroupEnum.ForwardTransitions, AssumptionGroupEnum.ForwardTransitions,
+                                                                           AssumptionGroupEnum.ForwardTransitions, AssumptionGroupEnum.ForwardTransitions, AssumptionGroupEnum.ForwardTransitions, AssumptionGroupEnum.ForwardTransitions,
+                                                                           AssumptionGroupEnum.BackwardTransitions, AssumptionGroupEnum.BackwardTransitions};
 
-            //Absolute Credit Quality Criteria
-            var absoluteCreditQualityCriteria = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.AbsoluteCreditQualityCriteria
-                                                                                                           && x.Framework == framework);
-            if (absoluteCreditQualityCriteria == null)
+            for (int i = 0; i < keys.Length; i++)
             {
-                _context.Assumptions.Add(new Assumption()
+                var c = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == keys[i] && x.Framework == framework && x.OrganizationUnitId == ou);
+                if (c == null)
                 {
-                    AssumptionGroup = AssumptionGroupEnum.AbsoluteCreditQuality,
-                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.AbsoluteCreditQualityCriteria,
-                    InputName = DefaultPortfolioAssumption.InputName.AbsoluteCreditQualityCriteria,
-                    Value = DefaultPortfolioAssumption.InputValue.AbsoluteCreditQualityCriteria,
-                    DataType = DataTypeEnum.String,
-                    Framework = framework,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
+                    _context.Assumptions.Add(new Assumption()
+                    {
+                        AssumptionGroup = groupEnums[i],
+                        Key = keys[i],
+                        InputName = names[i],
+                        Value = values[i],
+                        DataType = dataTypes[i],
+                        Framework = framework,
+                        IsComputed = false,
+                        RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou
+                    });
+                    _context.SaveChanges();
+                }
             }
-
-            //Absolute Credit Quality Threshold
-            var absoluteCreditQualityThreshold = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.AbsoluteCreditQualityThreshold
-                                                                                                            && x.Framework == framework);
-            if (absoluteCreditQualityThreshold == null)
-            {
-                _context.Assumptions.Add(new Assumption()
-                {
-                    AssumptionGroup = AssumptionGroupEnum.AbsoluteCreditQuality,
-                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.AbsoluteCreditQualityThreshold,
-                    InputName = DefaultPortfolioAssumption.InputName.AbsoluteCreditQualityThreshold,
-                    Value = DefaultPortfolioAssumption.InputValue.AbsoluteCreditQualityThreshold,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-
-            //Relative Credit Quality Criteria
-            var relativeCreditQualityCriteria = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.RelativeCreditQualityCriteria
-                                                                                                           && x.Framework == framework);
-            if (relativeCreditQualityCriteria == null)
-            {
-                _context.Assumptions.Add(new Assumption()
-                {
-                    AssumptionGroup = AssumptionGroupEnum.RelativeCreditQuality,
-                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.RelativeCreditQualityCriteria,
-                    InputName = DefaultPortfolioAssumption.InputName.RelativeCreditQualityCriteria,
-                    Value = DefaultPortfolioAssumption.InputValue.RelativeCreditQualityCriteria,
-                    DataType = DataTypeEnum.String,
-                    Framework = framework,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-
-            //Relative Credit Quality Threshold
-            var relativeCreditQualityThreshold = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.RelativeCreditQualityThreshold
-                                                                                                            && x.Framework == framework);
-            if (relativeCreditQualityThreshold == null)
-            {
-                _context.Assumptions.Add(new Assumption()
-                {
-                    AssumptionGroup = AssumptionGroupEnum.RelativeCreditQuality,
-                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.RelativeCreditQualityThreshold,
-                    InputName = DefaultPortfolioAssumption.InputName.RelativeCreditQualityThreshold,
-                    Value = DefaultPortfolioAssumption.InputValue.RelativeCreditQualityThreshold,
-                    DataType = DataTypeEnum.DoublePercentage,
-                    Framework = framework,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-
-            //Credit Rating Rank Low / High Risk
-            var creditRatingRankLowHighRisk = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingRankLowHighRisk
-                                                                                                         && x.Framework == framework);
-            if (creditRatingRankLowHighRisk == null)
-            {
-                _context.Assumptions.Add(new Assumption()
-                {
-                    AssumptionGroup = AssumptionGroupEnum.ForwardTransitions,
-                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingRankLowHighRisk,
-                    InputName = DefaultPortfolioAssumption.InputName.CreditRatingRankLowHighRisk,
-                    Value = DefaultPortfolioAssumption.InputValue.CreditRatingRankLowHighRisk,
-                    DataType = DataTypeEnum.Int,
-                    Framework = framework,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-
-            //Credit Rating Rank Low Risk
-            var creditRatingRankLowRisk = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingRankLowRisk
-                                                                                                     && x.Framework == framework);
-            if (creditRatingRankLowRisk == null)
-            {
-                _context.Assumptions.Add(new Assumption()
-                {
-                    AssumptionGroup = AssumptionGroupEnum.ForwardTransitions,
-                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingRankLowRisk,
-                    InputName = DefaultPortfolioAssumption.InputName.CreditRatingRankLowRisk,
-                    Value = DefaultPortfolioAssumption.InputValue.CreditRatingRankLowRisk,
-                    DataType = DataTypeEnum.Int,
-                    Framework = framework,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-
-            //Credit Rating Rank High Risk
-            var creditRatingRankHighRisk = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingRankHighRisk
-                                                                                                      && x.Framework == framework);
-            if (creditRatingRankHighRisk == null)
-            {
-                _context.Assumptions.Add(new Assumption()
-                {
-                    AssumptionGroup = AssumptionGroupEnum.ForwardTransitions,
-                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingRankHighRisk,
-                    InputName = DefaultPortfolioAssumption.InputName.CreditRatingRankHighRisk,
-                    Value = DefaultPortfolioAssumption.InputValue.CreditRatingRankHighRisk,
-                    DataType = DataTypeEnum.Int,
-                    Framework = framework,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-
-            //Credit Rating Default Indicator
-            var creditRatingDefaultIndicator = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingDefaultIndicator
-                                                                                                          && x.Framework == framework);
-            if (creditRatingDefaultIndicator == null)
-            {
-                _context.Assumptions.Add(new Assumption()
-                {
-                    AssumptionGroup = AssumptionGroupEnum.ForwardTransitions,
-                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingDefaultIndicator,
-                    InputName = DefaultPortfolioAssumption.InputName.CreditRatingDefaultIndicator,
-                    Value = DefaultPortfolioAssumption.InputValue.CreditRatingDefaultIndicator,
-                    DataType = DataTypeEnum.Int,
-                    Framework = framework,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-
-            //Use Watchlist Indicator
-            var useWatchlistIndicator = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.UseWatchlistIndicator
-                                                                                                   && x.Framework == framework);
-            if (useWatchlistIndicator == null)
-            {
-                _context.Assumptions.Add(new Assumption()
-                {
-                    AssumptionGroup = AssumptionGroupEnum.ForwardTransitions,
-                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.UseWatchlistIndicator,
-                    InputName = DefaultPortfolioAssumption.InputName.UseWatchlistIndicator,
-                    Value = DefaultPortfolioAssumption.InputValue.UseWatchlistIndicator,
-                    DataType = DataTypeEnum.String,
-                    Framework = framework,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-
-            //Use Restructure Indicator
-            var useRestructureIndicator = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.UseRestructureIndicator
-                                                                                                     && x.Framework == framework);
-            if (useRestructureIndicator == null)
-            {
-                _context.Assumptions.Add(new Assumption()
-                {
-                    AssumptionGroup = AssumptionGroupEnum.ForwardTransitions,
-                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.UseRestructureIndicator,
-                    InputName = DefaultPortfolioAssumption.InputName.UseRestructureIndicator,
-                    Value = DefaultPortfolioAssumption.InputValue.UseRestructureIndicator,
-                    DataType = DataTypeEnum.String,
-                    Framework = framework,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-
-            //Forward Transition Stage 1 to Stage 2
-            var stage1to2 = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.ForwardTransitionStage1to2
-                                                                                       && x.Framework == framework);
-            if (stage1to2 == null)
-            {
-                _context.Assumptions.Add(new Assumption()
-                {
-                    AssumptionGroup = AssumptionGroupEnum.ForwardTransitions,
-                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.ForwardTransitionStage1to2,
-                    InputName = DefaultPortfolioAssumption.InputName.ForwardTransitionStage1to2,
-                    Value = DefaultPortfolioAssumption.InputValue.ForwardTransitionStage1to2,
-                    DataType = DataTypeEnum.Int,
-                    Framework = framework,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-
-            //Forward Transition Stage 2 to Stage 3
-            var stage2to3 = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.ForwardTransitionStage2to3
-                                                                                       && x.Framework == framework);
-            if (stage2to3 == null)
-            {
-                _context.Assumptions.Add(new Assumption()
-                {
-                    AssumptionGroup = AssumptionGroupEnum.ForwardTransitions,
-                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.ForwardTransitionStage2to3,
-                    InputName = DefaultPortfolioAssumption.InputName.ForwardTransitionStage2to3,
-                    Value = DefaultPortfolioAssumption.InputValue.ForwardTransitionStage2to3,
-                    DataType = DataTypeEnum.Int,
-                    Framework = framework,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-
-            //Backward Transition Stage 2 to Stage 1
-            var stage2to1 = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.BackwardTransitionsStage2to1
-                                                                                       && x.Framework == framework);
-            if (stage2to1 == null)
-            {
-                _context.Assumptions.Add(new Assumption()
-                {
-                    AssumptionGroup = AssumptionGroupEnum.BackwardTransitions,
-                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.BackwardTransitionsStage2to1,
-                    InputName = DefaultPortfolioAssumption.InputName.BackwardTransitionsStage2to1,
-                    Value = DefaultPortfolioAssumption.InputValue.BackwardTransitionsStage2to1,
-                    DataType = DataTypeEnum.Int,
-                    Framework = framework,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-
-            //Backward Transition Stage 3 to Stage 2
-            var stage3to2 = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.BackwardTransitionsStage3to2
-                                                                                       && x.Framework == framework);
-            if (stage3to2 == null)
-            {
-                _context.Assumptions.Add(new Assumption()
-                {
-                    AssumptionGroup = AssumptionGroupEnum.BackwardTransitions,
-                    Key = DefaultPortfolioAssumption.FrameworkAssumptionKey.BackwardTransitionsStage3to2,
-                    InputName = DefaultPortfolioAssumption.InputName.BackwardTransitionsStage3to2,
-                    Value = DefaultPortfolioAssumption.InputValue.BackwardTransitionsStage3to2,
-                    DataType = DataTypeEnum.Int,
-                    Framework = framework,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
+            
 
         }
 
-        private void CreateCreditRatingRank(FrameworkEnum framework)
+        private void CreateCreditRatingRank(FrameworkEnum framework, long ou)
         {
             int maxCreditRating = 10;
             int rankCount = 1;
@@ -387,7 +121,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
                 {
                     //Plus
                     var rankPlus = _context.Assumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultPortfolioAssumption.FrameworkAssumptionKey.CreditRatingRank + rankCount.ToString()
-                                                                                              && x.Framework == framework);
+                                                                                              && x.Framework == framework && x.OrganizationUnitId == ou);
                     if (rankPlus == null)
                     {
                         _context.Assumptions.Add(new Assumption()
@@ -400,6 +134,8 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
                             Framework = framework,
                             IsComputed = false,
                             RequiresGroupApproval = true,
+                            CanAffiliateEdit = false,
+                            OrganizationUnitId = ou
                         });
                         _context.SaveChanges();
                         rankCount += 1;
@@ -420,6 +156,8 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
                             Framework = framework,
                             IsComputed = false,
                             RequiresGroupApproval = true,
+                            CanAffiliateEdit = false,
+                            OrganizationUnitId = ou
                         });
                         _context.SaveChanges();
                         rankCount += 1;
@@ -440,6 +178,8 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
                             Framework = framework,
                             IsComputed = false,
                             RequiresGroupApproval = true,
+                            CanAffiliateEdit = false,
+                            OrganizationUnitId = ou
                         });
                         _context.SaveChanges();
                         rankCount += 1;
@@ -461,6 +201,8 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
                             Framework = framework,
                             IsComputed = false,
                             RequiresGroupApproval = true,
+                            CanAffiliateEdit = false,
+                            OrganizationUnitId = ou
                         });
                         _context.SaveChanges();
                         rankCount += 1;

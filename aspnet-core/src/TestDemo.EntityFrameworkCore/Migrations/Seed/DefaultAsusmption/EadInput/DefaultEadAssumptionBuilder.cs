@@ -32,11 +32,14 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
         {
             //Wholesale
             CreateGeneralEadAssumption(FrameworkEnum.Wholesale, ou);
-            CreateWholesaleAddtionalEadAssumption();
+            CreateWholesaleAddtionalEadAssumption(ou);
+            CreateCreditConversionFactor(FrameworkEnum.Wholesale, ou);
             //Retail
             CreateGeneralEadAssumption(FrameworkEnum.Retail, ou);
+            CreateCreditConversionFactor(FrameworkEnum.Retail, ou);
             //OBE
             CreateGeneralEadAssumption(FrameworkEnum.OBE, ou);
+            CreateCreditConversionFactor(FrameworkEnum.OBE, ou);
         }
 
         private void CreateGeneralEadAssumption(FrameworkEnum framework, long ou)
@@ -291,96 +294,40 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
             }
         }
 
-        private void CreateWholesaleAddtionalEadAssumption()
+        private void CreateWholesaleAddtionalEadAssumption(long ou)
         {
-            var libor180 = _context.EadInputAssumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultEadAssumption.EadAssumptionKey.VariableInterestRateProjection180DaysLibor
-                                                                                     && x.Framework == FrameworkEnum.Wholesale);
-            if (libor180 == null)
-            {
-                _context.EadInputAssumptions.Add(new EadInputAssumption()
-                {
-                    EadGroup = EadInputAssumptionGroupEnum.VariableInterestRateProjections,
-                    Key = DefaultEadAssumption.EadAssumptionKey.VariableInterestRateProjection180DaysLibor,
-                    InputName = DefaultEadAssumption.InputName.VariableInterestRateProjection180DaysLibor,
-                    Value = DefaultEadAssumption.InputValue.VariableInterestRateProjection180DaysLibor,
-                    Datatype = DataTypeEnum.DoublePercentage,
-                    Framework = FrameworkEnum.Wholesale,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
 
-            var libor3 = _context.EadInputAssumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultEadAssumption.EadAssumptionKey.VariableInterestRateProjection3MonthsLibor
-                                                                                     && x.Framework == FrameworkEnum.Wholesale);
-            if (libor3 == null)
-            {
-                _context.EadInputAssumptions.Add(new EadInputAssumption()
-                {
-                    EadGroup = EadInputAssumptionGroupEnum.VariableInterestRateProjections,
-                    Key = DefaultEadAssumption.EadAssumptionKey.VariableInterestRateProjection3MonthsLibor,
-                    InputName = DefaultEadAssumption.InputName.VariableInterestRateProjection3MonthsLibor,
-                    Value = DefaultEadAssumption.InputValue.VariableInterestRateProjection3MonthsLibor,
-                    Datatype = DataTypeEnum.DoublePercentage,
-                    Framework = FrameworkEnum.Wholesale,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
+            string[] keys = new string[] { DefaultEadAssumption.EadAssumptionKey.VariableInterestRateProjection180DaysLibor, DefaultEadAssumption.EadAssumptionKey.VariableInterestRateProjection3MonthsLibor,
+                                           DefaultEadAssumption.EadAssumptionKey.VariableInterestRateProjection90DaysLibor, DefaultEadAssumption.EadAssumptionKey.VariableInterestRateProjectionAveragePreceding90DaysNibor,
+                                           DefaultEadAssumption.EadAssumptionKey.VariableInterestRateProjectionLibor};
+            string[] names = new string[] { DefaultEadAssumption.InputName.VariableInterestRateProjection180DaysLibor, DefaultEadAssumption.InputName.VariableInterestRateProjection3MonthsLibor,
+                                            DefaultEadAssumption.InputName.VariableInterestRateProjection90DaysLibor, DefaultEadAssumption.InputName.VariableInterestRateProjectionAveragePreceding90DaysNibor,
+                                            DefaultEadAssumption.InputName.VariableInterestRateProjectionLibor};
+            string[] values = new string[] { DefaultEadAssumption.InputValue.VariableInterestRateProjection180DaysLibor, DefaultEadAssumption.InputValue.VariableInterestRateProjection3MonthsLibor,
+                                             DefaultEadAssumption.InputValue.VariableInterestRateProjection90DaysLibor, DefaultEadAssumption.InputValue.VariableInterestRateProjectionAveragePreceding90DaysNibor,
+                                             DefaultEadAssumption.InputValue.VariableInterestRateProjectionLibor };
 
-            var libor90 = _context.EadInputAssumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultEadAssumption.EadAssumptionKey.VariableInterestRateProjection90DaysLibor
-                                                                                     && x.Framework == FrameworkEnum.Wholesale);
-            if (libor90 == null)
+            for (int i = 0; i < keys.Length; i++)
             {
-                _context.EadInputAssumptions.Add(new EadInputAssumption()
+                var libor180 = _context.EadInputAssumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == keys[i] && x.Framework == FrameworkEnum.Wholesale && x.OrganizationUnitId == ou);
+                if (libor180 == null)
                 {
-                    EadGroup = EadInputAssumptionGroupEnum.VariableInterestRateProjections,
-                    Key = DefaultEadAssumption.EadAssumptionKey.VariableInterestRateProjection90DaysLibor,
-                    InputName = DefaultEadAssumption.InputName.VariableInterestRateProjection90DaysLibor,
-                    Value = DefaultEadAssumption.InputValue.VariableInterestRateProjection90DaysLibor,
-                    Datatype = DataTypeEnum.DoublePercentage,
-                    Framework = FrameworkEnum.Wholesale,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-
-            var nibor = _context.EadInputAssumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultEadAssumption.EadAssumptionKey.VariableInterestRateProjectionAveragePreceding90DaysNibor
-                                                                                     && x.Framework == FrameworkEnum.Wholesale);
-            if (nibor == null)
-            {
-                _context.EadInputAssumptions.Add(new EadInputAssumption()
-                {
-                    EadGroup = EadInputAssumptionGroupEnum.VariableInterestRateProjections,
-                    Key = DefaultEadAssumption.EadAssumptionKey.VariableInterestRateProjectionAveragePreceding90DaysNibor,
-                    InputName = DefaultEadAssumption.InputName.VariableInterestRateProjectionAveragePreceding90DaysNibor,
-                    Value = DefaultEadAssumption.InputValue.VariableInterestRateProjectionAveragePreceding90DaysNibor,
-                    Datatype = DataTypeEnum.DoublePercentage,
-                    Framework = FrameworkEnum.Wholesale,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
-            }
-
-            var libor = _context.EadInputAssumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultEadAssumption.EadAssumptionKey.VariableInterestRateProjectionLibor
-                                                                                     && x.Framework == FrameworkEnum.Wholesale);
-            if (libor == null)
-            {
-                _context.EadInputAssumptions.Add(new EadInputAssumption()
-                {
-                    EadGroup = EadInputAssumptionGroupEnum.VariableInterestRateProjections,
-                    Key = DefaultEadAssumption.EadAssumptionKey.VariableInterestRateProjectionLibor,
-                    InputName = DefaultEadAssumption.InputName.VariableInterestRateProjectionLibor,
-                    Value = DefaultEadAssumption.InputValue.VariableInterestRateProjectionLibor,
-                    Datatype = DataTypeEnum.DoublePercentage,
-                    Framework = FrameworkEnum.Wholesale,
-                    IsComputed = false,
-                    RequiresGroupApproval = true,
-                });
-                _context.SaveChanges();
+                    _context.EadInputAssumptions.Add(new EadInputAssumption()
+                    {
+                        EadGroup = EadInputAssumptionGroupEnum.VariableInterestRateProjections,
+                        Key = keys[i],
+                        InputName = names[i],
+                        Value = values[i],
+                        Datatype = DataTypeEnum.DoublePercentage,
+                        Framework = FrameworkEnum.Wholesale,
+                        IsComputed = false,
+                        RequiresGroupApproval = true,
+                        OrganizationUnitId = ou,
+                        CanAffiliateEdit = false,
+                        Status = GeneralStatusEnum.Approved
+                    });
+                    _context.SaveChanges();
+                }
             }
         }
     }
