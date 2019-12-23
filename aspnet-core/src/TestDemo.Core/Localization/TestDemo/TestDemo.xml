@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="ObeEclPdAssumptionNonInternalModel">Obe ecl pd assumption non internal model</text>
+  <texts>    <text name="ViewAffiliateAssumption">View Assumption</text>
+    <text name="ObeEclPdAssumptionNonInternalModel">Obe ecl pd assumption non internal model</text>
     <text name="CreateNewObeEclPdAssumptionNonInternalModel">Create new obe ecl pd assumption non internal model</text>
     <text name="EditObeEclPdAssumptionNonInternalModel">Edit obe ecl pd assumption non internal model</text>
     <text name="DeleteObeEclPdAssumptionNonInternalModel">Delete obe ecl pd assumption non internal model</text>

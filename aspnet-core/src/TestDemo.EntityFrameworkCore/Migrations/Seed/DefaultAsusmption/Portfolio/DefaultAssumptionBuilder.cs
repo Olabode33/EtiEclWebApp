@@ -21,6 +21,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.Portfolio
 
         public void Create()
         {
+            var temp = _context.AffiliateAssumptions.Select(x => x.Id).ToArray();
             long[] ous = _context.OrganizationUnits.IgnoreQueryFilters().Select(x => x.Id).ToArray();
 
             foreach (long ou in ous)

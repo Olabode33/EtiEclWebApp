@@ -1119,6 +1119,44 @@ namespace TestDemo.Migrations
                     b.ToTable("AppChatMessages");
                 });
 
+            modelBuilder.Entity("TestDemo.EclShared.AffiliateAssumption", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime>("LastAssumptionUpdate");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<DateTime>("LastObeReportingDate");
+
+                    b.Property<DateTime>("LastRetailReportingDate");
+
+                    b.Property<DateTime>("LastSecuritiesReportingDate");
+
+                    b.Property<DateTime>("LastWholesaleReportingDate");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizationUnitId");
+
+                    b.ToTable("AffiliateAssumption");
+                });
+
             modelBuilder.Entity("TestDemo.EclShared.Assumption", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1155,6 +1193,8 @@ namespace TestDemo.Migrations
                     b.Property<long>("OrganizationUnitId");
 
                     b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<int>("Status");
 
                     b.Property<string>("Value");
 
@@ -1433,6 +1473,8 @@ namespace TestDemo.Migrations
                     b.Property<string>("PdGroup");
 
                     b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<int>("Status");
 
                     b.HasKey("Id");
 
@@ -2029,6 +2071,54 @@ namespace TestDemo.Migrations
                     b.ToTable("ObeEclLgdAssumptions");
                 });
 
+            modelBuilder.Entity("TestDemo.ObeAssumption.ObeEclPdAssumption", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("CanAffiliateEdit");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<int>("DataType");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<string>("InputName");
+
+                    b.Property<bool>("IsComputed");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<Guid>("ObeEclId");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<int>("PdGroup");
+
+                    b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<int>("Status");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ObeEclId");
+
+                    b.ToTable("ObeEclPdAssumptions");
+                });
+
             modelBuilder.Entity("TestDemo.ObeAssumption.ObeEclPdAssumption12Month", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2071,6 +2161,196 @@ namespace TestDemo.Migrations
                     b.HasIndex("TenantId");
 
                     b.ToTable("ObeEclPdAssumption12Months");
+                });
+
+            modelBuilder.Entity("TestDemo.ObeAssumption.ObeEclPdAssumptionMacroeconomicInputs", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("CanAffiliateEdit");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<string>("InputName");
+
+                    b.Property<bool>("IsComputed");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<int>("MacroeconomicGroup");
+
+                    b.Property<Guid>("ObeEclId");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<int>("Status");
+
+                    b.Property<double>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ObeEclId");
+
+                    b.ToTable("ObeEclPdAssumptionMacroeconomicInputses");
+                });
+
+            modelBuilder.Entity("TestDemo.ObeAssumption.ObeEclPdAssumptionMacroeconomicProjection", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("BestValue");
+
+                    b.Property<bool>("CanAffiliateEdit");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<double>("DownturnValue");
+
+                    b.Property<string>("InputName");
+
+                    b.Property<bool>("IsComputed");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<int>("MacroeconomicGroup");
+
+                    b.Property<Guid>("ObeEclId");
+
+                    b.Property<double>("OptimisticValue");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<bool>("RequiresGroupApproval");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ObeEclId");
+
+                    b.ToTable("ObeEclPdAssumptionMacroeconomicProjections");
+                });
+
+            modelBuilder.Entity("TestDemo.ObeAssumption.ObeEclPdAssumptionNonInternalModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("CanAffiliateEdit");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<double>("CummulativeSurvival");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsComputed");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<double>("MarginalDefaultRate");
+
+                    b.Property<int>("Month");
+
+                    b.Property<Guid>("ObeEclId");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<string>("PdGroup");
+
+                    b.Property<bool>("RequiresGroupApproval");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ObeEclId");
+
+                    b.ToTable("ObeEclPdAssumptionNonInternalModels");
+                });
+
+            modelBuilder.Entity("TestDemo.ObeAssumption.ObeEclPdAssumptionNplIndex", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("Actual");
+
+                    b.Property<bool>("CanAffiliateEdit");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<double>("EtiNplSeries");
+
+                    b.Property<bool>("IsComputed");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<Guid>("ObeEclId");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<double>("Standardised");
+
+                    b.Property<int>("Statue");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ObeEclId");
+
+                    b.ToTable("ObeEclPdAssumptionNplIndexes");
                 });
 
             modelBuilder.Entity("TestDemo.ObeAssumption.ObeEclPdSnPCummulativeDefaultRate", b =>
@@ -3659,6 +3939,54 @@ namespace TestDemo.Migrations
                     b.ToTable("RetailEclLgdAssumptions");
                 });
 
+            modelBuilder.Entity("TestDemo.RetailAssumption.RetailEclPdAssumption", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("CanAffiliateEdit");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<int>("DataType");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<string>("InputName");
+
+                    b.Property<bool>("IsComputed");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<int>("PdGroup");
+
+                    b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<Guid>("RetailEclId");
+
+                    b.Property<int>("Status");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RetailEclId");
+
+                    b.ToTable("RetailEclPdAssumptions");
+                });
+
             modelBuilder.Entity("TestDemo.RetailAssumption.RetailEclPdAssumption12Month", b =>
                 {
                     b.Property<Guid>("Id")
@@ -3701,6 +4029,196 @@ namespace TestDemo.Migrations
                     b.HasIndex("TenantId");
 
                     b.ToTable("RetailEclPdAssumption12Months");
+                });
+
+            modelBuilder.Entity("TestDemo.RetailAssumption.RetailEclPdAssumptionMacroeconomicInput", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("CanAffiliateEdit");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<string>("InputName");
+
+                    b.Property<bool>("IsComputed");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<int>("MacroeconomicGroup");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<Guid>("RetailEclId");
+
+                    b.Property<int>("Status");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RetailEclId");
+
+                    b.ToTable("RetailEclPdAssumptionMacroeconomicInputs");
+                });
+
+            modelBuilder.Entity("TestDemo.RetailAssumption.RetailEclPdAssumptionMacroeconomicProjection", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("BestValue");
+
+                    b.Property<bool>("CanAffiliateEdit");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<double>("DownturnValue");
+
+                    b.Property<string>("InputName");
+
+                    b.Property<bool>("IsComputed");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<int>("MacroeconomicGroup");
+
+                    b.Property<double>("OptimisticValue");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<Guid>("RetailEclId");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RetailEclId");
+
+                    b.ToTable("RetailEclPdAssumptionMacroeconomicProjections");
+                });
+
+            modelBuilder.Entity("TestDemo.RetailAssumption.RetailEclPdAssumptionNonInteralModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("CanAffiliateEdit");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<double>("CummulativeSurvival");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsComputed");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<double>("MarginalDefaultRate");
+
+                    b.Property<int>("Month");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<string>("PdGroup");
+
+                    b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<Guid>("RetailEclId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RetailEclId");
+
+                    b.ToTable("RetailEclPdAssumptionNonInteralModels");
+                });
+
+            modelBuilder.Entity("TestDemo.RetailAssumption.RetailEclPdAssumptionNplIndex", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("Actual");
+
+                    b.Property<bool>("CanAffiliateEdit");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<double>("EtiNplSeries");
+
+                    b.Property<bool>("IsComputed");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<Guid>("RetailEclId");
+
+                    b.Property<double>("Standardised");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RetailEclId");
+
+                    b.ToTable("RetailEclPdAssumptionNplIndexes");
                 });
 
             modelBuilder.Entity("TestDemo.RetailAssumption.RetailEclPdSnPCummulativeDefaultRate", b =>
@@ -5022,6 +5540,54 @@ namespace TestDemo.Migrations
                     b.ToTable("WholesaleEclLgdAssumptions");
                 });
 
+            modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclPdAssumption", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("CanAffiliateEdit");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<int>("DataType");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<string>("InputName");
+
+                    b.Property<bool>("IsComputed");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<int>("PdGroup");
+
+                    b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<int>("Status");
+
+                    b.Property<string>("Value");
+
+                    b.Property<Guid>("WholesaleEclId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WholesaleEclId");
+
+                    b.ToTable("WholesaleEclPdAssumptions");
+                });
+
             modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclPdAssumption12Month", b =>
                 {
                     b.Property<Guid>("Id")
@@ -5064,6 +5630,198 @@ namespace TestDemo.Migrations
                     b.HasIndex("WholesaleEclId");
 
                     b.ToTable("WholesaleEclPdAssumption12Months");
+                });
+
+            modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclPdAssumptionMacroeconomicInput", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("CanAffiliateEdit");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<string>("InputName");
+
+                    b.Property<bool>("IsComputed");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<int>("MacroEconomicInputGroup");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<int>("Status");
+
+                    b.Property<double>("Value");
+
+                    b.Property<Guid>("WholesaleEclId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WholesaleEclId");
+
+                    b.ToTable("WholesaleEclPdAssumptionMacroeconomicInputs");
+                });
+
+            modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclPdAssumptionMacroeconomicProjection", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("BestValue");
+
+                    b.Property<bool>("CanAffiliateEdit");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<double>("DownturnValue");
+
+                    b.Property<string>("InputName");
+
+                    b.Property<bool>("IsComputed");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<int>("MacroeconomicGroup");
+
+                    b.Property<double>("OptimisticValue");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<int>("Status");
+
+                    b.Property<Guid>("WholesaleEclId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WholesaleEclId");
+
+                    b.ToTable("WholesaleEclPdAssumptionMacroeconomicProjections");
+                });
+
+            modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclPdAssumptionNonInternalModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("CanAffiliateEdit");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<double>("CummulativeSurvival");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsComputed");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<double>("MarginalDefaultRate");
+
+                    b.Property<int>("Month");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<string>("PdGroup");
+
+                    b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<Guid>("WholesaleEclId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WholesaleEclId");
+
+                    b.ToTable("WholesaleEclPdAssumptionNonInternalModels");
+                });
+
+            modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclPdAssumptionNplIndex", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("Actual");
+
+                    b.Property<bool>("CanAffiliateEdit");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<double>("EtiNplSeries");
+
+                    b.Property<bool>("IsComputed");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<double>("Standardised");
+
+                    b.Property<int>("Status");
+
+                    b.Property<Guid>("WholesaleEclId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WholesaleEclId");
+
+                    b.ToTable("WholesaleEclPdAssumptionNplIndexes");
                 });
 
             modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclPdSnPCummulativeDefaultRate", b =>
@@ -6261,6 +7019,14 @@ namespace TestDemo.Migrations
                         .HasForeignKey("LastModifierUserId");
                 });
 
+            modelBuilder.Entity("TestDemo.EclShared.AffiliateAssumption", b =>
+                {
+                    b.HasOne("Abp.Organizations.OrganizationUnit", "OrganizationUnitFk")
+                        .WithMany()
+                        .HasForeignKey("OrganizationUnitId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("TestDemo.MultiTenancy.Payments.SubscriptionPayment", b =>
                 {
                     b.HasOne("Abp.Application.Editions.Edition", "Edition")
@@ -6338,11 +7104,51 @@ namespace TestDemo.Migrations
                         .HasForeignKey("ObeEclId");
                 });
 
+            modelBuilder.Entity("TestDemo.ObeAssumption.ObeEclPdAssumption", b =>
+                {
+                    b.HasOne("TestDemo.OBE.ObeEcl", "ObeEclFk")
+                        .WithMany()
+                        .HasForeignKey("ObeEclId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("TestDemo.ObeAssumption.ObeEclPdAssumption12Month", b =>
                 {
                     b.HasOne("TestDemo.OBE.ObeEcl", "ObeEclFk")
                         .WithMany()
                         .HasForeignKey("ObeEclId");
+                });
+
+            modelBuilder.Entity("TestDemo.ObeAssumption.ObeEclPdAssumptionMacroeconomicInputs", b =>
+                {
+                    b.HasOne("TestDemo.OBE.ObeEcl", "ObeEclFk")
+                        .WithMany()
+                        .HasForeignKey("ObeEclId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TestDemo.ObeAssumption.ObeEclPdAssumptionMacroeconomicProjection", b =>
+                {
+                    b.HasOne("TestDemo.OBE.ObeEcl", "ObeEclFk")
+                        .WithMany()
+                        .HasForeignKey("ObeEclId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TestDemo.ObeAssumption.ObeEclPdAssumptionNonInternalModel", b =>
+                {
+                    b.HasOne("TestDemo.OBE.ObeEcl", "ObeEclFk")
+                        .WithMany()
+                        .HasForeignKey("ObeEclId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TestDemo.ObeAssumption.ObeEclPdAssumptionNplIndex", b =>
+                {
+                    b.HasOne("TestDemo.OBE.ObeEcl", "ObeEclFk")
+                        .WithMany()
+                        .HasForeignKey("ObeEclId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("TestDemo.ObeAssumption.ObeEclPdSnPCummulativeDefaultRate", b =>
@@ -6589,11 +7395,51 @@ namespace TestDemo.Migrations
                         .HasForeignKey("RetailEclId");
                 });
 
+            modelBuilder.Entity("TestDemo.RetailAssumption.RetailEclPdAssumption", b =>
+                {
+                    b.HasOne("TestDemo.Retail.RetailEcl", "RetailEclFk")
+                        .WithMany()
+                        .HasForeignKey("RetailEclId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("TestDemo.RetailAssumption.RetailEclPdAssumption12Month", b =>
                 {
                     b.HasOne("TestDemo.Retail.RetailEcl", "RetailEclFk")
                         .WithMany()
                         .HasForeignKey("RetailEclId");
+                });
+
+            modelBuilder.Entity("TestDemo.RetailAssumption.RetailEclPdAssumptionMacroeconomicInput", b =>
+                {
+                    b.HasOne("TestDemo.Retail.RetailEcl", "RetailEclFk")
+                        .WithMany()
+                        .HasForeignKey("RetailEclId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TestDemo.RetailAssumption.RetailEclPdAssumptionMacroeconomicProjection", b =>
+                {
+                    b.HasOne("TestDemo.Retail.RetailEcl", "RetailEclFk")
+                        .WithMany()
+                        .HasForeignKey("RetailEclId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TestDemo.RetailAssumption.RetailEclPdAssumptionNonInteralModel", b =>
+                {
+                    b.HasOne("TestDemo.Retail.RetailEcl", "RetailEclFk")
+                        .WithMany()
+                        .HasForeignKey("RetailEclId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TestDemo.RetailAssumption.RetailEclPdAssumptionNplIndex", b =>
+                {
+                    b.HasOne("TestDemo.Retail.RetailEcl", "RetailEclFk")
+                        .WithMany()
+                        .HasForeignKey("RetailEclId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("TestDemo.RetailAssumption.RetailEclPdSnPCummulativeDefaultRate", b =>
@@ -6851,11 +7697,51 @@ namespace TestDemo.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclPdAssumption", b =>
+                {
+                    b.HasOne("TestDemo.Wholesale.WholesaleEcl", "WholesaleEclFk")
+                        .WithMany()
+                        .HasForeignKey("WholesaleEclId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclPdAssumption12Month", b =>
                 {
                     b.HasOne("TestDemo.Wholesale.WholesaleEcl", "WholesaleEclFk")
                         .WithMany()
                         .HasForeignKey("WholesaleEclId");
+                });
+
+            modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclPdAssumptionMacroeconomicInput", b =>
+                {
+                    b.HasOne("TestDemo.Wholesale.WholesaleEcl", "WholesaleEclFk")
+                        .WithMany()
+                        .HasForeignKey("WholesaleEclId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclPdAssumptionMacroeconomicProjection", b =>
+                {
+                    b.HasOne("TestDemo.Wholesale.WholesaleEcl", "WholesaleEclFk")
+                        .WithMany()
+                        .HasForeignKey("WholesaleEclId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclPdAssumptionNonInternalModel", b =>
+                {
+                    b.HasOne("TestDemo.Wholesale.WholesaleEcl", "WholesaleEclFk")
+                        .WithMany()
+                        .HasForeignKey("WholesaleEclId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclPdAssumptionNplIndex", b =>
+                {
+                    b.HasOne("TestDemo.Wholesale.WholesaleEcl", "WholesaleEclFk")
+                        .WithMany()
+                        .HasForeignKey("WholesaleEclId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("TestDemo.WholesaleAssumption.WholesaleEclPdSnPCummulativeDefaultRate", b =>

@@ -6,12 +6,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
 using Abp.Auditing;
+using Abp.Organizations;
 
 namespace TestDemo.RetailAssumption
 {
 	[Table("RetailEclPdAssumptionNplIndexes")]
     [Audited]
-    public class RetailEclPdAssumptionNplIndex : FullAuditedEntity<Guid> 
+    public class RetailEclPdAssumptionNplIndex : FullAuditedEntity<Guid>, IMustHaveOrganizationUnit
     {
 
 		public virtual string Key { get; set; }

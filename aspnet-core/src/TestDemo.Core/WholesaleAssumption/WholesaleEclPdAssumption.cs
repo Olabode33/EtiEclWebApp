@@ -8,12 +8,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
 using Abp.Auditing;
+using Abp.Organizations;
 
 namespace TestDemo.WholesaleAssumption
 {
 	[Table("WholesaleEclPdAssumptions")]
     [Audited]
-    public class WholesaleEclPdAssumption : FullAuditedEntity<Guid> 
+    public class WholesaleEclPdAssumption : FullAuditedEntity<Guid>, IMustHaveOrganizationUnit
     {
 
 		public virtual string Key { get; set; }
@@ -39,6 +40,6 @@ namespace TestDemo.WholesaleAssumption
 		
         [ForeignKey("WholesaleEclId")]
 		public WholesaleEcl WholesaleEclFk { get; set; }
-		
+        public virtual long OrganizationUnitId { get; set; }
     }
 }

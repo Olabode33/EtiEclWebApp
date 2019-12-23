@@ -1,4 +1,4 @@
-import { EadInputGroupEnum, LdgInputAssumptionEnum, CreateOrEditObeEclLgdAssumptionDto, CreateOrEditRetailEclApprovalDto } from './../../../../shared/service-proxies/service-proxies';
+import { EadInputAssumptionGroupEnum, LdgInputAssumptionGroupEnum, CreateOrEditObeEclLgdAssumptionDto, CreateOrEditRetailEclApprovalDto } from './../../../../shared/service-proxies/service-proxies';
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EclStatusEnum, CreateOrEditWholesaleEclDto, WholesaleEclsServiceProxy, RetailEclsServiceProxy, GetRetailEclForEditOutput, CreateOrEditRetailEclAssumptionDto, CreateOrEditRetailEclEadInputAssumptionDto, CreateOrEditRetailEclLgdAssumptionDto, CreateOrEditRetailEclDto, AssumptionGroupEnum, DataTypeEnum } from '@shared/service-proxies/service-proxies';
@@ -38,8 +38,8 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
     dataTypeEnum = DataTypeEnum;
     eclStatusEnum = EclStatusEnum;
     assumptionGroupEnum = AssumptionGroupEnum;
-    eadAssumptionGroupEnum = EadInputGroupEnum;
-    lgdAssumptionGroupEnum = LdgInputAssumptionEnum;
+    eadAssumptionGroupEnum = EadInputAssumptionGroupEnum;
+    lgdAssumptionGroupEnum = LdgInputAssumptionGroupEnum;
 
     //General Assumption Groups
     scenarioAssumptionGroup: CreateOrEditRetailEclAssumptionDto[] = new Array();

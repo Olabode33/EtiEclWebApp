@@ -72,7 +72,7 @@ namespace TestDemo.EclShared
 
     public enum AssumptionTypeEnum
     {
-        General, EadInputAssumption, LgdInputAssumption, Pd12MonthsAssumption, PdSnPAssumption
+        General, EadInputAssumption, LgdInputAssumption, PdInputAssumption, PdSnPAssumption, PdMacroeconomicProjection, PdMacroeconomicInput, PdNonInternalModel, PdNplIndex
     }
 
     public enum CalibrationResultGroupEnum

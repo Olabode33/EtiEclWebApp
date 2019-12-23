@@ -6,6 +6,7 @@ using Abp.EntityFrameworkCore.Uow;
 using Abp.MultiTenancy;
 using Microsoft.EntityFrameworkCore;
 using TestDemo.EntityFrameworkCore;
+using TestDemo.Migrations.Seed.DefaultAsusmption.AffiliateAssumptions;
 using TestDemo.Migrations.Seed.DefaultAsusmption.EadInput;
 using TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput;
 using TestDemo.Migrations.Seed.DefaultAsusmption.PdInput;
@@ -33,11 +34,17 @@ namespace TestDemo.Migrations.Seed
             new DefaultTenantBuilder(context).Create();
             new TenantRoleAndUserBuilder(context, 1).Create();
 
-            SeedAssumptionData(context);
+            //Affiliate Assumptions Summary
+            new DefaultAffiliateAssumptionsBuilder(context).Create();
+
+            //SeedAssumptionData(context);
         }
 
         private static void SeedAssumptionData(TestDemoDbContext context)
         {
+            //Direct seeding thats time thanks to EntityFramework
+            //Run in debug mode and run each assumption builder one at a time
+
             //Default framework / portfolio assumption
             new DefaultAssumptionBuilder(context).Create();
 

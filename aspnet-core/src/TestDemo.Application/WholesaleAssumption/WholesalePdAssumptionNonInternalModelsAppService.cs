@@ -21,11 +21,11 @@ namespace TestDemo.WholesaleAssumption
 	[AbpAuthorize(AppPermissions.Pages_WholesalePdAssumptionNonInternalModels)]
     public class WholesalePdAssumptionNonInternalModelsAppService : TestDemoAppServiceBase, IWholesalePdAssumptionNonInternalModelsAppService
     {
-		 private readonly IRepository<WholesalePdAssumptionNonInternalModel, Guid> _wholesalePdAssumptionNonInternalModelRepository;
+		 private readonly IRepository<WholesaleEclPdAssumptionNonInternalModel, Guid> _wholesalePdAssumptionNonInternalModelRepository;
 		 private readonly IRepository<WholesaleEcl,Guid> _lookup_wholesaleEclRepository;
 		 
 
-		  public WholesalePdAssumptionNonInternalModelsAppService(IRepository<WholesalePdAssumptionNonInternalModel, Guid> wholesalePdAssumptionNonInternalModelRepository , IRepository<WholesaleEcl, Guid> lookup_wholesaleEclRepository) 
+		  public WholesalePdAssumptionNonInternalModelsAppService(IRepository<WholesaleEclPdAssumptionNonInternalModel, Guid> wholesalePdAssumptionNonInternalModelRepository , IRepository<WholesaleEcl, Guid> lookup_wholesaleEclRepository) 
 		  {
 			_wholesalePdAssumptionNonInternalModelRepository = wholesalePdAssumptionNonInternalModelRepository;
 			_lookup_wholesaleEclRepository = lookup_wholesaleEclRepository;
@@ -92,7 +92,7 @@ namespace TestDemo.WholesaleAssumption
 		 [AbpAuthorize(AppPermissions.Pages_WholesalePdAssumptionNonInternalModels_Create)]
 		 protected virtual async Task Create(CreateOrEditWholesalePdAssumptionNonInternalModelDto input)
          {
-            var wholesalePdAssumptionNonInternalModel = ObjectMapper.Map<WholesalePdAssumptionNonInternalModel>(input);
+            var wholesalePdAssumptionNonInternalModel = ObjectMapper.Map<WholesaleEclPdAssumptionNonInternalModel>(input);
 
 			
 

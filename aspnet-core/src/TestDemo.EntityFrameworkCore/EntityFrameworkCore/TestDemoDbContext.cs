@@ -38,6 +38,8 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<AffiliateAssumption> AffiliateAssumptions { get; set; }
+
         public virtual DbSet<ObeEclPdAssumptionNonInternalModel> ObeEclPdAssumptionNonInternalModels { get; set; }
 
         public virtual DbSet<RetailEclPdAssumptionNonInteralModel> RetailEclPdAssumptionNonInteralModels { get; set; }
@@ -60,7 +62,7 @@ namespace TestDemo.EntityFrameworkCore
 
         public virtual DbSet<WholesaleEclPdAssumptionNplIndex> WholesaleEclPdAssumptionNplIndexes { get; set; }
 
-        public virtual DbSet<WholesalePdAssumptionNonInternalModel> WholesalePdAssumptionNonInternalModels { get; set; }
+        public virtual DbSet<WholesaleEclPdAssumptionNonInternalModel> WholesalePdAssumptionNonInternalModels { get; set; }
 
         public virtual DbSet<WholesaleEclPdAssumptionMacroeconomicProjection> WholesaleEclPdAssumptionMacroeconomicProjections { get; set; }
 

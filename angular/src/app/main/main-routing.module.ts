@@ -1,6 +1,5 @@
 ﻿import { ViewRetailEclComponent } from './retail/view-retailEcl/view-retailEcl.component';
 import { NgModule } from '@angular/core';
-import { WholesaleEclPdAssumptionMacroeconomicInputsComponent } from './wholesaleAssumption/wholesaleEclPdAssumptionMacroeconomicInputs/wholesaleEclPdAssumptionMacroeconomicInputs.component';
 import { RouterModule } from '@angular/router';
 import { WholesaleEclResultSummaryTopExposuresComponent } from './wholesaleResults/wholesaleEclResultSummaryTopExposures/wholesaleEclResultSummaryTopExposures.component';
 import { WholesaleEclResultSummaryKeyInputsComponent } from './wholesaleResults/wholesaleEclResultSummaryKeyInputs/wholesaleEclResultSummaryKeyInputs.component';
@@ -12,13 +11,15 @@ import { WholesaleEclUploadsComponent } from './wholesaleInputs/wholesaleEclUplo
 import { WholesaleEclPdSnPCummulativeDefaultRatesesComponent } from './wholesaleAssumption/wholesaleEclPdSnPCummulativeDefaultRateses/wholesaleEclPdSnPCummulativeDefaultRateses.component';
 import { WholesaleEclPdAssumption12MonthsesComponent } from './wholesaleAssumption/wholesaleEclPdAssumption12Monthses/wholesaleEclPdAssumption12Monthses.component';
 import { WholesaleEclsComponent } from './wholesale/wholesaleEcls/wholesaleEcls.component';
-import { AssumptionsComponent } from './eclShared/assumptions/assumptions.component';
+import { OldAssumptionsComponent } from './eclShared/assumptions/assumptions.component';
 import { PdInputSnPCummulativeDefaultRatesComponent } from './eclShared/pdInputSnPCummulativeDefaultRates/pdInputSnPCummulativeDefaultRates.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { WorkspaceComponent } from './workspace/workspace.component';
 import { CreateEditWholesaleEclComponent } from './wholesale/createEdit-wholesaleEcl/createEdit-wholesaleEcl.component';
 import { ViewWholesaleEclComponent } from './wholesale/view-wholesaleEcl/view-wholesaleEcl.component';
 import { CreateEditRetailEclComponent } from './retail/createEdit-retailEcl/createEdit-retailEcl.component';
+import { AffiliateAssumptionComponent } from './assumptions/affiliateAssumption/affiliateAssumption.component';
+import { ViewAffiliateAssumptionsComponent } from './assumptions/view-affiliateAssumptions/view-affiliateAssumptions.component';
 
 @NgModule({
     imports: [
@@ -26,7 +27,6 @@ import { CreateEditRetailEclComponent } from './retail/createEdit-retailEcl/crea
             {
                 path: '',
                 children: [
-                    { path: 'wholesaleAssumption/wholesaleEclPdAssumptionMacroeconomicInputs', component: WholesaleEclPdAssumptionMacroeconomicInputsComponent, data: { permission: 'Pages.WholesaleEclPdAssumptionMacroeconomicInputs' }  },
                     { path: 'wholesaleResults/wholesaleEclResultSummaryTopExposures', component: WholesaleEclResultSummaryTopExposuresComponent, data: { permission: 'Pages.WholesaleEclResultSummaryTopExposures' }  },
                     { path: 'wholesaleResults/wholesaleEclResultSummaryKeyInputs', component: WholesaleEclResultSummaryKeyInputsComponent, data: { permission: 'Pages.WholesaleEclResultSummaryKeyInputs' }  },
                     { path: 'wholesaleResult/wholesaleEclResultSummaries', component: WholesaleEclResultSummariesComponent, data: { permission: 'Pages.WholesaleEclResultSummaries' }  },
@@ -37,7 +37,8 @@ import { CreateEditRetailEclComponent } from './retail/createEdit-retailEcl/crea
                     { path: 'wholesaleAssumption/wholesaleEclPdSnPCummulativeDefaultRateses', component: WholesaleEclPdSnPCummulativeDefaultRatesesComponent, data: { permission: 'Pages.WholesaleEclPdSnPCummulativeDefaultRateses' }  },
                     { path: 'wholesaleAssumption/wholesaleEclPdAssumption12Monthses', component: WholesaleEclPdAssumption12MonthsesComponent, data: { permission: 'Pages.WholesaleEclPdAssumption12Monthses' }  },
                     { path: 'wholesale/wholesaleEcls', component: WholesaleEclsComponent, data: { permission: 'Pages.WholesaleEcls' }  },
-                    { path: 'eclShared/assumptions', component: AssumptionsComponent, data: { permission: 'Pages.Assumptions' }  },
+                    { path: 'assumption/affiliates', component: AffiliateAssumptionComponent, data: { permission: 'Pages.Assumption.Affiliates' }  },
+                    { path: 'assumption/affiliates/view/:ouId', component: ViewAffiliateAssumptionsComponent, data: { permission: 'Pages.Assumption.Affiliates' }  },
                     { path: 'eclShared/pdInputSnPCummulativeDefaultRates', component: PdInputSnPCummulativeDefaultRatesComponent, data: { permission: 'Pages.PdInputSnPCummulativeDefaultRates' }  },
                     { path: 'dashboard', component: DashboardComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
                     { path: 'workspace', component: WorkspaceComponent },

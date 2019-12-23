@@ -30,6 +30,10 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            //Final Permissions List
+            var assumptionsUpdate = pages.CreateChildPermission(AppPermissions.Pages_AssumptionsUpdate, L("Assumptions"));
+
+            //Rad Permission
             var obeEclPdAssumptionNonInternalModels = pages.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptionNonInternalModels, L("ObeEclPdAssumptionNonInternalModels"));
             obeEclPdAssumptionNonInternalModels.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptionNonInternalModels_Create, L("CreateNewObeEclPdAssumptionNonInternalModel"));
             obeEclPdAssumptionNonInternalModels.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptionNonInternalModels_Edit, L("EditObeEclPdAssumptionNonInternalModel"));

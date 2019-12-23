@@ -6,6 +6,10 @@
     /// </summary>
     public static class AppPermissions
     {
+        //Final 
+        public const string Pages_AssumptionsUpdate = "Pages.Assumption.Affiliates";
+
+        //RAD Persmissions
         public const string Pages_ObeEclPdAssumptionNonInternalModels = "Pages.ObeEclPdAssumptionNonInternalModels";
         public const string Pages_ObeEclPdAssumptionNonInternalModels_Create = "Pages.ObeEclPdAssumptionNonInternalModels.Create";
         public const string Pages_ObeEclPdAssumptionNonInternalModels_Edit = "Pages.ObeEclPdAssumptionNonInternalModels.Edit";
@@ -660,7 +664,7 @@
 
         public const string Pages = "Pages";
 
-        public const string Pages_DemoUiComponents= "Pages.DemoUiComponents";
+        public const string Pages_DemoUiComponents = "Pages.DemoUiComponents";
         public const string Pages_Administration = "Pages.Administration";
 
         public const string Pages_Administration_Roles = "Pages.Administration.Roles";

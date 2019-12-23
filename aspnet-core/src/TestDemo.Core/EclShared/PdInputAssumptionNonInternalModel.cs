@@ -33,5 +33,7 @@ namespace TestDemo.EclShared
         public virtual FrameworkEnum Framework { get; set; }
 
         public long OrganizationUnitId { get; set; }
+
+        public virtual GeneralStatusEnum Status { get; set; }
     }
 }

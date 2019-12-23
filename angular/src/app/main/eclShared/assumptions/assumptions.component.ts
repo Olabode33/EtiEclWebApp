@@ -19,7 +19,7 @@ import * as moment from 'moment';
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()]
 })
-export class AssumptionsComponent extends AppComponentBase {
+export class OldAssumptionsComponent extends AppComponentBase {
 
     @ViewChild('createOrEditAssumptionModal', { static: true }) createOrEditAssumptionModal: CreateOrEditAssumptionModalComponent;
     @ViewChild('entityTypeHistoryModal', { static: true }) entityTypeHistoryModal: EntityTypeHistoryModalComponent;

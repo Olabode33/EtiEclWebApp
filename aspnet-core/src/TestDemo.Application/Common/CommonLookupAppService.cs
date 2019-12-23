@@ -3,8 +3,10 @@ using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.Collections.Extensions;
+using Abp.Domain.Repositories;
 using Abp.Extensions;
 using Abp.Linq.Extensions;
+using Abp.Organizations;
 using Microsoft.EntityFrameworkCore;
 using TestDemo.Common.Dto;
 using TestDemo.Editions;
@@ -16,10 +18,12 @@ namespace TestDemo.Common
     public class CommonLookupAppService : TestDemoAppServiceBase, ICommonLookupAppService
     {
         private readonly EditionManager _editionManager;
+        private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
 
-        public CommonLookupAppService(EditionManager editionManager)
+        public CommonLookupAppService(EditionManager editionManager, IRepository<OrganizationUnit, long> organizationUnitRepository)
         {
             _editionManager = editionManager;
+            _organizationUnitRepository = organizationUnitRepository;
         }
 
         public async Task<ListResultDto<SubscribableEditionComboboxItemDto>> GetEditionsForCombobox(bool onlyFreeItems = false)
@@ -78,6 +82,12 @@ namespace TestDemo.Common
             {
                 Name = EditionManager.DefaultEditionName
             };
+        }
+
+        public async Task<string> GetAffiliateNameFromId(long ouId)
+        {
+            var ou = await _organizationUnitRepository.FirstOrDefaultAsync(ouId);
+            return ou.DisplayName;
         }
     }
 }

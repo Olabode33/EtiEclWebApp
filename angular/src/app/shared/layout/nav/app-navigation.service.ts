@@ -22,12 +22,10 @@ export class AppNavigationService {
             //new AppMenuItem('Dashboard', 'Pages.Tenant.Dashboard', 'flaticon-line-graph', '/app/main/dashboard'),
             new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants'),
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
-            new AppMenuItem('Assumptions', 'Pages.Assumptions', 'fa fa-list-ul', '/app/main/eclShared/assumptions'),
+            new AppMenuItem('Assumptions', 'Pages.Assumption.Affiliates', 'fa fa-list-ul', '/app/main/assumption/affiliates'),
             new AppMenuItem('Calibration', 'Pages.Assumptions', 'fa fa-bezier-curve', '/app/main/eclShared/assumptions'),
             new AppMenuItem('Configuration', 'Pages.Assumptions', 'fa fa-wrench', '/app/main/eclShared/assumptions'),
-           
-            new AppMenuItem('WholesaleEclPdAssumptionMacroeconomicInputs', 'Pages.WholesaleEclPdAssumptionMacroeconomicInputs', 'flaticon-more', '/app/main/wholesaleAssumption/wholesaleEclPdAssumptionMacroeconomicInputs'),
-             new AppMenuItem('Administration', '', 'fa fa-cogs', '', [
+            new AppMenuItem('Administration', '', 'fa fa-cogs', '', [
                 new AppMenuItem('OrganizationUnits', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),
                 new AppMenuItem('Users', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),

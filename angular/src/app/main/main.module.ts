@@ -1,11 +1,9 @@
-﻿import { CommonModule } from '@angular/common';
+﻿import { FrameworkAssumptionsComponent } from './assumptions/_subs/frameworkAssumptions/frameworkAssumptions.component';
+import { ViewAffiliateAssumptionsComponent } from './assumptions/view-affiliateAssumptions/view-affiliateAssumptions.component';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
-import { WholesaleEclPdAssumptionMacroeconomicInputsComponent } from './wholesaleAssumption/wholesaleEclPdAssumptionMacroeconomicInputs/wholesaleEclPdAssumptionMacroeconomicInputs.component';
-import { ViewWholesaleEclPdAssumptionMacroeconomicInputModalComponent } from './wholesaleAssumption/wholesaleEclPdAssumptionMacroeconomicInputs/view-wholesaleEclPdAssumptionMacroeconomicInput-modal.component';
-import { CreateOrEditWholesaleEclPdAssumptionMacroeconomicInputModalComponent } from './wholesaleAssumption/wholesaleEclPdAssumptionMacroeconomicInputs/create-or-edit-wholesaleEclPdAssumptionMacroeconomicInput-modal.component';
-import { WholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableModalComponent } from './wholesaleAssumption/wholesaleEclPdAssumptionMacroeconomicInputs/wholesaleEclPdAssumptionMacroeconomicInput-wholesaleEcl-lookup-table-modal.component';
 
 import { WholesaleEclResultSummaryTopExposuresComponent } from './wholesaleResults/wholesaleEclResultSummaryTopExposures/wholesaleEclResultSummaryTopExposures.component';
 import { CreateOrEditWholesaleEclResultSummaryTopExposureModalComponent } from './wholesaleResults/wholesaleEclResultSummaryTopExposures/create-or-edit-wholesaleEclResultSummaryTopExposure-modal.component';
@@ -48,7 +46,7 @@ import { WholesaleEclsComponent } from './wholesale/wholesaleEcls/wholesaleEcls.
 import { CreateOrEditWholesaleEclModalComponent } from './wholesale/wholesaleEcls/create-or-edit-wholesaleEcl-modal.component';
 import { WholesaleEclUserLookupTableModalComponent } from './wholesale/wholesaleEcls/wholesaleEcl-user-lookup-table-modal.component';
 
-import { AssumptionsComponent } from './eclShared/assumptions/assumptions.component';
+import { OldAssumptionsComponent } from './eclShared/assumptions/assumptions.component';
 import { CreateOrEditAssumptionModalComponent } from './eclShared/assumptions/create-or-edit-assumption-modal.component';
 
 import { PdInputSnPCummulativeDefaultRatesComponent } from './eclShared/pdInputSnPCummulativeDefaultRates/pdInputSnPCummulativeDefaultRates.component';
@@ -74,6 +72,7 @@ import { ViewWholesaleEclComponent } from './wholesale/view-wholesaleEcl/view-wh
 import { CreateEditRetailEclComponent } from './retail/createEdit-retailEcl/createEdit-retailEcl.component';
 import { ViewRetailEclComponent } from './retail/view-retailEcl/view-retailEcl.component';
 import { ApproveEclModalComponent } from './eclShared/approve-ecl-modal/approve-ecl-modal.component';
+import { AffiliateAssumptionComponent } from './assumptions/affiliateAssumption/affiliateAssumption.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -100,9 +99,9 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
-		WholesaleEclPdAssumptionMacroeconomicInputsComponent,
-		ViewWholesaleEclPdAssumptionMacroeconomicInputModalComponent,		CreateOrEditWholesaleEclPdAssumptionMacroeconomicInputModalComponent,
-    WholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableModalComponent,
+        FrameworkAssumptionsComponent,
+        ViewAffiliateAssumptionsComponent,
+        AffiliateAssumptionComponent,
         ApproveEclModalComponent,
         ViewRetailEclComponent,
         CreateEditRetailEclComponent,
@@ -140,7 +139,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         WholesaleEclsComponent,
         CreateOrEditWholesaleEclModalComponent,
         WholesaleEclUserLookupTableModalComponent,
-        AssumptionsComponent,
+        OldAssumptionsComponent,
         CreateOrEditAssumptionModalComponent,
         PdInputSnPCummulativeDefaultRatesComponent,
         CreateOrEditPdInputSnPCummulativeDefaultRateModalComponent,

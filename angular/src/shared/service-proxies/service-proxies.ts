@@ -1822,6 +1822,60 @@ export class CommonLookupServiceProxy {
         }
         return _observableOf<GetDefaultEditionNameOutput>(<any>null);
     }
+
+    /**
+     * @param ouId (optional) 
+     * @return Success
+     */
+    getAffiliateNameFromId(ouId: number | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/CommonLookup/GetAffiliateNameFromId?";
+        if (ouId !== undefined)
+            url_ += "ouId=" + encodeURIComponent("" + ouId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAffiliateNameFromId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAffiliateNameFromId(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAffiliateNameFromId(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
 }
 
 @Injectable()
@@ -2656,6 +2710,685 @@ export class EclSharedServiceProxy {
             }));
         }
         return _observableOf<LgdAssumptionDto[]>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllAffiliateAssumption(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetAllAffiliateAssumptionDto> {
+        let url_ = this.baseUrl + "/api/services/app/EclShared/GetAllAffiliateAssumption?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllAffiliateAssumption(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllAffiliateAssumption(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetAllAffiliateAssumptionDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetAllAffiliateAssumptionDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllAffiliateAssumption(response: HttpResponseBase): Observable<PagedResultDtoOfGetAllAffiliateAssumptionDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetAllAffiliateAssumptionDto.fromJS(resultData200) : new PagedResultDtoOfGetAllAffiliateAssumptionDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetAllAffiliateAssumptionDto>(<any>null);
+    }
+
+    /**
+     * @param affiliateOuId (optional) 
+     * @return Success
+     */
+    getAffiliateFrameworkAssumption(affiliateOuId: number | null | undefined, framework: FrameworkEnum): Observable<AssumptionDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/EclShared/GetAffiliateFrameworkAssumption?";
+        if (affiliateOuId !== undefined)
+            url_ += "AffiliateOuId=" + encodeURIComponent("" + affiliateOuId) + "&"; 
+        if (framework === undefined || framework === null)
+            throw new Error("The parameter 'framework' must be defined and cannot be null.");
+        else
+            url_ += "Framework=" + encodeURIComponent("" + framework) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAffiliateFrameworkAssumption(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAffiliateFrameworkAssumption(<any>response_);
+                } catch (e) {
+                    return <Observable<AssumptionDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<AssumptionDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAffiliateFrameworkAssumption(response: HttpResponseBase): Observable<AssumptionDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(AssumptionDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<AssumptionDto[]>(<any>null);
+    }
+
+    /**
+     * @param affiliateOuId (optional) 
+     * @return Success
+     */
+    getAffiliateEadAssumption(affiliateOuId: number | null | undefined, framework: FrameworkEnum): Observable<EadInputAssumptionDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/EclShared/GetAffiliateEadAssumption?";
+        if (affiliateOuId !== undefined)
+            url_ += "AffiliateOuId=" + encodeURIComponent("" + affiliateOuId) + "&"; 
+        if (framework === undefined || framework === null)
+            throw new Error("The parameter 'framework' must be defined and cannot be null.");
+        else
+            url_ += "Framework=" + encodeURIComponent("" + framework) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAffiliateEadAssumption(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAffiliateEadAssumption(<any>response_);
+                } catch (e) {
+                    return <Observable<EadInputAssumptionDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<EadInputAssumptionDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAffiliateEadAssumption(response: HttpResponseBase): Observable<EadInputAssumptionDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(EadInputAssumptionDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<EadInputAssumptionDto[]>(<any>null);
+    }
+
+    /**
+     * @param affiliateOuId (optional) 
+     * @return Success
+     */
+    getAffiliateLgdAssumption(affiliateOuId: number | null | undefined, framework: FrameworkEnum): Observable<LgdAssumptionDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/EclShared/GetAffiliateLgdAssumption?";
+        if (affiliateOuId !== undefined)
+            url_ += "AffiliateOuId=" + encodeURIComponent("" + affiliateOuId) + "&"; 
+        if (framework === undefined || framework === null)
+            throw new Error("The parameter 'framework' must be defined and cannot be null.");
+        else
+            url_ += "Framework=" + encodeURIComponent("" + framework) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAffiliateLgdAssumption(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAffiliateLgdAssumption(<any>response_);
+                } catch (e) {
+                    return <Observable<LgdAssumptionDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LgdAssumptionDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAffiliateLgdAssumption(response: HttpResponseBase): Observable<LgdAssumptionDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(LgdAssumptionDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LgdAssumptionDto[]>(<any>null);
+    }
+
+    /**
+     * @param affiliateOuId (optional) 
+     * @return Success
+     */
+    getAffiliatePdAssumption(affiliateOuId: number | null | undefined, framework: FrameworkEnum): Observable<PdInputAssumptionDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/EclShared/GetAffiliatePdAssumption?";
+        if (affiliateOuId !== undefined)
+            url_ += "AffiliateOuId=" + encodeURIComponent("" + affiliateOuId) + "&"; 
+        if (framework === undefined || framework === null)
+            throw new Error("The parameter 'framework' must be defined and cannot be null.");
+        else
+            url_ += "Framework=" + encodeURIComponent("" + framework) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAffiliatePdAssumption(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAffiliatePdAssumption(<any>response_);
+                } catch (e) {
+                    return <Observable<PdInputAssumptionDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PdInputAssumptionDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAffiliatePdAssumption(response: HttpResponseBase): Observable<PdInputAssumptionDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(PdInputAssumptionDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PdInputAssumptionDto[]>(<any>null);
+    }
+
+    /**
+     * @param affiliateOuId (optional) 
+     * @return Success
+     */
+    getAffiliatePdMacroeconomicInputAssumption(affiliateOuId: number | null | undefined, framework: FrameworkEnum): Observable<PdInputAssumptionMacroeconomicInputDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/EclShared/GetAffiliatePdMacroeconomicInputAssumption?";
+        if (affiliateOuId !== undefined)
+            url_ += "AffiliateOuId=" + encodeURIComponent("" + affiliateOuId) + "&"; 
+        if (framework === undefined || framework === null)
+            throw new Error("The parameter 'framework' must be defined and cannot be null.");
+        else
+            url_ += "Framework=" + encodeURIComponent("" + framework) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAffiliatePdMacroeconomicInputAssumption(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAffiliatePdMacroeconomicInputAssumption(<any>response_);
+                } catch (e) {
+                    return <Observable<PdInputAssumptionMacroeconomicInputDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PdInputAssumptionMacroeconomicInputDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAffiliatePdMacroeconomicInputAssumption(response: HttpResponseBase): Observable<PdInputAssumptionMacroeconomicInputDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(PdInputAssumptionMacroeconomicInputDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PdInputAssumptionMacroeconomicInputDto[]>(<any>null);
+    }
+
+    /**
+     * @param affiliateOuId (optional) 
+     * @return Success
+     */
+    getAffiliatePdMacroeconomicProjectionAssumption(affiliateOuId: number | null | undefined, framework: FrameworkEnum): Observable<PdInputAssumptionMacroeconomicProjectionDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/EclShared/GetAffiliatePdMacroeconomicProjectionAssumption?";
+        if (affiliateOuId !== undefined)
+            url_ += "AffiliateOuId=" + encodeURIComponent("" + affiliateOuId) + "&"; 
+        if (framework === undefined || framework === null)
+            throw new Error("The parameter 'framework' must be defined and cannot be null.");
+        else
+            url_ += "Framework=" + encodeURIComponent("" + framework) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAffiliatePdMacroeconomicProjectionAssumption(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAffiliatePdMacroeconomicProjectionAssumption(<any>response_);
+                } catch (e) {
+                    return <Observable<PdInputAssumptionMacroeconomicProjectionDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PdInputAssumptionMacroeconomicProjectionDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAffiliatePdMacroeconomicProjectionAssumption(response: HttpResponseBase): Observable<PdInputAssumptionMacroeconomicProjectionDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(PdInputAssumptionMacroeconomicProjectionDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PdInputAssumptionMacroeconomicProjectionDto[]>(<any>null);
+    }
+
+    /**
+     * @param affiliateOuId (optional) 
+     * @return Success
+     */
+    getAffiliatePdNonInternalModelAssumption(affiliateOuId: number | null | undefined, framework: FrameworkEnum): Observable<PdInputAssumptionNonInternalModelDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/EclShared/GetAffiliatePdNonInternalModelAssumption?";
+        if (affiliateOuId !== undefined)
+            url_ += "AffiliateOuId=" + encodeURIComponent("" + affiliateOuId) + "&"; 
+        if (framework === undefined || framework === null)
+            throw new Error("The parameter 'framework' must be defined and cannot be null.");
+        else
+            url_ += "Framework=" + encodeURIComponent("" + framework) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAffiliatePdNonInternalModelAssumption(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAffiliatePdNonInternalModelAssumption(<any>response_);
+                } catch (e) {
+                    return <Observable<PdInputAssumptionNonInternalModelDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PdInputAssumptionNonInternalModelDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAffiliatePdNonInternalModelAssumption(response: HttpResponseBase): Observable<PdInputAssumptionNonInternalModelDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(PdInputAssumptionNonInternalModelDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PdInputAssumptionNonInternalModelDto[]>(<any>null);
+    }
+
+    /**
+     * @param affiliateOuId (optional) 
+     * @return Success
+     */
+    getAffiliatePdNplIndexAssumption(affiliateOuId: number | null | undefined, framework: FrameworkEnum): Observable<PdInputAssumptionNplIndexDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/EclShared/GetAffiliatePdNplIndexAssumption?";
+        if (affiliateOuId !== undefined)
+            url_ += "AffiliateOuId=" + encodeURIComponent("" + affiliateOuId) + "&"; 
+        if (framework === undefined || framework === null)
+            throw new Error("The parameter 'framework' must be defined and cannot be null.");
+        else
+            url_ += "Framework=" + encodeURIComponent("" + framework) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAffiliatePdNplIndexAssumption(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAffiliatePdNplIndexAssumption(<any>response_);
+                } catch (e) {
+                    return <Observable<PdInputAssumptionNplIndexDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PdInputAssumptionNplIndexDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAffiliatePdNplIndexAssumption(response: HttpResponseBase): Observable<PdInputAssumptionNplIndexDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(PdInputAssumptionNplIndexDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PdInputAssumptionNplIndexDto[]>(<any>null);
+    }
+
+    /**
+     * @param affiliateOuId (optional) 
+     * @return Success
+     */
+    getAffiliatePdSnpCummulativeAssumption(affiliateOuId: number | null | undefined, framework: FrameworkEnum): Observable<PdInputSnPCummulativeDefaultRateDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/EclShared/GetAffiliatePdSnpCummulativeAssumption?";
+        if (affiliateOuId !== undefined)
+            url_ += "AffiliateOuId=" + encodeURIComponent("" + affiliateOuId) + "&"; 
+        if (framework === undefined || framework === null)
+            throw new Error("The parameter 'framework' must be defined and cannot be null.");
+        else
+            url_ += "Framework=" + encodeURIComponent("" + framework) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAffiliatePdSnpCummulativeAssumption(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAffiliatePdSnpCummulativeAssumption(<any>response_);
+                } catch (e) {
+                    return <Observable<PdInputSnPCummulativeDefaultRateDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PdInputSnPCummulativeDefaultRateDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAffiliatePdSnpCummulativeAssumption(response: HttpResponseBase): Observable<PdInputSnPCummulativeDefaultRateDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(PdInputSnPCummulativeDefaultRateDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PdInputSnPCummulativeDefaultRateDto[]>(<any>null);
+    }
+
+    /**
+     * @param affiliateOuId (optional) 
+     * @return Success
+     */
+    getAllPdAssumptionsForAffiliate(affiliateOuId: number | null | undefined, framework: FrameworkEnum): Observable<GetAllPdAssumptionsDto> {
+        let url_ = this.baseUrl + "/api/services/app/EclShared/GetAllPdAssumptionsForAffiliate?";
+        if (affiliateOuId !== undefined)
+            url_ += "AffiliateOuId=" + encodeURIComponent("" + affiliateOuId) + "&"; 
+        if (framework === undefined || framework === null)
+            throw new Error("The parameter 'framework' must be defined and cannot be null.");
+        else
+            url_ += "Framework=" + encodeURIComponent("" + framework) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllPdAssumptionsForAffiliate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllPdAssumptionsForAffiliate(<any>response_);
+                } catch (e) {
+                    return <Observable<GetAllPdAssumptionsDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetAllPdAssumptionsDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllPdAssumptionsForAffiliate(response: HttpResponseBase): Observable<GetAllPdAssumptionsDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetAllPdAssumptionsDto.fromJS(resultData200) : new GetAllPdAssumptionsDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetAllPdAssumptionsDto>(<any>null);
     }
 }
 
@@ -7975,6 +8708,1491 @@ export class ObeEclPdAssumption12MonthsServiceProxy {
 }
 
 @Injectable()
+export class ObeEclPdAssumptionMacroeconomicInputsesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param obeEclTenantIdFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, obeEclTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetObeEclPdAssumptionMacroeconomicInputsForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclPdAssumptionMacroeconomicInputses/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (obeEclTenantIdFilter !== undefined)
+            url_ += "ObeEclTenantIdFilter=" + encodeURIComponent("" + obeEclTenantIdFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetObeEclPdAssumptionMacroeconomicInputsForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetObeEclPdAssumptionMacroeconomicInputsForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetObeEclPdAssumptionMacroeconomicInputsForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetObeEclPdAssumptionMacroeconomicInputsForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetObeEclPdAssumptionMacroeconomicInputsForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetObeEclPdAssumptionMacroeconomicInputsForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getObeEclPdAssumptionMacroeconomicInputsForEdit(id: string | null | undefined): Observable<GetObeEclPdAssumptionMacroeconomicInputsForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclPdAssumptionMacroeconomicInputses/GetObeEclPdAssumptionMacroeconomicInputsForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetObeEclPdAssumptionMacroeconomicInputsForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetObeEclPdAssumptionMacroeconomicInputsForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetObeEclPdAssumptionMacroeconomicInputsForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetObeEclPdAssumptionMacroeconomicInputsForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetObeEclPdAssumptionMacroeconomicInputsForEdit(response: HttpResponseBase): Observable<GetObeEclPdAssumptionMacroeconomicInputsForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetObeEclPdAssumptionMacroeconomicInputsForEditOutput.fromJS(resultData200) : new GetObeEclPdAssumptionMacroeconomicInputsForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetObeEclPdAssumptionMacroeconomicInputsForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditObeEclPdAssumptionMacroeconomicInputsDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclPdAssumptionMacroeconomicInputses/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclPdAssumptionMacroeconomicInputses/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllObeEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfObeEclPdAssumptionMacroeconomicInputsObeEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclPdAssumptionMacroeconomicInputses/GetAllObeEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllObeEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllObeEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfObeEclPdAssumptionMacroeconomicInputsObeEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfObeEclPdAssumptionMacroeconomicInputsObeEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllObeEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfObeEclPdAssumptionMacroeconomicInputsObeEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfObeEclPdAssumptionMacroeconomicInputsObeEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfObeEclPdAssumptionMacroeconomicInputsObeEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfObeEclPdAssumptionMacroeconomicInputsObeEclLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class ObeEclPdAssumptionMacroeconomicProjectionsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param obeEclTenantIdFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, obeEclTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetObeEclPdAssumptionMacroeconomicProjectionForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclPdAssumptionMacroeconomicProjections/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (obeEclTenantIdFilter !== undefined)
+            url_ += "ObeEclTenantIdFilter=" + encodeURIComponent("" + obeEclTenantIdFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetObeEclPdAssumptionMacroeconomicProjectionForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetObeEclPdAssumptionMacroeconomicProjectionForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetObeEclPdAssumptionMacroeconomicProjectionForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetObeEclPdAssumptionMacroeconomicProjectionForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetObeEclPdAssumptionMacroeconomicProjectionForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetObeEclPdAssumptionMacroeconomicProjectionForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getObeEclPdAssumptionMacroeconomicProjectionForEdit(id: string | null | undefined): Observable<GetObeEclPdAssumptionMacroeconomicProjectionForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclPdAssumptionMacroeconomicProjections/GetObeEclPdAssumptionMacroeconomicProjectionForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetObeEclPdAssumptionMacroeconomicProjectionForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetObeEclPdAssumptionMacroeconomicProjectionForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetObeEclPdAssumptionMacroeconomicProjectionForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetObeEclPdAssumptionMacroeconomicProjectionForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetObeEclPdAssumptionMacroeconomicProjectionForEdit(response: HttpResponseBase): Observable<GetObeEclPdAssumptionMacroeconomicProjectionForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetObeEclPdAssumptionMacroeconomicProjectionForEditOutput.fromJS(resultData200) : new GetObeEclPdAssumptionMacroeconomicProjectionForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetObeEclPdAssumptionMacroeconomicProjectionForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditObeEclPdAssumptionMacroeconomicProjectionDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclPdAssumptionMacroeconomicProjections/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclPdAssumptionMacroeconomicProjections/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllObeEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfObeEclPdAssumptionMacroeconomicProjectionObeEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclPdAssumptionMacroeconomicProjections/GetAllObeEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllObeEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllObeEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfObeEclPdAssumptionMacroeconomicProjectionObeEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfObeEclPdAssumptionMacroeconomicProjectionObeEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllObeEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfObeEclPdAssumptionMacroeconomicProjectionObeEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfObeEclPdAssumptionMacroeconomicProjectionObeEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfObeEclPdAssumptionMacroeconomicProjectionObeEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfObeEclPdAssumptionMacroeconomicProjectionObeEclLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class ObeEclPdAssumptionNonInternalModelsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param obeEclTenantIdFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, obeEclTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetObeEclPdAssumptionNonInternalModelForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclPdAssumptionNonInternalModels/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (obeEclTenantIdFilter !== undefined)
+            url_ += "ObeEclTenantIdFilter=" + encodeURIComponent("" + obeEclTenantIdFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetObeEclPdAssumptionNonInternalModelForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetObeEclPdAssumptionNonInternalModelForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetObeEclPdAssumptionNonInternalModelForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetObeEclPdAssumptionNonInternalModelForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetObeEclPdAssumptionNonInternalModelForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetObeEclPdAssumptionNonInternalModelForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getObeEclPdAssumptionNonInternalModelForEdit(id: string | null | undefined): Observable<GetObeEclPdAssumptionNonInternalModelForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclPdAssumptionNonInternalModels/GetObeEclPdAssumptionNonInternalModelForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetObeEclPdAssumptionNonInternalModelForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetObeEclPdAssumptionNonInternalModelForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetObeEclPdAssumptionNonInternalModelForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetObeEclPdAssumptionNonInternalModelForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetObeEclPdAssumptionNonInternalModelForEdit(response: HttpResponseBase): Observable<GetObeEclPdAssumptionNonInternalModelForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetObeEclPdAssumptionNonInternalModelForEditOutput.fromJS(resultData200) : new GetObeEclPdAssumptionNonInternalModelForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetObeEclPdAssumptionNonInternalModelForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditObeEclPdAssumptionNonInternalModelDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclPdAssumptionNonInternalModels/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclPdAssumptionNonInternalModels/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllObeEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfObeEclPdAssumptionNonInternalModelObeEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclPdAssumptionNonInternalModels/GetAllObeEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllObeEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllObeEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfObeEclPdAssumptionNonInternalModelObeEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfObeEclPdAssumptionNonInternalModelObeEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllObeEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfObeEclPdAssumptionNonInternalModelObeEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfObeEclPdAssumptionNonInternalModelObeEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfObeEclPdAssumptionNonInternalModelObeEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfObeEclPdAssumptionNonInternalModelObeEclLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class ObeEclPdAssumptionNplIndexesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param obeEclTenantIdFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, obeEclTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetObeEclPdAssumptionNplIndexForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclPdAssumptionNplIndexes/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (obeEclTenantIdFilter !== undefined)
+            url_ += "ObeEclTenantIdFilter=" + encodeURIComponent("" + obeEclTenantIdFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetObeEclPdAssumptionNplIndexForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetObeEclPdAssumptionNplIndexForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetObeEclPdAssumptionNplIndexForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetObeEclPdAssumptionNplIndexForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetObeEclPdAssumptionNplIndexForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetObeEclPdAssumptionNplIndexForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getObeEclPdAssumptionNplIndexForEdit(id: string | null | undefined): Observable<GetObeEclPdAssumptionNplIndexForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclPdAssumptionNplIndexes/GetObeEclPdAssumptionNplIndexForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetObeEclPdAssumptionNplIndexForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetObeEclPdAssumptionNplIndexForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetObeEclPdAssumptionNplIndexForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetObeEclPdAssumptionNplIndexForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetObeEclPdAssumptionNplIndexForEdit(response: HttpResponseBase): Observable<GetObeEclPdAssumptionNplIndexForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetObeEclPdAssumptionNplIndexForEditOutput.fromJS(resultData200) : new GetObeEclPdAssumptionNplIndexForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetObeEclPdAssumptionNplIndexForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditObeEclPdAssumptionNplIndexDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclPdAssumptionNplIndexes/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclPdAssumptionNplIndexes/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllObeEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfObeEclPdAssumptionNplIndexObeEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclPdAssumptionNplIndexes/GetAllObeEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllObeEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllObeEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfObeEclPdAssumptionNplIndexObeEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfObeEclPdAssumptionNplIndexObeEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllObeEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfObeEclPdAssumptionNplIndexObeEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfObeEclPdAssumptionNplIndexObeEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfObeEclPdAssumptionNplIndexObeEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfObeEclPdAssumptionNplIndexObeEclLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class ObeEclPdAssumptionsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param obeEclTenantIdFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, obeEclTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetObeEclPdAssumptionForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclPdAssumptions/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (obeEclTenantIdFilter !== undefined)
+            url_ += "ObeEclTenantIdFilter=" + encodeURIComponent("" + obeEclTenantIdFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetObeEclPdAssumptionForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetObeEclPdAssumptionForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetObeEclPdAssumptionForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetObeEclPdAssumptionForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetObeEclPdAssumptionForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetObeEclPdAssumptionForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getObeEclPdAssumptionForEdit(id: string | null | undefined): Observable<GetObeEclPdAssumptionForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclPdAssumptions/GetObeEclPdAssumptionForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetObeEclPdAssumptionForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetObeEclPdAssumptionForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetObeEclPdAssumptionForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetObeEclPdAssumptionForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetObeEclPdAssumptionForEdit(response: HttpResponseBase): Observable<GetObeEclPdAssumptionForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetObeEclPdAssumptionForEditOutput.fromJS(resultData200) : new GetObeEclPdAssumptionForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetObeEclPdAssumptionForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditObeEclPdAssumptionDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclPdAssumptions/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclPdAssumptions/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllObeEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfObeEclPdAssumptionObeEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclPdAssumptions/GetAllObeEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllObeEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllObeEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfObeEclPdAssumptionObeEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfObeEclPdAssumptionObeEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllObeEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfObeEclPdAssumptionObeEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfObeEclPdAssumptionObeEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfObeEclPdAssumptionObeEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfObeEclPdAssumptionObeEclLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
 export class ObeEclPdSnPCummulativeDefaultRatesServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -13068,7 +15286,7 @@ export class PayPalPaymentServiceProxy {
 }
 
 @Injectable()
-export class PdInputAssumption12MonthsServiceProxy {
+export class PdInputAssumptionMacroeconomicProjectionsServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -13080,24 +15298,15 @@ export class PdInputAssumption12MonthsServiceProxy {
 
     /**
      * @param filter (optional) 
-     * @param maxCreditFilter (optional) 
-     * @param minCreditFilter (optional) 
-     * @param snPMappingEtiCreditPolicyFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | null | undefined, maxCreditFilter: number | null | undefined, minCreditFilter: number | null | undefined, snPMappingEtiCreditPolicyFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetPdInputAssumption12MonthForViewDto> {
-        let url_ = this.baseUrl + "/api/services/app/PdInputAssumption12Months/GetAll?";
+    getAll(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetPdInputAssumptionMacroeconomicProjectionForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputAssumptionMacroeconomicProjections/GetAll?";
         if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (maxCreditFilter !== undefined)
-            url_ += "MaxCreditFilter=" + encodeURIComponent("" + maxCreditFilter) + "&"; 
-        if (minCreditFilter !== undefined)
-            url_ += "MinCreditFilter=" + encodeURIComponent("" + minCreditFilter) + "&"; 
-        if (snPMappingEtiCreditPolicyFilter !== undefined)
-            url_ += "SnPMappingEtiCreditPolicyFilter=" + encodeURIComponent("" + snPMappingEtiCreditPolicyFilter) + "&"; 
         if (sorting !== undefined)
             url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (skipCount !== undefined)
@@ -13121,14 +15330,14 @@ export class PdInputAssumption12MonthsServiceProxy {
                 try {
                     return this.processGetAll(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfGetPdInputAssumption12MonthForViewDto>><any>_observableThrow(e);
+                    return <Observable<PagedResultDtoOfGetPdInputAssumptionMacroeconomicProjectionForViewDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfGetPdInputAssumption12MonthForViewDto>><any>_observableThrow(response_);
+                return <Observable<PagedResultDtoOfGetPdInputAssumptionMacroeconomicProjectionForViewDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetPdInputAssumption12MonthForViewDto> {
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetPdInputAssumptionMacroeconomicProjectionForViewDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -13139,7 +15348,7 @@ export class PdInputAssumption12MonthsServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfGetPdInputAssumption12MonthForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetPdInputAssumption12MonthForViewDto();
+            result200 = resultData200 ? PagedResultDtoOfGetPdInputAssumptionMacroeconomicProjectionForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetPdInputAssumptionMacroeconomicProjectionForViewDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -13147,15 +15356,15 @@ export class PdInputAssumption12MonthsServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfGetPdInputAssumption12MonthForViewDto>(<any>null);
+        return _observableOf<PagedResultDtoOfGetPdInputAssumptionMacroeconomicProjectionForViewDto>(<any>null);
     }
 
     /**
      * @param id (optional) 
      * @return Success
      */
-    getPdInputAssumption12MonthForEdit(id: string | null | undefined): Observable<GetPdInputAssumption12MonthForEditOutput> {
-        let url_ = this.baseUrl + "/api/services/app/PdInputAssumption12Months/GetPdInputAssumption12MonthForEdit?";
+    getPdInputAssumptionMacroeconomicProjectionForEdit(id: string | null | undefined): Observable<GetPdInputAssumptionMacroeconomicProjectionForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputAssumptionMacroeconomicProjections/GetPdInputAssumptionMacroeconomicProjectionForEdit?";
         if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -13169,20 +15378,20 @@ export class PdInputAssumption12MonthsServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetPdInputAssumption12MonthForEdit(response_);
+            return this.processGetPdInputAssumptionMacroeconomicProjectionForEdit(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetPdInputAssumption12MonthForEdit(<any>response_);
+                    return this.processGetPdInputAssumptionMacroeconomicProjectionForEdit(<any>response_);
                 } catch (e) {
-                    return <Observable<GetPdInputAssumption12MonthForEditOutput>><any>_observableThrow(e);
+                    return <Observable<GetPdInputAssumptionMacroeconomicProjectionForEditOutput>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<GetPdInputAssumption12MonthForEditOutput>><any>_observableThrow(response_);
+                return <Observable<GetPdInputAssumptionMacroeconomicProjectionForEditOutput>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetPdInputAssumption12MonthForEdit(response: HttpResponseBase): Observable<GetPdInputAssumption12MonthForEditOutput> {
+    protected processGetPdInputAssumptionMacroeconomicProjectionForEdit(response: HttpResponseBase): Observable<GetPdInputAssumptionMacroeconomicProjectionForEditOutput> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -13193,7 +15402,7 @@ export class PdInputAssumption12MonthsServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? GetPdInputAssumption12MonthForEditOutput.fromJS(resultData200) : new GetPdInputAssumption12MonthForEditOutput();
+            result200 = resultData200 ? GetPdInputAssumptionMacroeconomicProjectionForEditOutput.fromJS(resultData200) : new GetPdInputAssumptionMacroeconomicProjectionForEditOutput();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -13201,15 +15410,15 @@ export class PdInputAssumption12MonthsServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<GetPdInputAssumption12MonthForEditOutput>(<any>null);
+        return _observableOf<GetPdInputAssumptionMacroeconomicProjectionForEditOutput>(<any>null);
     }
 
     /**
      * @param input (optional) 
      * @return Success
      */
-    createOrEdit(input: CreateOrEditPdInputAssumption12MonthDto | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/PdInputAssumption12Months/CreateOrEdit";
+    createOrEdit(input: CreateOrEditPdInputAssumptionMacroeconomicProjectionDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputAssumptionMacroeconomicProjections/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -13261,7 +15470,934 @@ export class PdInputAssumption12MonthsServiceProxy {
      * @return Success
      */
     delete(id: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/PdInputAssumption12Months/Delete?";
+        let url_ = this.baseUrl + "/api/services/app/PdInputAssumptionMacroeconomicProjections/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class PdInputAssumptionNonInternalModelsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetPdInputAssumptionNonInternalModelForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputAssumptionNonInternalModels/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetPdInputAssumptionNonInternalModelForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetPdInputAssumptionNonInternalModelForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetPdInputAssumptionNonInternalModelForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetPdInputAssumptionNonInternalModelForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetPdInputAssumptionNonInternalModelForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetPdInputAssumptionNonInternalModelForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getPdInputAssumptionNonInternalModelForEdit(id: string | null | undefined): Observable<GetPdInputAssumptionNonInternalModelForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputAssumptionNonInternalModels/GetPdInputAssumptionNonInternalModelForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPdInputAssumptionNonInternalModelForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPdInputAssumptionNonInternalModelForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetPdInputAssumptionNonInternalModelForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetPdInputAssumptionNonInternalModelForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPdInputAssumptionNonInternalModelForEdit(response: HttpResponseBase): Observable<GetPdInputAssumptionNonInternalModelForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetPdInputAssumptionNonInternalModelForEditOutput.fromJS(resultData200) : new GetPdInputAssumptionNonInternalModelForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetPdInputAssumptionNonInternalModelForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditPdInputAssumptionNonInternalModelDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputAssumptionNonInternalModels/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputAssumptionNonInternalModels/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class PdInputAssumptionNplIndexesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetPdInputAssumptionNplIndexForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputAssumptionNplIndexes/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetPdInputAssumptionNplIndexForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetPdInputAssumptionNplIndexForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetPdInputAssumptionNplIndexForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetPdInputAssumptionNplIndexForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetPdInputAssumptionNplIndexForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetPdInputAssumptionNplIndexForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getPdInputAssumptionNplIndexForEdit(id: string | null | undefined): Observable<GetPdInputAssumptionNplIndexForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputAssumptionNplIndexes/GetPdInputAssumptionNplIndexForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPdInputAssumptionNplIndexForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPdInputAssumptionNplIndexForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetPdInputAssumptionNplIndexForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetPdInputAssumptionNplIndexForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPdInputAssumptionNplIndexForEdit(response: HttpResponseBase): Observable<GetPdInputAssumptionNplIndexForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetPdInputAssumptionNplIndexForEditOutput.fromJS(resultData200) : new GetPdInputAssumptionNplIndexForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetPdInputAssumptionNplIndexForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditPdInputAssumptionNplIndexDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputAssumptionNplIndexes/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputAssumptionNplIndexes/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class PdInputAssumptionsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetPdInputAssumptionForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputAssumptions/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetPdInputAssumptionForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetPdInputAssumptionForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetPdInputAssumptionForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetPdInputAssumptionForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetPdInputAssumptionForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetPdInputAssumptionForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getPdInputAssumptionForEdit(id: string | null | undefined): Observable<GetPdInputAssumptionForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputAssumptions/GetPdInputAssumptionForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPdInputAssumptionForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPdInputAssumptionForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetPdInputAssumptionForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetPdInputAssumptionForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPdInputAssumptionForEdit(response: HttpResponseBase): Observable<GetPdInputAssumptionForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetPdInputAssumptionForEditOutput.fromJS(resultData200) : new GetPdInputAssumptionForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetPdInputAssumptionForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditPdInputAssumptionDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputAssumptions/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputAssumptions/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class PdInputAssumptionStatisticalsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param canAffiliateEditFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, canAffiliateEditFilter: number | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetPdInputAssumptionStatisticalForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputAssumptionStatisticals/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (canAffiliateEditFilter !== undefined)
+            url_ += "CanAffiliateEditFilter=" + encodeURIComponent("" + canAffiliateEditFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetPdInputAssumptionStatisticalForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetPdInputAssumptionStatisticalForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetPdInputAssumptionStatisticalForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetPdInputAssumptionStatisticalForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetPdInputAssumptionStatisticalForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetPdInputAssumptionStatisticalForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getPdInputAssumptionStatisticalForEdit(id: string | null | undefined): Observable<GetPdInputAssumptionStatisticalForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputAssumptionStatisticals/GetPdInputAssumptionStatisticalForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPdInputAssumptionStatisticalForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPdInputAssumptionStatisticalForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetPdInputAssumptionStatisticalForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetPdInputAssumptionStatisticalForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPdInputAssumptionStatisticalForEdit(response: HttpResponseBase): Observable<GetPdInputAssumptionStatisticalForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetPdInputAssumptionStatisticalForEditOutput.fromJS(resultData200) : new GetPdInputAssumptionStatisticalForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetPdInputAssumptionStatisticalForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditPdInputAssumptionStatisticalDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputAssumptionStatisticals/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/PdInputAssumptionStatisticals/Delete?";
         if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -17462,6 +20598,1491 @@ export class RetailEclPdAssumption12MonthsServiceProxy {
 }
 
 @Injectable()
+export class RetailEclPdAssumptionMacroeconomicInputsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param retailEclTenantIdFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, retailEclTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicInputForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclPdAssumptionMacroeconomicInputs/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (retailEclTenantIdFilter !== undefined)
+            url_ += "RetailEclTenantIdFilter=" + encodeURIComponent("" + retailEclTenantIdFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicInputForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicInputForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicInputForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicInputForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicInputForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicInputForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getRetailEclPdAssumptionMacroeconomicInputForEdit(id: string | null | undefined): Observable<GetRetailEclPdAssumptionMacroeconomicInputForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclPdAssumptionMacroeconomicInputs/GetRetailEclPdAssumptionMacroeconomicInputForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRetailEclPdAssumptionMacroeconomicInputForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRetailEclPdAssumptionMacroeconomicInputForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetRetailEclPdAssumptionMacroeconomicInputForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetRetailEclPdAssumptionMacroeconomicInputForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRetailEclPdAssumptionMacroeconomicInputForEdit(response: HttpResponseBase): Observable<GetRetailEclPdAssumptionMacroeconomicInputForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetRetailEclPdAssumptionMacroeconomicInputForEditOutput.fromJS(resultData200) : new GetRetailEclPdAssumptionMacroeconomicInputForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetRetailEclPdAssumptionMacroeconomicInputForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditRetailEclPdAssumptionMacroeconomicInputDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclPdAssumptionMacroeconomicInputs/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclPdAssumptionMacroeconomicInputs/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllRetailEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfRetailEclPdAssumptionMacroeconomicInputRetailEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclPdAssumptionMacroeconomicInputs/GetAllRetailEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllRetailEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllRetailEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfRetailEclPdAssumptionMacroeconomicInputRetailEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfRetailEclPdAssumptionMacroeconomicInputRetailEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllRetailEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfRetailEclPdAssumptionMacroeconomicInputRetailEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfRetailEclPdAssumptionMacroeconomicInputRetailEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfRetailEclPdAssumptionMacroeconomicInputRetailEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfRetailEclPdAssumptionMacroeconomicInputRetailEclLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class RetailEclPdAssumptionMacroeconomicProjectionsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param retailEclTenantIdFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, retailEclTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicProjectionForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclPdAssumptionMacroeconomicProjections/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (retailEclTenantIdFilter !== undefined)
+            url_ += "RetailEclTenantIdFilter=" + encodeURIComponent("" + retailEclTenantIdFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicProjectionForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicProjectionForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicProjectionForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicProjectionForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicProjectionForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicProjectionForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getRetailEclPdAssumptionMacroeconomicProjectionForEdit(id: string | null | undefined): Observable<GetRetailEclPdAssumptionMacroeconomicProjectionForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclPdAssumptionMacroeconomicProjections/GetRetailEclPdAssumptionMacroeconomicProjectionForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRetailEclPdAssumptionMacroeconomicProjectionForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRetailEclPdAssumptionMacroeconomicProjectionForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetRetailEclPdAssumptionMacroeconomicProjectionForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetRetailEclPdAssumptionMacroeconomicProjectionForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRetailEclPdAssumptionMacroeconomicProjectionForEdit(response: HttpResponseBase): Observable<GetRetailEclPdAssumptionMacroeconomicProjectionForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetRetailEclPdAssumptionMacroeconomicProjectionForEditOutput.fromJS(resultData200) : new GetRetailEclPdAssumptionMacroeconomicProjectionForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetRetailEclPdAssumptionMacroeconomicProjectionForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditRetailEclPdAssumptionMacroeconomicProjectionDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclPdAssumptionMacroeconomicProjections/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclPdAssumptionMacroeconomicProjections/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllRetailEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfRetailEclPdAssumptionMacroeconomicProjectionRetailEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclPdAssumptionMacroeconomicProjections/GetAllRetailEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllRetailEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllRetailEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfRetailEclPdAssumptionMacroeconomicProjectionRetailEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfRetailEclPdAssumptionMacroeconomicProjectionRetailEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllRetailEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfRetailEclPdAssumptionMacroeconomicProjectionRetailEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfRetailEclPdAssumptionMacroeconomicProjectionRetailEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfRetailEclPdAssumptionMacroeconomicProjectionRetailEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfRetailEclPdAssumptionMacroeconomicProjectionRetailEclLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class RetailEclPdAssumptionNonInteralModelsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param retailEclTenantIdFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, retailEclTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetRetailEclPdAssumptionNonInteralModelForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclPdAssumptionNonInteralModels/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (retailEclTenantIdFilter !== undefined)
+            url_ += "RetailEclTenantIdFilter=" + encodeURIComponent("" + retailEclTenantIdFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetRetailEclPdAssumptionNonInteralModelForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetRetailEclPdAssumptionNonInteralModelForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetRetailEclPdAssumptionNonInteralModelForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetRetailEclPdAssumptionNonInteralModelForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetRetailEclPdAssumptionNonInteralModelForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetRetailEclPdAssumptionNonInteralModelForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getRetailEclPdAssumptionNonInteralModelForEdit(id: string | null | undefined): Observable<GetRetailEclPdAssumptionNonInteralModelForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclPdAssumptionNonInteralModels/GetRetailEclPdAssumptionNonInteralModelForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRetailEclPdAssumptionNonInteralModelForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRetailEclPdAssumptionNonInteralModelForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetRetailEclPdAssumptionNonInteralModelForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetRetailEclPdAssumptionNonInteralModelForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRetailEclPdAssumptionNonInteralModelForEdit(response: HttpResponseBase): Observable<GetRetailEclPdAssumptionNonInteralModelForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetRetailEclPdAssumptionNonInteralModelForEditOutput.fromJS(resultData200) : new GetRetailEclPdAssumptionNonInteralModelForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetRetailEclPdAssumptionNonInteralModelForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditRetailEclPdAssumptionNonInteralModelDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclPdAssumptionNonInteralModels/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclPdAssumptionNonInteralModels/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllRetailEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfRetailEclPdAssumptionNonInteralModelRetailEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclPdAssumptionNonInteralModels/GetAllRetailEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllRetailEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllRetailEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfRetailEclPdAssumptionNonInteralModelRetailEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfRetailEclPdAssumptionNonInteralModelRetailEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllRetailEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfRetailEclPdAssumptionNonInteralModelRetailEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfRetailEclPdAssumptionNonInteralModelRetailEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfRetailEclPdAssumptionNonInteralModelRetailEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfRetailEclPdAssumptionNonInteralModelRetailEclLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class RetailEclPdAssumptionNplIndexesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param retailEclTenantIdFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, retailEclTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetRetailEclPdAssumptionNplIndexForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclPdAssumptionNplIndexes/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (retailEclTenantIdFilter !== undefined)
+            url_ += "RetailEclTenantIdFilter=" + encodeURIComponent("" + retailEclTenantIdFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetRetailEclPdAssumptionNplIndexForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetRetailEclPdAssumptionNplIndexForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetRetailEclPdAssumptionNplIndexForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetRetailEclPdAssumptionNplIndexForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetRetailEclPdAssumptionNplIndexForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetRetailEclPdAssumptionNplIndexForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getRetailEclPdAssumptionNplIndexForEdit(id: string | null | undefined): Observable<GetRetailEclPdAssumptionNplIndexForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclPdAssumptionNplIndexes/GetRetailEclPdAssumptionNplIndexForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRetailEclPdAssumptionNplIndexForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRetailEclPdAssumptionNplIndexForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetRetailEclPdAssumptionNplIndexForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetRetailEclPdAssumptionNplIndexForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRetailEclPdAssumptionNplIndexForEdit(response: HttpResponseBase): Observable<GetRetailEclPdAssumptionNplIndexForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetRetailEclPdAssumptionNplIndexForEditOutput.fromJS(resultData200) : new GetRetailEclPdAssumptionNplIndexForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetRetailEclPdAssumptionNplIndexForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditRetailEclPdAssumptionNplIndexDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclPdAssumptionNplIndexes/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclPdAssumptionNplIndexes/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllRetailEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfRetailEclPdAssumptionNplIndexRetailEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclPdAssumptionNplIndexes/GetAllRetailEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllRetailEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllRetailEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfRetailEclPdAssumptionNplIndexRetailEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfRetailEclPdAssumptionNplIndexRetailEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllRetailEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfRetailEclPdAssumptionNplIndexRetailEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfRetailEclPdAssumptionNplIndexRetailEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfRetailEclPdAssumptionNplIndexRetailEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfRetailEclPdAssumptionNplIndexRetailEclLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class RetailEclPdAssumptionsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param retailEclTenantIdFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, retailEclTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetRetailEclPdAssumptionForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclPdAssumptions/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (retailEclTenantIdFilter !== undefined)
+            url_ += "RetailEclTenantIdFilter=" + encodeURIComponent("" + retailEclTenantIdFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetRetailEclPdAssumptionForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetRetailEclPdAssumptionForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetRetailEclPdAssumptionForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetRetailEclPdAssumptionForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetRetailEclPdAssumptionForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetRetailEclPdAssumptionForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getRetailEclPdAssumptionForEdit(id: string | null | undefined): Observable<GetRetailEclPdAssumptionForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclPdAssumptions/GetRetailEclPdAssumptionForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRetailEclPdAssumptionForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRetailEclPdAssumptionForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetRetailEclPdAssumptionForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetRetailEclPdAssumptionForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRetailEclPdAssumptionForEdit(response: HttpResponseBase): Observable<GetRetailEclPdAssumptionForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetRetailEclPdAssumptionForEditOutput.fromJS(resultData200) : new GetRetailEclPdAssumptionForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetRetailEclPdAssumptionForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditRetailEclPdAssumptionDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclPdAssumptions/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclPdAssumptions/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllRetailEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfRetailEclPdAssumptionRetailEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclPdAssumptions/GetAllRetailEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllRetailEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllRetailEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfRetailEclPdAssumptionRetailEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfRetailEclPdAssumptionRetailEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllRetailEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfRetailEclPdAssumptionRetailEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfRetailEclPdAssumptionRetailEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfRetailEclPdAssumptionRetailEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfRetailEclPdAssumptionRetailEclLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
 export class RetailEclPdSnPCummulativeDefaultRatesServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -19715,6 +24336,58 @@ export class RetailEclsServiceProxy {
     }
 
     protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    runEcl(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEcls/RunEcl";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRunEcl(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRunEcl(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processRunEcl(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -27741,6 +32414,1194 @@ export class WholesaleEclPdAssumption12MonthsesServiceProxy {
 }
 
 @Injectable()
+export class WholesaleEclPdAssumptionMacroeconomicInputsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param wholesaleEclTenantIdFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, wholesaleEclTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicInputForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptionMacroeconomicInputs/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (wholesaleEclTenantIdFilter !== undefined)
+            url_ += "WholesaleEclTenantIdFilter=" + encodeURIComponent("" + wholesaleEclTenantIdFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicInputForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicInputForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicInputForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicInputForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicInputForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicInputForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWholesaleEclPdAssumptionMacroeconomicInputForEdit(id: string | null | undefined): Observable<GetWholesaleEclPdAssumptionMacroeconomicInputForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptionMacroeconomicInputs/GetWholesaleEclPdAssumptionMacroeconomicInputForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWholesaleEclPdAssumptionMacroeconomicInputForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWholesaleEclPdAssumptionMacroeconomicInputForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWholesaleEclPdAssumptionMacroeconomicInputForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWholesaleEclPdAssumptionMacroeconomicInputForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWholesaleEclPdAssumptionMacroeconomicInputForEdit(response: HttpResponseBase): Observable<GetWholesaleEclPdAssumptionMacroeconomicInputForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWholesaleEclPdAssumptionMacroeconomicInputForEditOutput.fromJS(resultData200) : new GetWholesaleEclPdAssumptionMacroeconomicInputForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWholesaleEclPdAssumptionMacroeconomicInputForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditWholesaleEclPdAssumptionMacroeconomicInputDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptionMacroeconomicInputs/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptionMacroeconomicInputs/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptionMacroeconomicInputs/GetAllWholesaleEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWholesaleEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class WholesaleEclPdAssumptionMacroeconomicProjectionsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param wholesaleEclTenantIdFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, wholesaleEclTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptionMacroeconomicProjections/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (wholesaleEclTenantIdFilter !== undefined)
+            url_ += "WholesaleEclTenantIdFilter=" + encodeURIComponent("" + wholesaleEclTenantIdFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWholesaleEclPdAssumptionMacroeconomicProjectionForEdit(id: string | null | undefined): Observable<GetWholesaleEclPdAssumptionMacroeconomicProjectionForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptionMacroeconomicProjections/GetWholesaleEclPdAssumptionMacroeconomicProjectionForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWholesaleEclPdAssumptionMacroeconomicProjectionForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWholesaleEclPdAssumptionMacroeconomicProjectionForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWholesaleEclPdAssumptionMacroeconomicProjectionForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWholesaleEclPdAssumptionMacroeconomicProjectionForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWholesaleEclPdAssumptionMacroeconomicProjectionForEdit(response: HttpResponseBase): Observable<GetWholesaleEclPdAssumptionMacroeconomicProjectionForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWholesaleEclPdAssumptionMacroeconomicProjectionForEditOutput.fromJS(resultData200) : new GetWholesaleEclPdAssumptionMacroeconomicProjectionForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWholesaleEclPdAssumptionMacroeconomicProjectionForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditWholesaleEclPdAssumptionMacroeconomicProjectionDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptionMacroeconomicProjections/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptionMacroeconomicProjections/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptionMacroeconomicProjections/GetAllWholesaleEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWholesaleEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class WholesaleEclPdAssumptionNplIndexesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param wholesaleEclTenantIdFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, wholesaleEclTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesaleEclPdAssumptionNplIndexForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptionNplIndexes/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (wholesaleEclTenantIdFilter !== undefined)
+            url_ += "WholesaleEclTenantIdFilter=" + encodeURIComponent("" + wholesaleEclTenantIdFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWholesaleEclPdAssumptionNplIndexForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWholesaleEclPdAssumptionNplIndexForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesaleEclPdAssumptionNplIndexForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetWholesaleEclPdAssumptionNplIndexForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesaleEclPdAssumptionNplIndexForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWholesaleEclPdAssumptionNplIndexForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWholesaleEclPdAssumptionNplIndexForEdit(id: string | null | undefined): Observable<GetWholesaleEclPdAssumptionNplIndexForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptionNplIndexes/GetWholesaleEclPdAssumptionNplIndexForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWholesaleEclPdAssumptionNplIndexForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWholesaleEclPdAssumptionNplIndexForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWholesaleEclPdAssumptionNplIndexForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWholesaleEclPdAssumptionNplIndexForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWholesaleEclPdAssumptionNplIndexForEdit(response: HttpResponseBase): Observable<GetWholesaleEclPdAssumptionNplIndexForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWholesaleEclPdAssumptionNplIndexForEditOutput.fromJS(resultData200) : new GetWholesaleEclPdAssumptionNplIndexForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWholesaleEclPdAssumptionNplIndexForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditWholesaleEclPdAssumptionNplIndexDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptionNplIndexes/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptionNplIndexes/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptionNplIndexes/GetAllWholesaleEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWholesaleEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class WholesaleEclPdAssumptionsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param wholesaleEclTenantIdFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, wholesaleEclTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesaleEclPdAssumptionForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptions/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (wholesaleEclTenantIdFilter !== undefined)
+            url_ += "WholesaleEclTenantIdFilter=" + encodeURIComponent("" + wholesaleEclTenantIdFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWholesaleEclPdAssumptionForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWholesaleEclPdAssumptionForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesaleEclPdAssumptionForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetWholesaleEclPdAssumptionForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesaleEclPdAssumptionForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWholesaleEclPdAssumptionForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWholesaleEclPdAssumptionForEdit(id: string | null | undefined): Observable<GetWholesaleEclPdAssumptionForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptions/GetWholesaleEclPdAssumptionForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWholesaleEclPdAssumptionForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWholesaleEclPdAssumptionForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWholesaleEclPdAssumptionForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWholesaleEclPdAssumptionForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWholesaleEclPdAssumptionForEdit(response: HttpResponseBase): Observable<GetWholesaleEclPdAssumptionForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWholesaleEclPdAssumptionForEditOutput.fromJS(resultData200) : new GetWholesaleEclPdAssumptionForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWholesaleEclPdAssumptionForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditWholesaleEclPdAssumptionDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptions/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptions/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptions/GetAllWholesaleEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWholesaleEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
 export class WholesaleEclPdSnPCummulativeDefaultRatesesServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -31306,6 +37167,303 @@ export class WholesaleEclUploadsServiceProxy {
     }
 }
 
+@Injectable()
+export class WholesalePdAssumptionNonInternalModelsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param wholesaleEclTenantIdFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, wholesaleEclTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesalePdAssumptionNonInternalModelForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesalePdAssumptionNonInternalModels/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (wholesaleEclTenantIdFilter !== undefined)
+            url_ += "WholesaleEclTenantIdFilter=" + encodeURIComponent("" + wholesaleEclTenantIdFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWholesalePdAssumptionNonInternalModelForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWholesalePdAssumptionNonInternalModelForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesalePdAssumptionNonInternalModelForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetWholesalePdAssumptionNonInternalModelForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesalePdAssumptionNonInternalModelForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWholesalePdAssumptionNonInternalModelForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWholesalePdAssumptionNonInternalModelForEdit(id: string | null | undefined): Observable<GetWholesalePdAssumptionNonInternalModelForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesalePdAssumptionNonInternalModels/GetWholesalePdAssumptionNonInternalModelForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWholesalePdAssumptionNonInternalModelForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWholesalePdAssumptionNonInternalModelForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWholesalePdAssumptionNonInternalModelForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWholesalePdAssumptionNonInternalModelForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWholesalePdAssumptionNonInternalModelForEdit(response: HttpResponseBase): Observable<GetWholesalePdAssumptionNonInternalModelForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWholesalePdAssumptionNonInternalModelForEditOutput.fromJS(resultData200) : new GetWholesalePdAssumptionNonInternalModelForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWholesalePdAssumptionNonInternalModelForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditWholesalePdAssumptionNonInternalModelDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesalePdAssumptionNonInternalModels/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesalePdAssumptionNonInternalModels/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WholesalePdAssumptionNonInternalModels/GetAllWholesaleEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWholesaleEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto>(<any>null);
+    }
+}
+
 export class IsTenantAvailableInput implements IIsTenantAvailableInput {
     tenancyName!: string;
 
@@ -31984,6 +38142,11 @@ export class AssumptionDto implements IAssumptionDto {
     assumptionGroup!: AssumptionGroupEnum | undefined;
     isComputed!: boolean | undefined;
     requiresGroupApproval!: boolean | undefined;
+    canAffiliateEdit!: boolean | undefined;
+    organizationUnitId!: number | undefined;
+    lastUpdated!: moment.Moment | undefined;
+    lastUpdatedBy!: string | undefined;
+    status!: GeneralStatusEnum | undefined;
     id!: string | undefined;
 
     constructor(data?: IAssumptionDto) {
@@ -32004,6 +38167,11 @@ export class AssumptionDto implements IAssumptionDto {
             this.assumptionGroup = data["assumptionGroup"];
             this.isComputed = data["isComputed"];
             this.requiresGroupApproval = data["requiresGroupApproval"];
+            this.canAffiliateEdit = data["canAffiliateEdit"];
+            this.organizationUnitId = data["organizationUnitId"];
+            this.lastUpdated = data["lastUpdated"] ? moment(data["lastUpdated"].toString()) : <any>undefined;
+            this.lastUpdatedBy = data["lastUpdatedBy"];
+            this.status = data["status"];
             this.id = data["id"];
         }
     }
@@ -32024,6 +38192,11 @@ export class AssumptionDto implements IAssumptionDto {
         data["assumptionGroup"] = this.assumptionGroup;
         data["isComputed"] = this.isComputed;
         data["requiresGroupApproval"] = this.requiresGroupApproval;
+        data["canAffiliateEdit"] = this.canAffiliateEdit;
+        data["organizationUnitId"] = this.organizationUnitId;
+        data["lastUpdated"] = this.lastUpdated ? this.lastUpdated.toISOString() : <any>undefined;
+        data["lastUpdatedBy"] = this.lastUpdatedBy;
+        data["status"] = this.status;
         data["id"] = this.id;
         return data; 
     }
@@ -32037,6 +38210,11 @@ export interface IAssumptionDto {
     assumptionGroup: AssumptionGroupEnum | undefined;
     isComputed: boolean | undefined;
     requiresGroupApproval: boolean | undefined;
+    canAffiliateEdit: boolean | undefined;
+    organizationUnitId: number | undefined;
+    lastUpdated: moment.Moment | undefined;
+    lastUpdatedBy: string | undefined;
+    status: GeneralStatusEnum | undefined;
     id: string | undefined;
 }
 
@@ -32060,6 +38238,13 @@ export enum AssumptionGroupEnum {
     ForwardTransitions = 4, 
     BackwardTransitions = 5, 
     CreditRatingRank = 6, 
+}
+
+export enum GeneralStatusEnum {
+    Draft = 0, 
+    Submitted = 1, 
+    Approved = 2, 
+    Rejected = 3, 
 }
 
 export class GetAssumptionForEditOutput implements IGetAssumptionForEditOutput {
@@ -33384,9 +39569,14 @@ export class EadInputAssumptionDto implements IEadInputAssumptionDto {
     inputName!: string | undefined;
     value!: string | undefined;
     dataType!: DataTypeEnum | undefined;
-    assumptionGroup!: EadInputGroupEnum | undefined;
+    assumptionGroup!: EadInputAssumptionGroupEnum | undefined;
     isComputed!: boolean | undefined;
     requiresGroupApproval!: boolean | undefined;
+    canAffiliateEdit!: boolean | undefined;
+    organizationUnitId!: number | undefined;
+    lastUpdated!: moment.Moment | undefined;
+    lastUpdatedBy!: string | undefined;
+    status!: GeneralStatusEnum | undefined;
     id!: string | undefined;
 
     constructor(data?: IEadInputAssumptionDto) {
@@ -33407,6 +39597,11 @@ export class EadInputAssumptionDto implements IEadInputAssumptionDto {
             this.assumptionGroup = data["assumptionGroup"];
             this.isComputed = data["isComputed"];
             this.requiresGroupApproval = data["requiresGroupApproval"];
+            this.canAffiliateEdit = data["canAffiliateEdit"];
+            this.organizationUnitId = data["organizationUnitId"];
+            this.lastUpdated = data["lastUpdated"] ? moment(data["lastUpdated"].toString()) : <any>undefined;
+            this.lastUpdatedBy = data["lastUpdatedBy"];
+            this.status = data["status"];
             this.id = data["id"];
         }
     }
@@ -33427,6 +39622,11 @@ export class EadInputAssumptionDto implements IEadInputAssumptionDto {
         data["assumptionGroup"] = this.assumptionGroup;
         data["isComputed"] = this.isComputed;
         data["requiresGroupApproval"] = this.requiresGroupApproval;
+        data["canAffiliateEdit"] = this.canAffiliateEdit;
+        data["organizationUnitId"] = this.organizationUnitId;
+        data["lastUpdated"] = this.lastUpdated ? this.lastUpdated.toISOString() : <any>undefined;
+        data["lastUpdatedBy"] = this.lastUpdatedBy;
+        data["status"] = this.status;
         data["id"] = this.id;
         return data; 
     }
@@ -33437,17 +39637,23 @@ export interface IEadInputAssumptionDto {
     inputName: string | undefined;
     value: string | undefined;
     dataType: DataTypeEnum | undefined;
-    assumptionGroup: EadInputGroupEnum | undefined;
+    assumptionGroup: EadInputAssumptionGroupEnum | undefined;
     isComputed: boolean | undefined;
     requiresGroupApproval: boolean | undefined;
+    canAffiliateEdit: boolean | undefined;
+    organizationUnitId: number | undefined;
+    lastUpdated: moment.Moment | undefined;
+    lastUpdatedBy: string | undefined;
+    status: GeneralStatusEnum | undefined;
     id: string | undefined;
 }
 
-export enum EadInputGroupEnum {
+export enum EadInputAssumptionGroupEnum {
     General = 0, 
     CreditConversionFactors = 1, 
     VariableInterestRateProjections = 2, 
     ExchangeRateProjections = 3, 
+    BehaviouralLife = 4, 
 }
 
 export class GetEadInputAssumptionForEditOutput implements IGetEadInputAssumptionForEditOutput {
@@ -33664,9 +39870,14 @@ export class LgdAssumptionDto implements ILgdAssumptionDto {
     inputName!: string | undefined;
     value!: string | undefined;
     dataType!: DataTypeEnum | undefined;
-    assumptionGroup!: LdgInputAssumptionEnum | undefined;
+    assumptionGroup!: LdgInputAssumptionGroupEnum | undefined;
     isComputed!: boolean | undefined;
     requiresGroupApproval!: boolean | undefined;
+    canAffiliateEdit!: boolean | undefined;
+    organizationUnitId!: number | undefined;
+    lastUpdated!: moment.Moment | undefined;
+    lastUpdatedBy!: string | undefined;
+    status!: GeneralStatusEnum | undefined;
     id!: string | undefined;
 
     constructor(data?: ILgdAssumptionDto) {
@@ -33687,6 +39898,11 @@ export class LgdAssumptionDto implements ILgdAssumptionDto {
             this.assumptionGroup = data["assumptionGroup"];
             this.isComputed = data["isComputed"];
             this.requiresGroupApproval = data["requiresGroupApproval"];
+            this.canAffiliateEdit = data["canAffiliateEdit"];
+            this.organizationUnitId = data["organizationUnitId"];
+            this.lastUpdated = data["lastUpdated"] ? moment(data["lastUpdated"].toString()) : <any>undefined;
+            this.lastUpdatedBy = data["lastUpdatedBy"];
+            this.status = data["status"];
             this.id = data["id"];
         }
     }
@@ -33707,6 +39923,11 @@ export class LgdAssumptionDto implements ILgdAssumptionDto {
         data["assumptionGroup"] = this.assumptionGroup;
         data["isComputed"] = this.isComputed;
         data["requiresGroupApproval"] = this.requiresGroupApproval;
+        data["canAffiliateEdit"] = this.canAffiliateEdit;
+        data["organizationUnitId"] = this.organizationUnitId;
+        data["lastUpdated"] = this.lastUpdated ? this.lastUpdated.toISOString() : <any>undefined;
+        data["lastUpdatedBy"] = this.lastUpdatedBy;
+        data["status"] = this.status;
         data["id"] = this.id;
         return data; 
     }
@@ -33717,13 +39938,18 @@ export interface ILgdAssumptionDto {
     inputName: string | undefined;
     value: string | undefined;
     dataType: DataTypeEnum | undefined;
-    assumptionGroup: LdgInputAssumptionEnum | undefined;
+    assumptionGroup: LdgInputAssumptionGroupEnum | undefined;
     isComputed: boolean | undefined;
     requiresGroupApproval: boolean | undefined;
+    canAffiliateEdit: boolean | undefined;
+    organizationUnitId: number | undefined;
+    lastUpdated: moment.Moment | undefined;
+    lastUpdatedBy: string | undefined;
+    status: GeneralStatusEnum | undefined;
     id: string | undefined;
 }
 
-export enum LdgInputAssumptionEnum {
+export enum LdgInputAssumptionGroupEnum {
     General = 0, 
     UnsecuredRecoveriesCureRate = 1, 
     UnsecuredRecoveriesTimeInDefault = 2, 
@@ -33737,6 +39963,747 @@ export enum LdgInputAssumptionEnum {
     CollateralProjectionOptimistic = 10, 
     CollateralProjectionDownturn = 11, 
     Haircut = 12, 
+    PdAssumptions = 13, 
+}
+
+export class PagedResultDtoOfGetAllAffiliateAssumptionDto implements IPagedResultDtoOfGetAllAffiliateAssumptionDto {
+    totalCount!: number | undefined;
+    items!: GetAllAffiliateAssumptionDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetAllAffiliateAssumptionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetAllAffiliateAssumptionDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetAllAffiliateAssumptionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetAllAffiliateAssumptionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetAllAffiliateAssumptionDto {
+    totalCount: number | undefined;
+    items: GetAllAffiliateAssumptionDto[] | undefined;
+}
+
+export class GetAllAffiliateAssumptionDto implements IGetAllAffiliateAssumptionDto {
+    organizationUnitId!: number | undefined;
+    affiliateName!: string | undefined;
+    lastAssumptionUpdate!: moment.Moment | undefined;
+    lastWholesaleReportingDate!: moment.Moment | undefined;
+    lastRetailReportingDate!: moment.Moment | undefined;
+    lastObeReportingDate!: moment.Moment | undefined;
+    lastSecuritiesReportingDate!: moment.Moment | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IGetAllAffiliateAssumptionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.organizationUnitId = data["organizationUnitId"];
+            this.affiliateName = data["affiliateName"];
+            this.lastAssumptionUpdate = data["lastAssumptionUpdate"] ? moment(data["lastAssumptionUpdate"].toString()) : <any>undefined;
+            this.lastWholesaleReportingDate = data["lastWholesaleReportingDate"] ? moment(data["lastWholesaleReportingDate"].toString()) : <any>undefined;
+            this.lastRetailReportingDate = data["lastRetailReportingDate"] ? moment(data["lastRetailReportingDate"].toString()) : <any>undefined;
+            this.lastObeReportingDate = data["lastObeReportingDate"] ? moment(data["lastObeReportingDate"].toString()) : <any>undefined;
+            this.lastSecuritiesReportingDate = data["lastSecuritiesReportingDate"] ? moment(data["lastSecuritiesReportingDate"].toString()) : <any>undefined;
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): GetAllAffiliateAssumptionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAllAffiliateAssumptionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["organizationUnitId"] = this.organizationUnitId;
+        data["affiliateName"] = this.affiliateName;
+        data["lastAssumptionUpdate"] = this.lastAssumptionUpdate ? this.lastAssumptionUpdate.toISOString() : <any>undefined;
+        data["lastWholesaleReportingDate"] = this.lastWholesaleReportingDate ? this.lastWholesaleReportingDate.toISOString() : <any>undefined;
+        data["lastRetailReportingDate"] = this.lastRetailReportingDate ? this.lastRetailReportingDate.toISOString() : <any>undefined;
+        data["lastObeReportingDate"] = this.lastObeReportingDate ? this.lastObeReportingDate.toISOString() : <any>undefined;
+        data["lastSecuritiesReportingDate"] = this.lastSecuritiesReportingDate ? this.lastSecuritiesReportingDate.toISOString() : <any>undefined;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IGetAllAffiliateAssumptionDto {
+    organizationUnitId: number | undefined;
+    affiliateName: string | undefined;
+    lastAssumptionUpdate: moment.Moment | undefined;
+    lastWholesaleReportingDate: moment.Moment | undefined;
+    lastRetailReportingDate: moment.Moment | undefined;
+    lastObeReportingDate: moment.Moment | undefined;
+    lastSecuritiesReportingDate: moment.Moment | undefined;
+    id: string | undefined;
+}
+
+export class PdInputAssumptionDto implements IPdInputAssumptionDto {
+    key!: string | undefined;
+    inputName!: string | undefined;
+    value!: string | undefined;
+    dataType!: DataTypeEnum | undefined;
+    assumptionGroup!: PdInputAssumptionGroupEnum | undefined;
+    isComputed!: boolean | undefined;
+    requiresGroupApproval!: boolean | undefined;
+    canAffiliateEdit!: boolean | undefined;
+    organizationUnitId!: number | undefined;
+    lastUpdated!: moment.Moment | undefined;
+    lastUpdatedBy!: string | undefined;
+    status!: GeneralStatusEnum | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IPdInputAssumptionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.key = data["key"];
+            this.inputName = data["inputName"];
+            this.value = data["value"];
+            this.dataType = data["dataType"];
+            this.assumptionGroup = data["assumptionGroup"];
+            this.isComputed = data["isComputed"];
+            this.requiresGroupApproval = data["requiresGroupApproval"];
+            this.canAffiliateEdit = data["canAffiliateEdit"];
+            this.organizationUnitId = data["organizationUnitId"];
+            this.lastUpdated = data["lastUpdated"] ? moment(data["lastUpdated"].toString()) : <any>undefined;
+            this.lastUpdatedBy = data["lastUpdatedBy"];
+            this.status = data["status"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): PdInputAssumptionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PdInputAssumptionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["key"] = this.key;
+        data["inputName"] = this.inputName;
+        data["value"] = this.value;
+        data["dataType"] = this.dataType;
+        data["assumptionGroup"] = this.assumptionGroup;
+        data["isComputed"] = this.isComputed;
+        data["requiresGroupApproval"] = this.requiresGroupApproval;
+        data["canAffiliateEdit"] = this.canAffiliateEdit;
+        data["organizationUnitId"] = this.organizationUnitId;
+        data["lastUpdated"] = this.lastUpdated ? this.lastUpdated.toISOString() : <any>undefined;
+        data["lastUpdatedBy"] = this.lastUpdatedBy;
+        data["status"] = this.status;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IPdInputAssumptionDto {
+    key: string | undefined;
+    inputName: string | undefined;
+    value: string | undefined;
+    dataType: DataTypeEnum | undefined;
+    assumptionGroup: PdInputAssumptionGroupEnum | undefined;
+    isComputed: boolean | undefined;
+    requiresGroupApproval: boolean | undefined;
+    canAffiliateEdit: boolean | undefined;
+    organizationUnitId: number | undefined;
+    lastUpdated: moment.Moment | undefined;
+    lastUpdatedBy: string | undefined;
+    status: GeneralStatusEnum | undefined;
+    id: string | undefined;
+}
+
+export enum PdInputAssumptionGroupEnum {
+    General = 0, 
+    CreditPD = 1, 
+    CreditEtiPolicy = 2, 
+    CreditBestFit = 3, 
+    StatisticsIndexWeights = 4, 
+}
+
+export class PdInputAssumptionMacroeconomicInputDto implements IPdInputAssumptionMacroeconomicInputDto {
+    key!: string | undefined;
+    inputName!: string | undefined;
+    value!: number | undefined;
+    assumptionGroup!: PdInputAssumptionMacroEconomicInputGroupEnum | undefined;
+    isComputed!: boolean | undefined;
+    requiresGroupApproval!: boolean | undefined;
+    canAffiliateEdit!: boolean | undefined;
+    organizationUnitId!: number | undefined;
+    lastUpdated!: moment.Moment | undefined;
+    lastUpdatedBy!: string | undefined;
+    status!: GeneralStatusEnum | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IPdInputAssumptionMacroeconomicInputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.key = data["key"];
+            this.inputName = data["inputName"];
+            this.value = data["value"];
+            this.assumptionGroup = data["assumptionGroup"];
+            this.isComputed = data["isComputed"];
+            this.requiresGroupApproval = data["requiresGroupApproval"];
+            this.canAffiliateEdit = data["canAffiliateEdit"];
+            this.organizationUnitId = data["organizationUnitId"];
+            this.lastUpdated = data["lastUpdated"] ? moment(data["lastUpdated"].toString()) : <any>undefined;
+            this.lastUpdatedBy = data["lastUpdatedBy"];
+            this.status = data["status"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): PdInputAssumptionMacroeconomicInputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PdInputAssumptionMacroeconomicInputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["key"] = this.key;
+        data["inputName"] = this.inputName;
+        data["value"] = this.value;
+        data["assumptionGroup"] = this.assumptionGroup;
+        data["isComputed"] = this.isComputed;
+        data["requiresGroupApproval"] = this.requiresGroupApproval;
+        data["canAffiliateEdit"] = this.canAffiliateEdit;
+        data["organizationUnitId"] = this.organizationUnitId;
+        data["lastUpdated"] = this.lastUpdated ? this.lastUpdated.toISOString() : <any>undefined;
+        data["lastUpdatedBy"] = this.lastUpdatedBy;
+        data["status"] = this.status;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IPdInputAssumptionMacroeconomicInputDto {
+    key: string | undefined;
+    inputName: string | undefined;
+    value: number | undefined;
+    assumptionGroup: PdInputAssumptionMacroEconomicInputGroupEnum | undefined;
+    isComputed: boolean | undefined;
+    requiresGroupApproval: boolean | undefined;
+    canAffiliateEdit: boolean | undefined;
+    organizationUnitId: number | undefined;
+    lastUpdated: moment.Moment | undefined;
+    lastUpdatedBy: string | undefined;
+    status: GeneralStatusEnum | undefined;
+    id: string | undefined;
+}
+
+export enum PdInputAssumptionMacroEconomicInputGroupEnum {
+    General = 0, 
+    StatisticalInputsPrimeLending = 1, 
+    StatisticalInputsOilExports = 2, 
+    StatisticalInputsRealGdpGrowthRate = 3, 
+    DifferencedRealGdpGrowthRate = 4, 
+    ProjectionPrimeLending = 5, 
+    ProjectionOilExports = 6, 
+    ProjectionRealGdpGrowthRate = 7, 
+    ProjectionDifferencedRealGdpGrowthRate = 8, 
+}
+
+export class PdInputAssumptionMacroeconomicProjectionDto implements IPdInputAssumptionMacroeconomicProjectionDto {
+    key!: string | undefined;
+    date!: moment.Moment | undefined;
+    inputName!: string | undefined;
+    bestValue!: number | undefined;
+    optimisticValue!: number | undefined;
+    downturnValue!: number | undefined;
+    assumptionGroup!: PdInputAssumptionMacroEconomicInputGroupEnum | undefined;
+    isComputed!: boolean | undefined;
+    requiresGroupApproval!: boolean | undefined;
+    canAffiliateEdit!: boolean | undefined;
+    organizationUnitId!: number | undefined;
+    lastUpdated!: moment.Moment | undefined;
+    lastUpdatedBy!: string | undefined;
+    status!: GeneralStatusEnum | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IPdInputAssumptionMacroeconomicProjectionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.key = data["key"];
+            this.date = data["date"] ? moment(data["date"].toString()) : <any>undefined;
+            this.inputName = data["inputName"];
+            this.bestValue = data["bestValue"];
+            this.optimisticValue = data["optimisticValue"];
+            this.downturnValue = data["downturnValue"];
+            this.assumptionGroup = data["assumptionGroup"];
+            this.isComputed = data["isComputed"];
+            this.requiresGroupApproval = data["requiresGroupApproval"];
+            this.canAffiliateEdit = data["canAffiliateEdit"];
+            this.organizationUnitId = data["organizationUnitId"];
+            this.lastUpdated = data["lastUpdated"] ? moment(data["lastUpdated"].toString()) : <any>undefined;
+            this.lastUpdatedBy = data["lastUpdatedBy"];
+            this.status = data["status"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): PdInputAssumptionMacroeconomicProjectionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PdInputAssumptionMacroeconomicProjectionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["key"] = this.key;
+        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
+        data["inputName"] = this.inputName;
+        data["bestValue"] = this.bestValue;
+        data["optimisticValue"] = this.optimisticValue;
+        data["downturnValue"] = this.downturnValue;
+        data["assumptionGroup"] = this.assumptionGroup;
+        data["isComputed"] = this.isComputed;
+        data["requiresGroupApproval"] = this.requiresGroupApproval;
+        data["canAffiliateEdit"] = this.canAffiliateEdit;
+        data["organizationUnitId"] = this.organizationUnitId;
+        data["lastUpdated"] = this.lastUpdated ? this.lastUpdated.toISOString() : <any>undefined;
+        data["lastUpdatedBy"] = this.lastUpdatedBy;
+        data["status"] = this.status;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IPdInputAssumptionMacroeconomicProjectionDto {
+    key: string | undefined;
+    date: moment.Moment | undefined;
+    inputName: string | undefined;
+    bestValue: number | undefined;
+    optimisticValue: number | undefined;
+    downturnValue: number | undefined;
+    assumptionGroup: PdInputAssumptionMacroEconomicInputGroupEnum | undefined;
+    isComputed: boolean | undefined;
+    requiresGroupApproval: boolean | undefined;
+    canAffiliateEdit: boolean | undefined;
+    organizationUnitId: number | undefined;
+    lastUpdated: moment.Moment | undefined;
+    lastUpdatedBy: string | undefined;
+    status: GeneralStatusEnum | undefined;
+    id: string | undefined;
+}
+
+export class PdInputAssumptionNonInternalModelDto implements IPdInputAssumptionNonInternalModelDto {
+    key!: string | undefined;
+    month!: number | undefined;
+    pdGroup!: string | undefined;
+    marginalDefaultRate!: number | undefined;
+    cummulativeSurvival!: number | undefined;
+    isComputed!: boolean | undefined;
+    requiresGroupApproval!: boolean | undefined;
+    canAffiliateEdit!: boolean | undefined;
+    organizationUnitId!: number | undefined;
+    lastUpdated!: moment.Moment | undefined;
+    lastUpdatedBy!: string | undefined;
+    status!: GeneralStatusEnum | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IPdInputAssumptionNonInternalModelDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.key = data["key"];
+            this.month = data["month"];
+            this.pdGroup = data["pdGroup"];
+            this.marginalDefaultRate = data["marginalDefaultRate"];
+            this.cummulativeSurvival = data["cummulativeSurvival"];
+            this.isComputed = data["isComputed"];
+            this.requiresGroupApproval = data["requiresGroupApproval"];
+            this.canAffiliateEdit = data["canAffiliateEdit"];
+            this.organizationUnitId = data["organizationUnitId"];
+            this.lastUpdated = data["lastUpdated"] ? moment(data["lastUpdated"].toString()) : <any>undefined;
+            this.lastUpdatedBy = data["lastUpdatedBy"];
+            this.status = data["status"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): PdInputAssumptionNonInternalModelDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PdInputAssumptionNonInternalModelDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["key"] = this.key;
+        data["month"] = this.month;
+        data["pdGroup"] = this.pdGroup;
+        data["marginalDefaultRate"] = this.marginalDefaultRate;
+        data["cummulativeSurvival"] = this.cummulativeSurvival;
+        data["isComputed"] = this.isComputed;
+        data["requiresGroupApproval"] = this.requiresGroupApproval;
+        data["canAffiliateEdit"] = this.canAffiliateEdit;
+        data["organizationUnitId"] = this.organizationUnitId;
+        data["lastUpdated"] = this.lastUpdated ? this.lastUpdated.toISOString() : <any>undefined;
+        data["lastUpdatedBy"] = this.lastUpdatedBy;
+        data["status"] = this.status;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IPdInputAssumptionNonInternalModelDto {
+    key: string | undefined;
+    month: number | undefined;
+    pdGroup: string | undefined;
+    marginalDefaultRate: number | undefined;
+    cummulativeSurvival: number | undefined;
+    isComputed: boolean | undefined;
+    requiresGroupApproval: boolean | undefined;
+    canAffiliateEdit: boolean | undefined;
+    organizationUnitId: number | undefined;
+    lastUpdated: moment.Moment | undefined;
+    lastUpdatedBy: string | undefined;
+    status: GeneralStatusEnum | undefined;
+    id: string | undefined;
+}
+
+export class PdInputAssumptionNplIndexDto implements IPdInputAssumptionNplIndexDto {
+    key!: string | undefined;
+    date!: moment.Moment | undefined;
+    actual!: number | undefined;
+    standardised!: number | undefined;
+    etiNplSeries!: number | undefined;
+    isComputed!: boolean | undefined;
+    requiresGroupApproval!: boolean | undefined;
+    canAffiliateEdit!: boolean | undefined;
+    organizationUnitId!: number | undefined;
+    lastUpdated!: moment.Moment | undefined;
+    lastUpdatedBy!: string | undefined;
+    status!: GeneralStatusEnum | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IPdInputAssumptionNplIndexDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.key = data["key"];
+            this.date = data["date"] ? moment(data["date"].toString()) : <any>undefined;
+            this.actual = data["actual"];
+            this.standardised = data["standardised"];
+            this.etiNplSeries = data["etiNplSeries"];
+            this.isComputed = data["isComputed"];
+            this.requiresGroupApproval = data["requiresGroupApproval"];
+            this.canAffiliateEdit = data["canAffiliateEdit"];
+            this.organizationUnitId = data["organizationUnitId"];
+            this.lastUpdated = data["lastUpdated"] ? moment(data["lastUpdated"].toString()) : <any>undefined;
+            this.lastUpdatedBy = data["lastUpdatedBy"];
+            this.status = data["status"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): PdInputAssumptionNplIndexDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PdInputAssumptionNplIndexDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["key"] = this.key;
+        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
+        data["actual"] = this.actual;
+        data["standardised"] = this.standardised;
+        data["etiNplSeries"] = this.etiNplSeries;
+        data["isComputed"] = this.isComputed;
+        data["requiresGroupApproval"] = this.requiresGroupApproval;
+        data["canAffiliateEdit"] = this.canAffiliateEdit;
+        data["organizationUnitId"] = this.organizationUnitId;
+        data["lastUpdated"] = this.lastUpdated ? this.lastUpdated.toISOString() : <any>undefined;
+        data["lastUpdatedBy"] = this.lastUpdatedBy;
+        data["status"] = this.status;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IPdInputAssumptionNplIndexDto {
+    key: string | undefined;
+    date: moment.Moment | undefined;
+    actual: number | undefined;
+    standardised: number | undefined;
+    etiNplSeries: number | undefined;
+    isComputed: boolean | undefined;
+    requiresGroupApproval: boolean | undefined;
+    canAffiliateEdit: boolean | undefined;
+    organizationUnitId: number | undefined;
+    lastUpdated: moment.Moment | undefined;
+    lastUpdatedBy: string | undefined;
+    status: GeneralStatusEnum | undefined;
+    id: string | undefined;
+}
+
+export class PdInputSnPCummulativeDefaultRateDto implements IPdInputSnPCummulativeDefaultRateDto {
+    key!: string | undefined;
+    rating!: string | undefined;
+    years!: number | undefined;
+    value!: number | undefined;
+    isComputed!: boolean | undefined;
+    requiresGroupApproval!: boolean | undefined;
+    canAffiliateEdit!: boolean | undefined;
+    organizationUnitId!: number | undefined;
+    lastUpdated!: moment.Moment | undefined;
+    lastUpdatedBy!: string | undefined;
+    status!: GeneralStatusEnum | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IPdInputSnPCummulativeDefaultRateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.key = data["key"];
+            this.rating = data["rating"];
+            this.years = data["years"];
+            this.value = data["value"];
+            this.isComputed = data["isComputed"];
+            this.requiresGroupApproval = data["requiresGroupApproval"];
+            this.canAffiliateEdit = data["canAffiliateEdit"];
+            this.organizationUnitId = data["organizationUnitId"];
+            this.lastUpdated = data["lastUpdated"] ? moment(data["lastUpdated"].toString()) : <any>undefined;
+            this.lastUpdatedBy = data["lastUpdatedBy"];
+            this.status = data["status"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): PdInputSnPCummulativeDefaultRateDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PdInputSnPCummulativeDefaultRateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["key"] = this.key;
+        data["rating"] = this.rating;
+        data["years"] = this.years;
+        data["value"] = this.value;
+        data["isComputed"] = this.isComputed;
+        data["requiresGroupApproval"] = this.requiresGroupApproval;
+        data["canAffiliateEdit"] = this.canAffiliateEdit;
+        data["organizationUnitId"] = this.organizationUnitId;
+        data["lastUpdated"] = this.lastUpdated ? this.lastUpdated.toISOString() : <any>undefined;
+        data["lastUpdatedBy"] = this.lastUpdatedBy;
+        data["status"] = this.status;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IPdInputSnPCummulativeDefaultRateDto {
+    key: string | undefined;
+    rating: string | undefined;
+    years: number | undefined;
+    value: number | undefined;
+    isComputed: boolean | undefined;
+    requiresGroupApproval: boolean | undefined;
+    canAffiliateEdit: boolean | undefined;
+    organizationUnitId: number | undefined;
+    lastUpdated: moment.Moment | undefined;
+    lastUpdatedBy: string | undefined;
+    status: GeneralStatusEnum | undefined;
+    id: string | undefined;
+}
+
+export class GetAllPdAssumptionsDto implements IGetAllPdAssumptionsDto {
+    pdInputAssumption!: PdInputAssumptionDto[] | undefined;
+    pdInputAssumptionMacroeconomicInput!: PdInputAssumptionMacroeconomicInputDto[] | undefined;
+    pdInputAssumptionMacroeconomicProjections!: PdInputAssumptionMacroeconomicProjectionDto[] | undefined;
+    pdInputAssumptionNonInternalModels!: PdInputAssumptionNonInternalModelDto[] | undefined;
+    pdInputAssumptionNplIndex!: PdInputAssumptionNplIndexDto[] | undefined;
+    pdInputSnPCummulativeDefaultRate!: PdInputSnPCummulativeDefaultRateDto[] | undefined;
+
+    constructor(data?: IGetAllPdAssumptionsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["pdInputAssumption"] && data["pdInputAssumption"].constructor === Array) {
+                this.pdInputAssumption = [] as any;
+                for (let item of data["pdInputAssumption"])
+                    this.pdInputAssumption!.push(PdInputAssumptionDto.fromJS(item));
+            }
+            if (data["pdInputAssumptionMacroeconomicInput"] && data["pdInputAssumptionMacroeconomicInput"].constructor === Array) {
+                this.pdInputAssumptionMacroeconomicInput = [] as any;
+                for (let item of data["pdInputAssumptionMacroeconomicInput"])
+                    this.pdInputAssumptionMacroeconomicInput!.push(PdInputAssumptionMacroeconomicInputDto.fromJS(item));
+            }
+            if (data["pdInputAssumptionMacroeconomicProjections"] && data["pdInputAssumptionMacroeconomicProjections"].constructor === Array) {
+                this.pdInputAssumptionMacroeconomicProjections = [] as any;
+                for (let item of data["pdInputAssumptionMacroeconomicProjections"])
+                    this.pdInputAssumptionMacroeconomicProjections!.push(PdInputAssumptionMacroeconomicProjectionDto.fromJS(item));
+            }
+            if (data["pdInputAssumptionNonInternalModels"] && data["pdInputAssumptionNonInternalModels"].constructor === Array) {
+                this.pdInputAssumptionNonInternalModels = [] as any;
+                for (let item of data["pdInputAssumptionNonInternalModels"])
+                    this.pdInputAssumptionNonInternalModels!.push(PdInputAssumptionNonInternalModelDto.fromJS(item));
+            }
+            if (data["pdInputAssumptionNplIndex"] && data["pdInputAssumptionNplIndex"].constructor === Array) {
+                this.pdInputAssumptionNplIndex = [] as any;
+                for (let item of data["pdInputAssumptionNplIndex"])
+                    this.pdInputAssumptionNplIndex!.push(PdInputAssumptionNplIndexDto.fromJS(item));
+            }
+            if (data["pdInputSnPCummulativeDefaultRate"] && data["pdInputSnPCummulativeDefaultRate"].constructor === Array) {
+                this.pdInputSnPCummulativeDefaultRate = [] as any;
+                for (let item of data["pdInputSnPCummulativeDefaultRate"])
+                    this.pdInputSnPCummulativeDefaultRate!.push(PdInputSnPCummulativeDefaultRateDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): GetAllPdAssumptionsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAllPdAssumptionsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.pdInputAssumption && this.pdInputAssumption.constructor === Array) {
+            data["pdInputAssumption"] = [];
+            for (let item of this.pdInputAssumption)
+                data["pdInputAssumption"].push(item.toJSON());
+        }
+        if (this.pdInputAssumptionMacroeconomicInput && this.pdInputAssumptionMacroeconomicInput.constructor === Array) {
+            data["pdInputAssumptionMacroeconomicInput"] = [];
+            for (let item of this.pdInputAssumptionMacroeconomicInput)
+                data["pdInputAssumptionMacroeconomicInput"].push(item.toJSON());
+        }
+        if (this.pdInputAssumptionMacroeconomicProjections && this.pdInputAssumptionMacroeconomicProjections.constructor === Array) {
+            data["pdInputAssumptionMacroeconomicProjections"] = [];
+            for (let item of this.pdInputAssumptionMacroeconomicProjections)
+                data["pdInputAssumptionMacroeconomicProjections"].push(item.toJSON());
+        }
+        if (this.pdInputAssumptionNonInternalModels && this.pdInputAssumptionNonInternalModels.constructor === Array) {
+            data["pdInputAssumptionNonInternalModels"] = [];
+            for (let item of this.pdInputAssumptionNonInternalModels)
+                data["pdInputAssumptionNonInternalModels"].push(item.toJSON());
+        }
+        if (this.pdInputAssumptionNplIndex && this.pdInputAssumptionNplIndex.constructor === Array) {
+            data["pdInputAssumptionNplIndex"] = [];
+            for (let item of this.pdInputAssumptionNplIndex)
+                data["pdInputAssumptionNplIndex"].push(item.toJSON());
+        }
+        if (this.pdInputSnPCummulativeDefaultRate && this.pdInputSnPCummulativeDefaultRate.constructor === Array) {
+            data["pdInputSnPCummulativeDefaultRate"] = [];
+            for (let item of this.pdInputSnPCummulativeDefaultRate)
+                data["pdInputSnPCummulativeDefaultRate"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IGetAllPdAssumptionsDto {
+    pdInputAssumption: PdInputAssumptionDto[] | undefined;
+    pdInputAssumptionMacroeconomicInput: PdInputAssumptionMacroeconomicInputDto[] | undefined;
+    pdInputAssumptionMacroeconomicProjections: PdInputAssumptionMacroeconomicProjectionDto[] | undefined;
+    pdInputAssumptionNonInternalModels: PdInputAssumptionNonInternalModelDto[] | undefined;
+    pdInputAssumptionNplIndex: PdInputAssumptionNplIndexDto[] | undefined;
+    pdInputSnPCummulativeDefaultRate: PdInputSnPCummulativeDefaultRateDto[] | undefined;
 }
 
 export class ListResultDtoOfEditionListDto implements IListResultDtoOfEditionListDto {
@@ -36512,7 +43479,7 @@ export class CreateOrEditLgdAssumptionUnsecuredRecoveryDto implements ICreateOrE
     value!: string | undefined;
     dataType!: DataTypeEnum | undefined;
     isComputed!: boolean | undefined;
-    lgdGroup!: LdgInputAssumptionEnum | undefined;
+    lgdGroup!: LdgInputAssumptionGroupEnum | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditLgdAssumptionUnsecuredRecoveryDto) {
@@ -36559,7 +43526,7 @@ export interface ICreateOrEditLgdAssumptionUnsecuredRecoveryDto {
     value: string | undefined;
     dataType: DataTypeEnum | undefined;
     isComputed: boolean | undefined;
-    lgdGroup: LdgInputAssumptionEnum | undefined;
+    lgdGroup: LdgInputAssumptionGroupEnum | undefined;
     id: string | undefined;
 }
 
@@ -37168,13 +44135,6 @@ export interface IObeEclApprovalDto {
     id: string | undefined;
 }
 
-export enum GeneralStatusEnum {
-    Draft = 0, 
-    Submitted = 1, 
-    Approved = 2, 
-    Rejected = 3, 
-}
-
 export class GetObeEclApprovalForEditOutput implements IGetObeEclApprovalForEditOutput {
     obeEclApproval!: CreateOrEditObeEclApprovalDto | undefined;
     obeEclTenantId!: string | undefined;
@@ -37619,8 +44579,12 @@ export enum AssumptionTypeEnum {
     General = 0, 
     EadInputAssumption = 1, 
     LgdInputAssumption = 2, 
-    Pd12MonthsAssumption = 3, 
+    PdInputAssumption = 3, 
     PdSnPAssumption = 4, 
+    PdMacroeconomicProjection = 5, 
+    PdMacroeconomicInput = 6, 
+    PdNonInternalModel = 7, 
+    PdNplIndex = 8, 
 }
 
 export class GetObeEclAssumptionApprovalForEditOutput implements IGetObeEclAssumptionApprovalForEditOutput {
@@ -39561,7 +46525,7 @@ export class ObeEclEadInputAssumptionDto implements IObeEclEadInputAssumptionDto
     value!: string | undefined;
     datatype!: DataTypeEnum | undefined;
     isComputed!: boolean | undefined;
-    eadGroup!: EadInputGroupEnum | undefined;
+    eadGroup!: EadInputAssumptionGroupEnum | undefined;
     requiresGroupApproval!: boolean | undefined;
     obeEclId!: string | undefined;
     id!: string | undefined;
@@ -39617,7 +46581,7 @@ export interface IObeEclEadInputAssumptionDto {
     value: string | undefined;
     datatype: DataTypeEnum | undefined;
     isComputed: boolean | undefined;
-    eadGroup: EadInputGroupEnum | undefined;
+    eadGroup: EadInputAssumptionGroupEnum | undefined;
     requiresGroupApproval: boolean | undefined;
     obeEclId: string | undefined;
     id: string | undefined;
@@ -39669,7 +46633,7 @@ export class CreateOrEditObeEclEadInputAssumptionDto implements ICreateOrEditObe
     value!: string | undefined;
     datatype!: DataTypeEnum | undefined;
     isComputed!: boolean;
-    eadGroup!: EadInputGroupEnum | undefined;
+    eadGroup!: EadInputAssumptionGroupEnum | undefined;
     requiresGroupApproval!: boolean;
     obeEclId!: string | undefined;
     id!: string | undefined;
@@ -39725,7 +46689,7 @@ export interface ICreateOrEditObeEclEadInputAssumptionDto {
     value: string | undefined;
     datatype: DataTypeEnum | undefined;
     isComputed: boolean;
-    eadGroup: EadInputGroupEnum | undefined;
+    eadGroup: EadInputAssumptionGroupEnum | undefined;
     requiresGroupApproval: boolean;
     obeEclId: string | undefined;
     id: string | undefined;
@@ -39913,7 +46877,7 @@ export class ObeEclLgdAssumptionDto implements IObeEclLgdAssumptionDto {
     value!: string | undefined;
     dataType!: DataTypeEnum | undefined;
     isComputed!: boolean | undefined;
-    lgdGroup!: LdgInputAssumptionEnum | undefined;
+    lgdGroup!: LdgInputAssumptionGroupEnum | undefined;
     requiresGroupApproval!: boolean | undefined;
     obeEclId!: string | undefined;
     id!: string | undefined;
@@ -39969,7 +46933,7 @@ export interface IObeEclLgdAssumptionDto {
     value: string | undefined;
     dataType: DataTypeEnum | undefined;
     isComputed: boolean | undefined;
-    lgdGroup: LdgInputAssumptionEnum | undefined;
+    lgdGroup: LdgInputAssumptionGroupEnum | undefined;
     requiresGroupApproval: boolean | undefined;
     obeEclId: string | undefined;
     id: string | undefined;
@@ -40021,7 +46985,7 @@ export class CreateOrEditObeEclLgdAssumptionDto implements ICreateOrEditObeEclLg
     value!: string | undefined;
     dataType!: DataTypeEnum | undefined;
     isComputed!: boolean;
-    lgdGroup!: LdgInputAssumptionEnum | undefined;
+    lgdGroup!: LdgInputAssumptionGroupEnum | undefined;
     requiresGroupApproval!: boolean;
     obeEclId!: string | undefined;
     id!: string | undefined;
@@ -40077,7 +47041,7 @@ export interface ICreateOrEditObeEclLgdAssumptionDto {
     value: string | undefined;
     dataType: DataTypeEnum | undefined;
     isComputed: boolean;
-    lgdGroup: LdgInputAssumptionEnum | undefined;
+    lgdGroup: LdgInputAssumptionGroupEnum | undefined;
     requiresGroupApproval: boolean;
     obeEclId: string | undefined;
     id: string | undefined;
@@ -40503,6 +47467,1486 @@ export class ObeEclPdAssumption12MonthObeEclLookupTableDto implements IObeEclPdA
 }
 
 export interface IObeEclPdAssumption12MonthObeEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetObeEclPdAssumptionMacroeconomicInputsForViewDto implements IPagedResultDtoOfGetObeEclPdAssumptionMacroeconomicInputsForViewDto {
+    totalCount!: number | undefined;
+    items!: GetObeEclPdAssumptionMacroeconomicInputsForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetObeEclPdAssumptionMacroeconomicInputsForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetObeEclPdAssumptionMacroeconomicInputsForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetObeEclPdAssumptionMacroeconomicInputsForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetObeEclPdAssumptionMacroeconomicInputsForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetObeEclPdAssumptionMacroeconomicInputsForViewDto {
+    totalCount: number | undefined;
+    items: GetObeEclPdAssumptionMacroeconomicInputsForViewDto[] | undefined;
+}
+
+export class GetObeEclPdAssumptionMacroeconomicInputsForViewDto implements IGetObeEclPdAssumptionMacroeconomicInputsForViewDto {
+    obeEclPdAssumptionMacroeconomicInputs!: ObeEclPdAssumptionMacroeconomicInputsDto | undefined;
+    obeEclTenantId!: string | undefined;
+
+    constructor(data?: IGetObeEclPdAssumptionMacroeconomicInputsForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.obeEclPdAssumptionMacroeconomicInputs = data["obeEclPdAssumptionMacroeconomicInputs"] ? ObeEclPdAssumptionMacroeconomicInputsDto.fromJS(data["obeEclPdAssumptionMacroeconomicInputs"]) : <any>undefined;
+            this.obeEclTenantId = data["obeEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetObeEclPdAssumptionMacroeconomicInputsForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetObeEclPdAssumptionMacroeconomicInputsForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["obeEclPdAssumptionMacroeconomicInputs"] = this.obeEclPdAssumptionMacroeconomicInputs ? this.obeEclPdAssumptionMacroeconomicInputs.toJSON() : <any>undefined;
+        data["obeEclTenantId"] = this.obeEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetObeEclPdAssumptionMacroeconomicInputsForViewDto {
+    obeEclPdAssumptionMacroeconomicInputs: ObeEclPdAssumptionMacroeconomicInputsDto | undefined;
+    obeEclTenantId: string | undefined;
+}
+
+export class ObeEclPdAssumptionMacroeconomicInputsDto implements IObeEclPdAssumptionMacroeconomicInputsDto {
+    obeEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IObeEclPdAssumptionMacroeconomicInputsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.obeEclId = data["obeEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): ObeEclPdAssumptionMacroeconomicInputsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ObeEclPdAssumptionMacroeconomicInputsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["obeEclId"] = this.obeEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IObeEclPdAssumptionMacroeconomicInputsDto {
+    obeEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetObeEclPdAssumptionMacroeconomicInputsForEditOutput implements IGetObeEclPdAssumptionMacroeconomicInputsForEditOutput {
+    obeEclPdAssumptionMacroeconomicInputs!: CreateOrEditObeEclPdAssumptionMacroeconomicInputsDto | undefined;
+    obeEclTenantId!: string | undefined;
+
+    constructor(data?: IGetObeEclPdAssumptionMacroeconomicInputsForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.obeEclPdAssumptionMacroeconomicInputs = data["obeEclPdAssumptionMacroeconomicInputs"] ? CreateOrEditObeEclPdAssumptionMacroeconomicInputsDto.fromJS(data["obeEclPdAssumptionMacroeconomicInputs"]) : <any>undefined;
+            this.obeEclTenantId = data["obeEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetObeEclPdAssumptionMacroeconomicInputsForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetObeEclPdAssumptionMacroeconomicInputsForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["obeEclPdAssumptionMacroeconomicInputs"] = this.obeEclPdAssumptionMacroeconomicInputs ? this.obeEclPdAssumptionMacroeconomicInputs.toJSON() : <any>undefined;
+        data["obeEclTenantId"] = this.obeEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetObeEclPdAssumptionMacroeconomicInputsForEditOutput {
+    obeEclPdAssumptionMacroeconomicInputs: CreateOrEditObeEclPdAssumptionMacroeconomicInputsDto | undefined;
+    obeEclTenantId: string | undefined;
+}
+
+export class CreateOrEditObeEclPdAssumptionMacroeconomicInputsDto implements ICreateOrEditObeEclPdAssumptionMacroeconomicInputsDto {
+    obeEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditObeEclPdAssumptionMacroeconomicInputsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.obeEclId = data["obeEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditObeEclPdAssumptionMacroeconomicInputsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditObeEclPdAssumptionMacroeconomicInputsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["obeEclId"] = this.obeEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditObeEclPdAssumptionMacroeconomicInputsDto {
+    obeEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfObeEclPdAssumptionMacroeconomicInputsObeEclLookupTableDto implements IPagedResultDtoOfObeEclPdAssumptionMacroeconomicInputsObeEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: ObeEclPdAssumptionMacroeconomicInputsObeEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfObeEclPdAssumptionMacroeconomicInputsObeEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(ObeEclPdAssumptionMacroeconomicInputsObeEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfObeEclPdAssumptionMacroeconomicInputsObeEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfObeEclPdAssumptionMacroeconomicInputsObeEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfObeEclPdAssumptionMacroeconomicInputsObeEclLookupTableDto {
+    totalCount: number | undefined;
+    items: ObeEclPdAssumptionMacroeconomicInputsObeEclLookupTableDto[] | undefined;
+}
+
+export class ObeEclPdAssumptionMacroeconomicInputsObeEclLookupTableDto implements IObeEclPdAssumptionMacroeconomicInputsObeEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IObeEclPdAssumptionMacroeconomicInputsObeEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): ObeEclPdAssumptionMacroeconomicInputsObeEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ObeEclPdAssumptionMacroeconomicInputsObeEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IObeEclPdAssumptionMacroeconomicInputsObeEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetObeEclPdAssumptionMacroeconomicProjectionForViewDto implements IPagedResultDtoOfGetObeEclPdAssumptionMacroeconomicProjectionForViewDto {
+    totalCount!: number | undefined;
+    items!: GetObeEclPdAssumptionMacroeconomicProjectionForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetObeEclPdAssumptionMacroeconomicProjectionForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetObeEclPdAssumptionMacroeconomicProjectionForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetObeEclPdAssumptionMacroeconomicProjectionForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetObeEclPdAssumptionMacroeconomicProjectionForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetObeEclPdAssumptionMacroeconomicProjectionForViewDto {
+    totalCount: number | undefined;
+    items: GetObeEclPdAssumptionMacroeconomicProjectionForViewDto[] | undefined;
+}
+
+export class GetObeEclPdAssumptionMacroeconomicProjectionForViewDto implements IGetObeEclPdAssumptionMacroeconomicProjectionForViewDto {
+    obeEclPdAssumptionMacroeconomicProjection!: ObeEclPdAssumptionMacroeconomicProjectionDto | undefined;
+    obeEclTenantId!: string | undefined;
+
+    constructor(data?: IGetObeEclPdAssumptionMacroeconomicProjectionForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.obeEclPdAssumptionMacroeconomicProjection = data["obeEclPdAssumptionMacroeconomicProjection"] ? ObeEclPdAssumptionMacroeconomicProjectionDto.fromJS(data["obeEclPdAssumptionMacroeconomicProjection"]) : <any>undefined;
+            this.obeEclTenantId = data["obeEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetObeEclPdAssumptionMacroeconomicProjectionForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetObeEclPdAssumptionMacroeconomicProjectionForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["obeEclPdAssumptionMacroeconomicProjection"] = this.obeEclPdAssumptionMacroeconomicProjection ? this.obeEclPdAssumptionMacroeconomicProjection.toJSON() : <any>undefined;
+        data["obeEclTenantId"] = this.obeEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetObeEclPdAssumptionMacroeconomicProjectionForViewDto {
+    obeEclPdAssumptionMacroeconomicProjection: ObeEclPdAssumptionMacroeconomicProjectionDto | undefined;
+    obeEclTenantId: string | undefined;
+}
+
+export class ObeEclPdAssumptionMacroeconomicProjectionDto implements IObeEclPdAssumptionMacroeconomicProjectionDto {
+    obeEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IObeEclPdAssumptionMacroeconomicProjectionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.obeEclId = data["obeEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): ObeEclPdAssumptionMacroeconomicProjectionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ObeEclPdAssumptionMacroeconomicProjectionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["obeEclId"] = this.obeEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IObeEclPdAssumptionMacroeconomicProjectionDto {
+    obeEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetObeEclPdAssumptionMacroeconomicProjectionForEditOutput implements IGetObeEclPdAssumptionMacroeconomicProjectionForEditOutput {
+    obeEclPdAssumptionMacroeconomicProjection!: CreateOrEditObeEclPdAssumptionMacroeconomicProjectionDto | undefined;
+    obeEclTenantId!: string | undefined;
+
+    constructor(data?: IGetObeEclPdAssumptionMacroeconomicProjectionForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.obeEclPdAssumptionMacroeconomicProjection = data["obeEclPdAssumptionMacroeconomicProjection"] ? CreateOrEditObeEclPdAssumptionMacroeconomicProjectionDto.fromJS(data["obeEclPdAssumptionMacroeconomicProjection"]) : <any>undefined;
+            this.obeEclTenantId = data["obeEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetObeEclPdAssumptionMacroeconomicProjectionForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetObeEclPdAssumptionMacroeconomicProjectionForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["obeEclPdAssumptionMacroeconomicProjection"] = this.obeEclPdAssumptionMacroeconomicProjection ? this.obeEclPdAssumptionMacroeconomicProjection.toJSON() : <any>undefined;
+        data["obeEclTenantId"] = this.obeEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetObeEclPdAssumptionMacroeconomicProjectionForEditOutput {
+    obeEclPdAssumptionMacroeconomicProjection: CreateOrEditObeEclPdAssumptionMacroeconomicProjectionDto | undefined;
+    obeEclTenantId: string | undefined;
+}
+
+export class CreateOrEditObeEclPdAssumptionMacroeconomicProjectionDto implements ICreateOrEditObeEclPdAssumptionMacroeconomicProjectionDto {
+    obeEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditObeEclPdAssumptionMacroeconomicProjectionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.obeEclId = data["obeEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditObeEclPdAssumptionMacroeconomicProjectionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditObeEclPdAssumptionMacroeconomicProjectionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["obeEclId"] = this.obeEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditObeEclPdAssumptionMacroeconomicProjectionDto {
+    obeEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfObeEclPdAssumptionMacroeconomicProjectionObeEclLookupTableDto implements IPagedResultDtoOfObeEclPdAssumptionMacroeconomicProjectionObeEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: ObeEclPdAssumptionMacroeconomicProjectionObeEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfObeEclPdAssumptionMacroeconomicProjectionObeEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(ObeEclPdAssumptionMacroeconomicProjectionObeEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfObeEclPdAssumptionMacroeconomicProjectionObeEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfObeEclPdAssumptionMacroeconomicProjectionObeEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfObeEclPdAssumptionMacroeconomicProjectionObeEclLookupTableDto {
+    totalCount: number | undefined;
+    items: ObeEclPdAssumptionMacroeconomicProjectionObeEclLookupTableDto[] | undefined;
+}
+
+export class ObeEclPdAssumptionMacroeconomicProjectionObeEclLookupTableDto implements IObeEclPdAssumptionMacroeconomicProjectionObeEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IObeEclPdAssumptionMacroeconomicProjectionObeEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): ObeEclPdAssumptionMacroeconomicProjectionObeEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ObeEclPdAssumptionMacroeconomicProjectionObeEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IObeEclPdAssumptionMacroeconomicProjectionObeEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetObeEclPdAssumptionNonInternalModelForViewDto implements IPagedResultDtoOfGetObeEclPdAssumptionNonInternalModelForViewDto {
+    totalCount!: number | undefined;
+    items!: GetObeEclPdAssumptionNonInternalModelForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetObeEclPdAssumptionNonInternalModelForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetObeEclPdAssumptionNonInternalModelForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetObeEclPdAssumptionNonInternalModelForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetObeEclPdAssumptionNonInternalModelForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetObeEclPdAssumptionNonInternalModelForViewDto {
+    totalCount: number | undefined;
+    items: GetObeEclPdAssumptionNonInternalModelForViewDto[] | undefined;
+}
+
+export class GetObeEclPdAssumptionNonInternalModelForViewDto implements IGetObeEclPdAssumptionNonInternalModelForViewDto {
+    obeEclPdAssumptionNonInternalModel!: ObeEclPdAssumptionNonInternalModelDto | undefined;
+    obeEclTenantId!: string | undefined;
+
+    constructor(data?: IGetObeEclPdAssumptionNonInternalModelForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.obeEclPdAssumptionNonInternalModel = data["obeEclPdAssumptionNonInternalModel"] ? ObeEclPdAssumptionNonInternalModelDto.fromJS(data["obeEclPdAssumptionNonInternalModel"]) : <any>undefined;
+            this.obeEclTenantId = data["obeEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetObeEclPdAssumptionNonInternalModelForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetObeEclPdAssumptionNonInternalModelForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["obeEclPdAssumptionNonInternalModel"] = this.obeEclPdAssumptionNonInternalModel ? this.obeEclPdAssumptionNonInternalModel.toJSON() : <any>undefined;
+        data["obeEclTenantId"] = this.obeEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetObeEclPdAssumptionNonInternalModelForViewDto {
+    obeEclPdAssumptionNonInternalModel: ObeEclPdAssumptionNonInternalModelDto | undefined;
+    obeEclTenantId: string | undefined;
+}
+
+export class ObeEclPdAssumptionNonInternalModelDto implements IObeEclPdAssumptionNonInternalModelDto {
+    obeEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IObeEclPdAssumptionNonInternalModelDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.obeEclId = data["obeEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): ObeEclPdAssumptionNonInternalModelDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ObeEclPdAssumptionNonInternalModelDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["obeEclId"] = this.obeEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IObeEclPdAssumptionNonInternalModelDto {
+    obeEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetObeEclPdAssumptionNonInternalModelForEditOutput implements IGetObeEclPdAssumptionNonInternalModelForEditOutput {
+    obeEclPdAssumptionNonInternalModel!: CreateOrEditObeEclPdAssumptionNonInternalModelDto | undefined;
+    obeEclTenantId!: string | undefined;
+
+    constructor(data?: IGetObeEclPdAssumptionNonInternalModelForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.obeEclPdAssumptionNonInternalModel = data["obeEclPdAssumptionNonInternalModel"] ? CreateOrEditObeEclPdAssumptionNonInternalModelDto.fromJS(data["obeEclPdAssumptionNonInternalModel"]) : <any>undefined;
+            this.obeEclTenantId = data["obeEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetObeEclPdAssumptionNonInternalModelForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetObeEclPdAssumptionNonInternalModelForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["obeEclPdAssumptionNonInternalModel"] = this.obeEclPdAssumptionNonInternalModel ? this.obeEclPdAssumptionNonInternalModel.toJSON() : <any>undefined;
+        data["obeEclTenantId"] = this.obeEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetObeEclPdAssumptionNonInternalModelForEditOutput {
+    obeEclPdAssumptionNonInternalModel: CreateOrEditObeEclPdAssumptionNonInternalModelDto | undefined;
+    obeEclTenantId: string | undefined;
+}
+
+export class CreateOrEditObeEclPdAssumptionNonInternalModelDto implements ICreateOrEditObeEclPdAssumptionNonInternalModelDto {
+    obeEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditObeEclPdAssumptionNonInternalModelDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.obeEclId = data["obeEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditObeEclPdAssumptionNonInternalModelDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditObeEclPdAssumptionNonInternalModelDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["obeEclId"] = this.obeEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditObeEclPdAssumptionNonInternalModelDto {
+    obeEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfObeEclPdAssumptionNonInternalModelObeEclLookupTableDto implements IPagedResultDtoOfObeEclPdAssumptionNonInternalModelObeEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: ObeEclPdAssumptionNonInternalModelObeEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfObeEclPdAssumptionNonInternalModelObeEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(ObeEclPdAssumptionNonInternalModelObeEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfObeEclPdAssumptionNonInternalModelObeEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfObeEclPdAssumptionNonInternalModelObeEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfObeEclPdAssumptionNonInternalModelObeEclLookupTableDto {
+    totalCount: number | undefined;
+    items: ObeEclPdAssumptionNonInternalModelObeEclLookupTableDto[] | undefined;
+}
+
+export class ObeEclPdAssumptionNonInternalModelObeEclLookupTableDto implements IObeEclPdAssumptionNonInternalModelObeEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IObeEclPdAssumptionNonInternalModelObeEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): ObeEclPdAssumptionNonInternalModelObeEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ObeEclPdAssumptionNonInternalModelObeEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IObeEclPdAssumptionNonInternalModelObeEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetObeEclPdAssumptionNplIndexForViewDto implements IPagedResultDtoOfGetObeEclPdAssumptionNplIndexForViewDto {
+    totalCount!: number | undefined;
+    items!: GetObeEclPdAssumptionNplIndexForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetObeEclPdAssumptionNplIndexForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetObeEclPdAssumptionNplIndexForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetObeEclPdAssumptionNplIndexForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetObeEclPdAssumptionNplIndexForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetObeEclPdAssumptionNplIndexForViewDto {
+    totalCount: number | undefined;
+    items: GetObeEclPdAssumptionNplIndexForViewDto[] | undefined;
+}
+
+export class GetObeEclPdAssumptionNplIndexForViewDto implements IGetObeEclPdAssumptionNplIndexForViewDto {
+    obeEclPdAssumptionNplIndex!: ObeEclPdAssumptionNplIndexDto | undefined;
+    obeEclTenantId!: string | undefined;
+
+    constructor(data?: IGetObeEclPdAssumptionNplIndexForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.obeEclPdAssumptionNplIndex = data["obeEclPdAssumptionNplIndex"] ? ObeEclPdAssumptionNplIndexDto.fromJS(data["obeEclPdAssumptionNplIndex"]) : <any>undefined;
+            this.obeEclTenantId = data["obeEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetObeEclPdAssumptionNplIndexForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetObeEclPdAssumptionNplIndexForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["obeEclPdAssumptionNplIndex"] = this.obeEclPdAssumptionNplIndex ? this.obeEclPdAssumptionNplIndex.toJSON() : <any>undefined;
+        data["obeEclTenantId"] = this.obeEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetObeEclPdAssumptionNplIndexForViewDto {
+    obeEclPdAssumptionNplIndex: ObeEclPdAssumptionNplIndexDto | undefined;
+    obeEclTenantId: string | undefined;
+}
+
+export class ObeEclPdAssumptionNplIndexDto implements IObeEclPdAssumptionNplIndexDto {
+    obeEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IObeEclPdAssumptionNplIndexDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.obeEclId = data["obeEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): ObeEclPdAssumptionNplIndexDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ObeEclPdAssumptionNplIndexDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["obeEclId"] = this.obeEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IObeEclPdAssumptionNplIndexDto {
+    obeEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetObeEclPdAssumptionNplIndexForEditOutput implements IGetObeEclPdAssumptionNplIndexForEditOutput {
+    obeEclPdAssumptionNplIndex!: CreateOrEditObeEclPdAssumptionNplIndexDto | undefined;
+    obeEclTenantId!: string | undefined;
+
+    constructor(data?: IGetObeEclPdAssumptionNplIndexForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.obeEclPdAssumptionNplIndex = data["obeEclPdAssumptionNplIndex"] ? CreateOrEditObeEclPdAssumptionNplIndexDto.fromJS(data["obeEclPdAssumptionNplIndex"]) : <any>undefined;
+            this.obeEclTenantId = data["obeEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetObeEclPdAssumptionNplIndexForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetObeEclPdAssumptionNplIndexForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["obeEclPdAssumptionNplIndex"] = this.obeEclPdAssumptionNplIndex ? this.obeEclPdAssumptionNplIndex.toJSON() : <any>undefined;
+        data["obeEclTenantId"] = this.obeEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetObeEclPdAssumptionNplIndexForEditOutput {
+    obeEclPdAssumptionNplIndex: CreateOrEditObeEclPdAssumptionNplIndexDto | undefined;
+    obeEclTenantId: string | undefined;
+}
+
+export class CreateOrEditObeEclPdAssumptionNplIndexDto implements ICreateOrEditObeEclPdAssumptionNplIndexDto {
+    obeEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditObeEclPdAssumptionNplIndexDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.obeEclId = data["obeEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditObeEclPdAssumptionNplIndexDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditObeEclPdAssumptionNplIndexDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["obeEclId"] = this.obeEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditObeEclPdAssumptionNplIndexDto {
+    obeEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfObeEclPdAssumptionNplIndexObeEclLookupTableDto implements IPagedResultDtoOfObeEclPdAssumptionNplIndexObeEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: ObeEclPdAssumptionNplIndexObeEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfObeEclPdAssumptionNplIndexObeEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(ObeEclPdAssumptionNplIndexObeEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfObeEclPdAssumptionNplIndexObeEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfObeEclPdAssumptionNplIndexObeEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfObeEclPdAssumptionNplIndexObeEclLookupTableDto {
+    totalCount: number | undefined;
+    items: ObeEclPdAssumptionNplIndexObeEclLookupTableDto[] | undefined;
+}
+
+export class ObeEclPdAssumptionNplIndexObeEclLookupTableDto implements IObeEclPdAssumptionNplIndexObeEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IObeEclPdAssumptionNplIndexObeEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): ObeEclPdAssumptionNplIndexObeEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ObeEclPdAssumptionNplIndexObeEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IObeEclPdAssumptionNplIndexObeEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetObeEclPdAssumptionForViewDto implements IPagedResultDtoOfGetObeEclPdAssumptionForViewDto {
+    totalCount!: number | undefined;
+    items!: GetObeEclPdAssumptionForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetObeEclPdAssumptionForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetObeEclPdAssumptionForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetObeEclPdAssumptionForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetObeEclPdAssumptionForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetObeEclPdAssumptionForViewDto {
+    totalCount: number | undefined;
+    items: GetObeEclPdAssumptionForViewDto[] | undefined;
+}
+
+export class GetObeEclPdAssumptionForViewDto implements IGetObeEclPdAssumptionForViewDto {
+    obeEclPdAssumption!: ObeEclPdAssumptionDto | undefined;
+    obeEclTenantId!: string | undefined;
+
+    constructor(data?: IGetObeEclPdAssumptionForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.obeEclPdAssumption = data["obeEclPdAssumption"] ? ObeEclPdAssumptionDto.fromJS(data["obeEclPdAssumption"]) : <any>undefined;
+            this.obeEclTenantId = data["obeEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetObeEclPdAssumptionForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetObeEclPdAssumptionForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["obeEclPdAssumption"] = this.obeEclPdAssumption ? this.obeEclPdAssumption.toJSON() : <any>undefined;
+        data["obeEclTenantId"] = this.obeEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetObeEclPdAssumptionForViewDto {
+    obeEclPdAssumption: ObeEclPdAssumptionDto | undefined;
+    obeEclTenantId: string | undefined;
+}
+
+export class ObeEclPdAssumptionDto implements IObeEclPdAssumptionDto {
+    obeEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IObeEclPdAssumptionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.obeEclId = data["obeEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): ObeEclPdAssumptionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ObeEclPdAssumptionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["obeEclId"] = this.obeEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IObeEclPdAssumptionDto {
+    obeEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetObeEclPdAssumptionForEditOutput implements IGetObeEclPdAssumptionForEditOutput {
+    obeEclPdAssumption!: CreateOrEditObeEclPdAssumptionDto | undefined;
+    obeEclTenantId!: string | undefined;
+
+    constructor(data?: IGetObeEclPdAssumptionForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.obeEclPdAssumption = data["obeEclPdAssumption"] ? CreateOrEditObeEclPdAssumptionDto.fromJS(data["obeEclPdAssumption"]) : <any>undefined;
+            this.obeEclTenantId = data["obeEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetObeEclPdAssumptionForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetObeEclPdAssumptionForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["obeEclPdAssumption"] = this.obeEclPdAssumption ? this.obeEclPdAssumption.toJSON() : <any>undefined;
+        data["obeEclTenantId"] = this.obeEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetObeEclPdAssumptionForEditOutput {
+    obeEclPdAssumption: CreateOrEditObeEclPdAssumptionDto | undefined;
+    obeEclTenantId: string | undefined;
+}
+
+export class CreateOrEditObeEclPdAssumptionDto implements ICreateOrEditObeEclPdAssumptionDto {
+    obeEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditObeEclPdAssumptionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.obeEclId = data["obeEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditObeEclPdAssumptionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditObeEclPdAssumptionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["obeEclId"] = this.obeEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditObeEclPdAssumptionDto {
+    obeEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfObeEclPdAssumptionObeEclLookupTableDto implements IPagedResultDtoOfObeEclPdAssumptionObeEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: ObeEclPdAssumptionObeEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfObeEclPdAssumptionObeEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(ObeEclPdAssumptionObeEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfObeEclPdAssumptionObeEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfObeEclPdAssumptionObeEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfObeEclPdAssumptionObeEclLookupTableDto {
+    totalCount: number | undefined;
+    items: ObeEclPdAssumptionObeEclLookupTableDto[] | undefined;
+}
+
+export class ObeEclPdAssumptionObeEclLookupTableDto implements IObeEclPdAssumptionObeEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IObeEclPdAssumptionObeEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): ObeEclPdAssumptionObeEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ObeEclPdAssumptionObeEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IObeEclPdAssumptionObeEclLookupTableDto {
     id: string | undefined;
     displayName: string | undefined;
 }
@@ -45609,11 +54053,11 @@ export interface IPayPalConfigurationDto {
     demoPassword: string | undefined;
 }
 
-export class PagedResultDtoOfGetPdInputAssumption12MonthForViewDto implements IPagedResultDtoOfGetPdInputAssumption12MonthForViewDto {
+export class PagedResultDtoOfGetPdInputAssumptionMacroeconomicProjectionForViewDto implements IPagedResultDtoOfGetPdInputAssumptionMacroeconomicProjectionForViewDto {
     totalCount!: number | undefined;
-    items!: GetPdInputAssumption12MonthForViewDto[] | undefined;
+    items!: GetPdInputAssumptionMacroeconomicProjectionForViewDto[] | undefined;
 
-    constructor(data?: IPagedResultDtoOfGetPdInputAssumption12MonthForViewDto) {
+    constructor(data?: IPagedResultDtoOfGetPdInputAssumptionMacroeconomicProjectionForViewDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -45628,14 +54072,14 @@ export class PagedResultDtoOfGetPdInputAssumption12MonthForViewDto implements IP
             if (data["items"] && data["items"].constructor === Array) {
                 this.items = [] as any;
                 for (let item of data["items"])
-                    this.items!.push(GetPdInputAssumption12MonthForViewDto.fromJS(item));
+                    this.items!.push(GetPdInputAssumptionMacroeconomicProjectionForViewDto.fromJS(item));
             }
         }
     }
 
-    static fromJS(data: any): PagedResultDtoOfGetPdInputAssumption12MonthForViewDto {
+    static fromJS(data: any): PagedResultDtoOfGetPdInputAssumptionMacroeconomicProjectionForViewDto {
         data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfGetPdInputAssumption12MonthForViewDto();
+        let result = new PagedResultDtoOfGetPdInputAssumptionMacroeconomicProjectionForViewDto();
         result.init(data);
         return result;
     }
@@ -45652,15 +54096,15 @@ export class PagedResultDtoOfGetPdInputAssumption12MonthForViewDto implements IP
     }
 }
 
-export interface IPagedResultDtoOfGetPdInputAssumption12MonthForViewDto {
+export interface IPagedResultDtoOfGetPdInputAssumptionMacroeconomicProjectionForViewDto {
     totalCount: number | undefined;
-    items: GetPdInputAssumption12MonthForViewDto[] | undefined;
+    items: GetPdInputAssumptionMacroeconomicProjectionForViewDto[] | undefined;
 }
 
-export class GetPdInputAssumption12MonthForViewDto implements IGetPdInputAssumption12MonthForViewDto {
-    pdInputAssumption12Month!: PdInputAssumption12MonthDto | undefined;
+export class GetPdInputAssumptionMacroeconomicProjectionForViewDto implements IGetPdInputAssumptionMacroeconomicProjectionForViewDto {
+    pdInputAssumptionMacroeconomicProjection!: PdInputAssumptionMacroeconomicProjectionDto | undefined;
 
-    constructor(data?: IGetPdInputAssumption12MonthForViewDto) {
+    constructor(data?: IGetPdInputAssumptionMacroeconomicProjectionForViewDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -45671,36 +54115,32 @@ export class GetPdInputAssumption12MonthForViewDto implements IGetPdInputAssumpt
 
     init(data?: any) {
         if (data) {
-            this.pdInputAssumption12Month = data["pdInputAssumption12Month"] ? PdInputAssumption12MonthDto.fromJS(data["pdInputAssumption12Month"]) : <any>undefined;
+            this.pdInputAssumptionMacroeconomicProjection = data["pdInputAssumptionMacroeconomicProjection"] ? PdInputAssumptionMacroeconomicProjectionDto.fromJS(data["pdInputAssumptionMacroeconomicProjection"]) : <any>undefined;
         }
     }
 
-    static fromJS(data: any): GetPdInputAssumption12MonthForViewDto {
+    static fromJS(data: any): GetPdInputAssumptionMacroeconomicProjectionForViewDto {
         data = typeof data === 'object' ? data : {};
-        let result = new GetPdInputAssumption12MonthForViewDto();
+        let result = new GetPdInputAssumptionMacroeconomicProjectionForViewDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["pdInputAssumption12Month"] = this.pdInputAssumption12Month ? this.pdInputAssumption12Month.toJSON() : <any>undefined;
+        data["pdInputAssumptionMacroeconomicProjection"] = this.pdInputAssumptionMacroeconomicProjection ? this.pdInputAssumptionMacroeconomicProjection.toJSON() : <any>undefined;
         return data; 
     }
 }
 
-export interface IGetPdInputAssumption12MonthForViewDto {
-    pdInputAssumption12Month: PdInputAssumption12MonthDto | undefined;
+export interface IGetPdInputAssumptionMacroeconomicProjectionForViewDto {
+    pdInputAssumptionMacroeconomicProjection: PdInputAssumptionMacroeconomicProjectionDto | undefined;
 }
 
-export class PdInputAssumption12MonthDto implements IPdInputAssumption12MonthDto {
-    credit!: number | undefined;
-    pd!: number | undefined;
-    snPMappingEtiCreditPolicy!: string | undefined;
-    snPMappingBestFit!: string | undefined;
-    id!: string | undefined;
+export class GetPdInputAssumptionMacroeconomicProjectionForEditOutput implements IGetPdInputAssumptionMacroeconomicProjectionForEditOutput {
+    pdInputAssumptionMacroeconomicProjection!: CreateOrEditPdInputAssumptionMacroeconomicProjectionDto | undefined;
 
-    constructor(data?: IPdInputAssumption12MonthDto) {
+    constructor(data?: IGetPdInputAssumptionMacroeconomicProjectionForEditOutput) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -45711,44 +54151,69 @@ export class PdInputAssumption12MonthDto implements IPdInputAssumption12MonthDto
 
     init(data?: any) {
         if (data) {
-            this.credit = data["credit"];
-            this.pd = data["pd"];
-            this.snPMappingEtiCreditPolicy = data["snPMappingEtiCreditPolicy"];
-            this.snPMappingBestFit = data["snPMappingBestFit"];
-            this.id = data["id"];
+            this.pdInputAssumptionMacroeconomicProjection = data["pdInputAssumptionMacroeconomicProjection"] ? CreateOrEditPdInputAssumptionMacroeconomicProjectionDto.fromJS(data["pdInputAssumptionMacroeconomicProjection"]) : <any>undefined;
         }
     }
 
-    static fromJS(data: any): PdInputAssumption12MonthDto {
+    static fromJS(data: any): GetPdInputAssumptionMacroeconomicProjectionForEditOutput {
         data = typeof data === 'object' ? data : {};
-        let result = new PdInputAssumption12MonthDto();
+        let result = new GetPdInputAssumptionMacroeconomicProjectionForEditOutput();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["credit"] = this.credit;
-        data["pd"] = this.pd;
-        data["snPMappingEtiCreditPolicy"] = this.snPMappingEtiCreditPolicy;
-        data["snPMappingBestFit"] = this.snPMappingBestFit;
+        data["pdInputAssumptionMacroeconomicProjection"] = this.pdInputAssumptionMacroeconomicProjection ? this.pdInputAssumptionMacroeconomicProjection.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetPdInputAssumptionMacroeconomicProjectionForEditOutput {
+    pdInputAssumptionMacroeconomicProjection: CreateOrEditPdInputAssumptionMacroeconomicProjectionDto | undefined;
+}
+
+export class CreateOrEditPdInputAssumptionMacroeconomicProjectionDto implements ICreateOrEditPdInputAssumptionMacroeconomicProjectionDto {
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditPdInputAssumptionMacroeconomicProjectionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditPdInputAssumptionMacroeconomicProjectionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditPdInputAssumptionMacroeconomicProjectionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         return data; 
     }
 }
 
-export interface IPdInputAssumption12MonthDto {
-    credit: number | undefined;
-    pd: number | undefined;
-    snPMappingEtiCreditPolicy: string | undefined;
-    snPMappingBestFit: string | undefined;
+export interface ICreateOrEditPdInputAssumptionMacroeconomicProjectionDto {
     id: string | undefined;
 }
 
-export class GetPdInputAssumption12MonthForEditOutput implements IGetPdInputAssumption12MonthForEditOutput {
-    pdInputAssumption12Month!: CreateOrEditPdInputAssumption12MonthDto | undefined;
+export class PagedResultDtoOfGetPdInputAssumptionNonInternalModelForViewDto implements IPagedResultDtoOfGetPdInputAssumptionNonInternalModelForViewDto {
+    totalCount!: number | undefined;
+    items!: GetPdInputAssumptionNonInternalModelForViewDto[] | undefined;
 
-    constructor(data?: IGetPdInputAssumption12MonthForEditOutput) {
+    constructor(data?: IPagedResultDtoOfGetPdInputAssumptionNonInternalModelForViewDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -45759,36 +54224,43 @@ export class GetPdInputAssumption12MonthForEditOutput implements IGetPdInputAssu
 
     init(data?: any) {
         if (data) {
-            this.pdInputAssumption12Month = data["pdInputAssumption12Month"] ? CreateOrEditPdInputAssumption12MonthDto.fromJS(data["pdInputAssumption12Month"]) : <any>undefined;
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetPdInputAssumptionNonInternalModelForViewDto.fromJS(item));
+            }
         }
     }
 
-    static fromJS(data: any): GetPdInputAssumption12MonthForEditOutput {
+    static fromJS(data: any): PagedResultDtoOfGetPdInputAssumptionNonInternalModelForViewDto {
         data = typeof data === 'object' ? data : {};
-        let result = new GetPdInputAssumption12MonthForEditOutput();
+        let result = new PagedResultDtoOfGetPdInputAssumptionNonInternalModelForViewDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["pdInputAssumption12Month"] = this.pdInputAssumption12Month ? this.pdInputAssumption12Month.toJSON() : <any>undefined;
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
         return data; 
     }
 }
 
-export interface IGetPdInputAssumption12MonthForEditOutput {
-    pdInputAssumption12Month: CreateOrEditPdInputAssumption12MonthDto | undefined;
+export interface IPagedResultDtoOfGetPdInputAssumptionNonInternalModelForViewDto {
+    totalCount: number | undefined;
+    items: GetPdInputAssumptionNonInternalModelForViewDto[] | undefined;
 }
 
-export class CreateOrEditPdInputAssumption12MonthDto implements ICreateOrEditPdInputAssumption12MonthDto {
-    credit!: number | undefined;
-    pd!: number | undefined;
-    snPMappingEtiCreditPolicy!: string | undefined;
-    snPMappingBestFit!: string | undefined;
-    id!: string | undefined;
+export class GetPdInputAssumptionNonInternalModelForViewDto implements IGetPdInputAssumptionNonInternalModelForViewDto {
+    pdInputAssumptionNonInternalModel!: PdInputAssumptionNonInternalModelDto | undefined;
 
-    constructor(data?: ICreateOrEditPdInputAssumption12MonthDto) {
+    constructor(data?: IGetPdInputAssumptionNonInternalModelForViewDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -45799,37 +54271,609 @@ export class CreateOrEditPdInputAssumption12MonthDto implements ICreateOrEditPdI
 
     init(data?: any) {
         if (data) {
-            this.credit = data["credit"];
-            this.pd = data["pd"];
-            this.snPMappingEtiCreditPolicy = data["snPMappingEtiCreditPolicy"];
-            this.snPMappingBestFit = data["snPMappingBestFit"];
-            this.id = data["id"];
+            this.pdInputAssumptionNonInternalModel = data["pdInputAssumptionNonInternalModel"] ? PdInputAssumptionNonInternalModelDto.fromJS(data["pdInputAssumptionNonInternalModel"]) : <any>undefined;
         }
     }
 
-    static fromJS(data: any): CreateOrEditPdInputAssumption12MonthDto {
+    static fromJS(data: any): GetPdInputAssumptionNonInternalModelForViewDto {
         data = typeof data === 'object' ? data : {};
-        let result = new CreateOrEditPdInputAssumption12MonthDto();
+        let result = new GetPdInputAssumptionNonInternalModelForViewDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["credit"] = this.credit;
-        data["pd"] = this.pd;
-        data["snPMappingEtiCreditPolicy"] = this.snPMappingEtiCreditPolicy;
-        data["snPMappingBestFit"] = this.snPMappingBestFit;
+        data["pdInputAssumptionNonInternalModel"] = this.pdInputAssumptionNonInternalModel ? this.pdInputAssumptionNonInternalModel.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetPdInputAssumptionNonInternalModelForViewDto {
+    pdInputAssumptionNonInternalModel: PdInputAssumptionNonInternalModelDto | undefined;
+}
+
+export class GetPdInputAssumptionNonInternalModelForEditOutput implements IGetPdInputAssumptionNonInternalModelForEditOutput {
+    pdInputAssumptionNonInternalModel!: CreateOrEditPdInputAssumptionNonInternalModelDto | undefined;
+
+    constructor(data?: IGetPdInputAssumptionNonInternalModelForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.pdInputAssumptionNonInternalModel = data["pdInputAssumptionNonInternalModel"] ? CreateOrEditPdInputAssumptionNonInternalModelDto.fromJS(data["pdInputAssumptionNonInternalModel"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetPdInputAssumptionNonInternalModelForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetPdInputAssumptionNonInternalModelForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pdInputAssumptionNonInternalModel"] = this.pdInputAssumptionNonInternalModel ? this.pdInputAssumptionNonInternalModel.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetPdInputAssumptionNonInternalModelForEditOutput {
+    pdInputAssumptionNonInternalModel: CreateOrEditPdInputAssumptionNonInternalModelDto | undefined;
+}
+
+export class CreateOrEditPdInputAssumptionNonInternalModelDto implements ICreateOrEditPdInputAssumptionNonInternalModelDto {
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditPdInputAssumptionNonInternalModelDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditPdInputAssumptionNonInternalModelDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditPdInputAssumptionNonInternalModelDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         return data; 
     }
 }
 
-export interface ICreateOrEditPdInputAssumption12MonthDto {
-    credit: number | undefined;
-    pd: number | undefined;
-    snPMappingEtiCreditPolicy: string | undefined;
-    snPMappingBestFit: string | undefined;
+export interface ICreateOrEditPdInputAssumptionNonInternalModelDto {
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfGetPdInputAssumptionNplIndexForViewDto implements IPagedResultDtoOfGetPdInputAssumptionNplIndexForViewDto {
+    totalCount!: number | undefined;
+    items!: GetPdInputAssumptionNplIndexForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetPdInputAssumptionNplIndexForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetPdInputAssumptionNplIndexForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetPdInputAssumptionNplIndexForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetPdInputAssumptionNplIndexForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetPdInputAssumptionNplIndexForViewDto {
+    totalCount: number | undefined;
+    items: GetPdInputAssumptionNplIndexForViewDto[] | undefined;
+}
+
+export class GetPdInputAssumptionNplIndexForViewDto implements IGetPdInputAssumptionNplIndexForViewDto {
+    pdInputAssumptionNplIndex!: PdInputAssumptionNplIndexDto | undefined;
+
+    constructor(data?: IGetPdInputAssumptionNplIndexForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.pdInputAssumptionNplIndex = data["pdInputAssumptionNplIndex"] ? PdInputAssumptionNplIndexDto.fromJS(data["pdInputAssumptionNplIndex"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetPdInputAssumptionNplIndexForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetPdInputAssumptionNplIndexForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pdInputAssumptionNplIndex"] = this.pdInputAssumptionNplIndex ? this.pdInputAssumptionNplIndex.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetPdInputAssumptionNplIndexForViewDto {
+    pdInputAssumptionNplIndex: PdInputAssumptionNplIndexDto | undefined;
+}
+
+export class GetPdInputAssumptionNplIndexForEditOutput implements IGetPdInputAssumptionNplIndexForEditOutput {
+    pdInputAssumptionNplIndex!: CreateOrEditPdInputAssumptionNplIndexDto | undefined;
+
+    constructor(data?: IGetPdInputAssumptionNplIndexForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.pdInputAssumptionNplIndex = data["pdInputAssumptionNplIndex"] ? CreateOrEditPdInputAssumptionNplIndexDto.fromJS(data["pdInputAssumptionNplIndex"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetPdInputAssumptionNplIndexForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetPdInputAssumptionNplIndexForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pdInputAssumptionNplIndex"] = this.pdInputAssumptionNplIndex ? this.pdInputAssumptionNplIndex.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetPdInputAssumptionNplIndexForEditOutput {
+    pdInputAssumptionNplIndex: CreateOrEditPdInputAssumptionNplIndexDto | undefined;
+}
+
+export class CreateOrEditPdInputAssumptionNplIndexDto implements ICreateOrEditPdInputAssumptionNplIndexDto {
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditPdInputAssumptionNplIndexDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditPdInputAssumptionNplIndexDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditPdInputAssumptionNplIndexDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditPdInputAssumptionNplIndexDto {
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfGetPdInputAssumptionForViewDto implements IPagedResultDtoOfGetPdInputAssumptionForViewDto {
+    totalCount!: number | undefined;
+    items!: GetPdInputAssumptionForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetPdInputAssumptionForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetPdInputAssumptionForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetPdInputAssumptionForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetPdInputAssumptionForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetPdInputAssumptionForViewDto {
+    totalCount: number | undefined;
+    items: GetPdInputAssumptionForViewDto[] | undefined;
+}
+
+export class GetPdInputAssumptionForViewDto implements IGetPdInputAssumptionForViewDto {
+    pdInputAssumption!: PdInputAssumptionDto | undefined;
+
+    constructor(data?: IGetPdInputAssumptionForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.pdInputAssumption = data["pdInputAssumption"] ? PdInputAssumptionDto.fromJS(data["pdInputAssumption"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetPdInputAssumptionForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetPdInputAssumptionForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pdInputAssumption"] = this.pdInputAssumption ? this.pdInputAssumption.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetPdInputAssumptionForViewDto {
+    pdInputAssumption: PdInputAssumptionDto | undefined;
+}
+
+export class GetPdInputAssumptionForEditOutput implements IGetPdInputAssumptionForEditOutput {
+    pdInputAssumption!: CreateOrEditPdInputAssumptionDto | undefined;
+
+    constructor(data?: IGetPdInputAssumptionForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.pdInputAssumption = data["pdInputAssumption"] ? CreateOrEditPdInputAssumptionDto.fromJS(data["pdInputAssumption"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetPdInputAssumptionForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetPdInputAssumptionForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pdInputAssumption"] = this.pdInputAssumption ? this.pdInputAssumption.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetPdInputAssumptionForEditOutput {
+    pdInputAssumption: CreateOrEditPdInputAssumptionDto | undefined;
+}
+
+export class CreateOrEditPdInputAssumptionDto implements ICreateOrEditPdInputAssumptionDto {
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditPdInputAssumptionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditPdInputAssumptionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditPdInputAssumptionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditPdInputAssumptionDto {
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfGetPdInputAssumptionStatisticalForViewDto implements IPagedResultDtoOfGetPdInputAssumptionStatisticalForViewDto {
+    totalCount!: number | undefined;
+    items!: GetPdInputAssumptionStatisticalForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetPdInputAssumptionStatisticalForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetPdInputAssumptionStatisticalForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetPdInputAssumptionStatisticalForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetPdInputAssumptionStatisticalForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetPdInputAssumptionStatisticalForViewDto {
+    totalCount: number | undefined;
+    items: GetPdInputAssumptionStatisticalForViewDto[] | undefined;
+}
+
+export class GetPdInputAssumptionStatisticalForViewDto implements IGetPdInputAssumptionStatisticalForViewDto {
+    pdInputAssumptionStatistical!: PdInputAssumptionStatisticalDto | undefined;
+
+    constructor(data?: IGetPdInputAssumptionStatisticalForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.pdInputAssumptionStatistical = data["pdInputAssumptionStatistical"] ? PdInputAssumptionStatisticalDto.fromJS(data["pdInputAssumptionStatistical"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetPdInputAssumptionStatisticalForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetPdInputAssumptionStatisticalForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pdInputAssumptionStatistical"] = this.pdInputAssumptionStatistical ? this.pdInputAssumptionStatistical.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetPdInputAssumptionStatisticalForViewDto {
+    pdInputAssumptionStatistical: PdInputAssumptionStatisticalDto | undefined;
+}
+
+export class PdInputAssumptionStatisticalDto implements IPdInputAssumptionStatisticalDto {
+    canAffiliateEdit!: boolean | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IPdInputAssumptionStatisticalDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.canAffiliateEdit = data["canAffiliateEdit"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): PdInputAssumptionStatisticalDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PdInputAssumptionStatisticalDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["canAffiliateEdit"] = this.canAffiliateEdit;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IPdInputAssumptionStatisticalDto {
+    canAffiliateEdit: boolean | undefined;
+    id: string | undefined;
+}
+
+export class GetPdInputAssumptionStatisticalForEditOutput implements IGetPdInputAssumptionStatisticalForEditOutput {
+    pdInputAssumptionStatistical!: CreateOrEditPdInputAssumptionStatisticalDto | undefined;
+
+    constructor(data?: IGetPdInputAssumptionStatisticalForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.pdInputAssumptionStatistical = data["pdInputAssumptionStatistical"] ? CreateOrEditPdInputAssumptionStatisticalDto.fromJS(data["pdInputAssumptionStatistical"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetPdInputAssumptionStatisticalForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetPdInputAssumptionStatisticalForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pdInputAssumptionStatistical"] = this.pdInputAssumptionStatistical ? this.pdInputAssumptionStatistical.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetPdInputAssumptionStatisticalForEditOutput {
+    pdInputAssumptionStatistical: CreateOrEditPdInputAssumptionStatisticalDto | undefined;
+}
+
+export class CreateOrEditPdInputAssumptionStatisticalDto implements ICreateOrEditPdInputAssumptionStatisticalDto {
+    canAffiliateEdit!: boolean | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditPdInputAssumptionStatisticalDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.canAffiliateEdit = data["canAffiliateEdit"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditPdInputAssumptionStatisticalDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditPdInputAssumptionStatisticalDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["canAffiliateEdit"] = this.canAffiliateEdit;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditPdInputAssumptionStatisticalDto {
+    canAffiliateEdit: boolean | undefined;
     id: string | undefined;
 }
 
@@ -45915,54 +54959,6 @@ export class GetPdInputSnPCummulativeDefaultRateForViewDto implements IGetPdInpu
 
 export interface IGetPdInputSnPCummulativeDefaultRateForViewDto {
     pdInputSnPCummulativeDefaultRate: PdInputSnPCummulativeDefaultRateDto | undefined;
-}
-
-export class PdInputSnPCummulativeDefaultRateDto implements IPdInputSnPCummulativeDefaultRateDto {
-    rating!: string | undefined;
-    years!: number | undefined;
-    value!: number | undefined;
-    id!: string | undefined;
-
-    constructor(data?: IPdInputSnPCummulativeDefaultRateDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.rating = data["rating"];
-            this.years = data["years"];
-            this.value = data["value"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): PdInputSnPCummulativeDefaultRateDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PdInputSnPCummulativeDefaultRateDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["rating"] = this.rating;
-        data["years"] = this.years;
-        data["value"] = this.value;
-        data["id"] = this.id;
-        return data; 
-    }
-}
-
-export interface IPdInputSnPCummulativeDefaultRateDto {
-    rating: string | undefined;
-    years: number | undefined;
-    value: number | undefined;
-    id: string | undefined;
 }
 
 export class GetPdInputSnPCummulativeDefaultRateForEditOutput implements IGetPdInputSnPCummulativeDefaultRateForEditOutput {
@@ -49059,7 +58055,7 @@ export class RetailEclEadInputAssumptionDto implements IRetailEclEadInputAssumpt
     value!: string | undefined;
     datatype!: DataTypeEnum | undefined;
     isComputed!: boolean | undefined;
-    eadGroup!: EadInputGroupEnum | undefined;
+    eadGroup!: EadInputAssumptionGroupEnum | undefined;
     requiresGroupApproval!: boolean | undefined;
     retailEclId!: string | undefined;
     id!: string | undefined;
@@ -49115,7 +58111,7 @@ export interface IRetailEclEadInputAssumptionDto {
     value: string | undefined;
     datatype: DataTypeEnum | undefined;
     isComputed: boolean | undefined;
-    eadGroup: EadInputGroupEnum | undefined;
+    eadGroup: EadInputAssumptionGroupEnum | undefined;
     requiresGroupApproval: boolean | undefined;
     retailEclId: string | undefined;
     id: string | undefined;
@@ -49167,7 +58163,7 @@ export class CreateOrEditRetailEclEadInputAssumptionDto implements ICreateOrEdit
     value!: string | undefined;
     datatype!: DataTypeEnum | undefined;
     isComputed!: boolean;
-    eadGroup!: EadInputGroupEnum | undefined;
+    eadGroup!: EadInputAssumptionGroupEnum | undefined;
     requiresGroupApproval!: boolean;
     retailEclId!: string | undefined;
     id!: string | undefined;
@@ -49223,7 +58219,7 @@ export interface ICreateOrEditRetailEclEadInputAssumptionDto {
     value: string | undefined;
     datatype: DataTypeEnum | undefined;
     isComputed: boolean;
-    eadGroup: EadInputGroupEnum | undefined;
+    eadGroup: EadInputAssumptionGroupEnum | undefined;
     requiresGroupApproval: boolean;
     retailEclId: string | undefined;
     id: string | undefined;
@@ -49411,7 +58407,7 @@ export class RetailEclLgdAssumptionDto implements IRetailEclLgdAssumptionDto {
     value!: string | undefined;
     dataType!: DataTypeEnum | undefined;
     isComputed!: boolean | undefined;
-    lgdGroup!: LdgInputAssumptionEnum | undefined;
+    lgdGroup!: LdgInputAssumptionGroupEnum | undefined;
     requiresGroupApproval!: boolean | undefined;
     retailEclId!: string | undefined;
     id!: string | undefined;
@@ -49467,7 +58463,7 @@ export interface IRetailEclLgdAssumptionDto {
     value: string | undefined;
     dataType: DataTypeEnum | undefined;
     isComputed: boolean | undefined;
-    lgdGroup: LdgInputAssumptionEnum | undefined;
+    lgdGroup: LdgInputAssumptionGroupEnum | undefined;
     requiresGroupApproval: boolean | undefined;
     retailEclId: string | undefined;
     id: string | undefined;
@@ -49519,7 +58515,7 @@ export class CreateOrEditRetailEclLgdAssumptionDto implements ICreateOrEditRetai
     value!: string | undefined;
     dataType!: DataTypeEnum | undefined;
     isComputed!: boolean;
-    lgdGroup!: LdgInputAssumptionEnum | undefined;
+    lgdGroup!: LdgInputAssumptionGroupEnum | undefined;
     requiresGroupApproval!: boolean;
     retailEclId!: string | undefined;
     id!: string | undefined;
@@ -49575,7 +58571,7 @@ export interface ICreateOrEditRetailEclLgdAssumptionDto {
     value: string | undefined;
     dataType: DataTypeEnum | undefined;
     isComputed: boolean;
-    lgdGroup: LdgInputAssumptionEnum | undefined;
+    lgdGroup: LdgInputAssumptionGroupEnum | undefined;
     requiresGroupApproval: boolean;
     retailEclId: string | undefined;
     id: string | undefined;
@@ -50001,6 +58997,1486 @@ export class RetailEclPdAssumption12MonthRetailEclLookupTableDto implements IRet
 }
 
 export interface IRetailEclPdAssumption12MonthRetailEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicInputForViewDto implements IPagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicInputForViewDto {
+    totalCount!: number | undefined;
+    items!: GetRetailEclPdAssumptionMacroeconomicInputForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicInputForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetRetailEclPdAssumptionMacroeconomicInputForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicInputForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicInputForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicInputForViewDto {
+    totalCount: number | undefined;
+    items: GetRetailEclPdAssumptionMacroeconomicInputForViewDto[] | undefined;
+}
+
+export class GetRetailEclPdAssumptionMacroeconomicInputForViewDto implements IGetRetailEclPdAssumptionMacroeconomicInputForViewDto {
+    retailEclPdAssumptionMacroeconomicInput!: RetailEclPdAssumptionMacroeconomicInputDto | undefined;
+    retailEclTenantId!: string | undefined;
+
+    constructor(data?: IGetRetailEclPdAssumptionMacroeconomicInputForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.retailEclPdAssumptionMacroeconomicInput = data["retailEclPdAssumptionMacroeconomicInput"] ? RetailEclPdAssumptionMacroeconomicInputDto.fromJS(data["retailEclPdAssumptionMacroeconomicInput"]) : <any>undefined;
+            this.retailEclTenantId = data["retailEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetRetailEclPdAssumptionMacroeconomicInputForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetRetailEclPdAssumptionMacroeconomicInputForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["retailEclPdAssumptionMacroeconomicInput"] = this.retailEclPdAssumptionMacroeconomicInput ? this.retailEclPdAssumptionMacroeconomicInput.toJSON() : <any>undefined;
+        data["retailEclTenantId"] = this.retailEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetRetailEclPdAssumptionMacroeconomicInputForViewDto {
+    retailEclPdAssumptionMacroeconomicInput: RetailEclPdAssumptionMacroeconomicInputDto | undefined;
+    retailEclTenantId: string | undefined;
+}
+
+export class RetailEclPdAssumptionMacroeconomicInputDto implements IRetailEclPdAssumptionMacroeconomicInputDto {
+    retailEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IRetailEclPdAssumptionMacroeconomicInputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.retailEclId = data["retailEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): RetailEclPdAssumptionMacroeconomicInputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new RetailEclPdAssumptionMacroeconomicInputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["retailEclId"] = this.retailEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IRetailEclPdAssumptionMacroeconomicInputDto {
+    retailEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetRetailEclPdAssumptionMacroeconomicInputForEditOutput implements IGetRetailEclPdAssumptionMacroeconomicInputForEditOutput {
+    retailEclPdAssumptionMacroeconomicInput!: CreateOrEditRetailEclPdAssumptionMacroeconomicInputDto | undefined;
+    retailEclTenantId!: string | undefined;
+
+    constructor(data?: IGetRetailEclPdAssumptionMacroeconomicInputForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.retailEclPdAssumptionMacroeconomicInput = data["retailEclPdAssumptionMacroeconomicInput"] ? CreateOrEditRetailEclPdAssumptionMacroeconomicInputDto.fromJS(data["retailEclPdAssumptionMacroeconomicInput"]) : <any>undefined;
+            this.retailEclTenantId = data["retailEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetRetailEclPdAssumptionMacroeconomicInputForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetRetailEclPdAssumptionMacroeconomicInputForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["retailEclPdAssumptionMacroeconomicInput"] = this.retailEclPdAssumptionMacroeconomicInput ? this.retailEclPdAssumptionMacroeconomicInput.toJSON() : <any>undefined;
+        data["retailEclTenantId"] = this.retailEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetRetailEclPdAssumptionMacroeconomicInputForEditOutput {
+    retailEclPdAssumptionMacroeconomicInput: CreateOrEditRetailEclPdAssumptionMacroeconomicInputDto | undefined;
+    retailEclTenantId: string | undefined;
+}
+
+export class CreateOrEditRetailEclPdAssumptionMacroeconomicInputDto implements ICreateOrEditRetailEclPdAssumptionMacroeconomicInputDto {
+    retailEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditRetailEclPdAssumptionMacroeconomicInputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.retailEclId = data["retailEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditRetailEclPdAssumptionMacroeconomicInputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditRetailEclPdAssumptionMacroeconomicInputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["retailEclId"] = this.retailEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditRetailEclPdAssumptionMacroeconomicInputDto {
+    retailEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfRetailEclPdAssumptionMacroeconomicInputRetailEclLookupTableDto implements IPagedResultDtoOfRetailEclPdAssumptionMacroeconomicInputRetailEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: RetailEclPdAssumptionMacroeconomicInputRetailEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfRetailEclPdAssumptionMacroeconomicInputRetailEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(RetailEclPdAssumptionMacroeconomicInputRetailEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfRetailEclPdAssumptionMacroeconomicInputRetailEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfRetailEclPdAssumptionMacroeconomicInputRetailEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfRetailEclPdAssumptionMacroeconomicInputRetailEclLookupTableDto {
+    totalCount: number | undefined;
+    items: RetailEclPdAssumptionMacroeconomicInputRetailEclLookupTableDto[] | undefined;
+}
+
+export class RetailEclPdAssumptionMacroeconomicInputRetailEclLookupTableDto implements IRetailEclPdAssumptionMacroeconomicInputRetailEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IRetailEclPdAssumptionMacroeconomicInputRetailEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): RetailEclPdAssumptionMacroeconomicInputRetailEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new RetailEclPdAssumptionMacroeconomicInputRetailEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IRetailEclPdAssumptionMacroeconomicInputRetailEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicProjectionForViewDto implements IPagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicProjectionForViewDto {
+    totalCount!: number | undefined;
+    items!: GetRetailEclPdAssumptionMacroeconomicProjectionForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicProjectionForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetRetailEclPdAssumptionMacroeconomicProjectionForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicProjectionForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicProjectionForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetRetailEclPdAssumptionMacroeconomicProjectionForViewDto {
+    totalCount: number | undefined;
+    items: GetRetailEclPdAssumptionMacroeconomicProjectionForViewDto[] | undefined;
+}
+
+export class GetRetailEclPdAssumptionMacroeconomicProjectionForViewDto implements IGetRetailEclPdAssumptionMacroeconomicProjectionForViewDto {
+    retailEclPdAssumptionMacroeconomicProjection!: RetailEclPdAssumptionMacroeconomicProjectionDto | undefined;
+    retailEclTenantId!: string | undefined;
+
+    constructor(data?: IGetRetailEclPdAssumptionMacroeconomicProjectionForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.retailEclPdAssumptionMacroeconomicProjection = data["retailEclPdAssumptionMacroeconomicProjection"] ? RetailEclPdAssumptionMacroeconomicProjectionDto.fromJS(data["retailEclPdAssumptionMacroeconomicProjection"]) : <any>undefined;
+            this.retailEclTenantId = data["retailEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetRetailEclPdAssumptionMacroeconomicProjectionForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetRetailEclPdAssumptionMacroeconomicProjectionForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["retailEclPdAssumptionMacroeconomicProjection"] = this.retailEclPdAssumptionMacroeconomicProjection ? this.retailEclPdAssumptionMacroeconomicProjection.toJSON() : <any>undefined;
+        data["retailEclTenantId"] = this.retailEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetRetailEclPdAssumptionMacroeconomicProjectionForViewDto {
+    retailEclPdAssumptionMacroeconomicProjection: RetailEclPdAssumptionMacroeconomicProjectionDto | undefined;
+    retailEclTenantId: string | undefined;
+}
+
+export class RetailEclPdAssumptionMacroeconomicProjectionDto implements IRetailEclPdAssumptionMacroeconomicProjectionDto {
+    retailEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IRetailEclPdAssumptionMacroeconomicProjectionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.retailEclId = data["retailEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): RetailEclPdAssumptionMacroeconomicProjectionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new RetailEclPdAssumptionMacroeconomicProjectionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["retailEclId"] = this.retailEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IRetailEclPdAssumptionMacroeconomicProjectionDto {
+    retailEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetRetailEclPdAssumptionMacroeconomicProjectionForEditOutput implements IGetRetailEclPdAssumptionMacroeconomicProjectionForEditOutput {
+    retailEclPdAssumptionMacroeconomicProjection!: CreateOrEditRetailEclPdAssumptionMacroeconomicProjectionDto | undefined;
+    retailEclTenantId!: string | undefined;
+
+    constructor(data?: IGetRetailEclPdAssumptionMacroeconomicProjectionForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.retailEclPdAssumptionMacroeconomicProjection = data["retailEclPdAssumptionMacroeconomicProjection"] ? CreateOrEditRetailEclPdAssumptionMacroeconomicProjectionDto.fromJS(data["retailEclPdAssumptionMacroeconomicProjection"]) : <any>undefined;
+            this.retailEclTenantId = data["retailEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetRetailEclPdAssumptionMacroeconomicProjectionForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetRetailEclPdAssumptionMacroeconomicProjectionForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["retailEclPdAssumptionMacroeconomicProjection"] = this.retailEclPdAssumptionMacroeconomicProjection ? this.retailEclPdAssumptionMacroeconomicProjection.toJSON() : <any>undefined;
+        data["retailEclTenantId"] = this.retailEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetRetailEclPdAssumptionMacroeconomicProjectionForEditOutput {
+    retailEclPdAssumptionMacroeconomicProjection: CreateOrEditRetailEclPdAssumptionMacroeconomicProjectionDto | undefined;
+    retailEclTenantId: string | undefined;
+}
+
+export class CreateOrEditRetailEclPdAssumptionMacroeconomicProjectionDto implements ICreateOrEditRetailEclPdAssumptionMacroeconomicProjectionDto {
+    retailEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditRetailEclPdAssumptionMacroeconomicProjectionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.retailEclId = data["retailEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditRetailEclPdAssumptionMacroeconomicProjectionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditRetailEclPdAssumptionMacroeconomicProjectionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["retailEclId"] = this.retailEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditRetailEclPdAssumptionMacroeconomicProjectionDto {
+    retailEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfRetailEclPdAssumptionMacroeconomicProjectionRetailEclLookupTableDto implements IPagedResultDtoOfRetailEclPdAssumptionMacroeconomicProjectionRetailEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: RetailEclPdAssumptionMacroeconomicProjectionRetailEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfRetailEclPdAssumptionMacroeconomicProjectionRetailEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(RetailEclPdAssumptionMacroeconomicProjectionRetailEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfRetailEclPdAssumptionMacroeconomicProjectionRetailEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfRetailEclPdAssumptionMacroeconomicProjectionRetailEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfRetailEclPdAssumptionMacroeconomicProjectionRetailEclLookupTableDto {
+    totalCount: number | undefined;
+    items: RetailEclPdAssumptionMacroeconomicProjectionRetailEclLookupTableDto[] | undefined;
+}
+
+export class RetailEclPdAssumptionMacroeconomicProjectionRetailEclLookupTableDto implements IRetailEclPdAssumptionMacroeconomicProjectionRetailEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IRetailEclPdAssumptionMacroeconomicProjectionRetailEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): RetailEclPdAssumptionMacroeconomicProjectionRetailEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new RetailEclPdAssumptionMacroeconomicProjectionRetailEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IRetailEclPdAssumptionMacroeconomicProjectionRetailEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetRetailEclPdAssumptionNonInteralModelForViewDto implements IPagedResultDtoOfGetRetailEclPdAssumptionNonInteralModelForViewDto {
+    totalCount!: number | undefined;
+    items!: GetRetailEclPdAssumptionNonInteralModelForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetRetailEclPdAssumptionNonInteralModelForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetRetailEclPdAssumptionNonInteralModelForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetRetailEclPdAssumptionNonInteralModelForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetRetailEclPdAssumptionNonInteralModelForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetRetailEclPdAssumptionNonInteralModelForViewDto {
+    totalCount: number | undefined;
+    items: GetRetailEclPdAssumptionNonInteralModelForViewDto[] | undefined;
+}
+
+export class GetRetailEclPdAssumptionNonInteralModelForViewDto implements IGetRetailEclPdAssumptionNonInteralModelForViewDto {
+    retailEclPdAssumptionNonInteralModel!: RetailEclPdAssumptionNonInteralModelDto | undefined;
+    retailEclTenantId!: string | undefined;
+
+    constructor(data?: IGetRetailEclPdAssumptionNonInteralModelForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.retailEclPdAssumptionNonInteralModel = data["retailEclPdAssumptionNonInteralModel"] ? RetailEclPdAssumptionNonInteralModelDto.fromJS(data["retailEclPdAssumptionNonInteralModel"]) : <any>undefined;
+            this.retailEclTenantId = data["retailEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetRetailEclPdAssumptionNonInteralModelForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetRetailEclPdAssumptionNonInteralModelForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["retailEclPdAssumptionNonInteralModel"] = this.retailEclPdAssumptionNonInteralModel ? this.retailEclPdAssumptionNonInteralModel.toJSON() : <any>undefined;
+        data["retailEclTenantId"] = this.retailEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetRetailEclPdAssumptionNonInteralModelForViewDto {
+    retailEclPdAssumptionNonInteralModel: RetailEclPdAssumptionNonInteralModelDto | undefined;
+    retailEclTenantId: string | undefined;
+}
+
+export class RetailEclPdAssumptionNonInteralModelDto implements IRetailEclPdAssumptionNonInteralModelDto {
+    retailEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IRetailEclPdAssumptionNonInteralModelDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.retailEclId = data["retailEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): RetailEclPdAssumptionNonInteralModelDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new RetailEclPdAssumptionNonInteralModelDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["retailEclId"] = this.retailEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IRetailEclPdAssumptionNonInteralModelDto {
+    retailEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetRetailEclPdAssumptionNonInteralModelForEditOutput implements IGetRetailEclPdAssumptionNonInteralModelForEditOutput {
+    retailEclPdAssumptionNonInteralModel!: CreateOrEditRetailEclPdAssumptionNonInteralModelDto | undefined;
+    retailEclTenantId!: string | undefined;
+
+    constructor(data?: IGetRetailEclPdAssumptionNonInteralModelForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.retailEclPdAssumptionNonInteralModel = data["retailEclPdAssumptionNonInteralModel"] ? CreateOrEditRetailEclPdAssumptionNonInteralModelDto.fromJS(data["retailEclPdAssumptionNonInteralModel"]) : <any>undefined;
+            this.retailEclTenantId = data["retailEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetRetailEclPdAssumptionNonInteralModelForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetRetailEclPdAssumptionNonInteralModelForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["retailEclPdAssumptionNonInteralModel"] = this.retailEclPdAssumptionNonInteralModel ? this.retailEclPdAssumptionNonInteralModel.toJSON() : <any>undefined;
+        data["retailEclTenantId"] = this.retailEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetRetailEclPdAssumptionNonInteralModelForEditOutput {
+    retailEclPdAssumptionNonInteralModel: CreateOrEditRetailEclPdAssumptionNonInteralModelDto | undefined;
+    retailEclTenantId: string | undefined;
+}
+
+export class CreateOrEditRetailEclPdAssumptionNonInteralModelDto implements ICreateOrEditRetailEclPdAssumptionNonInteralModelDto {
+    retailEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditRetailEclPdAssumptionNonInteralModelDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.retailEclId = data["retailEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditRetailEclPdAssumptionNonInteralModelDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditRetailEclPdAssumptionNonInteralModelDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["retailEclId"] = this.retailEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditRetailEclPdAssumptionNonInteralModelDto {
+    retailEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfRetailEclPdAssumptionNonInteralModelRetailEclLookupTableDto implements IPagedResultDtoOfRetailEclPdAssumptionNonInteralModelRetailEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: RetailEclPdAssumptionNonInteralModelRetailEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfRetailEclPdAssumptionNonInteralModelRetailEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(RetailEclPdAssumptionNonInteralModelRetailEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfRetailEclPdAssumptionNonInteralModelRetailEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfRetailEclPdAssumptionNonInteralModelRetailEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfRetailEclPdAssumptionNonInteralModelRetailEclLookupTableDto {
+    totalCount: number | undefined;
+    items: RetailEclPdAssumptionNonInteralModelRetailEclLookupTableDto[] | undefined;
+}
+
+export class RetailEclPdAssumptionNonInteralModelRetailEclLookupTableDto implements IRetailEclPdAssumptionNonInteralModelRetailEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IRetailEclPdAssumptionNonInteralModelRetailEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): RetailEclPdAssumptionNonInteralModelRetailEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new RetailEclPdAssumptionNonInteralModelRetailEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IRetailEclPdAssumptionNonInteralModelRetailEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetRetailEclPdAssumptionNplIndexForViewDto implements IPagedResultDtoOfGetRetailEclPdAssumptionNplIndexForViewDto {
+    totalCount!: number | undefined;
+    items!: GetRetailEclPdAssumptionNplIndexForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetRetailEclPdAssumptionNplIndexForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetRetailEclPdAssumptionNplIndexForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetRetailEclPdAssumptionNplIndexForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetRetailEclPdAssumptionNplIndexForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetRetailEclPdAssumptionNplIndexForViewDto {
+    totalCount: number | undefined;
+    items: GetRetailEclPdAssumptionNplIndexForViewDto[] | undefined;
+}
+
+export class GetRetailEclPdAssumptionNplIndexForViewDto implements IGetRetailEclPdAssumptionNplIndexForViewDto {
+    retailEclPdAssumptionNplIndex!: RetailEclPdAssumptionNplIndexDto | undefined;
+    retailEclTenantId!: string | undefined;
+
+    constructor(data?: IGetRetailEclPdAssumptionNplIndexForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.retailEclPdAssumptionNplIndex = data["retailEclPdAssumptionNplIndex"] ? RetailEclPdAssumptionNplIndexDto.fromJS(data["retailEclPdAssumptionNplIndex"]) : <any>undefined;
+            this.retailEclTenantId = data["retailEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetRetailEclPdAssumptionNplIndexForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetRetailEclPdAssumptionNplIndexForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["retailEclPdAssumptionNplIndex"] = this.retailEclPdAssumptionNplIndex ? this.retailEclPdAssumptionNplIndex.toJSON() : <any>undefined;
+        data["retailEclTenantId"] = this.retailEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetRetailEclPdAssumptionNplIndexForViewDto {
+    retailEclPdAssumptionNplIndex: RetailEclPdAssumptionNplIndexDto | undefined;
+    retailEclTenantId: string | undefined;
+}
+
+export class RetailEclPdAssumptionNplIndexDto implements IRetailEclPdAssumptionNplIndexDto {
+    retailEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IRetailEclPdAssumptionNplIndexDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.retailEclId = data["retailEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): RetailEclPdAssumptionNplIndexDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new RetailEclPdAssumptionNplIndexDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["retailEclId"] = this.retailEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IRetailEclPdAssumptionNplIndexDto {
+    retailEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetRetailEclPdAssumptionNplIndexForEditOutput implements IGetRetailEclPdAssumptionNplIndexForEditOutput {
+    retailEclPdAssumptionNplIndex!: CreateOrEditRetailEclPdAssumptionNplIndexDto | undefined;
+    retailEclTenantId!: string | undefined;
+
+    constructor(data?: IGetRetailEclPdAssumptionNplIndexForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.retailEclPdAssumptionNplIndex = data["retailEclPdAssumptionNplIndex"] ? CreateOrEditRetailEclPdAssumptionNplIndexDto.fromJS(data["retailEclPdAssumptionNplIndex"]) : <any>undefined;
+            this.retailEclTenantId = data["retailEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetRetailEclPdAssumptionNplIndexForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetRetailEclPdAssumptionNplIndexForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["retailEclPdAssumptionNplIndex"] = this.retailEclPdAssumptionNplIndex ? this.retailEclPdAssumptionNplIndex.toJSON() : <any>undefined;
+        data["retailEclTenantId"] = this.retailEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetRetailEclPdAssumptionNplIndexForEditOutput {
+    retailEclPdAssumptionNplIndex: CreateOrEditRetailEclPdAssumptionNplIndexDto | undefined;
+    retailEclTenantId: string | undefined;
+}
+
+export class CreateOrEditRetailEclPdAssumptionNplIndexDto implements ICreateOrEditRetailEclPdAssumptionNplIndexDto {
+    retailEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditRetailEclPdAssumptionNplIndexDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.retailEclId = data["retailEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditRetailEclPdAssumptionNplIndexDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditRetailEclPdAssumptionNplIndexDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["retailEclId"] = this.retailEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditRetailEclPdAssumptionNplIndexDto {
+    retailEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfRetailEclPdAssumptionNplIndexRetailEclLookupTableDto implements IPagedResultDtoOfRetailEclPdAssumptionNplIndexRetailEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: RetailEclPdAssumptionNplIndexRetailEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfRetailEclPdAssumptionNplIndexRetailEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(RetailEclPdAssumptionNplIndexRetailEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfRetailEclPdAssumptionNplIndexRetailEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfRetailEclPdAssumptionNplIndexRetailEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfRetailEclPdAssumptionNplIndexRetailEclLookupTableDto {
+    totalCount: number | undefined;
+    items: RetailEclPdAssumptionNplIndexRetailEclLookupTableDto[] | undefined;
+}
+
+export class RetailEclPdAssumptionNplIndexRetailEclLookupTableDto implements IRetailEclPdAssumptionNplIndexRetailEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IRetailEclPdAssumptionNplIndexRetailEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): RetailEclPdAssumptionNplIndexRetailEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new RetailEclPdAssumptionNplIndexRetailEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IRetailEclPdAssumptionNplIndexRetailEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetRetailEclPdAssumptionForViewDto implements IPagedResultDtoOfGetRetailEclPdAssumptionForViewDto {
+    totalCount!: number | undefined;
+    items!: GetRetailEclPdAssumptionForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetRetailEclPdAssumptionForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetRetailEclPdAssumptionForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetRetailEclPdAssumptionForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetRetailEclPdAssumptionForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetRetailEclPdAssumptionForViewDto {
+    totalCount: number | undefined;
+    items: GetRetailEclPdAssumptionForViewDto[] | undefined;
+}
+
+export class GetRetailEclPdAssumptionForViewDto implements IGetRetailEclPdAssumptionForViewDto {
+    retailEclPdAssumption!: RetailEclPdAssumptionDto | undefined;
+    retailEclTenantId!: string | undefined;
+
+    constructor(data?: IGetRetailEclPdAssumptionForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.retailEclPdAssumption = data["retailEclPdAssumption"] ? RetailEclPdAssumptionDto.fromJS(data["retailEclPdAssumption"]) : <any>undefined;
+            this.retailEclTenantId = data["retailEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetRetailEclPdAssumptionForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetRetailEclPdAssumptionForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["retailEclPdAssumption"] = this.retailEclPdAssumption ? this.retailEclPdAssumption.toJSON() : <any>undefined;
+        data["retailEclTenantId"] = this.retailEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetRetailEclPdAssumptionForViewDto {
+    retailEclPdAssumption: RetailEclPdAssumptionDto | undefined;
+    retailEclTenantId: string | undefined;
+}
+
+export class RetailEclPdAssumptionDto implements IRetailEclPdAssumptionDto {
+    retailEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IRetailEclPdAssumptionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.retailEclId = data["retailEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): RetailEclPdAssumptionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new RetailEclPdAssumptionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["retailEclId"] = this.retailEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IRetailEclPdAssumptionDto {
+    retailEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetRetailEclPdAssumptionForEditOutput implements IGetRetailEclPdAssumptionForEditOutput {
+    retailEclPdAssumption!: CreateOrEditRetailEclPdAssumptionDto | undefined;
+    retailEclTenantId!: string | undefined;
+
+    constructor(data?: IGetRetailEclPdAssumptionForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.retailEclPdAssumption = data["retailEclPdAssumption"] ? CreateOrEditRetailEclPdAssumptionDto.fromJS(data["retailEclPdAssumption"]) : <any>undefined;
+            this.retailEclTenantId = data["retailEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetRetailEclPdAssumptionForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetRetailEclPdAssumptionForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["retailEclPdAssumption"] = this.retailEclPdAssumption ? this.retailEclPdAssumption.toJSON() : <any>undefined;
+        data["retailEclTenantId"] = this.retailEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetRetailEclPdAssumptionForEditOutput {
+    retailEclPdAssumption: CreateOrEditRetailEclPdAssumptionDto | undefined;
+    retailEclTenantId: string | undefined;
+}
+
+export class CreateOrEditRetailEclPdAssumptionDto implements ICreateOrEditRetailEclPdAssumptionDto {
+    retailEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditRetailEclPdAssumptionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.retailEclId = data["retailEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditRetailEclPdAssumptionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditRetailEclPdAssumptionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["retailEclId"] = this.retailEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditRetailEclPdAssumptionDto {
+    retailEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfRetailEclPdAssumptionRetailEclLookupTableDto implements IPagedResultDtoOfRetailEclPdAssumptionRetailEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: RetailEclPdAssumptionRetailEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfRetailEclPdAssumptionRetailEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(RetailEclPdAssumptionRetailEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfRetailEclPdAssumptionRetailEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfRetailEclPdAssumptionRetailEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfRetailEclPdAssumptionRetailEclLookupTableDto {
+    totalCount: number | undefined;
+    items: RetailEclPdAssumptionRetailEclLookupTableDto[] | undefined;
+}
+
+export class RetailEclPdAssumptionRetailEclLookupTableDto implements IRetailEclPdAssumptionRetailEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IRetailEclPdAssumptionRetailEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): RetailEclPdAssumptionRetailEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new RetailEclPdAssumptionRetailEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IRetailEclPdAssumptionRetailEclLookupTableDto {
     id: string | undefined;
     displayName: string | undefined;
 }
@@ -58179,7 +68655,7 @@ export interface IGetWholesaleEadInputAssumptionForViewDto {
 export class WholesaleEadInputAssumptionDto implements IWholesaleEadInputAssumptionDto {
     inputName!: string | undefined;
     value!: string | undefined;
-    eadGroup!: EadInputGroupEnum | undefined;
+    eadGroup!: EadInputAssumptionGroupEnum | undefined;
     wholesaleEclId!: string | undefined;
     id!: string | undefined;
 
@@ -58223,7 +68699,7 @@ export class WholesaleEadInputAssumptionDto implements IWholesaleEadInputAssumpt
 export interface IWholesaleEadInputAssumptionDto {
     inputName: string | undefined;
     value: string | undefined;
-    eadGroup: EadInputGroupEnum | undefined;
+    eadGroup: EadInputAssumptionGroupEnum | undefined;
     wholesaleEclId: string | undefined;
     id: string | undefined;
 }
@@ -58274,7 +68750,7 @@ export class CreateOrEditWholesaleEadInputAssumptionDto implements ICreateOrEdit
     value!: string | undefined;
     datatype!: DataTypeEnum | undefined;
     isComputed!: boolean | undefined;
-    eadGroup!: EadInputGroupEnum | undefined;
+    eadGroup!: EadInputAssumptionGroupEnum | undefined;
     requiresGroupApproval!: boolean | undefined;
     wholesaleEclId!: string | undefined;
     id!: string | undefined;
@@ -58330,7 +68806,7 @@ export interface ICreateOrEditWholesaleEadInputAssumptionDto {
     value: string | undefined;
     datatype: DataTypeEnum | undefined;
     isComputed: boolean | undefined;
-    eadGroup: EadInputGroupEnum | undefined;
+    eadGroup: EadInputAssumptionGroupEnum | undefined;
     requiresGroupApproval: boolean | undefined;
     wholesaleEclId: string | undefined;
     id: string | undefined;
@@ -60990,7 +71466,7 @@ export class CreateOrEditWholesaleEclLgdAssumptionDto implements ICreateOrEditWh
     value!: string | undefined;
     dataType!: DataTypeEnum | undefined;
     isComputed!: boolean | undefined;
-    lgdGroup!: LdgInputAssumptionEnum | undefined;
+    lgdGroup!: LdgInputAssumptionGroupEnum | undefined;
     wholesaleEclId!: string | undefined;
     id!: string | undefined;
 
@@ -61043,7 +71519,7 @@ export interface ICreateOrEditWholesaleEclLgdAssumptionDto {
     value: string | undefined;
     dataType: DataTypeEnum | undefined;
     isComputed: boolean | undefined;
-    lgdGroup: LdgInputAssumptionEnum | undefined;
+    lgdGroup: LdgInputAssumptionGroupEnum | undefined;
     wholesaleEclId: string | undefined;
     id: string | undefined;
 }
@@ -61460,6 +71936,1190 @@ export class WholesaleEclPdAssumption12MonthsWholesaleEclLookupTableDto implemen
 }
 
 export interface IWholesaleEclPdAssumption12MonthsWholesaleEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicInputForViewDto implements IPagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicInputForViewDto {
+    totalCount!: number | undefined;
+    items!: GetWholesaleEclPdAssumptionMacroeconomicInputForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicInputForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWholesaleEclPdAssumptionMacroeconomicInputForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicInputForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicInputForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicInputForViewDto {
+    totalCount: number | undefined;
+    items: GetWholesaleEclPdAssumptionMacroeconomicInputForViewDto[] | undefined;
+}
+
+export class GetWholesaleEclPdAssumptionMacroeconomicInputForViewDto implements IGetWholesaleEclPdAssumptionMacroeconomicInputForViewDto {
+    wholesaleEclPdAssumptionMacroeconomicInput!: WholesaleEclPdAssumptionMacroeconomicInputDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclPdAssumptionMacroeconomicInputForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclPdAssumptionMacroeconomicInput = data["wholesaleEclPdAssumptionMacroeconomicInput"] ? WholesaleEclPdAssumptionMacroeconomicInputDto.fromJS(data["wholesaleEclPdAssumptionMacroeconomicInput"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclPdAssumptionMacroeconomicInputForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclPdAssumptionMacroeconomicInputForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclPdAssumptionMacroeconomicInput"] = this.wholesaleEclPdAssumptionMacroeconomicInput ? this.wholesaleEclPdAssumptionMacroeconomicInput.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclPdAssumptionMacroeconomicInputForViewDto {
+    wholesaleEclPdAssumptionMacroeconomicInput: WholesaleEclPdAssumptionMacroeconomicInputDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class WholesaleEclPdAssumptionMacroeconomicInputDto implements IWholesaleEclPdAssumptionMacroeconomicInputDto {
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IWholesaleEclPdAssumptionMacroeconomicInputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclPdAssumptionMacroeconomicInputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclPdAssumptionMacroeconomicInputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclPdAssumptionMacroeconomicInputDto {
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetWholesaleEclPdAssumptionMacroeconomicInputForEditOutput implements IGetWholesaleEclPdAssumptionMacroeconomicInputForEditOutput {
+    wholesaleEclPdAssumptionMacroeconomicInput!: CreateOrEditWholesaleEclPdAssumptionMacroeconomicInputDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclPdAssumptionMacroeconomicInputForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclPdAssumptionMacroeconomicInput = data["wholesaleEclPdAssumptionMacroeconomicInput"] ? CreateOrEditWholesaleEclPdAssumptionMacroeconomicInputDto.fromJS(data["wholesaleEclPdAssumptionMacroeconomicInput"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclPdAssumptionMacroeconomicInputForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclPdAssumptionMacroeconomicInputForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclPdAssumptionMacroeconomicInput"] = this.wholesaleEclPdAssumptionMacroeconomicInput ? this.wholesaleEclPdAssumptionMacroeconomicInput.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclPdAssumptionMacroeconomicInputForEditOutput {
+    wholesaleEclPdAssumptionMacroeconomicInput: CreateOrEditWholesaleEclPdAssumptionMacroeconomicInputDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class CreateOrEditWholesaleEclPdAssumptionMacroeconomicInputDto implements ICreateOrEditWholesaleEclPdAssumptionMacroeconomicInputDto {
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditWholesaleEclPdAssumptionMacroeconomicInputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWholesaleEclPdAssumptionMacroeconomicInputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWholesaleEclPdAssumptionMacroeconomicInputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWholesaleEclPdAssumptionMacroeconomicInputDto {
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto implements IWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto implements IPagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto {
+    totalCount!: number | undefined;
+    items!: GetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto {
+    totalCount: number | undefined;
+    items: GetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto[] | undefined;
+}
+
+export class GetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto implements IGetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto {
+    wholesaleEclPdAssumptionMacroeconomicProjection!: WholesaleEclPdAssumptionMacroeconomicProjectionDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclPdAssumptionMacroeconomicProjection = data["wholesaleEclPdAssumptionMacroeconomicProjection"] ? WholesaleEclPdAssumptionMacroeconomicProjectionDto.fromJS(data["wholesaleEclPdAssumptionMacroeconomicProjection"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclPdAssumptionMacroeconomicProjection"] = this.wholesaleEclPdAssumptionMacroeconomicProjection ? this.wholesaleEclPdAssumptionMacroeconomicProjection.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto {
+    wholesaleEclPdAssumptionMacroeconomicProjection: WholesaleEclPdAssumptionMacroeconomicProjectionDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class WholesaleEclPdAssumptionMacroeconomicProjectionDto implements IWholesaleEclPdAssumptionMacroeconomicProjectionDto {
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IWholesaleEclPdAssumptionMacroeconomicProjectionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclPdAssumptionMacroeconomicProjectionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclPdAssumptionMacroeconomicProjectionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclPdAssumptionMacroeconomicProjectionDto {
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetWholesaleEclPdAssumptionMacroeconomicProjectionForEditOutput implements IGetWholesaleEclPdAssumptionMacroeconomicProjectionForEditOutput {
+    wholesaleEclPdAssumptionMacroeconomicProjection!: CreateOrEditWholesaleEclPdAssumptionMacroeconomicProjectionDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclPdAssumptionMacroeconomicProjectionForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclPdAssumptionMacroeconomicProjection = data["wholesaleEclPdAssumptionMacroeconomicProjection"] ? CreateOrEditWholesaleEclPdAssumptionMacroeconomicProjectionDto.fromJS(data["wholesaleEclPdAssumptionMacroeconomicProjection"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclPdAssumptionMacroeconomicProjectionForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclPdAssumptionMacroeconomicProjectionForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclPdAssumptionMacroeconomicProjection"] = this.wholesaleEclPdAssumptionMacroeconomicProjection ? this.wholesaleEclPdAssumptionMacroeconomicProjection.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclPdAssumptionMacroeconomicProjectionForEditOutput {
+    wholesaleEclPdAssumptionMacroeconomicProjection: CreateOrEditWholesaleEclPdAssumptionMacroeconomicProjectionDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class CreateOrEditWholesaleEclPdAssumptionMacroeconomicProjectionDto implements ICreateOrEditWholesaleEclPdAssumptionMacroeconomicProjectionDto {
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditWholesaleEclPdAssumptionMacroeconomicProjectionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWholesaleEclPdAssumptionMacroeconomicProjectionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWholesaleEclPdAssumptionMacroeconomicProjectionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWholesaleEclPdAssumptionMacroeconomicProjectionDto {
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto implements IWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetWholesaleEclPdAssumptionNplIndexForViewDto implements IPagedResultDtoOfGetWholesaleEclPdAssumptionNplIndexForViewDto {
+    totalCount!: number | undefined;
+    items!: GetWholesaleEclPdAssumptionNplIndexForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWholesaleEclPdAssumptionNplIndexForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWholesaleEclPdAssumptionNplIndexForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWholesaleEclPdAssumptionNplIndexForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWholesaleEclPdAssumptionNplIndexForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWholesaleEclPdAssumptionNplIndexForViewDto {
+    totalCount: number | undefined;
+    items: GetWholesaleEclPdAssumptionNplIndexForViewDto[] | undefined;
+}
+
+export class GetWholesaleEclPdAssumptionNplIndexForViewDto implements IGetWholesaleEclPdAssumptionNplIndexForViewDto {
+    wholesaleEclPdAssumptionNplIndex!: WholesaleEclPdAssumptionNplIndexDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclPdAssumptionNplIndexForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclPdAssumptionNplIndex = data["wholesaleEclPdAssumptionNplIndex"] ? WholesaleEclPdAssumptionNplIndexDto.fromJS(data["wholesaleEclPdAssumptionNplIndex"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclPdAssumptionNplIndexForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclPdAssumptionNplIndexForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclPdAssumptionNplIndex"] = this.wholesaleEclPdAssumptionNplIndex ? this.wholesaleEclPdAssumptionNplIndex.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclPdAssumptionNplIndexForViewDto {
+    wholesaleEclPdAssumptionNplIndex: WholesaleEclPdAssumptionNplIndexDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class WholesaleEclPdAssumptionNplIndexDto implements IWholesaleEclPdAssumptionNplIndexDto {
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IWholesaleEclPdAssumptionNplIndexDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclPdAssumptionNplIndexDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclPdAssumptionNplIndexDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclPdAssumptionNplIndexDto {
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetWholesaleEclPdAssumptionNplIndexForEditOutput implements IGetWholesaleEclPdAssumptionNplIndexForEditOutput {
+    wholesaleEclPdAssumptionNplIndex!: CreateOrEditWholesaleEclPdAssumptionNplIndexDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclPdAssumptionNplIndexForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclPdAssumptionNplIndex = data["wholesaleEclPdAssumptionNplIndex"] ? CreateOrEditWholesaleEclPdAssumptionNplIndexDto.fromJS(data["wholesaleEclPdAssumptionNplIndex"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclPdAssumptionNplIndexForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclPdAssumptionNplIndexForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclPdAssumptionNplIndex"] = this.wholesaleEclPdAssumptionNplIndex ? this.wholesaleEclPdAssumptionNplIndex.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclPdAssumptionNplIndexForEditOutput {
+    wholesaleEclPdAssumptionNplIndex: CreateOrEditWholesaleEclPdAssumptionNplIndexDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class CreateOrEditWholesaleEclPdAssumptionNplIndexDto implements ICreateOrEditWholesaleEclPdAssumptionNplIndexDto {
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditWholesaleEclPdAssumptionNplIndexDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWholesaleEclPdAssumptionNplIndexDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWholesaleEclPdAssumptionNplIndexDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWholesaleEclPdAssumptionNplIndexDto {
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto implements IWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetWholesaleEclPdAssumptionForViewDto implements IPagedResultDtoOfGetWholesaleEclPdAssumptionForViewDto {
+    totalCount!: number | undefined;
+    items!: GetWholesaleEclPdAssumptionForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWholesaleEclPdAssumptionForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWholesaleEclPdAssumptionForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWholesaleEclPdAssumptionForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWholesaleEclPdAssumptionForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWholesaleEclPdAssumptionForViewDto {
+    totalCount: number | undefined;
+    items: GetWholesaleEclPdAssumptionForViewDto[] | undefined;
+}
+
+export class GetWholesaleEclPdAssumptionForViewDto implements IGetWholesaleEclPdAssumptionForViewDto {
+    wholesaleEclPdAssumption!: WholesaleEclPdAssumptionDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclPdAssumptionForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclPdAssumption = data["wholesaleEclPdAssumption"] ? WholesaleEclPdAssumptionDto.fromJS(data["wholesaleEclPdAssumption"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclPdAssumptionForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclPdAssumptionForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclPdAssumption"] = this.wholesaleEclPdAssumption ? this.wholesaleEclPdAssumption.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclPdAssumptionForViewDto {
+    wholesaleEclPdAssumption: WholesaleEclPdAssumptionDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class WholesaleEclPdAssumptionDto implements IWholesaleEclPdAssumptionDto {
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IWholesaleEclPdAssumptionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclPdAssumptionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclPdAssumptionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclPdAssumptionDto {
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetWholesaleEclPdAssumptionForEditOutput implements IGetWholesaleEclPdAssumptionForEditOutput {
+    wholesaleEclPdAssumption!: CreateOrEditWholesaleEclPdAssumptionDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesaleEclPdAssumptionForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclPdAssumption = data["wholesaleEclPdAssumption"] ? CreateOrEditWholesaleEclPdAssumptionDto.fromJS(data["wholesaleEclPdAssumption"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesaleEclPdAssumptionForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesaleEclPdAssumptionForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclPdAssumption"] = this.wholesaleEclPdAssumption ? this.wholesaleEclPdAssumption.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesaleEclPdAssumptionForEditOutput {
+    wholesaleEclPdAssumption: CreateOrEditWholesaleEclPdAssumptionDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class CreateOrEditWholesaleEclPdAssumptionDto implements ICreateOrEditWholesaleEclPdAssumptionDto {
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditWholesaleEclPdAssumptionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWholesaleEclPdAssumptionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWholesaleEclPdAssumptionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWholesaleEclPdAssumptionDto {
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesaleEclPdAssumptionWholesaleEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesaleEclPdAssumptionWholesaleEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesaleEclPdAssumptionWholesaleEclLookupTableDto[] | undefined;
+}
+
+export class WholesaleEclPdAssumptionWholesaleEclLookupTableDto implements IWholesaleEclPdAssumptionWholesaleEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesaleEclPdAssumptionWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesaleEclPdAssumptionWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesaleEclPdAssumptionWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesaleEclPdAssumptionWholesaleEclLookupTableDto {
     id: string | undefined;
     displayName: string | undefined;
 }
@@ -65348,6 +77008,306 @@ export class WholesaleEclUploadWholesaleEclLookupTableDto implements IWholesaleE
 }
 
 export interface IWholesaleEclUploadWholesaleEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetWholesalePdAssumptionNonInternalModelForViewDto implements IPagedResultDtoOfGetWholesalePdAssumptionNonInternalModelForViewDto {
+    totalCount!: number | undefined;
+    items!: GetWholesalePdAssumptionNonInternalModelForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWholesalePdAssumptionNonInternalModelForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWholesalePdAssumptionNonInternalModelForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWholesalePdAssumptionNonInternalModelForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWholesalePdAssumptionNonInternalModelForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWholesalePdAssumptionNonInternalModelForViewDto {
+    totalCount: number | undefined;
+    items: GetWholesalePdAssumptionNonInternalModelForViewDto[] | undefined;
+}
+
+export class GetWholesalePdAssumptionNonInternalModelForViewDto implements IGetWholesalePdAssumptionNonInternalModelForViewDto {
+    wholesalePdAssumptionNonInternalModel!: WholesalePdAssumptionNonInternalModelDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesalePdAssumptionNonInternalModelForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesalePdAssumptionNonInternalModel = data["wholesalePdAssumptionNonInternalModel"] ? WholesalePdAssumptionNonInternalModelDto.fromJS(data["wholesalePdAssumptionNonInternalModel"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesalePdAssumptionNonInternalModelForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesalePdAssumptionNonInternalModelForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesalePdAssumptionNonInternalModel"] = this.wholesalePdAssumptionNonInternalModel ? this.wholesalePdAssumptionNonInternalModel.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesalePdAssumptionNonInternalModelForViewDto {
+    wholesalePdAssumptionNonInternalModel: WholesalePdAssumptionNonInternalModelDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class WholesalePdAssumptionNonInternalModelDto implements IWholesalePdAssumptionNonInternalModelDto {
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IWholesalePdAssumptionNonInternalModelDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WholesalePdAssumptionNonInternalModelDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesalePdAssumptionNonInternalModelDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWholesalePdAssumptionNonInternalModelDto {
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetWholesalePdAssumptionNonInternalModelForEditOutput implements IGetWholesalePdAssumptionNonInternalModelForEditOutput {
+    wholesalePdAssumptionNonInternalModel!: CreateOrEditWholesalePdAssumptionNonInternalModelDto | undefined;
+    wholesaleEclTenantId!: string | undefined;
+
+    constructor(data?: IGetWholesalePdAssumptionNonInternalModelForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.wholesalePdAssumptionNonInternalModel = data["wholesalePdAssumptionNonInternalModel"] ? CreateOrEditWholesalePdAssumptionNonInternalModelDto.fromJS(data["wholesalePdAssumptionNonInternalModel"]) : <any>undefined;
+            this.wholesaleEclTenantId = data["wholesaleEclTenantId"];
+        }
+    }
+
+    static fromJS(data: any): GetWholesalePdAssumptionNonInternalModelForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWholesalePdAssumptionNonInternalModelForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wholesalePdAssumptionNonInternalModel"] = this.wholesalePdAssumptionNonInternalModel ? this.wholesalePdAssumptionNonInternalModel.toJSON() : <any>undefined;
+        data["wholesaleEclTenantId"] = this.wholesaleEclTenantId;
+        return data; 
+    }
+}
+
+export interface IGetWholesalePdAssumptionNonInternalModelForEditOutput {
+    wholesalePdAssumptionNonInternalModel: CreateOrEditWholesalePdAssumptionNonInternalModelDto | undefined;
+    wholesaleEclTenantId: string | undefined;
+}
+
+export class CreateOrEditWholesalePdAssumptionNonInternalModelDto implements ICreateOrEditWholesalePdAssumptionNonInternalModelDto {
+    canAffiliateEdit!: boolean | undefined;
+    wholesaleEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditWholesalePdAssumptionNonInternalModelDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.canAffiliateEdit = data["canAffiliateEdit"];
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWholesalePdAssumptionNonInternalModelDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWholesalePdAssumptionNonInternalModelDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["canAffiliateEdit"] = this.canAffiliateEdit;
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWholesalePdAssumptionNonInternalModelDto {
+    canAffiliateEdit: boolean | undefined;
+    wholesaleEclId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: WholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto {
+    totalCount: number | undefined;
+    items: WholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto[] | undefined;
+}
+
+export class WholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto implements IWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto {
     id: string | undefined;
     displayName: string | undefined;
 }

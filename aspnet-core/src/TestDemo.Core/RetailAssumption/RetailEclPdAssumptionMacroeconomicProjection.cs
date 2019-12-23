@@ -7,12 +7,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
 using Abp.Auditing;
+using Abp.Organizations;
 
 namespace TestDemo.RetailAssumption
 {
 	[Table("RetailEclPdAssumptionMacroeconomicProjections")]
     [Audited]
-    public class RetailEclPdAssumptionMacroeconomicProjection : FullAuditedEntity<Guid> 
+    public class RetailEclPdAssumptionMacroeconomicProjection : FullAuditedEntity<Guid>, IMustHaveOrganizationUnit
     {
 
 		public virtual string Key { get; set; }

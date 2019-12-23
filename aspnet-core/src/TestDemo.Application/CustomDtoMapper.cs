@@ -97,8 +97,8 @@ namespace TestDemo
             configuration.CreateMap<RetailEclPdAssumptionDto, RetailEclPdAssumption>().ReverseMap();
             configuration.CreateMap<CreateOrEditWholesaleEclPdAssumptionNplIndexDto, WholesaleEclPdAssumptionNplIndex>().ReverseMap();
             configuration.CreateMap<WholesaleEclPdAssumptionNplIndexDto, WholesaleEclPdAssumptionNplIndex>().ReverseMap();
-            configuration.CreateMap<CreateOrEditWholesalePdAssumptionNonInternalModelDto, WholesalePdAssumptionNonInternalModel>().ReverseMap();
-            configuration.CreateMap<WholesalePdAssumptionNonInternalModelDto, WholesalePdAssumptionNonInternalModel>().ReverseMap();
+            configuration.CreateMap<CreateOrEditWholesalePdAssumptionNonInternalModelDto, WholesaleEclPdAssumptionNonInternalModel>().ReverseMap();
+            configuration.CreateMap<WholesalePdAssumptionNonInternalModelDto, WholesaleEclPdAssumptionNonInternalModel>().ReverseMap();
             configuration.CreateMap<CreateOrEditWholesaleEclPdAssumptionMacroeconomicProjectionDto, WholesaleEclPdAssumptionMacroeconomicProjection>().ReverseMap();
             configuration.CreateMap<WholesaleEclPdAssumptionMacroeconomicProjectionDto, WholesaleEclPdAssumptionMacroeconomicProjection>().ReverseMap();
             configuration.CreateMap<CreateOrEditWholesaleEclPdAssumptionMacroeconomicInputDto, WholesaleEclPdAssumptionMacroeconomicInput>().ReverseMap();
