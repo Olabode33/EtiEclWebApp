@@ -1,10 +1,10 @@
 <tabset *ngIf="displayForm">
-    <tab heading="{{assumptionGroupEnum[assumptionGroupEnum.ScenarioInputs] | localize}}">
-        <ng-template tabHeading>
+    <tab heading="{{eadAssumptionGroupEnum[eadAssumptionGroupEnum.CreditConversionFactors] | localize}}">
+        <!-- <ng-template tabHeading>
             <span class="kt-badge kt-badge--warning kt-badge--inline">2</span>
-        </ng-template>
+        </ng-template> -->
         <div class="row">
-            <div class="col-xl-6 pl-2" *ngFor="let item of scenarioAssumptionGroup">
+            <div class="col-xl-6 pl-2" *ngFor="let item of ccfGroup">
                 <!--begin:: Widgets/Stats2-1 -->
                 <div class="row pb-2">
                     <div class="col-lg-8">
@@ -32,12 +32,12 @@
             </div>
         </div>
     </tab>
-    <tab heading="{{assumptionGroupEnum[assumptionGroupEnum.AbsoluteCreditQuality] | localize}}">
+    <tab heading="{{eadAssumptionGroupEnum[eadAssumptionGroupEnum.VariableInterestRateProjections] | localize}}">
         <!-- <ng-template tabHeading>
             <span class="kt-badge kt-badge--warning kt-badge--inline">2</span>
         </ng-template> -->
         <div class="row">
-            <div class="col-xl-6 pl-2" *ngFor="let item of absoluteCreditQualityAssumptionGroup">
+            <div class="col-xl-6 pl-2" *ngFor="let item of virGroup">
                 <!--begin:: Widgets/Stats2-1 -->
                 <div class="row pb-2">
                     <div class="col-lg-8">
@@ -65,78 +65,12 @@
             </div>
         </div>
     </tab>
-    <tab heading="{{assumptionGroupEnum[assumptionGroupEnum.RelativeCreditQuality] | localize}}">
+    <tab heading="{{eadAssumptionGroupEnum[eadAssumptionGroupEnum.ExchangeRateProjections] | localize}}">
         <!-- <ng-template tabHeading>
             <span class="kt-badge kt-badge--warning kt-badge--inline">2</span>
         </ng-template> -->
         <div class="row">
-            <div class="col-xl-6 pl-2" *ngFor="let item of relativeCreditQualityAssumptionGroup">
-                <!--begin:: Widgets/Stats2-1 -->
-                <div class="row pb-2">
-                    <div class="col-lg-8">
-                        <div class="">
-                            <!-- <h3 class="kt-widget1__title">{{l(assumptionGroupEnum[item.assumptionGroup])}}</h3> -->
-                            <span class="">{{item.inputName}}</span>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <h4 *ngIf="item.dataType !== dataTypeEnum.DoubleMoney && item.dataType !== dataTypeEnum.DoublePercentage"
-                            class="kt-widget1__number kt-font-brand">{{item.value}}
-                        </h4>
-                        <h4 *ngIf="item.dataType == dataTypeEnum.DoublePercentage"
-                            class="kt-widget1__number kt-font-brand">{{item.value | percent:'1.2-2'}}</h4>
-                        <h4 *ngIf="item.dataType == dataTypeEnum.DoubleMoney"
-                            class="kt-widget1__number kt-font-brand">{{item.value | number:'1.0-0'}}</h4>
-                    </div>
-                    <div class="col-lg-1">
-                        <span class="hoverable">
-                            <i class="fa fa-edit"></i>
-                        </span>
-                    </div>
-                </div>
-                <!--end:: Widgets/Stats2-1 -->
-            </div>
-        </div>
-    </tab>
-    <tab heading="{{assumptionGroupEnum[assumptionGroupEnum.ForwardTransitions] | localize}}">
-        <!-- <ng-template tabHeading>
-            <span class="kt-badge kt-badge--warning kt-badge--inline">2</span>
-        </ng-template> -->
-        <div class="row">
-            <div class="col-xl-6 pl-2" *ngFor="let item of forwardTransitionsAssumptionGroup">
-                <!--begin:: Widgets/Stats2-1 -->
-                <div class="row pb-2">
-                    <div class="col-lg-8">
-                        <div class="">
-                            <!-- <h3 class="kt-widget1__title">{{l(assumptionGroupEnum[item.assumptionGroup])}}</h3> -->
-                            <span class="">{{item.inputName}}</span>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <h4 *ngIf="item.dataType !== dataTypeEnum.DoubleMoney && item.dataType !== dataTypeEnum.DoublePercentage"
-                            class="kt-widget1__number kt-font-brand">{{item.value}}
-                        </h4>
-                        <h4 *ngIf="item.dataType == dataTypeEnum.DoublePercentage"
-                            class="kt-widget1__number kt-font-brand">{{item.value | percent:'1.2-2'}}</h4>
-                        <h4 *ngIf="item.dataType == dataTypeEnum.DoubleMoney"
-                            class="kt-widget1__number kt-font-brand">{{item.value | number:'1.0-0'}}</h4>
-                    </div>
-                    <div class="col-lg-1">
-                        <span class="hoverable">
-                            <i class="fa fa-edit"></i>
-                        </span>
-                    </div>
-                </div>
-                <!--end:: Widgets/Stats2-1 -->
-            </div>
-        </div>
-    </tab>
-    <tab heading="{{assumptionGroupEnum[assumptionGroupEnum.BackwardTransitions] | localize}}">
-        <!-- <ng-template tabHeading>
-            <span class="kt-badge kt-badge--warning kt-badge--inline">2</span>
-        </ng-template> -->
-        <div class="row">
-            <div class="col-xl-6 pl-2" *ngFor="let item of backwardTransitionAssumptionGroup">
+            <div class="col-xl-6 pl-2" *ngFor="let item of exchangeRateGroup">
                 <!--begin:: Widgets/Stats2-1 -->
                 <div class="row pb-2">
                     <div class="col-lg-8">

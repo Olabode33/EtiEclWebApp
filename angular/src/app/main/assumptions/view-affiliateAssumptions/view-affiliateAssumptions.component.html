@@ -53,7 +53,7 @@
                         </div>
                     </div>
                     <div *ngIf="item.isActive" class="kt-portlet__body">
-                        <div class="kt-notification" (click)="selectPortfolioAssumption(item.key, assumptionTypeEnum.General)">
+                        <div class="kt-notification hoverable" (click)="selectPortfolioAssumption(item.key, assumptionTypeEnum.General)">
                             <div class="kt-notification__item">
                                 <div class="kt-notification__item-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon kt-svg-icon--brand">
@@ -72,7 +72,7 @@
                             </div>
                         </div>
 
-                        <div class="kt-notification" (click)="selectPortfolioAssumption(item.key, assumptionTypeEnum.EadInputAssumption)">
+                        <div class="kt-notification hoverable" (click)="selectPortfolioAssumption(item.key, assumptionTypeEnum.EadInputAssumption)">
                             <div class="kt-notification__item">
                                 <div class="kt-notification__item-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon kt-svg-icon--brand">
@@ -91,7 +91,7 @@
                             </div>
                         </div>
 
-                        <div class="kt-notification" (click)="selectPortfolioAssumption(item.key, assumptionTypeEnum.LgdInputAssumption)">
+                        <div class="kt-notification hoverable" (click)="selectPortfolioAssumption(item.key, assumptionTypeEnum.LgdInputAssumption)">
                             <div class="kt-notification__item">
                                 <div class="kt-notification__item-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon kt-svg-icon--brand">
@@ -110,7 +110,7 @@
                             </div>
                         </div>
 
-                        <div class="kt-notification" (click)="selectPortfolioAssumption(item.key, assumptionTypeEnum.PdSnPAssumption)">
+                        <div class="kt-notification hoverable" (click)="selectPortfolioAssumption(item.key, assumptionTypeEnum.PdSnPAssumption)">
                             <div class="kt-notification__item">
                                 <div class="kt-notification__item-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -144,10 +144,11 @@
                     <div class="kt-portlet__head">
                         <div class="kt-portlet__head-label">
                             <h3 class="kt-portlet__head-title">
-                                {{ l(frameworkEnum[selectedPortfolio]) + ': ' + l(assumptionTypeEnum[selectedAssumption])}}
+                                <span *ngIf="selectedPortfolio == ''" class="kt-font-danger">{{l('NoAssumptionSelected')}}</span>
+                                <span *ngIf="selectedPortfolio != ''">{{ l(frameworkEnum[selectedPortfolio]) + ': ' + l(assumptionTypeEnum[selectedAssumption])}}</span>
                             </h3>
                         </div>
-                        <div class="kt-portlet__head-toolbar">
+                        <div *ngIf="selectedPortfolio != ''" class="kt-portlet__head-toolbar">
                             <ul class="nav nav-pills nav-pills-sm nav-pills-label nav-pills-bold" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" href="#kt_widget6_tab1_content"
@@ -164,28 +165,9 @@
                         </div>
                     </div>
                     <div class="kt-portlet__body">
-                        <tabset>
-                            <tab heading="{{item.assumptionGroup | localize}}" *ngFor="let item of eadInputAssumptions">
-                                <ng-template tabHeading>
-                                    <span class="kt-badge kt-badge--warning kt-badge--inline">2</span>
-                                </ng-template>
-                                <div class="row">
-                                    <div class="col-lg-6">
-
-                                    </div>
-                                </div>
-                            </tab>
-                            <tab heading="{{'AbsoluteCreditQuality' | localize}}">
-                                <ng-template tabHeading>
-                                    <span class="kt-badge kt-badge--warning kt-badge--inline">2</span>
-                                </ng-template>
-                            </tab>
-                            <tab heading="{{'RelativeCreditQuality' | localize}}">
-                                <ng-template tabHeading>
-                                    <span class="kt-badge kt-badge--warning kt-badge--inline">3</span>
-                                </ng-template>
-                            </tab>
-                        </tabset>
+                        <app-frameworkAssumptions #frameworkAssumptionTag ></app-frameworkAssumptions>
+                        <app-eadInputAssumptions #eadInputAssumptionTag></app-eadInputAssumptions>
+                        <app-lgdInputAssumptions #lgdInputAssumptionTag></app-lgdInputAssumptions>
                     </div>
                 </div>
                 <!--end:: Widgets/Notifications-->

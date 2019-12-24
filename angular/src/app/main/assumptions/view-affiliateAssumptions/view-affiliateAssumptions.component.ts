@@ -14,6 +14,9 @@ import * as moment from 'moment';
 import { AppConsts } from '@shared/AppConsts';
 import { Location } from '@angular/common';
 import { PdInputSnPCummulativeDefaultRatesComponent } from '@app/main/eclShared/pdInputSnPCummulativeDefaultRates/pdInputSnPCummulativeDefaultRates.component';
+import { FrameworkAssumptionsComponent } from '../_subs/frameworkAssumptions/frameworkAssumptions.component';
+import { EadInputAssumptionsComponent } from '../_subs/eadInputAssumptions/eadInputAssumptions.component';
+import { LgdInputAssumptionsComponent } from '../_subs/lgdInputAssumptions/lgdInputAssumptions.component';
 
 @Component({
     selector: 'app-view-affiliateAssumptions',
@@ -23,6 +26,10 @@ import { PdInputSnPCummulativeDefaultRatesComponent } from '@app/main/eclShared/
     animations: [appModuleAnimation()]
 })
 export class ViewAffiliateAssumptionsComponent extends AppComponentBase implements OnInit {
+
+    @ViewChild('frameworkAssumptionTag', {static: true}) frameworkAssumptionTag: FrameworkAssumptionsComponent;
+    @ViewChild('eadInputAssumptionTag', {static: true}) eadInputAssumptionTag: EadInputAssumptionsComponent;
+    @ViewChild('lgdInputAssumptionTag', {static: true}) lgdInputAssumptionTag: LgdInputAssumptionsComponent;
 
     _affiliateId = -1;
 
@@ -104,6 +111,7 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
     toggleAccordion(event, index) {
         let element = event.target;
         element.classList.toggle('active');
+        this.portfolioList = this.portfolioList.map(x => { x.isActive = false; return x; } );
         this.portfolioList[index].isActive = !this.portfolioList[index].isActive;
     }
 
@@ -115,8 +123,14 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
 
     getAffiliateFrameworkAssumption(framework: FrameworkEnum): void {
         this.frameworkAssumptions = new Array<AssumptionDto>();
+        console.log(this._affiliateId, framework);
         this._eclSharedServiceProxy.getAffiliateFrameworkAssumption(this._affiliateId, framework).subscribe(result => {
             this.frameworkAssumptions = result;
+            console.log(result);
+            this.frameworkAssumptionTag.load(this.frameworkAssumptions);
+            //hide others
+            this.eadInputAssumptionTag.hide();
+            this.lgdInputAssumptionTag.hide();
         });
     }
 
@@ -124,6 +138,10 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
         this.eadInputAssumptions = new Array<EadInputAssumptionDto>();
         this._eclSharedServiceProxy.getAffiliateEadAssumption(this._affiliateId, framework).subscribe(result => {
             this.eadInputAssumptions = result;
+            this.eadInputAssumptionTag.load(this.eadInputAssumptions);
+            //hide others
+            this.frameworkAssumptionTag.hide();
+            this.lgdInputAssumptionTag.hide();
         });
     }
 
@@ -131,6 +149,10 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
         this.lgdInputAssumptions = new Array<LgdAssumptionDto>();
         this._eclSharedServiceProxy.getAffiliateLgdAssumption(this._affiliateId, framework).subscribe(result => {
             this.lgdInputAssumptions = result;
+            this.lgdInputAssumptionTag.load(this.lgdInputAssumptions);
+            //hide others
+            this.frameworkAssumptionTag.hide();
+            this.eadInputAssumptionTag.hide();
         });
     }
 

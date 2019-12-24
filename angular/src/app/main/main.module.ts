@@ -73,6 +73,8 @@ import { CreateEditRetailEclComponent } from './retail/createEdit-retailEcl/crea
 import { ViewRetailEclComponent } from './retail/view-retailEcl/view-retailEcl.component';
 import { ApproveEclModalComponent } from './eclShared/approve-ecl-modal/approve-ecl-modal.component';
 import { AffiliateAssumptionComponent } from './assumptions/affiliateAssumption/affiliateAssumption.component';
+import { EadInputAssumptionsComponent } from './assumptions/_subs/eadInputAssumptions/eadInputAssumptions.component';
+import { LgdInputAssumptionsComponent } from './assumptions/_subs/lgdInputAssumptions/lgdInputAssumptions.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -99,6 +101,8 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+        LgdInputAssumptionsComponent,
+        EadInputAssumptionsComponent,
         FrameworkAssumptionsComponent,
         ViewAffiliateAssumptionsComponent,
         AffiliateAssumptionComponent,
