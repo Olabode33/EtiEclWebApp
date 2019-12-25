@@ -17,6 +17,7 @@ import { PdInputSnPCummulativeDefaultRatesComponent } from '@app/main/eclShared/
 import { FrameworkAssumptionsComponent } from '../_subs/frameworkAssumptions/frameworkAssumptions.component';
 import { EadInputAssumptionsComponent } from '../_subs/eadInputAssumptions/eadInputAssumptions.component';
 import { LgdInputAssumptionsComponent } from '../_subs/lgdInputAssumptions/lgdInputAssumptions.component';
+import { PdInputAssumptionsComponent } from '../_subs/pdInputAssumptions/pdInputAssumptions.component';
 
 @Component({
     selector: 'app-view-affiliateAssumptions',
@@ -30,6 +31,7 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
     @ViewChild('frameworkAssumptionTag', {static: true}) frameworkAssumptionTag: FrameworkAssumptionsComponent;
     @ViewChild('eadInputAssumptionTag', {static: true}) eadInputAssumptionTag: EadInputAssumptionsComponent;
     @ViewChild('lgdInputAssumptionTag', {static: true}) lgdInputAssumptionTag: LgdInputAssumptionsComponent;
+    @ViewChild('pdInputAssumptionTag', {static: true}) pdInputAssumptionTag: PdInputAssumptionsComponent;
 
     _affiliateId = -1;
 
@@ -131,6 +133,7 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
             //hide others
             this.eadInputAssumptionTag.hide();
             this.lgdInputAssumptionTag.hide();
+            this.pdInputAssumptionTag.hide();
         });
     }
 
@@ -142,6 +145,7 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
             //hide others
             this.frameworkAssumptionTag.hide();
             this.lgdInputAssumptionTag.hide();
+            this.pdInputAssumptionTag.hide();
         });
     }
 
@@ -153,6 +157,7 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
             //hide others
             this.frameworkAssumptionTag.hide();
             this.eadInputAssumptionTag.hide();
+            this.pdInputAssumptionTag.hide();
         });
     }
 
@@ -171,6 +176,12 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
             this.pdNonInternalModelAssumptions = result.pdInputAssumptionNonInternalModels;
             this.pdNplIndexAssumptions = result.pdInputAssumptionNplIndex;
             this.pdSnpCumulativeDefaultRate = result.pdInputSnPCummulativeDefaultRate;
+            this.pdInputAssumptionTag.load(result);
+            //hide others
+            this.frameworkAssumptionTag.hide();
+            this.eadInputAssumptionTag.hide();
+            this.lgdInputAssumptionTag.hide();
+
         });
     }
 }

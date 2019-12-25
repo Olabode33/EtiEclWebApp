@@ -75,6 +75,7 @@ import { ApproveEclModalComponent } from './eclShared/approve-ecl-modal/approve-
 import { AffiliateAssumptionComponent } from './assumptions/affiliateAssumption/affiliateAssumption.component';
 import { EadInputAssumptionsComponent } from './assumptions/_subs/eadInputAssumptions/eadInputAssumptions.component';
 import { LgdInputAssumptionsComponent } from './assumptions/_subs/lgdInputAssumptions/lgdInputAssumptions.component';
+import { PdInputAssumptionsComponent } from './assumptions/_subs/pdInputAssumptions/pdInputAssumptions.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -101,6 +102,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+        PdInputAssumptionsComponent,
         LgdInputAssumptionsComponent,
         EadInputAssumptionsComponent,
         FrameworkAssumptionsComponent,
