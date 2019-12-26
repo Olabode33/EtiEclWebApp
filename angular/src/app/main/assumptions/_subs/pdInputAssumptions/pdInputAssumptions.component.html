@@ -1,3 +1,4 @@
+<div [busyIf]="loading">
 <tabset *ngIf="displayForm">
     <tab heading="{{'Pd12Months' | localize}}">
         <!-- <ng-template tabHeading>
@@ -50,12 +51,12 @@
             <span class="kt-badge kt-badge--warning kt-badge--inline">2</span>
         </ng-template> -->
         <div class="form-group kt-form__group row">
-            <label for="example-text-input" class="col-lg-2 col-form-label">Rating</label>
+            <label for="example-text-input" class="col-lg-2 col-form-label">{{l('Rating')}}</label>
             <select id="Rating" class="form-control col-lg-4" [(ngModel)]="selectedRating" name="Rating" (ngModelChange)="filterSnPCummulativeDefaultRate()">
                 <option value="">All</option>
                 <option *ngFor="let item of snpRatings" [value]="item">{{item}}</option>
             </select>
-            <label for="example-text-input" class="col-lg-2 col-form-label">Year</label>
+            <label for="example-text-input" class="col-lg-2 col-form-label">{{l('Year')}}</label>
             <select id="Year" class="form-control col-lg-4" [(ngModel)]="selectedYear" name="Year" (ngModelChange)="filterSnPCummulativeDefaultRate()">
                 <option value="-1">All</option>
                 <option *ngFor="let item of snpYears" [value]="item">{{item}}</option>
@@ -80,6 +81,48 @@
                             </span>
                             <span class="kt-widget1__number kt-font-brand">
                                 <span>{{item.value | percent:'1.2-2'}}</span>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </tab>
+    <tab heading="{{'PdInputAssumptionNonInternalModel' | localize}}">
+        <!-- <ng-template tabHeading>
+            <span class="kt-badge kt-badge--warning kt-badge--inline">2</span>
+        </ng-template> -->
+        <div class="form-group kt-form__group row">
+            <label for="example-text-input" class="col-lg-2 col-form-label">{{l('PdGroup')}}</label>
+            <select id="PdGroup" class="form-control col-lg-2" [(ngModel)]="selectedPdGroup" name="PdGroup" (ngModelChange)="filterNonInternalModel()">
+                <option value="">All</option>
+                <option *ngFor="let item of pdGroups" [value]="item">{{item}}</option>
+            </select>
+            <label for="example-text-input" class="col-lg-2 col-form-label">{{l('Month')}}</label>
+            <select id="NonInternalMonth" class="form-control col-lg-2" [(ngModel)]="selectedNonInternalMonth" name="NonInternalMonth" (ngModelChange)="filterNonInternalModel()">
+                <option value="-1">All</option>
+                <option *ngFor="let item of pdMonths" [value]="item">{{item}}</option>
+            </select>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>{{l('PdGroup')}}</th>
+                        <th>{{l('Month')}}</th>
+                        <th>{{l('MarginalDefaultRate')}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of selectedNonInternalModelAssumptions">
+                        <td>{{item.pdGroup}}</td>
+                        <td><span class="text-right">{{item.month}}</span></td>
+                        <td>
+                            <span class="hoverable pull-right">
+                                <i class="fa fa-edit"></i>
+                            </span>
+                            <span class="kt-widget1__number kt-font-brand">
+                                <span>{{item.marginalDefaultRate | percent:'1.2-2'}}</span>
                             </span>
                         </td>
                     </tr>
@@ -175,35 +218,6 @@
             </div>
         </div>
     </tab>
-    <tab heading="{{'PdNonInternalModelAssumptions' | localize}}">
-        <!-- <ng-template tabHeading>
-            <span class="kt-badge kt-badge--warning kt-badge--inline">2</span>
-        </ng-template> -->
-        <div class="row">
-            <div class="col-xl-6 pl-2" *ngFor="let item of pdNonInternalModelAssumptions">
-                <!--begin:: Widgets/Stats2-1 -->
-                <div class="row pb-2">
-                    <div class="col-lg-8">
-                        <div class="">
-                            <!-- <h3 class="kt-widget1__title">{{l(assumptionGroupEnum[item.assumptionGroup])}}</h3> -->
-                            <span class="">{{item.month}}</span>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <h4 class="kt-widget1__number kt-font-brand">
-                            {{item.marginalDefaultRate | percent:'1.2-2'}}
-                        </h4>                        
-                    </div>
-                    <div class="col-lg-1">
-                        <span class="hoverable">
-                            <i class="fa fa-edit"></i>
-                        </span>
-                    </div>
-                </div>
-                <!--end:: Widgets/Stats2-1 -->
-            </div>
-        </div>
-    </tab>
     <tab heading="{{'PdNplIndexAssumptions' | localize}}">
         <!-- <ng-template tabHeading>
             <span class="kt-badge kt-badge--warning kt-badge--inline">2</span>
@@ -235,3 +249,4 @@
     </tab>
     
 </tabset>
+</div>

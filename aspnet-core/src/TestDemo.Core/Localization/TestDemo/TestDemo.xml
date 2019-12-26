@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="Pd12Months">12-months PDs</text>
+  <texts>
+    <text name="MarginalDefaultRate">Marginal Default Rates</text>
+    <text name="Month">Month</text>
+    <text name="PdGroup">PD Group</text>
+    <text name="Pd12Months">12-months PDs</text>
     <text name="UnsecuredRecoveriesCureRate">Cure Rates</text>
     <text name="NoAssumptionSelected">No Assumptions Seleted!</text>
     <text name="ViewAffiliateAssumption">View Assumption</text>
@@ -83,7 +87,7 @@
     <text name="CreateNewPdInputAssumptionStatistical">Create new pd input assumption statistical</text>
     <text name="EditPdInputAssumptionStatistical">Edit pd input assumption statistical</text>
     <text name="DeletePdInputAssumptionStatistical">Delete pd input assumption statistical</text>
-    <text name="PdInputAssumptionNonInternalModel">Pd input assumption non internal model</text>
+    <text name="PdInputAssumptionNonInternalModel">Non Internal Model</text>
     <text name="CreateNewPdInputAssumptionNonInternalModel">Create new pd input assumption non internal model</text>
     <text name="EditPdInputAssumptionNonInternalModel">Edit pd input assumption non internal model</text>
     <text name="DeletePdInputAssumptionNonInternalModel">Delete pd input assumption non internal model</text>
@@ -512,7 +516,7 @@
     <text name="CreateNewPdInputSnPCummulativeDefaultRate">Create new pd input sn p cummulative default rate</text>
     <text name="EditPdInputSnPCummulativeDefaultRate">Edit pd input sn p cummulative default rate</text>
     <text name="DeletePdInputSnPCummulativeDefaultRate">Delete pd input sn p cummulative default rate</text>
-    <text name="PdInputSnPCummulativeDefaultRates">Pd input sn p cummulative default rates</text>
+    <text name="PdInputSnPCummulativeDefaultRates">S&amp;P Cummulative Default Rates</text>
     <text name="{0}IsRequired">{0} is required.</text>
     <text name="Pick">Pick</text>
     <text name="True">True</text>

@@ -389,6 +389,7 @@ namespace TestDemo.EclShared
                                     .Select(x => new PdInputAssumptionNonInternalModelDto
                                     {
                                         Key = x.Assumption.Key,
+                                        PdGroup = x.Assumption.PdGroup,
                                         Month = x.Assumption.Month,
                                         MarginalDefaultRate = x.Assumption.MarginalDefaultRate,
                                         CummulativeSurvival = x.Assumption.CummulativeSurvival,
