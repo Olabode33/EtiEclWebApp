@@ -1,6 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+    <text name="Best">Best</text>
+    <text name="Optimistic">Optimistic</text>
+    <text name="Downturn">Downturn</text>
+    <text name="MacroVariable">Macroeconomic Variables</text>
+    <text name="PdMode"></text>
+    <text name="PdMacroeconomicInput">Macroeconomics</text>
+    <text name="NplActual">Actual</text>
+    <text name="NplStandardized">Standardized</text>
+    <text name="NplSeries">Series</text>
     <text name="MarginalDefaultRate">Marginal Default Rates</text>
     <text name="Month">Month</text>
     <text name="PdGroup">PD Group</text>
@@ -79,7 +88,7 @@
     <text name="CreateNewPdInputAssumptionMacroeconomicProjection">Create new pd input assumption macroeconomic projection</text>
     <text name="EditPdInputAssumptionMacroeconomicProjection">Edit pd input assumption macroeconomic projection</text>
     <text name="DeletePdInputAssumptionMacroeconomicProjection">Delete pd input assumption macroeconomic projection</text>
-    <text name="PdInputAssumptionNplIndex">Pd input assumption npl index</text>
+    <text name="PdInputAssumptionNplIndex">NPL</text>
     <text name="CreateNewPdInputAssumptionNplIndex">Create new pd input assumption npl index</text>
     <text name="EditPdInputAssumptionNplIndex">Edit pd input assumption npl index</text>
     <text name="DeletePdInputAssumptionNplIndex">Delete pd input assumption npl index</text>
@@ -508,7 +517,7 @@
     <text name="EditAssumption">Edit assumption</text>
     <text name="DeleteAssumption">Delete assumption</text>
     <text name="Assumptions">Assumptions</text>
-    <text name="PdInputSnPCummulativeDefaultRate">Pd input sn p cummulative default rate</text>
+    <text name="PdInputSnPCummulativeDefaultRate">S&amp;P Rate</text>
     <text name="Rating">Rating</text>
     <text name="Years">Years</text>
     <text name="Value">Value</text>
@@ -516,7 +525,7 @@
     <text name="CreateNewPdInputSnPCummulativeDefaultRate">Create new pd input sn p cummulative default rate</text>
     <text name="EditPdInputSnPCummulativeDefaultRate">Edit pd input sn p cummulative default rate</text>
     <text name="DeletePdInputSnPCummulativeDefaultRate">Delete pd input sn p cummulative default rate</text>
-    <text name="PdInputSnPCummulativeDefaultRates">S&amp;P Cummulative Default Rates</text>
+    <text name="PdInputSnPCummulativeDefaultRates">S&amp;P Rates</text>
     <text name="{0}IsRequired">{0} is required.</text>
     <text name="Pick">Pick</text>
     <text name="True">True</text>

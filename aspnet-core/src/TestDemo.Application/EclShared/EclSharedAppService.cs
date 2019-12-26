@@ -364,6 +364,7 @@ namespace TestDemo.EclShared
                                     {
                                         AssumptionGroup = x.Assumption.MacroeconomicGroup,
                                         Key = x.Assumption.Key,
+                                        Date = x.Assumption.Date,
                                         InputName = x.Assumption.InputName,
                                         BestValue = x.Assumption.BestValue,
                                         OptimisticValue = x.Assumption.OptimisticValue,
