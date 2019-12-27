@@ -37,6 +37,10 @@
                             </h3>
                         </div>
                         <div class="kt-portlet__head-toolbar">
+                            <button class="btn btn-outline-primary btn-sm btn-pill" >
+                                {{l('ReportingDate')}}: {{item.reportDate | momentFormat: 'll'}}
+                                <i class="fa fa-edit hoverable"></i>
+                            </button>
                             <!-- <ul class="nav nav-pills nav-pills-sm nav-pills-label nav-pills-bold" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" href="#kt_widget6_tab1_content"
@@ -157,7 +161,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#kt_widget6_tab2_content" role="tab">
+                                    <a class="nav-link active" data-toggle="tab" href="#kt_widget6_tab2_content" role="tab">
                                         {{l('ApplyToSelected')}}
                                     </a>
                                 </li>

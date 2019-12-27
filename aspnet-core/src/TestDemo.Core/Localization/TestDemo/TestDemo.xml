@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+    <text name="Projections">Projections</text>
+    <text name="ChangeAffiliate">Change Affiliate</text>
     <text name="Best">Best</text>
     <text name="Optimistic">Optimistic</text>
     <text name="Downturn">Downturn</text>

@@ -37,20 +37,15 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
 
     frameworkEnum = FrameworkEnum;
     assumptionTypeEnum = AssumptionTypeEnum;
-    portfolioList = [{key: FrameworkEnum.Wholesale, isActive: true}, {key: FrameworkEnum.Retail, isActive: false}, {key: FrameworkEnum.OBE, isActive: false}];
+    portfolioList = [
+        {key: FrameworkEnum.Wholesale, isActive: true, reportDate: moment().endOf('month')},
+        {key: FrameworkEnum.Retail, isActive: false, reportDate: moment().endOf('month')},
+        {key: FrameworkEnum.OBE, isActive: false, reportDate: moment().endOf('month')}
+    ];
     selectedAffiliate = '';
     selectedPortfolio = '';
     selectedAssumption = '';
-
-    frameworkAssumptions: AssumptionDto[] = new Array<AssumptionDto>();
-    eadInputAssumptions: EadInputAssumptionDto[] = new Array<EadInputAssumptionDto>();
-    lgdInputAssumptions: LgdAssumptionDto[] = new Array<LgdAssumptionDto>();
-    pdInputAssumptions: PdInputAssumptionDto[] = new Array<PdInputAssumptionDto>();
-    pdMacroeconomicInputAssumptions: PdInputAssumptionMacroeconomicInputDto[] = new Array<PdInputAssumptionMacroeconomicInputDto>();
-    pdMacroeconomicProjectionsAssumptions: PdInputAssumptionMacroeconomicProjectionDto[] = new Array<PdInputAssumptionMacroeconomicProjectionDto>();
-    pdNonInternalModelAssumptions: PdInputAssumptionNonInternalModelDto[] = new Array<PdInputAssumptionNonInternalModelDto>();
-    pdNplIndexAssumptions: PdInputAssumptionNplIndexDto[] = new Array<PdInputAssumptionNplIndexDto>();
-    pdSnpCumulativeDefaultRate: PdInputSnPCummulativeDefaultRateDto[] = new Array<PdInputSnPCummulativeDefaultRateDto>();
+    reportDate = moment().endOf('month');
 
 
     constructor(
@@ -124,12 +119,8 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
     }
 
     getAffiliateFrameworkAssumption(framework: FrameworkEnum): void {
-        this.frameworkAssumptions = new Array<AssumptionDto>();
-        console.log(this._affiliateId, framework);
         this._eclSharedServiceProxy.getAffiliateFrameworkAssumption(this._affiliateId, framework).subscribe(result => {
-            this.frameworkAssumptions = result;
-            console.log(result);
-            this.frameworkAssumptionTag.load(this.frameworkAssumptions);
+            this.frameworkAssumptionTag.load(result);
             //hide others
             this.eadInputAssumptionTag.hide();
             this.lgdInputAssumptionTag.hide();
@@ -138,10 +129,8 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
     }
 
     getAffiliateEadAssumption(framework: FrameworkEnum): void {
-        this.eadInputAssumptions = new Array<EadInputAssumptionDto>();
         this._eclSharedServiceProxy.getAffiliateEadAssumption(this._affiliateId, framework).subscribe(result => {
-            this.eadInputAssumptions = result;
-            this.eadInputAssumptionTag.load(this.eadInputAssumptions);
+            this.eadInputAssumptionTag.load(result);
             //hide others
             this.frameworkAssumptionTag.hide();
             this.lgdInputAssumptionTag.hide();
@@ -150,10 +139,8 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
     }
 
     getAffiliateLgdAssumption(framework: FrameworkEnum): void {
-        this.lgdInputAssumptions = new Array<LgdAssumptionDto>();
         this._eclSharedServiceProxy.getAffiliateLgdAssumption(this._affiliateId, framework).subscribe(result => {
-            this.lgdInputAssumptions = result;
-            this.lgdInputAssumptionTag.load(this.lgdInputAssumptions);
+            this.lgdInputAssumptionTag.load(result);
             //hide others
             this.frameworkAssumptionTag.hide();
             this.eadInputAssumptionTag.hide();
@@ -162,20 +149,7 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
     }
 
     getAffiliatePdAssumption(framework: FrameworkEnum): void {
-        this.pdInputAssumptions = new Array<PdInputAssumptionDto>();
-        this.pdMacroeconomicInputAssumptions = new Array<PdInputAssumptionMacroeconomicInputDto>();
-        this.pdMacroeconomicProjectionsAssumptions = new Array<PdInputAssumptionMacroeconomicProjectionDto>();
-        this.pdNonInternalModelAssumptions = new Array<PdInputAssumptionNonInternalModelDto>();
-        this.pdNplIndexAssumptions = new Array<PdInputAssumptionNplIndexDto>();
-        this.pdSnpCumulativeDefaultRate = new Array<PdInputSnPCummulativeDefaultRateDto>();
-
         this._eclSharedServiceProxy.getAllPdAssumptionsForAffiliate(this._affiliateId, framework).subscribe(result => {
-            this.pdInputAssumptions = result.pdInputAssumption;
-            this.pdMacroeconomicInputAssumptions = result.pdInputAssumptionMacroeconomicInput;
-            this.pdMacroeconomicProjectionsAssumptions = result.pdInputAssumptionMacroeconomicProjections;
-            this.pdNonInternalModelAssumptions = result.pdInputAssumptionNonInternalModels;
-            this.pdNplIndexAssumptions = result.pdInputAssumptionNplIndex;
-            this.pdSnpCumulativeDefaultRate = result.pdInputSnPCummulativeDefaultRate;
             this.pdInputAssumptionTag.load(result);
             //hide others
             this.frameworkAssumptionTag.hide();
