@@ -2,7 +2,7 @@ import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angu
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { TokenAuthServiceProxy, EclSharedServiceProxy, CommonLookupServiceProxy, FrameworkEnum, AssumptionDto, EadInputAssumptionDto, LgdAssumptionDto, AssumptionTypeEnum, PdInputAssumptionDto, PdInputAssumptionMacroeconomicInputDto, PdInputAssumptionMacroeconomicProjectionDto, PdInputAssumptionNonInternalModelDto, PdInputAssumptionNplIndexDto, PdInputSnPCummulativeDefaultRateDto } from '@shared/service-proxies/service-proxies';
+import { TokenAuthServiceProxy, EclSharedServiceProxy, CommonLookupServiceProxy, FrameworkEnum, AssumptionDto, EadInputAssumptionDto, LgdAssumptionDto, AssumptionTypeEnum, PdInputAssumptionDto, PdInputAssumptionMacroeconomicInputDto, PdInputAssumptionMacroeconomicProjectionDto, PdInputAssumptionNonInternalModelDto, PdInputAssumptionNplIndexDto, PdInputSnPCummulativeDefaultRateDto, CreateOrEditAffiliateAssumptionsDto } from '@shared/service-proxies/service-proxies';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { Table } from 'primeng/components/table/table';
 import { Paginator } from 'primeng/components/paginator/paginator';
@@ -18,6 +18,7 @@ import { FrameworkAssumptionsComponent } from '../_subs/frameworkAssumptions/fra
 import { EadInputAssumptionsComponent } from '../_subs/eadInputAssumptions/eadInputAssumptions.component';
 import { LgdInputAssumptionsComponent } from '../_subs/lgdInputAssumptions/lgdInputAssumptions.component';
 import { PdInputAssumptionsComponent } from '../_subs/pdInputAssumptions/pdInputAssumptions.component';
+import { EditPortfolioReportDateComponent } from '../_subs/edit-portfolioReportDate/edit-portfolioReportDate.component';
 
 @Component({
     selector: 'app-view-affiliateAssumptions',
@@ -32,6 +33,7 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
     @ViewChild('eadInputAssumptionTag', {static: true}) eadInputAssumptionTag: EadInputAssumptionsComponent;
     @ViewChild('lgdInputAssumptionTag', {static: true}) lgdInputAssumptionTag: LgdInputAssumptionsComponent;
     @ViewChild('pdInputAssumptionTag', {static: true}) pdInputAssumptionTag: PdInputAssumptionsComponent;
+    @ViewChild('editReportDateModal', {static: true}) editReportDateModal: EditPortfolioReportDateComponent;
 
     _affiliateId = -1;
 
@@ -46,6 +48,7 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
     selectedPortfolio = '';
     selectedAssumption = '';
     reportDate = moment().endOf('month');
+    affiliateAssumption: CreateOrEditAffiliateAssumptionsDto = new CreateOrEditAffiliateAssumptionsDto();
 
 
     constructor(
@@ -66,6 +69,7 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
         this._activatedRoute.paramMap.subscribe(params => {
             this._affiliateId = +params.get('ouId');
             this.getOrganizationUnitName();
+            this.getAffiliateAssumptionSummary();
 
             //let retailEcl = new CreateOrEditRetailEclApprovalDto();
             //retailEcl.retailEclId = this._eclId;
@@ -118,6 +122,15 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
         });
     }
 
+    getAffiliateAssumptionSummary(): void {
+        this._eclSharedServiceProxy.getAffiliateAssumptionForEdit(this._affiliateId).subscribe(result => {
+            this.affiliateAssumption = result;
+            this.portfolioList.find(x => x.key === FrameworkEnum.Wholesale).reportDate = result.lastWholesaleReportingDate;
+            this.portfolioList.find(x => x.key === FrameworkEnum.Retail).reportDate = result.lastRetailReportingDate;
+            this.portfolioList.find(x => x.key === FrameworkEnum.OBE).reportDate = result.lastObeReportingDate;
+        });
+    }
+
     getAffiliateFrameworkAssumption(framework: FrameworkEnum): void {
         this._eclSharedServiceProxy.getAffiliateFrameworkAssumption(this._affiliateId, framework).subscribe(result => {
             this.frameworkAssumptionTag.load(result);
@@ -157,5 +170,14 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
             this.lgdInputAssumptionTag.hide();
 
         });
+    }
+
+    editReportDate(framework: FrameworkEnum): void {
+        this.editReportDateModal.configure({
+            framework: framework,
+            affiliateAssumption: this.affiliateAssumption,
+            affiliateName: this.selectedAffiliate
+        });
+        this.editReportDateModal.show();
     }
 }

@@ -3445,6 +3445,112 @@ export class EclSharedServiceProxy {
         }
         return _observableOf<GetAllPdAssumptionsDto>(<any>null);
     }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    updateAffiliateAssumption(input: CreateOrEditAffiliateAssumptionsDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/EclShared/UpdateAffiliateAssumption";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateAffiliateAssumption(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateAffiliateAssumption(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateAffiliateAssumption(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    getAffiliateAssumptionForEdit(input: number | null | undefined): Observable<CreateOrEditAffiliateAssumptionsDto> {
+        let url_ = this.baseUrl + "/api/services/app/EclShared/GetAffiliateAssumptionForEdit?";
+        if (input !== undefined)
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAffiliateAssumptionForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAffiliateAssumptionForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<CreateOrEditAffiliateAssumptionsDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CreateOrEditAffiliateAssumptionsDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAffiliateAssumptionForEdit(response: HttpResponseBase): Observable<CreateOrEditAffiliateAssumptionsDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? CreateOrEditAffiliateAssumptionsDto.fromJS(resultData200) : new CreateOrEditAffiliateAssumptionsDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CreateOrEditAffiliateAssumptionsDto>(<any>null);
+    }
 }
 
 @Injectable()
@@ -40982,6 +41088,66 @@ export interface IGetAllPdAssumptionsDto {
     pdInputAssumptionNonInternalModels: PdInputAssumptionNonInternalModelDto[] | undefined;
     pdInputAssumptionNplIndex: PdInputAssumptionNplIndexDto[] | undefined;
     pdInputSnPCummulativeDefaultRate: PdInputSnPCummulativeDefaultRateDto[] | undefined;
+}
+
+export class CreateOrEditAffiliateAssumptionsDto implements ICreateOrEditAffiliateAssumptionsDto {
+    lastAssumptionUpdate!: moment.Moment | undefined;
+    lastWholesaleReportingDate!: moment.Moment | undefined;
+    lastRetailReportingDate!: moment.Moment | undefined;
+    lastObeReportingDate!: moment.Moment | undefined;
+    lastSecuritiesReportingDate!: moment.Moment | undefined;
+    organizationUnitId!: number | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditAffiliateAssumptionsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.lastAssumptionUpdate = data["lastAssumptionUpdate"] ? moment(data["lastAssumptionUpdate"].toString()) : <any>undefined;
+            this.lastWholesaleReportingDate = data["lastWholesaleReportingDate"] ? moment(data["lastWholesaleReportingDate"].toString()) : <any>undefined;
+            this.lastRetailReportingDate = data["lastRetailReportingDate"] ? moment(data["lastRetailReportingDate"].toString()) : <any>undefined;
+            this.lastObeReportingDate = data["lastObeReportingDate"] ? moment(data["lastObeReportingDate"].toString()) : <any>undefined;
+            this.lastSecuritiesReportingDate = data["lastSecuritiesReportingDate"] ? moment(data["lastSecuritiesReportingDate"].toString()) : <any>undefined;
+            this.organizationUnitId = data["organizationUnitId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditAffiliateAssumptionsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditAffiliateAssumptionsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lastAssumptionUpdate"] = this.lastAssumptionUpdate ? this.lastAssumptionUpdate.toISOString() : <any>undefined;
+        data["lastWholesaleReportingDate"] = this.lastWholesaleReportingDate ? this.lastWholesaleReportingDate.toISOString() : <any>undefined;
+        data["lastRetailReportingDate"] = this.lastRetailReportingDate ? this.lastRetailReportingDate.toISOString() : <any>undefined;
+        data["lastObeReportingDate"] = this.lastObeReportingDate ? this.lastObeReportingDate.toISOString() : <any>undefined;
+        data["lastSecuritiesReportingDate"] = this.lastSecuritiesReportingDate ? this.lastSecuritiesReportingDate.toISOString() : <any>undefined;
+        data["organizationUnitId"] = this.organizationUnitId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditAffiliateAssumptionsDto {
+    lastAssumptionUpdate: moment.Moment | undefined;
+    lastWholesaleReportingDate: moment.Moment | undefined;
+    lastRetailReportingDate: moment.Moment | undefined;
+    lastObeReportingDate: moment.Moment | undefined;
+    lastSecuritiesReportingDate: moment.Moment | undefined;
+    organizationUnitId: number | undefined;
+    id: string | undefined;
 }
 
 export class ListResultDtoOfEditionListDto implements IListResultDtoOfEditionListDto {

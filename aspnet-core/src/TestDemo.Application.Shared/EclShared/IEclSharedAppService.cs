@@ -25,5 +25,7 @@ namespace TestDemo.EclShared
         Task<List<PdInputAssumptionNplIndexDto>> GetAffiliatePdNplIndexAssumption(GetAffiliateAssumptionInputDto input);
         Task<List<PdInputSnPCummulativeDefaultRateDto>> GetAffiliatePdSnpCummulativeAssumption(GetAffiliateAssumptionInputDto input);
         Task<GetAllPdAssumptionsDto> GetAllPdAssumptionsForAffiliate(GetAffiliateAssumptionInputDto input);
+        Task UpdateAffiliateAssumption(CreateOrEditAffiliateAssumptionsDto input);
+        Task<CreateOrEditAffiliateAssumptionsDto> GetAffiliateAssumptionForEdit(long input);
     }
 }

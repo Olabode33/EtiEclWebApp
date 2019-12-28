@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="Affiliate">Affiliate</text>
+  <texts>
+    <text name="UpdateReportDate">Update Report Date</text>    <text name="EditPortfolioReportDateComponentError">Should call EditPortfolioReportDateComponent.configure once before EditPortfolioReportDateComponent.show!</text>
+    <text name="SubmittedSuccessfully">Submitted Successfully!</text>
+    <text name="SaveReportDateNote">Save report date!</text>
+    <text name="Affiliate">Affiliate</text>
     <text name="LastUpdated">Last Updated</text>
     <text name="LastReportDate">Last Report Date</text>
     <text name="MacroeconomicVariable">Macro-economic variable</text>

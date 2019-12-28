@@ -37,7 +37,7 @@
                             </h3>
                         </div>
                         <div class="kt-portlet__head-toolbar">
-                            <button class="btn btn-outline-primary btn-sm btn-pill" >
+                            <button class="btn btn-outline-primary btn-sm btn-pill" (click)="editReportDate(item.key)">
                                 {{l('ReportingDate')}}: {{item.reportDate | momentFormat: 'll'}}
                                 <i class="fa fa-edit hoverable"></i>
                             </button>
@@ -180,4 +180,6 @@
 
         </div>
     </div>
+
+    <app-edit-portfolioReportDate #editReportDateModal (submitReportDate)="getAffiliateAssumptionSummary()"></app-edit-portfolioReportDate>
 </div>

@@ -79,6 +79,7 @@ import { AffiliateAssumptionComponent } from './assumptions/affiliateAssumption/
 import { EadInputAssumptionsComponent } from './assumptions/_subs/eadInputAssumptions/eadInputAssumptions.component';
 import { LgdInputAssumptionsComponent } from './assumptions/_subs/lgdInputAssumptions/lgdInputAssumptions.component';
 import { PdInputAssumptionsComponent } from './assumptions/_subs/pdInputAssumptions/pdInputAssumptions.component';
+import { EditPortfolioReportDateComponent } from './assumptions/_subs/edit-portfolioReportDate/edit-portfolioReportDate.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -105,8 +106,9 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
-		MacroeconomicVariablesComponent,
-		CreateOrEditMacroeconomicVariableModalComponent,
+        EditPortfolioReportDateComponent,
+        MacroeconomicVariablesComponent,
+        CreateOrEditMacroeconomicVariableModalComponent,
         PdInputAssumptionsComponent,
         LgdInputAssumptionsComponent,
         EadInputAssumptionsComponent,

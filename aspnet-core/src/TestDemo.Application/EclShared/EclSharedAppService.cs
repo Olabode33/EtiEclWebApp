@@ -203,7 +203,7 @@ namespace TestDemo.EclShared
             return assumptions;
         }
 
-        [AbpAuthorize(AppPermissions.Pages_EadInputAssumptions)]
+        [AbpAuthorize(AppPermissions.Pages_AssumptionsUpdate)]
         public async Task<PagedResultDto<GetAllAffiliateAssumptionDto>> GetAllAffiliateAssumption(GetAllForLookupTableInput input)
         {
             var affiliates = _affiliateAssumptions.GetAll().Include(x => x.OrganizationUnitFk)
@@ -466,6 +466,28 @@ namespace TestDemo.EclShared
             output.PdInputSnPCummulativeDefaultRate = await GetAffiliatePdSnpCummulativeAssumption(input);
 
             return output;
+        }
+
+        [AbpAuthorize(AppPermissions.Pages_AssumptionsUpdate)]
+        public async Task UpdateAffiliateAssumption(CreateOrEditAffiliateAssumptionsDto input)
+        {
+            var assumption = await _affiliateAssumptions.FirstOrDefaultAsync((Guid)input.Id);
+            ObjectMapper.Map(input, assumption);
+        }
+
+        public async Task<CreateOrEditAffiliateAssumptionsDto> GetAffiliateAssumptionForEdit(long input)
+        {
+            var assumption = await _affiliateAssumptions.FirstOrDefaultAsync(x => x.OrganizationUnitId == input);
+            return new CreateOrEditAffiliateAssumptionsDto()
+            {
+                Id = assumption.Id,
+                LastAssumptionUpdate = assumption.LastAssumptionUpdate,
+                LastObeReportingDate = assumption.LastObeReportingDate,
+                LastRetailReportingDate = assumption.LastRetailReportingDate,
+                LastSecuritiesReportingDate = assumption.LastSecuritiesReportingDate,
+                LastWholesaleReportingDate = assumption.LastWholesaleReportingDate,
+                OrganizationUnitId = assumption.OrganizationUnitId
+            };
         }
     }
 }
