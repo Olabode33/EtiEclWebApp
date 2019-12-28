@@ -30,6 +30,13 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var macroeconomicVariables = pages.CreateChildPermission(AppPermissions.Pages_MacroeconomicVariables, L("MacroeconomicVariables"));
+            macroeconomicVariables.CreateChildPermission(AppPermissions.Pages_MacroeconomicVariables_Create, L("CreateNewMacroeconomicVariable"));
+            macroeconomicVariables.CreateChildPermission(AppPermissions.Pages_MacroeconomicVariables_Edit, L("EditMacroeconomicVariable"));
+            macroeconomicVariables.CreateChildPermission(AppPermissions.Pages_MacroeconomicVariables_Delete, L("DeleteMacroeconomicVariable"));
+
+
+
             //Final Permissions List
             var assumptionsUpdate = pages.CreateChildPermission(AppPermissions.Pages_AssumptionsUpdate, L("Assumptions"));
 

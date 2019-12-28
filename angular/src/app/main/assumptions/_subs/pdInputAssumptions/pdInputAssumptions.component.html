@@ -168,15 +168,15 @@
             <span class="kt-badge kt-badge--warning kt-badge--inline">2</span>
         </ng-template> -->
         <div class="form-group kt-form__group row">
-            <!-- <label for="example-text-input" class="col-lg-2 col-form-label">{{l('PdGroup')}}</label>
-            <select id="PdGroup" class="form-control col-lg-2" [(ngModel)]="selectedPdGroup" name="PdGroup" (ngModelChange)="filterNonInternalModel()">
-                <option value="">All</option>
-                <option *ngFor="let item of pdGroups" [value]="item">{{item}}</option>
-            </select> -->
-            <label for="example-text-input" class="col-lg-2 col-form-label">{{l('Mode')}}</label>
+            <!-- <label for="example-text-input" class="col-lg-2 col-form-label">{{l('Mode')}}</label>
             <select id="MacroMode" class="form-control col-lg-2" [(ngModel)]="selectedMode" name="MacroMode" (ngModelChange)="filterMacroeconomic()">
                 <option value="">All</option>
                 <option *ngFor="let item of pdModes" [value]="item">{{item}}</option>
+            </select> -->
+            <label for="example-text-input" class="col-lg-4 col-xl-3 col-form-label">{{l('MacroVariable')}}</label>
+            <select id="MacroVariable" class="form-control col-lg-4" [(ngModel)]="selectedMacroeconomicVariable" name="MacroVariable" (ngModelChange)="filterMacroeconomic()">
+                <option value="">All</option>
+                <option *ngFor="let item of pdMacroeconomicVariables" [value]="item.value">{{item.name}}</option>
             </select>
         </div>
         <div class="row">
@@ -193,7 +193,7 @@
                         <tbody>
                             <tr *ngFor="let item of selectedMacroeconomicInputs">
                                 <td>{{item.inputName}}</td>
-                                <td><span class="text-right">{{item.assumptionGroup}}</span></td>
+                                <td><span class="text-right">{{item.macroeconomicVariable}}</span></td>
                                 <td>
                                     <span class="hoverable pull-right">
                                         <i class="fa fa-edit"></i>
@@ -214,15 +214,10 @@
             <span class="kt-badge kt-badge--warning kt-badge--inline">2</span>
         </ng-template> -->
         <div class="form-group kt-form__group row">
-            <!-- <label for="example-text-input" class="col-lg-2 col-form-label">{{l('PdGroup')}}</label>
-            <select id="PdGroup" class="form-control col-lg-2" [(ngModel)]="selectedPdGroup" name="PdGroup" (ngModelChange)="filterNonInternalModel()">
+            <label for="example-text-input" class="col-lg-4 col-xl-3 col-form-label">{{l('MacroVariable')}}</label>
+            <select id="MacroVariable" class="form-control col-lg-4" [(ngModel)]="selectedMacroeconomicVariable" name="MacroVariable" (ngModelChange)="filterMacroeconomicProjection()">
                 <option value="">All</option>
-                <option *ngFor="let item of pdGroups" [value]="item">{{item}}</option>
-            </select> -->
-            <label for="example-text-input" class="col-lg-4 col-xl-2 col-form-label">{{l('MacroVariable')}}</label>
-            <select id="MacroVariable" class="form-control col-lg-2" [(ngModel)]="selectedMacroeconomicVariable" name="MacroVariable" (ngModelChange)="filterMacroeconomicProjection()">
-                <option value="">All</option>
-                <option *ngFor="let item of pdMacroeconomicVariables" [value]="item">{{item}}</option>
+                <option *ngFor="let item of pdMacroeconomicVariables" [value]="item.value">{{item.name}}</option>
             </select>
         </div>
         <div class="row">

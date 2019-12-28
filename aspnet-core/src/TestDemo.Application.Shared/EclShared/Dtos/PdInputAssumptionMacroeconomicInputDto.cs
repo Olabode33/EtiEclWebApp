@@ -9,8 +9,9 @@ namespace TestDemo.EclShared.Dtos
     {
         public string Key { get; set; }
         public string InputName { get; set; }
+        public string MacroeconomicVariable { get; set; }
         public double Value { get; set; }
-        public PdInputAssumptionMacroEconomicInputGroupEnum AssumptionGroup { get; set; }
+        public int AssumptionGroup { get; set; }
         public bool IsComputed { get; set; }
         public bool RequiresGroupApproval { get; set; }
         public bool CanAffiliateEdit { get; set; }

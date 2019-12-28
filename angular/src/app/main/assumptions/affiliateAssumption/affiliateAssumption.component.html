@@ -4,7 +4,7 @@
 
         <div class="kt-subheader__main">
             <h3 class="kt-subheader__title">
-                <span>{{l("Affiliates")}}</span>
+                <span>{{l("AffiliateAssumption")}}</span>
             </h3>
             <span class="kt-subheader__separator kt-subheader__separator--v"></span>
             <span class="kt-subheader__desc">
@@ -13,7 +13,7 @@
         </div>
         <div class="kt-subheader__toolbar">
             <div class="kt-subheader__wrapper">
-
+                <span>{{l("AffiliateAssumptionHeaderInfo")}}</span>
             </div>
         </div>
 
@@ -50,6 +50,10 @@
                             [resizableColumns]="primengTableHelper.resizableColumns">
                             <ng-template pTemplate="header">
                                 <tr>
+                                    <th colspan="3"></th>
+                                    <th colspan="3" class="text-center">{{l('LastReportDate')}}</th>
+                                </tr>
+                                <tr>
                                     <th style="width: 130px"
                                         [hidden]="!isGrantedAny('Pages.Assumption.Affiliates', 'Pages.Assumption.Affiliates')">
                                         {{l('Actions')}}
@@ -63,15 +67,15 @@
                                         <p-sortIcon field="lastAssumptionUpdate"></p-sortIcon>
                                     </th>
                                     <th style="width: 150px" pSortableColumn="lastWholesaleReportingDate">
-                                        {{l('WholesaleLastReportDate')}}
+                                        {{l('Wholesale')}}
                                         <p-sortIcon field="lastWholesaleReportingDate"></p-sortIcon>
                                     </th>
                                     <th style="width: 150px" pSortableColumn="lastRetailReportingDate">
-                                        {{l('RetailLastReportDate')}}
+                                        {{l('Retail')}}
                                         <p-sortIcon field="lastRetailReportingDate"></p-sortIcon>
                                     </th>
                                     <th style="width: 150px" pSortableColumn="lastObeReportingDate">
-                                        {{l('ObeLastReportDate')}}
+                                        {{l('OBE')}}
                                         <p-sortIcon field="lastObeReportingDate"></p-sortIcon>
                                     </th>
                                 </tr>

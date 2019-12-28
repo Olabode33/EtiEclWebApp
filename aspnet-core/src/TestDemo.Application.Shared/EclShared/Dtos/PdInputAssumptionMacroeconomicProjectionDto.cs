@@ -15,7 +15,7 @@ namespace TestDemo.EclShared.Dtos
         public double BestValue { get; set; }
         public double OptimisticValue { get; set; }
         public double DownturnValue { get; set; }
-        public PdInputAssumptionMacroEconomicInputGroupEnum AssumptionGroup { get; set; }
+        public int AssumptionGroup { get; set; }
         public bool IsComputed { get; set; }
         public bool RequiresGroupApproval { get; set; }
         public bool CanAffiliateEdit { get; set; }

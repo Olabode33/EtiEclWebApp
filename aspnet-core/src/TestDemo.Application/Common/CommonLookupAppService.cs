@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
@@ -9,6 +10,7 @@ using Abp.Linq.Extensions;
 using Abp.Organizations;
 using Microsoft.EntityFrameworkCore;
 using TestDemo.Common.Dto;
+using TestDemo.EclShared;
 using TestDemo.Editions;
 using TestDemo.Editions.Dto;
 
@@ -19,11 +21,15 @@ namespace TestDemo.Common
     {
         private readonly EditionManager _editionManager;
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
+        private readonly IRepository<MacroeconomicVariable, int> _macroeconomicVariableRepository;
 
-        public CommonLookupAppService(EditionManager editionManager, IRepository<OrganizationUnit, long> organizationUnitRepository)
+        public CommonLookupAppService(EditionManager editionManager, 
+                                      IRepository<OrganizationUnit, long> organizationUnitRepository,
+                                      IRepository<MacroeconomicVariable, int> macroeconomicVariableRepository)
         {
             _editionManager = editionManager;
             _organizationUnitRepository = organizationUnitRepository;
+            _macroeconomicVariableRepository = macroeconomicVariableRepository;
         }
 
         public async Task<ListResultDto<SubscribableEditionComboboxItemDto>> GetEditionsForCombobox(bool onlyFreeItems = false)
@@ -88,6 +94,16 @@ namespace TestDemo.Common
         {
             var ou = await _organizationUnitRepository.FirstOrDefaultAsync(ouId);
             return ou.DisplayName;
+        }
+
+        public async Task<List<NameValueDto>> GetMacroeconomicVariableList()
+        {
+            return await _macroeconomicVariableRepository.GetAll()
+                                                         .Select(x => new NameValueDto()
+                                                         {
+                                                            Name = x.Name,
+                                                            Value = x.Id.ToString()
+                                                         }).ToListAsync();
         }
     }
 }

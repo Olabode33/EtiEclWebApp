@@ -21,7 +21,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
         public void Create()
         {
             long[] ous = _context.OrganizationUnits.IgnoreQueryFilters().Select(x => x.Id).ToArray();
-
+            CreateMacroeconomicVariable();
             foreach (long ou in ous)
             {
                 Create(ou);
@@ -362,7 +362,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
                         Framework = framework,
                         InputName = names[p],
                         Key = primeLendingkeys[p],
-                        MacroEconomicInputGroup = PdInputAssumptionMacroEconomicInputGroupEnum.StatisticalInputsPrimeLending,
+                        MacroeconomicVariableId = (int)PdInputAssumptionMacroEconomicInputGroupEnum.StatisticalInputsPrimeLending,
                         RequiresGroupApproval = true,
                         IsComputed = true,
                         OrganizationUnitId = ou,
@@ -384,7 +384,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
                         Framework = framework,
                         InputName = names[p],
                         Key = oilexportkeys[p],
-                        MacroEconomicInputGroup = PdInputAssumptionMacroEconomicInputGroupEnum.StatisticalInputsOilExports,
+                        MacroeconomicVariableId = (int)PdInputAssumptionMacroEconomicInputGroupEnum.StatisticalInputsOilExports,
                         RequiresGroupApproval = true,
                         IsComputed = true,
                         OrganizationUnitId = ou,
@@ -406,7 +406,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
                         Framework = framework,
                         InputName = names[p],
                         Key = gdpkeys[p],
-                        MacroEconomicInputGroup = PdInputAssumptionMacroEconomicInputGroupEnum.StatisticalInputsRealGdpGrowthRate,
+                        MacroeconomicVariableId = (int)PdInputAssumptionMacroEconomicInputGroupEnum.StatisticalInputsRealGdpGrowthRate,
                         RequiresGroupApproval = true,
                         IsComputed = true,
                         OrganizationUnitId = ou,
@@ -435,7 +435,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
                 {
                     _context.PdInputAssumptionMacroeconomicProjections.Add(new PdInputAssumptionMacroeconomicProjection()
                     {
-                        MacroeconomicGroup = PdInputAssumptionMacroEconomicInputGroupEnum.ProjectionPrimeLending,
+                        MacroeconomicVariableId = (int)PdInputAssumptionMacroEconomicInputGroupEnum.StatisticalInputsPrimeLending,
                         Key = DefaultPdAssumption.PdAssumptionKey.MacroeconomicProjectionInputsPrimeLendingPrefix + q.ToString(),
                         Date = DateTime.Parse(quarters[q]),
                         InputName = DefaultPdAssumption.InputName.MacroeconomicProjectionPrimeLending,
@@ -470,7 +470,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
                 {
                     _context.PdInputAssumptionMacroeconomicProjections.Add(new PdInputAssumptionMacroeconomicProjection()
                     {
-                        MacroeconomicGroup = PdInputAssumptionMacroEconomicInputGroupEnum.ProjectionOilExports,
+                        MacroeconomicVariableId = (int)PdInputAssumptionMacroEconomicInputGroupEnum.StatisticalInputsOilExports,
                         Key = DefaultPdAssumption.PdAssumptionKey.MacroeconomicProjectionOilExportsPrefix + q.ToString(),
                         Date = DateTime.Parse(quarters[q]),
                         InputName = DefaultPdAssumption.InputName.MacroeconomicProjectionOilExport,
@@ -505,7 +505,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
                 {
                     _context.PdInputAssumptionMacroeconomicProjections.Add(new PdInputAssumptionMacroeconomicProjection()
                     {
-                        MacroeconomicGroup = PdInputAssumptionMacroEconomicInputGroupEnum.ProjectionRealGdpGrowthRate,
+                        MacroeconomicVariableId = (int)PdInputAssumptionMacroEconomicInputGroupEnum.StatisticalInputsRealGdpGrowthRate,
                         Key = DefaultPdAssumption.PdAssumptionKey.MacroeconomicProjectionRealGdpGrowthRatePrefix + q.ToString(),
                         Date = DateTime.Parse(quarters[q]),
                         InputName = DefaultPdAssumption.InputName.MacroeconomicProjectionGdpGrowth,
@@ -540,7 +540,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
                 {
                     _context.PdInputAssumptionMacroeconomicProjections.Add(new PdInputAssumptionMacroeconomicProjection()
                     {
-                        MacroeconomicGroup = PdInputAssumptionMacroEconomicInputGroupEnum.ProjectionDifferencedRealGdpGrowthRate,
+                        MacroeconomicVariableId = 4,
                         Key = DefaultPdAssumption.PdAssumptionKey.MacroeconomicProjectionDifferencedRealGdpGrowthRatePrefix + q.ToString(),
                         Date = DateTime.Parse(quarters[q]),
                         InputName = DefaultPdAssumption.InputName.MacroeconomicProjectionDifferencedGdpGrowth,
@@ -553,6 +553,25 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
                         RequiresGroupApproval = true,
                         Status = GeneralStatusEnum.Approved,
                         IsComputed = false
+                    });
+                    _context.SaveChanges();
+                }
+            }
+        }
+
+        private void CreateMacroeconomicVariable()
+        {
+            string[] macros = new string[] { "Prime Lending Rate (%)", "Oil Exports (USD'm)", "Real GDP Growth Rate (%)", "Differenced Real GDP Growth Rate (%)" };
+
+            for (int i = 0; i < macros.Length; i++)
+            {
+                var c = _context.MacroeconomicVariables.IgnoreQueryFilters().FirstOrDefault(x => x.Name == macros[i]);
+                if (c == null)
+                {
+                    _context.MacroeconomicVariables.Add(new MacroeconomicVariable()
+                    {
+                        Name = macros[i],
+                        Description = macros[i]
                     });
                     _context.SaveChanges();
                 }

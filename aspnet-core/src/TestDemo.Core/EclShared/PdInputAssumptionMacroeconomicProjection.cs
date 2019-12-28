@@ -28,7 +28,9 @@ namespace TestDemo.EclShared
 		
 		public virtual double DownturnValue { get; set; }
 		
-		public virtual PdInputAssumptionMacroEconomicInputGroupEnum MacroeconomicGroup { get; set; }
+		public virtual int MacroeconomicVariableId { get; set; }
+        [ForeignKey("MacroeconomicVariableId")]
+        public virtual MacroeconomicVariable MacroeconomicVariable { get; set; }
 		
 		public virtual bool IsComputed { get; set; }
 		

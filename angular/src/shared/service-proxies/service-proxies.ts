@@ -1876,6 +1876,61 @@ export class CommonLookupServiceProxy {
         }
         return _observableOf<string>(<any>null);
     }
+
+    /**
+     * @return Success
+     */
+    getMacroeconomicVariableList(): Observable<NameValueDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/CommonLookup/GetMacroeconomicVariableList";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetMacroeconomicVariableList(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetMacroeconomicVariableList(<any>response_);
+                } catch (e) {
+                    return <Observable<NameValueDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<NameValueDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetMacroeconomicVariableList(response: HttpResponseBase): Observable<NameValueDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(NameValueDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<NameValueDto[]>(<any>null);
+    }
 }
 
 @Injectable()
@@ -5344,6 +5399,237 @@ export class LgdAssumptionUnsecuredRecoveriesServiceProxy {
      */
     delete(id: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/LgdAssumptionUnsecuredRecoveries/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class MacroeconomicVariablesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetMacroeconomicVariableForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/MacroeconomicVariables/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetMacroeconomicVariableForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetMacroeconomicVariableForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetMacroeconomicVariableForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetMacroeconomicVariableForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetMacroeconomicVariableForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetMacroeconomicVariableForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getMacroeconomicVariableForEdit(id: number | null | undefined): Observable<GetMacroeconomicVariableForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/MacroeconomicVariables/GetMacroeconomicVariableForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetMacroeconomicVariableForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetMacroeconomicVariableForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetMacroeconomicVariableForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetMacroeconomicVariableForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetMacroeconomicVariableForEdit(response: HttpResponseBase): Observable<GetMacroeconomicVariableForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetMacroeconomicVariableForEditOutput.fromJS(resultData200) : new GetMacroeconomicVariableForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetMacroeconomicVariableForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditMacroeconomicVariableDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/MacroeconomicVariables/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/MacroeconomicVariables/Delete?";
         if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -40173,8 +40459,9 @@ export enum PdInputAssumptionGroupEnum {
 export class PdInputAssumptionMacroeconomicInputDto implements IPdInputAssumptionMacroeconomicInputDto {
     key!: string | undefined;
     inputName!: string | undefined;
+    macroeconomicVariable!: string | undefined;
     value!: number | undefined;
-    assumptionGroup!: PdInputAssumptionMacroEconomicInputGroupEnum | undefined;
+    assumptionGroup!: number | undefined;
     isComputed!: boolean | undefined;
     requiresGroupApproval!: boolean | undefined;
     canAffiliateEdit!: boolean | undefined;
@@ -40197,6 +40484,7 @@ export class PdInputAssumptionMacroeconomicInputDto implements IPdInputAssumptio
         if (data) {
             this.key = data["key"];
             this.inputName = data["inputName"];
+            this.macroeconomicVariable = data["macroeconomicVariable"];
             this.value = data["value"];
             this.assumptionGroup = data["assumptionGroup"];
             this.isComputed = data["isComputed"];
@@ -40221,6 +40509,7 @@ export class PdInputAssumptionMacroeconomicInputDto implements IPdInputAssumptio
         data = typeof data === 'object' ? data : {};
         data["key"] = this.key;
         data["inputName"] = this.inputName;
+        data["macroeconomicVariable"] = this.macroeconomicVariable;
         data["value"] = this.value;
         data["assumptionGroup"] = this.assumptionGroup;
         data["isComputed"] = this.isComputed;
@@ -40238,8 +40527,9 @@ export class PdInputAssumptionMacroeconomicInputDto implements IPdInputAssumptio
 export interface IPdInputAssumptionMacroeconomicInputDto {
     key: string | undefined;
     inputName: string | undefined;
+    macroeconomicVariable: string | undefined;
     value: number | undefined;
-    assumptionGroup: PdInputAssumptionMacroEconomicInputGroupEnum | undefined;
+    assumptionGroup: number | undefined;
     isComputed: boolean | undefined;
     requiresGroupApproval: boolean | undefined;
     canAffiliateEdit: boolean | undefined;
@@ -40250,18 +40540,6 @@ export interface IPdInputAssumptionMacroeconomicInputDto {
     id: string | undefined;
 }
 
-export enum PdInputAssumptionMacroEconomicInputGroupEnum {
-    General = 0, 
-    StatisticalInputsPrimeLending = 1, 
-    StatisticalInputsOilExports = 2, 
-    StatisticalInputsRealGdpGrowthRate = 3, 
-    DifferencedRealGdpGrowthRate = 4, 
-    ProjectionPrimeLending = 5, 
-    ProjectionOilExports = 6, 
-    ProjectionRealGdpGrowthRate = 7, 
-    ProjectionDifferencedRealGdpGrowthRate = 8, 
-}
-
 export class PdInputAssumptionMacroeconomicProjectionDto implements IPdInputAssumptionMacroeconomicProjectionDto {
     key!: string | undefined;
     date!: moment.Moment | undefined;
@@ -40269,7 +40547,7 @@ export class PdInputAssumptionMacroeconomicProjectionDto implements IPdInputAssu
     bestValue!: number | undefined;
     optimisticValue!: number | undefined;
     downturnValue!: number | undefined;
-    assumptionGroup!: PdInputAssumptionMacroEconomicInputGroupEnum | undefined;
+    assumptionGroup!: number | undefined;
     isComputed!: boolean | undefined;
     requiresGroupApproval!: boolean | undefined;
     canAffiliateEdit!: boolean | undefined;
@@ -40343,7 +40621,7 @@ export interface IPdInputAssumptionMacroeconomicProjectionDto {
     bestValue: number | undefined;
     optimisticValue: number | undefined;
     downturnValue: number | undefined;
-    assumptionGroup: PdInputAssumptionMacroEconomicInputGroupEnum | undefined;
+    assumptionGroup: number | undefined;
     isComputed: boolean | undefined;
     requiresGroupApproval: boolean | undefined;
     canAffiliateEdit: boolean | undefined;
@@ -43528,6 +43806,210 @@ export interface ICreateOrEditLgdAssumptionUnsecuredRecoveryDto {
     isComputed: boolean | undefined;
     lgdGroup: LdgInputAssumptionGroupEnum | undefined;
     id: string | undefined;
+}
+
+export class PagedResultDtoOfGetMacroeconomicVariableForViewDto implements IPagedResultDtoOfGetMacroeconomicVariableForViewDto {
+    totalCount!: number | undefined;
+    items!: GetMacroeconomicVariableForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetMacroeconomicVariableForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetMacroeconomicVariableForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetMacroeconomicVariableForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetMacroeconomicVariableForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetMacroeconomicVariableForViewDto {
+    totalCount: number | undefined;
+    items: GetMacroeconomicVariableForViewDto[] | undefined;
+}
+
+export class GetMacroeconomicVariableForViewDto implements IGetMacroeconomicVariableForViewDto {
+    macroeconomicVariable!: MacroeconomicVariableDto | undefined;
+
+    constructor(data?: IGetMacroeconomicVariableForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.macroeconomicVariable = data["macroeconomicVariable"] ? MacroeconomicVariableDto.fromJS(data["macroeconomicVariable"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetMacroeconomicVariableForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetMacroeconomicVariableForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["macroeconomicVariable"] = this.macroeconomicVariable ? this.macroeconomicVariable.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetMacroeconomicVariableForViewDto {
+    macroeconomicVariable: MacroeconomicVariableDto | undefined;
+}
+
+export class MacroeconomicVariableDto implements IMacroeconomicVariableDto {
+    name!: string | undefined;
+    id!: number | undefined;
+
+    constructor(data?: IMacroeconomicVariableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): MacroeconomicVariableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new MacroeconomicVariableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IMacroeconomicVariableDto {
+    name: string | undefined;
+    id: number | undefined;
+}
+
+export class GetMacroeconomicVariableForEditOutput implements IGetMacroeconomicVariableForEditOutput {
+    macroeconomicVariable!: CreateOrEditMacroeconomicVariableDto | undefined;
+
+    constructor(data?: IGetMacroeconomicVariableForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.macroeconomicVariable = data["macroeconomicVariable"] ? CreateOrEditMacroeconomicVariableDto.fromJS(data["macroeconomicVariable"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetMacroeconomicVariableForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetMacroeconomicVariableForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["macroeconomicVariable"] = this.macroeconomicVariable ? this.macroeconomicVariable.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetMacroeconomicVariableForEditOutput {
+    macroeconomicVariable: CreateOrEditMacroeconomicVariableDto | undefined;
+}
+
+export class CreateOrEditMacroeconomicVariableDto implements ICreateOrEditMacroeconomicVariableDto {
+    name!: string | undefined;
+    description!: string | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditMacroeconomicVariableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.description = data["description"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditMacroeconomicVariableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditMacroeconomicVariableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["description"] = this.description;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditMacroeconomicVariableDto {
+    name: string | undefined;
+    description: string | undefined;
+    id: number | undefined;
 }
 
 export enum UserNotificationState {

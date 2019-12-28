@@ -6,6 +6,11 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_MacroeconomicVariables = "Pages.MacroeconomicVariables";
+        public const string Pages_MacroeconomicVariables_Create = "Pages.MacroeconomicVariables.Create";
+        public const string Pages_MacroeconomicVariables_Edit = "Pages.MacroeconomicVariables.Edit";
+        public const string Pages_MacroeconomicVariables_Delete = "Pages.MacroeconomicVariables.Delete";
+
         //Final 
         public const string Pages_AssumptionsUpdate = "Pages.Assumption.Affiliates";
 

@@ -1,7 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>
-    <text name="Projections">Projections</text>
+  <texts>    <text name="Affiliate">Affiliate</text>
+    <text name="LastUpdated">Last Updated</text>
+    <text name="LastReportDate">Last Report Date</text>
+    <text name="MacroeconomicVariable">Macro-economic variable</text>
+    <text name="Description">Description</text>
+    <text name="MacroeconomicVariablesHeaderInfo">Manage list of macroeconomic variables</text>
+    <text name="CreateNewMacroeconomicVariable">New</text>
+    <text name="EditMacroeconomicVariable">Edit</text>
+    <text name="DeleteMacroeconomicVariable">Delete</text>
+    <text name="MacroeconomicVariables">Macro-economic variables</text>
+    <text name="AffiliateAssumption">Affiliates</text>
+    <text name="AffiliateAssumptionHeaderInfo">Manage affilate's assumptions</text>
+    <text name="PdMacroeconomicProjection">Projections</text>
     <text name="ChangeAffiliate">Change Affiliate</text>
     <text name="Best">Best</text>
     <text name="Optimistic">Optimistic</text>

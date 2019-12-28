@@ -333,14 +333,15 @@ namespace TestDemo.EclShared
 
         public async Task<List<PdInputAssumptionMacroeconomicInputDto>> GetAffiliatePdMacroeconomicInputAssumption(GetAffiliateAssumptionInputDto input)
         {
-            var assumptions = await _pdAssumptionMacroEcoInputRepository.GetAll()
+            var assumptions = await _pdAssumptionMacroEcoInputRepository.GetAll().Include(x => x.MacroeconomicVariable)
                                     .Join(_lookup_userRepository.GetAll(), a => a.LastModifierUserId, u => u.Id, (a, u) => new { Assumption = a, User = u })
                                     .Where(x => x.Assumption.Framework == input.Framework && x.Assumption.OrganizationUnitId == input.AffiliateOuId)
                                     .Select(x => new PdInputAssumptionMacroeconomicInputDto
                                     {
-                                        AssumptionGroup = x.Assumption.MacroEconomicInputGroup,
+                                        AssumptionGroup = x.Assumption.MacroeconomicVariableId,
                                         Key = x.Assumption.Key,
                                         InputName = x.Assumption.InputName,
+                                        MacroeconomicVariable = x.Assumption.MacroeconomicVariable == null ? "" : x.Assumption.MacroeconomicVariable.Name,
                                         Value = x.Assumption.Value,
                                         IsComputed = x.Assumption.IsComputed,
                                         RequiresGroupApproval = x.Assumption.RequiresGroupApproval,
@@ -362,10 +363,10 @@ namespace TestDemo.EclShared
                                     .Where(x => x.Assumption.Framework == input.Framework && x.Assumption.OrganizationUnitId == input.AffiliateOuId)
                                     .Select(x => new PdInputAssumptionMacroeconomicProjectionDto
                                     {
-                                        AssumptionGroup = x.Assumption.MacroeconomicGroup,
+                                        AssumptionGroup = x.Assumption.MacroeconomicVariableId,
                                         Key = x.Assumption.Key,
                                         Date = x.Assumption.Date,
-                                        InputName = x.Assumption.InputName,
+                                        InputName = x.Assumption.MacroeconomicVariable != null ? x.Assumption.MacroeconomicVariable.Name : "",
                                         BestValue = x.Assumption.BestValue,
                                         OptimisticValue = x.Assumption.OptimisticValue,
                                         DownturnValue = x.Assumption.DownturnValue,

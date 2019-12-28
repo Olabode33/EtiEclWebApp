@@ -22,7 +22,9 @@ namespace TestDemo.EclShared
 		
 		public virtual double Value { get; set; }
 		
-		public virtual PdInputAssumptionMacroEconomicInputGroupEnum MacroEconomicInputGroup { get; set; }
+		public virtual int MacroeconomicVariableId { get; set; }
+        [ForeignKey("MacroeconomicVariableId")]
+        public MacroeconomicVariable MacroeconomicVariable { get; set; }
 		
 		public virtual bool IsComputed { get; set; }
 

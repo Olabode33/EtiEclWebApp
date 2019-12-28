@@ -1,5 +1,5 @@
 import { filter } from 'rxjs/operators';
-import { PdInputAssumptionGroupEnum, GetAllPdAssumptionsDto, PdInputAssumptionDto, PdInputAssumptionMacroeconomicInputDto, PdInputAssumptionMacroeconomicProjectionDto, PdInputAssumptionNonInternalModelDto, PdInputAssumptionNplIndexDto, PdInputSnPCummulativeDefaultRateDto, DataTypeEnum } from './../../../../../shared/service-proxies/service-proxies';
+import { PdInputAssumptionGroupEnum, GetAllPdAssumptionsDto, PdInputAssumptionDto, PdInputAssumptionMacroeconomicInputDto, PdInputAssumptionMacroeconomicProjectionDto, PdInputAssumptionNonInternalModelDto, PdInputAssumptionNplIndexDto, PdInputSnPCummulativeDefaultRateDto, DataTypeEnum, NameValueDto, CommonLookupServiceProxy } from './../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, Injector } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 
@@ -43,7 +43,7 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
     //Macroeconomics
     pdMacroeconomicInputAssumptions: PdInputAssumptionMacroeconomicInputDto[] = new Array<PdInputAssumptionMacroeconomicInputDto>();
     pdMacroeconomicProjectionsAssumptions: PdInputAssumptionMacroeconomicProjectionDto[] = new Array<PdInputAssumptionMacroeconomicProjectionDto>();
-    pdMacroeconomicVariables: String[] = new Array(); //Change to MacroVariable entity
+    pdMacroeconomicVariables: NameValueDto[] = new Array(); //Change to MacroVariable entity
     pdModes: String[] = new Array();
     selectedMode = '';
     selectedMacroeconomicVariable = '';
@@ -53,9 +53,13 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
     dataTypeEnum = DataTypeEnum;
 
     constructor(
-        injector: Injector
+        injector: Injector,
+        _commonLookupServiceProxy: CommonLookupServiceProxy
     ) {
         super(injector);
+        _commonLookupServiceProxy.getMacroeconomicVariableList().subscribe(result => {
+            this.pdMacroeconomicVariables = result;
+        });
     }
 
     load(assumptions: GetAllPdAssumptionsDto): void {
@@ -103,7 +107,6 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
     }
 
     extractMacroeconomic(): void {
-        this.pdMacroeconomicVariables = Array.from(new Set(this.pdMacroeconomicProjectionsAssumptions.map((i) => i.inputName)));
         this.pdModes =  Array.from(new Set(this.pdMacroeconomicInputAssumptions.map((i) => i.inputName)));
         this.selectedMacroeconomicInputs = this.pdMacroeconomicInputAssumptions;
         this.selectedMacroeconomicProjections = this.pdMacroeconomicProjectionsAssumptions;
@@ -136,7 +139,7 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
 
     filterMacroeconomicProjection(): void {
         if (this.selectedMacroeconomicVariable !== '') {
-            this.selectedMacroeconomicProjections = this.pdMacroeconomicProjectionsAssumptions.filter(x => x.inputName === this.selectedMacroeconomicVariable);
+            this.selectedMacroeconomicProjections = this.pdMacroeconomicProjectionsAssumptions.filter(x => x.assumptionGroup.toString() === this.selectedMacroeconomicVariable);
             //this.selectedMacroeconomicInputs = this.pdMacroeconomicInputAssumptions.filter(x => x.inputName === this.selectedMacroeconomicVariable);
         } else {
             this.selectedMacroeconomicProjections = this.pdMacroeconomicProjectionsAssumptions;
@@ -145,9 +148,13 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
     }
 
     filterMacroeconomic(): void {
-        if (this.selectedMode !== '') {
+        if (this.selectedMode !== '' && this.selectedMacroeconomicVariable !== '') {
             //this.selectedMacroeconomicProjections = this.pdMacroeconomicProjectionsAssumptions.filter(x => x.inputName === this.selectedMacroeconomicVariable);
+            this.selectedMacroeconomicInputs = this.pdMacroeconomicInputAssumptions.filter(x => x.inputName === this.selectedMode && x.assumptionGroup.toString() === this.selectedMacroeconomicVariable);
+        } else if (this.selectedMode !== '' && this.selectedMacroeconomicVariable === '') {
             this.selectedMacroeconomicInputs = this.pdMacroeconomicInputAssumptions.filter(x => x.inputName === this.selectedMode);
+        } else if (this.selectedMode === '' && this.selectedMacroeconomicVariable !== '') {
+            this.selectedMacroeconomicInputs = this.pdMacroeconomicInputAssumptions.filter(x => x.assumptionGroup.toString() === this.selectedMacroeconomicVariable);
         } else {
             //this.selectedMacroeconomicProjections = this.pdMacroeconomicProjectionsAssumptions;
             this.selectedMacroeconomicInputs = this.pdMacroeconomicInputAssumptions;

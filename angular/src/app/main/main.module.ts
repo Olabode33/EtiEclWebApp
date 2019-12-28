@@ -2,6 +2,9 @@
 import { ViewAffiliateAssumptionsComponent } from './assumptions/view-affiliateAssumptions/view-affiliateAssumptions.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MacroeconomicVariablesComponent } from './eclShared/macroeconomicVariables/macroeconomicVariables.component';
+import { CreateOrEditMacroeconomicVariableModalComponent } from './eclShared/macroeconomicVariables/create-or-edit-macroeconomicVariable-modal.component';
+
 import { FormsModule } from '@angular/forms';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
 
@@ -102,6 +105,8 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+		MacroeconomicVariablesComponent,
+		CreateOrEditMacroeconomicVariableModalComponent,
         PdInputAssumptionsComponent,
         LgdInputAssumptionsComponent,
         EadInputAssumptionsComponent,

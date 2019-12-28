@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestDemo.EntityFrameworkCore;
 
 namespace TestDemo.Migrations
 {
     [DbContext(typeof(TestDemoDbContext))]
-    partial class TestDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191227130110_Added_MacroeconomicVariable")]
+    partial class Added_MacroeconomicVariable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1399,7 +1401,7 @@ namespace TestDemo.Migrations
 
                     b.Property<long?>("LastModifierUserId");
 
-                    b.Property<int>("MacroeconomicVariableId");
+                    b.Property<int>("MacroEconomicInputGroup");
 
                     b.Property<long>("OrganizationUnitId");
 
@@ -1410,8 +1412,6 @@ namespace TestDemo.Migrations
                     b.Property<double>("Value");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MacroeconomicVariableId");
 
                     b.ToTable("PdInputAssumptionMacroeconomicInputs");
                 });
@@ -1451,7 +1451,7 @@ namespace TestDemo.Migrations
 
                     b.Property<long?>("LastModifierUserId");
 
-                    b.Property<int>("MacroeconomicVariableId");
+                    b.Property<int>("MacroeconomicGroup");
 
                     b.Property<double>("OptimisticValue");
 
@@ -1462,8 +1462,6 @@ namespace TestDemo.Migrations
                     b.Property<int>("Status");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MacroeconomicVariableId");
 
                     b.ToTable("PdInputAssumptionMacroeconomicProjections");
                 });
@@ -7057,22 +7055,6 @@ namespace TestDemo.Migrations
                     b.HasOne("Abp.Organizations.OrganizationUnit", "OrganizationUnitFk")
                         .WithMany()
                         .HasForeignKey("OrganizationUnitId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("TestDemo.EclShared.PdInputAssumptionMacroeconomicInput", b =>
-                {
-                    b.HasOne("TestDemo.EclShared.MacroeconomicVariable", "MacroeconomicVariable")
-                        .WithMany()
-                        .HasForeignKey("MacroeconomicVariableId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("TestDemo.EclShared.PdInputAssumptionMacroeconomicProjection", b =>
-                {
-                    b.HasOne("TestDemo.EclShared.MacroeconomicVariable", "MacroeconomicVariable")
-                        .WithMany()
-                        .HasForeignKey("MacroeconomicVariableId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

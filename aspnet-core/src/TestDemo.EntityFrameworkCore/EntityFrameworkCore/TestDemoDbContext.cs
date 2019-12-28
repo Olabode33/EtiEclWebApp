@@ -38,6 +38,8 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<MacroeconomicVariable> MacroeconomicVariables { get; set; }
+
         public virtual DbSet<AffiliateAssumption> AffiliateAssumptions { get; set; }
 
         public virtual DbSet<ObeEclPdAssumptionNonInternalModel> ObeEclPdAssumptionNonInternalModels { get; set; }
