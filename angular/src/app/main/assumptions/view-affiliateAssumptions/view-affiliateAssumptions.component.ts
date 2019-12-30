@@ -134,7 +134,7 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
 
     getAffiliateFrameworkAssumption(framework: FrameworkEnum): void {
         this._eclSharedServiceProxy.getAffiliateFrameworkAssumption(this._affiliateId, framework).subscribe(result => {
-            this.frameworkAssumptionTag.load(result);
+            this.frameworkAssumptionTag.load(result, this.selectedAffiliate, framework);
             //hide others
             this.eadInputAssumptionTag.hide();
             this.lgdInputAssumptionTag.hide();
@@ -154,7 +154,7 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
 
     getAffiliateLgdAssumption(framework: FrameworkEnum): void {
         this._eclSharedServiceProxy.getAffiliateLgdAssumption(this._affiliateId, framework).subscribe(result => {
-            this.lgdInputAssumptionTag.load(result);
+            this.lgdInputAssumptionTag.load(result, this.selectedAffiliate, framework);
             //hide others
             this.frameworkAssumptionTag.hide();
             this.eadInputAssumptionTag.hide();

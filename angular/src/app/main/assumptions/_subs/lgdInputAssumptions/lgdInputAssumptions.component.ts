@@ -1,6 +1,7 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { LgdAssumptionDto, LdgInputAssumptionGroupEnum, DataTypeEnum } from '@shared/service-proxies/service-proxies';
+import { LgdAssumptionDto, LdgInputAssumptionGroupEnum, DataTypeEnum, FrameworkEnum, LgdAssumptionUnsecuredRecoveriesServiceProxy, AssumptionTypeEnum } from '@shared/service-proxies/service-proxies';
+import { EditAssumptionModalComponent } from '../edit-assumption-modal/edit-assumption-modal.component';
 
 @Component({
   selector: 'app-lgdInputAssumptions',
@@ -8,6 +9,8 @@ import { LgdAssumptionDto, LdgInputAssumptionGroupEnum, DataTypeEnum } from '@sh
   styleUrls: ['./lgdInputAssumptions.component.css']
 })
 export class LgdInputAssumptionsComponent extends AppComponentBase {
+
+    @ViewChild('editAssumptionModal', {static: true}) editAssumptionModal: EditAssumptionModalComponent;
 
     displayForm = false;
 
@@ -23,14 +26,20 @@ export class LgdInputAssumptionsComponent extends AppComponentBase {
     dataTypeEnum = DataTypeEnum;
     lgdAssumptionGroupEnum = LdgInputAssumptionGroupEnum;
 
+    affiliateName = '';
+    affiliateFramework: FrameworkEnum;
+
     constructor(
-        injector: Injector
+        injector: Injector,
+        private _lgdInputAssumptionServiceProxy: LgdAssumptionUnsecuredRecoveriesServiceProxy
     ) {
         super(injector);
     }
 
-    load(assumptions: LgdAssumptionDto[]): void {
+    load(assumptions: LgdAssumptionDto[], affiliateName?: string, framework?: FrameworkEnum): void {
         this.lgdInputAssumptions = assumptions;
+        this.affiliateName = affiliateName;
+        this.affiliateFramework = framework;
         this.extractLgdAssumptionGroups();
         this.displayForm = true;
     }
@@ -47,6 +56,18 @@ export class LgdInputAssumptionsComponent extends AppComponentBase {
 
     hide(): void {
         this.displayForm = false;
+    }
+
+    editAssumption(lgdInput: LgdAssumptionDto, groupKey: string): void {
+        this.editAssumptionModal.configure({
+            framework: this.affiliateFramework,
+            affiliateName: this.affiliateName,
+            dataSource: lgdInput,
+            serviceProxy: this._lgdInputAssumptionServiceProxy,
+            assumptionGroup: this.l(groupKey),
+            assumption: AssumptionTypeEnum.LgdInputAssumption
+        });
+        this.editAssumptionModal.show();
     }
 
 }

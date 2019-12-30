@@ -1,6 +1,7 @@
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { Component, OnInit, Injector, ViewChild } from '@angular/core';
-import { AssumptionDto, AssumptionGroupEnum, DataTypeEnum } from '@shared/service-proxies/service-proxies';
+import { AssumptionDto, AssumptionGroupEnum, DataTypeEnum, FrameworkEnum, AssumptionTypeEnum, AssumptionsServiceProxy } from '@shared/service-proxies/service-proxies';
+import { EditAssumptionModalComponent } from '../edit-assumption-modal/edit-assumption-modal.component';
 
 @Component({
   selector: 'app-frameworkAssumptions',
@@ -8,6 +9,8 @@ import { AssumptionDto, AssumptionGroupEnum, DataTypeEnum } from '@shared/servic
   styleUrls: ['./frameworkAssumptions.component.css']
 })
 export class FrameworkAssumptionsComponent extends AppComponentBase {
+
+    @ViewChild('editAssumptionModal', {static: true}) editAssumptionModal: EditAssumptionModalComponent;
 
     displayForm = false;
 
@@ -22,14 +25,20 @@ export class FrameworkAssumptionsComponent extends AppComponentBase {
     assumptionGroupEnum = AssumptionGroupEnum;
     dataTypeEnum = DataTypeEnum;
 
+    affiliateName = '';
+    affiliateFramework: FrameworkEnum;
+
     constructor(
-        injector: Injector
+        injector: Injector,
+        private _assumptionInputServiceProxy: AssumptionsServiceProxy
     ) {
         super(injector);
     }
 
-    load(assumptions: AssumptionDto[]): void {
+    load(assumptions: AssumptionDto[], affiliateName?: string, framework?: FrameworkEnum): void {
         this.frameworkAssumptions = assumptions;
+        this.affiliateName = affiliateName;
+        this.affiliateFramework = framework;
         this.extractGeneralAssumptionGroups();
         this.displayForm = true;
     }
@@ -46,6 +55,18 @@ export class FrameworkAssumptionsComponent extends AppComponentBase {
 
     hide(): void {
         this.displayForm = false;
+    }
+
+    editAssumption(frameworkInput: AssumptionDto, groupKey: string): void {
+        this.editAssumptionModal.configure({
+            framework: this.affiliateFramework,
+            affiliateName: this.affiliateName,
+            dataSource: frameworkInput,
+            serviceProxy: this._assumptionInputServiceProxy,
+            assumptionGroup: this.l(groupKey),
+            assumption: AssumptionTypeEnum.General
+        });
+        this.editAssumptionModal.show();
     }
 
 }
