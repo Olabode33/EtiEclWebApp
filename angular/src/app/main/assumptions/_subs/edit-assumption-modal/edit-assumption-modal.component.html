@@ -1,0 +1,54 @@
+<div bsModal #editAssumptionModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal"
+     (onShown)="shown()"
+     aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    {{affiliateName}}: {{l('EditAssumption')}}
+                </h4>
+                <button type="button" class="close" (click)="close()" [attr.aria-label]="l('Close')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4>{{l(frameworkEnum[affiliateFramework])}}</h4>
+                <p class="lead">{{l(assumptionTypeEnum[selectedAssumption])}} <br><b>{{assumptionGroup}}</b></p>
+                <form novalidate (ngSubmit)="save()">
+                    <div class=" mb-4">
+                        <label *ngIf="hasProp('inputName')" class="control-label">{{dataSource.inputName}}</label>
+                        <input *ngIf="hasProp('value')"  required class="form-control m-input col-md-4" type="text"
+                            [(ngModel)]="dataSource.value" id="AssumptionValue" name="AssumptionValue">
+                        <span *ngIf="hasProp('isComputed') && dataSource.isComputed" class="help-block">{{l('IsComputedNote')}}</span>
+                    </div>
+                    <!-- <div class="mb-4">
+                        <div *ngIf="hasProp('canAffiliateEdit')" class="kt-checkbox-list">
+                            <label class="kt-checkbox">
+                                <input id="CanAffiliateEdit" name="CanAffiliateEdit" type="checkbox" [(ngModel)]="dataSource.canAffiliateEdit"  class="ng-valid ng-dirty ng-touched"> 
+                                {{l('CanAffiliateEdit')}} 
+                                <span></span>
+                            </label>
+                            <br>
+                            <label *ngIf="hasProp('requiresGroupApproval') && dataSource.canAffiliateEdit" class="kt-checkbox">
+                                <input id="RequiresGroupApproval" name="RequiresGroupApproval" type="checkbox" [(ngModel)]="dataSource.requiresGroupApproval"   class="ng-valid ng-dirty ng-touched"> 
+                                {{l('RequiresGroupApproval')}} 
+                                <span></span>
+                            </label>
+                        </div>
+                    </div> -->
+                </form>
+                <hr>
+                <p *ngIf="hasProp('lastUpdated') && hasProp('lastUpdatedBy')">
+                    {{l('LastUpdated')}}: <b>{{dataSource.lastUpdated | momentFormat: 'll'}}</b> | {{l('By')}}: <b>{{dataSource.lastUpdatedBy}}</b></p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" (click)="save()">
+                    <i class="fa fa-check"></i>
+                    {{"SubmitForApproval" | localize}}
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>

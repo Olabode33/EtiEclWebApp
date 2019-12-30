@@ -19,6 +19,7 @@ import { EadInputAssumptionsComponent } from '../_subs/eadInputAssumptions/eadIn
 import { LgdInputAssumptionsComponent } from '../_subs/lgdInputAssumptions/lgdInputAssumptions.component';
 import { PdInputAssumptionsComponent } from '../_subs/pdInputAssumptions/pdInputAssumptions.component';
 import { EditPortfolioReportDateComponent } from '../_subs/edit-portfolioReportDate/edit-portfolioReportDate.component';
+import { EditAssumptionModalComponent } from '../_subs/edit-assumption-modal/edit-assumption-modal.component';
 
 @Component({
     selector: 'app-view-affiliateAssumptions',
@@ -143,7 +144,7 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
 
     getAffiliateEadAssumption(framework: FrameworkEnum): void {
         this._eclSharedServiceProxy.getAffiliateEadAssumption(this._affiliateId, framework).subscribe(result => {
-            this.eadInputAssumptionTag.load(result);
+            this.eadInputAssumptionTag.load(result, this.selectedAffiliate, framework);
             //hide others
             this.frameworkAssumptionTag.hide();
             this.lgdInputAssumptionTag.hide();

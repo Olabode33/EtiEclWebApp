@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
-    <text name="UpdateReportDate">Update Report Date</text>    <text name="EditPortfolioReportDateComponentError">Should call EditPortfolioReportDateComponent.configure once before EditPortfolioReportDateComponent.show!</text>
+    <text name="By">By</text>    <text name="IsComputedNote">This value comes from the calibration result</text>    <text name="SubmitForApproval">Submit for approval</text>    <text name="EditAssumptionNote">Edit Assumption Note</text>    <text name="UpdateReportDate">Update Report Date</text>    <text name="EditAssumptionDateComponentError">Should call EditAssumptionsModalComponent.configure once before EditAssumptionsModalComponent.show!</text>
+    <text name="EditPortfolioReportDateComponentError">Should call EditPortfolioReportDateComponent.configure once before EditPortfolioReportDateComponent.show!</text>
     <text name="SubmittedSuccessfully">Submitted Successfully!</text>
     <text name="SaveReportDateNote">Save report date!</text>
     <text name="Affiliate">Affiliate</text>
