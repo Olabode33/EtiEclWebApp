@@ -15,11 +15,79 @@
                 <h4>{{l(frameworkEnum[affiliateFramework])}}</h4>
                 <p class="lead">{{l(assumptionTypeEnum[selectedAssumption])}} <br><b>{{assumptionGroup}}</b></p>
                 <form novalidate (ngSubmit)="save()">
-                    <div class=" mb-4">
+                    <!-- Begin PD Assumptions -->
+                    <div *ngIf="assumptionGroup === l('SnPMappingEtiCreditPolicy')"  class="mb-4">
+                        <label *ngIf="hasProp('inputName')" class="control-label">{{l('Credit')}}: {{dataSource.inputName}}</label>
+                        <select *ngIf="hasProp('value')" class="form-control m-input col-md-4"
+                                [(ngModel)]="dataSource.value" id="AssumptionValue" name="AssumptionValue">
+                            <option value="">-- {{l('Select')}} --</option>
+                            <option value="AAA">AAA</option>
+                            <option value="AA">AA</option>
+                            <option value="A">A</option>
+                            <option value="BBB">BBB</option>
+                            <option value="BB">BB</option>
+                            <option value="B">B</option>
+                            <option value="CCC">CCC</option>
+                            <option value="D">D</option>
+                        </select>
+                    </div>
+                    <div *ngIf="assumptionGroup === l('PdInputSnPCummulativeDefaultRates')" class=" mb-4">
+                        <label *ngIf="hasProp('rating')" class="control-label mr-5">{{l('Rating')}}: <b>{{dataSource.rating}}</b></label>
+                        <label *ngIf="hasProp('years')" class="control-label">{{l('Year')}}: <b>{{dataSource.years}}</b></label>
+                        <input *ngIf="hasProp('value')"  required class="form-control m-input col-md-4" type="number"
+                            [(ngModel)]="dataSource.value" id="AssumptionValue" name="AssumptionValue" min="-1" max="1">
+                        <span *ngIf="hasProp('isComputed') && dataSource.isComputed" class="help-block"><i class="fa fa-info-circle"></i> {{l('IsComputedNote')}}</span>
+                    </div>
+                    
+                    <div *ngIf="assumptionGroup !== l('SnPMappingEtiCreditPolicy') && assumptionGroup !== l('PdInputSnPCummulativeDefaultRates')" class=" mb-4">
+                        <label *ngIf="hasProp('date')" class="control-label mr-5">{{l('Date')}}: <b>{{dataSource.date | momentFormat:'ll'}}</b></label><br>
+                        <label *ngIf="hasProp('macroeconomicVariable')" class="control-label mr-5">{{l('MacroVariable')}}: <b>{{dataSource.macroeconomicVariable}}</b></label><br>
+                        <label *ngIf="hasProp('pdGroup')" class="control-label mr-5">{{l('PdGroup')}}: <b>{{dataSource.pdGroup}}</b></label>
+                        <label *ngIf="hasProp('month')" class="control-label">{{l('Month')}}: <b>{{dataSource.month}}</b></label>
                         <label *ngIf="hasProp('inputName')" class="control-label">{{dataSource.inputName}}</label>
+
                         <input *ngIf="hasProp('value')"  required class="form-control m-input col-md-4" type="text"
                             [(ngModel)]="dataSource.value" id="AssumptionValue" name="AssumptionValue">
-                        <span *ngIf="hasProp('isComputed') && dataSource.isComputed" class="help-block">{{l('IsComputedNote')}}</span>
+                            
+                        <input *ngIf="hasProp('marginalDefaultRate')"  required class="form-control m-input col-md-4" type="number"
+                            [(ngModel)]="dataSource.marginalDefaultRate" id="AssumptionValue" name="AssumptionValue" min="-1" max="1">
+
+                        <div *ngIf="assumptionGroup === l('PdInputAssumptionNplIndex')" class="row">
+                            <div *ngIf="hasProp('actual')" class="col-sm-4">
+                                <label class="control-label">{{l('NplActual')}}</label>
+                                <input required class="form-control m-input" type="number"
+                                [(ngModel)]="dataSource.actual" id="AssumptionValueActual" name="AssumptionValueActual">
+                            </div>
+                            <div *ngIf="hasProp('standardised')" class="col-sm-4">
+                                <label class="control-label">{{l('NplStandardized')}}</label>
+                                <input required class="form-control m-input" type="number"
+                                [(ngModel)]="dataSource.standardised" id="AssumptionValueStandardised" name="AssumptionValueStandardised">
+                            </div>
+                            <div *ngIf="hasProp('etiNplSeries')" class="col-sm-4">
+                                <label class="control-label">{{l('NplSeries')}}</label>
+                                <input required class="form-control m-input" type="number"
+                                [(ngModel)]="dataSource.etiNplSeries" id="AssumptionValueSeries" name="AssumptionValueSeries">
+                            </div>
+                        </div>
+                        
+                        <div *ngIf="assumptionGroup === l('PdMacroeconomicProjection')" class="row">
+                            <div *ngIf="hasProp('bestValue')" class="col-sm-4">
+                                <label class="control-label">{{l('Best')}}</label>
+                                <input required class="form-control m-input" type="number"
+                                    [(ngModel)]="dataSource.bestValue" id="AssumptionValueBest" name="AssumptionValueBest">
+                            </div>
+                            <div *ngIf="hasProp('optimisticValue')" class="col-sm-4">
+                                <label class="control-label">{{l('Optimistic')}}</label>
+                                <input required class="form-control m-input" type="number"
+                                    [(ngModel)]="dataSource.optimisticValue" id="AssumptionValueOptimistic" name="AssumptionValueOptimistic">
+                            </div>
+                            <div *ngIf="hasProp('downturnValue')" class="col-sm-4">
+                                <label class="control-label">{{l('Downturn')}}</label>
+                                <input required class="form-control m-input" type="number"
+                                    [(ngModel)]="dataSource.downturnValue" id="AssumptionValueDownturn" name="AssumptionValueDownturn">
+                            </div>
+                        </div>
+                        <span *ngIf="hasProp('isComputed') && dataSource.isComputed" class="help-block"><i class="fa fa-info-circle"></i> {{l('IsComputedNote')}}</span>
                     </div>
                     <!-- <div class="mb-4">
                         <div *ngIf="hasProp('canAffiliateEdit')" class="kt-checkbox-list">
@@ -39,7 +107,8 @@
                 </form>
                 <hr>
                 <p *ngIf="hasProp('lastUpdated') && hasProp('lastUpdatedBy')">
-                    {{l('LastUpdated')}}: <b>{{dataSource.lastUpdated | momentFormat: 'll'}}</b> | {{l('By')}}: <b>{{dataSource.lastUpdatedBy}}</b></p>
+                    {{l('LastUpdated')}}: <b>{{dataSource.lastUpdated | momentFormat: 'll'}}</b> | {{l('By')}}: <b>{{dataSource.lastUpdatedBy}}</b>
+                </p>
             </div>
 
             <div class="modal-footer">

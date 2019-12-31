@@ -164,7 +164,7 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
 
     getAffiliatePdAssumption(framework: FrameworkEnum): void {
         this._eclSharedServiceProxy.getAllPdAssumptionsForAffiliate(this._affiliateId, framework).subscribe(result => {
-            this.pdInputAssumptionTag.load(result);
+            this.pdInputAssumptionTag.load(result, this.selectedAffiliate, framework);
             //hide others
             this.frameworkAssumptionTag.hide();
             this.eadInputAssumptionTag.hide();

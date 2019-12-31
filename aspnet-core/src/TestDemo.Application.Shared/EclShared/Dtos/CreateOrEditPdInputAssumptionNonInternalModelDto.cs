@@ -9,6 +9,6 @@ namespace TestDemo.EclShared.Dtos
     public class CreateOrEditPdInputAssumptionNonInternalModelDto : EntityDto<Guid?>
     {
 
-
+        public double MarginalDefaultRate { get; set; }
     }
 }

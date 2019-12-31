@@ -102,4 +102,11 @@ export class EditAssumptionModalComponent extends AppComponentBase {
         return false;
     }
 
+    typeOfProp(): boolean {
+        if (this.dataSource !== undefined) {
+            console.log(typeof(this.dataSource.assumptionGroup));
+        }
+        return false;
+    }
+
 }

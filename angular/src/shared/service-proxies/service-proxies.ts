@@ -54822,6 +54822,9 @@ export interface IGetPdInputAssumptionMacroeconomicProjectionForEditOutput {
 }
 
 export class CreateOrEditPdInputAssumptionMacroeconomicProjectionDto implements ICreateOrEditPdInputAssumptionMacroeconomicProjectionDto {
+    bestValue!: number | undefined;
+    optimisticValue!: number | undefined;
+    downturnValue!: number | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditPdInputAssumptionMacroeconomicProjectionDto) {
@@ -54835,6 +54838,9 @@ export class CreateOrEditPdInputAssumptionMacroeconomicProjectionDto implements 
 
     init(data?: any) {
         if (data) {
+            this.bestValue = data["bestValue"];
+            this.optimisticValue = data["optimisticValue"];
+            this.downturnValue = data["downturnValue"];
             this.id = data["id"];
         }
     }
@@ -54848,12 +54854,18 @@ export class CreateOrEditPdInputAssumptionMacroeconomicProjectionDto implements 
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["bestValue"] = this.bestValue;
+        data["optimisticValue"] = this.optimisticValue;
+        data["downturnValue"] = this.downturnValue;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface ICreateOrEditPdInputAssumptionMacroeconomicProjectionDto {
+    bestValue: number | undefined;
+    optimisticValue: number | undefined;
+    downturnValue: number | undefined;
     id: string | undefined;
 }
 
@@ -54978,6 +54990,7 @@ export interface IGetPdInputAssumptionNonInternalModelForEditOutput {
 }
 
 export class CreateOrEditPdInputAssumptionNonInternalModelDto implements ICreateOrEditPdInputAssumptionNonInternalModelDto {
+    marginalDefaultRate!: number | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditPdInputAssumptionNonInternalModelDto) {
@@ -54991,6 +55004,7 @@ export class CreateOrEditPdInputAssumptionNonInternalModelDto implements ICreate
 
     init(data?: any) {
         if (data) {
+            this.marginalDefaultRate = data["marginalDefaultRate"];
             this.id = data["id"];
         }
     }
@@ -55004,12 +55018,14 @@ export class CreateOrEditPdInputAssumptionNonInternalModelDto implements ICreate
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["marginalDefaultRate"] = this.marginalDefaultRate;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface ICreateOrEditPdInputAssumptionNonInternalModelDto {
+    marginalDefaultRate: number | undefined;
     id: string | undefined;
 }
 
@@ -55134,6 +55150,9 @@ export interface IGetPdInputAssumptionNplIndexForEditOutput {
 }
 
 export class CreateOrEditPdInputAssumptionNplIndexDto implements ICreateOrEditPdInputAssumptionNplIndexDto {
+    actual!: number | undefined;
+    standardised!: number | undefined;
+    etiNplSeries!: number | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditPdInputAssumptionNplIndexDto) {
@@ -55147,6 +55166,9 @@ export class CreateOrEditPdInputAssumptionNplIndexDto implements ICreateOrEditPd
 
     init(data?: any) {
         if (data) {
+            this.actual = data["actual"];
+            this.standardised = data["standardised"];
+            this.etiNplSeries = data["etiNplSeries"];
             this.id = data["id"];
         }
     }
@@ -55160,12 +55182,18 @@ export class CreateOrEditPdInputAssumptionNplIndexDto implements ICreateOrEditPd
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["actual"] = this.actual;
+        data["standardised"] = this.standardised;
+        data["etiNplSeries"] = this.etiNplSeries;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface ICreateOrEditPdInputAssumptionNplIndexDto {
+    actual: number | undefined;
+    standardised: number | undefined;
+    etiNplSeries: number | undefined;
     id: string | undefined;
 }
 
@@ -55290,6 +55318,7 @@ export interface IGetPdInputAssumptionForEditOutput {
 }
 
 export class CreateOrEditPdInputAssumptionDto implements ICreateOrEditPdInputAssumptionDto {
+    value!: string | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditPdInputAssumptionDto) {
@@ -55303,6 +55332,7 @@ export class CreateOrEditPdInputAssumptionDto implements ICreateOrEditPdInputAss
 
     init(data?: any) {
         if (data) {
+            this.value = data["value"];
             this.id = data["id"];
         }
     }
@@ -55316,12 +55346,14 @@ export class CreateOrEditPdInputAssumptionDto implements ICreateOrEditPdInputAss
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["value"] = this.value;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface ICreateOrEditPdInputAssumptionDto {
+    value: string | undefined;
     id: string | undefined;
 }
 
@@ -55486,6 +55518,7 @@ export interface IGetPdInputAssumptionStatisticalForEditOutput {
 }
 
 export class CreateOrEditPdInputAssumptionStatisticalDto implements ICreateOrEditPdInputAssumptionStatisticalDto {
+    value!: number | undefined;
     canAffiliateEdit!: boolean | undefined;
     id!: string | undefined;
 
@@ -55500,6 +55533,7 @@ export class CreateOrEditPdInputAssumptionStatisticalDto implements ICreateOrEdi
 
     init(data?: any) {
         if (data) {
+            this.value = data["value"];
             this.canAffiliateEdit = data["canAffiliateEdit"];
             this.id = data["id"];
         }
@@ -55514,6 +55548,7 @@ export class CreateOrEditPdInputAssumptionStatisticalDto implements ICreateOrEdi
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["value"] = this.value;
         data["canAffiliateEdit"] = this.canAffiliateEdit;
         data["id"] = this.id;
         return data; 
@@ -55521,6 +55556,7 @@ export class CreateOrEditPdInputAssumptionStatisticalDto implements ICreateOrEdi
 }
 
 export interface ICreateOrEditPdInputAssumptionStatisticalDto {
+    value: number | undefined;
     canAffiliateEdit: boolean | undefined;
     id: string | undefined;
 }

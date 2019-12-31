@@ -1,7 +1,8 @@
 import { filter } from 'rxjs/operators';
-import { PdInputAssumptionGroupEnum, GetAllPdAssumptionsDto, PdInputAssumptionDto, PdInputAssumptionMacroeconomicInputDto, PdInputAssumptionMacroeconomicProjectionDto, PdInputAssumptionNonInternalModelDto, PdInputAssumptionNplIndexDto, PdInputSnPCummulativeDefaultRateDto, DataTypeEnum, NameValueDto, CommonLookupServiceProxy } from './../../../../../shared/service-proxies/service-proxies';
-import { Component, OnInit, Injector } from '@angular/core';
+import { PdInputAssumptionGroupEnum, GetAllPdAssumptionsDto, PdInputAssumptionDto, PdInputAssumptionMacroeconomicInputDto, PdInputAssumptionMacroeconomicProjectionDto, PdInputAssumptionNonInternalModelDto, PdInputAssumptionNplIndexDto, PdInputSnPCummulativeDefaultRateDto, DataTypeEnum, NameValueDto, CommonLookupServiceProxy, PdInputAssumptionsServiceProxy, FrameworkEnum, AssumptionTypeEnum, PdInputSnPCummulativeDefaultRatesServiceProxy, PdInputAssumptionNonInternalModelsServiceProxy, PdInputAssumptionNplIndexesServiceProxy, PdInputAssumptionStatisticalsServiceProxy, PdInputAssumptionMacroeconomicProjectionsServiceProxy } from './../../../../../shared/service-proxies/service-proxies';
+import { Component, OnInit, Injector, ViewChild } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
+import { EditAssumptionModalComponent } from '../edit-assumption-modal/edit-assumption-modal.component';
 
 @Component({
   selector: 'app-pdInputAssumptions',
@@ -10,12 +11,15 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 })
 export class PdInputAssumptionsComponent extends AppComponentBase {
 
+    @ViewChild('editAssumptionModal', {static: true}) editAssumptionModal: EditAssumptionModalComponent;
+
     displayForm = false;
     loading = false;
 
     pdAssumptions: GetAllPdAssumptionsDto = new GetAllPdAssumptionsDto();
 
     pdInputAssumptions: PdInputAssumptionDto[] = new Array<PdInputAssumptionDto>();
+    pdInputAssumptionGroupEnum = PdInputAssumptionGroupEnum;
     //Pd Input Sub groups:
     creditPds: PdInputAssumptionDto[] = new Array();
     etiPolicy: PdInputAssumptionDto[] = new Array();
@@ -52,9 +56,18 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
 
     dataTypeEnum = DataTypeEnum;
 
+    affiliateName = '';
+    affiliateFramework: FrameworkEnum;
+
     constructor(
         injector: Injector,
-        _commonLookupServiceProxy: CommonLookupServiceProxy
+        private _commonLookupServiceProxy: CommonLookupServiceProxy,
+        private _pdInputAssumptionServiceProxy: PdInputAssumptionsServiceProxy,
+        private _pdSnpAssumptionServiceProxy: PdInputSnPCummulativeDefaultRatesServiceProxy,
+        private _pdNonInternalServiceProxy: PdInputAssumptionNonInternalModelsServiceProxy,
+        private _pdNplServiceProxy: PdInputAssumptionNplIndexesServiceProxy,
+        private _pdMacroeconomicInputServiceProxy: PdInputAssumptionStatisticalsServiceProxy,
+        private _pdMacroeconomicProjectionServiceProxy: PdInputAssumptionMacroeconomicProjectionsServiceProxy
     ) {
         super(injector);
         _commonLookupServiceProxy.getMacroeconomicVariableList().subscribe(result => {
@@ -62,10 +75,12 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
         });
     }
 
-    load(assumptions: GetAllPdAssumptionsDto): void {
+    load(assumptions: GetAllPdAssumptionsDto, affiliateName?: string, framework?: FrameworkEnum): void {
         this.loading = true;
         this.displayForm = true;
         this.pdAssumptions = assumptions;
+        this.affiliateName = affiliateName;
+        this.affiliateFramework = framework;
         this.extractPdAssumptionGroups();
         this.loading = false;
     }
@@ -163,6 +178,82 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
 
     hide(): void {
         this.displayForm = false;
+    }
+
+    editPdAssumption(pdInput: PdInputAssumptionDto): void {
+        this.editAssumptionModal.configure({
+            framework: this.affiliateFramework,
+            affiliateName: this.affiliateName,
+            dataSource: pdInput,
+            serviceProxy: this._pdInputAssumptionServiceProxy,
+            assumptionGroup: this.l('SnPMappingEtiCreditPolicy'),
+            assumption: AssumptionTypeEnum.PdInputAssumption
+        });
+        this.editAssumptionModal.show();
+    }
+
+    uploadSnP(): void {
+        this.notify.error('Yet to be implemented!');
+    }
+
+    editSnPAssumption(pdInput: PdInputSnPCummulativeDefaultRateDto): void {
+        this.editAssumptionModal.configure({
+            framework: this.affiliateFramework,
+            affiliateName: this.affiliateName,
+            dataSource: pdInput,
+            serviceProxy: this._pdSnpAssumptionServiceProxy,
+            assumptionGroup: this.l('PdInputSnPCummulativeDefaultRates'),
+            assumption: AssumptionTypeEnum.PdInputAssumption
+        });
+        this.editAssumptionModal.show();
+    }
+
+    editNonInternalAssumption(pdInput: PdInputAssumptionNonInternalModelDto): void {
+        this.editAssumptionModal.configure({
+            framework: this.affiliateFramework,
+            affiliateName: this.affiliateName,
+            dataSource: pdInput,
+            serviceProxy: this._pdNonInternalServiceProxy,
+            assumptionGroup: this.l('PdInputAssumptionNonInternalModel'),
+            assumption: AssumptionTypeEnum.PdInputAssumption
+        });
+        this.editAssumptionModal.show();
+    }
+
+    editNplAssumption(pdInput: PdInputAssumptionNplIndexDto): void {
+        this.editAssumptionModal.configure({
+            framework: this.affiliateFramework,
+            affiliateName: this.affiliateName,
+            dataSource: pdInput,
+            serviceProxy: this._pdNplServiceProxy,
+            assumptionGroup: this.l('PdInputAssumptionNplIndex'),
+            assumption: AssumptionTypeEnum.PdInputAssumption
+        });
+        this.editAssumptionModal.show();
+    }
+
+    editMacroInputAssumption(pdInput: PdInputAssumptionMacroeconomicInputDto): void {
+        this.editAssumptionModal.configure({
+            framework: this.affiliateFramework,
+            affiliateName: this.affiliateName,
+            dataSource: pdInput,
+            serviceProxy: this._pdMacroeconomicInputServiceProxy,
+            assumptionGroup: this.l('PdMacroeconomicInput'),
+            assumption: AssumptionTypeEnum.PdInputAssumption
+        });
+        this.editAssumptionModal.show();
+    }
+
+    editMacroProjectionAssumption(pdInput: PdInputAssumptionMacroeconomicProjectionDto): void {
+        this.editAssumptionModal.configure({
+            framework: this.affiliateFramework,
+            affiliateName: this.affiliateName,
+            dataSource: pdInput,
+            serviceProxy: this._pdMacroeconomicProjectionServiceProxy,
+            assumptionGroup: this.l('PdMacroeconomicProjection'),
+            assumption: AssumptionTypeEnum.PdInputAssumption
+        });
+        this.editAssumptionModal.show();
     }
 
 }

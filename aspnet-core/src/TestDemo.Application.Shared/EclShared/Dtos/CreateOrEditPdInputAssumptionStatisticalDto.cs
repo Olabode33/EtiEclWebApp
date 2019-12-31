@@ -10,10 +10,8 @@ namespace TestDemo.EclShared.Dtos
 {
     public class CreateOrEditPdInputAssumptionStatisticalDto : EntityDto<Guid?>
     {
-
-		public bool CanAffiliateEdit { get; set; }
-		
-		
+        public double Value { get; set; }
+        public bool CanAffiliateEdit { get; set; }
 
     }
 }

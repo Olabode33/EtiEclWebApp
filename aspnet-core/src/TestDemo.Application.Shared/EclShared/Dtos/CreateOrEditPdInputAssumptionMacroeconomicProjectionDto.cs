@@ -10,7 +10,10 @@ namespace TestDemo.EclShared.Dtos
 {
     public class CreateOrEditPdInputAssumptionMacroeconomicProjectionDto : EntityDto<Guid?>
     {
+        public double BestValue { get; set; }
 
+        public double OptimisticValue { get; set; }
 
+        public double DownturnValue { get; set; }
     }
 }

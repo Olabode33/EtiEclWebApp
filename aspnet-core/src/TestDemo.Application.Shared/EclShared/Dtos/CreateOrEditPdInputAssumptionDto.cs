@@ -11,7 +11,6 @@ namespace TestDemo.EclShared.Dtos
 {
     public class CreateOrEditPdInputAssumptionDto : EntityDto<Guid?>
     {
-
-
+        public string Value { get; set; }
     }
 }

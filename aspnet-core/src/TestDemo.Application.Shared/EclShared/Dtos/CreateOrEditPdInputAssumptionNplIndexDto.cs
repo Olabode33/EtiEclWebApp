@@ -11,6 +11,10 @@ namespace TestDemo.EclShared.Dtos
     public class CreateOrEditPdInputAssumptionNplIndexDto : EntityDto<Guid?>
     {
 
+        public double Actual { get; set; }
 
+        public double Standardised { get; set; }
+
+        public double EtiNplSeries { get; set; }
     }
 }
