@@ -6,6 +6,11 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_AssumptionApprovals = "Pages.AssumptionApprovals";
+        public const string Pages_AssumptionApprovals_Create = "Pages.AssumptionApprovals.Create";
+        public const string Pages_AssumptionApprovals_Edit = "Pages.AssumptionApprovals.Edit";
+        public const string Pages_AssumptionApprovals_Delete = "Pages.AssumptionApprovals.Delete";
+
         public const string Pages_MacroeconomicVariables = "Pages.MacroeconomicVariables";
         public const string Pages_MacroeconomicVariables_Create = "Pages.MacroeconomicVariables.Create";
         public const string Pages_MacroeconomicVariables_Edit = "Pages.MacroeconomicVariables.Edit";

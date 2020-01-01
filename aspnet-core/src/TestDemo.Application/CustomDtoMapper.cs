@@ -75,6 +75,8 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditAssumptionApprovalDto, AssumptionApproval>().ReverseMap();
+            configuration.CreateMap<AssumptionApprovalDto, AssumptionApproval>().ReverseMap();
             configuration.CreateMap<CreateOrEditMacroeconomicVariableDto, MacroeconomicVariable>().ReverseMap();
             configuration.CreateMap<MacroeconomicVariableDto, MacroeconomicVariable>().ReverseMap();
             configuration.CreateMap<CreateOrEditObeEclPdAssumptionNonInternalModelDto, ObeEclPdAssumptionNonInternalModel>().ReverseMap();

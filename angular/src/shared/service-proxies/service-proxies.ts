@@ -572,6 +572,421 @@ export class AccountServiceProxy {
 }
 
 @Injectable()
+export class AssumptionApprovalsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param organizationUnitIdFilter (optional) 
+     * @param frameworkFilter (optional) 
+     * @param assumptionTypeFilter (optional) 
+     * @param assumptionGroupFilter (optional) 
+     * @param userNameFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, organizationUnitIdFilter: number | null | undefined, frameworkFilter: number | null | undefined, assumptionTypeFilter: number | null | undefined, assumptionGroupFilter: string | null | undefined, userNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetAssumptionApprovalForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/AssumptionApprovals/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (organizationUnitIdFilter !== undefined)
+            url_ += "OrganizationUnitIdFilter=" + encodeURIComponent("" + organizationUnitIdFilter) + "&"; 
+        if (frameworkFilter !== undefined)
+            url_ += "FrameworkFilter=" + encodeURIComponent("" + frameworkFilter) + "&"; 
+        if (assumptionTypeFilter !== undefined)
+            url_ += "AssumptionTypeFilter=" + encodeURIComponent("" + assumptionTypeFilter) + "&"; 
+        if (assumptionGroupFilter !== undefined)
+            url_ += "AssumptionGroupFilter=" + encodeURIComponent("" + assumptionGroupFilter) + "&"; 
+        if (userNameFilter !== undefined)
+            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetAssumptionApprovalForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetAssumptionApprovalForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetAssumptionApprovalForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetAssumptionApprovalForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetAssumptionApprovalForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetAssumptionApprovalForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getAssumptionApprovalForView(id: string | null | undefined): Observable<GetAssumptionApprovalForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/AssumptionApprovals/GetAssumptionApprovalForView?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAssumptionApprovalForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAssumptionApprovalForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetAssumptionApprovalForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetAssumptionApprovalForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAssumptionApprovalForView(response: HttpResponseBase): Observable<GetAssumptionApprovalForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetAssumptionApprovalForViewDto.fromJS(resultData200) : new GetAssumptionApprovalForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetAssumptionApprovalForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getAssumptionApprovalForEdit(id: string | null | undefined): Observable<GetAssumptionApprovalForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/AssumptionApprovals/GetAssumptionApprovalForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAssumptionApprovalForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAssumptionApprovalForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetAssumptionApprovalForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetAssumptionApprovalForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAssumptionApprovalForEdit(response: HttpResponseBase): Observable<GetAssumptionApprovalForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetAssumptionApprovalForEditOutput.fromJS(resultData200) : new GetAssumptionApprovalForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetAssumptionApprovalForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditAssumptionApprovalDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/AssumptionApprovals/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/AssumptionApprovals/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllUserForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfAssumptionApprovalUserLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/AssumptionApprovals/GetAllUserForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllUserForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllUserForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfAssumptionApprovalUserLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfAssumptionApprovalUserLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllUserForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfAssumptionApprovalUserLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfAssumptionApprovalUserLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfAssumptionApprovalUserLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfAssumptionApprovalUserLookupTableDto>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    approveReject(input: AssumptionApprovalDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/AssumptionApprovals/ApproveReject";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processApproveReject(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processApproveReject(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processApproveReject(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class AssumptionsServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -24648,8 +25063,8 @@ export class RetailEclsServiceProxy {
      * @param input (optional) 
      * @return Success
      */
-    approveRejectEcl(input: CreateOrEditRetailEclApprovalDto | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/RetailEcls/ApproveRejectEcl";
+    approveReject(input: CreateOrEditRetailEclApprovalDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEcls/ApproveReject";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -24664,11 +25079,11 @@ export class RetailEclsServiceProxy {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processApproveRejectEcl(response_);
+            return this.processApproveReject(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processApproveRejectEcl(<any>response_);
+                    return this.processApproveReject(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -24677,7 +25092,7 @@ export class RetailEclsServiceProxy {
         }));
     }
 
-    protected processApproveRejectEcl(response: HttpResponseBase): Observable<void> {
+    protected processApproveReject(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -38442,6 +38857,428 @@ export interface ISwitchToLinkedAccountOutput {
     tenancyName: string | undefined;
 }
 
+export class PagedResultDtoOfGetAssumptionApprovalForViewDto implements IPagedResultDtoOfGetAssumptionApprovalForViewDto {
+    totalCount!: number | undefined;
+    items!: GetAssumptionApprovalForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetAssumptionApprovalForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetAssumptionApprovalForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetAssumptionApprovalForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetAssumptionApprovalForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetAssumptionApprovalForViewDto {
+    totalCount: number | undefined;
+    items: GetAssumptionApprovalForViewDto[] | undefined;
+}
+
+export class GetAssumptionApprovalForViewDto implements IGetAssumptionApprovalForViewDto {
+    assumptionApproval!: AssumptionApprovalDto | undefined;
+    organizationUnitName!: string | undefined;
+    userName!: string | undefined;
+
+    constructor(data?: IGetAssumptionApprovalForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assumptionApproval = data["assumptionApproval"] ? AssumptionApprovalDto.fromJS(data["assumptionApproval"]) : <any>undefined;
+            this.organizationUnitName = data["organizationUnitName"];
+            this.userName = data["userName"];
+        }
+    }
+
+    static fromJS(data: any): GetAssumptionApprovalForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAssumptionApprovalForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assumptionApproval"] = this.assumptionApproval ? this.assumptionApproval.toJSON() : <any>undefined;
+        data["organizationUnitName"] = this.organizationUnitName;
+        data["userName"] = this.userName;
+        return data; 
+    }
+}
+
+export interface IGetAssumptionApprovalForViewDto {
+    assumptionApproval: AssumptionApprovalDto | undefined;
+    organizationUnitName: string | undefined;
+    userName: string | undefined;
+}
+
+export class AssumptionApprovalDto implements IAssumptionApprovalDto {
+    organizationUnitId!: number | undefined;
+    framework!: FrameworkEnum | undefined;
+    assumptionType!: AssumptionTypeEnum | undefined;
+    assumptionGroup!: string | undefined;
+    inputName!: string | undefined;
+    oldValue!: string | undefined;
+    newValue!: string | undefined;
+    dateReviewed!: moment.Moment | undefined;
+    status!: GeneralStatusEnum | undefined;
+    reviewComment!: string | undefined;
+    reviewedByUserId!: number | undefined;
+    assumptionId!: string | undefined;
+    assumptionEntity!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IAssumptionApprovalDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.organizationUnitId = data["organizationUnitId"];
+            this.framework = data["framework"];
+            this.assumptionType = data["assumptionType"];
+            this.assumptionGroup = data["assumptionGroup"];
+            this.inputName = data["inputName"];
+            this.oldValue = data["oldValue"];
+            this.newValue = data["newValue"];
+            this.dateReviewed = data["dateReviewed"] ? moment(data["dateReviewed"].toString()) : <any>undefined;
+            this.status = data["status"];
+            this.reviewComment = data["reviewComment"];
+            this.reviewedByUserId = data["reviewedByUserId"];
+            this.assumptionId = data["assumptionId"];
+            this.assumptionEntity = data["assumptionEntity"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): AssumptionApprovalDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AssumptionApprovalDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["organizationUnitId"] = this.organizationUnitId;
+        data["framework"] = this.framework;
+        data["assumptionType"] = this.assumptionType;
+        data["assumptionGroup"] = this.assumptionGroup;
+        data["inputName"] = this.inputName;
+        data["oldValue"] = this.oldValue;
+        data["newValue"] = this.newValue;
+        data["dateReviewed"] = this.dateReviewed ? this.dateReviewed.toISOString() : <any>undefined;
+        data["status"] = this.status;
+        data["reviewComment"] = this.reviewComment;
+        data["reviewedByUserId"] = this.reviewedByUserId;
+        data["assumptionId"] = this.assumptionId;
+        data["assumptionEntity"] = this.assumptionEntity;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IAssumptionApprovalDto {
+    organizationUnitId: number | undefined;
+    framework: FrameworkEnum | undefined;
+    assumptionType: AssumptionTypeEnum | undefined;
+    assumptionGroup: string | undefined;
+    inputName: string | undefined;
+    oldValue: string | undefined;
+    newValue: string | undefined;
+    dateReviewed: moment.Moment | undefined;
+    status: GeneralStatusEnum | undefined;
+    reviewComment: string | undefined;
+    reviewedByUserId: number | undefined;
+    assumptionId: string | undefined;
+    assumptionEntity: string | undefined;
+    id: string | undefined;
+}
+
+export enum FrameworkEnum {
+    All = 0, 
+    Wholesale = 1, 
+    Retail = 2, 
+    OBE = 3, 
+}
+
+export enum AssumptionTypeEnum {
+    General = 0, 
+    EadInputAssumption = 1, 
+    LgdInputAssumption = 2, 
+    PdInputAssumption = 3, 
+    PdSnPAssumption = 4, 
+    PdMacroeconomicProjection = 5, 
+    PdMacroeconomicInput = 6, 
+    PdNonInternalModel = 7, 
+    PdNplIndex = 8, 
+}
+
+export enum GeneralStatusEnum {
+    Draft = 0, 
+    Submitted = 1, 
+    Approved = 2, 
+    Rejected = 3, 
+}
+
+export class GetAssumptionApprovalForEditOutput implements IGetAssumptionApprovalForEditOutput {
+    assumptionApproval!: CreateOrEditAssumptionApprovalDto | undefined;
+    userName!: string | undefined;
+
+    constructor(data?: IGetAssumptionApprovalForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assumptionApproval = data["assumptionApproval"] ? CreateOrEditAssumptionApprovalDto.fromJS(data["assumptionApproval"]) : <any>undefined;
+            this.userName = data["userName"];
+        }
+    }
+
+    static fromJS(data: any): GetAssumptionApprovalForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAssumptionApprovalForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assumptionApproval"] = this.assumptionApproval ? this.assumptionApproval.toJSON() : <any>undefined;
+        data["userName"] = this.userName;
+        return data; 
+    }
+}
+
+export interface IGetAssumptionApprovalForEditOutput {
+    assumptionApproval: CreateOrEditAssumptionApprovalDto | undefined;
+    userName: string | undefined;
+}
+
+export class CreateOrEditAssumptionApprovalDto implements ICreateOrEditAssumptionApprovalDto {
+    organizationUnitId!: number | undefined;
+    framework!: FrameworkEnum | undefined;
+    assumptionType!: AssumptionTypeEnum | undefined;
+    assumptionGroup!: string | undefined;
+    inputName!: string | undefined;
+    oldValue!: string | undefined;
+    newValue!: string | undefined;
+    dateReviewed!: moment.Moment | undefined;
+    reviewComment!: string | undefined;
+    status!: GeneralStatusEnum | undefined;
+    reviewedByUserId!: number | undefined;
+    assumptionId!: string | undefined;
+    assumptionEntity!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditAssumptionApprovalDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.organizationUnitId = data["organizationUnitId"];
+            this.framework = data["framework"];
+            this.assumptionType = data["assumptionType"];
+            this.assumptionGroup = data["assumptionGroup"];
+            this.inputName = data["inputName"];
+            this.oldValue = data["oldValue"];
+            this.newValue = data["newValue"];
+            this.dateReviewed = data["dateReviewed"] ? moment(data["dateReviewed"].toString()) : <any>undefined;
+            this.reviewComment = data["reviewComment"];
+            this.status = data["status"];
+            this.reviewedByUserId = data["reviewedByUserId"];
+            this.assumptionId = data["assumptionId"];
+            this.assumptionEntity = data["assumptionEntity"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditAssumptionApprovalDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditAssumptionApprovalDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["organizationUnitId"] = this.organizationUnitId;
+        data["framework"] = this.framework;
+        data["assumptionType"] = this.assumptionType;
+        data["assumptionGroup"] = this.assumptionGroup;
+        data["inputName"] = this.inputName;
+        data["oldValue"] = this.oldValue;
+        data["newValue"] = this.newValue;
+        data["dateReviewed"] = this.dateReviewed ? this.dateReviewed.toISOString() : <any>undefined;
+        data["reviewComment"] = this.reviewComment;
+        data["status"] = this.status;
+        data["reviewedByUserId"] = this.reviewedByUserId;
+        data["assumptionId"] = this.assumptionId;
+        data["assumptionEntity"] = this.assumptionEntity;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditAssumptionApprovalDto {
+    organizationUnitId: number | undefined;
+    framework: FrameworkEnum | undefined;
+    assumptionType: AssumptionTypeEnum | undefined;
+    assumptionGroup: string | undefined;
+    inputName: string | undefined;
+    oldValue: string | undefined;
+    newValue: string | undefined;
+    dateReviewed: moment.Moment | undefined;
+    reviewComment: string | undefined;
+    status: GeneralStatusEnum | undefined;
+    reviewedByUserId: number | undefined;
+    assumptionId: string | undefined;
+    assumptionEntity: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfAssumptionApprovalUserLookupTableDto implements IPagedResultDtoOfAssumptionApprovalUserLookupTableDto {
+    totalCount!: number | undefined;
+    items!: AssumptionApprovalUserLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfAssumptionApprovalUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(AssumptionApprovalUserLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfAssumptionApprovalUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfAssumptionApprovalUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfAssumptionApprovalUserLookupTableDto {
+    totalCount: number | undefined;
+    items: AssumptionApprovalUserLookupTableDto[] | undefined;
+}
+
+export class AssumptionApprovalUserLookupTableDto implements IAssumptionApprovalUserLookupTableDto {
+    id!: number | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IAssumptionApprovalUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): AssumptionApprovalUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AssumptionApprovalUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IAssumptionApprovalUserLookupTableDto {
+    id: number | undefined;
+    displayName: string | undefined;
+}
+
 export class PagedResultDtoOfGetAssumptionForViewDto implements IPagedResultDtoOfGetAssumptionForViewDto {
     totalCount!: number | undefined;
     items!: GetAssumptionForViewDto[] | undefined;
@@ -38630,13 +39467,6 @@ export enum AssumptionGroupEnum {
     ForwardTransitions = 4, 
     BackwardTransitions = 5, 
     CreditRatingRank = 6, 
-}
-
-export enum GeneralStatusEnum {
-    Draft = 0, 
-    Submitted = 1, 
-    Approved = 2, 
-    Rejected = 3, 
 }
 
 export class GetAssumptionForEditOutput implements IGetAssumptionForEditOutput {
@@ -40234,13 +41064,6 @@ export interface IGetAllEclForWorkspaceDto {
     createdByUserName: string | undefined;
     dateCreated: moment.Moment | undefined;
     id: string | undefined;
-}
-
-export enum FrameworkEnum {
-    All = 0, 
-    Wholesale = 1, 
-    Retail = 2, 
-    OBE = 3, 
 }
 
 export enum EclStatusEnum {
@@ -45221,18 +46044,6 @@ export interface IObeEclAssumptionApprovalDto {
     obeEclId: string | undefined;
     reviewedByUserId: number | undefined;
     id: string | undefined;
-}
-
-export enum AssumptionTypeEnum {
-    General = 0, 
-    EadInputAssumption = 1, 
-    LgdInputAssumption = 2, 
-    PdInputAssumption = 3, 
-    PdSnPAssumption = 4, 
-    PdMacroeconomicProjection = 5, 
-    PdMacroeconomicInput = 6, 
-    PdNonInternalModel = 7, 
-    PdNplIndex = 8, 
 }
 
 export class GetObeEclAssumptionApprovalForEditOutput implements IGetObeEclAssumptionApprovalForEditOutput {

@@ -275,7 +275,7 @@ namespace TestDemo.Retail
         }
 
 
-        public virtual async Task ApproveRejectEcl(CreateOrEditRetailEclApprovalDto input)
+        public virtual async Task ApproveReject(CreateOrEditRetailEclApprovalDto input)
         {
             var ecl = await _retailEclRepository.FirstOrDefaultAsync((Guid)input.RetailEclId);
             ecl.Status = input.Status == GeneralStatusEnum.Approved ? EclStatusEnum.Approved : EclStatusEnum.Draft;

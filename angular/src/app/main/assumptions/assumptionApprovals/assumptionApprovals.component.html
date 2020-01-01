@@ -1,0 +1,242 @@
+﻿<div [@routerTransition]>
+
+    <div class="kt-subheader kt-grid__item">
+
+        <div class="kt-subheader__main">
+            <h3 class="kt-subheader__title">
+                <span>{{l("AssumptionApprovals")}}</span>
+            </h3>
+            <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+            <span class="kt-subheader__desc">
+                {{l("AssumptionApprovalsHeaderInfo")}}
+            </span>
+        </div>
+        <div class="kt-subheader__toolbar">
+            <div class="kt-subheader__wrapper">
+                <button (click)="changeAffiliate()" class="btn btn-outline-primary">
+                    <i class="fa fa-random" style="font-size: 1.2rem !important;"></i>
+                    {{l("ChangeAffiliate")}}
+                </button>
+                <button (click)="goBack()" class="btn btn-outline-danger">
+                    <i class="fa fa-reply" style="font-size: 1.2rem !important;"></i>
+                    {{l("GoBack")}}
+                </button>
+            </div>
+        </div>
+
+    </div>
+    <div class="kt-content">
+        <div class="kt-portlet kt-portlet--mobile">
+            <div class="kt-portlet__body">
+                <form class="kt-form" autocomplete="off">
+                    <div>
+                        <div class="row align-items-center">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus
+                                            class="form-control m-input" [placeholder]="l('SearchWithThreeDot')"
+                                            type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getAssumptionApprovals()" class="btn btn-primary"
+                                                type="submit"><i class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" [hidden]="!advancedFiltersAreShown">
+                            <div class="col-md-12">
+                                <div class="kt-separator kt-separator--border-dashed"></div>
+                            </div>
+
+
+                            <!-- <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinOrganizationUnitIdFilter">{{l("MinMax")}} {{l("OrganizationUnitId")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinOrganizationUnitIdFilter" [(ngModel)]="minOrganizationUnitIdFilter" placeholder="{{l('MinValue')}}" name="minOrganizationUnitIdFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxOrganizationUnitIdFilter" placeholder="{{l('MaxValue')}}" name="maxOrganizationUnitIdFilter" />
+									</div>
+                                </div>
+                            </div> -->
+                            <div class="col-md-3">
+                                <label for="FrameworkFilterSelect">{{l("Framework")}}</label>
+                                <select class="form-control" name="FrameworkFilter" id="FrameworkFilterSelect"
+                                    [(ngModel)]="frameworkFilter">
+                                    <option value="-1">{{l("All")}}</option>
+                                    <option value="0">{{l('All')}}</option>
+
+                                    <option value="1">{{l('Wholesale')}}</option>
+
+                                    <option value="2">{{l('Retail')}}</option>
+
+                                    <option value="3">{{l('OBE')}}</option>
+
+
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="AssumptionTypeFilterSelect">{{l("AssumptionType")}}</label>
+                                <select class="form-control" name="AssumptionTypeFilter" id="AssumptionTypeFilterSelect"
+                                    [(ngModel)]="assumptionTypeFilter">
+                                    <option value="-1">{{l("All")}}</option>
+                                    <option value="0">{{l('General')}}</option>
+
+                                    <option value="1">{{l('EadInputAssumption')}}</option>
+
+                                    <option value="2">{{l('LgdInputAssumption')}}</option>
+
+                                    <option value="3">{{l('PdInputAssumption')}}</option>
+
+
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="AssumptionGroupFilter">{{l("AssumptionGroup")}}</label>
+                                    <input type="text" class="form-control" id="AssumptionGroupFilter"
+                                        name="assumptionGroupFilter" [(ngModel)]="assumptionGroupFilter">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="UserNameFilter">({{l("User")}}) {{l("Name")}}</label>
+                                    <input type="text" class="form-control" id="UserNameFilter" name="userNameFilter"
+                                        [(ngModel)]="userNameFilter">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown"
+                                    (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
+                                        class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown"
+                                    (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
+                                        class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable (onLazyLoad)="getAssumptionApprovals($event)"
+                            [value]="primengTableHelper.records"
+                            rows="{{primengTableHelper.defaultRecordsCountPerPage}}" [paginator]="false" [lazy]="true"
+                            [scrollable]="true" ScrollWidth="100%" [responsive]="primengTableHelper.isResponsive"
+                            [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.AssumptionApprovals.Edit', 'Pages.AssumptionApprovals.Delete')">
+                                        {{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="organizationUnitName">
+                                        {{l('Affiliate')}}
+                                        <p-sortIcon field="organizationUnitName"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="framework">
+                                        {{l('Framework')}}
+                                        <p-sortIcon field="assumptionApproval.framework"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="assumptionType">
+                                        {{l('Type')}}
+                                        <p-sortIcon field="assumptionApproval.assumptionType"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="assumptionGroup">
+                                        {{l('Group')}}
+                                        <p-sortIcon field="assumptionApproval.assumptionGroup"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 200px" pSortableColumn="inputName">
+                                        {{l('Category')}}
+                                        <p-sortIcon field="assumptionApproval.inputName"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="newValue">
+                                        {{l('Value')}}
+                                        <p-sortIcon field="assumptionApproval.newValue"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="status">
+                                        {{l('Status')}}
+                                        <p-sortIcon field="assumptionApproval.status"></p-sortIcon>
+                                    </th>
+
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.AssumptionApprovals.Edit', 'Pages.AssumptionApprovals.Delete')">
+                                        <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+                                            <ul class="dropdown-menu" *dropdownMenu>
+                                                <li>
+                                                    <a href="javascript:;"
+                                                        (click)="viewAssumptionApprovalModal.show(record)">{{l('View')}}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;"
+                                                        (click)="approveAssumption(record.assumptionApproval)">{{l('Review')}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('Affiliate')}}</span>
+                                        {{record.organizationUnitName}}
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('Framework')}}</span>
+                                        {{l( frameworkEnum[record.assumptionApproval.framework])}}
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('Type')}}</span>
+                                        {{l( assumptionTypeEnum[record.assumptionApproval.assumptionType])}}
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('Group')}}</span>
+                                        {{record.assumptionApproval.assumptionGroup}}
+                                    </td>
+                                    <td style="width:200px">
+                                        <span class="ui-column-title"> {{l('Category')}}</span>
+                                        {{record.assumptionApproval.inputName}}
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('NewValue')}}</span>
+                                        {{record.assumptionApproval.newValue}}
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('Status')}}</span>
+                                        {{l( generalStatusEnum[record.assumptionApproval.status])}}
+                                    </td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage" #paginator
+                                (onPageChange)="getAssumptionApprovals($event)"
+                                [totalRecords]="primengTableHelper.totalRecordsCount"
+                                [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <viewAssumptionApprovalModal #viewAssumptionApprovalModal></viewAssumptionApprovalModal>
+    <entityTypeHistoryModal #entityTypeHistoryModal></entityTypeHistoryModal>
+    <app-approve-ecl-modal #approvalModal (eclApproved)="getAssumptionApprovals()"></app-approve-ecl-modal>
+</div>

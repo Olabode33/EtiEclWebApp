@@ -38,6 +38,8 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<AssumptionApproval> AssumptionApprovals { get; set; }
+
         public virtual DbSet<MacroeconomicVariable> MacroeconomicVariables { get; set; }
 
         public virtual DbSet<AffiliateAssumption> AffiliateAssumptions { get; set; }

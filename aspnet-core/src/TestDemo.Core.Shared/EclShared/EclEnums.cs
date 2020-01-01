@@ -82,6 +82,8 @@ namespace TestDemo.EclShared
 
     public static class EclEnums
     {
-        
+        public const string Assumption = "Assumption";
+        public const string EadInputAssumption = "EadInputAssumption";
+        public const string LgdInputAssumption = "LgdInputAssumption";
     }
 }

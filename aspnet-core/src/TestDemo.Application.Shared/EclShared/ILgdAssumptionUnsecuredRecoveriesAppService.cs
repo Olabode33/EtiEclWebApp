@@ -17,6 +17,6 @@ namespace TestDemo.EclShared
 
 		Task Delete(EntityDto<Guid> input);
 
-		
+        Task UpdateStatus(UpdateAssumptionStatusDto input);
     }
 }

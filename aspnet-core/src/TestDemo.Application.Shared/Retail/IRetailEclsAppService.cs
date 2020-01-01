@@ -16,7 +16,7 @@ namespace TestDemo.Retail
 
 		Task CreateOrEdit(CreateOrEditRetailEclDto input);
 
-        Task ApproveRejectEcl(CreateOrEditRetailEclApprovalDto input);
+        Task ApproveReject(CreateOrEditRetailEclApprovalDto input);
 
         Task Delete(EntityDto<Guid> input);
 

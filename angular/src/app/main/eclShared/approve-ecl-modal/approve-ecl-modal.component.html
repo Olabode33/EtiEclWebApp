@@ -1,4 +1,4 @@
-<div bsModal #approveEclModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal"
+<div bsModal #approvalModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal"
      (onShown)="shown()"
      aria-hidden="true" [config]="{backdrop: 'static'}">
     <div class="modal-dialog modal-lg">
@@ -12,9 +12,9 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form novalidate (ngSubmit)="approveEcl()">
-                    <div class=" mb-4">
-                        <p class="lead">{{l('ApproveEclNote')}}</p>
+                <form novalidate (ngSubmit)="approve()">
+                    <div *ngIf="hasProp('reviewComment')" class=" mb-4">
+                        <p class="lead">{{l('ReviewComment')}}</p>
                         <textarea autoFocus [(ngModel)]="dataSource.reviewComment" rows="7"
                                name="ReviewComment" class="form-control" placeholder="{{'ReviewComment' | localize}}"></textarea>
                     </div>
@@ -23,11 +23,11 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" (click)="rejectEcl()">
+                <button type="button" class="btn btn-danger" (click)="reject()">
                     <i class="fa fa-times"></i>
                     {{"Reject" | localize}}
                 </button>
-                <button type="button" class="btn btn-success" (click)="approveEcl()">
+                <button type="button" class="btn btn-success" (click)="approve()">
                     <i class="fa fa-check"></i>
                     {{"Approve" | localize}}
                 </button>

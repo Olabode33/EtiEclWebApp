@@ -27,7 +27,7 @@ export class AppNavigationService {
             new AppMenuItem('Configuration', 'Pages.Assumptions', 'fa fa-wrench', '', [
                 new AppMenuItem('MacroeconomicVariables', 'Pages.MacroeconomicVariables', 'flaticon-more', '/app/main/config/macroeconomicVariables'),
             ]),
-            new AppMenuItem('Administration', '', 'fa fa-cogs', '', [
+             new AppMenuItem('Administration', '', 'fa fa-cogs', '', [
                 new AppMenuItem('OrganizationUnits', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),
                 new AppMenuItem('Users', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),

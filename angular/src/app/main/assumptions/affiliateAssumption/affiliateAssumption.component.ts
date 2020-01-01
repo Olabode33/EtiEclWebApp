@@ -69,4 +69,8 @@ export class AffiliateAssumptionComponent extends AppComponentBase implements On
         this._router.navigate(['view', ouId], { relativeTo: this._activatedRoute});
     }
 
+    navigateToApproveAssumptions(ouId: number): void {
+        this._router.navigate(['approve', ouId], { relativeTo: this._activatedRoute});
+    }
+
 }

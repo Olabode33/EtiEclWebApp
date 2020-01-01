@@ -1,5 +1,6 @@
 ﻿import { ViewRetailEclComponent } from './retail/view-retailEcl/view-retailEcl.component';
 import { NgModule } from '@angular/core';
+import { AssumptionApprovalsComponent } from './assumptions/assumptionApprovals/assumptionApprovals.component';
 import { MacroeconomicVariablesComponent } from './eclShared/macroeconomicVariables/macroeconomicVariables.component';
 import { RouterModule } from '@angular/router';
 import { WholesaleEclResultSummaryTopExposuresComponent } from './wholesaleResults/wholesaleEclResultSummaryTopExposures/wholesaleEclResultSummaryTopExposures.component';
@@ -41,6 +42,7 @@ import { ViewAffiliateAssumptionsComponent } from './assumptions/view-affiliateA
                     { path: 'wholesale/wholesaleEcls', component: WholesaleEclsComponent, data: { permission: 'Pages.WholesaleEcls' }  },
                     { path: 'assumption/affiliates', component: AffiliateAssumptionComponent, data: { permission: 'Pages.Assumption.Affiliates' }  },
                     { path: 'assumption/affiliates/view/:ouId', component: ViewAffiliateAssumptionsComponent, data: { permission: 'Pages.Assumption.Affiliates' }  },
+                    { path: 'assumption/affiliates/approve/:ouId', component: AssumptionApprovalsComponent, data: { permission: 'Pages.Assumption.Affiliates' }  },
                     { path: 'eclShared/pdInputSnPCummulativeDefaultRates', component: PdInputSnPCummulativeDefaultRatesComponent, data: { permission: 'Pages.PdInputSnPCummulativeDefaultRates' }  },
                     { path: 'dashboard', component: DashboardComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
                     { path: 'workspace', component: WorkspaceComponent },

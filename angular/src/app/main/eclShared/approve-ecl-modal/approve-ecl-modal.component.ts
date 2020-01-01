@@ -1,12 +1,12 @@
 import { Component, ViewChild, Injector, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
-import { WholesaleEclsServiceProxy, WholesaleEclUserLookupTableDto, GeneralStatusEnum } from '@shared/service-proxies/service-proxies';
+import { GeneralStatusEnum } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { Observable } from 'rxjs';
 import * as _ from 'lodash';
 import { finalize } from 'rxjs/operators';
 
-export interface IApproveEclModalOptions {
+export interface IApprovalModalOptions {
     title?: string;
     serviceProxy: any;
     dataSource: any;
@@ -20,32 +20,31 @@ export interface IApproveEclModalOptions {
 })
 export class ApproveEclModalComponent extends AppComponentBase {
 
-    static defaultOptions: IApproveEclModalOptions = {
+    static defaultOptions: IApprovalModalOptions = {
         serviceProxy: undefined,
         dataSource: undefined
     };
 
-    @ViewChild('approveEclModal', { static: true }) modal: ModalDirective;
+    @ViewChild('approvalModal', { static: true }) modal: ModalDirective;
 
-    @Output() eclApproved: EventEmitter<any> = new EventEmitter<any>();
+    @Output() approved: EventEmitter<any> = new EventEmitter<any>();
     active = false;
     saving = false;
     isShown = false;
     generalStatusEnum = GeneralStatusEnum;
 
-    options: IApproveEclModalOptions = _.merge({});
+    options: IApprovalModalOptions = _.merge({});
     dataSource: any;
     serviceProxy: any;
     title: string;
 
     constructor(
         injector: Injector,
-        private _wholesaleEclsServiceProxy: WholesaleEclsServiceProxy
     ) {
         super(injector);
     }
 
-    configure(options: IApproveEclModalOptions): void {
+    configure(options: IApprovalModalOptions): void {
         options = _.merge({}, ApproveEclModalComponent.defaultOptions, {title: this.l('ApproveEcl')}, options);
         this.dataSource = options.dataSource;
         this.serviceProxy = options.serviceProxy;
@@ -69,24 +68,40 @@ export class ApproveEclModalComponent extends AppComponentBase {
         this.modal.hide();
     }
 
-    approveEcl(): void {
+    hasProp(prop: string): boolean {
+        if (this.dataSource !== undefined) {
+            //return Object.prototype.hasOwnProperty.call(this.dataSource, prop);
+            return prop in this.dataSource;
+        }
+        return false;
+    }
+
+    approve(): void {
         this.message.confirm(
-            this.l('ApproveEclNote'),
+            this.l('ApprovalNote'),
             (isConfirmed) => {
-                this.dataSource.status = GeneralStatusEnum.Approved;
-                this.serviceProxy.approveRejectEcl(this.dataSource).subscribe(() => {
-                    this.eclApproved.emit(this.dataSource);
+                if (this.hasProp('status')) {
+                    this.dataSource.status = GeneralStatusEnum.Approved;
+                }
+                this.serviceProxy.approveReject(this.dataSource).subscribe(() => {
+                    this.approved.emit(this.dataSource);
                     this.close();
                 });
             });
     }
 
-    rejectEcl(): void {
-        this.dataSource.status = GeneralStatusEnum.Rejected;
-        this.serviceProxy.approveRejectEcl(this.dataSource).subscribe(() => {
-            this.eclApproved.emit(this.dataSource);
-            this.close();
-        });
+    reject(): void {
+        this.message.confirm(
+            this.l('ApprovalNote'),
+            (isConfirmed) => {
+                if (this.hasProp('status')) {
+                    this.dataSource.status = GeneralStatusEnum.Approved;
+                }
+                this.serviceProxy.approveReject(this.dataSource).subscribe(() => {
+                    this.approved.emit(this.dataSource);
+                    this.close();
+                });
+            });
     }
 
 }
