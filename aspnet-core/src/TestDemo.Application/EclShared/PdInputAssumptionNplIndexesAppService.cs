@@ -20,35 +20,38 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.EclShared
 {
-	[AbpAuthorize(AppPermissions.Pages_PdInputAssumptionNplIndexes)]
+    [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionNplIndexes)]
     public class PdInputAssumptionNplIndexesAppService : TestDemoAppServiceBase, IPdInputAssumptionNplIndexesAppService
     {
-		 private readonly IRepository<PdInputAssumptionNplIndex, Guid> _pdInputAssumptionNplIndexRepository;
-		 
+        private readonly IRepository<PdInputAssumptionNplIndex, Guid> _pdInputAssumptionNplIndexRepository;
+        private readonly IAssumptionApprovalsAppService _assumptionApprovalsAppService;
 
-		  public PdInputAssumptionNplIndexesAppService(IRepository<PdInputAssumptionNplIndex, Guid> pdInputAssumptionNplIndexRepository ) 
-		  {
-			_pdInputAssumptionNplIndexRepository = pdInputAssumptionNplIndexRepository;
-			
-		  }
 
-		 public async Task<PagedResultDto<GetPdInputAssumptionNplIndexForViewDto>> GetAll(GetAllPdInputAssumptionNplIndexesInput input)
-         {
-			
-			var filteredPdInputAssumptionNplIndexes = _pdInputAssumptionNplIndexRepository.GetAll()
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.Key.Contains(input.Filter) );
+        public PdInputAssumptionNplIndexesAppService(IRepository<PdInputAssumptionNplIndex, Guid> pdInputAssumptionNplIndexRepository,
+            IAssumptionApprovalsAppService assumptionApprovalsAppService)
+        {
+            _pdInputAssumptionNplIndexRepository = pdInputAssumptionNplIndexRepository;
+            _assumptionApprovalsAppService = assumptionApprovalsAppService;
+        }
 
-			var pagedAndFilteredPdInputAssumptionNplIndexes = filteredPdInputAssumptionNplIndexes
+        public async Task<PagedResultDto<GetPdInputAssumptionNplIndexForViewDto>> GetAll(GetAllPdInputAssumptionNplIndexesInput input)
+        {
+
+            var filteredPdInputAssumptionNplIndexes = _pdInputAssumptionNplIndexRepository.GetAll()
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Key.Contains(input.Filter));
+
+            var pagedAndFilteredPdInputAssumptionNplIndexes = filteredPdInputAssumptionNplIndexes
                 .OrderBy(input.Sorting ?? "id asc")
                 .PageBy(input);
 
-			var pdInputAssumptionNplIndexes = from o in pagedAndFilteredPdInputAssumptionNplIndexes
-                         select new GetPdInputAssumptionNplIndexForViewDto() {
-							PdInputAssumptionNplIndex = new PdInputAssumptionNplIndexDto
-							{
-                                Id = o.Id
-							}
-						};
+            var pdInputAssumptionNplIndexes = from o in pagedAndFilteredPdInputAssumptionNplIndexes
+                                              select new GetPdInputAssumptionNplIndexForViewDto()
+                                              {
+                                                  PdInputAssumptionNplIndex = new PdInputAssumptionNplIndexDto
+                                                  {
+                                                      Id = o.Id
+                                                  }
+                                              };
 
             var totalCount = await filteredPdInputAssumptionNplIndexes.CountAsync();
 
@@ -56,49 +59,71 @@ namespace TestDemo.EclShared
                 totalCount,
                 await pdInputAssumptionNplIndexes.ToListAsync()
             );
-         }
-		 
-		 [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionNplIndexes_Edit)]
-		 public async Task<GetPdInputAssumptionNplIndexForEditOutput> GetPdInputAssumptionNplIndexForEdit(EntityDto<Guid> input)
-         {
+        }
+
+        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionNplIndexes_Edit)]
+        public async Task<GetPdInputAssumptionNplIndexForEditOutput> GetPdInputAssumptionNplIndexForEdit(EntityDto<Guid> input)
+        {
             var pdInputAssumptionNplIndex = await _pdInputAssumptionNplIndexRepository.FirstOrDefaultAsync(input.Id);
-           
-		    var output = new GetPdInputAssumptionNplIndexForEditOutput {PdInputAssumptionNplIndex = ObjectMapper.Map<CreateOrEditPdInputAssumptionNplIndexDto>(pdInputAssumptionNplIndex)};
-			
+
+            var output = new GetPdInputAssumptionNplIndexForEditOutput { PdInputAssumptionNplIndex = ObjectMapper.Map<CreateOrEditPdInputAssumptionNplIndexDto>(pdInputAssumptionNplIndex) };
+
             return output;
-         }
+        }
 
-		 public async Task CreateOrEdit(CreateOrEditPdInputAssumptionNplIndexDto input)
-         {
-            if(input.Id == null){
-				await Create(input);
-			}
-			else{
-				await Update(input);
-			}
-         }
+        public async Task CreateOrEdit(CreateOrEditPdInputAssumptionNplIndexDto input)
+        {
+            if (input.Id == null)
+            {
+                await Create(input);
+            }
+            else
+            {
+                await Update(input);
+            }
+        }
 
-		 [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionNplIndexes_Create)]
-		 protected virtual async Task Create(CreateOrEditPdInputAssumptionNplIndexDto input)
-         {
+        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionNplIndexes_Create)]
+        protected virtual async Task Create(CreateOrEditPdInputAssumptionNplIndexDto input)
+        {
             var pdInputAssumptionNplIndex = ObjectMapper.Map<PdInputAssumptionNplIndex>(input);
 
-			
+
 
             await _pdInputAssumptionNplIndexRepository.InsertAsync(pdInputAssumptionNplIndex);
-         }
+        }
 
-		 [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionNplIndexes_Edit)]
-		 protected virtual async Task Update(CreateOrEditPdInputAssumptionNplIndexDto input)
-         {
+        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionNplIndexes_Edit)]
+        protected virtual async Task Update(CreateOrEditPdInputAssumptionNplIndexDto input)
+        {
             var pdInputAssumptionNplIndex = await _pdInputAssumptionNplIndexRepository.FirstOrDefaultAsync((Guid)input.Id);
-             ObjectMapper.Map(input, pdInputAssumptionNplIndex);
-         }
 
-		 [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionNplIndexes_Delete)]
-         public async Task Delete(EntityDto<Guid> input)
-         {
+            await SumbitForApproval(input, pdInputAssumptionNplIndex);
+
+            ObjectMapper.Map(input, pdInputAssumptionNplIndex);
+        }
+
+        private async Task SumbitForApproval(CreateOrEditPdInputAssumptionNplIndexDto input, PdInputAssumptionNplIndex assumption)
+        {
+            await _assumptionApprovalsAppService.CreateOrEdit(new CreateOrEditAssumptionApprovalDto()
+            {
+                OrganizationUnitId = assumption.OrganizationUnitId,
+                Framework = assumption.Framework,
+                AssumptionType = AssumptionTypeEnum.PdInputAssumption,
+                AssumptionGroup = L("PdInputAssumptionNplIndex"),
+                InputName = assumption.Date.ToShortDateString(),
+                OldValue = assumption.Actual.ToString(),
+                NewValue = input.Actual.ToString(),
+                AssumptionId = assumption.Id,
+                AssumptionEntity = EclEnums.PdNplIndexAssumption,
+                Status = GeneralStatusEnum.Submitted
+            });
+        }
+
+        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionNplIndexes_Delete)]
+        public async Task Delete(EntityDto<Guid> input)
+        {
             await _pdInputAssumptionNplIndexRepository.DeleteAsync(input.Id);
-         } 
+        }
     }
 }

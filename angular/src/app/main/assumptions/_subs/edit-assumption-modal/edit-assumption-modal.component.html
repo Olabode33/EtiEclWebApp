@@ -14,7 +14,7 @@
             <div class="modal-body">
                 <h4>{{l(frameworkEnum[affiliateFramework])}}</h4>
                 <p class="lead">{{l(assumptionTypeEnum[selectedAssumption])}} <br><b>{{assumptionGroup}}</b></p>
-                <form novalidate (ngSubmit)="save()">
+                <form novalidate>
                     <!-- Begin PD Assumptions -->
                     <div *ngIf="assumptionGroup === l('SnPMappingEtiCreditPolicy')"  class="mb-4">
                         <label *ngIf="hasProp('inputName')" class="control-label">{{l('Credit')}}: {{dataSource.inputName}}</label>
@@ -40,8 +40,8 @@
                     </div>
                     
                     <div *ngIf="assumptionGroup !== l('SnPMappingEtiCreditPolicy') && assumptionGroup !== l('PdInputSnPCummulativeDefaultRates')" class=" mb-4">
-                        <label *ngIf="hasProp('date')" class="control-label mr-5">{{l('Date')}}: <b>{{dataSource.date | momentFormat:'ll'}}</b></label><br>
-                        <label *ngIf="hasProp('macroeconomicVariable')" class="control-label mr-5">{{l('MacroVariable')}}: <b>{{dataSource.macroeconomicVariable}}</b></label><br>
+                        <label *ngIf="hasProp('date')" class="control-label mr-5">{{l('Date')}}: <b>{{dataSource.date | momentFormat:'ll'}}</b></label>
+                        <label *ngIf="hasProp('macroeconomicVariable')" class="control-label mr-5">{{l('MacroVariable')}}: <b>{{dataSource.macroeconomicVariable}}</b></label>
                         <label *ngIf="hasProp('pdGroup')" class="control-label mr-5">{{l('PdGroup')}}: <b>{{dataSource.pdGroup}}</b></label>
                         <label *ngIf="hasProp('month')" class="control-label">{{l('Month')}}: <b>{{dataSource.month}}</b></label>
                         <label *ngIf="hasProp('inputName')" class="control-label">{{dataSource.inputName}}</label>

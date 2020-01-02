@@ -236,7 +236,7 @@
             </div>
         </div>
     </div>
-    <viewAssumptionApprovalModal #viewAssumptionApprovalModal></viewAssumptionApprovalModal>
+    <viewAssumptionApprovalModal #viewAssumptionApprovalModal (modalSave)="getAssumptionApprovals()"></viewAssumptionApprovalModal>
     <entityTypeHistoryModal #entityTypeHistoryModal></entityTypeHistoryModal>
-    <app-approve-ecl-modal #approvalModal (eclApproved)="getAssumptionApprovals()"></app-approve-ecl-modal>
+    <app-approve-ecl-modal #approvalModal (approved)="getAssumptionApprovals()"></app-approve-ecl-modal>
 </div>

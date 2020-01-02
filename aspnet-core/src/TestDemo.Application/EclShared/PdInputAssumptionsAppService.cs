@@ -21,35 +21,38 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.EclShared
 {
-	[AbpAuthorize(AppPermissions.Pages_PdInputAssumptions)]
+    [AbpAuthorize(AppPermissions.Pages_PdInputAssumptions)]
     public class PdInputAssumptionsAppService : TestDemoAppServiceBase, IPdInputAssumptionsAppService
     {
-		 private readonly IRepository<PdInputAssumption, Guid> _pdInputAssumptionRepository;
-		 
+        private readonly IRepository<PdInputAssumption, Guid> _pdInputAssumptionRepository;
+        private readonly IAssumptionApprovalsAppService _assumptionApprovalsAppService;
 
-		  public PdInputAssumptionsAppService(IRepository<PdInputAssumption, Guid> pdInputAssumptionRepository ) 
-		  {
-			_pdInputAssumptionRepository = pdInputAssumptionRepository;
-			
-		  }
 
-		 public async Task<PagedResultDto<GetPdInputAssumptionForViewDto>> GetAll(GetAllPdInputAssumptionsInput input)
-         {
-			
-			var filteredPdInputAssumptions = _pdInputAssumptionRepository.GetAll()
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.Key.Contains(input.Filter) || e.InputName.Contains(input.Filter) || e.Value.Contains(input.Filter));
+        public PdInputAssumptionsAppService(IRepository<PdInputAssumption, Guid> pdInputAssumptionRepository,
+            IAssumptionApprovalsAppService assumptionApprovalsAppService)
+        {
+            _pdInputAssumptionRepository = pdInputAssumptionRepository;
+            _assumptionApprovalsAppService = assumptionApprovalsAppService;
+        }
 
-			var pagedAndFilteredPdInputAssumptions = filteredPdInputAssumptions
+        public async Task<PagedResultDto<GetPdInputAssumptionForViewDto>> GetAll(GetAllPdInputAssumptionsInput input)
+        {
+
+            var filteredPdInputAssumptions = _pdInputAssumptionRepository.GetAll()
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Key.Contains(input.Filter) || e.InputName.Contains(input.Filter) || e.Value.Contains(input.Filter));
+
+            var pagedAndFilteredPdInputAssumptions = filteredPdInputAssumptions
                 .OrderBy(input.Sorting ?? "id asc")
                 .PageBy(input);
 
-			var pdInputAssumptions = from o in pagedAndFilteredPdInputAssumptions
-                         select new GetPdInputAssumptionForViewDto() {
-							PdInputAssumption = new PdInputAssumptionDto
-							{
-                                Id = o.Id
-							}
-						};
+            var pdInputAssumptions = from o in pagedAndFilteredPdInputAssumptions
+                                     select new GetPdInputAssumptionForViewDto()
+                                     {
+                                         PdInputAssumption = new PdInputAssumptionDto
+                                         {
+                                             Id = o.Id
+                                         }
+                                     };
 
             var totalCount = await filteredPdInputAssumptions.CountAsync();
 
@@ -57,49 +60,71 @@ namespace TestDemo.EclShared
                 totalCount,
                 await pdInputAssumptions.ToListAsync()
             );
-         }
-		 
-		 [AbpAuthorize(AppPermissions.Pages_PdInputAssumptions_Edit)]
-		 public async Task<GetPdInputAssumptionForEditOutput> GetPdInputAssumptionForEdit(EntityDto<Guid> input)
-         {
+        }
+
+        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptions_Edit)]
+        public async Task<GetPdInputAssumptionForEditOutput> GetPdInputAssumptionForEdit(EntityDto<Guid> input)
+        {
             var pdInputAssumption = await _pdInputAssumptionRepository.FirstOrDefaultAsync(input.Id);
-           
-		    var output = new GetPdInputAssumptionForEditOutput {PdInputAssumption = ObjectMapper.Map<CreateOrEditPdInputAssumptionDto>(pdInputAssumption)};
-			
+
+            var output = new GetPdInputAssumptionForEditOutput { PdInputAssumption = ObjectMapper.Map<CreateOrEditPdInputAssumptionDto>(pdInputAssumption) };
+
             return output;
-         }
+        }
 
-		 public async Task CreateOrEdit(CreateOrEditPdInputAssumptionDto input)
-         {
-            if(input.Id == null){
-				await Create(input);
-			}
-			else{
-				await Update(input);
-			}
-         }
+        public async Task CreateOrEdit(CreateOrEditPdInputAssumptionDto input)
+        {
+            if (input.Id == null)
+            {
+                await Create(input);
+            }
+            else
+            {
+                await Update(input);
+            }
+        }
 
-		 [AbpAuthorize(AppPermissions.Pages_PdInputAssumptions_Create)]
-		 protected virtual async Task Create(CreateOrEditPdInputAssumptionDto input)
-         {
+        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptions_Create)]
+        protected virtual async Task Create(CreateOrEditPdInputAssumptionDto input)
+        {
             var pdInputAssumption = ObjectMapper.Map<PdInputAssumption>(input);
 
-			
+
 
             await _pdInputAssumptionRepository.InsertAsync(pdInputAssumption);
-         }
+        }
 
-		 [AbpAuthorize(AppPermissions.Pages_PdInputAssumptions_Edit)]
-		 protected virtual async Task Update(CreateOrEditPdInputAssumptionDto input)
-         {
+        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptions_Edit)]
+        protected virtual async Task Update(CreateOrEditPdInputAssumptionDto input)
+        {
             var pdInputAssumption = await _pdInputAssumptionRepository.FirstOrDefaultAsync((Guid)input.Id);
-             ObjectMapper.Map(input, pdInputAssumption);
-         }
 
-		 [AbpAuthorize(AppPermissions.Pages_PdInputAssumptions_Delete)]
-         public async Task Delete(EntityDto<Guid> input)
-         {
+            await SumbitForApproval(input, pdInputAssumption);
+
+            ObjectMapper.Map(input, pdInputAssumption);
+        }
+
+        private async Task SumbitForApproval(CreateOrEditPdInputAssumptionDto input, PdInputAssumption assumption)
+        {
+            await _assumptionApprovalsAppService.CreateOrEdit(new CreateOrEditAssumptionApprovalDto()
+            {
+                OrganizationUnitId = assumption.OrganizationUnitId,
+                Framework = assumption.Framework,
+                AssumptionType = AssumptionTypeEnum.PdInputAssumption,
+                AssumptionGroup = L(assumption.PdGroup.ToString()),
+                InputName = "Credit: " + assumption.InputName,
+                OldValue = assumption.Value,
+                NewValue = input.Value,
+                AssumptionId = assumption.Id,
+                AssumptionEntity = EclEnums.PdInputAssumption,
+                Status = GeneralStatusEnum.Submitted
+            });
+        }
+
+        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptions_Delete)]
+        public async Task Delete(EntityDto<Guid> input)
+        {
             await _pdInputAssumptionRepository.DeleteAsync(input.Id);
-         } 
+        }
     }
 }

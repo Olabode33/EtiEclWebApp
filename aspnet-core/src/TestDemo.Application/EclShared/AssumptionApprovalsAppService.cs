@@ -65,7 +65,7 @@ namespace TestDemo.EclShared
                         .WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.ReviewedByUserFk != null && e.ReviewedByUserFk.Name == input.UserNameFilter);
 
             var pagedAndFilteredAssumptionApprovals = filteredAssumptionApprovals
-                .OrderBy(input.Sorting ?? "creationTime desc")
+                .OrderBy(input.Sorting ?? "status, creationTime desc")
                 .PageBy(input);
 
             var assumptionApprovals = from o in pagedAndFilteredAssumptionApprovals

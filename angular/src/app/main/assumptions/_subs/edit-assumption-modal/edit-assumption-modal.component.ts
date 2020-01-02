@@ -91,7 +91,7 @@ export class EditAssumptionModalComponent extends AppComponentBase {
                     this.dataSource.status = GeneralStatusEnum.Submitted;
                 }
                 this.serviceProxy.createOrEdit(this.dataSource).subscribe(() => {
-                    this.notify.success('SubmittedSuccessfully');
+                    this.notify.success(this.l('SubmittedSuccessfully'));
                     this.saveAssumption.emit(this.dataSource);
                     this.close();
                 });

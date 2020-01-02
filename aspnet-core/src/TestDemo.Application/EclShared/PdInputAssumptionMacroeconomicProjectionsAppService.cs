@@ -20,35 +20,38 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.EclShared
 {
-	[AbpAuthorize(AppPermissions.Pages_PdInputAssumptionMacroeconomicProjections)]
+    [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionMacroeconomicProjections)]
     public class PdInputAssumptionMacroeconomicProjectionsAppService : TestDemoAppServiceBase, IPdInputAssumptionMacroeconomicProjectionsAppService
     {
-		 private readonly IRepository<PdInputAssumptionMacroeconomicProjection, Guid> _pdInputAssumptionMacroeconomicProjectionRepository;
-		 
+        private readonly IRepository<PdInputAssumptionMacroeconomicProjection, Guid> _pdInputAssumptionMacroeconomicProjectionRepository;
+        private readonly IAssumptionApprovalsAppService _assumptionApprovalsAppService;
 
-		  public PdInputAssumptionMacroeconomicProjectionsAppService(IRepository<PdInputAssumptionMacroeconomicProjection, Guid> pdInputAssumptionMacroeconomicProjectionRepository ) 
-		  {
-			_pdInputAssumptionMacroeconomicProjectionRepository = pdInputAssumptionMacroeconomicProjectionRepository;
-			
-		  }
 
-		 public async Task<PagedResultDto<GetPdInputAssumptionMacroeconomicProjectionForViewDto>> GetAll(GetAllPdInputAssumptionMacroeconomicProjectionsInput input)
-         {
-			
-			var filteredPdInputAssumptionMacroeconomicProjections = _pdInputAssumptionMacroeconomicProjectionRepository.GetAll()
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.Key.Contains(input.Filter) || e.InputName.Contains(input.Filter));
+        public PdInputAssumptionMacroeconomicProjectionsAppService(IRepository<PdInputAssumptionMacroeconomicProjection, Guid> pdInputAssumptionMacroeconomicProjectionRepository,
+            IAssumptionApprovalsAppService assumptionApprovalsAppService)
+        {
+            _pdInputAssumptionMacroeconomicProjectionRepository = pdInputAssumptionMacroeconomicProjectionRepository;
+            _assumptionApprovalsAppService = assumptionApprovalsAppService;
+        }
 
-			var pagedAndFilteredPdInputAssumptionMacroeconomicProjections = filteredPdInputAssumptionMacroeconomicProjections
+        public async Task<PagedResultDto<GetPdInputAssumptionMacroeconomicProjectionForViewDto>> GetAll(GetAllPdInputAssumptionMacroeconomicProjectionsInput input)
+        {
+
+            var filteredPdInputAssumptionMacroeconomicProjections = _pdInputAssumptionMacroeconomicProjectionRepository.GetAll()
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Key.Contains(input.Filter) || e.InputName.Contains(input.Filter));
+
+            var pagedAndFilteredPdInputAssumptionMacroeconomicProjections = filteredPdInputAssumptionMacroeconomicProjections
                 .OrderBy(input.Sorting ?? "id asc")
                 .PageBy(input);
 
-			var pdInputAssumptionMacroeconomicProjections = from o in pagedAndFilteredPdInputAssumptionMacroeconomicProjections
-                         select new GetPdInputAssumptionMacroeconomicProjectionForViewDto() {
-							PdInputAssumptionMacroeconomicProjection = new PdInputAssumptionMacroeconomicProjectionDto
-							{
-                                Id = o.Id
-							}
-						};
+            var pdInputAssumptionMacroeconomicProjections = from o in pagedAndFilteredPdInputAssumptionMacroeconomicProjections
+                                                            select new GetPdInputAssumptionMacroeconomicProjectionForViewDto()
+                                                            {
+                                                                PdInputAssumptionMacroeconomicProjection = new PdInputAssumptionMacroeconomicProjectionDto
+                                                                {
+                                                                    Id = o.Id
+                                                                }
+                                                            };
 
             var totalCount = await filteredPdInputAssumptionMacroeconomicProjections.CountAsync();
 
@@ -56,49 +59,71 @@ namespace TestDemo.EclShared
                 totalCount,
                 await pdInputAssumptionMacroeconomicProjections.ToListAsync()
             );
-         }
-		 
-		 [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionMacroeconomicProjections_Edit)]
-		 public async Task<GetPdInputAssumptionMacroeconomicProjectionForEditOutput> GetPdInputAssumptionMacroeconomicProjectionForEdit(EntityDto<Guid> input)
-         {
+        }
+
+        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionMacroeconomicProjections_Edit)]
+        public async Task<GetPdInputAssumptionMacroeconomicProjectionForEditOutput> GetPdInputAssumptionMacroeconomicProjectionForEdit(EntityDto<Guid> input)
+        {
             var pdInputAssumptionMacroeconomicProjection = await _pdInputAssumptionMacroeconomicProjectionRepository.FirstOrDefaultAsync(input.Id);
-           
-		    var output = new GetPdInputAssumptionMacroeconomicProjectionForEditOutput {PdInputAssumptionMacroeconomicProjection = ObjectMapper.Map<CreateOrEditPdInputAssumptionMacroeconomicProjectionDto>(pdInputAssumptionMacroeconomicProjection)};
-			
+
+            var output = new GetPdInputAssumptionMacroeconomicProjectionForEditOutput { PdInputAssumptionMacroeconomicProjection = ObjectMapper.Map<CreateOrEditPdInputAssumptionMacroeconomicProjectionDto>(pdInputAssumptionMacroeconomicProjection) };
+
             return output;
-         }
+        }
 
-		 public async Task CreateOrEdit(CreateOrEditPdInputAssumptionMacroeconomicProjectionDto input)
-         {
-            if(input.Id == null){
-				await Create(input);
-			}
-			else{
-				await Update(input);
-			}
-         }
+        public async Task CreateOrEdit(CreateOrEditPdInputAssumptionMacroeconomicProjectionDto input)
+        {
+            if (input.Id == null)
+            {
+                await Create(input);
+            }
+            else
+            {
+                await Update(input);
+            }
+        }
 
-		 [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionMacroeconomicProjections_Create)]
-		 protected virtual async Task Create(CreateOrEditPdInputAssumptionMacroeconomicProjectionDto input)
-         {
+        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionMacroeconomicProjections_Create)]
+        protected virtual async Task Create(CreateOrEditPdInputAssumptionMacroeconomicProjectionDto input)
+        {
             var pdInputAssumptionMacroeconomicProjection = ObjectMapper.Map<PdInputAssumptionMacroeconomicProjection>(input);
 
-			
+
 
             await _pdInputAssumptionMacroeconomicProjectionRepository.InsertAsync(pdInputAssumptionMacroeconomicProjection);
-         }
+        }
 
-		 [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionMacroeconomicProjections_Edit)]
-		 protected virtual async Task Update(CreateOrEditPdInputAssumptionMacroeconomicProjectionDto input)
-         {
+        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionMacroeconomicProjections_Edit)]
+        protected virtual async Task Update(CreateOrEditPdInputAssumptionMacroeconomicProjectionDto input)
+        {
             var pdInputAssumptionMacroeconomicProjection = await _pdInputAssumptionMacroeconomicProjectionRepository.FirstOrDefaultAsync((Guid)input.Id);
-             ObjectMapper.Map(input, pdInputAssumptionMacroeconomicProjection);
-         }
 
-		 [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionMacroeconomicProjections_Delete)]
-         public async Task Delete(EntityDto<Guid> input)
-         {
+            await SumbitForApproval(input, pdInputAssumptionMacroeconomicProjection);
+
+            ObjectMapper.Map(input, pdInputAssumptionMacroeconomicProjection);
+        }
+
+        private async Task SumbitForApproval(CreateOrEditPdInputAssumptionMacroeconomicProjectionDto input, PdInputAssumptionMacroeconomicProjection assumption)
+        {
+            await _assumptionApprovalsAppService.CreateOrEdit(new CreateOrEditAssumptionApprovalDto()
+            {
+                OrganizationUnitId = assumption.OrganizationUnitId,
+                Framework = assumption.Framework,
+                AssumptionType = AssumptionTypeEnum.PdInputAssumption,
+                AssumptionGroup = L("PdMacroeconomicProjection"),
+                InputName = assumption.InputName + ": " + assumption.Date.ToShortDateString(),
+                OldValue = "B: " + assumption.BestValue.ToString() + " | O: " + assumption.OptimisticValue.ToString() + " | D: " + assumption.DownturnValue.ToString(),
+                NewValue = "B: " + input.BestValue.ToString() + " | O: " + input.OptimisticValue + " | D: " + input.DownturnValue.ToString(),
+                AssumptionId = assumption.Id,
+                AssumptionEntity = EclEnums.PdMacroProjectionAssumption,
+                Status = GeneralStatusEnum.Submitted
+            });
+        }
+
+        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionMacroeconomicProjections_Delete)]
+        public async Task Delete(EntityDto<Guid> input)
+        {
             await _pdInputAssumptionMacroeconomicProjectionRepository.DeleteAsync(input.Id);
-         } 
+        }
     }
 }

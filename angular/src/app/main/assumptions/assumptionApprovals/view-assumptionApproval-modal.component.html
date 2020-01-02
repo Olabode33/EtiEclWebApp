@@ -43,23 +43,32 @@
                     <div class="col-12 mb-3">
                         <h6>{{l("Status")}} :</h6>
                         {{l( generalStatusEnum[item.assumptionApproval.status])}}
-                    </div>
-                    <div class="col-6 mb-3">
-                        <h6>{{l("DateReviewed")}} :</h6>
-                        {{ item.assumptionApproval.dateReviewed | momentFormat:'ll HH:mm:ss' }}
-                    </div>
-                    <div class="col-6 mb-3">
-                        <h6>{{l("ReviewedBy")}}</h6>
-                        {{item.userName}}
+                    </div>                    
+                    <div *ngIf="item.assumptionApproval.status === generalStatusEnum.Approved || item.assumptionApproval.status === generalStatusEnum.Rejected" class="col-12">
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <h6>{{l("ReviewComment")}} :</h6>
+                                {{item.assumptionApproval.reviewComment}}
+                            </div>
+                            <div class="col-6 mb-3">
+                                <h6>{{l("DateReviewed")}} :</h6>
+                                {{ item.assumptionApproval.dateReviewed | momentFormat:'ll HH:mm:ss' }}
+                            </div>
+                            <div class="col-6 mb-3">
+                                <h6>{{l("ReviewedBy")}}</h6>
+                                {{item.userName}}
+                            </div>
+                        </div>
                     </div>
 
                 </div>
 
             </div>
             <div class="modal-footer">
-                <button [disabled]="saving" type="button" class="btn btn-primary blue" (click)="close()">{{l("Close")}}</button>
+                <button [buttonBusy]="saving" [busyText]="l('ReviewingWithThreeDot')" type="button" class="btn btn-primary blue" (click)="reviewAssumption()">{{l("Review")}}</button>
             </div>
         </div>
     </div>
 
+    <app-approve-ecl-modal #approvalModal (approved)="close()"></app-approve-ecl-modal>
 </div>

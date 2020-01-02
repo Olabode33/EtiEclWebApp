@@ -85,5 +85,11 @@ namespace TestDemo.EclShared
         public const string Assumption = "Assumption";
         public const string EadInputAssumption = "EadInputAssumption";
         public const string LgdInputAssumption = "LgdInputAssumption";
+        public const string PdInputAssumption = "PdInputAssumption";
+        public const string PdMacroProjectionAssumption = "PdMacroProjectionAssumption";
+        public const string PdMacroInputAssumption = "PdMacroInputAssumption";
+        public const string PdNonInternalAssumption = "PdNonInternalAssumption";
+        public const string PdNplIndexAssumption = "PdNplIndexAssumption";
+        public const string PdSnpAssumption = "PdSnpAssumption";
     }
 }
