@@ -1,3 +1,5 @@
+using System;
+
 namespace TestDemo.RetailInputs.Dtos
 {
     public class GetRetailEclUploadForViewDto
@@ -6,6 +8,8 @@ namespace TestDemo.RetailInputs.Dtos
 
 		public string RetailEclTenantId { get; set;}
 
+        public DateTime? DateUploaded { get; set; }
 
+        public string UploadedBy { get; set; }
     }
 }

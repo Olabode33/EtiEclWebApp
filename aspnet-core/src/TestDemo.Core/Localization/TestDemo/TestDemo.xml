@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="AffiliateAssumptionDoesNotExistError">There's no assumptions for your affiliate, Please contact your system administrator!</text>
+  <texts>
+    <text name="UploadRecordExists">A record already exists for the uploaded document type!</text>
+    <text name="LoanBook">Loanbook Snapshot</text>
+    <text name="PaymentSchedule">Payment Schedule</text>
+    <text name="UploadedSuccessfully">Uploaded Successfully!</text>
+    <text name="ImportEclDataFailed">Ecl data import process has failed!</text>
+    <text name="UploadSummary">Upload Summary</text>
+    <text name="NoUploadedRecordFoundForEcl">No uploaded record was found for this ECL!</text>
+    <text name="AffiliateAssumptionDoesNotExistError">There's no assumptions for your affiliate, Please contact your system administrator!</text>
     <text name="UserDoesNotBelongToAnyAffiliateError">You don't belong to an affiliate, Please contact your system administrator!</text>
     <text name="ReviewingWithThreeDot">Reviewing ...</text>
     <text name="Category">Category</text>
@@ -19,8 +27,7 @@
     <text name="AssumptionApprovals">Assumption approvals</text>
     <text name="DateReviewedRange">Date reviewed range</text>
     <text name="ReviewedBy">Reviewed By</text>
-
-    <text name="By">By</text>    <text name="IsComputedNote">This value comes from the calibration result</text>    <text name="SubmitForApproval">Submit for approval</text>    <text name="EditAssumptionNote">Submit assumption for approval</text>    <text name="UpdateReportDate">Update Report Date</text>    <text name="EditAssumptionDateComponentError">Should call EditAssumptionsModalComponent.configure once before EditAssumptionsModalComponent.show!</text>
+    <text name="UploadedBy">Uploaded By</text>    <text name="DateUploaded">Upload date</text>    <text name="By">By</text>    <text name="IsComputedNote">This value comes from the calibration result</text>    <text name="SubmitForApproval">Submit for approval</text>    <text name="EditAssumptionNote">Submit assumption for approval</text>    <text name="UpdateReportDate">Update Report Date</text>    <text name="EditAssumptionDateComponentError">Should call EditAssumptionsModalComponent.configure once before EditAssumptionsModalComponent.show!</text>
     <text name="EditPortfolioReportDateComponentError">Should call EditPortfolioReportDateComponent.configure once before EditPortfolioReportDateComponent.show!</text>
     <text name="SubmittedSuccessfully">Submitted Successfully!</text>
     <text name="SaveReportDateNote">Save report date!</text>
@@ -481,7 +488,7 @@
     <text name="DeleteWholesaleEclUploadApproval">Delete wholesale ecl upload approval</text>
     <text name="WholesaleInputs">Wholesale inputs</text>
     <text name="WholesaleEclUpload">Wholesale ecl upload</text>
-    <text name="DocType">Doc type</text>
+    <text name="DocType">Document type</text>
     <text name="UploadComment">Upload comment</text>
     <text name="WholesaleEclUploadsHeaderInfo">Wholesale ecl uploads header info</text>
     <text name="CreateNewWholesaleEclUpload">Create new wholesale ecl upload</text>

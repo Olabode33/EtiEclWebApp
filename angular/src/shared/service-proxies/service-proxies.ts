@@ -26869,6 +26869,64 @@ export class RetailEclUploadsServiceProxy {
      * @param id (optional) 
      * @return Success
      */
+    getEclUploads(id: string | null | undefined): Observable<GetRetailEclUploadForViewDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclUploads/GetEclUploads?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetEclUploads(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetEclUploads(<any>response_);
+                } catch (e) {
+                    return <Observable<GetRetailEclUploadForViewDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetRetailEclUploadForViewDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetEclUploads(response: HttpResponseBase): Observable<GetRetailEclUploadForViewDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(GetRetailEclUploadForViewDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetRetailEclUploadForViewDto[]>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
     getRetailEclUploadForEdit(id: string | null | undefined): Observable<GetRetailEclUploadForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/RetailEclUploads/GetRetailEclUploadForEdit?";
         if (id !== undefined)
@@ -66366,6 +66424,8 @@ export interface IPagedResultDtoOfGetRetailEclUploadForViewDto {
 export class GetRetailEclUploadForViewDto implements IGetRetailEclUploadForViewDto {
     retailEclUpload!: RetailEclUploadDto | undefined;
     retailEclTenantId!: string | undefined;
+    dateUploaded!: moment.Moment | undefined;
+    uploadedBy!: string | undefined;
 
     constructor(data?: IGetRetailEclUploadForViewDto) {
         if (data) {
@@ -66380,6 +66440,8 @@ export class GetRetailEclUploadForViewDto implements IGetRetailEclUploadForViewD
         if (data) {
             this.retailEclUpload = data["retailEclUpload"] ? RetailEclUploadDto.fromJS(data["retailEclUpload"]) : <any>undefined;
             this.retailEclTenantId = data["retailEclTenantId"];
+            this.dateUploaded = data["dateUploaded"] ? moment(data["dateUploaded"].toString()) : <any>undefined;
+            this.uploadedBy = data["uploadedBy"];
         }
     }
 
@@ -66394,6 +66456,8 @@ export class GetRetailEclUploadForViewDto implements IGetRetailEclUploadForViewD
         data = typeof data === 'object' ? data : {};
         data["retailEclUpload"] = this.retailEclUpload ? this.retailEclUpload.toJSON() : <any>undefined;
         data["retailEclTenantId"] = this.retailEclTenantId;
+        data["dateUploaded"] = this.dateUploaded ? this.dateUploaded.toISOString() : <any>undefined;
+        data["uploadedBy"] = this.uploadedBy;
         return data; 
     }
 }
@@ -66401,6 +66465,8 @@ export class GetRetailEclUploadForViewDto implements IGetRetailEclUploadForViewD
 export interface IGetRetailEclUploadForViewDto {
     retailEclUpload: RetailEclUploadDto | undefined;
     retailEclTenantId: string | undefined;
+    dateUploaded: moment.Moment | undefined;
+    uploadedBy: string | undefined;
 }
 
 export class RetailEclUploadDto implements IRetailEclUploadDto {

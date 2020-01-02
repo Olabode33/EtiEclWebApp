@@ -4,6 +4,7 @@ using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using TestDemo.RetailInputs.Dtos;
 using TestDemo.Dto;
+using System.Collections.Generic;
 
 namespace TestDemo.RetailInputs
 {
@@ -11,7 +12,10 @@ namespace TestDemo.RetailInputs
     {
         Task<PagedResultDto<GetRetailEclUploadForViewDto>> GetAll(GetAllRetailEclUploadsInput input);
 
-		Task<GetRetailEclUploadForEditOutput> GetRetailEclUploadForEdit(EntityDto<Guid> input);
+        Task<List<GetRetailEclUploadForViewDto>> GetEclUploads(EntityDto<Guid> input);
+
+
+        Task<GetRetailEclUploadForEditOutput> GetRetailEclUploadForEdit(EntityDto<Guid> input);
 
 		Task CreateOrEdit(CreateOrEditRetailEclUploadDto input);
 

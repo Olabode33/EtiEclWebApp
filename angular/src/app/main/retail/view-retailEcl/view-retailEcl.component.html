@@ -177,6 +177,93 @@
         <!-- End Result -->
 
         <!-- Start Upload & Overrides -->
+        <div class="kt-portlet ">
+            <div class="kt-portlet__head">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">
+                        {{l('UploadSummary')}}
+                    </h3>
+                </div>
+                <div class="kt-portlet__head-toolbar">
+                    <div class="btn-group" dropdown>
+                        <button dropdownToggle type="button" class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-upload"></i> {{"Upload" | localize}}
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-excel-operations" *dropdownMenu>
+                            <a href="javascript:;" class="no-padding">
+                                <span class="fileinput-button">
+                                    <p-fileUpload customUpload="true"
+                                            name="UploadLoanSnapshot"
+                                            #UploadLoanSnapshot
+                                            maxFileSize="10000000"
+                                            auto="auto"
+                                            accept=".csv,.xls,.xlsx"
+                                            (uploadHandler)="uploadLoanbook($event)"
+                                            (onError)="onUploadExcelError()"
+                                            chooseLabel="{{'RawDataLoanBook' | localize}}">
+                                    </p-fileUpload>
+                                </span>
+                            </a>
+                            <a href="javascript:;" class="no-padding">
+                                <span class="fileinput-button">
+                                    <p-fileUpload customUpload="true"
+                                            name="UploadPaymentSchedule"
+                                            #UploadPaymentSchedule
+                                            maxFileSize="10000000"
+                                            auto="auto"
+                                            accept=".csv,.xls,.xlsx"
+                                            (uploadHandler)="uploadPaymentSchedule($event)"
+                                            (onError)="onUploadExcelError()"
+                                            chooseLabel="{{'RawDataPaymentSchedule' | localize}}">
+                                    </p-fileUpload>
+                                </span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <span class="dropdown-item-text text-muted pl-3" href="#">
+                                <small [innerHTML]="l('ImportToExcelSampleFileDownloadInfo', '<a href=/assets/sampleFiles/ImportUsersSampleFile.xlsx>' + l('ClickHere') + '</a>')"></small>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="kt-portlet__body">
+                <div class="table-responsive">
+                    <p *ngIf="retailUploads.length <= 0" class="">
+                        {{l('NoUploadedRecordFoundForEcl')}}
+                    </p>
+                    <table *ngIf="retailUploads.length > 0" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>{{l('Actions')}}</th>
+                                <th>{{l('DocType')}}</th>
+                                <th>{{l('DateUploaded')}}</th>
+                                <th>{{l('UploadedBy')}}</th>
+                                <th>{{l('Status')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of retailUploads">
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm">
+                                        <i class="fa fa-eye"></i> {{l('View')}}
+                                    </button>
+                                </td>
+                                <td class="align-middle">{{l(uploadDocEnum[item.retailEclUpload.docType])}}</td>
+                                <td class="align-middle">{{item.dateUploaded | momentFormat: 'LL'}}</td>
+                                <td class="align-middle">{{item.uploadedBy}}</td>
+                                <td class="align-middle">
+                                    <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline 
+                                                    kt-badge--unified-{{ getStatusLabelClass(item.retailEclUpload.status) }}">
+                                        {{l(statusEnum[item.retailEclUpload.status])}}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
         <!-- End Upload & Overrides-->
 
         <!-- Start Assumptions-->

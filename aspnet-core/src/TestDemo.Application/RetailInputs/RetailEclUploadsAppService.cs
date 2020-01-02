@@ -17,6 +17,8 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.Authorization.Users;
+using Abp.UI;
 
 namespace TestDemo.RetailInputs
 {
@@ -25,13 +27,17 @@ namespace TestDemo.RetailInputs
     {
         private readonly IRepository<RetailEclUpload, Guid> _retailEclUploadRepository;
         private readonly IRepository<RetailEcl, Guid> _lookup_retailEclRepository;
+        private readonly IRepository<User, long> _lookup_userRepository;
 
 
-        public RetailEclUploadsAppService(IRepository<RetailEclUpload, Guid> retailEclUploadRepository, IRepository<RetailEcl, Guid> lookup_retailEclRepository)
+        public RetailEclUploadsAppService(
+            IRepository<RetailEclUpload, Guid> retailEclUploadRepository, 
+            IRepository<RetailEcl, Guid> lookup_retailEclRepository,
+            IRepository<User, long> lookup_userRepository)
         {
             _retailEclUploadRepository = retailEclUploadRepository;
             _lookup_retailEclRepository = lookup_retailEclRepository;
-
+            _lookup_userRepository = lookup_userRepository;
         }
 
         public async Task<PagedResultDto<GetRetailEclUploadForViewDto>> GetAll(GetAllRetailEclUploadsInput input)
@@ -74,7 +80,31 @@ namespace TestDemo.RetailInputs
             );
         }
 
+        public async Task<List<GetRetailEclUploadForViewDto>> GetEclUploads(EntityDto<Guid> input)
+        {
+            var retailEclUploads = from o in _retailEclUploadRepository.GetAll().Where(x => x.RetailEclId == input.Id)
+                                   join o1 in _lookup_retailEclRepository.GetAll() on o.RetailEclId equals o1.Id into j1
+                                   from s1 in j1.DefaultIfEmpty()
 
+                                   join u in _lookup_userRepository.GetAll() on o.CreatorUserId equals u.Id into u1
+                                   from u2 in u1.DefaultIfEmpty()
+
+                                   select new GetRetailEclUploadForViewDto()
+                                   {
+                                       RetailEclUpload = new RetailEclUploadDto
+                                       {
+                                           DocType = o.DocType,
+                                           UploadComment = o.UploadComment,
+                                           Status = o.Status,
+                                           RetailEclId = o.RetailEclId,
+                                           Id = o.Id
+                                       },
+                                       DateUploaded = o.CreationTime,
+                                       UploadedBy = u2 == null ? "" : u2.FullName
+                                   };
+
+            return await retailEclUploads.ToListAsync();
+        }
 
         [AbpAuthorize(AppPermissions.Pages_RetailEclUploads_Edit)]
         public async Task<GetRetailEclUploadForEditOutput> GetRetailEclUploadForEdit(EntityDto<Guid> input)
@@ -107,16 +137,25 @@ namespace TestDemo.RetailInputs
         [AbpAuthorize(AppPermissions.Pages_RetailEclUploads_Create)]
         protected virtual async Task Create(CreateOrEditRetailEclUploadDto input)
         {
-            var retailEclUpload = ObjectMapper.Map<RetailEclUpload>(input);
-
-
-            if (AbpSession.TenantId != null)
+            var retailEclUploadExist = await _retailEclUploadRepository.FirstOrDefaultAsync(x => x.DocType == input.DocType);
+            
+            if (retailEclUploadExist == null)
             {
-                retailEclUpload.TenantId = (int?)AbpSession.TenantId;
+                var retailEclUpload = ObjectMapper.Map<RetailEclUpload>(input);
+
+
+                if (AbpSession.TenantId != null)
+                {
+                    retailEclUpload.TenantId = (int?)AbpSession.TenantId;
+                }
+
+
+                await _retailEclUploadRepository.InsertAsync(retailEclUpload);
+            } 
+            else
+            {
+                throw new UserFriendlyException(L("UploadRecordExists"));
             }
-
-
-            await _retailEclUploadRepository.InsertAsync(retailEclUpload);
         }
 
         [AbpAuthorize(AppPermissions.Pages_RetailEclUploads_Edit)]

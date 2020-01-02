@@ -1,7 +1,7 @@
-import { EadInputAssumptionGroupEnum, LdgInputAssumptionGroupEnum, CreateOrEditObeEclLgdAssumptionDto, CreateOrEditRetailEclApprovalDto, GetAllPdAssumptionsDto, FrameworkEnum } from './../../../../shared/service-proxies/service-proxies';
+import { EadInputAssumptionGroupEnum, LdgInputAssumptionGroupEnum, CreateOrEditObeEclLgdAssumptionDto, CreateOrEditRetailEclApprovalDto, GetAllPdAssumptionsDto, FrameworkEnum, RetailEclUploadsServiceProxy, GetRetailEclUploadForViewDto, CreateOrEditRetailEclUploadDto } from './../../../../shared/service-proxies/service-proxies';
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EclStatusEnum, CreateOrEditWholesaleEclDto, WholesaleEclsServiceProxy, RetailEclsServiceProxy, GetRetailEclForEditOutput, CreateOrEditRetailEclAssumptionDto, CreateOrEditRetailEclEadInputAssumptionDto, CreateOrEditRetailEclLgdAssumptionDto, CreateOrEditRetailEclDto, AssumptionGroupEnum, DataTypeEnum } from '@shared/service-proxies/service-proxies';
+import { EclStatusEnum, CreateOrEditWholesaleEclDto, WholesaleEclsServiceProxy, RetailEclsServiceProxy, GetRetailEclForEditOutput, CreateOrEditRetailEclAssumptionDto, CreateOrEditRetailEclEadInputAssumptionDto, CreateOrEditRetailEclLgdAssumptionDto, CreateOrEditRetailEclDto, AssumptionGroupEnum, DataTypeEnum, UploadDocTypeEnum, GeneralStatusEnum } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -33,10 +33,13 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
     _eclId = '';
     retailEclDetails: GetRetailEclForEditOutput = new GetRetailEclForEditOutput();
     retailEClDto: CreateOrEditRetailEclDto = new CreateOrEditRetailEclDto();
+    retailUploads: GetRetailEclUploadForViewDto[] = new Array();
     frameworkAssumptions: CreateOrEditRetailEclAssumptionDto[] = new Array();
     eadInputAssumptions: CreateOrEditRetailEclEadInputAssumptionDto[] = new Array();
     lgdInputAssumptions: CreateOrEditRetailEclLgdAssumptionDto[] = new Array();
 
+    uploadDocEnum = UploadDocTypeEnum;
+    statusEnum = GeneralStatusEnum;
     dataTypeEnum = DataTypeEnum;
     eclStatusEnum = EclStatusEnum;
     assumptionGroupEnum = AssumptionGroupEnum;
@@ -82,6 +85,7 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
     constructor(
         injector: Injector,
         private _retailEcLsServiceProxy: RetailEclsServiceProxy,
+        private _retailEclUploadServiceProxy: RetailEclUploadsServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
@@ -96,6 +100,7 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
         this._activatedRoute.paramMap.subscribe(params => {
             this._eclId = params.get('eclId');
             this.getEclDetails();
+            this.getEclUploadSummary();
 
             let retailEcl = new CreateOrEditRetailEclApprovalDto();
             retailEcl.retailEclId = this._eclId;
@@ -162,6 +167,12 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
         this.pdInputAssumptionTag.load(pdAssumption, '', FrameworkEnum.Retail,  true);
     }
 
+    getEclUploadSummary(): void {
+        this._retailEclUploadServiceProxy.getEclUploads(this._eclId).subscribe(result => {
+            this.retailUploads = result;
+        });
+    }
+
     editEcl() {
         this.notify.info('Yet to be implemented!!!');
     }
@@ -176,6 +187,82 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
 
     goBack() {
         this._location.back();
+    }
+
+    uploadLoanbook(data: { files: File }): void {
+        let upload = new CreateOrEditRetailEclUploadDto();
+        upload.docType = UploadDocTypeEnum.LoanBook;
+        upload.retailEclId = this._eclId;
+        upload.status = GeneralStatusEnum.Draft;
+        upload.uploadComment = 'Generic sample';
+
+        this._retailEclUploadServiceProxy.createOrEdit(upload).subscribe(() => {
+            this.getEclUploadSummary();
+            this.notify.success(this.l('UploadedSuccessfully'));
+        });
+
+        // const formData: FormData = new FormData();
+        // const file = data.files[0];
+        // formData.append('file', file, file.name);
+
+        // this._httpClient
+        //     .post<any>(this.uploadUrl, formData)
+        //     .pipe(finalize(() => this.excelFileUpload.clear()))
+        //     .subscribe(response => {
+        //         if (response.success) {
+        //             this.notify.success(this.l('ImportUsersProcessStart'));
+        //         } else if (response.error != null) {
+        //             this.notify.error(this.l('ImportUsersUploadFailed'));
+        //         }
+        //     });
+    }
+
+    uploadPaymentSchedule(data: { files: File }): void {
+        let upload = new CreateOrEditRetailEclUploadDto();
+        upload.docType = UploadDocTypeEnum.PaymentSchedule;
+        upload.retailEclId = this._eclId;
+        upload.status = GeneralStatusEnum.Draft;
+        upload.uploadComment = 'Generic sample';
+
+        this._retailEclUploadServiceProxy.createOrEdit(upload).subscribe(() => {
+            this.getEclUploadSummary();
+            this.notify.success(this.l('UploadedSuccessfully'));
+        });
+
+        // const formData: FormData = new FormData();
+        // const file = data.files[0];
+        // formData.append('file', file, file.name);
+
+        // this._httpClient
+        //     .post<any>(this.uploadUrl, formData)
+        //     .pipe(finalize(() => this.excelFileUpload.clear()))
+        //     .subscribe(response => {
+        //         if (response.success) {
+        //             this.notify.success(this.l('ImportUsersProcessStart'));
+        //         } else if (response.error != null) {
+        //             this.notify.error(this.l('ImportUsersUploadFailed'));
+        //         }
+        //     });
+    }
+
+    onUploadExcelError(): void {
+        this.notify.error(this.l('ImportEclDataFailed'));
+    }
+
+
+    getStatusLabelClass(uploadStatus: GeneralStatusEnum): string {
+        switch (uploadStatus){
+            case GeneralStatusEnum.Draft:
+                return 'primary';
+            case GeneralStatusEnum.Submitted:
+                return 'warning';
+            case GeneralStatusEnum.Approved:
+                return 'success';
+            case GeneralStatusEnum.Rejected:
+                return 'danger';
+            default:
+                return 'dark';
+        }
     }
 
 }
