@@ -606,6 +606,472 @@
                 </tabset>
             </div>
         </div>
+        
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="kt-portlet ">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                {{l('FrameworkAssumptions')}}
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+
+                        <!--begin::Accordion-->
+                        <div class="accordion accordion-light  accordion-toggle-arrow" id="accordionExample5">
+                            <div class="card">
+                                <div class="card-header" id="headingOne5">
+                                    <div class="card-title" (click)="showScenarioGroup = !showScenarioGroup"
+                                        [ngClass]="{collapsed: !showScenarioGroup}">
+                                        <i class="flaticon-pie-chart-1"></i>
+                                        {{l(assumptionGroupEnum[assumptionGroupEnum.ScenarioInputs])}}
+                                    </div>
+                                </div>
+                                <div id="collapseOne5" class="collapse" [ngClass]="{show: showScenarioGroup}">
+                                    <div class="card-body">
+                                        <!--begin:: Widgets/Stats2-1 -->
+                                        <div class="kt-widget1" *ngFor="let item of scenarioAssumptionGroup">
+                                            <div class="kt-widget1__item">
+                                                <div class="kt-widget1__info">
+                                                    <!-- <h3 class="kt-widget1__title">{{l(assumptionGroupEnum[item.assumptionGroup])}}</h3> -->
+                                                    <span class="kt-widget1__desc">{{item.inputName}}</span>
+                                                </div>
+                                                <span
+                                                    *ngIf="item.datatype !== dataTypeEnum.DoubleMoney && item.datatype !== dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value}}</span>
+                                                <span *ngIf="item.datatype == dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | percent:'1.2-2'}}</span>
+                                                <span *ngIf="item.datatype == dataTypeEnum.DoubleMoney"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | number:'1.0-0'}}</span>
+                                            </div>
+                                        </div>
+                                        <!--end:: Widgets/Stats2-1 -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="headingTwo5">
+                                    <div class="card-title" (click)="showAbsolute = !showAbsolute"
+                                        [ngClass]="{collapsed: !showAbsolute}">
+                                        <i class="flaticon2-notification"></i>
+                                        {{l(assumptionGroupEnum[assumptionGroupEnum.AbsoluteCreditQuality])}}
+                                    </div>
+                                </div>
+                                <div id="collapseTwo5" class="collapse" [ngClass]="{show: showAbsolute}">
+                                    <div class="card-body">
+                                        <!--begin:: Widgets/Stats2-1 -->
+                                        <div class="kt-widget1"
+                                            *ngFor="let item of absoluteCreditQualityAssumptionGroup">
+                                            <div class="kt-widget1__item">
+                                                <div class="kt-widget1__info">
+                                                    <!-- <h3 class="kt-widget1__title">{{l(assumptionGroupEnum[item.assumptionGroup])}}</h3> -->
+                                                    <span class="kt-widget1__desc">{{item.inputName}}</span>
+                                                </div>
+                                                <span
+                                                    *ngIf="item.datatype !== dataTypeEnum.DoubleMoney && item.datatype !== dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value}}</span>
+                                                <span *ngIf="item.datatype == dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | percent:'1.2-2'}}</span>
+                                                <span *ngIf="item.datatype == dataTypeEnum.DoubleMoney"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | number:'1.0-0'}}</span>
+                                            </div>
+                                        </div>
+                                        <!--end:: Widgets/Stats2-1 -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="headingThree5">
+                                    <div class="card-title" (click)="showRelative = !showRelative"
+                                        [ngClass]="{collapsed: !showRelative}">
+                                        <i class="flaticon2-chart"></i>
+                                        {{l(assumptionGroupEnum[assumptionGroupEnum.RelativeCreditQuality])}}
+                                    </div>
+                                </div>
+                                <div id="collapseThree5" class="collapse" [ngClass]="{show: showRelative}">
+                                    <div class="card-body">
+                                        <!--begin:: Widgets/Stats2-1 -->
+                                        <div class="kt-widget1"
+                                            *ngFor="let item of relativeCreditQualityAssumptionGroup">
+                                            <div class="kt-widget1__item">
+                                                <div class="kt-widget1__info">
+                                                    <!-- <h3 class="kt-widget1__title">{{l(assumptionGroupEnum[item.assumptionGroup])}}</h3> -->
+                                                    <span class="kt-widget1__desc">{{item.inputName}}</span>
+                                                </div>
+                                                <span
+                                                    *ngIf="item.datatype !== dataTypeEnum.DoubleMoney && item.datatype !== dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value}}</span>
+                                                <span *ngIf="item.datatype == dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | percent:'1.2-2'}}</span>
+                                                <span *ngIf="item.datatype == dataTypeEnum.DoubleMoney"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | number:'1.0-0'}}</span>
+                                            </div>
+                                        </div>
+                                        <!--end:: Widgets/Stats2-1 -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="headingThree5">
+                                    <div class="card-title" (click)="showForward = !showForward"
+                                        [ngClass]="{collapsed: !showForward}">
+                                        <i class="flaticon2-chart"></i>
+                                        {{l(assumptionGroupEnum[assumptionGroupEnum.ForwardTransitions])}}
+                                    </div>
+                                </div>
+                                <div id="collapseThree5" class="collapse" [ngClass]="{show: showForward}">
+                                    <div class="card-body">
+                                        <!--begin:: Widgets/Stats2-1 -->
+                                        <div class="kt-widget1" *ngFor="let item of forwardTransitionsAssumptionGroup">
+                                            <div class="kt-widget1__item">
+                                                <div class="kt-widget1__info">
+                                                    <!-- <h3 class="kt-widget1__title">{{l(assumptionGroupEnum[item.assumptionGroup])}}</h3> -->
+                                                    <span class="kt-widget1__desc">{{item.inputName}}</span>
+                                                </div>
+                                                <span
+                                                    *ngIf="item.datatype !== dataTypeEnum.DoubleMoney && item.datatype !== dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value}}</span>
+                                                <span *ngIf="item.datatype == dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | percent:'1.2-2'}}</span>
+                                                <span *ngIf="item.datatype == dataTypeEnum.DoubleMoney"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | number:'1.0-0'}}</span>
+                                            </div>
+                                        </div>
+                                        <!--end:: Widgets/Stats2-1 -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="headingThree5">
+                                    <div class="card-title" (click)="showBackWard = !showBackWard"
+                                        [ngClass]="{collapsed: !showBackWard}">
+                                        <i class="flaticon2-chart"></i>
+                                        {{l(assumptionGroupEnum[assumptionGroupEnum.BackwardTransitions])}}
+                                    </div>
+                                </div>
+                                <div id="collapseThree5" class="collapse" [ngClass]="{show: showBackWard}">
+                                    <div class="card-body">
+                                        <!--begin:: Widgets/Stats2-1 -->
+                                        <div class="kt-widget1" *ngFor="let item of backwardTransitionAssumptionGroup">
+                                            <div class="kt-widget1__item">
+                                                <div class="kt-widget1__info">
+                                                    <!-- <h3 class="kt-widget1__title">{{l(assumptionGroupEnum[item.assumptionGroup])}}</h3> -->
+                                                    <span class="kt-widget1__desc">{{item.inputName}}</span>
+                                                </div>
+                                                <span
+                                                    *ngIf="item.datatype !== dataTypeEnum.DoubleMoney && item.datatype !== dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value}}</span>
+                                                <span *ngIf="item.datatype == dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | percent:'1.2-2'}}</span>
+                                                <span *ngIf="item.datatype == dataTypeEnum.DoubleMoney"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | number:'1.0-0'}}</span>
+                                            </div>
+                                        </div>
+                                        <!--end:: Widgets/Stats2-1 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end::Accordion-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="kt-portlet ">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                {{l('EadAssumptions')}}
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+
+                        <!--begin::Accordion-->
+                        <div class="accordion accordion-light  accordion-toggle-arrow" id="accordionExample5">
+                            <div class="card">
+                                <div class="card-header" id="headingOne5">
+                                    <div class="card-title" (click)="showCcfGroup = !showCcfGroup"
+                                        [ngClass]="{collapsed: !showCcfGroup}">
+                                        <i class="flaticon-pie-chart-1"></i>
+                                        {{l(eadAssumptionGroupEnum[eadAssumptionGroupEnum.CreditConversionFactors])}}
+                                    </div>
+                                </div>
+                                <div id="collapseOne5" class="collapse" [ngClass]="{show: showCcfGroup}">
+                                    <div class="card-body">
+                                        <!--begin:: Widgets/Stats2-1 -->
+                                        <div class="kt-widget1" *ngFor="let item of ccfGroup">
+                                            <div class="kt-widget1__item">
+                                                <div class="kt-widget1__info">
+                                                    <!-- <h3 class="kt-widget1__title">{{l(assumptionGroupEnum[item.assumptionGroup])}}</h3> -->
+                                                    <span class="kt-widget1__desc">{{item.inputName}}</span>
+                                                </div>
+                                                <span
+                                                    *ngIf="item.datatype !== dataTypeEnum.DoubleMoney && item.datatype !== dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value}}</span>
+                                                <span *ngIf="item.datatype == dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | percent:'1.2-2'}}</span>
+                                                <span *ngIf="item.datatype == dataTypeEnum.DoubleMoney"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | number:'1.0-0'}}</span>
+                                            </div>
+                                        </div>
+                                        <!--end:: Widgets/Stats2-1 -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="headingTwo5">
+                                    <div class="card-title" (click)="showVirGroup = !showVirGroup"
+                                        [ngClass]="{collapsed: !showVirGroup}">
+                                        <i class="flaticon2-notification"></i>
+                                        {{l(eadAssumptionGroupEnum[eadAssumptionGroupEnum.VariableInterestRateProjections])}}
+                                    </div>
+                                </div>
+                                <div id="collapseTwo5" class="collapse" [ngClass]="{show: showVirGroup}">
+                                    <div class="card-body">
+                                        <!--begin:: Widgets/Stats2-1 -->
+                                        <div class="kt-widget1" *ngFor="let item of virGroup">
+                                            <div class="kt-widget1__item">
+                                                <div class="kt-widget1__info">
+                                                    <!-- <h3 class="kt-widget1__title">{{l(assumptionGroupEnum[item.assumptionGroup])}}</h3> -->
+                                                    <span class="kt-widget1__desc">{{item.inputName}}</span>
+                                                </div>
+                                                <span
+                                                    *ngIf="item.datatype !== dataTypeEnum.DoubleMoney && item.datatype !== dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value}}</span>
+                                                <span *ngIf="item.datatype == dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | percent:'1.2-2'}}</span>
+                                                <span *ngIf="item.datatype == dataTypeEnum.DoubleMoney"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | number:'1.0-0'}}</span>
+                                            </div>
+                                        </div>
+                                        <!--end:: Widgets/Stats2-1 -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="headingThree5">
+                                    <div class="card-title" (click)="showExchangeRateGroup = !showExchangeRateGroup"
+                                        [ngClass]="{collapsed: !showExchangeRateGroup}">
+                                        <i class="flaticon2-chart"></i>
+                                        {{l(eadAssumptionGroupEnum[eadAssumptionGroupEnum.ExchangeRateProjections])}}
+                                    </div>
+                                </div>
+                                <div id="collapseThree5" class="collapse" [ngClass]="{show: showExchangeRateGroup}">
+                                    <div class="card-body">
+                                        <!--begin:: Widgets/Stats2-1 -->
+                                        <div class="kt-widget1" *ngFor="let item of exchangeRateGroup">
+                                            <div class="kt-widget1__item">
+                                                <div class="kt-widget1__info">
+                                                    <!-- <h3 class="kt-widget1__title">{{l(assumptionGroupEnum[item.assumptionGroup])}}</h3> -->
+                                                    <span class="kt-widget1__desc">{{item.inputName}}</span>
+                                                </div>
+                                                <span
+                                                    *ngIf="item.datatype !== dataTypeEnum.DoubleMoney && item.datatype !== dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value}}</span>
+                                                <span *ngIf="item.datatype == dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | percent:'1.2-2'}}</span>
+                                                <span *ngIf="item.datatype == dataTypeEnum.DoubleMoney"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | number:'1.0-0'}}</span>
+                                            </div>
+                                        </div>
+                                        <!--end:: Widgets/Stats2-1 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end::Accordion-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="kt-portlet ">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                {{l('LgdAssumptions')}}
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+
+                        <!--begin::Accordion-->
+                        <div class="accordion accordion-light  accordion-toggle-arrow" id="accordionExample5">
+                            <div class="card">
+                                <div class="card-header" id="headingOne5">
+                                    <div class="card-title" (click)="showUnsecuredRecoveries = !showUnsecuredRecoveries"
+                                        [ngClass]="{collapsed: !showUnsecuredRecoveries}">
+                                        <i class="flaticon-pie-chart-1"></i>
+                                        {{l(lgdAssumptionGroupEnum[lgdAssumptionGroupEnum.UnsecuredRecoveriesTimeInDefault])}}
+                                    </div>
+                                </div>
+                                <div id="collapseOne5" class="collapse" [ngClass]="{show: showUnsecuredRecoveries}">
+                                    <div class="card-body">
+                                        <!--begin:: Widgets/Stats2-1 -->
+                                        <div class="kt-widget1" *ngFor="let item of timeToDefaultGroup">
+                                            <div class="kt-widget1__item">
+                                                <div class="kt-widget1__info">
+                                                    <!-- <h3 class="kt-widget1__title">{{l(assumptionGroupEnum[item.assumptionGroup])}}</h3> -->
+                                                    <span class="kt-widget1__desc">{{item.inputName}}</span>
+                                                </div>
+                                                <span
+                                                    *ngIf="item.dataType !== dataTypeEnum.DoubleMoney && item.dataType !== dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value}}</span>
+                                                <span *ngIf="item.dataType == dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | percent:'1.2-2'}}</span>
+                                                <span *ngIf="item.dataType == dataTypeEnum.DoubleMoney"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | number:'1.0-0'}}</span>
+                                            </div>
+                                        </div>
+                                        <!--end:: Widgets/Stats2-1 -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="headingTwo5">
+                                    <div class="card-title" (click)="showCorHigh = !showCorHigh"
+                                        [ngClass]="{collapsed: !showCorHigh}">
+                                        <i class="flaticon2-notification"></i>
+                                        {{l(lgdAssumptionGroupEnum[lgdAssumptionGroupEnum.CostOfRecoveryHigh])}}
+                                    </div>
+                                </div>
+                                <div id="collapseTwo5" class="collapse" [ngClass]="{show: showCorHigh}">
+                                    <div class="card-body">
+                                        <!--begin:: Widgets/Stats2-1 -->
+                                        <div class="kt-widget1" *ngFor="let item of corHighGroup">
+                                            <div class="kt-widget1__item">
+                                                <div class="kt-widget1__info">
+                                                    <!-- <h3 class="kt-widget1__title">{{l(assumptionGroupEnum[item.assumptionGroup])}}</h3> -->
+                                                    <span class="kt-widget1__desc">{{item.inputName}}</span>
+                                                </div>
+                                                <span
+                                                    *ngIf="item.dataType !== dataTypeEnum.DoubleMoney && item.dataType !== dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value}}</span>
+                                                <span *ngIf="item.dataType == dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | percent:'1.2-2'}}</span>
+                                                <span *ngIf="item.dataType == dataTypeEnum.DoubleMoney"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | number:'1.0-0'}}</span>
+                                            </div>
+                                        </div>
+                                        <!--end:: Widgets/Stats2-1 -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="headingThree5">
+                                    <div class="card-title" (click)="showCorLow = !showCorLow"
+                                        [ngClass]="{collapsed: !showCorLow}">
+                                        <i class="flaticon2-chart"></i>
+                                        {{l(lgdAssumptionGroupEnum[lgdAssumptionGroupEnum.CostOfRecoveryLow])}}
+                                    </div>
+                                </div>
+                                <div id="collapseThree5" class="collapse" [ngClass]="{show: showCorLow}">
+                                    <div class="card-body">
+                                        <!--begin:: Widgets/Stats2-1 -->
+                                        <div class="kt-widget1" *ngFor="let item of corLowGroup">
+                                            <div class="kt-widget1__item">
+                                                <div class="kt-widget1__info">
+                                                    <!-- <h3 class="kt-widget1__title">{{l(assumptionGroupEnum[item.assumptionGroup])}}</h3> -->
+                                                    <span class="kt-widget1__desc">{{item.inputName}}</span>
+                                                </div>
+                                                <span
+                                                    *ngIf="item.dataType !== dataTypeEnum.DoubleMoney && item.dataType !== dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value}}</span>
+                                                <span *ngIf="item.dataType == dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | percent:'1.2-2'}}</span>
+                                                <span *ngIf="item.dataType == dataTypeEnum.DoubleMoney"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | number:'1.0-0'}}</span>
+                                            </div>
+                                        </div>
+                                        <!--end:: Widgets/Stats2-1 -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="headingThree5">
+                                    <div class="card-title" (click)="showCollateralGrowth = !showCollateralGrowth"
+                                        [ngClass]="{collapsed: !showCollateralGrowth}">
+                                        <i class="flaticon2-chart"></i>
+                                        {{l(lgdAssumptionGroupEnum[lgdAssumptionGroupEnum.CollateralGrowthBest])}}
+                                    </div>
+                                </div>
+                                <div id="collapseThree5" class="collapse" [ngClass]="{show: showCollateralGrowth}">
+                                    <div class="card-body">
+                                        <!--begin:: Widgets/Stats2-1 -->
+                                        <div class="kt-widget1" *ngFor="let item of collateralGrowthGroup">
+                                            <div class="kt-widget1__item">
+                                                <div class="kt-widget1__info">
+                                                    <!-- <h3 class="kt-widget1__title">{{l(assumptionGroupEnum[item.assumptionGroup])}}</h3> -->
+                                                    <span class="kt-widget1__desc">{{item.inputName}}</span>
+                                                </div>
+                                                <span
+                                                    *ngIf="item.dataType !== dataTypeEnum.DoubleMoney && item.dataType !== dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value}}</span>
+                                                <span *ngIf="item.dataType == dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | percent:'1.2-2'}}</span>
+                                                <span *ngIf="item.dataType == dataTypeEnum.DoubleMoney"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | number:'1.0-0'}}</span>
+                                            </div>
+                                        </div>
+                                        <!--end:: Widgets/Stats2-1 -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="headingThree5">
+                                    <div class="card-title" (click)="showTTR = !showTTR"
+                                        [ngClass]="{collapsed: !showTTR}">
+                                        <i class="flaticon2-chart"></i>
+                                        {{l(lgdAssumptionGroupEnum[lgdAssumptionGroupEnum.CollateralTTR])}}
+                                    </div>
+                                </div>
+                                <div id="collapseThree5" class="collapse" [ngClass]="{show: showTTR}">
+                                    <div class="card-body">
+                                        <!--begin:: Widgets/Stats2-1 -->
+                                        <div class="kt-widget1" *ngFor="let item of collateralTTRGroup">
+                                            <div class="kt-widget1__item">
+                                                <div class="kt-widget1__info">
+                                                    <!-- <h3 class="kt-widget1__title">{{l(assumptionGroupEnum[item.assumptionGroup])}}</h3> -->
+                                                    <span class="kt-widget1__desc">{{item.inputName}}</span>
+                                                </div>
+                                                <span
+                                                    *ngIf="item.dataType !== dataTypeEnum.DoubleMoney && item.dataType !== dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value}}</span>
+                                                <span *ngIf="item.dataType == dataTypeEnum.DoublePercentage"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | percent:'1.2-2'}}</span>
+                                                <span *ngIf="item.dataType == dataTypeEnum.DoubleMoney"
+                                                    class="kt-widget1__number kt-font-brand">{{item.value | number:'1.0-0'}}</span>
+                                            </div>
+                                        </div>
+                                        <!--end:: Widgets/Stats2-1 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end::Accordion-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="kt-portlet ">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                {{l('PdAssumptions')}}
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <app-pdInputAssumptions #pdInputAssumptionTag></app-pdInputAssumptions>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- End Assumptions-->
 
         <!-- Start Audit Trail -->

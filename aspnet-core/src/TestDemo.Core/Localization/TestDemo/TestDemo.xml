@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="ReviewingWithThreeDot">Reviewing ...</text>
+  <texts>    <text name="AffiliateAssumptionDoesNotExistError">There's no assumptions for your affiliate, Please contact your system administrator!</text>
+    <text name="UserDoesNotBelongToAnyAffiliateError">You don't belong to an affiliate, Please contact your system administrator!</text>
+    <text name="ReviewingWithThreeDot">Reviewing ...</text>
     <text name="Category">Category</text>
     <text name="Group">Group</text>
     <text name="Type">Type</text>
@@ -25,7 +27,7 @@
     <text name="Affiliate">Affiliate</text>
     <text name="LastUpdated">Last Updated</text>
     <text name="LastReportDate">Last Report Date</text>
-    <text name="MacroeconomicVariable">Macro-economic variable</text>
+    <text name="MacroeconomicVariable">Macro variable</text>
     <text name="Description">Description</text>
     <text name="MacroeconomicVariablesHeaderInfo">Manage list of macroeconomic variables</text>
     <text name="CreateNewMacroeconomicVariable">New</text>

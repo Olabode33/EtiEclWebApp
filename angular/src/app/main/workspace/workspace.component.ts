@@ -1,6 +1,6 @@
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { WholesaleEclsServiceProxy, WholesaleEclDto, EclStatusEnum, EclSharedServiceProxy, FrameworkEnum } from '@shared/service-proxies/service-proxies';
+import { WholesaleEclsServiceProxy, WholesaleEclDto, EclStatusEnum, EclSharedServiceProxy, FrameworkEnum, RetailEclsServiceProxy } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -36,6 +36,7 @@ export class WorkspaceComponent extends AppComponentBase implements OnInit {
     constructor(
         injector: Injector,
         private _eclSharedServiceProxy: EclSharedServiceProxy,
+        private _retailEclServiceProxy: RetailEclsServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
@@ -112,6 +113,13 @@ export class WorkspaceComponent extends AppComponentBase implements OnInit {
                 this.navigateToViewWholesaleEcl(eclId);
                 break;
         }
+    }
+
+    createRetailEcl(): void {
+        this._retailEclServiceProxy.createEclAndAssumption().subscribe(result => {
+            this.notify.success('RetailEclSuccessfullyCreated');
+            this.viewEcl(FrameworkEnum.Retail, result);
+        });
     }
 
 }

@@ -1,4 +1,4 @@
-import { EadInputAssumptionGroupEnum, LdgInputAssumptionGroupEnum, CreateOrEditObeEclLgdAssumptionDto, CreateOrEditRetailEclApprovalDto } from './../../../../shared/service-proxies/service-proxies';
+import { EadInputAssumptionGroupEnum, LdgInputAssumptionGroupEnum, CreateOrEditObeEclLgdAssumptionDto, CreateOrEditRetailEclApprovalDto, GetAllPdAssumptionsDto, FrameworkEnum } from './../../../../shared/service-proxies/service-proxies';
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EclStatusEnum, CreateOrEditWholesaleEclDto, WholesaleEclsServiceProxy, RetailEclsServiceProxy, GetRetailEclForEditOutput, CreateOrEditRetailEclAssumptionDto, CreateOrEditRetailEclEadInputAssumptionDto, CreateOrEditRetailEclLgdAssumptionDto, CreateOrEditRetailEclDto, AssumptionGroupEnum, DataTypeEnum } from '@shared/service-proxies/service-proxies';
@@ -16,6 +16,7 @@ import * as moment from 'moment';
 import { AppConsts } from '@shared/AppConsts';
 import { Location } from '@angular/common';
 import { ApproveEclModalComponent } from '@app/main/eclShared/approve-ecl-modal/approve-ecl-modal.component';
+import { PdInputAssumptionsComponent } from '@app/main/assumptions/_subs/pdInputAssumptions/pdInputAssumptions.component';
 
 @Component({
     selector: 'app-view-retailEcl',
@@ -27,6 +28,7 @@ import { ApproveEclModalComponent } from '@app/main/eclShared/approve-ecl-modal/
 export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
 
     @ViewChild('aproveEclModal', {static: true}) approveEclModel: ApproveEclModalComponent;
+    @ViewChild('pdInputAssumptionTag', {static: true}) pdInputAssumptionTag: PdInputAssumptionsComponent;
 
     _eclId = '';
     retailEclDetails: GetRetailEclForEditOutput = new GetRetailEclForEditOutput();
@@ -118,6 +120,7 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
                                         this.extractGeneralAssumptionGroups();
                                         this.extractEadAssumptionGroups();
                                         this.extractLgdAssumptionGroups();
+                                        this.extractPdAssumptionGroups(result);
                                     });
     }
 
@@ -145,6 +148,18 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
         this.corLowGroup = this.lgdInputAssumptions.filter(x => x.lgdGroup === this.lgdAssumptionGroupEnum.CostOfRecoveryLow);
         this.collateralGrowthGroup = this.lgdInputAssumptions.filter(x => x.lgdGroup === this.lgdAssumptionGroupEnum.CollateralGrowthBest);
         this.collateralTTRGroup = this.lgdInputAssumptions.filter(x => x.lgdGroup === this.lgdAssumptionGroupEnum.CollateralTTR);
+    }
+
+    extractPdAssumptionGroups(input: GetRetailEclForEditOutput): void {
+        let pdAssumption: GetAllPdAssumptionsDto = new GetAllPdAssumptionsDto();
+        pdAssumption.pdInputAssumption = input.pdInputAssumption;
+        pdAssumption.pdInputAssumptionMacroeconomicInput = input.pdInputAssumptionMacroeconomicInput;
+        pdAssumption.pdInputAssumptionMacroeconomicProjections = input.pdInputAssumptionMacroeconomicProjections;
+        pdAssumption.pdInputAssumptionNonInternalModels = input.pdInputAssumptionNonInternalModels;
+        pdAssumption.pdInputAssumptionNplIndex = input.pdInputAssumptionNplIndex;
+        pdAssumption.pdInputSnPCummulativeDefaultRate = input.pdInputSnPCummulativeDefaultRate;
+
+        this.pdInputAssumptionTag.load(pdAssumption, '', FrameworkEnum.Retail,  true);
     }
 
     editEcl() {

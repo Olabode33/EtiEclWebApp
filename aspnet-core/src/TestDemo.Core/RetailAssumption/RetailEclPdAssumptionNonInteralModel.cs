@@ -6,6 +6,7 @@ using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
 using Abp.Auditing;
 using Abp.Organizations;
+using TestDemo.EclShared;
 
 namespace TestDemo.RetailAssumption
 {
@@ -31,9 +32,10 @@ namespace TestDemo.RetailAssumption
 		public virtual bool RequiresGroupApproval { get; set; }
 		
 		public virtual long OrganizationUnitId { get; set; }
-		
 
-		public virtual Guid RetailEclId { get; set; }
+        public virtual GeneralStatusEnum Status { get; set; }
+
+        public virtual Guid RetailEclId { get; set; }
 		
         [ForeignKey("RetailEclId")]
 		public RetailEcl RetailEclFk { get; set; }

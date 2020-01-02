@@ -15,6 +15,7 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
 
     displayForm = false;
     loading = false;
+    viewOnly = false;
 
     pdAssumptions: GetAllPdAssumptionsDto = new GetAllPdAssumptionsDto();
 
@@ -75,7 +76,7 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
         });
     }
 
-    load(assumptions: GetAllPdAssumptionsDto, affiliateName?: string, framework?: FrameworkEnum): void {
+    load(assumptions: GetAllPdAssumptionsDto, affiliateName?: string, framework?: FrameworkEnum, viewOnly = false): void {
         this.loading = true;
         this.displayForm = true;
         this.pdAssumptions = assumptions;
@@ -83,6 +84,7 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
         this.affiliateFramework = framework;
         this.extractPdAssumptionGroups();
         this.loading = false;
+        this.viewOnly = viewOnly;
     }
 
     extractPdAssumptionGroups(): void {

@@ -4,6 +4,7 @@ using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using TestDemo.RetailAssumption.Dtos;
 using TestDemo.Dto;
+using System.Collections.Generic;
 
 namespace TestDemo.RetailAssumption
 {
@@ -11,7 +12,10 @@ namespace TestDemo.RetailAssumption
     {
         Task<PagedResultDto<GetRetailEclPdAssumptionMacroeconomicProjectionForViewDto>> GetAll(GetAllRetailEclPdAssumptionMacroeconomicProjectionsInput input);
 
-		Task<GetRetailEclPdAssumptionMacroeconomicProjectionForEditOutput> GetRetailEclPdAssumptionMacroeconomicProjectionForEdit(EntityDto<Guid> input);
+        Task<List<EclShared.Dtos.PdInputAssumptionMacroeconomicProjectionDto>> GetListForEclView(EntityDto<Guid> input);
+
+
+        Task<GetRetailEclPdAssumptionMacroeconomicProjectionForEditOutput> GetRetailEclPdAssumptionMacroeconomicProjectionForEdit(EntityDto<Guid> input);
 
 		Task CreateOrEdit(CreateOrEditRetailEclPdAssumptionMacroeconomicProjectionDto input);
 

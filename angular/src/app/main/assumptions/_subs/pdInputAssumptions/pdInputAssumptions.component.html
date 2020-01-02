@@ -26,7 +26,7 @@
                             </span>
                         </td>
                         <td>
-                            <span class="hoverable pull-right" (click)="editPdAssumption(etiPolicy[i])">
+                            <span *ngIf="!viewOnly" class="hoverable pull-right" (click)="editPdAssumption(etiPolicy[i])">
                                 <i class="fa fa-edit"></i>
                             </span>
                             <span class="kt-widget1__number kt-font-brand">
@@ -61,7 +61,7 @@
                 <option value="-1">All</option>
                 <option *ngFor="let item of snpYears" [value]="item">{{item}}</option>
             </select>
-            <div class="col-lg-4">
+            <div *ngIf="!viewOnly" class="col-lg-4">
                 <button (click)="uploadSnP()" class="btn btn-outline-primary pull-right">
                     <i class="fa fa-upload" style="font-size: 1.2rem !important;"></i>
                     {{l("Upload")}}
@@ -82,7 +82,7 @@
                         <td>{{item.rating}}</td>
                         <td><span class="text-right">{{item.years}}</span></td>
                         <td>
-                            <span class="hoverable pull-right" (click)="editSnPAssumption(item)">
+                            <span *ngIf="!viewOnly" class="hoverable pull-right" (click)="editSnPAssumption(item)">
                                 <i class="fa fa-edit"></i>
                             </span>
                             <span class="kt-widget1__number kt-font-brand">
@@ -109,7 +109,7 @@
                 <option value="-1">All</option>
                 <option *ngFor="let item of pdMonths" [value]="item">{{item}}</option>
             </select>
-            <div class="col-lg-4">
+            <div *ngIf="!viewOnly" class="col-lg-4">
                 <button (click)="uploadSnP()" class="btn btn-outline-primary pull-right">
                     <i class="fa fa-upload" style="font-size: 1.2rem !important;"></i>
                     {{l("Upload")}}
@@ -130,7 +130,7 @@
                         <td>{{item.pdGroup}}</td>
                         <td><span class="text-right">{{item.month}}</span></td>
                         <td>
-                            <span class="hoverable pull-right" (click)="editNonInternalAssumption(item)">
+                            <span *ngIf="!viewOnly" class="hoverable pull-right" (click)="editNonInternalAssumption(item)">
                                 <i class="fa fa-edit"></i>
                             </span>
                             <span class="kt-widget1__number kt-font-brand">
@@ -146,7 +146,7 @@
         <!-- <ng-template tabHeading>
             <span class="kt-badge kt-badge--warning kt-badge--inline">2</span>
         </ng-template> -->
-        <div class="form-group kt-form__group row">
+        <div *ngIf="!viewOnly" class="form-group kt-form__group row">
             <div class="col-lg-12">
                 <button (click)="uploadSnP()" class="btn btn-outline-primary pull-right">
                     <i class="fa fa-upload" style="font-size: 1.2rem !important;"></i>
@@ -170,7 +170,7 @@
                         <td><span class="text-right kt-font-brand">{{item.actual | number: '1.2-2'}}</span></td>
                         <td><span class="text-right kt-font-brand">{{item.standardised | number: '1.2-2'}}</span></td>
                         <td>
-                            <span class="hoverable pull-right" (click)="editNplAssumption(item)">
+                            <span *ngIf="!viewOnly" class="hoverable pull-right" (click)="editNplAssumption(item)">
                                 <i class="fa fa-edit"></i>
                             </span>
                             <span class="kt-widget1__number kt-font-brand">
@@ -198,7 +198,7 @@
                 <option value="">All</option>
                 <option *ngFor="let item of pdMacroeconomicVariables" [value]="item.value">{{item.name}}</option>
             </select>
-            <div class="col-lg-4 col-xl-5">
+            <div *ngIf="!viewOnly" class="col-lg-4 col-xl-5">
                 <button (click)="uploadSnP()" class="btn btn-outline-primary pull-right">
                     <i class="fa fa-upload" style="font-size: 1.2rem !important;"></i>
                     {{l("Upload")}}
@@ -221,7 +221,7 @@
                                 <td>{{item.inputName}}</td>
                                 <td><span class="text-right">{{item.macroeconomicVariable}}</span></td>
                                 <td>
-                                    <span class="hoverable pull-right" (click)="editMacroInputAssumption(item)">
+                                    <span *ngIf="!viewOnly" class="hoverable pull-right" (click)="editMacroInputAssumption(item)">
                                         <i class="fa fa-edit"></i>
                                     </span>
                                     <span class="kt-widget1__number kt-font-brand">
@@ -245,7 +245,7 @@
                 <option value="">All</option>
                 <option *ngFor="let item of pdMacroeconomicVariables" [value]="item.value">{{item.name}}</option>
             </select>
-            <div class="col-lg-4 col-xl-5">
+            <div *ngIf="!viewOnly" class="col-lg-4 col-xl-5">
                 <button (click)="uploadSnP()" class="btn btn-outline-primary pull-right">
                     <i class="fa fa-upload" style="font-size: 1.2rem !important;"></i>
                     {{l("Upload")}}
@@ -272,7 +272,7 @@
                                 <td><span class="text-right kt-font-brand">{{item.bestValue | number: '1.2-2'}}</span></td>
                                 <td><span class="text-right kt-font-brand">{{item.optimisticValue | number: '1.2-2'}}</span></td>
                                 <td>
-                                    <span class="hoverable pull-right" (click)="editMacroProjectionAssumption(item)">
+                                    <span *ngIf="!viewOnly" class="hoverable pull-right" (click)="editMacroProjectionAssumption(item)">
                                         <i class="fa fa-edit"></i>
                                     </span>
                                     <span class="kt-widget1__number kt-font-brand">

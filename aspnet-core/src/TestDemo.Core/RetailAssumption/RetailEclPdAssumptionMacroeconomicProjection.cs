@@ -27,10 +27,12 @@ namespace TestDemo.RetailAssumption
 		public virtual double OptimisticValue { get; set; }
 		
 		public virtual double DownturnValue { get; set; }
-		
-		public virtual PdInputAssumptionMacroEconomicInputGroupEnum MacroeconomicGroup { get; set; }
-		
-		public virtual bool IsComputed { get; set; }
+
+        public virtual int MacroeconomicVariableId { get; set; }
+        [ForeignKey("MacroeconomicVariableId")]
+        public MacroeconomicVariable MacroeconomicVariable { get; set; }
+
+        public virtual bool IsComputed { get; set; }
 		
 		public virtual bool CanAffiliateEdit { get; set; }
 		

@@ -20,7 +20,7 @@ namespace TestDemo.Retail
 
         Task Delete(EntityDto<Guid> input);
 
-        Task CreateEclAndAssumption(CreateRetailEclAndAssumptions input);
+        Task<Guid> CreateEclAndAssumption();
 
         //Task<PagedResultDto<RetailEclUserLookupTableDto>> GetAllUserForLookupTable(GetAllForLookupTableInput input);
 

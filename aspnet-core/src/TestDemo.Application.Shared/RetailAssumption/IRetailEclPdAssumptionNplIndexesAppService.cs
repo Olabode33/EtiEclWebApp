@@ -4,6 +4,7 @@ using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using TestDemo.RetailAssumption.Dtos;
 using TestDemo.Dto;
+using System.Collections.Generic;
 
 namespace TestDemo.RetailAssumption
 {
@@ -11,7 +12,10 @@ namespace TestDemo.RetailAssumption
     {
         Task<PagedResultDto<GetRetailEclPdAssumptionNplIndexForViewDto>> GetAll(GetAllRetailEclPdAssumptionNplIndexesInput input);
 
-		Task<GetRetailEclPdAssumptionNplIndexForEditOutput> GetRetailEclPdAssumptionNplIndexForEdit(EntityDto<Guid> input);
+        Task<List<EclShared.Dtos.PdInputAssumptionNplIndexDto>> GetListForEclView(EntityDto<Guid> input);
+
+
+        Task<GetRetailEclPdAssumptionNplIndexForEditOutput> GetRetailEclPdAssumptionNplIndexForEdit(EntityDto<Guid> input);
 
 		Task CreateOrEdit(CreateOrEditRetailEclPdAssumptionNplIndexDto input);
 

@@ -1,4 +1,3 @@
-import { CreateRetailEclAndAssumptions } from './../../../../shared/service-proxies/service-proxies';
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EclStatusEnum, CreateOrEditRetailEclDto, RetailEclsServiceProxy, GeneralStatusEnum, EclSharedServiceProxy, AssumptionDto, EadInputAssumptionDto, LgdAssumptionDto, FrameworkEnum } from '@shared/service-proxies/service-proxies';
@@ -31,7 +30,7 @@ export class CreateEditRetailEclComponent extends AppComponentBase implements On
     paymentScheduleFiles: any[] = [];
     loanbookFiles: any[] = [];
 
-    retailEclAndAssumption: CreateRetailEclAndAssumptions = new CreateRetailEclAndAssumptions();
+    //retailEclAndAssumption: CreateRetailEclAndAssumptions = new CreateRetailEclAndAssumptions();
     retailECL: CreateOrEditRetailEclDto = new CreateOrEditRetailEclDto();
     frameworkAssumptions: AssumptionDto[] = new Array();
     eadInputAssumptions: EadInputAssumptionDto[] = new Array();
@@ -192,17 +191,17 @@ export class CreateEditRetailEclComponent extends AppComponentBase implements On
                     this.retailECL.status = EclStatusEnum.Draft;
                 }
 
-                this.retailEclAndAssumption = new CreateRetailEclAndAssumptions();
-                this.retailEclAndAssumption.retailEcl = this.retailECL;
-                this.retailEclAndAssumption.frameworkAssumptions = this.frameworkAssumptions;
-                this.retailEclAndAssumption.eadInputAssumptionDtos = this.eadInputAssumptions;
-                this.retailEclAndAssumption.lgdInputAssumptionDtos = this.lgdInputAssumptions;
+                // this.retailEclAndAssumption = new CreateRetailEclAndAssumptions();
+                // this.retailEclAndAssumption.retailEcl = this.retailECL;
+                // this.retailEclAndAssumption.frameworkAssumptions = this.frameworkAssumptions;
+                // this.retailEclAndAssumption.eadInputAssumptionDtos = this.eadInputAssumptions;
+                // this.retailEclAndAssumption.lgdInputAssumptionDtos = this.lgdInputAssumptions;
 
-                this._retailEcLsServiceProxy.createEclAndAssumption(this.retailEclAndAssumption)
-                    .subscribe(() => {
-                        this.navigateToWorkSpace();
-                        this.message.success('RetailEclSuccessfullyCreated');
-                    });
+                // this._retailEcLsServiceProxy.createEclAndAssumption(this.retailEclAndAssumption)
+                //     .subscribe(() => {
+                //         this.navigateToWorkSpace();
+                //         this.message.success('RetailEclSuccessfullyCreated');
+                //     });
             }
         );
     }

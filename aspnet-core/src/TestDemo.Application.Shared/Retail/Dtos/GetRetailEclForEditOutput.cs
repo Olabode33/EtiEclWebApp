@@ -3,6 +3,7 @@ using Abp.Application.Services.Dto;
 using System.ComponentModel.DataAnnotations;
 using TestDemo.RetailAssumption.Dtos;
 using System.Collections.Generic;
+using TestDemo.EclShared.Dtos;
 
 namespace TestDemo.Retail.Dtos
 {
@@ -15,5 +16,12 @@ namespace TestDemo.Retail.Dtos
         public List<CreateOrEditRetailEclAssumptionDto> FrameworkAssumption { get; set; }
         public List<CreateOrEditRetailEclEadInputAssumptionDto> EadInputAssumptions { get; set; }
         public List<CreateOrEditRetailEclLgdAssumptionDto> LgdInputAssumptions { get; set; }
+
+        public List<PdInputAssumptionDto> PdInputAssumption { get; set; }
+        public List<PdInputAssumptionMacroeconomicInputDto> PdInputAssumptionMacroeconomicInput { get; set; }
+        public List<PdInputAssumptionMacroeconomicProjectionDto> PdInputAssumptionMacroeconomicProjections { get; set; }
+        public List<PdInputAssumptionNonInternalModelDto> PdInputAssumptionNonInternalModels { get; set; }
+        public List<PdInputAssumptionNplIndexDto> PdInputAssumptionNplIndex { get; set; }
+        public List<PdInputSnPCummulativeDefaultRateDto> PdInputSnPCummulativeDefaultRate { get; set; }
     }
 }

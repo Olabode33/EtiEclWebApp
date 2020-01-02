@@ -23,6 +23,7 @@ using TestDemo.RetailAssumption.Dtos;
 using Abp.Organizations;
 using Abp.BackgroundJobs;
 using TestDemo.EclLibrary.BaseEngine.PDInput;
+using Abp.UI;
 
 namespace TestDemo.Retail
 {
@@ -32,30 +33,58 @@ namespace TestDemo.Retail
         private readonly IRepository<RetailEcl, Guid> _retailEclRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
+        private readonly IRepository<AffiliateAssumption, Guid> _affiliateAssumptionRepository;
+
         private readonly IRetailEclAssumptionsAppService _retailEclAssumptionAppService;
         private readonly IRetailEclEadInputAssumptionsAppService _retailEclEadInputAssumptionsAppService;
         private readonly IRetailEclLgdAssumptionsAppService _retailEclLgdAssumptionsAppService;
+        private readonly IRetailEclPdAssumptionsAppService _retailEclPdAssumptionsAppService;
+        private readonly IRetailEclPdAssumptionMacroeconomicInputsAppService _retailPdAssumptionMacroInputAppService;
+        private readonly IRetailEclPdAssumptionMacroeconomicProjectionsAppService _retailEclPdAssumptionMacroProjectionAppService;
+        private readonly IRetailEclPdAssumptionNonInteralModelsAppService _retailEclPdAssumptionNonInteralAppService;
+        private readonly IRetailEclPdAssumptionNplIndexesAppService _retailEclPdAssumptionNplAppService;
+        private readonly IRetailEclPdSnPCummulativeDefaultRatesAppService _retailPdAssumptionSnpAppService;
+
         private readonly IRetailEclApprovalsAppService _retailEclApprovalsAppService;
         private readonly IBackgroundJobManager _backgroundJobManager;
+        private readonly IEclSharedAppService _eclSharedAppService;
 
         public RetailEclsAppService(IRepository<RetailEcl, Guid> retailEclRepository,
                                     IRepository<User, long> lookup_userRepository,
                                     IRepository<OrganizationUnit, long> organizationUnitRepository,
+                                    IRepository<AffiliateAssumption, Guid> affiliateAssumptionRepository,
                                     IRetailEclAssumptionsAppService retailEclAssumptionAppService,
                                     IRetailEclEadInputAssumptionsAppService retailEclEadInputAssumptionsAppService,
                                     IRetailEclLgdAssumptionsAppService retailEclLgdAssumptionsAppService,
                                     IRetailEclApprovalsAppService retailEclApprovalsAppService,
-                                    IBackgroundJobManager backgroundJobManager
+                                    IRetailEclPdAssumptionsAppService retailEclPdAssumptionsAppService,
+                                    IRetailEclPdAssumptionMacroeconomicInputsAppService retailPdAssumptionMacroInputAppService,
+                                    IRetailEclPdAssumptionMacroeconomicProjectionsAppService retailEclPdAssumptionMacroProjectionAppService,
+                                    IRetailEclPdAssumptionNonInteralModelsAppService retailEclPdAssumptionNonInteralAppService,
+                                    IRetailEclPdAssumptionNplIndexesAppService retailEclPdAssumptionNplAppService,
+                                    IRetailEclPdSnPCummulativeDefaultRatesAppService retailPdAssumptionSnpAppService,
+                                    IBackgroundJobManager backgroundJobManager,
+                                    IEclSharedAppService eclSharedAppService
                                     )
         {
             _retailEclRepository = retailEclRepository;
             _lookup_userRepository = lookup_userRepository;
+            _organizationUnitRepository = organizationUnitRepository;
+            _affiliateAssumptionRepository = affiliateAssumptionRepository;
+
             _retailEclAssumptionAppService = retailEclAssumptionAppService;
             _retailEclEadInputAssumptionsAppService = retailEclEadInputAssumptionsAppService;
             _retailEclLgdAssumptionsAppService = retailEclLgdAssumptionsAppService;
+            _retailEclPdAssumptionsAppService = retailEclPdAssumptionsAppService;
+            _retailPdAssumptionMacroInputAppService = retailPdAssumptionMacroInputAppService;
+            _retailEclPdAssumptionMacroProjectionAppService = retailEclPdAssumptionMacroProjectionAppService;
+            _retailEclPdAssumptionNonInteralAppService = retailEclPdAssumptionNonInteralAppService;
+            _retailEclPdAssumptionNplAppService = retailEclPdAssumptionNplAppService;
+            _retailPdAssumptionSnpAppService = retailPdAssumptionSnpAppService;
             _retailEclApprovalsAppService = retailEclApprovalsAppService;
-            _organizationUnitRepository = organizationUnitRepository;
+
             _backgroundJobManager = backgroundJobManager;
+            _eclSharedAppService = eclSharedAppService;
         }
 
         public async Task<PagedResultDto<GetRetailEclForViewDto>> GetAll(GetAllRetailEclsInput input)
@@ -145,6 +174,12 @@ namespace TestDemo.Retail
             output.FrameworkAssumption = await _retailEclAssumptionAppService.GetRetailEclAssumptionsList(input);
             output.EadInputAssumptions = await _retailEclEadInputAssumptionsAppService.GetRetailEclEadInputAssumptionsList(input);
             output.LgdInputAssumptions = await _retailEclLgdAssumptionsAppService.GetRetailEclLgdAssumptionsList(input);
+            output.PdInputAssumption = await _retailEclPdAssumptionsAppService.GetListForEclView(input);
+            output.PdInputAssumptionMacroeconomicInput = await _retailPdAssumptionMacroInputAppService.GetListForEclView(input);
+            output.PdInputAssumptionMacroeconomicProjections = await _retailEclPdAssumptionMacroProjectionAppService.GetListForEclView(input);
+            output.PdInputAssumptionNonInternalModels = await _retailEclPdAssumptionNonInteralAppService.GetListForEclView(input);
+            output.PdInputAssumptionNplIndex = await _retailEclPdAssumptionNplAppService.GetListForEclView(input);
+            output.PdInputSnPCummulativeDefaultRate = await _retailPdAssumptionSnpAppService.GetListForEclView(input);
 
             return output;
         }
@@ -161,12 +196,41 @@ namespace TestDemo.Retail
             }
         }
 
-        public async Task CreateEclAndAssumption(CreateRetailEclAndAssumptions input)
+        public async Task<Guid> CreateEclAndAssumption()
         {
-            Guid eclId = await CreateAndGetId(input.RetailEcl);
-            await SaveFrameworkAssumption(input.FrameworkAssumptions, eclId);
-            await SaveEadInputAssumption(input.EadInputAssumptionDtos, eclId);
-            await SaveLgdInputAssumption(input.LgdInputAssumptionDtos, eclId);
+            var user = await UserManager.GetUserByIdAsync((long)AbpSession.UserId);
+            var userSubsidiaries = await UserManager.GetOrganizationUnitsAsync(user);
+
+            if (userSubsidiaries.Count > 0)
+            {
+                long ouId = userSubsidiaries[0].Id;
+                var affiliateAssumption = await _affiliateAssumptionRepository.FirstOrDefaultAsync(x => x.OrganizationUnitId == ouId);
+
+                if (affiliateAssumption != null)
+                {
+                    Guid eclId = await CreateAndGetId(ouId);
+
+                    await SaveFrameworkAssumption(ouId, eclId);
+                    await SaveEadInputAssumption(ouId, eclId);
+                    await SaveLgdInputAssumption(ouId, eclId);
+                    await SavePdInputAssumption(ouId, eclId);
+                    await SavePdMacroInputAssumption(ouId, eclId);
+                    await SavePdMacroProjectAssumption(ouId, eclId);
+                    await SavePdNonInternalModelAssumption(ouId, eclId);
+                    await SavePdNplAssumption(ouId, eclId);
+                    await SavePdSnpAssumption(ouId, eclId);
+
+                    return eclId;
+                }
+                else
+                {
+                    throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
+                }
+            }
+            else
+            {
+                throw new UserFriendlyException(L("UserDoesNotBelongToAnyAffiliateError"));
+            }
         }
 
         [AbpAuthorize(AppPermissions.Pages_RetailEcls_Create)]
@@ -191,26 +255,26 @@ namespace TestDemo.Retail
             await _retailEclRepository.InsertAsync(retailEcl);
         }
 
-        protected virtual async Task<Guid> CreateAndGetId(CreateOrEditRetailEclDto input)
+        protected virtual async Task<Guid> CreateAndGetId(long ouId)
         {
-            var retailEcl = ObjectMapper.Map<RetailEcl>(input);
+            var affiliateAssumption = await _affiliateAssumptionRepository.FirstOrDefaultAsync(x => x.OrganizationUnitId == ouId);
 
-            var user = await UserManager.GetUserByIdAsync((long)AbpSession.UserId);
-            var userSubsidiaries = await UserManager.GetOrganizationUnitsAsync(user);
-
-            if (userSubsidiaries.Count > 0)
+            if (affiliateAssumption != null)
             {
-                retailEcl.OrganizationUnitId = userSubsidiaries[0].Id;
+
+                Guid id = await _retailEclRepository.InsertAndGetIdAsync(new RetailEcl()
+                {
+                    ReportingDate = affiliateAssumption.LastRetailReportingDate,
+                    OrganizationUnitId = affiliateAssumption.OrganizationUnitId,
+                    Status = EclStatusEnum.Draft
+                });
+                return id;
+            }
+            else
+            {
+                throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
             }
 
-            if (AbpSession.TenantId != null)
-            {
-                retailEcl.TenantId = (int?)AbpSession.TenantId;
-            }
-
-
-            Guid id = await _retailEclRepository.InsertAndGetIdAsync(retailEcl);
-            return id;
         }
 
         [AbpAuthorize(AppPermissions.Pages_RetailEcls_Edit)]
@@ -220,58 +284,303 @@ namespace TestDemo.Retail
             ObjectMapper.Map(input, retailEcl);
         }
 
-        protected virtual async Task SaveFrameworkAssumption(List<AssumptionDto> assumptions, Guid eclId)
+        protected virtual async Task SaveFrameworkAssumption(long ouId, Guid eclId)
         {
-            foreach (var assumption in assumptions)
-            {
-                await _retailEclAssumptionAppService.CreateOrEdit(new CreateOrEditRetailEclAssumptionDto()
+            List<AssumptionDto> assumptions = await _eclSharedAppService.GetAffiliateFrameworkAssumption(new GetAffiliateAssumptionInputDto()
                                                                         {
-                                                                            RetailEclId = eclId,
-                                                                            AssumptionGroup = assumption.AssumptionGroup,
-                                                                            Key = assumption.Key,
-                                                                            InputName = assumption.InputName,
-                                                                            Value = assumption.Value,
-                                                                            Datatype = assumption.DataType,
-                                                                            IsComputed = assumption.IsComputed,
-                                                                            RequiresGroupApproval = assumption.RequiresGroupApproval
+                                                                            AffiliateOuId = ouId,
+                                                                            Framework = FrameworkEnum.Retail
                                                                         });
+
+            if (assumptions.Count > 0)
+            {
+                foreach (var assumption in assumptions)
+                {
+                    await _retailEclAssumptionAppService.CreateOrEdit(new CreateOrEditRetailEclAssumptionDto()
+                    {
+                        RetailEclId = eclId,
+                        AssumptionGroup = assumption.AssumptionGroup,
+                        Key = assumption.Key,
+                        InputName = assumption.InputName,
+                        Value = assumption.Value,
+                        Datatype = assumption.DataType,
+                        IsComputed = assumption.IsComputed,
+                        RequiresGroupApproval = assumption.RequiresGroupApproval,
+                    });
+                }
+            } 
+            else
+            {
+                throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
             }
         }
 
-        protected virtual async Task SaveEadInputAssumption(List<EadInputAssumptionDto> assumptions, Guid eclId)
+        protected virtual async Task SaveEadInputAssumption(long ouId, Guid eclId)
         {
-            foreach (var assumption in assumptions)
+            List<EadInputAssumptionDto> assumptions = await _eclSharedAppService.GetAffiliateEadAssumption(new GetAffiliateAssumptionInputDto()
             {
-                await _retailEclEadInputAssumptionsAppService.CreateOrEdit(new CreateOrEditRetailEclEadInputAssumptionDto()
+                AffiliateOuId = ouId,
+                Framework = FrameworkEnum.Retail
+            });
+
+            if (assumptions.Count > 0)
+            {
+                foreach (var assumption in assumptions)
                 {
-                    RetailEclId = eclId,
-                    EadGroup = assumption.AssumptionGroup,
-                    Key = assumption.Key,
-                    InputName = assumption.InputName,
-                    Value = assumption.Value,
-                    Datatype = assumption.DataType,
-                    IsComputed = assumption.IsComputed,
-                    RequiresGroupApproval = assumption.RequiresGroupApproval
-                });
+                    await _retailEclEadInputAssumptionsAppService.CreateOrEdit(new CreateOrEditRetailEclEadInputAssumptionDto()
+                    {
+                        RetailEclId = eclId,
+                        EadGroup = assumption.AssumptionGroup,
+                        Key = assumption.Key,
+                        InputName = assumption.InputName,
+                        Value = assumption.Value,
+                        Datatype = assumption.DataType,
+                        IsComputed = assumption.IsComputed,
+                        RequiresGroupApproval = assumption.RequiresGroupApproval
+                    });
+                }
+            }
+            else
+            {
+                throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
             }
         }
 
-        protected virtual async Task SaveLgdInputAssumption(List<LgdAssumptionDto> assumptions, Guid eclId)
+        protected virtual async Task SaveLgdInputAssumption(long ouId, Guid eclId)
         {
-            foreach (var assumption in assumptions)
+            List<LgdAssumptionDto> assumptions = await _eclSharedAppService.GetAffiliateLgdAssumption(new GetAffiliateAssumptionInputDto()
             {
-                await _retailEclLgdAssumptionsAppService.CreateOrEdit(new CreateOrEditRetailEclLgdAssumptionDto()
+                AffiliateOuId = ouId,
+                Framework = FrameworkEnum.Retail
+            });
+
+            if (assumptions.Count > 0)
+            {
+                foreach (var assumption in assumptions)
                 {
-                    RetailEclId = eclId,
-                    LgdGroup = assumption.AssumptionGroup,
-                    Key = assumption.Key,
-                    InputName = assumption.InputName,
-                    Value = assumption.Value,
-                    DataType = assumption.DataType,
-                    IsComputed = assumption.IsComputed,
-                    RequiresGroupApproval = assumption.RequiresGroupApproval
-                });
+                    await _retailEclLgdAssumptionsAppService.CreateOrEdit(new CreateOrEditRetailEclLgdAssumptionDto()
+                    {
+                        RetailEclId = eclId,
+                        LgdGroup = assumption.AssumptionGroup,
+                        Key = assumption.Key,
+                        InputName = assumption.InputName,
+                        Value = assumption.Value,
+                        DataType = assumption.DataType,
+                        IsComputed = assumption.IsComputed,
+                        RequiresGroupApproval = assumption.RequiresGroupApproval
+                    });
+                }
             }
+            else
+            {
+                throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
+            }
+            
+        }
+
+        protected virtual async Task SavePdInputAssumption(long ouId, Guid eclId)
+        {
+            List<PdInputAssumptionDto> assumptions = await _eclSharedAppService.GetAffiliatePdAssumption(new GetAffiliateAssumptionInputDto()
+            {
+                AffiliateOuId = ouId,
+                Framework = FrameworkEnum.Retail
+            });
+
+            if (assumptions.Count > 0)
+            {
+                foreach (var assumption in assumptions)
+                {
+                    await _retailEclPdAssumptionsAppService.CreateOrEdit(new CreateOrEditRetailEclPdAssumptionDto()
+                    {
+                        RetailEclId = eclId,
+                        PdGroup = assumption.AssumptionGroup,
+                        Key = assumption.Key,
+                        InputName = assumption.InputName,
+                        Value = assumption.Value,
+                        DataType = assumption.DataType,
+                        IsComputed = assumption.IsComputed,
+                        RequiresGroupApproval = assumption.RequiresGroupApproval,
+                        CanAffiliateEdit = assumption.CanAffiliateEdit,
+                        OrganizationUnitId = assumption.OrganizationUnitId,
+                        Status = assumption.Status
+                    });
+                }
+            }
+            else
+            {
+                throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
+            }
+
+        }
+
+        protected virtual async Task SavePdMacroInputAssumption(long ouId, Guid eclId)
+        {
+            List<PdInputAssumptionMacroeconomicInputDto> assumptions = await _eclSharedAppService.GetAffiliatePdMacroeconomicInputAssumption(new GetAffiliateAssumptionInputDto()
+            {
+                AffiliateOuId = ouId,
+                Framework = FrameworkEnum.Retail
+            });
+
+            if (assumptions.Count > 0)
+            {
+                foreach (var assumption in assumptions)
+                {
+                    await _retailPdAssumptionMacroInputAppService.CreateOrEdit(new CreateOrEditRetailEclPdAssumptionMacroeconomicInputDto()
+                    {
+                        RetailEclId = eclId,
+                        MacroeconomicVariableId = assumption.AssumptionGroup,
+                        Key = assumption.Key,
+                        InputName = assumption.InputName,
+                        Value = assumption.Value,
+                        IsComputed = assumption.IsComputed,
+                        RequiresGroupApproval = assumption.RequiresGroupApproval,
+                        CanAffiliateEdit = assumption.CanAffiliateEdit,
+                        OrganizationUnitId = assumption.OrganizationUnitId,
+                        Status = assumption.Status
+                    });
+                }
+            }
+            else
+            {
+                throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
+            }
+
+        }
+
+        protected virtual async Task SavePdMacroProjectAssumption(long ouId, Guid eclId)
+        {
+            List<PdInputAssumptionMacroeconomicProjectionDto> assumptions = await _eclSharedAppService.GetAffiliatePdMacroeconomicProjectionAssumption(new GetAffiliateAssumptionInputDto()
+            {
+                AffiliateOuId = ouId,
+                Framework = FrameworkEnum.Retail
+            });
+
+            if (assumptions.Count > 0)
+            {
+                foreach (var assumption in assumptions)
+                {
+                    await _retailEclPdAssumptionMacroProjectionAppService.CreateOrEdit(new CreateOrEditRetailEclPdAssumptionMacroeconomicProjectionDto()
+                    {
+                        RetailEclId = eclId,
+                        MacroeconomicVariableId = assumption.AssumptionGroup,
+                        Key = assumption.Key,
+                        InputName = assumption.InputName,
+                        Date = assumption.Date,
+                        BestValue = assumption.BestValue,
+                        OptimisticValue = assumption.OptimisticValue,
+                        DownturnValue = assumption.DownturnValue,
+                        IsComputed = assumption.IsComputed,
+                        CanAffiliateEdit = assumption.CanAffiliateEdit,
+                        OrganizationUnitId = assumption.OrganizationUnitId,
+                        Status = assumption.Status
+                    });
+                }
+            }
+            else
+            {
+                throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
+            }
+
+        }
+
+        protected virtual async Task SavePdNonInternalModelAssumption(long ouId, Guid eclId)
+        {
+            List<PdInputAssumptionNonInternalModelDto> assumptions = await _eclSharedAppService.GetAffiliatePdNonInternalModelAssumption(new GetAffiliateAssumptionInputDto()
+            {
+                AffiliateOuId = ouId,
+                Framework = FrameworkEnum.Retail
+            });
+
+            if (assumptions.Count > 0)
+            {
+                foreach (var assumption in assumptions)
+                {
+                    await _retailEclPdAssumptionNonInteralAppService.CreateOrEdit(new CreateOrEditRetailEclPdAssumptionNonInteralModelDto()
+                    {
+                        RetailEclId = eclId,
+                        PdGroup = assumption.PdGroup,
+                        Key = assumption.Key,
+                        Month = assumption.Month,
+                        MarginalDefaultRate = assumption.MarginalDefaultRate,
+                        CummulativeSurvival = assumption.CummulativeSurvival,
+                        IsComputed = assumption.IsComputed,
+                        RequiresGroupApproval = assumption.RequiresGroupApproval,
+                        CanAffiliateEdit = assumption.CanAffiliateEdit,
+                        OrganizationUnitId = assumption.OrganizationUnitId,
+                        Status = assumption.Status
+                    });
+                }
+            }
+            else
+            {
+                throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
+            }
+
+        }
+
+        protected virtual async Task SavePdNplAssumption(long ouId, Guid eclId)
+        {
+            List<PdInputAssumptionNplIndexDto> assumptions = await _eclSharedAppService.GetAffiliatePdNplIndexAssumption(new GetAffiliateAssumptionInputDto()
+            {
+                AffiliateOuId = ouId,
+                Framework = FrameworkEnum.Retail
+            });
+
+            if (assumptions.Count > 0)
+            {
+                foreach (var assumption in assumptions)
+                {
+                    await _retailEclPdAssumptionNplAppService.CreateOrEdit(new CreateOrEditRetailEclPdAssumptionNplIndexDto()
+                    {
+                        RetailEclId = eclId,
+                        Date = assumption.Date,
+                        Key = assumption.Key,
+                        Actual = assumption.Actual,
+                        Standardised = assumption.Standardised,
+                        EtiNplSeries = assumption.EtiNplSeries,
+                        IsComputed = assumption.IsComputed,
+                        RequiresGroupApproval = assumption.RequiresGroupApproval,
+                        CanAffiliateEdit = assumption.CanAffiliateEdit,
+                        OrganizationUnitId = assumption.OrganizationUnitId,
+                        Status = assumption.Status
+                    });
+                }
+            }
+            else
+            {
+                throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
+            }
+
+        }
+
+        protected virtual async Task SavePdSnpAssumption(long ouId, Guid eclId)
+        {
+            List<PdInputSnPCummulativeDefaultRateDto> assumptions = await _eclSharedAppService.GetAffiliatePdSnpCummulativeAssumption(new GetAffiliateAssumptionInputDto()
+            {
+                AffiliateOuId = ouId,
+                Framework = FrameworkEnum.Retail
+            });
+
+            if (assumptions.Count > 0)
+            {
+                foreach (var assumption in assumptions)
+                {
+                    await _retailPdAssumptionSnpAppService.CreateOrEdit(new CreateOrEditRetailEclPdSnPCummulativeDefaultRateDto()
+                    {
+                        RetailEclId = eclId,
+                        Rating = assumption.Rating,
+                        Key = assumption.Key,
+                        Years = assumption.Years,
+                        Value = assumption.Value,
+                        RequiresGroupApproval = assumption.RequiresGroupApproval
+                    });
+                }
+            }
+            else
+            {
+                throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
+            }
+
         }
 
 
@@ -293,35 +602,5 @@ namespace TestDemo.Retail
         {
             await _backgroundJobManager.EnqueueAsync<RunRetailPdJob, RetailPdJobArgs>(new RetailPdJobArgs { RetailEclId = input.Id });
         }
-
-        //[AbpAuthorize(AppPermissions.Pages_RetailEcls)]
-        //public async Task<PagedResultDto<RetailEclUserLookupTableDto>> GetAllUserForLookupTable(GetAllForLookupTableInput input)
-        //{
-        //    var query = _lookup_userRepository.GetAll().WhereIf(
-        //           !string.IsNullOrWhiteSpace(input.Filter),
-        //          e => e.Name.ToString().Contains(input.Filter)
-        //       );
-
-        //    var totalCount = await query.CountAsync();
-
-        //    var userList = await query
-        //        .PageBy(input)
-        //        .ToListAsync();
-
-        //    var lookupTableDtoList = new List<RetailEclUserLookupTableDto>();
-        //    foreach (var user in userList)
-        //    {
-        //        lookupTableDtoList.Add(new RetailEclUserLookupTableDto
-        //        {
-        //            Id = user.Id,
-        //            DisplayName = user.Name?.ToString()
-        //        });
-        //    }
-
-        //    return new PagedResultDto<RetailEclUserLookupTableDto>(
-        //        totalCount,
-        //        lookupTableDtoList
-        //    );
-        //}
     }
 }
