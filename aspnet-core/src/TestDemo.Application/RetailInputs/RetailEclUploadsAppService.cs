@@ -122,20 +122,24 @@ namespace TestDemo.RetailInputs
             return output;
         }
 
-        public async Task CreateOrEdit(CreateOrEditRetailEclUploadDto input)
+        public async Task<Guid> CreateOrEdit(CreateOrEditRetailEclUploadDto input)
         {
             if (input.Id == null)
             {
-                await Create(input);
+                var id = await Create(input);
+                return id;
             }
             else
             {
                 await Update(input);
+                return (Guid)input.Id;
             }
         }
 
+
+
         [AbpAuthorize(AppPermissions.Pages_RetailEclUploads_Create)]
-        protected virtual async Task Create(CreateOrEditRetailEclUploadDto input)
+        protected virtual async Task<Guid> Create(CreateOrEditRetailEclUploadDto input)
         {
             var retailEclUploadExist = await _retailEclUploadRepository.FirstOrDefaultAsync(x => x.DocType == input.DocType);
             
@@ -150,13 +154,16 @@ namespace TestDemo.RetailInputs
                 }
 
 
-                await _retailEclUploadRepository.InsertAsync(retailEclUpload);
+                var id = await _retailEclUploadRepository.InsertAndGetIdAsync(retailEclUpload);
+                return id;
             } 
             else
             {
                 throw new UserFriendlyException(L("UploadRecordExists"));
             }
         }
+
+
 
         [AbpAuthorize(AppPermissions.Pages_RetailEclUploads_Edit)]
         protected virtual async Task Update(CreateOrEditRetailEclUploadDto input)

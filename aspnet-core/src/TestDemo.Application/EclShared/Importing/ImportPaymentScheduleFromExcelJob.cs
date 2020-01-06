@@ -1,0 +1,228 @@
+﻿using Abp.BackgroundJobs;
+using Abp.Dependency;
+using Abp.Domain.Repositories;
+using Abp.Localization;
+using Abp.Localization.Sources;
+using Abp.ObjectMapping;
+using Abp.Threading;
+using Abp.UI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TestDemo.EclShared.Dtos;
+using TestDemo.EclShared.Importing.Dto;
+using TestDemo.Notifications;
+using TestDemo.ObeInputs;
+using TestDemo.RetailInputs;
+using TestDemo.Storage;
+using TestDemo.WholesaleInputs;
+
+namespace TestDemo.EclShared.Importing
+{
+    public class ImportPaymentScheduleFromExcelJob: BackgroundJob<ImportPaymentSchedulesFromExcelJobArgs>, ITransientDependency
+    {
+        private readonly IPaymentScheduleExcelDataReader _paymentScheduleExcelDataReader;
+        private readonly IInvalidPaymentScheduleExporter _invalidPaymentScheduleExporter;
+        private readonly IRepository<RetailEclDataPaymentSchedule, Guid> _retailEclDataPaymentScheduleRepository;
+        private readonly IRepository<WholesaleEclDataPaymentSchedule, Guid> _wholesaleEclDataPaymentScheduleRepository;
+        private readonly IRepository<ObeEclDataPaymentSchedule, Guid> _obeEclDataPaymentScheduleRepository;
+        private readonly IRepository<RetailEclUpload, Guid> _retailUploadSummaryRepository;
+        private readonly IRepository<WholesaleEclUpload, Guid> _wholesaleUploadSummaryRepository;
+        private readonly IRepository<ObeEclUpload, Guid> _obeUploadSummaryRepository;
+        private readonly IAppNotifier _appNotifier;
+        private readonly IBinaryObjectManager _binaryObjectManager;
+        private readonly ILocalizationSource _localizationSource;
+        private readonly IObjectMapper _objectMapper;
+
+        public ImportPaymentScheduleFromExcelJob(
+            IPaymentScheduleExcelDataReader paymentScheduleExcelDataReader, 
+            IInvalidPaymentScheduleExporter invalidPaymentScheduleExporter, 
+            IAppNotifier appNotifier, 
+            IBinaryObjectManager binaryObjectManager,
+            ILocalizationManager localizationManager,
+            IRepository<RetailEclDataPaymentSchedule, Guid> retailEclDataPaymentScheduleRepository,
+            IRepository<WholesaleEclDataPaymentSchedule, Guid> wholesaleEclDataPaymentScheduleRepository,
+            IRepository<ObeEclDataPaymentSchedule, Guid> obeEclDataPaymentScheduleRepository,
+            IRepository<RetailEclUpload, Guid> retailUploadSummaryRepository,
+            IRepository<WholesaleEclUpload, Guid> wholesaleUploadSummaryRepository,
+            IRepository<ObeEclUpload, Guid> obeUploadSummaryRepository,
+            IObjectMapper objectMapper)
+        {
+            _paymentScheduleExcelDataReader = paymentScheduleExcelDataReader;
+            _invalidPaymentScheduleExporter = invalidPaymentScheduleExporter;
+            _retailEclDataPaymentScheduleRepository = retailEclDataPaymentScheduleRepository;
+            _wholesaleEclDataPaymentScheduleRepository = wholesaleEclDataPaymentScheduleRepository;
+            _obeEclDataPaymentScheduleRepository = obeEclDataPaymentScheduleRepository;
+            _retailUploadSummaryRepository = retailUploadSummaryRepository;
+            _wholesaleUploadSummaryRepository = wholesaleUploadSummaryRepository;
+            _obeUploadSummaryRepository = obeUploadSummaryRepository;
+            _appNotifier = appNotifier;
+            _binaryObjectManager = binaryObjectManager;
+            _objectMapper = objectMapper;
+            _localizationSource = localizationManager.GetSource(TestDemoConsts.LocalizationSourceName);
+        }
+
+        public override void Execute(ImportPaymentSchedulesFromExcelJobArgs args)
+        {
+            var paymentSchedules = GetPaymentScheduleListFromExcelOrNull(args);
+            if (paymentSchedules == null || !paymentSchedules.Any())
+            {
+                SendInvalidExcelNotification(args);
+                return;
+            }
+
+            CreatePaymentSchedule(args, paymentSchedules);
+            UpdateSummaryTableToCompletedAsync(args);
+        }
+
+        private List<ImportPaymentScheduleDto> GetPaymentScheduleListFromExcelOrNull(ImportPaymentSchedulesFromExcelJobArgs args)
+        {
+            try
+            {
+                var file = AsyncHelper.RunSync(() => _binaryObjectManager.GetOrNullAsync(args.BinaryObjectId));
+                return _paymentScheduleExcelDataReader.GetImportPaymentScheduleFromExcel(file.Bytes);
+            }
+            catch(Exception)
+            {
+                return null;
+            }
+        }
+
+        private void CreatePaymentSchedule(ImportPaymentSchedulesFromExcelJobArgs args, List<ImportPaymentScheduleDto> paymentSchedules)
+        {
+            var invalidPaymentSchedule = new List<ImportPaymentScheduleDto>();
+
+            foreach (var paymentSchedule in paymentSchedules)
+            {
+                if (paymentSchedule.CanBeImported())
+                {
+                    try
+                    {
+                        AsyncHelper.RunSync(() => CreatePaymentScheduleAsync(paymentSchedule, args));
+                    }
+                    catch (UserFriendlyException exception)
+                    {
+                        paymentSchedule.Exception = exception.Message;
+                        invalidPaymentSchedule.Add(paymentSchedule);
+                    }
+                    catch(Exception exception)
+                    {
+                        paymentSchedule.Exception = exception.ToString();
+                        invalidPaymentSchedule.Add(paymentSchedule);
+                    }
+                }
+                else
+                {
+                    invalidPaymentSchedule.Add(paymentSchedule);
+                }
+            }
+
+            AsyncHelper.RunSync(() => ProcessImportPaymentScheduleResultAsync(args, invalidPaymentSchedule));
+        }
+
+        private async Task CreatePaymentScheduleAsync(ImportPaymentScheduleDto input, ImportPaymentSchedulesFromExcelJobArgs args)
+        {
+            switch(args.Framework)
+            {
+                case FrameworkEnum.Retail:
+                    await _retailEclDataPaymentScheduleRepository.InsertAsync(new RetailEclDataPaymentSchedule()
+                            {
+                                ContractRefNo = input.ContractRefNo,
+                                Amount = input.Amount,
+                                Component = input.Component,
+                                Frequency = input.Frequency,
+                                NoOfSchedules = input.NoOfSchedules,
+                                RetailEclUploadId = args.UploadSummaryId,
+                                StartDate = input.StartDate
+                            });
+                    break;
+
+                case FrameworkEnum.Wholesale:
+                    await _wholesaleEclDataPaymentScheduleRepository.InsertAsync(new WholesaleEclDataPaymentSchedule()
+                        {
+                            ContractRefNo = input.ContractRefNo,
+                            Amount = input.Amount,
+                            Component = input.Component,
+                            Frequency = input.Frequency,
+                            NoOfSchedules = input.NoOfSchedules,
+                            WholesaleEclUploadId = args.UploadSummaryId,
+                            StartDate = input.StartDate
+                        });
+                    break;
+
+                case FrameworkEnum.OBE:
+                    await _obeEclDataPaymentScheduleRepository.InsertAsync(new ObeEclDataPaymentSchedule()
+                    {
+                        ContractRefNo = input.ContractRefNo,
+                        Amount = input.Amount,
+                        Component = input.Component,
+                        Frequency = input.Frequency,
+                        NoOfSchedules = input.NoOfSchedules,
+                        ObeEclUploadId = args.UploadSummaryId,
+                        StartDate = input.StartDate
+                    });
+                    break;
+            }
+        }
+
+        private async Task ProcessImportPaymentScheduleResultAsync(ImportPaymentSchedulesFromExcelJobArgs args, List<ImportPaymentScheduleDto> invalidPaymentSchedule)
+        {
+            if (invalidPaymentSchedule.Any())
+            {
+                var file = _invalidPaymentScheduleExporter.ExportToFile(invalidPaymentSchedule);
+                await _appNotifier.SomeUsersCouldntBeImported(args.User, file.FileToken, file.FileType, file.FileName);
+            }
+            else
+            {
+                await _appNotifier.SendMessageAsync(
+                    args.User,
+                    _localizationSource.GetString("AllUsersSuccessfullyImportedFromExcel"),
+                    Abp.Notifications.NotificationSeverity.Success);
+            }
+        }
+
+        private void SendInvalidExcelNotification(ImportPaymentSchedulesFromExcelJobArgs args)
+        {
+            _appNotifier.SendMessageAsync(
+                args.User,
+                _localizationSource.GetString("FileCantBeConvertedToUserList"),
+                Abp.Notifications.NotificationSeverity.Warn);
+        }
+
+        private void UpdateSummaryTableToCompletedAsync(ImportPaymentSchedulesFromExcelJobArgs args)
+        {
+            switch (args.Framework)
+            {
+                case FrameworkEnum.Retail:
+                    var retailSummary = _retailUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (retailSummary != null)
+                    {
+                        retailSummary.Status = GeneralStatusEnum.Completed;
+                        _retailUploadSummaryRepository.Update(retailSummary);
+                    }
+                    break;
+
+                case FrameworkEnum.Wholesale:
+                    var wholesaleSummary = _wholesaleUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if(wholesaleSummary != null)
+                    {
+                        wholesaleSummary.Status = GeneralStatusEnum.Completed;
+                        _wholesaleUploadSummaryRepository.Update(wholesaleSummary);
+                    }
+                    break;
+
+                case FrameworkEnum.OBE:
+                    var obeSummary = _obeUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (obeSummary != null)
+                    {
+                        obeSummary.Status = GeneralStatusEnum.Completed;
+                        _obeUploadSummaryRepository.Update(obeSummary);
+                    }
+                    break;
+            }
+        }
+
+    }
+}

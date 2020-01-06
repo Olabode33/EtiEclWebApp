@@ -17,9 +17,10 @@ namespace TestDemo.RetailInputs
 
         Task<GetRetailEclUploadForEditOutput> GetRetailEclUploadForEdit(EntityDto<Guid> input);
 
-		Task CreateOrEdit(CreateOrEditRetailEclUploadDto input);
+        Task<Guid> CreateOrEdit(CreateOrEditRetailEclUploadDto input);
 
-		Task Delete(EntityDto<Guid> input);
+
+        Task Delete(EntityDto<Guid> input);
 
 		
 		Task<PagedResultDto<RetailEclUploadRetailEclLookupTableDto>> GetAllRetailEclForLookupTable(GetAllForLookupTableInput input);

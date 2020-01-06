@@ -84,6 +84,7 @@ import { LgdInputAssumptionsComponent } from './assumptions/_subs/lgdInputAssump
 import { PdInputAssumptionsComponent } from './assumptions/_subs/pdInputAssumptions/pdInputAssumptions.component';
 import { EditPortfolioReportDateComponent } from './assumptions/_subs/edit-portfolioReportDate/edit-portfolioReportDate.component';
 import { EditAssumptionModalComponent } from './assumptions/_subs/edit-assumption-modal/edit-assumption-modal.component';
+import { ViewLoanbookDetailsComponent } from './eclShared/view-loanbookDetails/view-loanbookDetails.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -110,6 +111,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+        ViewLoanbookDetailsComponent,
         AssumptionApprovalsComponent,
         ViewAssumptionApprovalModalComponent,
         EditAssumptionModalComponent,

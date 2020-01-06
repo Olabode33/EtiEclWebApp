@@ -17,6 +17,12 @@ import { AppConsts } from '@shared/AppConsts';
 import { Location } from '@angular/common';
 import { ApproveEclModalComponent } from '@app/main/eclShared/approve-ecl-modal/approve-ecl-modal.component';
 import { PdInputAssumptionsComponent } from '@app/main/assumptions/_subs/pdInputAssumptions/pdInputAssumptions.component';
+import { HttpClient } from '@angular/common/http';
+import { finalize } from 'rxjs/operators';
+import { FileUpload } from 'primeng/fileupload';
+import { interval } from 'rxjs';
+
+const secondsCounter = interval(5000);
 
 @Component({
     selector: 'app-view-retailEcl',
@@ -29,8 +35,10 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
 
     @ViewChild('aproveEclModal', {static: true}) approveEclModel: ApproveEclModalComponent;
     @ViewChild('pdInputAssumptionTag', {static: true}) pdInputAssumptionTag: PdInputAssumptionsComponent;
+    @ViewChild('UploadPaymentSchedule', {static: true}) excelUploadPaymentSchedule: FileUpload;
 
     _eclId = '';
+    uploadPaymentUrl = '';
     retailEclDetails: GetRetailEclForEditOutput = new GetRetailEclForEditOutput();
     retailEClDto: CreateOrEditRetailEclDto = new CreateOrEditRetailEclDto();
     retailUploads: GetRetailEclUploadForViewDto[] = new Array();
@@ -91,9 +99,11 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
         private _router: Router,
-        private _location: Location
+        private _location: Location,
+        private _httpClient: HttpClient
     ) {
         super(injector);
+        this.uploadPaymentUrl = AppConsts.remoteServiceBaseUrl + '/EclRawData/ImportPaymentScheduleFromExcel';
     }
 
     ngOnInit() {
@@ -221,47 +231,66 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
         let upload = new CreateOrEditRetailEclUploadDto();
         upload.docType = UploadDocTypeEnum.PaymentSchedule;
         upload.retailEclId = this._eclId;
-        upload.status = GeneralStatusEnum.Draft;
+        upload.status = GeneralStatusEnum.Processing;
         upload.uploadComment = 'Generic sample';
 
-        this._retailEclUploadServiceProxy.createOrEdit(upload).subscribe(() => {
+        this._retailEclUploadServiceProxy.createOrEdit(upload).subscribe(result => {
+            this.startFileUpload(data, result);
             this.getEclUploadSummary();
-            this.notify.success(this.l('UploadedSuccessfully'));
+            //this.notify.success(this.l('UploadedSuccessfully'));
         });
-
-        // const formData: FormData = new FormData();
-        // const file = data.files[0];
-        // formData.append('file', file, file.name);
-
-        // this._httpClient
-        //     .post<any>(this.uploadUrl, formData)
-        //     .pipe(finalize(() => this.excelFileUpload.clear()))
-        //     .subscribe(response => {
-        //         if (response.success) {
-        //             this.notify.success(this.l('ImportUsersProcessStart'));
-        //         } else if (response.error != null) {
-        //             this.notify.error(this.l('ImportUsersUploadFailed'));
-        //         }
-        //     });
     }
 
     onUploadExcelError(): void {
         this.notify.error(this.l('ImportEclDataFailed'));
     }
 
+    startFileUpload(data: { files: File }, uploadSummaryId: string): void {
+        const formData: FormData = new FormData();
+        const file = data.files[0];
+        formData.append('file', file, file.name);
+        formData.append('uploadSummaryId', uploadSummaryId);
+        formData.append('framework', FrameworkEnum.Retail.toString());
+
+        this._httpClient
+            .post<any>(this.uploadPaymentUrl, formData)
+            .pipe(finalize(() => this.excelUploadPaymentSchedule.clear()))
+            .subscribe(response => {
+                if (response.success) {
+                    this.notify.success(this.l('ImportPaymentScheduleProcessStart'));
+                    this.autoReloadUploadSummary();
+                } else if (response.error != null) {
+                    this.notify.error(this.l('ImportPaymentScheduleUploadFailed'));
+                }
+            });
+    }
 
     getStatusLabelClass(uploadStatus: GeneralStatusEnum): string {
-        switch (uploadStatus){
+        switch (uploadStatus) {
             case GeneralStatusEnum.Draft:
                 return 'primary';
             case GeneralStatusEnum.Submitted:
+            case GeneralStatusEnum.Processing:
                 return 'warning';
+            case GeneralStatusEnum.Completed:
             case GeneralStatusEnum.Approved:
                 return 'success';
             case GeneralStatusEnum.Rejected:
                 return 'danger';
             default:
                 return 'dark';
+        }
+    }
+
+    autoReloadUploadSummary(): void {
+        let processing = this.retailUploads.filter(x => x.retailEclUpload.status === GeneralStatusEnum.Processing);
+        const sub_ = secondsCounter.subscribe(n => {
+                            console.log(`It's been ${n} seconds since subscribing!`);
+                            this.getEclUploadSummary();
+                        });
+        if (processing.length <= 0) {
+            sub_.unsubscribe();
+            this.getEclUploadSummary();
         }
     }
 

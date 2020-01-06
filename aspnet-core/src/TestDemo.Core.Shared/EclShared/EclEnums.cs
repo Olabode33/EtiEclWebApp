@@ -31,7 +31,7 @@ namespace TestDemo.EclShared
 
     public enum GeneralStatusEnum
     {
-        Draft, Submitted, Approved, Rejected
+        Draft, Submitted, Approved, Rejected, Processing, Completed
     }
 
     public enum ResultSummaryTypeEnum
