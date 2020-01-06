@@ -1,9 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+    <text name="EclDataPaymentSchedulesHeaderInfo">View uploaded payment schedule details.</text>
+    <text name="EclDataPaymentSchedules">Payment Schedule</text>
+    <text name="EclDataLoanBooksHeaderInfo">View uploaded loanbook snapshot details.</text>
+    <text name="EclDataLoanBooks">Loanbook Snapshot</text>
     <text name="ImportLoanbookProcessStart">Loanbook snapshot import process has begun.</text>
     <text name="ImportLoanbookUploadFailed">Loanbook snapshot import process has failed.</text>
-    <text name="AllLoanbookSuccessfullyImportedFromExcel">Loanbook snapshot import process has been completed successfully. All payment schedule in file are imported.</text>
+    <text name="AllLoanbookSuccessfullyImportedFromExcel">Loanbook snapshot import process has been completed successfully. All records in file are imported.</text>
     <text name="FileCantBeConvertedToLoanbookList">Loanbook snapshot import process has failed. File is invalid.</text>
     <text name="ImportPaymentScheduleProcessStart">Payment schedule import process has begun.</text>
     <text name="ImportPaymentScheduleUploadFailed">Payment schedule import process has failed.</text>
@@ -11,6 +15,7 @@
     <text name="FileCantBeConvertedToPaymentScheduleList">Payment schedule import process has failed. File is invalid.</text>
     <text name="RefuseReason">Refuse Reason</text>
     <text name="InvalidPaymentScheduleImports">Invalid payment schedule imports</text>
+    <text name="InvalidLoanbookImports">Invalid loanbook snapshot imports</text>
     <text name="UploadRecordExists">A record already exists for the uploaded document type!</text>
     <text name="LoanBook">Loanbook Snapshot</text>
     <text name="PaymentSchedule">Payment Schedule</text>

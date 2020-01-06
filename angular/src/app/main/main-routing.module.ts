@@ -22,6 +22,8 @@ import { ViewWholesaleEclComponent } from './wholesale/view-wholesaleEcl/view-wh
 import { CreateEditRetailEclComponent } from './retail/createEdit-retailEcl/createEdit-retailEcl.component';
 import { AffiliateAssumptionComponent } from './assumptions/affiliateAssumption/affiliateAssumption.component';
 import { ViewAffiliateAssumptionsComponent } from './assumptions/view-affiliateAssumptions/view-affiliateAssumptions.component';
+import { ViewLoanbookDetailsComponent } from './eclShared/view-loanbookDetails/view-loanbookDetails.component';
+import { ViewPaymentScheduleComponent } from './eclShared/view-paymentSchedule/view-paymentSchedule.component';
 
 @NgModule({
     imports: [
@@ -49,7 +51,9 @@ import { ViewAffiliateAssumptionsComponent } from './assumptions/view-affiliateA
                     { path: 'wholesale/ecl/create', component: CreateEditWholesaleEclComponent},
                     { path: 'wholesale/ecl/view/:eclId', component: ViewWholesaleEclComponent},
                     { path: 'retail/ecl/create', component: CreateEditRetailEclComponent},
-                    { path: 'retail/ecl/view/:eclId', component: ViewRetailEclComponent}
+                    { path: 'retail/ecl/view/:eclId', component: ViewRetailEclComponent},
+                    { path: 'ecl/view/upload/loanbook/:framework/:uploadId', component: ViewLoanbookDetailsComponent},
+                    { path: 'ecl/view/upload/payment/:framework/:uploadId', component: ViewPaymentScheduleComponent}
                 ]
             }
         ])

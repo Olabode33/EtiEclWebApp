@@ -21,7 +21,7 @@ using TestDemo.WholesaleInputs;
 
 namespace TestDemo.EclShared.Importing
 {
-    public class ImportPaymentScheduleFromExcelJob: BackgroundJob<ImportPaymentSchedulesFromExcelJobArgs>, ITransientDependency
+    public class ImportPaymentScheduleFromExcelJob: BackgroundJob<ImportEclDataFromExcelJobArgs>, ITransientDependency
     {
         private readonly IPaymentScheduleExcelDataReader _paymentScheduleExcelDataReader;
         private readonly IInvalidPaymentScheduleExporter _invalidPaymentScheduleExporter;
@@ -64,7 +64,7 @@ namespace TestDemo.EclShared.Importing
             _localizationSource = localizationManager.GetSource(TestDemoConsts.LocalizationSourceName);
         }
 
-        public override void Execute(ImportPaymentSchedulesFromExcelJobArgs args)
+        public override void Execute(ImportEclDataFromExcelJobArgs args)
         {
             var paymentSchedules = GetPaymentScheduleListFromExcelOrNull(args);
             if (paymentSchedules == null || !paymentSchedules.Any())
@@ -77,7 +77,7 @@ namespace TestDemo.EclShared.Importing
             UpdateSummaryTableToCompletedAsync(args);
         }
 
-        private List<ImportPaymentScheduleDto> GetPaymentScheduleListFromExcelOrNull(ImportPaymentSchedulesFromExcelJobArgs args)
+        private List<ImportPaymentScheduleDto> GetPaymentScheduleListFromExcelOrNull(ImportEclDataFromExcelJobArgs args)
         {
             try
             {
@@ -90,7 +90,7 @@ namespace TestDemo.EclShared.Importing
             }
         }
 
-        private void CreatePaymentSchedule(ImportPaymentSchedulesFromExcelJobArgs args, List<ImportPaymentScheduleDto> paymentSchedules)
+        private void CreatePaymentSchedule(ImportEclDataFromExcelJobArgs args, List<ImportPaymentScheduleDto> paymentSchedules)
         {
             var invalidPaymentSchedule = new List<ImportPaymentScheduleDto>();
 
@@ -122,7 +122,7 @@ namespace TestDemo.EclShared.Importing
             AsyncHelper.RunSync(() => ProcessImportPaymentScheduleResultAsync(args, invalidPaymentSchedule));
         }
 
-        private async Task CreatePaymentScheduleAsync(ImportPaymentScheduleDto input, ImportPaymentSchedulesFromExcelJobArgs args)
+        private async Task CreatePaymentScheduleAsync(ImportPaymentScheduleDto input, ImportEclDataFromExcelJobArgs args)
         {
             switch(args.Framework)
             {
@@ -167,7 +167,7 @@ namespace TestDemo.EclShared.Importing
             }
         }
 
-        private async Task ProcessImportPaymentScheduleResultAsync(ImportPaymentSchedulesFromExcelJobArgs args, List<ImportPaymentScheduleDto> invalidPaymentSchedule)
+        private async Task ProcessImportPaymentScheduleResultAsync(ImportEclDataFromExcelJobArgs args, List<ImportPaymentScheduleDto> invalidPaymentSchedule)
         {
             if (invalidPaymentSchedule.Any())
             {
@@ -178,20 +178,20 @@ namespace TestDemo.EclShared.Importing
             {
                 await _appNotifier.SendMessageAsync(
                     args.User,
-                    _localizationSource.GetString("AllUsersSuccessfullyImportedFromExcel"),
+                    _localizationSource.GetString("AllPaymentScheduleSuccessfullyImportedFromExcel"),
                     Abp.Notifications.NotificationSeverity.Success);
             }
         }
 
-        private void SendInvalidExcelNotification(ImportPaymentSchedulesFromExcelJobArgs args)
+        private void SendInvalidExcelNotification(ImportEclDataFromExcelJobArgs args)
         {
             _appNotifier.SendMessageAsync(
                 args.User,
-                _localizationSource.GetString("FileCantBeConvertedToUserList"),
+                _localizationSource.GetString("FileCantBeConvertedToPaymentScheduleList"),
                 Abp.Notifications.NotificationSeverity.Warn);
         }
 
-        private void UpdateSummaryTableToCompletedAsync(ImportPaymentSchedulesFromExcelJobArgs args)
+        private void UpdateSummaryTableToCompletedAsync(ImportEclDataFromExcelJobArgs args)
         {
             switch (args.Framework)
             {

@@ -19547,122 +19547,12 @@ export class RetailEclDataLoanBooksServiceProxy {
      * @param accountNoFilter (optional) 
      * @param contractNoFilter (optional) 
      * @param customerNameFilter (optional) 
-     * @param maxSnapshotDateFilter (optional) 
-     * @param minSnapshotDateFilter (optional) 
-     * @param segmentFilter (optional) 
-     * @param sectorFilter (optional) 
-     * @param currencyFilter (optional) 
-     * @param productTypeFilter (optional) 
-     * @param productMappingFilter (optional) 
-     * @param specialisedLendingFilter (optional) 
-     * @param ratingModelFilter (optional) 
-     * @param maxOriginalRatingFilter (optional) 
-     * @param minOriginalRatingFilter (optional) 
-     * @param maxCurrentRatingFilter (optional) 
-     * @param minCurrentRatingFilter (optional) 
-     * @param maxLifetimePDFilter (optional) 
-     * @param minLifetimePDFilter (optional) 
-     * @param maxMonth12PDFilter (optional) 
-     * @param minMonth12PDFilter (optional) 
-     * @param maxDaysPastDueFilter (optional) 
-     * @param minDaysPastDueFilter (optional) 
-     * @param watchlistIndicatorFilter (optional) 
-     * @param classificationFilter (optional) 
-     * @param maxImpairedDateFilter (optional) 
-     * @param minImpairedDateFilter (optional) 
-     * @param maxDefaultDateFilter (optional) 
-     * @param minDefaultDateFilter (optional) 
-     * @param maxCreditLimitFilter (optional) 
-     * @param minCreditLimitFilter (optional) 
-     * @param maxOriginalBalanceLCYFilter (optional) 
-     * @param minOriginalBalanceLCYFilter (optional) 
-     * @param maxOutstandingBalanceLCYFilter (optional) 
-     * @param minOutstandingBalanceLCYFilter (optional) 
-     * @param maxOutstandingBalanceACYFilter (optional) 
-     * @param minOutstandingBalanceACYFilter (optional) 
-     * @param maxContractStartDateFilter (optional) 
-     * @param minContractStartDateFilter (optional) 
-     * @param maxContractEndDateFilter (optional) 
-     * @param minContractEndDateFilter (optional) 
-     * @param restructureIndicatorFilter (optional) 
-     * @param restructureRiskFilter (optional) 
-     * @param restructureTypeFilter (optional) 
-     * @param maxRestructureStartDateFilter (optional) 
-     * @param minRestructureStartDateFilter (optional) 
-     * @param maxRestructureEndDateFilter (optional) 
-     * @param minRestructureEndDateFilter (optional) 
-     * @param principalPaymentTermsOriginationFilter (optional) 
-     * @param maxPPTOPeriodFilter (optional) 
-     * @param minPPTOPeriodFilter (optional) 
-     * @param interestPaymentTermsOriginationFilter (optional) 
-     * @param maxIPTOPeriodFilter (optional) 
-     * @param minIPTOPeriodFilter (optional) 
-     * @param principalPaymentStructureFilter (optional) 
-     * @param interestPaymentStructureFilter (optional) 
-     * @param interestRateTypeFilter (optional) 
-     * @param baseRateFilter (optional) 
-     * @param originationContractualInterestRateFilter (optional) 
-     * @param maxIntroductoryPeriodFilter (optional) 
-     * @param minIntroductoryPeriodFilter (optional) 
-     * @param maxPostIPContractualInterestRateFilter (optional) 
-     * @param minPostIPContractualInterestRateFilter (optional) 
-     * @param maxCurrentContractualInterestRateFilter (optional) 
-     * @param minCurrentContractualInterestRateFilter (optional) 
-     * @param maxEIRFilter (optional) 
-     * @param minEIRFilter (optional) 
-     * @param maxDebentureOMVFilter (optional) 
-     * @param minDebentureOMVFilter (optional) 
-     * @param maxDebentureFSVFilter (optional) 
-     * @param minDebentureFSVFilter (optional) 
-     * @param maxCashOMVFilter (optional) 
-     * @param minCashOMVFilter (optional) 
-     * @param maxCashFSVFilter (optional) 
-     * @param minCashFSVFilter (optional) 
-     * @param maxInventoryOMVFilter (optional) 
-     * @param minInventoryOMVFilter (optional) 
-     * @param maxInventoryFSVFilter (optional) 
-     * @param minInventoryFSVFilter (optional) 
-     * @param maxPlantEquipmentOMVFilter (optional) 
-     * @param minPlantEquipmentOMVFilter (optional) 
-     * @param maxPlantEquipmentFSVFilter (optional) 
-     * @param minPlantEquipmentFSVFilter (optional) 
-     * @param maxResidentialPropertyOMVFilter (optional) 
-     * @param minResidentialPropertyOMVFilter (optional) 
-     * @param maxResidentialPropertyFSVFilter (optional) 
-     * @param minResidentialPropertyFSVFilter (optional) 
-     * @param maxCommercialPropertyOMVFilter (optional) 
-     * @param minCommercialPropertyOMVFilter (optional) 
-     * @param maxCommercialPropertyFilter (optional) 
-     * @param minCommercialPropertyFilter (optional) 
-     * @param maxReceivablesOMVFilter (optional) 
-     * @param minReceivablesOMVFilter (optional) 
-     * @param maxReceivablesFSVFilter (optional) 
-     * @param minReceivablesFSVFilter (optional) 
-     * @param maxSharesOMVFilter (optional) 
-     * @param minSharesOMVFilter (optional) 
-     * @param maxSharesFSVFilter (optional) 
-     * @param minSharesFSVFilter (optional) 
-     * @param maxVehicleOMVFilter (optional) 
-     * @param minVehicleOMVFilter (optional) 
-     * @param maxVehicleFSVFilter (optional) 
-     * @param minVehicleFSVFilter (optional) 
-     * @param maxCureRateFilter (optional) 
-     * @param minCureRateFilter (optional) 
-     * @param guaranteeIndicatorFilter (optional) 
-     * @param guarantorPDFilter (optional) 
-     * @param guarantorLGDFilter (optional) 
-     * @param maxGuaranteeValueFilter (optional) 
-     * @param minGuaranteeValueFilter (optional) 
-     * @param maxGuaranteeLevelFilter (optional) 
-     * @param minGuaranteeLevelFilter (optional) 
-     * @param contractIdFilter (optional) 
-     * @param retailEclUploadTenantIdFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | null | undefined, customerNoFilter: string | null | undefined, accountNoFilter: string | null | undefined, contractNoFilter: string | null | undefined, customerNameFilter: string | null | undefined, maxSnapshotDateFilter: moment.Moment | null | undefined, minSnapshotDateFilter: moment.Moment | null | undefined, segmentFilter: string | null | undefined, sectorFilter: string | null | undefined, currencyFilter: string | null | undefined, productTypeFilter: string | null | undefined, productMappingFilter: string | null | undefined, specialisedLendingFilter: string | null | undefined, ratingModelFilter: string | null | undefined, maxOriginalRatingFilter: number | null | undefined, minOriginalRatingFilter: number | null | undefined, maxCurrentRatingFilter: number | null | undefined, minCurrentRatingFilter: number | null | undefined, maxLifetimePDFilter: number | null | undefined, minLifetimePDFilter: number | null | undefined, maxMonth12PDFilter: number | null | undefined, minMonth12PDFilter: number | null | undefined, maxDaysPastDueFilter: number | null | undefined, minDaysPastDueFilter: number | null | undefined, watchlistIndicatorFilter: number | null | undefined, classificationFilter: string | null | undefined, maxImpairedDateFilter: moment.Moment | null | undefined, minImpairedDateFilter: moment.Moment | null | undefined, maxDefaultDateFilter: moment.Moment | null | undefined, minDefaultDateFilter: moment.Moment | null | undefined, maxCreditLimitFilter: number | null | undefined, minCreditLimitFilter: number | null | undefined, maxOriginalBalanceLCYFilter: number | null | undefined, minOriginalBalanceLCYFilter: number | null | undefined, maxOutstandingBalanceLCYFilter: number | null | undefined, minOutstandingBalanceLCYFilter: number | null | undefined, maxOutstandingBalanceACYFilter: number | null | undefined, minOutstandingBalanceACYFilter: number | null | undefined, maxContractStartDateFilter: moment.Moment | null | undefined, minContractStartDateFilter: moment.Moment | null | undefined, maxContractEndDateFilter: moment.Moment | null | undefined, minContractEndDateFilter: moment.Moment | null | undefined, restructureIndicatorFilter: number | null | undefined, restructureRiskFilter: string | null | undefined, restructureTypeFilter: string | null | undefined, maxRestructureStartDateFilter: moment.Moment | null | undefined, minRestructureStartDateFilter: moment.Moment | null | undefined, maxRestructureEndDateFilter: moment.Moment | null | undefined, minRestructureEndDateFilter: moment.Moment | null | undefined, principalPaymentTermsOriginationFilter: string | null | undefined, maxPPTOPeriodFilter: number | null | undefined, minPPTOPeriodFilter: number | null | undefined, interestPaymentTermsOriginationFilter: string | null | undefined, maxIPTOPeriodFilter: number | null | undefined, minIPTOPeriodFilter: number | null | undefined, principalPaymentStructureFilter: string | null | undefined, interestPaymentStructureFilter: string | null | undefined, interestRateTypeFilter: string | null | undefined, baseRateFilter: string | null | undefined, originationContractualInterestRateFilter: string | null | undefined, maxIntroductoryPeriodFilter: number | null | undefined, minIntroductoryPeriodFilter: number | null | undefined, maxPostIPContractualInterestRateFilter: number | null | undefined, minPostIPContractualInterestRateFilter: number | null | undefined, maxCurrentContractualInterestRateFilter: number | null | undefined, minCurrentContractualInterestRateFilter: number | null | undefined, maxEIRFilter: number | null | undefined, minEIRFilter: number | null | undefined, maxDebentureOMVFilter: number | null | undefined, minDebentureOMVFilter: number | null | undefined, maxDebentureFSVFilter: number | null | undefined, minDebentureFSVFilter: number | null | undefined, maxCashOMVFilter: number | null | undefined, minCashOMVFilter: number | null | undefined, maxCashFSVFilter: number | null | undefined, minCashFSVFilter: number | null | undefined, maxInventoryOMVFilter: number | null | undefined, minInventoryOMVFilter: number | null | undefined, maxInventoryFSVFilter: number | null | undefined, minInventoryFSVFilter: number | null | undefined, maxPlantEquipmentOMVFilter: number | null | undefined, minPlantEquipmentOMVFilter: number | null | undefined, maxPlantEquipmentFSVFilter: number | null | undefined, minPlantEquipmentFSVFilter: number | null | undefined, maxResidentialPropertyOMVFilter: number | null | undefined, minResidentialPropertyOMVFilter: number | null | undefined, maxResidentialPropertyFSVFilter: number | null | undefined, minResidentialPropertyFSVFilter: number | null | undefined, maxCommercialPropertyOMVFilter: number | null | undefined, minCommercialPropertyOMVFilter: number | null | undefined, maxCommercialPropertyFilter: number | null | undefined, minCommercialPropertyFilter: number | null | undefined, maxReceivablesOMVFilter: number | null | undefined, minReceivablesOMVFilter: number | null | undefined, maxReceivablesFSVFilter: number | null | undefined, minReceivablesFSVFilter: number | null | undefined, maxSharesOMVFilter: number | null | undefined, minSharesOMVFilter: number | null | undefined, maxSharesFSVFilter: number | null | undefined, minSharesFSVFilter: number | null | undefined, maxVehicleOMVFilter: number | null | undefined, minVehicleOMVFilter: number | null | undefined, maxVehicleFSVFilter: number | null | undefined, minVehicleFSVFilter: number | null | undefined, maxCureRateFilter: number | null | undefined, minCureRateFilter: number | null | undefined, guaranteeIndicatorFilter: number | null | undefined, guarantorPDFilter: string | null | undefined, guarantorLGDFilter: string | null | undefined, maxGuaranteeValueFilter: number | null | undefined, minGuaranteeValueFilter: number | null | undefined, maxGuaranteeLevelFilter: number | null | undefined, minGuaranteeLevelFilter: number | null | undefined, contractIdFilter: string | null | undefined, retailEclUploadTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetRetailEclDataLoanBookForViewDto> {
+    getAll(filter: string | null | undefined, customerNoFilter: string | null | undefined, accountNoFilter: string | null | undefined, contractNoFilter: string | null | undefined, customerNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetRetailEclDataLoanBookForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/RetailEclDataLoanBooks/GetAll?";
         if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
@@ -19674,226 +19564,6 @@ export class RetailEclDataLoanBooksServiceProxy {
             url_ += "ContractNoFilter=" + encodeURIComponent("" + contractNoFilter) + "&"; 
         if (customerNameFilter !== undefined)
             url_ += "CustomerNameFilter=" + encodeURIComponent("" + customerNameFilter) + "&"; 
-        if (maxSnapshotDateFilter !== undefined)
-            url_ += "MaxSnapshotDateFilter=" + encodeURIComponent(maxSnapshotDateFilter ? "" + maxSnapshotDateFilter.toJSON() : "") + "&"; 
-        if (minSnapshotDateFilter !== undefined)
-            url_ += "MinSnapshotDateFilter=" + encodeURIComponent(minSnapshotDateFilter ? "" + minSnapshotDateFilter.toJSON() : "") + "&"; 
-        if (segmentFilter !== undefined)
-            url_ += "SegmentFilter=" + encodeURIComponent("" + segmentFilter) + "&"; 
-        if (sectorFilter !== undefined)
-            url_ += "SectorFilter=" + encodeURIComponent("" + sectorFilter) + "&"; 
-        if (currencyFilter !== undefined)
-            url_ += "CurrencyFilter=" + encodeURIComponent("" + currencyFilter) + "&"; 
-        if (productTypeFilter !== undefined)
-            url_ += "ProductTypeFilter=" + encodeURIComponent("" + productTypeFilter) + "&"; 
-        if (productMappingFilter !== undefined)
-            url_ += "ProductMappingFilter=" + encodeURIComponent("" + productMappingFilter) + "&"; 
-        if (specialisedLendingFilter !== undefined)
-            url_ += "SpecialisedLendingFilter=" + encodeURIComponent("" + specialisedLendingFilter) + "&"; 
-        if (ratingModelFilter !== undefined)
-            url_ += "RatingModelFilter=" + encodeURIComponent("" + ratingModelFilter) + "&"; 
-        if (maxOriginalRatingFilter !== undefined)
-            url_ += "MaxOriginalRatingFilter=" + encodeURIComponent("" + maxOriginalRatingFilter) + "&"; 
-        if (minOriginalRatingFilter !== undefined)
-            url_ += "MinOriginalRatingFilter=" + encodeURIComponent("" + minOriginalRatingFilter) + "&"; 
-        if (maxCurrentRatingFilter !== undefined)
-            url_ += "MaxCurrentRatingFilter=" + encodeURIComponent("" + maxCurrentRatingFilter) + "&"; 
-        if (minCurrentRatingFilter !== undefined)
-            url_ += "MinCurrentRatingFilter=" + encodeURIComponent("" + minCurrentRatingFilter) + "&"; 
-        if (maxLifetimePDFilter !== undefined)
-            url_ += "MaxLifetimePDFilter=" + encodeURIComponent("" + maxLifetimePDFilter) + "&"; 
-        if (minLifetimePDFilter !== undefined)
-            url_ += "MinLifetimePDFilter=" + encodeURIComponent("" + minLifetimePDFilter) + "&"; 
-        if (maxMonth12PDFilter !== undefined)
-            url_ += "MaxMonth12PDFilter=" + encodeURIComponent("" + maxMonth12PDFilter) + "&"; 
-        if (minMonth12PDFilter !== undefined)
-            url_ += "MinMonth12PDFilter=" + encodeURIComponent("" + minMonth12PDFilter) + "&"; 
-        if (maxDaysPastDueFilter !== undefined)
-            url_ += "MaxDaysPastDueFilter=" + encodeURIComponent("" + maxDaysPastDueFilter) + "&"; 
-        if (minDaysPastDueFilter !== undefined)
-            url_ += "MinDaysPastDueFilter=" + encodeURIComponent("" + minDaysPastDueFilter) + "&"; 
-        if (watchlistIndicatorFilter !== undefined)
-            url_ += "WatchlistIndicatorFilter=" + encodeURIComponent("" + watchlistIndicatorFilter) + "&"; 
-        if (classificationFilter !== undefined)
-            url_ += "ClassificationFilter=" + encodeURIComponent("" + classificationFilter) + "&"; 
-        if (maxImpairedDateFilter !== undefined)
-            url_ += "MaxImpairedDateFilter=" + encodeURIComponent(maxImpairedDateFilter ? "" + maxImpairedDateFilter.toJSON() : "") + "&"; 
-        if (minImpairedDateFilter !== undefined)
-            url_ += "MinImpairedDateFilter=" + encodeURIComponent(minImpairedDateFilter ? "" + minImpairedDateFilter.toJSON() : "") + "&"; 
-        if (maxDefaultDateFilter !== undefined)
-            url_ += "MaxDefaultDateFilter=" + encodeURIComponent(maxDefaultDateFilter ? "" + maxDefaultDateFilter.toJSON() : "") + "&"; 
-        if (minDefaultDateFilter !== undefined)
-            url_ += "MinDefaultDateFilter=" + encodeURIComponent(minDefaultDateFilter ? "" + minDefaultDateFilter.toJSON() : "") + "&"; 
-        if (maxCreditLimitFilter !== undefined)
-            url_ += "MaxCreditLimitFilter=" + encodeURIComponent("" + maxCreditLimitFilter) + "&"; 
-        if (minCreditLimitFilter !== undefined)
-            url_ += "MinCreditLimitFilter=" + encodeURIComponent("" + minCreditLimitFilter) + "&"; 
-        if (maxOriginalBalanceLCYFilter !== undefined)
-            url_ += "MaxOriginalBalanceLCYFilter=" + encodeURIComponent("" + maxOriginalBalanceLCYFilter) + "&"; 
-        if (minOriginalBalanceLCYFilter !== undefined)
-            url_ += "MinOriginalBalanceLCYFilter=" + encodeURIComponent("" + minOriginalBalanceLCYFilter) + "&"; 
-        if (maxOutstandingBalanceLCYFilter !== undefined)
-            url_ += "MaxOutstandingBalanceLCYFilter=" + encodeURIComponent("" + maxOutstandingBalanceLCYFilter) + "&"; 
-        if (minOutstandingBalanceLCYFilter !== undefined)
-            url_ += "MinOutstandingBalanceLCYFilter=" + encodeURIComponent("" + minOutstandingBalanceLCYFilter) + "&"; 
-        if (maxOutstandingBalanceACYFilter !== undefined)
-            url_ += "MaxOutstandingBalanceACYFilter=" + encodeURIComponent("" + maxOutstandingBalanceACYFilter) + "&"; 
-        if (minOutstandingBalanceACYFilter !== undefined)
-            url_ += "MinOutstandingBalanceACYFilter=" + encodeURIComponent("" + minOutstandingBalanceACYFilter) + "&"; 
-        if (maxContractStartDateFilter !== undefined)
-            url_ += "MaxContractStartDateFilter=" + encodeURIComponent(maxContractStartDateFilter ? "" + maxContractStartDateFilter.toJSON() : "") + "&"; 
-        if (minContractStartDateFilter !== undefined)
-            url_ += "MinContractStartDateFilter=" + encodeURIComponent(minContractStartDateFilter ? "" + minContractStartDateFilter.toJSON() : "") + "&"; 
-        if (maxContractEndDateFilter !== undefined)
-            url_ += "MaxContractEndDateFilter=" + encodeURIComponent(maxContractEndDateFilter ? "" + maxContractEndDateFilter.toJSON() : "") + "&"; 
-        if (minContractEndDateFilter !== undefined)
-            url_ += "MinContractEndDateFilter=" + encodeURIComponent(minContractEndDateFilter ? "" + minContractEndDateFilter.toJSON() : "") + "&"; 
-        if (restructureIndicatorFilter !== undefined)
-            url_ += "RestructureIndicatorFilter=" + encodeURIComponent("" + restructureIndicatorFilter) + "&"; 
-        if (restructureRiskFilter !== undefined)
-            url_ += "RestructureRiskFilter=" + encodeURIComponent("" + restructureRiskFilter) + "&"; 
-        if (restructureTypeFilter !== undefined)
-            url_ += "RestructureTypeFilter=" + encodeURIComponent("" + restructureTypeFilter) + "&"; 
-        if (maxRestructureStartDateFilter !== undefined)
-            url_ += "MaxRestructureStartDateFilter=" + encodeURIComponent(maxRestructureStartDateFilter ? "" + maxRestructureStartDateFilter.toJSON() : "") + "&"; 
-        if (minRestructureStartDateFilter !== undefined)
-            url_ += "MinRestructureStartDateFilter=" + encodeURIComponent(minRestructureStartDateFilter ? "" + minRestructureStartDateFilter.toJSON() : "") + "&"; 
-        if (maxRestructureEndDateFilter !== undefined)
-            url_ += "MaxRestructureEndDateFilter=" + encodeURIComponent(maxRestructureEndDateFilter ? "" + maxRestructureEndDateFilter.toJSON() : "") + "&"; 
-        if (minRestructureEndDateFilter !== undefined)
-            url_ += "MinRestructureEndDateFilter=" + encodeURIComponent(minRestructureEndDateFilter ? "" + minRestructureEndDateFilter.toJSON() : "") + "&"; 
-        if (principalPaymentTermsOriginationFilter !== undefined)
-            url_ += "PrincipalPaymentTermsOriginationFilter=" + encodeURIComponent("" + principalPaymentTermsOriginationFilter) + "&"; 
-        if (maxPPTOPeriodFilter !== undefined)
-            url_ += "MaxPPTOPeriodFilter=" + encodeURIComponent("" + maxPPTOPeriodFilter) + "&"; 
-        if (minPPTOPeriodFilter !== undefined)
-            url_ += "MinPPTOPeriodFilter=" + encodeURIComponent("" + minPPTOPeriodFilter) + "&"; 
-        if (interestPaymentTermsOriginationFilter !== undefined)
-            url_ += "InterestPaymentTermsOriginationFilter=" + encodeURIComponent("" + interestPaymentTermsOriginationFilter) + "&"; 
-        if (maxIPTOPeriodFilter !== undefined)
-            url_ += "MaxIPTOPeriodFilter=" + encodeURIComponent("" + maxIPTOPeriodFilter) + "&"; 
-        if (minIPTOPeriodFilter !== undefined)
-            url_ += "MinIPTOPeriodFilter=" + encodeURIComponent("" + minIPTOPeriodFilter) + "&"; 
-        if (principalPaymentStructureFilter !== undefined)
-            url_ += "PrincipalPaymentStructureFilter=" + encodeURIComponent("" + principalPaymentStructureFilter) + "&"; 
-        if (interestPaymentStructureFilter !== undefined)
-            url_ += "InterestPaymentStructureFilter=" + encodeURIComponent("" + interestPaymentStructureFilter) + "&"; 
-        if (interestRateTypeFilter !== undefined)
-            url_ += "InterestRateTypeFilter=" + encodeURIComponent("" + interestRateTypeFilter) + "&"; 
-        if (baseRateFilter !== undefined)
-            url_ += "BaseRateFilter=" + encodeURIComponent("" + baseRateFilter) + "&"; 
-        if (originationContractualInterestRateFilter !== undefined)
-            url_ += "OriginationContractualInterestRateFilter=" + encodeURIComponent("" + originationContractualInterestRateFilter) + "&"; 
-        if (maxIntroductoryPeriodFilter !== undefined)
-            url_ += "MaxIntroductoryPeriodFilter=" + encodeURIComponent("" + maxIntroductoryPeriodFilter) + "&"; 
-        if (minIntroductoryPeriodFilter !== undefined)
-            url_ += "MinIntroductoryPeriodFilter=" + encodeURIComponent("" + minIntroductoryPeriodFilter) + "&"; 
-        if (maxPostIPContractualInterestRateFilter !== undefined)
-            url_ += "MaxPostIPContractualInterestRateFilter=" + encodeURIComponent("" + maxPostIPContractualInterestRateFilter) + "&"; 
-        if (minPostIPContractualInterestRateFilter !== undefined)
-            url_ += "MinPostIPContractualInterestRateFilter=" + encodeURIComponent("" + minPostIPContractualInterestRateFilter) + "&"; 
-        if (maxCurrentContractualInterestRateFilter !== undefined)
-            url_ += "MaxCurrentContractualInterestRateFilter=" + encodeURIComponent("" + maxCurrentContractualInterestRateFilter) + "&"; 
-        if (minCurrentContractualInterestRateFilter !== undefined)
-            url_ += "MinCurrentContractualInterestRateFilter=" + encodeURIComponent("" + minCurrentContractualInterestRateFilter) + "&"; 
-        if (maxEIRFilter !== undefined)
-            url_ += "MaxEIRFilter=" + encodeURIComponent("" + maxEIRFilter) + "&"; 
-        if (minEIRFilter !== undefined)
-            url_ += "MinEIRFilter=" + encodeURIComponent("" + minEIRFilter) + "&"; 
-        if (maxDebentureOMVFilter !== undefined)
-            url_ += "MaxDebentureOMVFilter=" + encodeURIComponent("" + maxDebentureOMVFilter) + "&"; 
-        if (minDebentureOMVFilter !== undefined)
-            url_ += "MinDebentureOMVFilter=" + encodeURIComponent("" + minDebentureOMVFilter) + "&"; 
-        if (maxDebentureFSVFilter !== undefined)
-            url_ += "MaxDebentureFSVFilter=" + encodeURIComponent("" + maxDebentureFSVFilter) + "&"; 
-        if (minDebentureFSVFilter !== undefined)
-            url_ += "MinDebentureFSVFilter=" + encodeURIComponent("" + minDebentureFSVFilter) + "&"; 
-        if (maxCashOMVFilter !== undefined)
-            url_ += "MaxCashOMVFilter=" + encodeURIComponent("" + maxCashOMVFilter) + "&"; 
-        if (minCashOMVFilter !== undefined)
-            url_ += "MinCashOMVFilter=" + encodeURIComponent("" + minCashOMVFilter) + "&"; 
-        if (maxCashFSVFilter !== undefined)
-            url_ += "MaxCashFSVFilter=" + encodeURIComponent("" + maxCashFSVFilter) + "&"; 
-        if (minCashFSVFilter !== undefined)
-            url_ += "MinCashFSVFilter=" + encodeURIComponent("" + minCashFSVFilter) + "&"; 
-        if (maxInventoryOMVFilter !== undefined)
-            url_ += "MaxInventoryOMVFilter=" + encodeURIComponent("" + maxInventoryOMVFilter) + "&"; 
-        if (minInventoryOMVFilter !== undefined)
-            url_ += "MinInventoryOMVFilter=" + encodeURIComponent("" + minInventoryOMVFilter) + "&"; 
-        if (maxInventoryFSVFilter !== undefined)
-            url_ += "MaxInventoryFSVFilter=" + encodeURIComponent("" + maxInventoryFSVFilter) + "&"; 
-        if (minInventoryFSVFilter !== undefined)
-            url_ += "MinInventoryFSVFilter=" + encodeURIComponent("" + minInventoryFSVFilter) + "&"; 
-        if (maxPlantEquipmentOMVFilter !== undefined)
-            url_ += "MaxPlantEquipmentOMVFilter=" + encodeURIComponent("" + maxPlantEquipmentOMVFilter) + "&"; 
-        if (minPlantEquipmentOMVFilter !== undefined)
-            url_ += "MinPlantEquipmentOMVFilter=" + encodeURIComponent("" + minPlantEquipmentOMVFilter) + "&"; 
-        if (maxPlantEquipmentFSVFilter !== undefined)
-            url_ += "MaxPlantEquipmentFSVFilter=" + encodeURIComponent("" + maxPlantEquipmentFSVFilter) + "&"; 
-        if (minPlantEquipmentFSVFilter !== undefined)
-            url_ += "MinPlantEquipmentFSVFilter=" + encodeURIComponent("" + minPlantEquipmentFSVFilter) + "&"; 
-        if (maxResidentialPropertyOMVFilter !== undefined)
-            url_ += "MaxResidentialPropertyOMVFilter=" + encodeURIComponent("" + maxResidentialPropertyOMVFilter) + "&"; 
-        if (minResidentialPropertyOMVFilter !== undefined)
-            url_ += "MinResidentialPropertyOMVFilter=" + encodeURIComponent("" + minResidentialPropertyOMVFilter) + "&"; 
-        if (maxResidentialPropertyFSVFilter !== undefined)
-            url_ += "MaxResidentialPropertyFSVFilter=" + encodeURIComponent("" + maxResidentialPropertyFSVFilter) + "&"; 
-        if (minResidentialPropertyFSVFilter !== undefined)
-            url_ += "MinResidentialPropertyFSVFilter=" + encodeURIComponent("" + minResidentialPropertyFSVFilter) + "&"; 
-        if (maxCommercialPropertyOMVFilter !== undefined)
-            url_ += "MaxCommercialPropertyOMVFilter=" + encodeURIComponent("" + maxCommercialPropertyOMVFilter) + "&"; 
-        if (minCommercialPropertyOMVFilter !== undefined)
-            url_ += "MinCommercialPropertyOMVFilter=" + encodeURIComponent("" + minCommercialPropertyOMVFilter) + "&"; 
-        if (maxCommercialPropertyFilter !== undefined)
-            url_ += "MaxCommercialPropertyFilter=" + encodeURIComponent("" + maxCommercialPropertyFilter) + "&"; 
-        if (minCommercialPropertyFilter !== undefined)
-            url_ += "MinCommercialPropertyFilter=" + encodeURIComponent("" + minCommercialPropertyFilter) + "&"; 
-        if (maxReceivablesOMVFilter !== undefined)
-            url_ += "MaxReceivablesOMVFilter=" + encodeURIComponent("" + maxReceivablesOMVFilter) + "&"; 
-        if (minReceivablesOMVFilter !== undefined)
-            url_ += "MinReceivablesOMVFilter=" + encodeURIComponent("" + minReceivablesOMVFilter) + "&"; 
-        if (maxReceivablesFSVFilter !== undefined)
-            url_ += "MaxReceivablesFSVFilter=" + encodeURIComponent("" + maxReceivablesFSVFilter) + "&"; 
-        if (minReceivablesFSVFilter !== undefined)
-            url_ += "MinReceivablesFSVFilter=" + encodeURIComponent("" + minReceivablesFSVFilter) + "&"; 
-        if (maxSharesOMVFilter !== undefined)
-            url_ += "MaxSharesOMVFilter=" + encodeURIComponent("" + maxSharesOMVFilter) + "&"; 
-        if (minSharesOMVFilter !== undefined)
-            url_ += "MinSharesOMVFilter=" + encodeURIComponent("" + minSharesOMVFilter) + "&"; 
-        if (maxSharesFSVFilter !== undefined)
-            url_ += "MaxSharesFSVFilter=" + encodeURIComponent("" + maxSharesFSVFilter) + "&"; 
-        if (minSharesFSVFilter !== undefined)
-            url_ += "MinSharesFSVFilter=" + encodeURIComponent("" + minSharesFSVFilter) + "&"; 
-        if (maxVehicleOMVFilter !== undefined)
-            url_ += "MaxVehicleOMVFilter=" + encodeURIComponent("" + maxVehicleOMVFilter) + "&"; 
-        if (minVehicleOMVFilter !== undefined)
-            url_ += "MinVehicleOMVFilter=" + encodeURIComponent("" + minVehicleOMVFilter) + "&"; 
-        if (maxVehicleFSVFilter !== undefined)
-            url_ += "MaxVehicleFSVFilter=" + encodeURIComponent("" + maxVehicleFSVFilter) + "&"; 
-        if (minVehicleFSVFilter !== undefined)
-            url_ += "MinVehicleFSVFilter=" + encodeURIComponent("" + minVehicleFSVFilter) + "&"; 
-        if (maxCureRateFilter !== undefined)
-            url_ += "MaxCureRateFilter=" + encodeURIComponent("" + maxCureRateFilter) + "&"; 
-        if (minCureRateFilter !== undefined)
-            url_ += "MinCureRateFilter=" + encodeURIComponent("" + minCureRateFilter) + "&"; 
-        if (guaranteeIndicatorFilter !== undefined)
-            url_ += "GuaranteeIndicatorFilter=" + encodeURIComponent("" + guaranteeIndicatorFilter) + "&"; 
-        if (guarantorPDFilter !== undefined)
-            url_ += "GuarantorPDFilter=" + encodeURIComponent("" + guarantorPDFilter) + "&"; 
-        if (guarantorLGDFilter !== undefined)
-            url_ += "GuarantorLGDFilter=" + encodeURIComponent("" + guarantorLGDFilter) + "&"; 
-        if (maxGuaranteeValueFilter !== undefined)
-            url_ += "MaxGuaranteeValueFilter=" + encodeURIComponent("" + maxGuaranteeValueFilter) + "&"; 
-        if (minGuaranteeValueFilter !== undefined)
-            url_ += "MinGuaranteeValueFilter=" + encodeURIComponent("" + minGuaranteeValueFilter) + "&"; 
-        if (maxGuaranteeLevelFilter !== undefined)
-            url_ += "MaxGuaranteeLevelFilter=" + encodeURIComponent("" + maxGuaranteeLevelFilter) + "&"; 
-        if (minGuaranteeLevelFilter !== undefined)
-            url_ += "MinGuaranteeLevelFilter=" + encodeURIComponent("" + minGuaranteeLevelFilter) + "&"; 
-        if (contractIdFilter !== undefined)
-            url_ += "ContractIdFilter=" + encodeURIComponent("" + contractIdFilter) + "&"; 
-        if (retailEclUploadTenantIdFilter !== undefined)
-            url_ += "RetailEclUploadTenantIdFilter=" + encodeURIComponent("" + retailEclUploadTenantIdFilter) + "&"; 
         if (sorting !== undefined)
             url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (skipCount !== undefined)
@@ -20180,44 +19850,17 @@ export class RetailEclDataPaymentSchedulesServiceProxy {
     /**
      * @param filter (optional) 
      * @param contractRefNoFilter (optional) 
-     * @param maxStartDateFilter (optional) 
-     * @param minStartDateFilter (optional) 
-     * @param componentFilter (optional) 
-     * @param maxNoOfSchedulesFilter (optional) 
-     * @param minNoOfSchedulesFilter (optional) 
-     * @param frequencyFilter (optional) 
-     * @param maxAmountFilter (optional) 
-     * @param minAmountFilter (optional) 
-     * @param retailEclUploadTenantIdFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | null | undefined, contractRefNoFilter: string | null | undefined, maxStartDateFilter: moment.Moment | null | undefined, minStartDateFilter: moment.Moment | null | undefined, componentFilter: string | null | undefined, maxNoOfSchedulesFilter: number | null | undefined, minNoOfSchedulesFilter: number | null | undefined, frequencyFilter: string | null | undefined, maxAmountFilter: number | null | undefined, minAmountFilter: number | null | undefined, retailEclUploadTenantIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetRetailEclDataPaymentScheduleForViewDto> {
+    getAll(filter: string | null | undefined, contractRefNoFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetRetailEclDataPaymentScheduleForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/RetailEclDataPaymentSchedules/GetAll?";
         if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
         if (contractRefNoFilter !== undefined)
             url_ += "ContractRefNoFilter=" + encodeURIComponent("" + contractRefNoFilter) + "&"; 
-        if (maxStartDateFilter !== undefined)
-            url_ += "MaxStartDateFilter=" + encodeURIComponent(maxStartDateFilter ? "" + maxStartDateFilter.toJSON() : "") + "&"; 
-        if (minStartDateFilter !== undefined)
-            url_ += "MinStartDateFilter=" + encodeURIComponent(minStartDateFilter ? "" + minStartDateFilter.toJSON() : "") + "&"; 
-        if (componentFilter !== undefined)
-            url_ += "ComponentFilter=" + encodeURIComponent("" + componentFilter) + "&"; 
-        if (maxNoOfSchedulesFilter !== undefined)
-            url_ += "MaxNoOfSchedulesFilter=" + encodeURIComponent("" + maxNoOfSchedulesFilter) + "&"; 
-        if (minNoOfSchedulesFilter !== undefined)
-            url_ += "MinNoOfSchedulesFilter=" + encodeURIComponent("" + minNoOfSchedulesFilter) + "&"; 
-        if (frequencyFilter !== undefined)
-            url_ += "FrequencyFilter=" + encodeURIComponent("" + frequencyFilter) + "&"; 
-        if (maxAmountFilter !== undefined)
-            url_ += "MaxAmountFilter=" + encodeURIComponent("" + maxAmountFilter) + "&"; 
-        if (minAmountFilter !== undefined)
-            url_ += "MinAmountFilter=" + encodeURIComponent("" + minAmountFilter) + "&"; 
-        if (retailEclUploadTenantIdFilter !== undefined)
-            url_ += "RetailEclUploadTenantIdFilter=" + encodeURIComponent("" + retailEclUploadTenantIdFilter) + "&"; 
         if (sorting !== undefined)
             url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (skipCount !== undefined)
@@ -58912,7 +58555,7 @@ export interface IPagedResultDtoOfGetRetailEclDataLoanBookForViewDto {
 }
 
 export class GetRetailEclDataLoanBookForViewDto implements IGetRetailEclDataLoanBookForViewDto {
-    retailEclDataLoanBook!: RetailEclDataLoanBookDto | undefined;
+    eclDataLoanBook!: RetailEclDataLoanBookDto | undefined;
     retailEclUploadTenantId!: string | undefined;
 
     constructor(data?: IGetRetailEclDataLoanBookForViewDto) {
@@ -58926,7 +58569,7 @@ export class GetRetailEclDataLoanBookForViewDto implements IGetRetailEclDataLoan
 
     init(data?: any) {
         if (data) {
-            this.retailEclDataLoanBook = data["retailEclDataLoanBook"] ? RetailEclDataLoanBookDto.fromJS(data["retailEclDataLoanBook"]) : <any>undefined;
+            this.eclDataLoanBook = data["eclDataLoanBook"] ? RetailEclDataLoanBookDto.fromJS(data["eclDataLoanBook"]) : <any>undefined;
             this.retailEclUploadTenantId = data["retailEclUploadTenantId"];
         }
     }
@@ -58940,14 +58583,14 @@ export class GetRetailEclDataLoanBookForViewDto implements IGetRetailEclDataLoan
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["retailEclDataLoanBook"] = this.retailEclDataLoanBook ? this.retailEclDataLoanBook.toJSON() : <any>undefined;
+        data["eclDataLoanBook"] = this.eclDataLoanBook ? this.eclDataLoanBook.toJSON() : <any>undefined;
         data["retailEclUploadTenantId"] = this.retailEclUploadTenantId;
         return data; 
     }
 }
 
 export interface IGetRetailEclDataLoanBookForViewDto {
-    retailEclDataLoanBook: RetailEclDataLoanBookDto | undefined;
+    eclDataLoanBook: RetailEclDataLoanBookDto | undefined;
     retailEclUploadTenantId: string | undefined;
 }
 
@@ -59768,7 +59411,7 @@ export interface IPagedResultDtoOfGetRetailEclDataPaymentScheduleForViewDto {
 }
 
 export class GetRetailEclDataPaymentScheduleForViewDto implements IGetRetailEclDataPaymentScheduleForViewDto {
-    retailEclDataPaymentSchedule!: RetailEclDataPaymentScheduleDto | undefined;
+    eclDataPaymentSchedule!: RetailEclDataPaymentScheduleDto | undefined;
     retailEclUploadTenantId!: string | undefined;
 
     constructor(data?: IGetRetailEclDataPaymentScheduleForViewDto) {
@@ -59782,7 +59425,7 @@ export class GetRetailEclDataPaymentScheduleForViewDto implements IGetRetailEclD
 
     init(data?: any) {
         if (data) {
-            this.retailEclDataPaymentSchedule = data["retailEclDataPaymentSchedule"] ? RetailEclDataPaymentScheduleDto.fromJS(data["retailEclDataPaymentSchedule"]) : <any>undefined;
+            this.eclDataPaymentSchedule = data["eclDataPaymentSchedule"] ? RetailEclDataPaymentScheduleDto.fromJS(data["eclDataPaymentSchedule"]) : <any>undefined;
             this.retailEclUploadTenantId = data["retailEclUploadTenantId"];
         }
     }
@@ -59796,14 +59439,14 @@ export class GetRetailEclDataPaymentScheduleForViewDto implements IGetRetailEclD
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["retailEclDataPaymentSchedule"] = this.retailEclDataPaymentSchedule ? this.retailEclDataPaymentSchedule.toJSON() : <any>undefined;
+        data["eclDataPaymentSchedule"] = this.eclDataPaymentSchedule ? this.eclDataPaymentSchedule.toJSON() : <any>undefined;
         data["retailEclUploadTenantId"] = this.retailEclUploadTenantId;
         return data; 
     }
 }
 
 export interface IGetRetailEclDataPaymentScheduleForViewDto {
-    retailEclDataPaymentSchedule: RetailEclDataPaymentScheduleDto | undefined;
+    eclDataPaymentSchedule: RetailEclDataPaymentScheduleDto | undefined;
     retailEclUploadTenantId: string | undefined;
 }
 

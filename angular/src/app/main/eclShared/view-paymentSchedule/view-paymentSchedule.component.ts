@@ -1,7 +1,6 @@
-import { Component, OnInit, ViewEncapsulation, Injector, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Injector } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { RetailEclsServiceProxy, RetailEclUploadsServiceProxy, TokenAuthServiceProxy, FrameworkEnum, WholesaleEclDataLoanBooksServiceProxy, RetailEclDataLoanBooksServiceProxy, ObeEclDataLoanBooksServiceProxy } from '@shared/service-proxies/service-proxies';
+import { WholesaleEclDataPaymentSchedulesServiceProxy, RetailEclDataPaymentSchedulesServiceProxy, ObeEclDataPaymentSchedulesServiceProxy, FrameworkEnum, TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module/dist/src/notify/notify.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FileDownloadService } from '@shared/utils/file-download.service';
@@ -9,35 +8,34 @@ import { Location } from '@angular/common';
 import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/primeng';
 import { LazyLoadEvent } from 'primeng/api';
+import { appModuleAnimation } from '@shared/animations/routerTransition';
 
 @Component({
-    selector: 'app-view-loanbookDetails',
-    templateUrl: './view-loanbookDetails.component.html',
-    styleUrls: ['./view-loanbookDetails.component.css'],
+    selector: 'app-view-paymentSchedule',
+    templateUrl: './view-paymentSchedule.component.html',
+    styleUrls: ['./view-paymentSchedule.component.css'],
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()]
 })
-export class ViewLoanbookDetailsComponent extends AppComponentBase implements OnInit {
-
-    _uploadId = '';
-    _selectedFramework: FrameworkEnum;
-    _loanbookServiceProxy: any;
+export class ViewPaymentScheduleComponent extends AppComponentBase implements OnInit {
 
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
+    _uploadId = '';
+    _selectedFramework: FrameworkEnum;
+    _paymentScheduleServiceProxy: any;
+
     advancedFiltersAreShown = false;
     filterText = '';
-    customerNoFilter = '';
-    accountNoFilter = '';
-    contractNoFilter = '';
-    customerNameFilter = '';
+    contractRefNoFilter = '';
+    componentFilter = '';
 
     constructor(
         injector: Injector,
-        private _wholesaleEclLoanbookServiceProxy: WholesaleEclDataLoanBooksServiceProxy,
-        private _retailEclLoanbookServiceProxy: RetailEclDataLoanBooksServiceProxy,
-        private _obeEclLoanbookServiceProxy: ObeEclDataLoanBooksServiceProxy,
+        private _wholesaleEclPaymentScheduleServiceProxy: WholesaleEclDataPaymentSchedulesServiceProxy,
+        private _retailEclPaymentScheduleServiceProxy: RetailEclDataPaymentSchedulesServiceProxy,
+        private _obeEclPaymentScheduleServiceProxy: ObeEclDataPaymentSchedulesServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
@@ -59,21 +57,21 @@ export class ViewLoanbookDetailsComponent extends AppComponentBase implements On
     updateServiceProxy(): void {
         switch (this._selectedFramework) {
             case FrameworkEnum.Wholesale:
-                this._loanbookServiceProxy = this._wholesaleEclLoanbookServiceProxy;
+                this._paymentScheduleServiceProxy = this._wholesaleEclPaymentScheduleServiceProxy;
                 break;
             case FrameworkEnum.Retail:
-                this._loanbookServiceProxy = this._retailEclLoanbookServiceProxy;
+                this._paymentScheduleServiceProxy = this._retailEclPaymentScheduleServiceProxy;
                 break;
             case FrameworkEnum.OBE:
-                this._loanbookServiceProxy = this._obeEclLoanbookServiceProxy;
+                this._paymentScheduleServiceProxy = this._obeEclPaymentScheduleServiceProxy;
                 break;
             default:
-                this._loanbookServiceProxy = this._retailEclLoanbookServiceProxy;
+                this._paymentScheduleServiceProxy = this._retailEclPaymentScheduleServiceProxy;
                 break;
         }
     }
 
-    getLoanBookDetails(event?: LazyLoadEvent) {
+    getEclDataPaymentSchedules(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
             return;
@@ -81,19 +79,15 @@ export class ViewLoanbookDetailsComponent extends AppComponentBase implements On
 
         this.primengTableHelper.showLoadingIndicator();
 
-        this._loanbookServiceProxy.getAll(
+        this._paymentScheduleServiceProxy.getAll(
             this.filterText,
-            this.customerNoFilter,
-            this.accountNoFilter,
-            this.contractNoFilter,
-            this.customerNameFilter,
+            this.contractRefNoFilter,
             this.primengTableHelper.getSorting(this.dataTable),
             this.primengTableHelper.getSkipCount(this.paginator, event),
             this.primengTableHelper.getMaxResultCount(this.paginator, event)
         ).subscribe(result => {
             this.primengTableHelper.totalRecordsCount = result.totalCount;
             this.primengTableHelper.records = result.items;
-            console.log(result);
             this.primengTableHelper.hideLoadingIndicator();
         });
     }
@@ -105,5 +99,4 @@ export class ViewLoanbookDetailsComponent extends AppComponentBase implements On
     goBack() {
         this._location.back();
     }
-
 }

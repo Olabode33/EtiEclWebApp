@@ -39,6 +39,7 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
 
     _eclId = '';
     uploadPaymentUrl = '';
+    uploadLoanbookUrl = '';
     retailEclDetails: GetRetailEclForEditOutput = new GetRetailEclForEditOutput();
     retailEClDto: CreateOrEditRetailEclDto = new CreateOrEditRetailEclDto();
     retailUploads: GetRetailEclUploadForViewDto[] = new Array();
@@ -104,6 +105,7 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
     ) {
         super(injector);
         this.uploadPaymentUrl = AppConsts.remoteServiceBaseUrl + '/EclRawData/ImportPaymentScheduleFromExcel';
+        this.uploadLoanbookUrl = AppConsts.remoteServiceBaseUrl + '/EclRawData/ImportLoanbookFromExcel';
     }
 
     ngOnInit() {
@@ -203,28 +205,15 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
         let upload = new CreateOrEditRetailEclUploadDto();
         upload.docType = UploadDocTypeEnum.LoanBook;
         upload.retailEclId = this._eclId;
-        upload.status = GeneralStatusEnum.Draft;
+        upload.status = GeneralStatusEnum.Processing;
         upload.uploadComment = 'Generic sample';
 
-        this._retailEclUploadServiceProxy.createOrEdit(upload).subscribe(() => {
+        this._retailEclUploadServiceProxy.createOrEdit(upload).subscribe(result => {
+            this.startLoanbookUpload(data, result);
             this.getEclUploadSummary();
-            this.notify.success(this.l('UploadedSuccessfully'));
+
         });
 
-        // const formData: FormData = new FormData();
-        // const file = data.files[0];
-        // formData.append('file', file, file.name);
-
-        // this._httpClient
-        //     .post<any>(this.uploadUrl, formData)
-        //     .pipe(finalize(() => this.excelFileUpload.clear()))
-        //     .subscribe(response => {
-        //         if (response.success) {
-        //             this.notify.success(this.l('ImportUsersProcessStart'));
-        //         } else if (response.error != null) {
-        //             this.notify.error(this.l('ImportUsersUploadFailed'));
-        //         }
-        //     });
     }
 
     uploadPaymentSchedule(data: { files: File }): void {
@@ -235,7 +224,7 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
         upload.uploadComment = 'Generic sample';
 
         this._retailEclUploadServiceProxy.createOrEdit(upload).subscribe(result => {
-            this.startFileUpload(data, result);
+            this.startPaymentUpload(data, result);
             this.getEclUploadSummary();
             //this.notify.success(this.l('UploadedSuccessfully'));
         });
@@ -245,7 +234,7 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
         this.notify.error(this.l('ImportEclDataFailed'));
     }
 
-    startFileUpload(data: { files: File }, uploadSummaryId: string): void {
+    startPaymentUpload(data: { files: File }, uploadSummaryId: string): void {
         const formData: FormData = new FormData();
         const file = data.files[0];
         formData.append('file', file, file.name);
@@ -261,6 +250,26 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
                     this.autoReloadUploadSummary();
                 } else if (response.error != null) {
                     this.notify.error(this.l('ImportPaymentScheduleUploadFailed'));
+                }
+            });
+    }
+
+    startLoanbookUpload(data: { files: File }, uploadSummaryId: string): void {
+        const formData: FormData = new FormData();
+        const file = data.files[0];
+        formData.append('file', file, file.name);
+        formData.append('uploadSummaryId', uploadSummaryId);
+        formData.append('framework', FrameworkEnum.Retail.toString());
+
+        this._httpClient
+            .post<any>(this.uploadLoanbookUrl, formData)
+            .pipe(finalize(() => this.excelUploadPaymentSchedule.clear()))
+            .subscribe(response => {
+                if (response.success) {
+                    this.notify.success(this.l('ImportLoanbookProcessStart'));
+                    this.autoReloadUploadSummary();
+                } else if (response.error != null) {
+                    this.notify.error(this.l('ImportLoanbookUploadFailed'));
                 }
             });
     }
@@ -288,10 +297,31 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
                             console.log(`It's been ${n} seconds since subscribing!`);
                             this.getEclUploadSummary();
                         });
-        if (processing.length <= 0) {
-            sub_.unsubscribe();
-            this.getEclUploadSummary();
+        // if (processing.length <= 0) {
+        //     sub_.unsubscribe();
+        //     this.getEclUploadSummary();
+        // }
+    }
+
+    navigateToViewUploadDetails(uploadId: string, docType: UploadDocTypeEnum): void {
+        switch (docType) {
+            case UploadDocTypeEnum.LoanBook:
+                this.navigateToViewLoanbookDetails(uploadId);
+                break;
+            case UploadDocTypeEnum.PaymentSchedule:
+                this.navigateToViewPaymentScheduleDetails(uploadId);
+                break;
+            default:
+                break;
         }
+    }
+
+    navigateToViewLoanbookDetails(uploadId: string): void {
+        this._router.navigate(['/app/main/ecl/view/upload/loanbook/', FrameworkEnum.Retail.toString(), uploadId], { relativeTo: this._activatedRoute});
+    }
+
+    navigateToViewPaymentScheduleDetails(uploadId: string): void {
+        this._router.navigate(['/app/main/ecl/view/upload/payment/', FrameworkEnum.Retail.toString(), uploadId], { relativeTo: this._activatedRoute});
     }
 
 }

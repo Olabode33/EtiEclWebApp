@@ -38,15 +38,7 @@ namespace TestDemo.RetailInputs
 			var filteredRetailEclDataPaymentSchedules = _retailEclDataPaymentScheduleRepository.GetAll()
 						.Include( e => e.RetailEclUploadFk)
 						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.ContractRefNo.Contains(input.Filter) || e.Component.Contains(input.Filter) || e.Frequency.Contains(input.Filter))
-						.WhereIf(!string.IsNullOrWhiteSpace(input.ContractRefNoFilter),  e => e.ContractRefNo.ToLower() == input.ContractRefNoFilter.ToLower().Trim())
-						.WhereIf(input.MinStartDateFilter != null, e => e.StartDate >= input.MinStartDateFilter)
-						.WhereIf(input.MaxStartDateFilter != null, e => e.StartDate <= input.MaxStartDateFilter)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.ComponentFilter),  e => e.Component.ToLower() == input.ComponentFilter.ToLower().Trim())
-						.WhereIf(input.MinNoOfSchedulesFilter != null, e => e.NoOfSchedules >= input.MinNoOfSchedulesFilter)
-						.WhereIf(input.MaxNoOfSchedulesFilter != null, e => e.NoOfSchedules <= input.MaxNoOfSchedulesFilter)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.FrequencyFilter),  e => e.Frequency.ToLower() == input.FrequencyFilter.ToLower().Trim())
-						.WhereIf(input.MinAmountFilter != null, e => e.Amount >= input.MinAmountFilter)
-						.WhereIf(input.MaxAmountFilter != null, e => e.Amount <= input.MaxAmountFilter);
+						.WhereIf(!string.IsNullOrWhiteSpace(input.ContractRefNoFilter),  e => e.ContractRefNo.ToLower() == input.ContractRefNoFilter.ToLower().Trim());
 
 			var pagedAndFilteredRetailEclDataPaymentSchedules = filteredRetailEclDataPaymentSchedules
                 .OrderBy(input.Sorting ?? "id asc")
@@ -57,7 +49,7 @@ namespace TestDemo.RetailInputs
                          from s1 in j1.DefaultIfEmpty()
                          
                          select new GetRetailEclDataPaymentScheduleForViewDto() {
-							RetailEclDataPaymentSchedule = new RetailEclDataPaymentScheduleDto
+							EclDataPaymentSchedule = new RetailEclDataPaymentScheduleDto
 							{
                                 ContractRefNo = o.ContractRefNo,
                                 StartDate = o.StartDate,

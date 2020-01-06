@@ -583,6 +583,12 @@ namespace TestDemo.Retail
 
         }
 
+        protected virtual async Task SubmitForApproval(EntityDto<Guid> input)
+        {
+            var ecl = await _retailEclRepository.FirstOrDefaultAsync((Guid)input.Id);
+            ecl.Status = EclStatusEnum.Submitted;
+            ObjectMapper.Map(ecl, ecl);
+        }
 
         public virtual async Task ApproveReject(CreateOrEditRetailEclApprovalDto input)
         {

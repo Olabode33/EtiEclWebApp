@@ -6,7 +6,7 @@ using System.Text;
 namespace TestDemo.EclShared.Dtos
 {
     [Serializable]
-    public class ImportPaymentSchedulesFromExcelJobArgs
+    public class ImportEclDataFromExcelJobArgs
     {
         public Guid BinaryObjectId { get; set; }
         public FrameworkEnum Framework { get; set; }

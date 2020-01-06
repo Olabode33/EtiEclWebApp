@@ -244,7 +244,7 @@
                         <tbody>
                             <tr *ngFor="let item of retailUploads">
                                 <td>
-                                    <button type="button" class="btn btn-primary btn-sm">
+                                    <button type="button" class="btn btn-primary btn-sm" (click)="navigateToViewUploadDetails(item.retailEclUpload.id, item.retailEclUpload.docType)">
                                         <i class="fa fa-eye"></i> {{l('View')}}
                                     </button>
                                 </td>

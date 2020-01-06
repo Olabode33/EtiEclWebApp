@@ -4,11 +4,11 @@
       
         <div class="kt-subheader__main">
             <h3 class="kt-subheader__title">
-                <span>{{l("EclDataLoanBooks")}}</span>
+                <span>{{l("EclDataPaymentSchedules")}}</span>
             </h3>
             <span class="kt-subheader__separator kt-subheader__separator--v"></span>
             <span class="kt-subheader__desc">
-                {{l("EclDataLoanBooksHeaderInfo")}}
+                {{l("EclDataPaymentSchedulesHeaderInfo")}}
             </span>
         </div>
         <div class="kt-subheader__toolbar">
@@ -16,8 +16,7 @@
                 <button (click)="goBack()" class="btn btn-outline-danger">
                     <i class="fa fa-reply" style="font-size: 1.2rem !important;"></i>
                     {{l("GoBack")}}
-                </button>
-            </div>
+                </button></div>
         </div>
       
     </div>
@@ -32,7 +31,7 @@
                                     <div class="input-group">
                                         <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
                                         <span class="input-group-btn">
-                                            <button (click)="getLoanBookDetails()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                            <button (click)="getEclDataPaymentSchedules()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
                                         </span>
                                     </div>
                                 </div>
@@ -46,29 +45,10 @@
 
 							<div class="col-md-3">
 								<div class="form-group">
-									<label for="CustomerNoFilter">{{l("CustomerNo")}}</label>
-									<input type="text" class="form-control" id="CustomerNoFilter" name="customerNoFilter" [(ngModel)]="customerNoFilter">
+									<label for="ContractRefNoFilter">{{l("ContractRefNo")}}</label>
+									<input type="text" class="form-control" id="ContractRefNoFilter" name="contractRefNoFilter" [(ngModel)]="contractRefNoFilter">
 								</div>
                             </div>
-							<div class="col-md-3">
-								<div class="form-group">
-									<label for="AccountNoFilter">{{l("AccountNo")}}</label>
-									<input type="text" class="form-control" id="AccountNoFilter" name="accountNoFilter" [(ngModel)]="accountNoFilter">
-								</div>
-                            </div>
-							<div class="col-md-3">
-								<div class="form-group">
-									<label for="ContractNoFilter">{{l("ContractNo")}}</label>
-									<input type="text" class="form-control" id="ContractNoFilter" name="contractNoFilter" [(ngModel)]="contractNoFilter">
-								</div>
-                            </div>
-							<div class="col-md-3">
-								<div class="form-group">
-									<label for="CustomerNameFilter">{{l("CustomerName")}}</label>
-									<input type="text" class="form-control" id="CustomerNameFilter" name="customerNameFilter" [(ngModel)]="customerNameFilter">
-								</div>
-                            </div>
-							
 
                         </div>
                         <div class="row mb-2">
@@ -85,7 +65,7 @@
                     <div class="primeng-datatable-container col-12"
                          [busyIf]="primengTableHelper.isLoading">
                         <p-table #dataTable
-                                     (onLazyLoad)="getLoanBookDetails($event)"
+                                     (onLazyLoad)="getEclDataPaymentSchedules($event)"
                                      [value]="primengTableHelper.records"
                                      rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
                                      [paginator]="false"
@@ -96,40 +76,39 @@
                                      [resizableColumns]="primengTableHelper.resizableColumns">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <!-- <th style="width: 130px" [hidden]="!isGrantedAny('Pages.WholesaleEclDataLoanBooks.Edit', 'Pages.WholesaleEclDataLoanBooks.Delete')">
+                                    <!-- <th style="width: 130px" [hidden]="!isGrantedAny('Pages.WholesaleEclDataPaymentSchedules.Edit', 'Pages.WholesaleEclDataPaymentSchedules.Delete')">
                                         {{l('Actions')}}</th> -->
-                                    <th style="width: 150px" pSortableColumn="customerNo">
-                                        {{l('CustomerNo')}}
-                                        <p-sortIcon field="eclDataLoanBook.customerNo"></p-sortIcon>
+                                    <th style="width: 150px" pSortableColumn="contractRefNo">
+                                        {{l('ContractRefNo')}}
+                                        <p-sortIcon field="eclDataPaymentSchedule.contractRefNo"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="accountNo">
-                                        {{l('AccountNo')}}
-                                        <p-sortIcon field="eclDataLoanBook.accountNo"></p-sortIcon>
+                                    <th style="width: 150px" pSortableColumn="startDate">
+                                        {{l('StartDate')}}
+                                        <p-sortIcon field="eclDataPaymentSchedule.startDate"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="contractNo">
-                                        {{l('ContractNo')}}
-                                        <p-sortIcon field="eclDataLoanBook.contractNo"></p-sortIcon>
+                                    <th style="width: 150px" pSortableColumn="component">
+                                        {{l('Component')}}
+                                        <p-sortIcon field="eclDataPaymentSchedule.component"></p-sortIcon>
                                     </th>
-                                    <th style="width: 200px" pSortableColumn="customerName">
-                                        {{l('CustomerName')}}
-                                        <p-sortIcon field="eclDataLoanBook.customerName"></p-sortIcon>
+                                    <th style="width: 150px" pSortableColumn="noOfSchedules">
+                                        {{l('NoOfSchedules')}}
+                                        <p-sortIcon field="eclDataPaymentSchedule.noOfSchedules"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="productType">
-                                        {{l('ProductType')}}
-                                        <p-sortIcon field="eclDataLoanBook.productType"></p-sortIcon>
+                                    <th style="width: 150px" pSortableColumn="frequency">
+                                        {{l('Frequency')}}
+                                        <p-sortIcon field="eclDataPaymentSchedule.frequency"></p-sortIcon>
                                     </th>
-                                    <th style="width: 200px" pSortableColumn="productMapping">
-                                        {{l('ProductMapping')}}
-                                        <p-sortIcon field="eclDataLoanBook.productMapping"></p-sortIcon>
+                                    <th style="width: 150px" pSortableColumn="amount">
+                                        {{l('Amount')}}
+                                        <p-sortIcon field="eclDataPaymentSchedule.amount"></p-sortIcon>
                                     </th>
-                                    
 
                                 </tr>
                             </ng-template>                           
 							<ng-template pTemplate="body" let-record="$implicit">
                                 <tr>
                                     <!-- <td style="width: 130px"
-                                        [hidden]="!isGrantedAny('Pages.WholesaleEclDataLoanBooks.Edit', 'Pages.WholesaleEclDataLoanBooks.Delete')">
+                                        [hidden]="!isGrantedAny('Pages.WholesaleEclDataPaymentSchedules.Edit', 'Pages.WholesaleEclDataPaymentSchedules.Delete')">
                                        <div class="btn-group dropdown" dropdown container="body">
                                             <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
                                                 <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
@@ -137,36 +116,40 @@
 												<ul class="dropdown-menu"  *dropdownMenu>
 
 												<li>
-													<a href="javascript:;" *ngIf="permission.isGranted('Pages.WholesaleEclDataLoanBooks.Edit')"
-														(click)="getLoanBookDetails()">{{l('Edit')}}</a>
+													<a href="javascript:;" *ngIf="permission.isGranted('Pages.WholesaleEclDataPaymentSchedules.Edit')"
+														(click)="getEclDataPaymentSchedules()">{{l('Edit')}}</a>
 												</li>
                                             </ul>
                                         </div>
                                     </td> -->
                                     <td style="width:150px">
-											<span class="ui-column-title"> {{l('CustomerNo')}}</span>
-											{{record.eclDataLoanBook.customerNo}}
+											<span class="ui-column-title"> {{l('ContractRefNo')}}</span>
+											{{record.eclDataPaymentSchedule.contractRefNo}}
 										</td>
                                     <td style="width:150px">
-											<span class="ui-column-title"> {{l('AccountNo')}}</span>
-											{{record.eclDataLoanBook.accountNo}}
+										<span class="ui-column-title"> {{l('StartDate')}}</span>
+                                        <span *ngIf="record.eclDataPaymentSchedule.startDate">
+											{{record.eclDataPaymentSchedule.startDate | momentFormat:'ll'}}
+                                        </span>
+                                        <span *ngIf="!record.eclDataPaymentSchedule.startDate">-</span>
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Component')}}</span>
+											{{record.eclDataPaymentSchedule.component}}
 										</td>
                                     <td style="width:150px">
-											<span class="ui-column-title"> {{l('ContractNo')}}</span>
-											{{record.eclDataLoanBook.contractNo}}
-										</td>
-                                    <td style="width:200px">
-											<span class="ui-column-title"> {{l('CustomerName')}}</span>
-											{{record.eclDataLoanBook.customerName}}
+											<span class="ui-column-title"> {{l('NoOfSchedules')}}</span>
+											{{record.eclDataPaymentSchedule.noOfSchedules}}
 										</td>
                                     <td style="width:150px">
-											<span class="ui-column-title"> {{l('ProductType')}}</span>
-											{{record.eclDataLoanBook.productType}}
+											<span class="ui-column-title"> {{l('Frequency')}}</span>
+											{{record.eclDataPaymentSchedule.frequency}}
 										</td>
-                                    <td style="width:200px">
-											<span class="ui-column-title"> {{l('ProductMapping')}}</span>
-											{{record.eclDataLoanBook.productMapping}}
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Amount')}}</span>
+											{{record.eclDataPaymentSchedule.amount | number: '1.0-0'}}
 										</td>
+
                                 </tr>
                             </ng-template>
                         </p-table>
@@ -176,7 +159,7 @@
                         <div class="primeng-paging-container">
                             <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage"
                                          #paginator
-                                         (onPageChange)="getLoanBookDetails($event)"
+                                         (onPageChange)="getEclDataPaymentSchedules($event)"
                                          [totalRecords]="primengTableHelper.totalRecordsCount"
                                          [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
                             </p-paginator>
@@ -190,6 +173,5 @@
             </div>
         </div>
     </div>
-   
   
 </div>
