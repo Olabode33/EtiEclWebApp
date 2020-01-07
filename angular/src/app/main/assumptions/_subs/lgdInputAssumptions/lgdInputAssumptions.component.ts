@@ -29,11 +29,27 @@ export class LgdInputAssumptionsComponent extends AppComponentBase {
     affiliateName = '';
     affiliateFramework: FrameworkEnum;
 
+    accordionList = [
+        {key: this.lgdAssumptionGroupEnum[this.lgdAssumptionGroupEnum.UnsecuredRecoveriesCureRate], isActive: false},
+        {key: this.lgdAssumptionGroupEnum[this.lgdAssumptionGroupEnum.UnsecuredRecoveriesTimeInDefault], isActive: false},
+        {key: this.lgdAssumptionGroupEnum[this.lgdAssumptionGroupEnum.CostOfRecoveryHigh], isActive: false},
+        {key: this.lgdAssumptionGroupEnum[this.lgdAssumptionGroupEnum.CollateralGrowthBest], isActive: false},
+        {key: this.lgdAssumptionGroupEnum[this.lgdAssumptionGroupEnum.CollateralTTR], isActive: false},
+    ];
+
     constructor(
         injector: Injector,
         private _lgdInputAssumptionServiceProxy: LgdAssumptionUnsecuredRecoveriesServiceProxy
     ) {
         super(injector);
+    }
+
+    toggleAccordion(index) {
+        // let element = event.target;
+        // element.classList.toggle('active');
+        let state = this.accordionList[index].isActive;
+        this.accordionList = this.accordionList.map(x => { x.isActive = false; return x; } );
+        this.accordionList[index].isActive = !state;
     }
 
     load(assumptions: LgdAssumptionDto[], affiliateName?: string, framework?: FrameworkEnum): void {

@@ -28,11 +28,27 @@ export class FrameworkAssumptionsComponent extends AppComponentBase {
     affiliateName = '';
     affiliateFramework: FrameworkEnum;
 
+    accordionList = [
+        {key: this.assumptionGroupEnum[this.assumptionGroupEnum.ScenarioInputs], isActive: false},
+        {key: this.assumptionGroupEnum[this.assumptionGroupEnum.AbsoluteCreditQuality], isActive: false},
+        {key: this.assumptionGroupEnum[this.assumptionGroupEnum.RelativeCreditQuality], isActive: false},
+        {key: this.assumptionGroupEnum[this.assumptionGroupEnum.ForwardTransitions], isActive: false},
+        {key: this.assumptionGroupEnum[this.assumptionGroupEnum.BackwardTransitions], isActive: false}
+    ];
+
     constructor(
         injector: Injector,
         private _assumptionInputServiceProxy: AssumptionsServiceProxy
     ) {
         super(injector);
+    }
+
+    toggleAccordion(index) {
+        // let element = event.target;
+        // element.classList.toggle('active');
+        let state = this.accordionList[index].isActive;
+        this.accordionList = this.accordionList.map(x => { x.isActive = false; return x; } );
+        this.accordionList[index].isActive = !state;
     }
 
     load(assumptions: AssumptionDto[], affiliateName?: string, framework?: FrameworkEnum): void {

@@ -151,4 +151,7 @@ body.swal2-height-auto {
     background: #fff;
     border-radius: 10px;
 }
+.accordion.accordion-toggle-arrow .card .card-header .card-title.collapsed {
+    color: #464457 !important;
+}
 

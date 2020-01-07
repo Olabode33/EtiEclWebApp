@@ -26,11 +26,25 @@ export class EadInputAssumptionsComponent extends AppComponentBase {
     affiliateName = '';
     affiliateFramework: FrameworkEnum;
 
+    accordionList = [
+        {key: this.eadAssumptionGroupEnum[this.eadAssumptionGroupEnum.CreditConversionFactors], isActive: false},
+        {key: this.eadAssumptionGroupEnum[this.eadAssumptionGroupEnum.VariableInterestRateProjections], isActive: false},
+        {key: this.eadAssumptionGroupEnum[this.eadAssumptionGroupEnum.ExchangeRateProjections], isActive: false}
+    ];
+
     constructor(
         injector: Injector,
         private _eadInputServiceProxy: EadInputAssumptionsServiceProxy
     ) {
         super(injector);
+    }
+
+    toggleAccordion(index) {
+        // let element = event.target;
+        // element.classList.toggle('active');
+        let state = this.accordionList[index].isActive;
+        this.accordionList = this.accordionList.map(x => { x.isActive = false; return x; } );
+        this.accordionList[index].isActive = !state;
     }
 
     load(assumptions: EadInputAssumptionDto[], affiliateName?: string, framework?: FrameworkEnum): void {

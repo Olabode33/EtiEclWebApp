@@ -60,6 +60,15 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
     affiliateName = '';
     affiliateFramework: FrameworkEnum;
 
+    accordionList = [
+        {key: 'Pd12Months', isActive: false},
+        {key: 'PdInputSnPCummulativeDefaultRates', isActive: false},
+        {key: 'PdInputAssumptionNonInternalModel', isActive: false},
+        {key: 'PdInputAssumptionNplIndex', isActive: false},
+        {key: 'PdMacroeconomicInput', isActive: false},
+        {key: 'PdMacroeconomicProjection', isActive: false}
+    ];
+
     constructor(
         injector: Injector,
         private _commonLookupServiceProxy: CommonLookupServiceProxy,
@@ -74,6 +83,14 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
         _commonLookupServiceProxy.getMacroeconomicVariableList().subscribe(result => {
             this.pdMacroeconomicVariables = result;
         });
+    }
+
+    toggleAccordion(index) {
+        // let element = event.target;
+        // element.classList.toggle('active');
+        let state = this.accordionList[index].isActive;
+        this.accordionList = this.accordionList.map(x => { x.isActive = false; return x; } );
+        this.accordionList[index].isActive = !state;
     }
 
     load(assumptions: GetAllPdAssumptionsDto, affiliateName?: string, framework?: FrameworkEnum, viewOnly = false): void {

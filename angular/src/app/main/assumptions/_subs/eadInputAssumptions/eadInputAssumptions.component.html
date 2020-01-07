@@ -1,104 +1,124 @@
 <div>
-    <tabset *ngIf="displayForm">
-        <tab heading="{{eadAssumptionGroupEnum[eadAssumptionGroupEnum.CreditConversionFactors] | localize}}">
-            <!-- <ng-template tabHeading>
-                <span class="kt-badge kt-badge--warning kt-badge--inline">2</span>
-            </ng-template> -->
-            <div class="row">
-                <div class="col-xl-6 pl-2" *ngFor="let item of ccfGroup">
-                    <!--begin:: Widgets/Stats2-1 -->
-                    <div class="row pb-2">
-                        <div class="col-lg-8">
-                            <div class="">
-                                <!-- <h3 class="kt-widget1__title">{{l(assumptionGroupEnum[item.assumptionGroup])}}</h3> -->
-                                <span class="">{{item.inputName}}</span>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <h4 *ngIf="item.dataType !== dataTypeEnum.DoubleMoney && item.dataType !== dataTypeEnum.DoublePercentage"
-                                class="kt-widget1__number kt-font-brand">{{item.value}}
-                            </h4>
-                            <h4 *ngIf="item.dataType == dataTypeEnum.DoublePercentage"
-                                class="kt-widget1__number kt-font-brand">{{item.value | percent:'1.2-2'}}</h4>
-                            <h4 *ngIf="item.dataType == dataTypeEnum.DoubleMoney"
-                                class="kt-widget1__number kt-font-brand">{{item.value | number:'1.0-0'}}</h4>
-                        </div>
-                        <div class="col-lg-1">
-                            <span class="hoverable" (click)="editAssumption(item, eadAssumptionGroupEnum[eadAssumptionGroupEnum.CreditConversionFactors])">
-                                <i class="fa fa-edit"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <!--end:: Widgets/Stats2-1 -->
+<!--begin::Accordion-->
+<div *ngIf="displayForm" class="accordion accordion-light  accordion-toggle-arrow" id="accordionExample5">
+    <!-- Credit Conversion Factor -->
+    <div class="card">
+        <div class="card-header" id="heading1">
+            <div class="card-title" (click)="toggleAccordion(0)"
+                [ngClass]="{collapsed: !accordionList[0].isActive}">
+                <i class="flaticon-pie-chart-1"></i>
+                {{l(accordionList[0].key)}}
+            </div>
+        </div>
+        <div id="collapse1" class="collapse" [ngClass]="{show: accordionList[0].isActive}">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>{{l('Category')}}</th>
+                                <th>{{l('Value')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of ccfGroup">
+                                <td>{{item.inputName}}</td>
+                                <td>
+                                    <span class="hoverable pull-right" 
+                                        (click)="editAssumption(item, eadAssumptionGroupEnum[eadAssumptionGroupEnum.CreditConversionFactors])">
+                                        <i class="fa fa-edit"></i>
+                                    </span>
+                                    <span class="kt-widget1__number kt-font-brand">
+                                        <span>{{item.value | percent:'1.2-2'}}</span>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </tab>
-        <tab heading="{{eadAssumptionGroupEnum[eadAssumptionGroupEnum.VariableInterestRateProjections] | localize}}">
-            <!-- <ng-template tabHeading>
-                <span class="kt-badge kt-badge--warning kt-badge--inline">2</span>
-            </ng-template> -->
-            <div class="row">
-                <div class="col-xl-6 pl-2" *ngFor="let item of virGroup">
-                    <!--begin:: Widgets/Stats2-1 -->
-                    <div class="row pb-2">
-                        <div class="col-lg-8">
-                            <div class="">
-                                <!-- <h3 class="kt-widget1__title">{{l(assumptionGroupEnum[item.assumptionGroup])}}</h3> -->
-                                <span class="">{{item.inputName}}</span>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <h4 *ngIf="item.dataType !== dataTypeEnum.DoubleMoney && item.dataType !== dataTypeEnum.DoublePercentage"
-                                class="kt-widget1__number kt-font-brand">{{item.value}}
-                            </h4>
-                            <h4 *ngIf="item.dataType == dataTypeEnum.DoublePercentage"
-                                class="kt-widget1__number kt-font-brand">{{item.value | percent:'1.2-2'}}</h4>
-                            <h4 *ngIf="item.dataType == dataTypeEnum.DoubleMoney"
-                                class="kt-widget1__number kt-font-brand">{{item.value | number:'1.0-0'}}</h4>
-                        </div>
-                        <div class="col-lg-1">
-                            <span class="hoverable" (click)="editAssumption(item, eadAssumptionGroupEnum[eadAssumptionGroupEnum.VariableInterestRateProjections])">
-                                <i class="fa fa-edit"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <!--end:: Widgets/Stats2-1 -->
+        </div>
+    </div>
+
+    <!-- VIR -->
+    <div class="card">
+        <div class="card-header" id="heading2">
+            <div class="card-title" (click)="toggleAccordion(1)"
+                [ngClass]="{collapsed: !accordionList[1].isActive}">
+                <i class="flaticon-pie-chart-1"></i>
+                {{l(accordionList[1].key)}}
+            </div>
+        </div>
+        <div id="collapse2" class="collapse" [ngClass]="{show: accordionList[1].isActive}">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>{{l('VIRName')}}</th>
+                                <th>{{l('Value')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of virGroup">
+                                <td>{{item.inputName}}</td>
+                                <td>
+                                    <span class="hoverable pull-right" 
+                                        (click)="editAssumption(item, eadAssumptionGroupEnum[eadAssumptionGroupEnum.VariableInterestRateProjections])">
+                                        <i class="fa fa-edit"></i>
+                                    </span>
+                                    <span class="kt-widget1__number kt-font-brand">
+                                        <span>{{item.value | percent:'1.2-2'}}</span>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </tab>
-        <tab heading="{{eadAssumptionGroupEnum[eadAssumptionGroupEnum.ExchangeRateProjections] | localize}}">
-            <!-- <ng-template tabHeading>
-                <span class="kt-badge kt-badge--warning kt-badge--inline">2</span>
-            </ng-template> -->
-            <div class="row">
-                <div class="col-xl-6 pl-2" *ngFor="let item of exchangeRateGroup">
-                    <!--begin:: Widgets/Stats2-1 -->
-                    <div class="row pb-2">
-                        <div class="col-lg-8">
-                            <div class="">
-                                <!-- <h3 class="kt-widget1__title">{{l(assumptionGroupEnum[item.assumptionGroup])}}</h3> -->
-                                <span class="">{{item.inputName}}</span>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <h4 *ngIf="item.dataType !== dataTypeEnum.DoubleMoney && item.dataType !== dataTypeEnum.DoublePercentage"
-                                class="kt-widget1__number kt-font-brand">{{item.value}}
-                            </h4>
-                            <h4 *ngIf="item.dataType == dataTypeEnum.DoublePercentage"
-                                class="kt-widget1__number kt-font-brand">{{item.value | percent:'1.2-2'}}</h4>
-                            <h4 *ngIf="item.dataType == dataTypeEnum.DoubleMoney"
-                                class="kt-widget1__number kt-font-brand">{{item.value | number:'1.0-0'}}</h4>
-                        </div>
-                        <div class="col-lg-1">
-                            <span class="hoverable" (click)="editAssumption(item, eadAssumptionGroupEnum[eadAssumptionGroupEnum.ExchangeRateProjections])">
-                                <i class="fa fa-edit"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <!--end:: Widgets/Stats2-1 -->
+        </div>
+    </div>
+
+    <!-- Exchange Rate -->
+    <div class="card">
+        <div class="card-header" id="heading3">
+            <div class="card-title" (click)="toggleAccordion(2)"
+                [ngClass]="{collapsed: !accordionList[2].isActive}">
+                <i class="flaticon-pie-chart-1"></i>
+                {{l(accordionList[2].key)}}
+            </div>
+        </div>
+        <div id="collapse3" class="collapse" [ngClass]="{show: accordionList[2].isActive}">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>{{l('Currency')}}</th>
+                                <th>{{l('Rate')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of exchangeRateGroup">
+                                <td>{{item.inputName}}</td>
+                                <td>
+                                    <span class="hoverable pull-right" 
+                                        (click)="editAssumption(item, eadAssumptionGroupEnum[eadAssumptionGroupEnum.ExchangeRateProjections])">
+                                        <i class="fa fa-edit"></i>
+                                    </span>
+                                    <span class="kt-widget1__number kt-font-brand">
+                                        <span>{{item.value | number:'1.2-2'}}</span>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </tab>
-    </tabset>
+        </div>
+    </div>
+
+</div>
+<!--end::Accordion-->
 </div>
 <app-edit-assumption-modal #editAssumptionModal></app-edit-assumption-modal>
