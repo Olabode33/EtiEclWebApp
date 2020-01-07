@@ -24,6 +24,7 @@ using Abp.Organizations;
 using Abp.BackgroundJobs;
 using TestDemo.EclLibrary.BaseEngine.PDInput;
 using Abp.UI;
+using TestDemo.RetailInputs;
 
 namespace TestDemo.Retail
 {
@@ -44,6 +45,7 @@ namespace TestDemo.Retail
         private readonly IRetailEclPdAssumptionNonInteralModelsAppService _retailEclPdAssumptionNonInteralAppService;
         private readonly IRetailEclPdAssumptionNplIndexesAppService _retailEclPdAssumptionNplAppService;
         private readonly IRetailEclPdSnPCummulativeDefaultRatesAppService _retailPdAssumptionSnpAppService;
+        private readonly IRetailEclUploadsAppService _retailEclUploadsAppService;
 
         private readonly IRetailEclApprovalsAppService _retailEclApprovalsAppService;
         private readonly IBackgroundJobManager _backgroundJobManager;
@@ -63,6 +65,7 @@ namespace TestDemo.Retail
                                     IRetailEclPdAssumptionNonInteralModelsAppService retailEclPdAssumptionNonInteralAppService,
                                     IRetailEclPdAssumptionNplIndexesAppService retailEclPdAssumptionNplAppService,
                                     IRetailEclPdSnPCummulativeDefaultRatesAppService retailPdAssumptionSnpAppService,
+                                    IRetailEclUploadsAppService retailEclUploadsAppService,
                                     IBackgroundJobManager backgroundJobManager,
                                     IEclSharedAppService eclSharedAppService
                                     )
@@ -82,6 +85,7 @@ namespace TestDemo.Retail
             _retailEclPdAssumptionNplAppService = retailEclPdAssumptionNplAppService;
             _retailPdAssumptionSnpAppService = retailPdAssumptionSnpAppService;
             _retailEclApprovalsAppService = retailEclApprovalsAppService;
+            _retailEclUploadsAppService = retailEclUploadsAppService;
 
             _backgroundJobManager = backgroundJobManager;
             _eclSharedAppService = eclSharedAppService;
@@ -583,11 +587,19 @@ namespace TestDemo.Retail
 
         }
 
-        protected virtual async Task SubmitForApproval(EntityDto<Guid> input)
+        public virtual async Task SubmitForApproval(EntityDto<Guid> input)
         {
-            var ecl = await _retailEclRepository.FirstOrDefaultAsync((Guid)input.Id);
-            ecl.Status = EclStatusEnum.Submitted;
-            ObjectMapper.Map(ecl, ecl);
+            var validation = await ValidateForSubmission(input.Id);
+            if (validation.Status)
+            {
+                var ecl = await _retailEclRepository.FirstOrDefaultAsync((Guid)input.Id);
+                ecl.Status = EclStatusEnum.Submitted;
+                ObjectMapper.Map(ecl, ecl);
+            }
+            else
+            {
+                throw new UserFriendlyException(L("ValidationError") + validation.Message);
+            }
         }
 
         public virtual async Task ApproveReject(CreateOrEditRetailEclApprovalDto input)
@@ -606,7 +618,29 @@ namespace TestDemo.Retail
 
         public async Task RunEcl(EntityDto<Guid> input)
         {
+            var ecl = await _retailEclRepository.FirstOrDefaultAsync(input.Id);
+            ecl.Status = EclStatusEnum.Running;
+            await _retailEclRepository.UpdateAsync(ecl);
             await _backgroundJobManager.EnqueueAsync<RunRetailPdJob, RetailPdJobArgs>(new RetailPdJobArgs { RetailEclId = input.Id });
+        }
+
+        protected virtual async Task<ValidationMessageDto> ValidateForSubmission(Guid eclId)
+        {
+            ValidationMessageDto output = new ValidationMessageDto();
+            var uploads = await _retailEclUploadsAppService.GetEclUploads(new EntityDto<Guid> {Id = eclId });
+            if (uploads.Count > 0)
+            {
+                var notCompleted = uploads.Any(x => x.RetailEclUpload.Status != GeneralStatusEnum.Completed);
+                output.Status = !notCompleted;
+                output.Message = notCompleted == true ? L("UploadInProgressError") : "";
+            } 
+            else
+            {
+                output.Status = false;
+                output.Message = L("NoUploadedRecordFoundForEcl");
+            }
+
+            return output;
         }
     }
 }

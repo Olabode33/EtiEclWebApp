@@ -20,7 +20,7 @@ using TestDemo.RetailInputs;
 using TestDemo.Storage;
 using TestDemo.WholesaleInputs;
 
-namespace TestDemo.EclShared
+namespace TestDemo.EclShared.Importing
 {
     public class ImportLoanbookFromExcelJob : BackgroundJob<ImportEclDataFromExcelJobArgs>, ITransientDependency
     {

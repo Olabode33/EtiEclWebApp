@@ -1,4 +1,5 @@
-﻿using TestDemo.WholesaleComputatoin;
+﻿using TestDemo.EclConfig;
+using TestDemo.WholesaleComputatoin;
 using TestDemo.LgdCalibrationResult;
 using TestDemo.LgdCalibrationResult;
 using TestDemo.EadCalibrationResult;
@@ -38,6 +39,10 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<EclConfiguration> EclConfigurations { get; set; }
+
+        public virtual DbSet<AffiliateOverrideThreshold> AffiliateOverrideThresholds { get; set; }
+
         public virtual DbSet<AssumptionApproval> AssumptionApprovals { get; set; }
 
         public virtual DbSet<MacroeconomicVariable> MacroeconomicVariables { get; set; }

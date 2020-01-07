@@ -1,4 +1,4 @@
-import { EadInputAssumptionGroupEnum, LdgInputAssumptionGroupEnum, CreateOrEditObeEclLgdAssumptionDto, CreateOrEditRetailEclApprovalDto, GetAllPdAssumptionsDto, FrameworkEnum, RetailEclUploadsServiceProxy, GetRetailEclUploadForViewDto, CreateOrEditRetailEclUploadDto } from './../../../../shared/service-proxies/service-proxies';
+import { EadInputAssumptionGroupEnum, LdgInputAssumptionGroupEnum, CreateOrEditObeEclLgdAssumptionDto, CreateOrEditRetailEclApprovalDto, GetAllPdAssumptionsDto, FrameworkEnum, RetailEclUploadsServiceProxy, GetRetailEclUploadForViewDto, CreateOrEditRetailEclUploadDto, EntityDtoOfGuid } from './../../../../shared/service-proxies/service-proxies';
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EclStatusEnum, CreateOrEditWholesaleEclDto, WholesaleEclsServiceProxy, RetailEclsServiceProxy, GetRetailEclForEditOutput, CreateOrEditRetailEclAssumptionDto, CreateOrEditRetailEclEadInputAssumptionDto, CreateOrEditRetailEclLgdAssumptionDto, CreateOrEditRetailEclDto, AssumptionGroupEnum, DataTypeEnum, UploadDocTypeEnum, GeneralStatusEnum } from '@shared/service-proxies/service-proxies';
@@ -114,13 +114,16 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
             this.getEclDetails();
             this.getEclUploadSummary();
 
-            let retailEcl = new CreateOrEditRetailEclApprovalDto();
-            retailEcl.retailEclId = this._eclId;
+            let approveEcl = new CreateOrEditRetailEclApprovalDto();
+            approveEcl.retailEclId = this._eclId;
+            approveEcl.reviewComment = '';
+            approveEcl.status = GeneralStatusEnum.Draft;
+
 
             this.approveEclModel.configure({
                 title: this.l('ApproveRetailEcl'),
                 serviceProxy: this._retailEcLsServiceProxy,
-                dataSource: retailEcl
+                dataSource: approveEcl
             });
         });
     }
@@ -189,12 +192,51 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
         this.notify.info('Yet to be implemented!!!');
     }
 
+    submitEcl(): void {
+        this.message.confirm(
+            this.l('SubmitForApproval') + '?',
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    let dto = new EntityDtoOfGuid();
+                    dto.id = this._eclId;
+                    this._retailEcLsServiceProxy.submitForApproval(dto)
+                        .subscribe(() => {
+                            this.getEclDetails();
+                            this.notify.success(this.l('SubmittedSuccessfully'));
+                        });
+                }
+            }
+        );
+    }
+
     approveEcl() {
         this.approveEclModel.show();
     }
 
+    eclReviewed(event?: any): void {
+        if (event !== null) {
+            if (event.status === GeneralStatusEnum.Approved) {
+                setTimeout(() => this.runEclComputation(), 3000);
+            }
+            this.getEclDetails();
+        }
+    }
+
     runEclComputation() {
-        this.notify.info('Yet to be implemented!!!');
+        this.message.confirm(
+            this.l('StartEclRun'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    let dto = new EntityDtoOfGuid();
+                    dto.id = this._eclId;
+                    this._retailEcLsServiceProxy.runEcl(dto)
+                        .subscribe(() => {
+                            this.getEclDetails();
+                            this.notify.success(this.l('EclRunProcessStart'));
+                        });
+                }
+            }
+        );
     }
 
     goBack() {

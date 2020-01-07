@@ -30,6 +30,20 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var eclConfigurations = pages.CreateChildPermission(AppPermissions.Pages_EclConfigurations, L("EclConfigurations"));
+            eclConfigurations.CreateChildPermission(AppPermissions.Pages_EclConfigurations_Create, L("CreateNewEclConfiguration"));
+            eclConfigurations.CreateChildPermission(AppPermissions.Pages_EclConfigurations_Edit, L("EditEclConfiguration"));
+            eclConfigurations.CreateChildPermission(AppPermissions.Pages_EclConfigurations_Delete, L("DeleteEclConfiguration"));
+
+
+
+            var affiliateOverrideThresholds = pages.CreateChildPermission(AppPermissions.Pages_AffiliateOverrideThresholds, L("AffiliateOverrideThresholds"));
+            affiliateOverrideThresholds.CreateChildPermission(AppPermissions.Pages_AffiliateOverrideThresholds_Create, L("CreateNewAffiliateOverrideThreshold"));
+            affiliateOverrideThresholds.CreateChildPermission(AppPermissions.Pages_AffiliateOverrideThresholds_Edit, L("EditAffiliateOverrideThreshold"));
+            affiliateOverrideThresholds.CreateChildPermission(AppPermissions.Pages_AffiliateOverrideThresholds_Delete, L("DeleteAffiliateOverrideThreshold"));
+
+
+
             var assumptionApprovals = pages.CreateChildPermission(AppPermissions.Pages_AssumptionApprovals, L("AssumptionApprovals"));
             assumptionApprovals.CreateChildPermission(AppPermissions.Pages_AssumptionApprovals_Create, L("CreateNewAssumptionApproval"));
             assumptionApprovals.CreateChildPermission(AppPermissions.Pages_AssumptionApprovals_Edit, L("EditAssumptionApproval"));
@@ -46,6 +60,18 @@ namespace TestDemo.Authorization
 
             //Final Permissions List
             var assumptionsUpdate = pages.CreateChildPermission(AppPermissions.Pages_AssumptionsUpdate, L("Assumptions"));
+
+            var workspace = pages.CreateChildPermission(AppPermissions.Pages_Workspace, L("Workspace"));
+            workspace.CreateChildPermission(AppPermissions.Pages_Workspace_CreateEcl, L("CreateEcl"));
+            workspace.CreateChildPermission(AppPermissions.Pages_Workspace_Dashboard, L("ViewDashboard"));
+
+            var eclView = pages.CreateChildPermission(AppPermissions.Pages_EclView, L("ViewEcl"));
+            eclView.CreateChildPermission(AppPermissions.Pages_EclView_Edit, L("EditEclRecord"));
+            eclView.CreateChildPermission(AppPermissions.Pages_EclView_Upload, L("UploadEclData"));
+            eclView.CreateChildPermission(AppPermissions.Pages_EclView_Submit, L("SubmtEclApproval"));
+            eclView.CreateChildPermission(AppPermissions.Pages_EclView_Review, L("ReviewEcl"));
+            eclView.CreateChildPermission(AppPermissions.Pages_EclView_Run, L("RunEclComputation"));
+            eclView.CreateChildPermission(AppPermissions.Pages_EclView_Override, L("ApplyOverride"));
 
             //Rad Permission
             var obeEclPdAssumptionNonInternalModels = pages.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptionNonInternalModels, L("ObeEclPdAssumptionNonInternalModels"));

@@ -80,27 +80,33 @@ export class ApproveEclModalComponent extends AppComponentBase {
         this.message.confirm(
             this.l('ApprovalNote'),
             (isConfirmed) => {
-                if (this.hasProp('status')) {
-                    this.dataSource.status = GeneralStatusEnum.Approved;
+                if (isConfirmed) {
+                    if (this.hasProp('status')) {
+                        this.dataSource.status = GeneralStatusEnum.Approved;
+                    }
+                    this.serviceProxy.approveReject(this.dataSource).subscribe(() => {
+                        this.notify.success(this.l('ApprovedSuccessfully'));
+                        this.approved.emit(this.dataSource);
+                        this.close();
+                    });
                 }
-                this.serviceProxy.approveReject(this.dataSource).subscribe(() => {
-                    this.approved.emit(this.dataSource);
-                    this.close();
-                });
             });
     }
 
     reject(): void {
         this.message.confirm(
-            this.l('ApprovalNote'),
+            this.l('RejectNote'),
             (isConfirmed) => {
-                if (this.hasProp('status')) {
-                    this.dataSource.status = GeneralStatusEnum.Approved;
+                if (isConfirmed) {
+                    if (this.hasProp('status')) {
+                        this.dataSource.status = GeneralStatusEnum.Rejected;
+                    }
+                    this.serviceProxy.approveReject(this.dataSource).subscribe(() => {
+                        this.notify.success(this.l('RejectedSuccessfully'));
+                        this.approved.emit(this.dataSource);
+                        this.close();
+                    });
                 }
-                this.serviceProxy.approveReject(this.dataSource).subscribe(() => {
-                    this.approved.emit(this.dataSource);
-                    this.close();
-                });
             });
     }
 

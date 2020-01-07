@@ -6,6 +6,16 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_EclConfigurations = "Pages.EclConfigurations";
+        public const string Pages_EclConfigurations_Create = "Pages.EclConfigurations.Create";
+        public const string Pages_EclConfigurations_Edit = "Pages.EclConfigurations.Edit";
+        public const string Pages_EclConfigurations_Delete = "Pages.EclConfigurations.Delete";
+
+        public const string Pages_AffiliateOverrideThresholds = "Pages.AffiliateOverrideThresholds";
+        public const string Pages_AffiliateOverrideThresholds_Create = "Pages.AffiliateOverrideThresholds.Create";
+        public const string Pages_AffiliateOverrideThresholds_Edit = "Pages.AffiliateOverrideThresholds.Edit";
+        public const string Pages_AffiliateOverrideThresholds_Delete = "Pages.AffiliateOverrideThresholds.Delete";
+
         public const string Pages_AssumptionApprovals = "Pages.AssumptionApprovals";
         public const string Pages_AssumptionApprovals_Create = "Pages.AssumptionApprovals.Create";
         public const string Pages_AssumptionApprovals_Edit = "Pages.AssumptionApprovals.Edit";
@@ -17,7 +27,24 @@
         public const string Pages_MacroeconomicVariables_Delete = "Pages.MacroeconomicVariables.Delete";
 
         //Final 
+        //Assumptions
         public const string Pages_AssumptionsUpdate = "Pages.Assumption.Affiliates";
+
+        //Workspace
+        public const string Pages_Workspace = "Pages.Workspace";
+        public const string Pages_Workspace_CreateEcl = "Pages.Workspace.CreateEcl";
+        public const string Pages_Workspace_Dashboard = "Pages.Workspace.Dashboard";
+
+        //Ecl View
+        public const string Pages_EclView = "Pages.EclView";
+        public const string Pages_EclView_Edit = "Pages.EclView.Edit";
+        public const string Pages_EclView_Upload = "Pages.EclView.Upload";
+        public const string Pages_EclView_Submit = "Pages.EclView.Submit";
+        public const string Pages_EclView_Review = "Pages.EclView.Review";
+        public const string Pages_EclView_Run = "Pages.EclView.Run";
+        public const string Pages_EclView_Override = "Pages.EclView.Override";
+      
+
 
         //RAD Persmissions
         public const string Pages_ObeEclPdAssumptionNonInternalModels = "Pages.ObeEclPdAssumptionNonInternalModels";

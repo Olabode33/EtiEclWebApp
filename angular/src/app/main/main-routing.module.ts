@@ -1,5 +1,7 @@
 ﻿import { ViewRetailEclComponent } from './retail/view-retailEcl/view-retailEcl.component';
 import { NgModule } from '@angular/core';
+import { EclConfigurationsComponent } from './eclConfig/eclConfigurations/eclConfigurations.component';
+import { AffiliateOverrideThresholdsComponent } from './eclConfig/affiliateOverrideThresholds/affiliateOverrideThresholds.component';
 import { AssumptionApprovalsComponent } from './assumptions/assumptionApprovals/assumptionApprovals.component';
 import { MacroeconomicVariablesComponent } from './eclShared/macroeconomicVariables/macroeconomicVariables.component';
 import { RouterModule } from '@angular/router';
@@ -31,6 +33,8 @@ import { ViewPaymentScheduleComponent } from './eclShared/view-paymentSchedule/v
             {
                 path: '',
                 children: [
+                    { path: 'eclConfig/eclConfigurations', component: EclConfigurationsComponent, data: { permission: 'Pages.EclConfigurations' }  },
+                    { path: 'eclConfig/affiliateOverrideThresholds', component: AffiliateOverrideThresholdsComponent, data: { permission: 'Pages.AffiliateOverrideThresholds' }  },
                     { path: 'config/macroeconomicVariables', component: MacroeconomicVariablesComponent, data: { permission: 'Pages.MacroeconomicVariables' }  },
                     { path: 'wholesaleResults/wholesaleEclResultSummaryTopExposures', component: WholesaleEclResultSummaryTopExposuresComponent, data: { permission: 'Pages.WholesaleEclResultSummaryTopExposures' }  },
                     { path: 'wholesaleResults/wholesaleEclResultSummaryKeyInputs', component: WholesaleEclResultSummaryKeyInputsComponent, data: { permission: 'Pages.WholesaleEclResultSummaryKeyInputs' }  },

@@ -13,7 +13,7 @@
         </div>
         <div class="kt-subheader__toolbar">
             <div class="kt-subheader__wrapper">
-                <button (click)="editEcl()" class="btn btn-outline-primary" *ngIf="retailEClDto.status == eclStatusEnum.Draft">
+                <button (click)="submitEcl()" class="btn btn-outline-primary" *ngIf="retailEClDto.status == eclStatusEnum.Draft">
                     <i class="fa fa-check" style="font-size: 1.2rem !important;"></i>
                     {{l("Submit")}}
                 </button>
@@ -700,5 +700,5 @@
 
     </div>
 
-    <app-approve-ecl-modal #aproveEclModal (eclApproved)="getEclDetails()"></app-approve-ecl-modal>
+    <app-approve-ecl-modal #aproveEclModal (approved)="eclReviewed($event)"></app-approve-ecl-modal>
 </div>

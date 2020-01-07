@@ -1,6 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>
+  <texts>    <text name="EclConfiguration">Ecl configuration</text>
+    <text name="PropertyKey">Property key</text>
+    <text name="DisplayName">Display name</text>
+    <text name="EclConfigurationsHeaderInfo">Ecl configurations header info</text>
+    <text name="CreateNewEclConfiguration">Create new ecl configuration</text>
+    <text name="EditEclConfiguration">Edit ecl configuration</text>
+    <text name="DeleteEclConfiguration">Delete ecl configuration</text>
+    <text name="EclConfigurations">Ecl configurations</text>
+    <text name="EclConfig">Ecl config</text>
+    <text name="Threshold">Threshold</text>
+    <text name="AffiliateOverrideThresholdsHeaderInfo">Affiliate override thresholds header info</text>
+    <text name="CreateNewAffiliateOverrideThreshold">Create new affiliate override threshold</text>
+    <text name="EditAffiliateOverrideThreshold">Edit affiliate override threshold</text>
+    <text name="DeleteAffiliateOverrideThreshold">Delete affiliate override threshold</text>
+    <text name="AffiliateOverrideThresholds">Affiliate override thresholds</text>
+    <text name="OrganizationUnitDisplayName">Organization unit display name</text>
+    <text name="PickOrganizationUnit">Pick organization unit</text>
+
+    <text name="EclRunProcessStart">ECL computation process has begun...</text>
+    <text name="StartEclRun">Start ECL Computation!</text>
+    <text name="UploadInProgressError">Record upload is still in progress</text>
+    <text name="ValidationError">Error validating record: </text>
+    <text name="ApprovedSuccessfully">Approved successfully!</text>
+    <text name="RejectedSuccessfully">Rejected successfully!</text>
     <text name="EclDataPaymentSchedulesHeaderInfo">View uploaded payment schedule details.</text>
     <text name="EclDataPaymentSchedules">Payment Schedule</text>
     <text name="EclDataLoanBooksHeaderInfo">View uploaded loanbook snapshot details.</text>
@@ -55,7 +78,8 @@
     <text name="CreateNewMacroeconomicVariable">New</text>
     <text name="EditMacroeconomicVariable">Edit</text>
     <text name="DeleteMacroeconomicVariable">Delete</text>
-    <text name="MacroeconomicVariables">Macro-economic variables</text>
+    <text name="MacroeconomicVariables">Macro variables</text>
+    <text name="AffiliateOverrideThreshold">Override Threshold</text>
     <text name="AffiliateAssumption">Affiliates</text>
     <text name="AffiliateAssumptionHeaderInfo">Manage affilate's assumptions</text>
     <text name="PdMacroeconomicProjection">Projections</text>
@@ -164,7 +188,7 @@
     <text name="EditPdInputAssumption">Edit pd input assumption</text>
     <text name="DeletePdInputAssumption">Delete pd input assumption</text>
 
-    <text name="ScenarioInputs">Scenario Inputs</text>    <text name="AbsoluteCreditQuality">Absolute Credit Quality</text>    <text name="RelativeCreditQuality">Relative Credit Quality</text>    <text name="ForwardTransitions">Forward Transitions</text>    <text name="BackwardTransitions">Backward Transitions</text>    <text name="CreditConversionFactors">Credit Conversion Factors</text>    <text name="VariableInterestRateProjections">Variable Interest Rate Projections</text>    <text name="ExchangeRateProjections">Exchange Rate Projections</text>    <text name="UnsecuredRecoveriesTimeInDefault">Time-in-default</text>    <text name="CostOfRecoveryHigh">CoR High</text>    <text name="CostOfRecoveryLow">CoR Low</text>    <text name="CollateralGrowthBest">Collateral Growth</text>    <text name="CollateralTTR">Collateral TTR</text>    <text name="FrameworkAssumptions">Framework Assumptions</text>    <text name="ApproveRetailEcl">Approve Retail ECL</text>    <text name="ApprovalNote">Approved values would be used for ECL computations!</text>    <text name="ReviewComment">Review Comment</text>    <text name="AuditInfo">Audit Information</text>    <text name="NewEcl">New ECL</text>    <text name="RetailECLs">Retail ECL</text>    <text name="ResultSummary">Result Summary</text>    <text name="ResultDetails">Result Details</text>    <text name="UploadedData">Uploaded Data</text>    <text name="GoBack">Back</text>    <text name="GeneralAssumptions">General Assumptions</text>    <text name="PdAssumptions">PD Assumptions</text>    <text name="EadAssumptions">EAD Assumptions</text>    <text name="LgdAssumptions">LGD Assumptions</text>    <text name="AssumptionAwaitingApproval">Assumptions awaiting approval</text>    <text name="RawDataLoanBook">Loan Book</text>    <text name="RawDataPaymentSchedule">Payment Schedule</text>    <text name="EclOverrides">Overrides</text>    <text name="Result">Result</text>    <text name="ViewEcl">View ECL details</text>    <text name="SubmitOrSaveAsDraft">Submit for approval or save as draft</text>
+    <text name="ScenarioInputs">Scenario Inputs</text>    <text name="AbsoluteCreditQuality">Absolute Credit Quality</text>    <text name="RelativeCreditQuality">Relative Credit Quality</text>    <text name="ForwardTransitions">Forward Transitions</text>    <text name="BackwardTransitions">Backward Transitions</text>    <text name="CreditConversionFactors">Credit Conversion Factors</text>    <text name="VariableInterestRateProjections">Variable Interest Rate Projections</text>    <text name="ExchangeRateProjections">Exchange Rate Projections</text>    <text name="UnsecuredRecoveriesTimeInDefault">Time-in-default</text>    <text name="CostOfRecoveryHigh">CoR High</text>    <text name="CostOfRecoveryLow">CoR Low</text>    <text name="CollateralGrowthBest">Collateral Growth</text>    <text name="CollateralTTR">Collateral TTR</text>    <text name="FrameworkAssumptions">Framework Assumptions</text>    <text name="ApproveRetailEcl">Approve Retail ECL</text>    <text name="ApprovalNote">Approved values would be used for ECL computations!</text>    <text name="RejectNote">The selected ECL would be reverted to Draft status!</text>    <text name="ReviewComment">Review Comment</text>    <text name="AuditInfo">Audit Information</text>    <text name="NewEcl">New ECL</text>    <text name="RetailECLs">Retail ECL</text>    <text name="ResultSummary">Result Summary</text>    <text name="ResultDetails">Result Details</text>    <text name="UploadedData">Uploaded Data</text>    <text name="GoBack">Back</text>    <text name="GeneralAssumptions">General Assumptions</text>    <text name="PdAssumptions">PD Assumptions</text>    <text name="EadAssumptions">EAD Assumptions</text>    <text name="LgdAssumptions">LGD Assumptions</text>    <text name="AssumptionAwaitingApproval">Assumptions awaiting approval</text>    <text name="RawDataLoanBook">Loan Book</text>    <text name="RawDataPaymentSchedule">Payment Schedule</text>    <text name="EclOverrides">Overrides</text>    <text name="Result">Result</text>    <text name="ViewEcl">View ECL details</text>    <text name="SubmitOrSaveAsDraft">Submit for approval or save as draft</text>
     <text name="WholesaleEclSuccessfullyCreated">Wholesale ECL successfully created!</text>
     <text name="SelectFramework">-- Select Framework --</text>
     <text name="SelectOU">-- Select Subsidiary --</text>
@@ -827,14 +851,10 @@
     <text name="Apply">Apply</text>
     <text name="CustomRange">Custom range</text>
     <text name="DashboardNoteForMpaVersion">
-      <![CDATA[
-      See Demo for Multi-Page Application version with <strong>ASP.NET MVC</strong> and <strong>jQuery</strong>.
-      ]]>
+      <![CDATA[      See Demo for Multi-Page Application version with <strong>ASP.NET MVC</strong> and <strong>jQuery</strong>.      ]]>
     </text>
     <text name="DashboardNoteForSpaVersion">
-      <![CDATA[
-      Notice: There is also a <strong>Single-Page Application</strong> version built using ASP.NET MVC and <strong>AngularJs</strong>.
-      ]]>
+      <![CDATA[      Notice: There is also a <strong>Single-Page Application</strong> version built using ASP.NET MVC and <strong>AngularJs</strong>.      ]]>
     </text>
     <text name="SeeDemo">See demo</text>
     <text name="Edition">Edition</text>
@@ -1010,14 +1030,7 @@
     <text name="YouDontHaveAnyFriend">You don't have any friends. Write a username to above input box and click "Add Friend" button.</text>
     <text name="YouDontHaveAnyBlockedFriend">You don't have any blocked users. In order to block a friend, select a friend and select block from actions dropdown.</text>
     <text name="ChatUserSearch_Hint">
-      <![CDATA[
-      Write only username for same tenant users, <br>
-      <strong>[tenancyName]\[userName]</strong> for other tenant's users <br><br>
-      for example: <br>
-      .\admin -> for host admin <br>
-      Test\admin -> for test tenant's admin <br>
-      admin -> for your tenant's admin
-      ]]>
+      <![CDATA[      Write only username for same tenant users, <br>      <strong>[tenancyName]\[userName]</strong> for other tenant's users <br><br>      for example: <br>      .\admin -> for host admin <br>      Test\admin -> for test tenant's admin <br>      admin -> for your tenant's admin      ]]>
     </text>
     <text name="AddFriend">Add friend</text>
     <text name="TypeAMessageHere">Type a message here...</text>

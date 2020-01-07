@@ -1,4 +1,6 @@
-﻿
+﻿using TestDemo.EclConfig.Dtos;
+using TestDemo.EclConfig;
+
 using TestDemo.ObeResults.Dtos;
 using TestDemo.ObeResults;
 using TestDemo.ObeComputation.Dtos;
@@ -75,6 +77,10 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditEclConfigurationDto, EclConfiguration>().ReverseMap();
+            configuration.CreateMap<EclConfigurationDto, EclConfiguration>().ReverseMap();
+            configuration.CreateMap<CreateOrEditAffiliateOverrideThresholdDto, AffiliateOverrideThreshold>().ReverseMap();
+            configuration.CreateMap<AffiliateOverrideThresholdDto, AffiliateOverrideThreshold>().ReverseMap();
             configuration.CreateMap<CreateOrEditAssumptionApprovalDto, AssumptionApproval>().ReverseMap();
             configuration.CreateMap<AssumptionApprovalDto, AssumptionApproval>().ReverseMap();
             configuration.CreateMap<CreateOrEditMacroeconomicVariableDto, MacroeconomicVariable>().ReverseMap();

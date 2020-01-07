@@ -22,6 +22,10 @@ namespace TestDemo.Retail
 
         Task<Guid> CreateEclAndAssumption();
 
+        Task SubmitForApproval(EntityDto<Guid> input);
+
+        Task RunEcl(EntityDto<Guid> input);
+
         //Task<PagedResultDto<RetailEclUserLookupTableDto>> GetAllUserForLookupTable(GetAllForLookupTableInput input);
 
     }

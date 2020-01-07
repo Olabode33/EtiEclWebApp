@@ -572,6 +572,303 @@ export class AccountServiceProxy {
 }
 
 @Injectable()
+export class AffiliateOverrideThresholdsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param organizationUnitDisplayNameFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, organizationUnitDisplayNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetAffiliateOverrideThresholdForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/AffiliateOverrideThresholds/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (organizationUnitDisplayNameFilter !== undefined)
+            url_ += "OrganizationUnitDisplayNameFilter=" + encodeURIComponent("" + organizationUnitDisplayNameFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetAffiliateOverrideThresholdForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetAffiliateOverrideThresholdForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetAffiliateOverrideThresholdForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetAffiliateOverrideThresholdForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetAffiliateOverrideThresholdForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetAffiliateOverrideThresholdForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getAffiliateOverrideThresholdForEdit(id: number | null | undefined): Observable<GetAffiliateOverrideThresholdForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/AffiliateOverrideThresholds/GetAffiliateOverrideThresholdForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAffiliateOverrideThresholdForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAffiliateOverrideThresholdForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetAffiliateOverrideThresholdForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetAffiliateOverrideThresholdForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAffiliateOverrideThresholdForEdit(response: HttpResponseBase): Observable<GetAffiliateOverrideThresholdForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetAffiliateOverrideThresholdForEditOutput.fromJS(resultData200) : new GetAffiliateOverrideThresholdForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetAffiliateOverrideThresholdForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditAffiliateOverrideThresholdDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/AffiliateOverrideThresholds/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/AffiliateOverrideThresholds/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllOrganizationUnitForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfAffiliateOverrideThresholdOrganizationUnitLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/AffiliateOverrideThresholds/GetAllOrganizationUnitForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllOrganizationUnitForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllOrganizationUnitForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfAffiliateOverrideThresholdOrganizationUnitLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfAffiliateOverrideThresholdOrganizationUnitLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllOrganizationUnitForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfAffiliateOverrideThresholdOrganizationUnitLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfAffiliateOverrideThresholdOrganizationUnitLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfAffiliateOverrideThresholdOrganizationUnitLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfAffiliateOverrideThresholdOrganizationUnitLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
 export class AssumptionApprovalsServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -3016,6 +3313,240 @@ export class EadInputAssumptionsServiceProxy {
     }
 
     protected processUpdateStatus(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class EclConfigurationsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param dataTypeFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, dataTypeFilter: number | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetEclConfigurationForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/EclConfigurations/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (dataTypeFilter !== undefined)
+            url_ += "DataTypeFilter=" + encodeURIComponent("" + dataTypeFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetEclConfigurationForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetEclConfigurationForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetEclConfigurationForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetEclConfigurationForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetEclConfigurationForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetEclConfigurationForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getEclConfigurationForEdit(id: number | null | undefined): Observable<GetEclConfigurationForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/EclConfigurations/GetEclConfigurationForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetEclConfigurationForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetEclConfigurationForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetEclConfigurationForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetEclConfigurationForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetEclConfigurationForEdit(response: HttpResponseBase): Observable<GetEclConfigurationForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetEclConfigurationForEditOutput.fromJS(resultData200) : new GetEclConfigurationForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetEclConfigurationForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditEclConfigurationDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/EclConfigurations/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/EclConfigurations/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -25209,6 +25740,58 @@ export class RetailEclsServiceProxy {
      * @param input (optional) 
      * @return Success
      */
+    submitForApproval(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEcls/SubmitForApproval";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSubmitForApproval(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSubmitForApproval(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSubmitForApproval(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
     approveReject(input: CreateOrEditRetailEclApprovalDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/RetailEcls/ApproveReject";
         url_ = url_.replace(/[?&]$/, "");
@@ -39065,6 +39648,310 @@ export interface ISwitchToLinkedAccountOutput {
     tenancyName: string | undefined;
 }
 
+export class PagedResultDtoOfGetAffiliateOverrideThresholdForViewDto implements IPagedResultDtoOfGetAffiliateOverrideThresholdForViewDto {
+    totalCount!: number | undefined;
+    items!: GetAffiliateOverrideThresholdForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetAffiliateOverrideThresholdForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetAffiliateOverrideThresholdForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetAffiliateOverrideThresholdForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetAffiliateOverrideThresholdForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetAffiliateOverrideThresholdForViewDto {
+    totalCount: number | undefined;
+    items: GetAffiliateOverrideThresholdForViewDto[] | undefined;
+}
+
+export class GetAffiliateOverrideThresholdForViewDto implements IGetAffiliateOverrideThresholdForViewDto {
+    affiliateOverrideThreshold!: AffiliateOverrideThresholdDto | undefined;
+    organizationUnitDisplayName!: string | undefined;
+
+    constructor(data?: IGetAffiliateOverrideThresholdForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.affiliateOverrideThreshold = data["affiliateOverrideThreshold"] ? AffiliateOverrideThresholdDto.fromJS(data["affiliateOverrideThreshold"]) : <any>undefined;
+            this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
+        }
+    }
+
+    static fromJS(data: any): GetAffiliateOverrideThresholdForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAffiliateOverrideThresholdForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["affiliateOverrideThreshold"] = this.affiliateOverrideThreshold ? this.affiliateOverrideThreshold.toJSON() : <any>undefined;
+        data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
+        return data; 
+    }
+}
+
+export interface IGetAffiliateOverrideThresholdForViewDto {
+    affiliateOverrideThreshold: AffiliateOverrideThresholdDto | undefined;
+    organizationUnitDisplayName: string | undefined;
+}
+
+export class AffiliateOverrideThresholdDto implements IAffiliateOverrideThresholdDto {
+    threshold!: number | undefined;
+    organizationUnitId!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: IAffiliateOverrideThresholdDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.threshold = data["threshold"];
+            this.organizationUnitId = data["organizationUnitId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): AffiliateOverrideThresholdDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AffiliateOverrideThresholdDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["threshold"] = this.threshold;
+        data["organizationUnitId"] = this.organizationUnitId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IAffiliateOverrideThresholdDto {
+    threshold: number | undefined;
+    organizationUnitId: number | undefined;
+    id: number | undefined;
+}
+
+export class GetAffiliateOverrideThresholdForEditOutput implements IGetAffiliateOverrideThresholdForEditOutput {
+    affiliateOverrideThreshold!: CreateOrEditAffiliateOverrideThresholdDto | undefined;
+    organizationUnitDisplayName!: string | undefined;
+
+    constructor(data?: IGetAffiliateOverrideThresholdForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.affiliateOverrideThreshold = data["affiliateOverrideThreshold"] ? CreateOrEditAffiliateOverrideThresholdDto.fromJS(data["affiliateOverrideThreshold"]) : <any>undefined;
+            this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
+        }
+    }
+
+    static fromJS(data: any): GetAffiliateOverrideThresholdForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAffiliateOverrideThresholdForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["affiliateOverrideThreshold"] = this.affiliateOverrideThreshold ? this.affiliateOverrideThreshold.toJSON() : <any>undefined;
+        data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
+        return data; 
+    }
+}
+
+export interface IGetAffiliateOverrideThresholdForEditOutput {
+    affiliateOverrideThreshold: CreateOrEditAffiliateOverrideThresholdDto | undefined;
+    organizationUnitDisplayName: string | undefined;
+}
+
+export class CreateOrEditAffiliateOverrideThresholdDto implements ICreateOrEditAffiliateOverrideThresholdDto {
+    threshold!: number | undefined;
+    organizationUnitId!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditAffiliateOverrideThresholdDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.threshold = data["threshold"];
+            this.organizationUnitId = data["organizationUnitId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditAffiliateOverrideThresholdDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditAffiliateOverrideThresholdDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["threshold"] = this.threshold;
+        data["organizationUnitId"] = this.organizationUnitId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditAffiliateOverrideThresholdDto {
+    threshold: number | undefined;
+    organizationUnitId: number | undefined;
+    id: number | undefined;
+}
+
+export class PagedResultDtoOfAffiliateOverrideThresholdOrganizationUnitLookupTableDto implements IPagedResultDtoOfAffiliateOverrideThresholdOrganizationUnitLookupTableDto {
+    totalCount!: number | undefined;
+    items!: AffiliateOverrideThresholdOrganizationUnitLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfAffiliateOverrideThresholdOrganizationUnitLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(AffiliateOverrideThresholdOrganizationUnitLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfAffiliateOverrideThresholdOrganizationUnitLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfAffiliateOverrideThresholdOrganizationUnitLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfAffiliateOverrideThresholdOrganizationUnitLookupTableDto {
+    totalCount: number | undefined;
+    items: AffiliateOverrideThresholdOrganizationUnitLookupTableDto[] | undefined;
+}
+
+export class AffiliateOverrideThresholdOrganizationUnitLookupTableDto implements IAffiliateOverrideThresholdOrganizationUnitLookupTableDto {
+    id!: number | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IAffiliateOverrideThresholdOrganizationUnitLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): AffiliateOverrideThresholdOrganizationUnitLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AffiliateOverrideThresholdOrganizationUnitLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IAffiliateOverrideThresholdOrganizationUnitLookupTableDto {
+    id: number | undefined;
+    displayName: string | undefined;
+}
+
 export class PagedResultDtoOfGetAssumptionApprovalForViewDto implements IPagedResultDtoOfGetAssumptionApprovalForViewDto {
     totalCount!: number | undefined;
     items!: GetAssumptionApprovalForViewDto[] | undefined;
@@ -41206,6 +42093,226 @@ export interface ICreateOrEditEadInputAssumptionDto {
     inputName: string | undefined;
     value: string | undefined;
     id: string | undefined;
+}
+
+export class PagedResultDtoOfGetEclConfigurationForViewDto implements IPagedResultDtoOfGetEclConfigurationForViewDto {
+    totalCount!: number | undefined;
+    items!: GetEclConfigurationForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetEclConfigurationForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetEclConfigurationForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetEclConfigurationForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetEclConfigurationForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetEclConfigurationForViewDto {
+    totalCount: number | undefined;
+    items: GetEclConfigurationForViewDto[] | undefined;
+}
+
+export class GetEclConfigurationForViewDto implements IGetEclConfigurationForViewDto {
+    eclConfiguration!: EclConfigurationDto | undefined;
+
+    constructor(data?: IGetEclConfigurationForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.eclConfiguration = data["eclConfiguration"] ? EclConfigurationDto.fromJS(data["eclConfiguration"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetEclConfigurationForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetEclConfigurationForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["eclConfiguration"] = this.eclConfiguration ? this.eclConfiguration.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetEclConfigurationForViewDto {
+    eclConfiguration: EclConfigurationDto | undefined;
+}
+
+export class EclConfigurationDto implements IEclConfigurationDto {
+    displayName!: string | undefined;
+    value!: string | undefined;
+    dataType!: DataTypeEnum | undefined;
+    id!: number | undefined;
+
+    constructor(data?: IEclConfigurationDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.displayName = data["displayName"];
+            this.value = data["value"];
+            this.dataType = data["dataType"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): EclConfigurationDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new EclConfigurationDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["displayName"] = this.displayName;
+        data["value"] = this.value;
+        data["dataType"] = this.dataType;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IEclConfigurationDto {
+    displayName: string | undefined;
+    value: string | undefined;
+    dataType: DataTypeEnum | undefined;
+    id: number | undefined;
+}
+
+export class GetEclConfigurationForEditOutput implements IGetEclConfigurationForEditOutput {
+    eclConfiguration!: CreateOrEditEclConfigurationDto | undefined;
+
+    constructor(data?: IGetEclConfigurationForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.eclConfiguration = data["eclConfiguration"] ? CreateOrEditEclConfigurationDto.fromJS(data["eclConfiguration"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetEclConfigurationForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetEclConfigurationForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["eclConfiguration"] = this.eclConfiguration ? this.eclConfiguration.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetEclConfigurationForEditOutput {
+    eclConfiguration: CreateOrEditEclConfigurationDto | undefined;
+}
+
+export class CreateOrEditEclConfigurationDto implements ICreateOrEditEclConfigurationDto {
+    propertyKey!: string | undefined;
+    displayName!: string | undefined;
+    value!: string | undefined;
+    dataType!: DataTypeEnum | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditEclConfigurationDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.propertyKey = data["propertyKey"];
+            this.displayName = data["displayName"];
+            this.value = data["value"];
+            this.dataType = data["dataType"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditEclConfigurationDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditEclConfigurationDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["propertyKey"] = this.propertyKey;
+        data["displayName"] = this.displayName;
+        data["value"] = this.value;
+        data["dataType"] = this.dataType;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditEclConfigurationDto {
+    propertyKey: string | undefined;
+    displayName: string | undefined;
+    value: string | undefined;
+    dataType: DataTypeEnum | undefined;
+    id: number | undefined;
 }
 
 export class PagedResultDtoOfGetAllEclForWorkspaceDto implements IPagedResultDtoOfGetAllEclForWorkspaceDto {

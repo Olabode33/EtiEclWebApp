@@ -141,7 +141,7 @@ namespace TestDemo.RetailInputs
         [AbpAuthorize(AppPermissions.Pages_RetailEclUploads_Create)]
         protected virtual async Task<Guid> Create(CreateOrEditRetailEclUploadDto input)
         {
-            var retailEclUploadExist = await _retailEclUploadRepository.FirstOrDefaultAsync(x => x.DocType == input.DocType);
+            var retailEclUploadExist = await _retailEclUploadRepository.FirstOrDefaultAsync(x => x.DocType == input.DocType && x.RetailEclId == input.RetailEclId);
             
             if (retailEclUploadExist == null)
             {
