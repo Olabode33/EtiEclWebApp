@@ -1,4 +1,4 @@
-import { EadInputAssumptionGroupEnum, LdgInputAssumptionGroupEnum, CreateOrEditObeEclLgdAssumptionDto, CreateOrEditRetailEclApprovalDto, GetAllPdAssumptionsDto, FrameworkEnum, RetailEclUploadsServiceProxy, GetRetailEclUploadForViewDto, CreateOrEditRetailEclUploadDto, EntityDtoOfGuid } from './../../../../shared/service-proxies/service-proxies';
+import { EadInputAssumptionGroupEnum, LdgInputAssumptionGroupEnum, CreateOrEditObeEclLgdAssumptionDto, CreateOrEditRetailEclApprovalDto, GetAllPdAssumptionsDto, FrameworkEnum, RetailEclUploadsServiceProxy, GetRetailEclUploadForViewDto, CreateOrEditRetailEclUploadDto, EntityDtoOfGuid, LgdAssumptionDto, EadInputAssumptionDto, AssumptionDto } from './../../../../shared/service-proxies/service-proxies';
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EclStatusEnum, CreateOrEditWholesaleEclDto, WholesaleEclsServiceProxy, RetailEclsServiceProxy, GetRetailEclForEditOutput, CreateOrEditRetailEclAssumptionDto, CreateOrEditRetailEclEadInputAssumptionDto, CreateOrEditRetailEclLgdAssumptionDto, CreateOrEditRetailEclDto, AssumptionGroupEnum, DataTypeEnum, UploadDocTypeEnum, GeneralStatusEnum } from '@shared/service-proxies/service-proxies';
@@ -21,6 +21,9 @@ import { HttpClient } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
 import { FileUpload } from 'primeng/fileupload';
 import { interval } from 'rxjs';
+import { FrameworkAssumptionsComponent } from '@app/main/assumptions/_subs/frameworkAssumptions/frameworkAssumptions.component';
+import { EadInputAssumptionsComponent } from '@app/main/assumptions/_subs/eadInputAssumptions/eadInputAssumptions.component';
+import { LgdInputAssumptionsComponent } from '@app/main/assumptions/_subs/lgdInputAssumptions/lgdInputAssumptions.component';
 
 const secondsCounter = interval(5000);
 
@@ -34,6 +37,9 @@ const secondsCounter = interval(5000);
 export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
 
     @ViewChild('aproveEclModal', {static: true}) approveEclModel: ApproveEclModalComponent;
+    @ViewChild('frameworkAssumptionTag', {static: true}) frameworkAssumptionTag: FrameworkAssumptionsComponent;
+    @ViewChild('eadInputAssumptionTag', {static: true}) eadInputAssumptionTag: EadInputAssumptionsComponent;
+    @ViewChild('lgdInputAssumptionTag', {static: true}) lgdInputAssumptionTag: LgdInputAssumptionsComponent;
     @ViewChild('pdInputAssumptionTag', {static: true}) pdInputAssumptionTag: PdInputAssumptionsComponent;
     @ViewChild('UploadPaymentSchedule', {static: true}) excelUploadPaymentSchedule: FileUpload;
 
@@ -133,34 +139,35 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
                                     .subscribe(result => {
                                         this.retailEclDetails = result;
                                         this.retailEClDto = result.retailEcl;
-                                        this.frameworkAssumptions = result.frameworkAssumption;
-                                        this.eadInputAssumptions = result.eadInputAssumptions;
-                                        this.lgdInputAssumptions = result.lgdInputAssumptions;
 
-                                        this.extractGeneralAssumptionGroups();
-                                        this.extractEadAssumptionGroups();
-                                        this.extractLgdAssumptionGroups();
+                                        this.extractGeneralAssumptionGroups(result.frameworkAssumption);
+                                        this.extractEadAssumptionGroups(result.eadInputAssumptions);
+                                        this.extractLgdAssumptionGroups(result.lgdInputAssumptions);
                                         this.extractPdAssumptionGroups(result);
                                     });
     }
 
-    extractGeneralAssumptionGroups(): void {
+    extractGeneralAssumptionGroups(input: AssumptionDto[]): void {
         //Extract general assumption to groups
         this.scenarioAssumptionGroup = this.frameworkAssumptions.filter(x => x.assumptionGroup === this.assumptionGroupEnum.ScenarioInputs);
         this.absoluteCreditQualityAssumptionGroup = this.frameworkAssumptions.filter(x => x.assumptionGroup === this.assumptionGroupEnum.AbsoluteCreditQuality);
         this.relativeCreditQualityAssumptionGroup = this.frameworkAssumptions.filter(x => x.assumptionGroup === this.assumptionGroupEnum.RelativeCreditQuality);
         this.forwardTransitionsAssumptionGroup = this.frameworkAssumptions.filter(x => x.assumptionGroup === this.assumptionGroupEnum.ForwardTransitions);
         this.backwardTransitionAssumptionGroup = this.frameworkAssumptions.filter(x => x.assumptionGroup === this.assumptionGroupEnum.BackwardTransitions);
+
+        this.frameworkAssumptionTag.load(input, '', FrameworkEnum.Retail);
     }
 
-    extractEadAssumptionGroups(): void {
+    extractEadAssumptionGroups(input: EadInputAssumptionDto[]): void {
         //Extract general assumption to groups
         this.ccfGroup = this.eadInputAssumptions.filter(x => x.eadGroup === this.eadAssumptionGroupEnum.CreditConversionFactors);
         this.virGroup = this.eadInputAssumptions.filter(x => x.eadGroup === this.eadAssumptionGroupEnum.VariableInterestRateProjections);
         this.exchangeRateGroup = this.eadInputAssumptions.filter(x => x.eadGroup === this.eadAssumptionGroupEnum.ExchangeRateProjections);
+
+        this.eadInputAssumptionTag.load(input, '', FrameworkEnum.Retail);
     }
 
-    extractLgdAssumptionGroups(): void {
+    extractLgdAssumptionGroups(input: LgdAssumptionDto[]): void {
         //Extract general assumption to groups
         this.cureRateGroup = this.lgdInputAssumptions.filter(x => x.lgdGroup === this.lgdAssumptionGroupEnum.UnsecuredRecoveriesCureRate);
         this.timeToDefaultGroup = this.lgdInputAssumptions.filter(x => x.lgdGroup === this.lgdAssumptionGroupEnum.UnsecuredRecoveriesTimeInDefault);
@@ -168,6 +175,8 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
         this.corLowGroup = this.lgdInputAssumptions.filter(x => x.lgdGroup === this.lgdAssumptionGroupEnum.CostOfRecoveryLow);
         this.collateralGrowthGroup = this.lgdInputAssumptions.filter(x => x.lgdGroup === this.lgdAssumptionGroupEnum.CollateralGrowthBest);
         this.collateralTTRGroup = this.lgdInputAssumptions.filter(x => x.lgdGroup === this.lgdAssumptionGroupEnum.CollateralTTR);
+
+        this.lgdInputAssumptionTag.load(input, '' , FrameworkEnum.Retail);
     }
 
     extractPdAssumptionGroups(input: GetRetailEclForEditOutput): void {

@@ -5,6 +5,8 @@ using Abp.Application.Services.Dto;
 using TestDemo.RetailAssumption.Dtos;
 using TestDemo.Dto;
 using System.Collections.Generic;
+using TestDemo.EclShared.Dtos;
+using GetAllForLookupTableInput = TestDemo.RetailAssumption.Dtos.GetAllForLookupTableInput;
 
 namespace TestDemo.RetailAssumption
 {
@@ -14,7 +16,7 @@ namespace TestDemo.RetailAssumption
 
 		Task<GetRetailEclEadInputAssumptionForEditOutput> GetRetailEclEadInputAssumptionForEdit(EntityDto<Guid> input);
 
-        Task<List<CreateOrEditRetailEclEadInputAssumptionDto>> GetRetailEclEadInputAssumptionsList(EntityDto<Guid> input);
+        Task<List<EadInputAssumptionDto>> GetListForEclView(EntityDto<Guid> input);
 
         Task CreateOrEdit(CreateOrEditRetailEclEadInputAssumptionDto input);
 

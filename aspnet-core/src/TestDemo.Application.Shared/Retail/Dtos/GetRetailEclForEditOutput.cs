@@ -13,9 +13,9 @@ namespace TestDemo.Retail.Dtos
         public string Country { get; set; }
         public string CreatedByUserName { get; set; }
 		public string ClosedByUserName { get; set;}
-        public List<CreateOrEditRetailEclAssumptionDto> FrameworkAssumption { get; set; }
-        public List<CreateOrEditRetailEclEadInputAssumptionDto> EadInputAssumptions { get; set; }
-        public List<CreateOrEditRetailEclLgdAssumptionDto> LgdInputAssumptions { get; set; }
+        public List<AssumptionDto> FrameworkAssumption { get; set; }
+        public List<EadInputAssumptionDto> EadInputAssumptions { get; set; }
+        public List<LgdAssumptionDto> LgdInputAssumptions { get; set; }
 
         public List<PdInputAssumptionDto> PdInputAssumption { get; set; }
         public List<PdInputAssumptionMacroeconomicInputDto> PdInputAssumptionMacroeconomicInput { get; set; }

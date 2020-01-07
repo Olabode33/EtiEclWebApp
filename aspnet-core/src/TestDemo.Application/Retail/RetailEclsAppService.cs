@@ -175,9 +175,9 @@ namespace TestDemo.Retail
                 output.ClosedByUserName = _lookupUser.FullName.ToString();
             }
 
-            output.FrameworkAssumption = await _retailEclAssumptionAppService.GetRetailEclAssumptionsList(input);
-            output.EadInputAssumptions = await _retailEclEadInputAssumptionsAppService.GetRetailEclEadInputAssumptionsList(input);
-            output.LgdInputAssumptions = await _retailEclLgdAssumptionsAppService.GetRetailEclLgdAssumptionsList(input);
+            output.FrameworkAssumption = await _retailEclAssumptionAppService.GetListForEclView(input);
+            output.EadInputAssumptions = await _retailEclEadInputAssumptionsAppService.GetListForEclView(input);
+            output.LgdInputAssumptions = await _retailEclLgdAssumptionsAppService.GetListForEclView(input);
             output.PdInputAssumption = await _retailEclPdAssumptionsAppService.GetListForEclView(input);
             output.PdInputAssumptionMacroeconomicInput = await _retailPdAssumptionMacroInputAppService.GetListForEclView(input);
             output.PdInputAssumptionMacroeconomicProjections = await _retailEclPdAssumptionMacroProjectionAppService.GetListForEclView(input);

@@ -17,6 +17,8 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.EclShared.Dtos;
+using GetAllForLookupTableInput = TestDemo.RetailAssumption.Dtos.GetAllForLookupTableInput;
 
 namespace TestDemo.RetailAssumption
 {
@@ -97,16 +99,29 @@ namespace TestDemo.RetailAssumption
             return output;
          }
 
-        public async Task<List<CreateOrEditRetailEclEadInputAssumptionDto>> GetRetailEclEadInputAssumptionsList(EntityDto<Guid> input)
+        public async Task<List<EadInputAssumptionDto>> GetListForEclView(EntityDto<Guid> input)
         {
-            var assumptions = await _retailEclEadInputAssumptionRepository.GetAll()
-                                                                          .Where(x => x.RetailEclId == input.Id)
-                                                                          .Select(x => ObjectMapper.Map<CreateOrEditRetailEclEadInputAssumptionDto>(x))
-                                                                          .ToListAsync();
-            return assumptions;
+            var assumptions = _retailEclEadInputAssumptionRepository.GetAll().Where(x => x.RetailEclId == input.Id)
+                                                              .Select(x => new EadInputAssumptionDto()
+                                                              {
+                                                                  AssumptionGroup = x.EadGroup,
+                                                                  Key = x.Key,
+                                                                  InputName = x.InputName,
+                                                                  Value = x.Value,
+                                                                  DataType = x.Datatype,
+                                                                  IsComputed = x.IsComputed,
+                                                                  RequiresGroupApproval = x.RequiresGroupApproval,
+                                                                  CanAffiliateEdit = x.CanAffiliateEdit,
+                                                                  OrganizationUnitId = x.OrganizationUnitId,
+                                                                  //Status = x.s,
+                                                                  Id = x.Id
+                                                              });
+
+            return await assumptions.ToListAsync();
+
         }
 
-		 public async Task CreateOrEdit(CreateOrEditRetailEclEadInputAssumptionDto input)
+        public async Task CreateOrEdit(CreateOrEditRetailEclEadInputAssumptionDto input)
          {
             if(input.Id == null){
 				await Create(input);
