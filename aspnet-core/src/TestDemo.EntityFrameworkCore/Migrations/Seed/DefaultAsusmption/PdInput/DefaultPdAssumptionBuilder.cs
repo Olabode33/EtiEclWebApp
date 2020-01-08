@@ -71,6 +71,13 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
             CreateMacroEconomicOilExportProjection(FrameworkEnum.OBE, ou);
             CreateMacroEconomicGdpGrowthProjection(FrameworkEnum.OBE, ou);
             CreateMacroEconomicDifferencedGdpGrowthProjection(FrameworkEnum.OBE, ou);
+
+
+            //Investment
+            CreateInvestmentPdAssumption(ou);
+            CreateInvestmentMacroScenario(ou);
+            CreateInvestmentMacroAssumption(ou);
+            CreateInvestmentFitchCummulativeDefaultRates(ou);
         }
 
         private void Create12MonthPdsCreditPds(FrameworkEnum framework, long ou)
@@ -577,5 +584,133 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
                 }
             }
         }
+
+        private void CreateInvestmentPdAssumption(long ou)
+        {
+            string prefix = DefaultPdAssumption.PdAssumptionKey.InvSecPdAssumptionPrefix;
+            string[] names = DefaultPdAssumption.InputName.InvSecPdAssumptionInputName;
+            string[] values = DefaultPdAssumption.InputValue.InvSecPdAssumptionFitchRating;
+
+            for (int i = 0; i < names.Length; i++)
+            {
+                var pd = _context.PdInputAssumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == prefix + (i + 1).ToString() && x.Framework == FrameworkEnum.Investments && x.OrganizationUnitId == ou);
+                if (pd == null)
+                {
+                    _context.PdInputAssumptions.Add(new PdInputAssumption()
+                    {
+                        PdGroup = PdInputAssumptionGroupEnum.CreditPD,
+                        Key = prefix + (i + 1).ToString(),
+                        InputName = names[i],
+                        Value = values[i],
+                        DataType = DataTypeEnum.String,
+                        Framework = FrameworkEnum.Investments,
+                        IsComputed = false,
+                        RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved
+                    });
+                    _context.SaveChanges();
+                }
+            }
+        }
+
+        private void CreateInvestmentMacroScenario(long ou)
+        {
+            string[] keys = new string[] { DefaultPdAssumption.PdAssumptionKey.InvSecMacroeconomicScenarioBest, DefaultPdAssumption.PdAssumptionKey.InvSecMacroeconomicScenarioOptimistic, DefaultPdAssumption.PdAssumptionKey.InvSecMacroeconomicScenarioDownturn };
+            string[] names = new string[] { DefaultPdAssumption.InputName.InvSecMacroeconomicScenarioBest, DefaultPdAssumption.InputName.InvSecMacroeconomicScenarioOptimistic, DefaultPdAssumption.InputName.InvSecMacroeconomicScenarioDownturn };
+            string[] values = new string[] { DefaultPdAssumption.InputValue.InvSecMacroeconomicScenarioBest, DefaultPdAssumption.InputValue.InvSecMacroeconomicScenarioOptimistic, DefaultPdAssumption.InputValue.InvSecMacroeconomicScenarioDownturn };
+
+            for (int i = 0; i < keys.Length; i++)
+            {
+                var pd = _context.PdInputAssumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == keys[i] && x.Framework == FrameworkEnum.Investments && x.OrganizationUnitId == ou);
+                if (pd == null)
+                {
+                    _context.PdInputAssumptions.Add(new PdInputAssumption()
+                    {
+                        PdGroup = PdInputAssumptionGroupEnum.CreditPD,
+                        Key = keys[i],
+                        InputName = names[i],
+                        Value = values[i],
+                        DataType = DataTypeEnum.String,
+                        Framework = FrameworkEnum.Investments,
+                        IsComputed = false,
+                        RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved
+                    });
+                    _context.SaveChanges();
+                }
+            }
+        }
+
+        private void CreateInvestmentMacroAssumption(long ou)
+        {
+            string prefix = DefaultPdAssumption.PdAssumptionKey.InvSecMacroeconomicAssumptionPrefix;
+            int max = DefaultPdAssumption.PdAssumptionKey.maxInvSecMacroeconomicMonths;
+            string[] names = DefaultPdAssumption.InputName.InvSecPdAssumptionInputName;
+            double[] bestValues = DefaultPdAssumption.InputValue.InvSecMacroEcoBest;
+            double[] optimisticValues = DefaultPdAssumption.InputValue.InvSecMacroEcoOptimistic;
+            double[] downturnValues = DefaultPdAssumption.InputValue.InvSecMacroEcoDownturn;
+
+            for (int i = 0; i <= max; i++)
+            {
+                var pd = _context.InvSecMacroEconomicAssumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == prefix + (i).ToString() && x.OrganizationUnitId == ou);
+                if (pd == null)
+                {
+                    _context.InvSecMacroEconomicAssumptions.Add(new InvSecMacroEconomicAssumption()
+                    {
+                        Key = prefix + (i).ToString(),
+                        Month = i,
+                        BestValue = bestValues[i],
+                        OptimisticValue = optimisticValues[i],
+                        DownturnValue = downturnValues[i],
+                        RequiresGroupApproval = true,
+                        CanAffiliateEdit = false,
+                        OrganizationUnitId = ou,
+                        Status = GeneralStatusEnum.Approved
+                    });
+                    _context.SaveChanges();
+                }
+            }
+        }
+
+        private void CreateInvestmentFitchCummulativeDefaultRates(long ou)
+        {
+            const int maxRating = DefaultPdAssumption.PdAssumptionKey.maxInvSecFitchRating;
+            const int maxYears = DefaultPdAssumption.PdAssumptionKey.maxInvSecFitchRatingYears;
+
+            string prefix = DefaultPdAssumption.PdAssumptionKey.InvSecFitchRatesPrefix;
+
+            string[] ratingInput = DefaultPdAssumption.InputName.InvSecFitchRatingsNames;
+
+            double[,] values = DefaultPdAssumption.InputValue.InvSecFitchValues;
+
+
+            for (int rating = 0; rating < maxRating; rating++)
+            {
+                for (int year = 0; year < maxYears; year++)
+                {
+                    var snp = _context.InvSecFitchCummulativeDefaultRates.IgnoreQueryFilters().FirstOrDefault(x => x.Key == prefix + ratingInput[rating] + year.ToString()
+                                                                                                           && x.Year == year + 1 && x.OrganizationUnitId == ou);
+                    if (snp == null)
+                    {
+                        _context.InvSecFitchCummulativeDefaultRates.Add(new InvSecFitchCummulativeDefaultRate()
+                        {
+                            Key = prefix + ratingInput[rating] + year.ToString(),
+                            OrganizationUnitId = ou,
+                            Rating = ratingInput[rating],
+                            Value = values[rating, year],
+                            RequiresGroupApproval = true,
+                            Status = GeneralStatusEnum.Approved,
+                            Year = year + 1
+                        });
+                        _context.SaveChanges();
+                    }
+                }
+            }
+        }
+
     }
 }

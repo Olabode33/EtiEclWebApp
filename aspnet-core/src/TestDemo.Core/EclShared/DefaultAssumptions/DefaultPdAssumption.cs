@@ -69,6 +69,8 @@ namespace TestDemo.EclShared.DefaultAssumptions
             public const string InvSecMacroeconomicScenarioBest = "InvSec.MacroeconomicScenario.Best";
             public const string InvSecMacroeconomicScenarioOptimistic = "InvSec.MacroeconomicScenario.Optimistic";
             public const string InvSecMacroeconomicScenarioDownturn = "InvSec.MacroeconomicScenario.Downturn";
+            public const string InvSecMacroeconomicAssumptionPrefix = "InvSec.MacroeconomicAssumption.";
+            public const string InvSecFitchRatesPrefix = "InvSec.FitchRate.";
 
             public const int maxInvSecMacroeconomicMonths = 60;
             public const int maxInvSecFitchRating = 23;
@@ -128,7 +130,7 @@ namespace TestDemo.EclShared.DefaultAssumptions
             public const string InvSecMacroeconomicScenarioOptimistic = "Downturn";
             public const string InvSecMacroeconomicScenarioDownturn = "Optimistic";
 
-            public static string[] InveFitchRatings = new string[] { "A", "A+", "A-", "AA", "AA+", "AA-", "AAA", "B", "B+", "B-", "BB", "BB+", "BB-", "BBB", "BBB+", "BBB-", "C", "CC", "CCC", "CCC+", "CCC-", "D", "SDB" };
+            public static string[] InvSecFitchRatingsNames = new string[] { "A", "A+", "A-", "AA", "AA+", "AA-", "AAA", "B", "B+", "B-", "BB", "BB+", "BB-", "BBB", "BBB+", "BBB-", "C", "CC", "CCC", "CCC+", "CCC-", "D", "SDB" };
         }
 
         public static class InputValue

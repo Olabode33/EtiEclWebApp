@@ -57,6 +57,9 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             CreateHaircut(FrameworkEnum.OBE, ou);
             CreateCollateralProjection(FrameworkEnum.OBE, ou);
             CreatePdAssumption(FrameworkEnum.OBE, ou);
+
+            //Investment
+            CreateInvestmentAssumption(ou);
         }
 
         private void CreateRetailUnsecuredRecoveryCureRate(long ou)
@@ -831,5 +834,34 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.LgdInput
             }
         }
 
-    }
+        private void CreateInvestmentAssumption(long ou)
+        {
+            string[] keys = new string[] { DefaultLgdAssumptions.LgdAssumptionKey.InvSecLgdBest, DefaultLgdAssumptions.LgdAssumptionKey.InvSecLgdOptimistic, DefaultLgdAssumptions.LgdAssumptionKey.InvSecLgdDownturn};
+            string[] names = new string[] { DefaultLgdAssumptions.InputName.InvSecLgdBest, DefaultLgdAssumptions.InputName.InvSecLgdOptimistic, DefaultLgdAssumptions.InputName.InvSecLgdDownturn};
+            string[] values = new string[] { DefaultLgdAssumptions.InputValue.InvSecLgdBest, DefaultLgdAssumptions.InputValue.InvSecLgdOptimistic, DefaultLgdAssumptions.InputValue.InvSecLgdDownturn };
+
+            for (int i = 0; i < keys.Length; i++)
+            {
+                var invSec = _context.LgdAssumption.IgnoreQueryFilters().FirstOrDefault(x => x.Key == keys[i] && x.Framework == FrameworkEnum.Investments && x.OrganizationUnitId == ou);
+                if (invSec == null)
+                {
+                    _context.LgdAssumption.Add(new LgdInputAssumption()
+                    {
+                        LgdGroup = LdgInputAssumptionGroupEnum.General,
+                        Key = keys[i],
+                        InputName = names[i],
+                        Value = values[i],
+                        DataType = DataTypeEnum.DoublePercentage,
+                        Framework = FrameworkEnum.Investments,
+                        IsComputed = false,
+                        RequiresGroupApproval = true,
+                        OrganizationUnitId = ou,
+                        CanAffiliateEdit = false,
+                        Status = GeneralStatusEnum.Approved
+                    });
+                    _context.SaveChanges();
+                }
+            }
+        }
+    } 
 }

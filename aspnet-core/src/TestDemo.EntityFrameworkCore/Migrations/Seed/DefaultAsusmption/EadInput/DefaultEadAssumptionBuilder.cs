@@ -40,6 +40,8 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
             //OBE
             CreateGeneralEadAssumption(FrameworkEnum.OBE, ou);
             CreateCreditConversionFactor(FrameworkEnum.OBE, ou);
+            //Investments
+            CreateInvestmentAssumption(ou);
         }
 
         private void CreateGeneralEadAssumption(FrameworkEnum framework, long ou)
@@ -98,7 +100,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
             {
                 _context.EadInputAssumptions.Add(new EadInputAssumption()
                 {
-                    EadGroup = EadInputAssumptionGroupEnum.General,
+                    EadGroup = EadInputAssumptionGroupEnum.BehaviouralLife,
                     Key = DefaultEadAssumption.EadAssumptionKey.BehaviouralLifeNonExpired,
                     InputName = DefaultEadAssumption.InputName.BehaviouralLifeNonExpired,
                     Value = DefaultEadAssumption.InputValue.BehaviouralLifeNonExpired,
@@ -120,7 +122,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
             {
                 _context.EadInputAssumptions.Add(new EadInputAssumption()
                 {
-                    EadGroup = EadInputAssumptionGroupEnum.General,
+                    EadGroup = EadInputAssumptionGroupEnum.BehaviouralLife,
                     Key = DefaultEadAssumption.EadAssumptionKey.BehaviouralLifeExpired,
                     InputName = DefaultEadAssumption.InputName.BehaviouralLifeExpired,
                     Value = DefaultEadAssumption.InputValue.BehaviouralLifeExpired,
@@ -402,6 +404,39 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
                         Value = values[i],
                         Datatype = DataTypeEnum.DoublePercentage,
                         Framework = FrameworkEnum.Wholesale,
+                        IsComputed = false,
+                        RequiresGroupApproval = true,
+                        OrganizationUnitId = ou,
+                        CanAffiliateEdit = false,
+                        Status = GeneralStatusEnum.Approved
+                    });
+                    _context.SaveChanges();
+                }
+            }
+        }
+
+        private void CreateInvestmentAssumption(long ou)
+        {
+            string[] keys = new string[] { DefaultEadAssumption.EadAssumptionKey.InvSecAssumedCreditLife, DefaultEadAssumption.EadAssumptionKey.InvSecAssumedRatingForUnRatedAssets,
+                                           DefaultEadAssumption.EadAssumptionKey.InvSecZeroPdForSovereignBonds};
+            string[] names = new string[] { DefaultEadAssumption.InputName.InvSecAssumedCreditLife, DefaultEadAssumption.InputName.InvSecAssumedRatingForUnRatedAssets,
+                                            DefaultEadAssumption.InputName.InvSecZeroPdForSovereignBonds};
+            string[] values = new string[] { DefaultEadAssumption.InputValue.InvSecAssumedCreditLife, DefaultEadAssumption.InputValue.InvSecAssumedRatingForUnRatedAssets,
+                                             DefaultEadAssumption.InputValue.InvSecZeroPdForSovereignBonds };
+
+            for (int i = 0; i < keys.Length; i++)
+            {
+                var invSec = _context.EadInputAssumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == keys[i] && x.Framework == FrameworkEnum.Investments && x.OrganizationUnitId == ou);
+                if (invSec == null)
+                {
+                    _context.EadInputAssumptions.Add(new EadInputAssumption()
+                    {
+                        EadGroup = EadInputAssumptionGroupEnum.General,
+                        Key = keys[i],
+                        InputName = names[i],
+                        Value = values[i],
+                        Datatype = DataTypeEnum.DoublePercentage,
+                        Framework = FrameworkEnum.Investments,
                         IsComputed = false,
                         RequiresGroupApproval = true,
                         OrganizationUnitId = ou,

@@ -37,7 +37,7 @@ namespace TestDemo.Migrations.Seed
             //Affiliate Assumptions Summary
             new DefaultAffiliateAssumptionsBuilder(context).Create();
 
-            //SeedAssumptionData(context);
+            SeedAssumptionData(context);
         }
 
         private static void SeedAssumptionData(TestDemoDbContext context)
