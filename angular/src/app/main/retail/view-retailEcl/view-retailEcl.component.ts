@@ -134,6 +134,15 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
         });
     }
 
+    shortId(): string {
+        if (this.retailEClDto !== null) {
+            let split = this.retailEClDto.id.split('-');
+            return split[split.length - 1];
+        } else {
+            return '';
+        }
+    }
+
     getEclDetails() {
         this._retailEcLsServiceProxy.getRetailEclDetailsForEdit(this._eclId)
                                     .subscribe(result => {

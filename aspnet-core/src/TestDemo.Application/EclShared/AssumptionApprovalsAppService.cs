@@ -54,6 +54,7 @@ namespace TestDemo.EclShared
         {
             var frameworkFilter = (FrameworkEnum)input.FrameworkFilter;
             var assumptionTypeFilter = (AssumptionTypeEnum)input.AssumptionTypeFilter;
+            var statusFilter = (GeneralStatusEnum)input.StatusFilter;
 
             var filteredAssumptionApprovals = _assumptionApprovalRepository.GetAll()
                         .Include(e => e.ReviewedByUserFk)
@@ -61,6 +62,7 @@ namespace TestDemo.EclShared
                         .WhereIf(input.OrganizationUnitIdFilter != null, e => e.OrganizationUnitId == input.OrganizationUnitIdFilter)
                         .WhereIf(input.FrameworkFilter > -1, e => e.Framework == frameworkFilter)
                         .WhereIf(input.AssumptionTypeFilter > -1, e => e.AssumptionType == assumptionTypeFilter)
+                        .WhereIf(input.StatusFilter > -1, e => e.Status == statusFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.AssumptionGroupFilter), e => e.AssumptionGroup == input.AssumptionGroupFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.ReviewedByUserFk != null && e.ReviewedByUserFk.Name == input.UserNameFilter);
 

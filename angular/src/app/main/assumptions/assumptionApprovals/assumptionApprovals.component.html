@@ -4,7 +4,7 @@
 
         <div class="kt-subheader__main">
             <h3 class="kt-subheader__title">
-                <span>{{l("AssumptionApprovals")}}</span>
+                <span>{{selectedAffiliate}}</span>
             </h3>
             <span class="kt-subheader__separator kt-subheader__separator--v"></span>
             <span class="kt-subheader__desc">
@@ -16,6 +16,10 @@
                 <button (click)="changeAffiliate()" class="btn btn-outline-primary">
                     <i class="fa fa-random" style="font-size: 1.2rem !important;"></i>
                     {{l("ChangeAffiliate")}}
+                </button>
+                <button *ngIf="selectedRecords.length > 0" (click)="changeAffiliate()" class="btn btn-primary">
+                    <i class="fa fa-eye" style="font-size: 1.2rem !important;"></i>
+                    {{l("Review")}}
                 </button>
                 <button (click)="goBack()" class="btn btn-outline-danger">
                     <i class="fa fa-reply" style="font-size: 1.2rem !important;"></i>
@@ -31,7 +35,17 @@
                 <form class="kt-form" autocomplete="off">
                     <div>
                         <div class="row align-items-center">
-                            <div class="col-xl-12">
+                            <div class="col-xl-3">
+                                <div class="form-group m-form__group align-items-center">
+                                    <select class="form-control m-input" name="StatusFilter" id="StatusFilterSelect"
+                                        [(ngModel)]="statusFilter">
+                                        <option value="-1">{{l("All")}}</option>
+                                        <option value="1">{{l('Submitted')}}</option>
+                                        <option value="2">{{l('Approved')}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xl-9">
                                 <div class="form-group m-form__group align-items-center">
                                     <div class="input-group">
                                         <input [(ngModel)]="filterText" name="filterText" autoFocus
@@ -127,10 +141,14 @@
                         <p-table #dataTable (onLazyLoad)="getAssumptionApprovals($event)"
                             [value]="primengTableHelper.records"
                             rows="{{primengTableHelper.defaultRecordsCountPerPage}}" [paginator]="false" [lazy]="true"
+                            [(selection)]="selectedRecords"
                             [scrollable]="true" ScrollWidth="100%" [responsive]="primengTableHelper.isResponsive"
                             [resizableColumns]="primengTableHelper.resizableColumns">
                             <ng-template pTemplate="header">
                                 <tr>
+                                    <th style="width: 3em">
+                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                    </th>
                                     <th style="width: 130px"
                                         [hidden]="!isGrantedAny('Pages.AssumptionApprovals.Edit', 'Pages.AssumptionApprovals.Delete')">
                                         {{l('Actions')}}</th>
@@ -166,7 +184,10 @@
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-record="$implicit">
-                                <tr>
+                                <tr [pSelectableRow]="record">
+                                    <td style="width: 3em">
+                                        <p-tableCheckbox [value]="record"></p-tableCheckbox>
+                                    </td>
                                     <td style="width: 130px"
                                         [hidden]="!isGrantedAny('Pages.AssumptionApprovals.Edit', 'Pages.AssumptionApprovals.Delete')">
                                         <div class="btn-group dropdown" dropdown container="body">

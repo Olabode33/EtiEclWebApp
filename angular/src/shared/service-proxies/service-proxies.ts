@@ -884,6 +884,7 @@ export class AssumptionApprovalsServiceProxy {
      * @param organizationUnitIdFilter (optional) 
      * @param frameworkFilter (optional) 
      * @param assumptionTypeFilter (optional) 
+     * @param statusFilter (optional) 
      * @param assumptionGroupFilter (optional) 
      * @param userNameFilter (optional) 
      * @param sorting (optional) 
@@ -891,7 +892,7 @@ export class AssumptionApprovalsServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | null | undefined, organizationUnitIdFilter: number | null | undefined, frameworkFilter: number | null | undefined, assumptionTypeFilter: number | null | undefined, assumptionGroupFilter: string | null | undefined, userNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetAssumptionApprovalForViewDto> {
+    getAll(filter: string | null | undefined, organizationUnitIdFilter: number | null | undefined, frameworkFilter: number | null | undefined, assumptionTypeFilter: number | null | undefined, statusFilter: number | null | undefined, assumptionGroupFilter: string | null | undefined, userNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetAssumptionApprovalForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/AssumptionApprovals/GetAll?";
         if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
@@ -901,6 +902,8 @@ export class AssumptionApprovalsServiceProxy {
             url_ += "FrameworkFilter=" + encodeURIComponent("" + frameworkFilter) + "&"; 
         if (assumptionTypeFilter !== undefined)
             url_ += "AssumptionTypeFilter=" + encodeURIComponent("" + assumptionTypeFilter) + "&"; 
+        if (statusFilter !== undefined)
+            url_ += "StatusFilter=" + encodeURIComponent("" + statusFilter) + "&"; 
         if (assumptionGroupFilter !== undefined)
             url_ += "AssumptionGroupFilter=" + encodeURIComponent("" + assumptionGroupFilter) + "&"; 
         if (userNameFilter !== undefined)

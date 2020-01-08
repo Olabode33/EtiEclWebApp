@@ -181,4 +181,8 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
         });
         this.editReportDateModal.show();
     }
+
+    navigateToApproveAssumptions(): void {
+        this._router.navigate(['../../approve', this._affiliateId], { relativeTo: this._activatedRoute});
+    }
 }

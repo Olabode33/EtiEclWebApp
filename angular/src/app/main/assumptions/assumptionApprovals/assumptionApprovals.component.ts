@@ -1,6 +1,6 @@
 ﻿import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AssumptionApprovalsServiceProxy, AssumptionApprovalDto, FrameworkEnum, AssumptionTypeEnum, GeneralStatusEnum } from '@shared/service-proxies/service-proxies';
+import { AssumptionApprovalsServiceProxy, AssumptionApprovalDto, FrameworkEnum, AssumptionTypeEnum, GeneralStatusEnum, CommonLookupServiceProxy } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -34,6 +34,7 @@ export class AssumptionApprovalsComponent extends AppComponentBase implements On
     organizationUnitIdFilterEmpty: number;
     frameworkFilter = -1;
     assumptionTypeFilter = -1;
+    statusFilter = 1;
     assumptionGroupFilter = '';
     userNameFilter = '';
 
@@ -45,10 +46,14 @@ export class AssumptionApprovalsComponent extends AppComponentBase implements On
     entityHistoryEnabled = false;
 
     _affiliateId = -1;
+    selectedAffiliate = '';
+
+    selectedRecords: AssumptionApprovalDto[] = new Array();
 
     constructor(
         injector: Injector,
         private _assumptionApprovalsServiceProxy: AssumptionApprovalsServiceProxy,
+        private _commonLookupServiceProxy: CommonLookupServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
@@ -61,6 +66,7 @@ export class AssumptionApprovalsComponent extends AppComponentBase implements On
     ngOnInit(): void {
         this._activatedRoute.paramMap.subscribe(params => {
             this._affiliateId = +params.get('ouId');
+            this.getOrganizationUnitName();
         });
         this.entityHistoryEnabled = this.setIsEntityHistoryEnabled();
     }
@@ -68,6 +74,12 @@ export class AssumptionApprovalsComponent extends AppComponentBase implements On
     private setIsEntityHistoryEnabled(): boolean {
         let customSettings = (abp as any).custom;
         return customSettings.EntityHistory && customSettings.EntityHistory.isEnabled && _.filter(customSettings.EntityHistory.enabledEntities, entityType => entityType === this._entityTypeFullName).length === 1;
+    }
+
+    getOrganizationUnitName(): void {
+        this._commonLookupServiceProxy.getAffiliateNameFromId(this._affiliateId).subscribe(result => {
+            this.selectedAffiliate = result;
+        });
     }
 
     getAssumptionApprovals(event?: LazyLoadEvent) {
@@ -83,6 +95,7 @@ export class AssumptionApprovalsComponent extends AppComponentBase implements On
             this._affiliateId == null ? this.organizationUnitIdFilterEmpty : this._affiliateId,
             this.frameworkFilter,
             this.assumptionTypeFilter,
+            this.statusFilter,
             this.assumptionGroupFilter,
             this.userNameFilter,
             this.primengTableHelper.getSorting(this.dataTable),
