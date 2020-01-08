@@ -6,6 +6,51 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_InvestmentPdInputMacroEconomicAssumptions = "Pages.InvestmentPdInputMacroEconomicAssumptions";
+        public const string Pages_InvestmentPdInputMacroEconomicAssumptions_Create = "Pages.InvestmentPdInputMacroEconomicAssumptions.Create";
+        public const string Pages_InvestmentPdInputMacroEconomicAssumptions_Edit = "Pages.InvestmentPdInputMacroEconomicAssumptions.Edit";
+        public const string Pages_InvestmentPdInputMacroEconomicAssumptions_Delete = "Pages.InvestmentPdInputMacroEconomicAssumptions.Delete";
+
+        public const string Pages_InvestmentEclPdFitchDefaultRates = "Pages.InvestmentEclPdFitchDefaultRates";
+        public const string Pages_InvestmentEclPdFitchDefaultRates_Create = "Pages.InvestmentEclPdFitchDefaultRates.Create";
+        public const string Pages_InvestmentEclPdFitchDefaultRates_Edit = "Pages.InvestmentEclPdFitchDefaultRates.Edit";
+        public const string Pages_InvestmentEclPdFitchDefaultRates_Delete = "Pages.InvestmentEclPdFitchDefaultRates.Delete";
+
+        public const string Pages_InvestmentEclPdInputAssumptions = "Pages.InvestmentEclPdInputAssumptions";
+        public const string Pages_InvestmentEclPdInputAssumptions_Create = "Pages.InvestmentEclPdInputAssumptions.Create";
+        public const string Pages_InvestmentEclPdInputAssumptions_Edit = "Pages.InvestmentEclPdInputAssumptions.Edit";
+        public const string Pages_InvestmentEclPdInputAssumptions_Delete = "Pages.InvestmentEclPdInputAssumptions.Delete";
+
+        public const string Pages_InvestmentEclLgdInputAssumptions = "Pages.InvestmentEclLgdInputAssumptions";
+        public const string Pages_InvestmentEclLgdInputAssumptions_Create = "Pages.InvestmentEclLgdInputAssumptions.Create";
+        public const string Pages_InvestmentEclLgdInputAssumptions_Edit = "Pages.InvestmentEclLgdInputAssumptions.Edit";
+        public const string Pages_InvestmentEclLgdInputAssumptions_Delete = "Pages.InvestmentEclLgdInputAssumptions.Delete";
+
+        public const string Pages_InvestmentEclEadInputAssumptions = "Pages.InvestmentEclEadInputAssumptions";
+        public const string Pages_InvestmentEclEadInputAssumptions_Create = "Pages.InvestmentEclEadInputAssumptions.Create";
+        public const string Pages_InvestmentEclEadInputAssumptions_Edit = "Pages.InvestmentEclEadInputAssumptions.Edit";
+        public const string Pages_InvestmentEclEadInputAssumptions_Delete = "Pages.InvestmentEclEadInputAssumptions.Delete";
+
+        public const string Pages_InvSecFitchCummulativeDefaultRates = "Pages.InvSecFitchCummulativeDefaultRates";
+        public const string Pages_InvSecFitchCummulativeDefaultRates_Create = "Pages.InvSecFitchCummulativeDefaultRates.Create";
+        public const string Pages_InvSecFitchCummulativeDefaultRates_Edit = "Pages.InvSecFitchCummulativeDefaultRates.Edit";
+        public const string Pages_InvSecFitchCummulativeDefaultRates_Delete = "Pages.InvSecFitchCummulativeDefaultRates.Delete";
+
+        public const string Pages_InvSecMacroEconomicAssumptions = "Pages.InvSecMacroEconomicAssumptions";
+        public const string Pages_InvSecMacroEconomicAssumptions_Create = "Pages.InvSecMacroEconomicAssumptions.Create";
+        public const string Pages_InvSecMacroEconomicAssumptions_Edit = "Pages.InvSecMacroEconomicAssumptions.Edit";
+        public const string Pages_InvSecMacroEconomicAssumptions_Delete = "Pages.InvSecMacroEconomicAssumptions.Delete";
+
+        public const string Pages_InvestmentEclApprovals = "Pages.InvestmentEclApprovals";
+        public const string Pages_InvestmentEclApprovals_Create = "Pages.InvestmentEclApprovals.Create";
+        public const string Pages_InvestmentEclApprovals_Edit = "Pages.InvestmentEclApprovals.Edit";
+        public const string Pages_InvestmentEclApprovals_Delete = "Pages.InvestmentEclApprovals.Delete";
+
+        public const string Pages_InvestmentEcls = "Pages.InvestmentEcls";
+        public const string Pages_InvestmentEcls_Create = "Pages.InvestmentEcls.Create";
+        public const string Pages_InvestmentEcls_Edit = "Pages.InvestmentEcls.Edit";
+        public const string Pages_InvestmentEcls_Delete = "Pages.InvestmentEcls.Delete";
+
         public const string Pages_EclConfigurations = "Pages.EclConfigurations";
         public const string Pages_EclConfigurations_Create = "Pages.EclConfigurations.Create";
         public const string Pages_EclConfigurations_Edit = "Pages.EclConfigurations.Edit";

@@ -1,4 +1,8 @@
-﻿using TestDemo.EclConfig.Dtos;
+﻿using TestDemo.InvestmentAssumption.Dtos;
+using TestDemo.InvestmentAssumption;
+using TestDemo.Investment.Dtos;
+using TestDemo.Investment;
+using TestDemo.EclConfig.Dtos;
 using TestDemo.EclConfig;
 
 using TestDemo.ObeResults.Dtos;
@@ -77,6 +81,24 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditInvestmentPdInputMacroEconomicAssumptionDto, InvestmentPdInputMacroEconomicAssumption>().ReverseMap();
+            configuration.CreateMap<InvestmentPdInputMacroEconomicAssumptionDto, InvestmentPdInputMacroEconomicAssumption>().ReverseMap();
+            configuration.CreateMap<CreateOrEditInvestmentEclPdFitchDefaultRateDto, InvestmentEclPdFitchDefaultRate>().ReverseMap();
+            configuration.CreateMap<InvestmentEclPdFitchDefaultRateDto, InvestmentEclPdFitchDefaultRate>().ReverseMap();
+            configuration.CreateMap<CreateOrEditInvestmentEclPdInputAssumptionDto, InvestmentEclPdInputAssumption>().ReverseMap();
+            configuration.CreateMap<InvestmentEclPdInputAssumptionDto, InvestmentEclPdInputAssumption>().ReverseMap();
+            configuration.CreateMap<CreateOrEditInvestmentEclLgdInputAssumptionDto, InvestmentEclLgdInputAssumption>().ReverseMap();
+            configuration.CreateMap<InvestmentEclLgdInputAssumptionDto, InvestmentEclLgdInputAssumption>().ReverseMap();
+            configuration.CreateMap<CreateOrEditInvestmentEclEadInputAssumptionDto, InvestmentEclEadInputAssumption>().ReverseMap();
+            configuration.CreateMap<InvestmentEclEadInputAssumptionDto, InvestmentEclEadInputAssumption>().ReverseMap();
+            configuration.CreateMap<CreateOrEditInvSecFitchCummulativeDefaultRateDto, InvSecFitchCummulativeDefaultRate>().ReverseMap();
+            configuration.CreateMap<InvSecFitchCummulativeDefaultRateDto, InvSecFitchCummulativeDefaultRate>().ReverseMap();
+            configuration.CreateMap<CreateOrEditInvSecMacroEconomicAssumptionDto, InvSecMacroEconomicAssumption>().ReverseMap();
+            configuration.CreateMap<InvSecMacroEconomicAssumptionDto, InvSecMacroEconomicAssumption>().ReverseMap();
+            configuration.CreateMap<CreateOrEditInvestmentEclApprovalDto, InvestmentEclApproval>().ReverseMap();
+            configuration.CreateMap<InvestmentEclApprovalDto, InvestmentEclApproval>().ReverseMap();
+            configuration.CreateMap<CreateOrEditInvestmentEclDto, InvestmentEcl>().ReverseMap();
+            configuration.CreateMap<InvestmentEclDto, InvestmentEcl>().ReverseMap();
             configuration.CreateMap<CreateOrEditEclConfigurationDto, EclConfiguration>().ReverseMap();
             configuration.CreateMap<EclConfigurationDto, EclConfiguration>().ReverseMap();
             configuration.CreateMap<CreateOrEditAffiliateOverrideThresholdDto, AffiliateOverrideThreshold>().ReverseMap();

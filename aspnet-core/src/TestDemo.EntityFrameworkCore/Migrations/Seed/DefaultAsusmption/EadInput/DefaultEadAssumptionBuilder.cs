@@ -61,6 +61,9 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
                     Framework = framework,
                     IsComputed = false,
                     RequiresGroupApproval = true,
+                    OrganizationUnitId = ou,
+                    CanAffiliateEdit = false,
+                    Status = GeneralStatusEnum.Approved
                 });
                 _context.SaveChanges();
             }
@@ -80,9 +83,58 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
                     Framework = framework,
                     IsComputed = false,
                     RequiresGroupApproval = true,
+                    OrganizationUnitId = ou,
+                    CanAffiliateEdit = false,
+                    Status = GeneralStatusEnum.Approved
                 });
                 _context.SaveChanges();
             }
+
+
+            //NonExpired
+            var nonExpired = _context.EadInputAssumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultEadAssumption.EadAssumptionKey.BehaviouralLifeNonExpired
+                                                                                                      && x.Framework == framework && x.OrganizationUnitId == ou);
+            if (prepaymentFactor == null)
+            {
+                _context.EadInputAssumptions.Add(new EadInputAssumption()
+                {
+                    EadGroup = EadInputAssumptionGroupEnum.General,
+                    Key = DefaultEadAssumption.EadAssumptionKey.BehaviouralLifeNonExpired,
+                    InputName = DefaultEadAssumption.InputName.BehaviouralLifeNonExpired,
+                    Value = DefaultEadAssumption.InputValue.BehaviouralLifeNonExpired,
+                    Datatype = DataTypeEnum.Double,
+                    Framework = framework,
+                    IsComputed = true,
+                    RequiresGroupApproval = true,
+                    OrganizationUnitId = ou,
+                    CanAffiliateEdit = false,
+                    Status = GeneralStatusEnum.Approved
+                });
+                _context.SaveChanges();
+            }
+
+            //Expired
+            var expired = _context.EadInputAssumptions.IgnoreQueryFilters().FirstOrDefault(x => x.Key == DefaultEadAssumption.EadAssumptionKey.BehaviouralLifeExpired
+                                                                                                      && x.Framework == framework && x.OrganizationUnitId == ou);
+            if (prepaymentFactor == null)
+            {
+                _context.EadInputAssumptions.Add(new EadInputAssumption()
+                {
+                    EadGroup = EadInputAssumptionGroupEnum.General,
+                    Key = DefaultEadAssumption.EadAssumptionKey.BehaviouralLifeExpired,
+                    InputName = DefaultEadAssumption.InputName.BehaviouralLifeExpired,
+                    Value = DefaultEadAssumption.InputValue.BehaviouralLifeExpired,
+                    Datatype = DataTypeEnum.Double,
+                    Framework = framework,
+                    IsComputed = true,
+                    RequiresGroupApproval = true,
+                    OrganizationUnitId = ou,
+                    CanAffiliateEdit = false,
+                    Status = GeneralStatusEnum.Approved
+                });
+                _context.SaveChanges();
+            }
+
 
 
             //Variable Interest Rate Projection
@@ -100,6 +152,9 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
                     Framework = framework,
                     IsComputed = false,
                     RequiresGroupApproval = true,
+                    OrganizationUnitId = ou,
+                    CanAffiliateEdit = false,
+                    Status = GeneralStatusEnum.Approved
                 });
                 _context.SaveChanges();
             }
@@ -119,6 +174,9 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
                     Framework = framework,
                     IsComputed = false,
                     RequiresGroupApproval = true,
+                    OrganizationUnitId = ou,
+                    CanAffiliateEdit = false,
+                    Status = GeneralStatusEnum.Approved
                 });
                 _context.SaveChanges();
             }
@@ -136,6 +194,9 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
                     Framework = framework,
                     IsComputed = false,
                     RequiresGroupApproval = true,
+                    OrganizationUnitId = ou,
+                    CanAffiliateEdit = false,
+                    Status = GeneralStatusEnum.Approved
                 });
                 _context.SaveChanges();
             }
@@ -153,6 +214,9 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
                     Framework = framework,
                     IsComputed = false,
                     RequiresGroupApproval = true,
+                    OrganizationUnitId = ou,
+                    CanAffiliateEdit = false,
+                    Status = GeneralStatusEnum.Approved
                 });
                 _context.SaveChanges();
             }
@@ -170,6 +234,9 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
                     Framework = framework,
                     IsComputed = false,
                     RequiresGroupApproval = true,
+                    OrganizationUnitId = ou,
+                    CanAffiliateEdit = false,
+                    Status = GeneralStatusEnum.Approved
                 });
                 _context.SaveChanges();
             }
@@ -187,6 +254,9 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
                     Framework = framework,
                     IsComputed = false,
                     RequiresGroupApproval = true,
+                    OrganizationUnitId = ou,
+                    CanAffiliateEdit = false,
+                    Status = GeneralStatusEnum.Approved
                 });
                 _context.SaveChanges();
             }
@@ -204,6 +274,9 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
                     Framework = framework,
                     IsComputed = false,
                     RequiresGroupApproval = true,
+                    OrganizationUnitId = ou,
+                    CanAffiliateEdit = false,
+                    Status = GeneralStatusEnum.Approved
                 });
                 _context.SaveChanges();
             }
@@ -221,6 +294,9 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
                     Framework = framework,
                     IsComputed = false,
                     RequiresGroupApproval = true,
+                    OrganizationUnitId = ou,
+                    CanAffiliateEdit = false,
+                    Status = GeneralStatusEnum.Approved
                 });
                 _context.SaveChanges();
             }
@@ -238,6 +314,9 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
                     Framework = framework,
                     IsComputed = false,
                     RequiresGroupApproval = true,
+                    OrganizationUnitId = ou,
+                    CanAffiliateEdit = false,
+                    Status = GeneralStatusEnum.Approved
                 });
                 _context.SaveChanges();
             }
@@ -255,6 +334,9 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.EadInput
                     Framework = framework,
                     IsComputed = false,
                     RequiresGroupApproval = true,
+                    OrganizationUnitId = ou,
+                    CanAffiliateEdit = false,
+                    Status = GeneralStatusEnum.Approved
                 });
                 _context.SaveChanges();
             }

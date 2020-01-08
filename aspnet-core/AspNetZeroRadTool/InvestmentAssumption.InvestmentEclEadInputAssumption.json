@@ -1,0 +1,256 @@
+{
+  "IsRegenerate": false,
+  "MenuPosition": null,
+  "RelativeNamespace": "InvestmentAssumption",
+  "EntityName": "InvestmentEclEadInputAssumption",
+  "EntityNamePlural": "InvestmentEclEadInputAssumptions",
+  "TableName": "InvestmentEclEadInputAssumptions",
+  "PrimaryKeyType": "Guid",
+  "BaseClass": "FullAuditedEntity",
+  "EntityHistory": true,
+  "AutoMigration": false,
+  "UpdateDatabase": false,
+  "CreateUserInterface": false,
+  "CreateViewOnly": false,
+  "CreateExcelExport": false,
+  "PagePermission": {
+    "Host": false,
+    "Tenant": false
+  },
+  "Properties": [
+    {
+      "Name": "Key",
+      "Type": "string",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": true,
+        "CreateOrUpdate": false
+      }
+    },
+    {
+      "Name": "InputName",
+      "Type": "string",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": true,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "Value",
+      "Type": "string",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": true,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "DataType",
+      "Type": "DataTypeEnum",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": false
+      }
+    },
+    {
+      "Name": "IsComputed",
+      "Type": "bool",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "EadGroup",
+      "Type": "EadInputAssumptionGroupEnum",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": false
+      }
+    },
+    {
+      "Name": "RequiresGroupApproval",
+      "Type": "bool",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "CanAffiliateEdit",
+      "Type": "bool",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    }
+  ],
+  "NavigationProperties": [
+    {
+      "Namespace": "TestDemo.Investment",
+      "ForeignEntityName": "InvestmentEcl",
+      "IdType": "Guid",
+      "IsNullable": true,
+      "PropertyName": "InvestmentEclId",
+      "DisplayPropertyName": "ReportingDate",
+      "DuplicationNumber": 0,
+      "RelationType": "single"
+    }
+  ],
+  "EnumDefinitions": [
+    {
+      "Name": "DataTypeEnum",
+      "Namespace": "TestDemo.EclShared",
+      "EnumProperties": [
+        {
+          "Name": "String",
+          "Value": 1
+        },
+        {
+          "Name": "Datetime",
+          "Value": 1
+        },
+        {
+          "Name": "Double",
+          "Value": 2
+        },
+        {
+          "Name": "Int",
+          "Value": 3
+        },
+        {
+          "Name": "DoublePercentage",
+          "Value": 4
+        },
+        {
+          "Name": "DoubleMoney",
+          "Value": 5
+        },
+        {
+          "Name": "StringDropdown",
+          "Value": 6
+        },
+        {
+          "Name": "DoubleDropDown",
+          "Value": 7
+        },
+        {
+          "Name": "IntDropdown",
+          "Value": 8
+        }
+      ]
+    },
+    {
+      "Name": "EadInputAssumptionGroupEnum",
+      "Namespace": "TestDemo.EclShared",
+      "EnumProperties": [
+        {
+          "Name": "General",
+          "Value": 0
+        },
+        {
+          "Name": "CreditConversionFactors",
+          "Value": 1
+        },
+        {
+          "Name": "VariableInterestRateProjections",
+          "Value": 2
+        },
+        {
+          "Name": "ExchangeRateProjections",
+          "Value": 3
+        },
+        {
+          "Name": "BehaviouralLife",
+          "Value": 4
+        }
+      ]
+    }
+  ]
+}

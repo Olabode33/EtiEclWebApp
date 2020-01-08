@@ -10,6 +10,8 @@ namespace TestDemo.EclShared.DefaultAssumptions
         {
             public const string ConversionFactorOBE  = "ConversionFactorOBE";
             public const string PrePaymentFactor  = "PrePaymentFactor";
+            public const string BehaviouralLifeNonExpired  = "BehaviouralLifeNonExpired";
+            public const string BehaviouralLifeExpired = "BehaviouralLifeExpired";
             public const string CreditConversionFactorCorporate  = "CreditConversionFactorCorporate";
             public const string CreditConversionFactorCommercial  = "CreditConversionFactorCommercial";
             public const string CreditConversionFactorConsumer  = "CreditConversionFactorConsumer";
@@ -29,12 +31,17 @@ namespace TestDemo.EclShared.DefaultAssumptions
             public const string ExchangeRateProjectionJpy  = "ExchangeRateProjectionJPY";
             public const string ExchangeRateProjectionKes  = "ExchangeRateProjectionKES";
             public const string ExchangeRateProjectionZar  = "ExchangeRateProjectionZAR";
+            public const string InvSecAssumedCreditLife  = "InvSec.AssumedCreditLife";
+            public const string InvSecAssumedRatingForUnRatedAssets  = "InvSec.AssumedRatingForUnRatedAssets";
+            public const string InvSecZeroPdForSovereignBonds  = "InvSec.ZeroPdForSovereignBonds";
         }
 
         public static class InputName
         {
             public const string ConversionFactorOBE = "Conversion Factor (OBE)";
             public const string PrePaymentFactor = "Pre-payment Factor";
+            public const string BehaviouralLifeNonExpired = "Non-Expired";
+            public const string BehaviouralLifeExpired = "Expired";
             public const string CreditConversionFactorCorporate = "Corporate";
             public const string CreditConversionFactorCommercial = "Commercial";
             public const string CreditConversionFactorConsumer = "Consumer";
@@ -54,6 +61,9 @@ namespace TestDemo.EclShared.DefaultAssumptions
             public const string ExchangeRateProjectionJpy = "JPY";
             public const string ExchangeRateProjectionKes = "KES";
             public const string ExchangeRateProjectionZar = "ZAR";
+            public const string InvSecAssumedCreditLife = "Assumed credit lifetime";
+            public const string InvSecAssumedRatingForUnRatedAssets = "Assumed rating for unrated assets";
+            public const string InvSecZeroPdForSovereignBonds = "ZERO PD for Sovereign Bonds?";
         }
 
         public static class InputValue
@@ -79,6 +89,11 @@ namespace TestDemo.EclShared.DefaultAssumptions
             public const string ExchangeRateProjectionJpy = "2.6";
             public const string ExchangeRateProjectionKes = "3.3";
             public const string ExchangeRateProjectionZar = "22.3";
+            public const string BehaviouralLifeNonExpired = "31";
+            public const string BehaviouralLifeExpired = "22";
+            public const string InvSecAssumedCreditLife = "36";
+            public const string InvSecAssumedRatingForUnRatedAssets = "B-";
+            public const string InvSecZeroPdForSovereignBonds = "No";
         }
     }
 }

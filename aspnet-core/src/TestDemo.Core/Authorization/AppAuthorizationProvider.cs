@@ -30,6 +30,69 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var investmentPdInputMacroEconomicAssumptions = pages.CreateChildPermission(AppPermissions.Pages_InvestmentPdInputMacroEconomicAssumptions, L("InvestmentPdInputMacroEconomicAssumptions"));
+            investmentPdInputMacroEconomicAssumptions.CreateChildPermission(AppPermissions.Pages_InvestmentPdInputMacroEconomicAssumptions_Create, L("CreateNewInvestmentPdInputMacroEconomicAssumption"));
+            investmentPdInputMacroEconomicAssumptions.CreateChildPermission(AppPermissions.Pages_InvestmentPdInputMacroEconomicAssumptions_Edit, L("EditInvestmentPdInputMacroEconomicAssumption"));
+            investmentPdInputMacroEconomicAssumptions.CreateChildPermission(AppPermissions.Pages_InvestmentPdInputMacroEconomicAssumptions_Delete, L("DeleteInvestmentPdInputMacroEconomicAssumption"));
+
+
+
+            var investmentEclPdFitchDefaultRates = pages.CreateChildPermission(AppPermissions.Pages_InvestmentEclPdFitchDefaultRates, L("InvestmentEclPdFitchDefaultRates"));
+            investmentEclPdFitchDefaultRates.CreateChildPermission(AppPermissions.Pages_InvestmentEclPdFitchDefaultRates_Create, L("CreateNewInvestmentEclPdFitchDefaultRate"));
+            investmentEclPdFitchDefaultRates.CreateChildPermission(AppPermissions.Pages_InvestmentEclPdFitchDefaultRates_Edit, L("EditInvestmentEclPdFitchDefaultRate"));
+            investmentEclPdFitchDefaultRates.CreateChildPermission(AppPermissions.Pages_InvestmentEclPdFitchDefaultRates_Delete, L("DeleteInvestmentEclPdFitchDefaultRate"));
+
+
+
+            var investmentEclPdInputAssumptions = pages.CreateChildPermission(AppPermissions.Pages_InvestmentEclPdInputAssumptions, L("InvestmentEclPdInputAssumptions"));
+            investmentEclPdInputAssumptions.CreateChildPermission(AppPermissions.Pages_InvestmentEclPdInputAssumptions_Create, L("CreateNewInvestmentEclPdInputAssumption"));
+            investmentEclPdInputAssumptions.CreateChildPermission(AppPermissions.Pages_InvestmentEclPdInputAssumptions_Edit, L("EditInvestmentEclPdInputAssumption"));
+            investmentEclPdInputAssumptions.CreateChildPermission(AppPermissions.Pages_InvestmentEclPdInputAssumptions_Delete, L("DeleteInvestmentEclPdInputAssumption"));
+
+
+
+            var investmentEclLgdInputAssumptions = pages.CreateChildPermission(AppPermissions.Pages_InvestmentEclLgdInputAssumptions, L("InvestmentEclLgdInputAssumptions"));
+            investmentEclLgdInputAssumptions.CreateChildPermission(AppPermissions.Pages_InvestmentEclLgdInputAssumptions_Create, L("CreateNewInvestmentEclLgdInputAssumption"));
+            investmentEclLgdInputAssumptions.CreateChildPermission(AppPermissions.Pages_InvestmentEclLgdInputAssumptions_Edit, L("EditInvestmentEclLgdInputAssumption"));
+            investmentEclLgdInputAssumptions.CreateChildPermission(AppPermissions.Pages_InvestmentEclLgdInputAssumptions_Delete, L("DeleteInvestmentEclLgdInputAssumption"));
+
+
+
+            var investmentEclEadInputAssumptions = pages.CreateChildPermission(AppPermissions.Pages_InvestmentEclEadInputAssumptions, L("InvestmentEclEadInputAssumptions"));
+            investmentEclEadInputAssumptions.CreateChildPermission(AppPermissions.Pages_InvestmentEclEadInputAssumptions_Create, L("CreateNewInvestmentEclEadInputAssumption"));
+            investmentEclEadInputAssumptions.CreateChildPermission(AppPermissions.Pages_InvestmentEclEadInputAssumptions_Edit, L("EditInvestmentEclEadInputAssumption"));
+            investmentEclEadInputAssumptions.CreateChildPermission(AppPermissions.Pages_InvestmentEclEadInputAssumptions_Delete, L("DeleteInvestmentEclEadInputAssumption"));
+
+
+
+            var invSecFitchCummulativeDefaultRates = pages.CreateChildPermission(AppPermissions.Pages_InvSecFitchCummulativeDefaultRates, L("InvSecFitchCummulativeDefaultRates"));
+            invSecFitchCummulativeDefaultRates.CreateChildPermission(AppPermissions.Pages_InvSecFitchCummulativeDefaultRates_Create, L("CreateNewInvSecFitchCummulativeDefaultRate"));
+            invSecFitchCummulativeDefaultRates.CreateChildPermission(AppPermissions.Pages_InvSecFitchCummulativeDefaultRates_Edit, L("EditInvSecFitchCummulativeDefaultRate"));
+            invSecFitchCummulativeDefaultRates.CreateChildPermission(AppPermissions.Pages_InvSecFitchCummulativeDefaultRates_Delete, L("DeleteInvSecFitchCummulativeDefaultRate"));
+
+
+
+            var invSecMacroEconomicAssumptions = pages.CreateChildPermission(AppPermissions.Pages_InvSecMacroEconomicAssumptions, L("InvSecMacroEconomicAssumptions"));
+            invSecMacroEconomicAssumptions.CreateChildPermission(AppPermissions.Pages_InvSecMacroEconomicAssumptions_Create, L("CreateNewInvSecMacroEconomicAssumption"));
+            invSecMacroEconomicAssumptions.CreateChildPermission(AppPermissions.Pages_InvSecMacroEconomicAssumptions_Edit, L("EditInvSecMacroEconomicAssumption"));
+            invSecMacroEconomicAssumptions.CreateChildPermission(AppPermissions.Pages_InvSecMacroEconomicAssumptions_Delete, L("DeleteInvSecMacroEconomicAssumption"));
+
+
+
+            var investmentEclApprovals = pages.CreateChildPermission(AppPermissions.Pages_InvestmentEclApprovals, L("InvestmentEclApprovals"));
+            investmentEclApprovals.CreateChildPermission(AppPermissions.Pages_InvestmentEclApprovals_Create, L("CreateNewInvestmentEclApproval"));
+            investmentEclApprovals.CreateChildPermission(AppPermissions.Pages_InvestmentEclApprovals_Edit, L("EditInvestmentEclApproval"));
+            investmentEclApprovals.CreateChildPermission(AppPermissions.Pages_InvestmentEclApprovals_Delete, L("DeleteInvestmentEclApproval"));
+
+
+
+            var investmentEcls = pages.CreateChildPermission(AppPermissions.Pages_InvestmentEcls, L("InvestmentEcls"));
+            investmentEcls.CreateChildPermission(AppPermissions.Pages_InvestmentEcls_Create, L("CreateNewInvestmentEcl"));
+            investmentEcls.CreateChildPermission(AppPermissions.Pages_InvestmentEcls_Edit, L("EditInvestmentEcl"));
+            investmentEcls.CreateChildPermission(AppPermissions.Pages_InvestmentEcls_Delete, L("DeleteInvestmentEcl"));
+
+
+
             var eclConfigurations = pages.CreateChildPermission(AppPermissions.Pages_EclConfigurations, L("EclConfigurations"));
             eclConfigurations.CreateChildPermission(AppPermissions.Pages_EclConfigurations_Create, L("CreateNewEclConfiguration"));
             eclConfigurations.CreateChildPermission(AppPermissions.Pages_EclConfigurations_Edit, L("EditEclConfiguration"));

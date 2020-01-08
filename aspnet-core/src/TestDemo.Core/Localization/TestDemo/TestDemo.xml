@@ -1,6 +1,44 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="ReviewSubmitted">Review Submitted</text>
+  <texts>    <text name="InvestmentPdInputMacroEconomicAssumption">Investment pd input macro economic assumption</text>
+    <text name="CreateNewInvestmentPdInputMacroEconomicAssumption">Create new investment pd input macro economic assumption</text>
+    <text name="EditInvestmentPdInputMacroEconomicAssumption">Edit investment pd input macro economic assumption</text>
+    <text name="DeleteInvestmentPdInputMacroEconomicAssumption">Delete investment pd input macro economic assumption</text>
+    <text name="InvestmentEclPdFitchDefaultRate">Investment ecl pd fitch default rate</text>
+    <text name="CreateNewInvestmentEclPdFitchDefaultRate">Create new investment ecl pd fitch default rate</text>
+    <text name="EditInvestmentEclPdFitchDefaultRate">Edit investment ecl pd fitch default rate</text>
+    <text name="DeleteInvestmentEclPdFitchDefaultRate">Delete investment ecl pd fitch default rate</text>
+    <text name="InvestmentEclPdInputAssumption">Investment ecl pd input assumption</text>
+    <text name="CreateNewInvestmentEclPdInputAssumption">Create new investment ecl pd input assumption</text>
+    <text name="EditInvestmentEclPdInputAssumption">Edit investment ecl pd input assumption</text>
+    <text name="DeleteInvestmentEclPdInputAssumption">Delete investment ecl pd input assumption</text>
+    <text name="InvestmentEclLgdInputAssumption">Investment ecl lgd input assumption</text>
+    <text name="CreateNewInvestmentEclLgdInputAssumption">Create new investment ecl lgd input assumption</text>
+    <text name="EditInvestmentEclLgdInputAssumption">Edit investment ecl lgd input assumption</text>
+    <text name="DeleteInvestmentEclLgdInputAssumption">Delete investment ecl lgd input assumption</text>
+    <text name="InvestmentAssumption">Investment assumption</text>
+    <text name="InvestmentEclEadInputAssumption">Investment ecl ead input assumption</text>
+    <text name="CreateNewInvestmentEclEadInputAssumption">Create new investment ecl ead input assumption</text>
+    <text name="EditInvestmentEclEadInputAssumption">Edit investment ecl ead input assumption</text>
+    <text name="DeleteInvestmentEclEadInputAssumption">Delete investment ecl ead input assumption</text>
+    <text name="InvSecFitchCummulativeDefaultRate">Inv sec fitch cummulative default rate</text>
+    <text name="CreateNewInvSecFitchCummulativeDefaultRate">Create new inv sec fitch cummulative default rate</text>
+    <text name="EditInvSecFitchCummulativeDefaultRate">Edit inv sec fitch cummulative default rate</text>
+    <text name="DeleteInvSecFitchCummulativeDefaultRate">Delete inv sec fitch cummulative default rate</text>
+    <text name="InvSecMacroEconomicAssumption">Inv sec macro economic assumption</text>
+    <text name="CreateNewInvSecMacroEconomicAssumption">Create new inv sec macro economic assumption</text>
+    <text name="EditInvSecMacroEconomicAssumption">Edit inv sec macro economic assumption</text>
+    <text name="DeleteInvSecMacroEconomicAssumption">Delete inv sec macro economic assumption</text>
+    <text name="InvestmentEclApproval">Investment ecl approval</text>
+    <text name="CreateNewInvestmentEclApproval">Create new investment ecl approval</text>
+    <text name="EditInvestmentEclApproval">Edit investment ecl approval</text>
+    <text name="DeleteInvestmentEclApproval">Delete investment ecl approval</text>
+    <text name="Investment">Investment</text>
+    <text name="InvestmentEcl">Investment ecl</text>
+    <text name="CreateNewInvestmentEcl">Create new investment ecl</text>
+    <text name="EditInvestmentEcl">Edit investment ecl</text>
+    <text name="DeleteInvestmentEcl">Delete investment ecl</text>
+    <text name="ReviewSubmitted">Review Submitted</text>
     <text name="Rate">Rate</text>
     <text name="EclConfiguration">Ecl configuration</text>
     <text name="PropertyKey">Property key</text>

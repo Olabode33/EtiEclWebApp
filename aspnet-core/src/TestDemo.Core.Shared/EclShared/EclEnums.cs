@@ -11,7 +11,7 @@ namespace TestDemo.EclShared
 
     public enum FrameworkEnum
     {
-        All, Wholesale, Retail, OBE
+        All, Wholesale, Retail, OBE, Investments
     }
 
     public enum ModuleEnum

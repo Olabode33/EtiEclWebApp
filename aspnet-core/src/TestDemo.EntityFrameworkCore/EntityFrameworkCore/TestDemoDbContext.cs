@@ -1,4 +1,6 @@
-﻿using TestDemo.EclConfig;
+﻿using TestDemo.InvestmentAssumption;
+using TestDemo.Investment;
+using TestDemo.EclConfig;
 using TestDemo.WholesaleComputatoin;
 using TestDemo.LgdCalibrationResult;
 using TestDemo.LgdCalibrationResult;
@@ -39,6 +41,24 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<InvestmentPdInputMacroEconomicAssumption> InvestmentPdInputMacroEconomicAssumptions { get; set; }
+
+        public virtual DbSet<InvestmentEclPdFitchDefaultRate> InvestmentEclPdFitchDefaultRates { get; set; }
+
+        public virtual DbSet<InvestmentEclPdInputAssumption> InvestmentEclPdInputAssumptions { get; set; }
+
+        public virtual DbSet<InvestmentEclLgdInputAssumption> InvestmentEclLgdInputAssumptions { get; set; }
+
+        public virtual DbSet<InvestmentEclEadInputAssumption> InvestmentEclEadInputAssumptions { get; set; }
+
+        public virtual DbSet<InvSecFitchCummulativeDefaultRate> InvSecFitchCummulativeDefaultRates { get; set; }
+
+        public virtual DbSet<InvSecMacroEconomicAssumption> InvSecMacroEconomicAssumptions { get; set; }
+
+        public virtual DbSet<InvestmentEclApproval> InvestmentEclApprovals { get; set; }
+
+        public virtual DbSet<InvestmentEcl> InvestmentEcls { get; set; }
+
         public virtual DbSet<EclConfiguration> EclConfigurations { get; set; }
 
         public virtual DbSet<AffiliateOverrideThreshold> AffiliateOverrideThresholds { get; set; }

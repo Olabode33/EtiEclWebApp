@@ -173,6 +173,9 @@ namespace TestDemo.EclShared.DefaultAssumptions
             public const string PdGroupAssumptionCommStage1 = "PdGroupAssumptionCommStage1";
             public const string PdGroupAssumptionCommStage2 = "PdGroupAssumptionCommStage2";
             public const string PdGroupAssumptionExp = "PdGroupAssumptionExp";
+            public const string InvSecLgdBest = "InvSec.LgdBest";
+            public const string InvSecLgdOptimistic = "InvSec.LgdOptimistic";
+            public const string InvSecLgdDownturn = "InvSec.LgdDownturn";
         }
 
         public static class InputName
@@ -232,6 +235,9 @@ namespace TestDemo.EclShared.DefaultAssumptions
             public const string PdGroupAssumptionCommStage1 = "COMM_STAGE_1";
             public const string PdGroupAssumptionCommStage2 = "COMM_STAGE_2";
             public const string PdGroupAssumptionExp = "EXP";
+            public const string InvSecLgdBest = "LGD- Best estimate";
+            public const string InvSecLgdOptimistic = "LGD- Optimistic";
+            public const string InvSecLgdDownturn = "LGD- Downturn";
         }
 
         public static class InputValue
@@ -284,6 +290,9 @@ namespace TestDemo.EclShared.DefaultAssumptions
             public const string PdGroupAssumptionCommStage1 = "0.0413910526607457";
             public const string PdGroupAssumptionCommStage2 = "0.18036470285699";
             public const string PdGroupAssumptionExp = "1.0";
+            public const string InvSecLgdBest = "0.4";
+            public const string InvSecLgdOptimistic = "0.4";
+            public const string InvSecLgdDownturn = "0.448";
 
         }
     }

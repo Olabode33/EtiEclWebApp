@@ -1351,6 +1351,86 @@ namespace TestDemo.Migrations
                     b.ToTable("EadInputAssumptions");
                 });
 
+            modelBuilder.Entity("TestDemo.EclShared.InvSecFitchCummulativeDefaultRate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<string>("Rating");
+
+                    b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<int>("Status");
+
+                    b.Property<double>("Value");
+
+                    b.Property<int>("Year");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("InvSecFitchCummulativeDefaultRates");
+                });
+
+            modelBuilder.Entity("TestDemo.EclShared.InvSecMacroEconomicAssumption", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("BestValue");
+
+                    b.Property<bool>("CanAffiliateEdit");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<double>("DownturnValue");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<int>("Month");
+
+                    b.Property<double>("OptimisticValue");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("InvSecMacroEconomicAssumptions");
+                });
+
             modelBuilder.Entity("TestDemo.EclShared.LgdInputAssumption", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1739,6 +1819,302 @@ namespace TestDemo.Migrations
                     b.HasIndex("TenantId", "UserId");
 
                     b.ToTable("AppFriendships");
+                });
+
+            modelBuilder.Entity("TestDemo.Investment.InvestmentEcl", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long?>("ClosedByUserId");
+
+                    b.Property<DateTime?>("ClosedDate");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsApproved");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<DateTime>("ReportingDate");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClosedByUserId");
+
+                    b.ToTable("InvestmentEcls");
+                });
+
+            modelBuilder.Entity("TestDemo.Investment.InvestmentEclApproval", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<Guid>("InvestmentEclId");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<string>("ReviewComment");
+
+                    b.Property<long?>("ReviewedByUserId");
+
+                    b.Property<DateTime>("ReviewedDate");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvestmentEclId");
+
+                    b.HasIndex("ReviewedByUserId");
+
+                    b.ToTable("InvestmentEclApprovals");
+                });
+
+            modelBuilder.Entity("TestDemo.InvestmentAssumption.InvestmentEclEadInputAssumption", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("CanAffiliateEdit");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<int>("DataType");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<int>("EadGroup");
+
+                    b.Property<string>("InputName");
+
+                    b.Property<Guid?>("InvestmentEclId");
+
+                    b.Property<bool>("IsComputed");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvestmentEclId");
+
+                    b.ToTable("InvestmentEclEadInputAssumptions");
+                });
+
+            modelBuilder.Entity("TestDemo.InvestmentAssumption.InvestmentEclLgdInputAssumption", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("CanAffiliateEdit");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<int>("DataType");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<string>("InputName");
+
+                    b.Property<Guid>("InvestmentEclId");
+
+                    b.Property<bool>("IsComputed");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<int>("LgdGroup");
+
+                    b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvestmentEclId");
+
+                    b.ToTable("InvestmentEclLgdInputAssumptions");
+                });
+
+            modelBuilder.Entity("TestDemo.InvestmentAssumption.InvestmentEclPdFitchDefaultRate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<Guid>("InvestmentEclId");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<string>("Rating");
+
+                    b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<int>("Status");
+
+                    b.Property<double>("Value");
+
+                    b.Property<int>("Year");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvestmentEclId");
+
+                    b.ToTable("InvestmentEclPdFitchDefaultRates");
+                });
+
+            modelBuilder.Entity("TestDemo.InvestmentAssumption.InvestmentEclPdInputAssumption", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("CanAffiliateEdit");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<int>("DataType");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<string>("InputName");
+
+                    b.Property<Guid>("InvestmentEclId");
+
+                    b.Property<bool>("IsComputed");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<int>("PdGroup");
+
+                    b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<int>("Status");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvestmentEclId");
+
+                    b.ToTable("InvestmentEclPdInputAssumptions");
+                });
+
+            modelBuilder.Entity("TestDemo.InvestmentAssumption.InvestmentPdInputMacroEconomicAssumption", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("BestValue");
+
+                    b.Property<bool>("CanAffiliateEdit");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<double>("DownturnValue");
+
+                    b.Property<Guid>("InvestmentEclId");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Key");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<int>("Month");
+
+                    b.Property<double>("OptimisticValue");
+
+                    b.Property<bool>("RequiresGroupApproval");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvestmentEclId");
+
+                    b.ToTable("InvestmentPdInputMacroEconomicAssumptions");
                 });
 
             modelBuilder.Entity("TestDemo.LgdCalibrationResult.CalibrationResultLgd", b =>
@@ -7196,6 +7572,64 @@ namespace TestDemo.Migrations
                     b.HasOne("TestDemo.EclShared.MacroeconomicVariable", "MacroeconomicVariable")
                         .WithMany()
                         .HasForeignKey("MacroeconomicVariableId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TestDemo.Investment.InvestmentEcl", b =>
+                {
+                    b.HasOne("TestDemo.Authorization.Users.User", "ClosedByUserFk")
+                        .WithMany()
+                        .HasForeignKey("ClosedByUserId");
+                });
+
+            modelBuilder.Entity("TestDemo.Investment.InvestmentEclApproval", b =>
+                {
+                    b.HasOne("TestDemo.Investment.InvestmentEcl", "InvestmentEclFk")
+                        .WithMany()
+                        .HasForeignKey("InvestmentEclId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("TestDemo.Authorization.Users.User", "ReviewedByUserFk")
+                        .WithMany()
+                        .HasForeignKey("ReviewedByUserId");
+                });
+
+            modelBuilder.Entity("TestDemo.InvestmentAssumption.InvestmentEclEadInputAssumption", b =>
+                {
+                    b.HasOne("TestDemo.Investment.InvestmentEcl", "InvestmentEclFk")
+                        .WithMany()
+                        .HasForeignKey("InvestmentEclId");
+                });
+
+            modelBuilder.Entity("TestDemo.InvestmentAssumption.InvestmentEclLgdInputAssumption", b =>
+                {
+                    b.HasOne("TestDemo.Investment.InvestmentEcl", "InvestmentEclFk")
+                        .WithMany()
+                        .HasForeignKey("InvestmentEclId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TestDemo.InvestmentAssumption.InvestmentEclPdFitchDefaultRate", b =>
+                {
+                    b.HasOne("TestDemo.Investment.InvestmentEcl", "InvestmentEclFk")
+                        .WithMany()
+                        .HasForeignKey("InvestmentEclId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TestDemo.InvestmentAssumption.InvestmentEclPdInputAssumption", b =>
+                {
+                    b.HasOne("TestDemo.Investment.InvestmentEcl", "InvestmentEclFk")
+                        .WithMany()
+                        .HasForeignKey("InvestmentEclId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TestDemo.InvestmentAssumption.InvestmentPdInputMacroEconomicAssumption", b =>
+                {
+                    b.HasOne("TestDemo.Investment.InvestmentEcl", "InvestmentEclFk")
+                        .WithMany()
+                        .HasForeignKey("InvestmentEclId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

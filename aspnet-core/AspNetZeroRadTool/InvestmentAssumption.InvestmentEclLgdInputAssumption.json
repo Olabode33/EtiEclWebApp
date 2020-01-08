@@ -1,0 +1,292 @@
+{
+  "IsRegenerate": false,
+  "MenuPosition": null,
+  "RelativeNamespace": "InvestmentAssumption",
+  "EntityName": "InvestmentEclLgdInputAssumption",
+  "EntityNamePlural": "InvestmentEclLgdInputAssumptions",
+  "TableName": "InvestmentEclLgdInputAssumptions",
+  "PrimaryKeyType": "Guid",
+  "BaseClass": "FullAuditedEntity",
+  "EntityHistory": true,
+  "AutoMigration": false,
+  "UpdateDatabase": false,
+  "CreateUserInterface": false,
+  "CreateViewOnly": false,
+  "CreateExcelExport": false,
+  "PagePermission": {
+    "Host": false,
+    "Tenant": false
+  },
+  "Properties": [
+    {
+      "Name": "Key",
+      "Type": "string",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": false
+      }
+    },
+    {
+      "Name": "InputName",
+      "Type": "string",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": true,
+        "CreateOrUpdate": false
+      }
+    },
+    {
+      "Name": "Value",
+      "Type": "string",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": true,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "DataType",
+      "Type": "DataTypeEnum",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": false
+      }
+    },
+    {
+      "Name": "IsComputed",
+      "Type": "bool",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "LgdGroup",
+      "Type": "LdgInputAssumptionGroupEnum",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": false
+      }
+    },
+    {
+      "Name": "RequiresGroupApproval",
+      "Type": "bool",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "CanAffiliateEdit",
+      "Type": "bool",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0,
+        "MaximumValue": 0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    }
+  ],
+  "NavigationProperties": [
+    {
+      "Namespace": "TestDemo.Investment",
+      "ForeignEntityName": "InvestmentEcl",
+      "IdType": "Guid",
+      "IsNullable": false,
+      "PropertyName": "InvestmentEclId",
+      "DisplayPropertyName": "ReportingDate",
+      "DuplicationNumber": 0,
+      "RelationType": "single"
+    }
+  ],
+  "EnumDefinitions": [
+    {
+      "Name": "DataTypeEnum",
+      "Namespace": "TestDemo.EclShared",
+      "EnumProperties": [
+        {
+          "Name": "String",
+          "Value": 1
+        },
+        {
+          "Name": "Datetime",
+          "Value": 1
+        },
+        {
+          "Name": "Double",
+          "Value": 2
+        },
+        {
+          "Name": "Int",
+          "Value": 3
+        },
+        {
+          "Name": "DoublePercentage",
+          "Value": 4
+        },
+        {
+          "Name": "DoubleMoney",
+          "Value": 5
+        },
+        {
+          "Name": "StringDropdown",
+          "Value": 6
+        },
+        {
+          "Name": "DoubleDropDown",
+          "Value": 7
+        },
+        {
+          "Name": "IntDropdown",
+          "Value": 8
+        }
+      ]
+    },
+    {
+      "Name": "LdgInputAssumptionGroupEnum",
+      "Namespace": "TestDemo.EclShared",
+      "EnumProperties": [
+        {
+          "Name": "General",
+          "Value": 0
+        },
+        {
+          "Name": "UnsecuredRecoveriesCureRate",
+          "Value": 1
+        },
+        {
+          "Name": "UnsecuredRecoveriesTimeInDefault",
+          "Value": 2
+        },
+        {
+          "Name": "CostOfRecoveryHigh",
+          "Value": 3
+        },
+        {
+          "Name": "CostOfRecoveryLow",
+          "Value": 4
+        },
+        {
+          "Name": "CollateralGrowthBest",
+          "Value": 5
+        },
+        {
+          "Name": "CollateralGrowthOptimistic",
+          "Value": 6
+        },
+        {
+          "Name": "CollateralGrowthDownturn",
+          "Value": 7
+        },
+        {
+          "Name": "CollateralTTR",
+          "Value": 8
+        },
+        {
+          "Name": "CollateralProjectionBest",
+          "Value": 9
+        },
+        {
+          "Name": "CollateralProjectionOptimistic",
+          "Value": 10
+        },
+        {
+          "Name": "CollateralProjectionDownturn",
+          "Value": 11
+        },
+        {
+          "Name": "Haircut",
+          "Value": 12
+        },
+        {
+          "Name": "PdAssumptions",
+          "Value": 13
+        }
+      ]
+    }
+  ]
+}
