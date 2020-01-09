@@ -55,11 +55,25 @@
                             </div>
 
                             <div class="kt-widget__subhead kt-widget__subhead-overwrite">
-                                <span class="pr-5">Country: <b>{{retailEclDetails.country}}</b> </span>
-                                <span class="pr-5">Created By: <b>{{retailEclDetails.createdByUserName}}</b></span>
-                                <div class="kt-widget__label kt-widget__label-overwrite">
-                                    Reporting Date: <span
-                                        class="btn btn-label-brand btn-sm btn-bold btn-upper">{{retailEClDto.reportingDate | momentFormat:'LL'}}</span>
+                                <div class="row align-middle mt-3">
+                                    <div class="col align-middle">
+                                        <div class="kt-widget__label kt-widget__label-overwrite">
+                                            {{l('ReportingDate')}}: 
+                                            <span class="btn btn-label-brand btn-sm btn-bold btn-upper">{{retailEClDto.reportingDate | momentFormat:'LL'}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col text-center align-middle">
+                                        <div class="kt-widget__label kt-widget__label-overwrite">
+                                            {{l('Affiliate')}}: 
+                                            <span class="btn btn-label-success btn-sm btn-bold btn-upper">{{retailEclDetails.country}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col text-right align-middle">
+                                        <div class="kt-widget__label kt-widget__label-overwrite">
+                                            {{l('CreatedBy')}}: 
+                                            <span class="btn btn-label-warning btn-sm btn-bold btn-upper">{{retailEclDetails.createdByUserName}}</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -134,40 +148,48 @@
                                 </div>
                             </div>
                             <button class="btn btn-primary" (click)="showFakeTopExposure = !showFakeTopExposure">
-                                {{showFakeTopExposure ? 'Hide' : 'Show'}} Top Exposure Summary
+                                {{showFakeTopExposure ? 'Hide' : 'Show'}} Top 20 Exposure Summary
                             </button>
                             <div class="kt-widget12__chart" *ngIf="showFakeTopExposure">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th colspan="3">Pre-Override</th>
-                                            <th colspan="3">Post-Override</th>
-                                        </tr>
-                                    </thead>
-                                    <thead>
-                                        <tr>
-                                            <th>Contract Id</th>
-                                            <th>Exposure</th>
-                                            <th>Impairment</th>
-                                            <th>Coverage Ratio</th>
-                                            <th>Exposure</th>
-                                            <th>Impairment</th>
-                                            <th>Coverage Ratio</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let item of fakeResultData.topExposures">
-                                            <td>{{item.contractId}}</td>
-                                            <td>{{item.exposurePre | number}}</td>
-                                            <td>{{item.impairmentPre | number}}</td>
-                                            <td>{{item.coverageRatioPre | percent}}</td>
-                                            <td>{{item.exposurePost | number}}</td>
-                                            <td>{{item.impairmentPost | number}}</td>
-                                            <td>{{item.coverageRatioPost | percent}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="4"></th>
+                                                <th colspan="3">Pre-Override</th>
+                                                <th colspan="3">Post-Override</th>
+                                            </tr>
+                                        </thead>
+                                        <thead>
+                                            <tr>
+                                                <th>Contract Id</th>
+                                                <th>Customer Name</th>
+                                                <th>Customer No.</th>
+                                                <th>Account No.</th>
+                                                <th>Exposure</th>
+                                                <th>Impairment</th>
+                                                <th>Coverage Ratio</th>
+                                                <th>Exposure</th>
+                                                <th>Impairment</th>
+                                                <th>Coverage Ratio</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of fakeResultData.topExposures">
+                                                <td>{{item.contractId}}</td>
+                                                <td>{{item.customerName}}</td>
+                                                <td>{{item.customerNo}}</td>
+                                                <td>{{item.accountNo}}</td>
+                                                <td>{{item.exposurePre | number}}</td>
+                                                <td>{{item.impairmentPre | number}}</td>
+                                                <td>{{item.coverageRatioPre | percent}}</td>
+                                                <td>{{item.exposurePost | number}}</td>
+                                                <td>{{item.impairmentPost | number}}</td>
+                                                <td>{{item.coverageRatioPost | percent}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

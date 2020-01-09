@@ -49,12 +49,23 @@
                             [scrollable]="true" ScrollWidth="100%" [responsive]="primengTableHelper.isResponsive"
                             [resizableColumns]="primengTableHelper.resizableColumns">
                             <ng-template pTemplate="header">
+                                <!-- <tr>
+                                    <th rowspan="2" style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.Assumption.Affiliates', 'Pages.Assumption.Affiliates')">
+                                        {{l('Actions')}}
+                                    </th>
+                                    <th rowspan="2" style="width: 150px" pSortableColumn="affiliateName">
+                                        {{l('Affiliate')}}
+                                        <p-sortIcon field="affiliateName"></p-sortIcon>
+                                    </th>
+                                    <th rowspan="2" style="width: 150px" pSortableColumn="lastAssumptionUpdate">
+                                        {{l('LastUpdated')}}
+                                        <p-sortIcon field="lastAssumptionUpdate"></p-sortIcon>
+                                    </th>
+                                    <th colspan="3" class="text-center">{{l('ReportingDate')}}</th>
+                                </tr> -->
                                 <tr>
-                                    <th colspan="3"></th>
-                                    <th colspan="3" class="text-center">{{l('LastReportDate')}}</th>
-                                </tr>
-                                <tr>
-                                    <th style="width: 130px"
+                                    <th  style="width: 130px"
                                         [hidden]="!isGrantedAny('Pages.Assumption.Affiliates', 'Pages.Assumption.Affiliates')">
                                         {{l('Actions')}}
                                     </th>
@@ -62,7 +73,7 @@
                                         {{l('Affiliate')}}
                                         <p-sortIcon field="affiliateName"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="lastAssumptionUpdate">
+                                    <th  style="width: 150px" pSortableColumn="lastAssumptionUpdate">
                                         {{l('LastUpdated')}}
                                         <p-sortIcon field="lastAssumptionUpdate"></p-sortIcon>
                                     </th>

@@ -36,6 +36,8 @@ namespace TestDemo.EclShared
         private readonly IRepository<PdInputAssumptionNonInternalModel, Guid> _pdAssumptionNonInternalModelRepository;
         private readonly IRepository<PdInputAssumptionNplIndex, Guid> _pdAssumptionNplIndexRepository;
         private readonly IRepository<PdInputAssumptionSnPCummulativeDefaultRate, Guid> _pdSnPCummulativeAssumptionRepository;
+        private readonly IRepository<InvSecFitchCummulativeDefaultRate, Guid> _invsecFitchCummulativeAssumptionRepository;
+        private readonly IRepository<InvSecMacroEconomicAssumption, Guid> _invsecMacroEcoAssumptionRepository;
         private readonly UserManager _userManager;
 
         public EclSharedAppService(
@@ -54,6 +56,8 @@ namespace TestDemo.EclShared
             IRepository<PdInputAssumptionNonInternalModel, Guid> pdAssumptionNonInternalModelRepository,
             IRepository<PdInputAssumptionNplIndex, Guid> pdAssumptionNplIndexRepository,
             IRepository<PdInputAssumptionSnPCummulativeDefaultRate, Guid> pdSnPCummulativeAssumptionRepository,
+            IRepository<InvSecFitchCummulativeDefaultRate, Guid> invsecFitchCummulativeAssumptionRepository,
+            IRepository<InvSecMacroEconomicAssumption, Guid> invsecMacroEcoAssumptionRepository,
         UserManager userManager)
         {
             _wholesaleEclRepository = wholesaleEclRepository;
@@ -71,7 +75,9 @@ namespace TestDemo.EclShared
             _pdAssumptionMacroecoProjectionRepository = pdAssumptionMacroecoProjectionRepository;
             _pdAssumptionNonInternalModelRepository = pdAssumptionNonInternalModelRepository;
             _pdAssumptionNplIndexRepository = pdAssumptionNplIndexRepository;
-            _pdSnPCummulativeAssumptionRepository = pdSnPCummulativeAssumptionRepository;            
+            _pdSnPCummulativeAssumptionRepository = pdSnPCummulativeAssumptionRepository;
+            _invsecMacroEcoAssumptionRepository = invsecMacroEcoAssumptionRepository;
+            _invsecFitchCummulativeAssumptionRepository = invsecFitchCummulativeAssumptionRepository;
         }
 
         public async Task<PagedResultDto<GetAllEclForWorkspaceDto>> GetAllEclForWorkspace(GetAllForLookupTableInput input)
@@ -454,6 +460,29 @@ namespace TestDemo.EclShared
 
             return assumptions;
         }
+
+        public async Task<List<InvSecFitchCummulativeDefaultRateDto>> GetAffiliatePdFitchCummulativeAssumption(GetAffiliateAssumptionInputDto input)
+        {
+            var assumptions = await _invsecFitchCummulativeAssumptionRepository.GetAll()
+                                    .Join(_lookup_userRepository.GetAll(), a => a.LastModifierUserId, u => u.Id, (a, u) => new { Assumption = a, User = u })
+                                    .Where(x => x.Assumption.OrganizationUnitId == input.AffiliateOuId)
+                                    .Select(x => new InvSecFitchCummulativeDefaultRateDto
+                                    {
+                                        Key = x.Assumption.Key,
+                                        Rating = x.Assumption.Rating,
+                                        Years = x.Assumption.Year,
+                                        Value = x.Assumption.Value,
+                                        RequiresGroupApproval = x.Assumption.RequiresGroupApproval,
+                                        OrganizationUnitId = x.Assumption.OrganizationUnitId,
+                                        Status = x.Assumption.Status,
+                                        LastUpdated = x.Assumption.LastModificationTime,
+                                        LastUpdatedBy = x.User == null ? "" : x.User.FullName,
+                                        Id = x.Assumption.Id
+                                    }).ToListAsync();
+
+            return assumptions;
+        }
+
 
         public async Task<GetAllPdAssumptionsDto> GetAllPdAssumptionsForAffiliate(GetAffiliateAssumptionInputDto input)
         {

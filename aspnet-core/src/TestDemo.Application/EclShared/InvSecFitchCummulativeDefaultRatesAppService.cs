@@ -47,7 +47,7 @@ namespace TestDemo.EclShared
 							InvSecFitchCummulativeDefaultRate = new InvSecFitchCummulativeDefaultRateDto
 							{
                                 Rating = o.Rating,
-                                Year = o.Year,
+                                Years = o.Year,
                                 Value = o.Value,
                                 Status = o.Status,
                                 Id = o.Id

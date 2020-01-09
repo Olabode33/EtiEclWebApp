@@ -15,7 +15,7 @@ namespace EclEngine.Utils
         private const string _password = "";
         private const string _databaseName = "ETI_IFRS9_DB";
         private const string _dumpDatabaseName = "eti_ifrs9_dump_db";
-        private const string _loanBookQuery = @"SELECT ContractId,CustomerNo,AccountNo,ContractNo,CustomerName,SnapshotDate
+        private const string _loanBookQuery = @"SELECT top 100 ContractId,CustomerNo,AccountNo,ContractNo,CustomerName,SnapshotDate
                                                   ,Segment,Sector,Currency,ProductType,ProductMapping,SpecialisedLending,RatingModel
                                                   ,OriginalRating,CurrentRating,LifetimePD,Month12PD,DaysPastDue,WatchlistIndicator
                                                   ,Classification,ImpairedDate,DefaultDate,CreditLimit,OriginalBalanceLCY,OutstandingBalanceLCY,OutstandingBalanceACY
