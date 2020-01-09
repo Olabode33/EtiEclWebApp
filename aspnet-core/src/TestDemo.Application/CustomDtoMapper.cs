@@ -81,6 +81,12 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditObeEclOverrideDto, ObeEclOverride>().ReverseMap();
+            configuration.CreateMap<ObeEclOverrideDto, ObeEclOverride>().ReverseMap();
+            configuration.CreateMap<CreateOrEditWholesaleEclOverrideDto, WholesaleEclOverride>().ReverseMap();
+            configuration.CreateMap<WholesaleEclOverrideDto, WholesaleEclOverride>().ReverseMap();
+            configuration.CreateMap<CreateOrEditRetailEclOverrideDto, RetailEclOverride>().ReverseMap();
+            configuration.CreateMap<RetailEclOverrideDto, RetailEclOverride>().ReverseMap();
             configuration.CreateMap<CreateOrEditInvestmentPdInputMacroEconomicAssumptionDto, InvestmentPdInputMacroEconomicAssumption>().ReverseMap();
             configuration.CreateMap<InvestmentPdInputMacroEconomicAssumptionDto, InvestmentPdInputMacroEconomicAssumption>().ReverseMap();
             configuration.CreateMap<CreateOrEditInvestmentEclPdFitchDefaultRateDto, InvestmentEclPdFitchDefaultRate>().ReverseMap();

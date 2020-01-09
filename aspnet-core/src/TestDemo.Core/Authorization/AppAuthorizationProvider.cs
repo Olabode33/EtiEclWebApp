@@ -30,6 +30,27 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var obeEclOverrides = pages.CreateChildPermission(AppPermissions.Pages_ObeEclOverrides, L("ObeEclOverrides"));
+            obeEclOverrides.CreateChildPermission(AppPermissions.Pages_ObeEclOverrides_Create, L("CreateNewObeEclOverride"));
+            obeEclOverrides.CreateChildPermission(AppPermissions.Pages_ObeEclOverrides_Edit, L("EditObeEclOverride"));
+            obeEclOverrides.CreateChildPermission(AppPermissions.Pages_ObeEclOverrides_Delete, L("DeleteObeEclOverride"));
+
+
+
+            var wholesaleEclOverrides = pages.CreateChildPermission(AppPermissions.Pages_WholesaleEclOverrides, L("WholesaleEclOverrides"));
+            wholesaleEclOverrides.CreateChildPermission(AppPermissions.Pages_WholesaleEclOverrides_Create, L("CreateNewWholesaleEclOverride"));
+            wholesaleEclOverrides.CreateChildPermission(AppPermissions.Pages_WholesaleEclOverrides_Edit, L("EditWholesaleEclOverride"));
+            wholesaleEclOverrides.CreateChildPermission(AppPermissions.Pages_WholesaleEclOverrides_Delete, L("DeleteWholesaleEclOverride"));
+
+
+
+            var retailEclOverrides = pages.CreateChildPermission(AppPermissions.Pages_RetailEclOverrides, L("RetailEclOverrides"));
+            retailEclOverrides.CreateChildPermission(AppPermissions.Pages_RetailEclOverrides_Create, L("CreateNewRetailEclOverride"));
+            retailEclOverrides.CreateChildPermission(AppPermissions.Pages_RetailEclOverrides_Edit, L("EditRetailEclOverride"));
+            retailEclOverrides.CreateChildPermission(AppPermissions.Pages_RetailEclOverrides_Delete, L("DeleteRetailEclOverride"));
+
+
+
             var investmentPdInputMacroEconomicAssumptions = pages.CreateChildPermission(AppPermissions.Pages_InvestmentPdInputMacroEconomicAssumptions, L("InvestmentPdInputMacroEconomicAssumptions"));
             investmentPdInputMacroEconomicAssumptions.CreateChildPermission(AppPermissions.Pages_InvestmentPdInputMacroEconomicAssumptions_Create, L("CreateNewInvestmentPdInputMacroEconomicAssumption"));
             investmentPdInputMacroEconomicAssumptions.CreateChildPermission(AppPermissions.Pages_InvestmentPdInputMacroEconomicAssumptions_Edit, L("EditInvestmentPdInputMacroEconomicAssumption"));

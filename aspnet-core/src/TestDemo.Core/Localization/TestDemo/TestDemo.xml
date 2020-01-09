@@ -1,6 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="InvestmentPdInputMacroEconomicAssumption">Investment pd input macro economic assumption</text>
+  <texts>    <text name="ObeEclOverride">Obe ecl override</text>
+    <text name="CreateNewObeEclOverride">Create new obe ecl override</text>
+    <text name="EditObeEclOverride">Edit obe ecl override</text>
+    <text name="DeleteObeEclOverride">Delete obe ecl override</text>
+    <text name="WholesaleEclOverride">Wholesale ecl override</text>
+    <text name="CreateNewWholesaleEclOverride">Create new wholesale ecl override</text>
+    <text name="EditWholesaleEclOverride">Edit wholesale ecl override</text>
+    <text name="DeleteWholesaleEclOverride">Delete wholesale ecl override</text>
+    <text name="RetailEclOverride">Retail ecl override</text>
+    <text name="CreateNewRetailEclOverride">Create new retail ecl override</text>
+    <text name="EditRetailEclOverride">Edit retail ecl override</text>
+    <text name="DeleteRetailEclOverride">Delete retail ecl override</text>
+    <text name="InvestmentPdInputMacroEconomicAssumption">Investment pd input macro economic assumption</text>
     <text name="CreateNewInvestmentPdInputMacroEconomicAssumption">Create new investment pd input macro economic assumption</text>
     <text name="EditInvestmentPdInputMacroEconomicAssumption">Edit investment pd input macro economic assumption</text>
     <text name="DeleteInvestmentPdInputMacroEconomicAssumption">Delete investment pd input macro economic assumption</text>

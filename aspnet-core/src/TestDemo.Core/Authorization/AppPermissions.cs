@@ -6,6 +6,21 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_ObeEclOverrides = "Pages.ObeEclOverrides";
+        public const string Pages_ObeEclOverrides_Create = "Pages.ObeEclOverrides.Create";
+        public const string Pages_ObeEclOverrides_Edit = "Pages.ObeEclOverrides.Edit";
+        public const string Pages_ObeEclOverrides_Delete = "Pages.ObeEclOverrides.Delete";
+
+        public const string Pages_WholesaleEclOverrides = "Pages.WholesaleEclOverrides";
+        public const string Pages_WholesaleEclOverrides_Create = "Pages.WholesaleEclOverrides.Create";
+        public const string Pages_WholesaleEclOverrides_Edit = "Pages.WholesaleEclOverrides.Edit";
+        public const string Pages_WholesaleEclOverrides_Delete = "Pages.WholesaleEclOverrides.Delete";
+
+        public const string Pages_RetailEclOverrides = "Pages.RetailEclOverrides";
+        public const string Pages_RetailEclOverrides_Create = "Pages.RetailEclOverrides.Create";
+        public const string Pages_RetailEclOverrides_Edit = "Pages.RetailEclOverrides.Edit";
+        public const string Pages_RetailEclOverrides_Delete = "Pages.RetailEclOverrides.Delete";
+
         public const string Pages_InvestmentPdInputMacroEconomicAssumptions = "Pages.InvestmentPdInputMacroEconomicAssumptions";
         public const string Pages_InvestmentPdInputMacroEconomicAssumptions_Create = "Pages.InvestmentPdInputMacroEconomicAssumptions.Create";
         public const string Pages_InvestmentPdInputMacroEconomicAssumptions_Edit = "Pages.InvestmentPdInputMacroEconomicAssumptions.Edit";

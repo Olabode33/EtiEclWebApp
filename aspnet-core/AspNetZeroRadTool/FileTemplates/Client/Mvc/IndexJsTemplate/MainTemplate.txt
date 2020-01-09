@@ -86,6 +86,7 @@
         function delete{{Entity_Name_Here}}({{entity_Name_Here}}) {
             abp.message.confirm(
                 '',
+                app.localize('AreYouSure'),
                 function (isConfirmed) {
                     if (isConfirmed) {
                         _{{entity_Name_Plural_Here}}Service.delete({

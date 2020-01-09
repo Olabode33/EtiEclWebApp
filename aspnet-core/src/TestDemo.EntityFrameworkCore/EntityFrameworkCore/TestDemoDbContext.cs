@@ -41,6 +41,12 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<ObeEclOverride> ObeEclOverrides { get; set; }
+
+        public virtual DbSet<WholesaleEclOverride> WholesaleEclOverrides { get; set; }
+
+        public virtual DbSet<RetailEclOverride> RetailEclOverrides { get; set; }
+
         public virtual DbSet<InvestmentPdInputMacroEconomicAssumption> InvestmentPdInputMacroEconomicAssumptions { get; set; }
 
         public virtual DbSet<InvestmentEclPdFitchDefaultRate> InvestmentEclPdFitchDefaultRates { get; set; }
