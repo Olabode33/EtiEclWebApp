@@ -307,9 +307,10 @@ namespace TestDemo.Retail
                         Key = assumption.Key,
                         InputName = assumption.InputName,
                         Value = assumption.Value,
-                        Datatype = assumption.DataType,
+                        DataType = assumption.DataType,
                         IsComputed = assumption.IsComputed,
                         RequiresGroupApproval = assumption.RequiresGroupApproval,
+                        CanAffiliateEdit = assumption.CanAffiliateEdit
                     });
                 }
             } 
@@ -338,8 +339,9 @@ namespace TestDemo.Retail
                         Key = assumption.Key,
                         InputName = assumption.InputName,
                         Value = assumption.Value,
-                        Datatype = assumption.DataType,
+                        DataType = assumption.DataType,
                         IsComputed = assumption.IsComputed,
+                        CanAffiliateEdit = assumption.CanAffiliateEdit,
                         RequiresGroupApproval = assumption.RequiresGroupApproval
                     });
                 }
@@ -371,7 +373,8 @@ namespace TestDemo.Retail
                         Value = assumption.Value,
                         DataType = assumption.DataType,
                         IsComputed = assumption.IsComputed,
-                        RequiresGroupApproval = assumption.RequiresGroupApproval
+                        RequiresGroupApproval = assumption.RequiresGroupApproval,
+                        CanAffiliateEdit = assumption.CanAffiliateEdit
                     });
                 }
             }
@@ -404,9 +407,7 @@ namespace TestDemo.Retail
                         DataType = assumption.DataType,
                         IsComputed = assumption.IsComputed,
                         RequiresGroupApproval = assumption.RequiresGroupApproval,
-                        CanAffiliateEdit = assumption.CanAffiliateEdit,
-                        OrganizationUnitId = assumption.OrganizationUnitId,
-                        Status = assumption.Status
+                        CanAffiliateEdit = assumption.CanAffiliateEdit
                     });
                 }
             }

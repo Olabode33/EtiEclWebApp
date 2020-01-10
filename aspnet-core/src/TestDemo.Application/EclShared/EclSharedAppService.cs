@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Abp.Organizations;
 using Abp.Authorization;
 using TestDemo.Authorization;
+using TestDemo.Investment;
 
 namespace TestDemo.EclShared
 {
@@ -24,6 +25,7 @@ namespace TestDemo.EclShared
         private readonly IRepository<WholesaleEcl, Guid> _wholesaleEclRepository;
         private readonly IRepository<RetailEcl, Guid> _retailEclRepository;
         private readonly IRepository<ObeEcl, Guid> _obeEclRepository;
+        private readonly IRepository<InvestmentEcl, Guid> _investmentclRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
         private readonly IRepository<AffiliateAssumption, Guid> _affiliateAssumptions;
@@ -43,7 +45,8 @@ namespace TestDemo.EclShared
         public EclSharedAppService(
             IRepository<WholesaleEcl, Guid> wholesaleEclRepository, 
             IRepository<RetailEcl, Guid> retailEclRepository, 
-            IRepository<ObeEcl, Guid> obeEclRepository, 
+            IRepository<ObeEcl, Guid> obeEclRepository,
+            IRepository<InvestmentEcl, Guid> investmentclRepository,
             IRepository<User, long> lookup_userRepository,
             IRepository<OrganizationUnit, long> organizationUnitRepository,
             IRepository<Assumption, Guid> frameworkAssumptionRepository,
@@ -63,6 +66,7 @@ namespace TestDemo.EclShared
             _wholesaleEclRepository = wholesaleEclRepository;
             _retailEclRepository = retailEclRepository;
             _obeEclRepository = obeEclRepository;
+            _investmentclRepository = investmentclRepository;
             _lookup_userRepository = lookup_userRepository;
             _organizationUnitRepository = organizationUnitRepository;
             _affiliateAssumptions = affiliateAssumptions;
@@ -131,6 +135,23 @@ namespace TestDemo.EclShared
                             select new GetAllEclForWorkspaceDto()
                             {
                                 Framework = FrameworkEnum.OBE,
+                                CreatedByUserName = u2 == null ? "" : u2.FullName,
+                                DateCreated = w.CreationTime,
+                                ReportingDate = w.ReportingDate,
+                                OrganisationUnitName = ou == null ? "" : ou.DisplayName,
+                                Status = w.Status,
+                                Id = w.Id
+                            }
+                          ).Union(
+                            from w in _investmentclRepository.GetAll().WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
+
+                            join ou in _organizationUnitRepository.GetAll() on w.OrganizationUnitId equals ou.Id
+
+                            join u in _lookup_userRepository.GetAll() on w.CreatorUserId equals u.Id into u1
+                            from u2 in u1.DefaultIfEmpty()
+                            select new GetAllEclForWorkspaceDto()
+                            {
+                                Framework = FrameworkEnum.Investments,
                                 CreatedByUserName = u2 == null ? "" : u2.FullName,
                                 DateCreated = w.CreationTime,
                                 ReportingDate = w.ReportingDate,
@@ -461,7 +482,7 @@ namespace TestDemo.EclShared
             return assumptions;
         }
 
-        public async Task<List<InvSecFitchCummulativeDefaultRateDto>> GetAffiliatePdFitchCummulativeAssumption(GetAffiliateAssumptionInputDto input)
+        public async Task<List<InvSecFitchCummulativeDefaultRateDto>> GetAffiliateInvSecPdFitchCummulativeAssumption(GetAffiliateAssumptionInputDto input)
         {
             var assumptions = await _invsecFitchCummulativeAssumptionRepository.GetAll()
                                     .Join(_lookup_userRepository.GetAll(), a => a.LastModifierUserId, u => u.Id, (a, u) => new { Assumption = a, User = u })
@@ -483,6 +504,30 @@ namespace TestDemo.EclShared
             return assumptions;
         }
 
+        public async Task<List<InvSecMacroEconomicAssumptionDto>> GetAffiliateInvSecPdMacroEcoAssumption(GetAffiliateAssumptionInputDto input)
+        {
+            var assumptions = await _invsecMacroEcoAssumptionRepository.GetAll()
+                                    .Join(_lookup_userRepository.GetAll(), a => a.LastModifierUserId, u => u.Id, (a, u) => new { Assumption = a, User = u })
+                                    .Where(x => x.Assumption.OrganizationUnitId == input.AffiliateOuId)
+                                    .Select(x => new InvSecMacroEconomicAssumptionDto
+                                    {
+                                        Key = x.Assumption.Key,
+                                        Month = x.Assumption.Month,
+                                        BestValue = x.Assumption.BestValue,
+                                        OptimisticValue = x.Assumption.OptimisticValue,
+                                        DownturnValue = x.Assumption.DownturnValue,
+                                        CanAffiliateEdit = x.Assumption.CanAffiliateEdit,
+                                        IsComputed = false,
+                                        RequiresGroupApproval = x.Assumption.RequiresGroupApproval,
+                                        OrganizationUnitId = x.Assumption.OrganizationUnitId,
+                                        Status = x.Assumption.Status,
+                                        LastUpdated = x.Assumption.LastModificationTime,
+                                        LastUpdatedBy = x.User == null ? "" : x.User.FullName,
+                                        Id = x.Assumption.Id
+                                    }).ToListAsync();
+
+            return assumptions;
+        }
 
         public async Task<GetAllPdAssumptionsDto> GetAllPdAssumptionsForAffiliate(GetAffiliateAssumptionInputDto input)
         {
@@ -493,6 +538,16 @@ namespace TestDemo.EclShared
             output.PdInputAssumptionNonInternalModels = await GetAffiliatePdNonInternalModelAssumption(input);
             output.PdInputAssumptionNplIndex = await GetAffiliatePdNplIndexAssumption(input);
             output.PdInputSnPCummulativeDefaultRate = await GetAffiliatePdSnpCummulativeAssumption(input);
+
+            return output;
+        }
+
+        public async Task<GetAllInvSecPdAssumptionsDto> GetAllInvSecPdAssumptionsForAffiliate(GetAffiliateAssumptionInputDto input)
+        {
+            GetAllInvSecPdAssumptionsDto output = new GetAllInvSecPdAssumptionsDto();
+            output.PdInputAssumption = await GetAffiliatePdAssumption(input);
+            output.PdInputAssumptionMacroeconomic = await GetAffiliateInvSecPdMacroEcoAssumption(input);
+            output.PdInputFitchCummulativeDefaultRate = await GetAffiliateInvSecPdFitchCummulativeAssumption(input);
 
             return output;
         }

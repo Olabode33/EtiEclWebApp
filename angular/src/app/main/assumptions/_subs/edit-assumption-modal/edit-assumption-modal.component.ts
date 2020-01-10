@@ -1,6 +1,6 @@
 import { Component, ViewChild, Injector, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
-import { GeneralStatusEnum, FrameworkEnum, AssumptionTypeEnum } from '@shared/service-proxies/service-proxies';
+import { GeneralStatusEnum, FrameworkEnum, AssumptionTypeEnum, DataTypeEnum } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { Observable } from 'rxjs';
 import * as _ from 'lodash';
@@ -102,6 +102,16 @@ export class EditAssumptionModalComponent extends AppComponentBase {
         if (this.dataSource !== undefined) {
             //return Object.prototype.hasOwnProperty.call(this.dataSource, prop);
             return prop in this.dataSource;
+        }
+        return false;
+    }
+
+    isDropdownDataType(): boolean {
+        if (this.hasProp('dataType')) {
+            return this.dataSource.dataType === DataTypeEnum.StringDropdown;
+        }
+        if (this.hasProp('datatype')) {
+            return this.dataSource.datatype === DataTypeEnum.StringDropdown;
         }
         return false;
     }

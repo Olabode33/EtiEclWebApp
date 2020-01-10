@@ -4,6 +4,9 @@ using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using TestDemo.InvestmentAssumption.Dtos;
 using TestDemo.Dto;
+using TestDemo.EclShared.Dtos;
+using System.Collections.Generic;
+using GetAllForLookupTableInput = TestDemo.InvestmentAssumption.Dtos.GetAllForLookupTableInput;
 
 namespace TestDemo.InvestmentAssumption
 {
@@ -11,7 +14,10 @@ namespace TestDemo.InvestmentAssumption
     {
         Task<PagedResultDto<GetInvestmentEclEadInputAssumptionForViewDto>> GetAll(GetAllInvestmentEclEadInputAssumptionsInput input);
 
-		Task<GetInvestmentEclEadInputAssumptionForEditOutput> GetInvestmentEclEadInputAssumptionForEdit(EntityDto<Guid> input);
+        Task<List<EadInputAssumptionDto>> GetListForEclView(EntityDto<Guid> input);
+
+
+        Task<GetInvestmentEclEadInputAssumptionForEditOutput> GetInvestmentEclEadInputAssumptionForEdit(EntityDto<Guid> input);
 
 		Task CreateOrEdit(CreateOrEditInvestmentEclEadInputAssumptionDto input);
 

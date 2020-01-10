@@ -25,7 +25,7 @@ namespace TestDemo.ObeAssumption
 		
 		public virtual string Value { get; set; }
 		
-		public virtual DataTypeEnum Datatype { get; set; }
+		public virtual DataTypeEnum DataType { get; set; }
 		
 		[Required]
 		public virtual bool IsComputed { get; set; }

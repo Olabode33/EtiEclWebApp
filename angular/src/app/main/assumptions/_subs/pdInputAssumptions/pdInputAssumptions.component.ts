@@ -1,5 +1,5 @@
 import { filter } from 'rxjs/operators';
-import { PdInputAssumptionGroupEnum, GetAllPdAssumptionsDto, PdInputAssumptionDto, PdInputAssumptionMacroeconomicInputDto, PdInputAssumptionMacroeconomicProjectionDto, PdInputAssumptionNonInternalModelDto, PdInputAssumptionNplIndexDto, PdInputSnPCummulativeDefaultRateDto, DataTypeEnum, NameValueDto, CommonLookupServiceProxy, PdInputAssumptionsServiceProxy, FrameworkEnum, AssumptionTypeEnum, PdInputSnPCummulativeDefaultRatesServiceProxy, PdInputAssumptionNonInternalModelsServiceProxy, PdInputAssumptionNplIndexesServiceProxy, PdInputAssumptionStatisticalsServiceProxy, PdInputAssumptionMacroeconomicProjectionsServiceProxy } from './../../../../../shared/service-proxies/service-proxies';
+import { PdInputAssumptionGroupEnum, GetAllPdAssumptionsDto, PdInputAssumptionDto, PdInputAssumptionMacroeconomicInputDto, PdInputAssumptionMacroeconomicProjectionDto, PdInputAssumptionNonInternalModelDto, PdInputAssumptionNplIndexDto, PdInputSnPCummulativeDefaultRateDto, DataTypeEnum, NameValueDto, CommonLookupServiceProxy, PdInputAssumptionsServiceProxy, FrameworkEnum, AssumptionTypeEnum, PdInputSnPCummulativeDefaultRatesServiceProxy, PdInputAssumptionNonInternalModelsServiceProxy, PdInputAssumptionNplIndexesServiceProxy, PdInputAssumptionStatisticalsServiceProxy, PdInputAssumptionMacroeconomicProjectionsServiceProxy, InvestmentPdInputMacroEconomicAssumptionDto, InvestmentEclPdFitchDefaultRateDto, GetAllInvSecPdAssumptionsDto, InvSecMacroEconomicAssumptionDto, InvSecFitchCummulativeDefaultRateDto, InvSecMacroEconomicAssumptionsServiceProxy, InvSecFitchCummulativeDefaultRatesServiceProxy } from './../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, Injector, ViewChild } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { EditAssumptionModalComponent } from '../edit-assumption-modal/edit-assumption-modal.component';
@@ -16,6 +16,8 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
     displayForm = false;
     loading = false;
     viewOnly = false;
+
+    frameworkEnum = FrameworkEnum;
 
     pdAssumptions: GetAllPdAssumptionsDto = new GetAllPdAssumptionsDto();
 
@@ -55,6 +57,19 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
     selectedMacroeconomicInputs: PdInputAssumptionMacroeconomicInputDto[] = new Array();
     selectedMacroeconomicProjections: PdInputAssumptionMacroeconomicProjectionDto[] = new Array();
 
+    //Investments
+    pdInvestmentAssumption: GetAllInvSecPdAssumptionsDto = new GetAllInvSecPdAssumptionsDto();
+    invsecPdAssumptions: PdInputAssumptionDto[] = new Array();
+    invsecMacroEcoScenario: PdInputAssumptionDto[] = new Array();
+    invsecMacroEcoAssumption: InvSecMacroEconomicAssumptionDto[] = new Array();
+    invsecFitchRatingDefaultRate: InvSecFitchCummulativeDefaultRateDto[] = new Array();
+    invsecFitchRatings: string[] = new Array();
+    invsecModes: string[] = new Array();
+    selectedFitchRating = '';
+    selectedInvMode = '';
+    selectedFitchRatingDefaultRate: InvSecFitchCummulativeDefaultRateDto[] = new Array();
+    selectedInvPdAssumption: PdInputAssumptionDto[] = new Array();
+
     dataTypeEnum = DataTypeEnum;
 
     affiliateName = '';
@@ -66,7 +81,11 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
         {key: 'PdInputAssumptionNonInternalModel', isActive: false},
         {key: 'PdInputAssumptionNplIndex', isActive: false},
         {key: 'PdMacroeconomicInput', isActive: false},
-        {key: 'PdMacroeconomicProjection', isActive: false}
+        {key: 'PdMacroeconomicProjection', isActive: false},
+        {key: 'PdAssumptions', isActive: false},
+        {key: 'MacroEconomicScenario', isActive: false},
+        {key: 'InvSecMacroEconomicAssumption', isActive: false},
+        {key: 'InvSecFitchCummulativeDefaultRate', isActive: false}
     ];
 
     constructor(
@@ -77,7 +96,9 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
         private _pdNonInternalServiceProxy: PdInputAssumptionNonInternalModelsServiceProxy,
         private _pdNplServiceProxy: PdInputAssumptionNplIndexesServiceProxy,
         private _pdMacroeconomicInputServiceProxy: PdInputAssumptionStatisticalsServiceProxy,
-        private _pdMacroeconomicProjectionServiceProxy: PdInputAssumptionMacroeconomicProjectionsServiceProxy
+        private _pdMacroeconomicProjectionServiceProxy: PdInputAssumptionMacroeconomicProjectionsServiceProxy,
+        private _invPdMacroeconomicAssumptionServiceProxy: InvSecMacroEconomicAssumptionsServiceProxy,
+        private _invPdFitchRatingServiceProxy: InvSecFitchCummulativeDefaultRatesServiceProxy
     ) {
         super(injector);
         _commonLookupServiceProxy.getMacroeconomicVariableList().subscribe(result => {
@@ -93,15 +114,21 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
         this.accordionList[index].isActive = !state;
     }
 
-    load(assumptions: GetAllPdAssumptionsDto, affiliateName?: string, framework?: FrameworkEnum, viewOnly = false): void {
+    load(assumptions: any, affiliateName?: string, framework?: FrameworkEnum, viewOnly = false): void {
         this.loading = true;
         this.displayForm = true;
-        this.pdAssumptions = assumptions;
         this.affiliateName = affiliateName;
         this.affiliateFramework = framework;
-        this.extractPdAssumptionGroups();
         this.loading = false;
         this.viewOnly = viewOnly;
+
+        if ( framework !== null && framework === FrameworkEnum.Investments) {
+            this.pdInvestmentAssumption = assumptions;
+            this.extractInvestmentPdAssumptionGroups();
+        } else {
+            this.pdAssumptions = assumptions;
+            this.extractPdAssumptionGroups();
+        }
     }
 
     extractPdAssumptionGroups(): void {
@@ -120,6 +147,17 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
         this.pdMacroeconomicInputAssumptions = this.pdAssumptions.pdInputAssumptionMacroeconomicInput;
         this.pdMacroeconomicProjectionsAssumptions = this.pdAssumptions.pdInputAssumptionMacroeconomicProjections;
         this.extractMacroeconomic();
+    }
+
+    extractInvestmentPdAssumptionGroups(): void {
+        this.pdInputAssumptions = this.pdInvestmentAssumption.pdInputAssumption;
+        this.extractInvestmentPdAssumption();
+
+        this.invsecMacroEcoAssumption = this.pdInvestmentAssumption.pdInputAssumptionMacroeconomic;
+
+        this.invsecFitchRatingDefaultRate = this.pdInvestmentAssumption.pdInputFitchCummulativeDefaultRate;
+        //console.log(this.invsecFitchRatingDefaultRate);
+        this.extractInvestmentFitchRating();
     }
 
     extract12MonthPds(): void {
@@ -146,8 +184,20 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
         this.selectedMacroeconomicProjections = this.pdMacroeconomicProjectionsAssumptions;
     }
 
+    extractInvestmentPdAssumption(): void {
+        this.invsecPdAssumptions = this.pdInputAssumptions.filter(x => x.assumptionGroup === PdInputAssumptionGroupEnum.InvestmentAssumption);
+        this.invsecMacroEcoScenario = this.pdInputAssumptions.filter(x => x.assumptionGroup === PdInputAssumptionGroupEnum.InvestmentMacroeconomicScenario);
+        this.invsecModes = Array.from(new Set(this.invsecPdAssumptions.map((i) => i.inputName)));
+        this.selectedInvPdAssumption = this.invsecPdAssumptions;
+    }
+
+    extractInvestmentFitchRating(): void {
+        this.invsecFitchRatings = Array.from(new Set(this.invsecFitchRatingDefaultRate.map((i) => i.rating)));
+        this.selectedFitchRatingDefaultRate = this.invsecFitchRatingDefaultRate;
+    }
+
     filterSnPCummulativeDefaultRate(): void {
-        console.log('Rating:' + this.selectedRating + ' Year: ' + this.selectedYear);
+        //console.log('Rating:' + this.selectedRating + ' Year: ' + this.selectedYear);
         if (this.selectedRating !== '' && this.selectedYear !== -1) {
             this.selectedSnpCummulativeDefaultRate = this.pdSnpCumulativeDefaultRate.filter(x => x.rating === this.selectedRating && x.years == this.selectedYear);
         } else if (this.selectedRating === '' && this.selectedYear !== -1) {
@@ -195,17 +245,33 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
         }
     }
 
+    filterFitchRatingRates(): void {
+        if (this.selectedFitchRating !== '') {
+            this.selectedFitchRatingDefaultRate = this.invsecFitchRatingDefaultRate.filter(x => x.rating === this.selectedFitchRating);
+        } else {
+            this.selectedFitchRatingDefaultRate = this.invsecFitchRatingDefaultRate;
+        }
+    }
+
+    filterInvPdAssumption(): void {
+        if (this.selectedInvMode !== '') {
+            this.selectedInvPdAssumption = this.invsecPdAssumptions.filter(x => x.inputName === this.selectedInvMode);
+        } else {
+            this.selectedInvPdAssumption = this.invsecPdAssumptions;
+        }
+    }
+
     hide(): void {
         this.displayForm = false;
     }
 
-    editPdAssumption(pdInput: PdInputAssumptionDto): void {
+    editPdAssumption(pdInput: PdInputAssumptionDto, locKey = 'SnPMappingEtiCreditPolicy'): void {
         this.editAssumptionModal.configure({
             framework: this.affiliateFramework,
             affiliateName: this.affiliateName,
             dataSource: pdInput,
             serviceProxy: this._pdInputAssumptionServiceProxy,
-            assumptionGroup: this.l('SnPMappingEtiCreditPolicy'),
+            assumptionGroup: this.l(locKey),
             assumption: AssumptionTypeEnum.PdInputAssumption
         });
         this.editAssumptionModal.show();
@@ -270,6 +336,30 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
             dataSource: pdInput,
             serviceProxy: this._pdMacroeconomicProjectionServiceProxy,
             assumptionGroup: this.l('PdMacroeconomicProjection'),
+            assumption: AssumptionTypeEnum.PdInputAssumption
+        });
+        this.editAssumptionModal.show();
+    }
+
+    editInvSecMacroAssumption(pdInput: InvSecMacroEconomicAssumptionDto): void {
+        this.editAssumptionModal.configure({
+            framework: this.affiliateFramework,
+            affiliateName: this.affiliateName,
+            dataSource: pdInput,
+            serviceProxy: this._invPdMacroeconomicAssumptionServiceProxy,
+            assumptionGroup: this.l('InvSecMacroEconomicAssumption'),
+            assumption: AssumptionTypeEnum.PdInputAssumption
+        });
+        this.editAssumptionModal.show();
+    }
+
+    editInvSecFitchAssumption(pdInput: InvSecMacroEconomicAssumptionDto): void {
+        this.editAssumptionModal.configure({
+            framework: this.affiliateFramework,
+            affiliateName: this.affiliateName,
+            dataSource: pdInput,
+            serviceProxy: this._invPdFitchRatingServiceProxy,
+            assumptionGroup: this.l('InvSecFitchCummulativeDefaultRate'),
             assumption: AssumptionTypeEnum.PdInputAssumption
         });
         this.editAssumptionModal.show();

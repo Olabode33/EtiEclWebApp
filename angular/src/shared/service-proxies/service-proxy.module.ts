@@ -5,8 +5,10 @@ import * as ApiServiceProxies from './service-proxies';
 
 @NgModule({
     providers: [
-        ApiServiceProxies.EclConfigurationsServiceProxy,        
-        ApiServiceProxies.AffiliateOverrideThresholdsServiceProxy,        
+        ApiServiceProxies.InvSecFitchCummulativeDefaultRatesServiceProxy,
+        ApiServiceProxies.InvSecMacroEconomicAssumptionsServiceProxy,
+        ApiServiceProxies.EclConfigurationsServiceProxy,
+        ApiServiceProxies.AffiliateOverrideThresholdsServiceProxy,
         ApiServiceProxies.ObeEclDataPaymentSchedulesServiceProxy,
         ApiServiceProxies.WholesaleEclDataPaymentSchedulesServiceProxy,
         ApiServiceProxies.RetailEclDataPaymentSchedulesServiceProxy,

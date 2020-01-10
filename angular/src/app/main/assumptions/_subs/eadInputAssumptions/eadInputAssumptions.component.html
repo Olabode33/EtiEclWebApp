@@ -1,8 +1,50 @@
 <div>
 <!--begin::Accordion-->
 <div *ngIf="displayForm" class="accordion accordion-light  accordion-toggle-arrow" id="accordionExample5">
-    <!-- Credit Conversion Factor -->
+    <!-- General -->
     <div class="card">
+        <div class="card-header" id="heading4">
+            <div class="card-title" (click)="toggleAccordion(3)"
+                [ngClass]="{collapsed: !accordionList[3].isActive}">
+                <i class="flaticon-pie-chart-1"></i>
+                {{l(accordionList[3].key)}}
+            </div>
+        </div>
+        <div id="collapse4" class="collapse" [ngClass]="{show: accordionList[3].isActive}">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>{{l('Category')}}</th>
+                                <th>{{l('Value')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of eadGroup">
+                                <td>{{item.inputName}}</td>
+                                <td>
+                                    <span class="hoverable pull-right" *ngIf="!viewOnly"
+                                        (click)="editAssumption(item, eadAssumptionGroupEnum[eadAssumptionGroupEnum.General])">
+                                        <i class="fa fa-edit"></i>
+                                    </span>
+                                    <span class="kt-widget1__number kt-font-brand">
+                                        <span *ngIf="item.dataType !== dataTypeEnum.DoubleMoney && item.dataType !== dataTypeEnum.DoublePercentage">
+                                            {{item.value}}
+                                        </span>
+                                        <span *ngIf="item.dataType == dataTypeEnum.DoublePercentage">{{item.value | percent:'1.2-2'}}</span>
+                                        <span *ngIf="item.dataType == dataTypeEnum.DoubleMoney">{{item.value | number:'1.0-0'}}</span>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Credit Conversion Factor -->
+    <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
         <div class="card-header" id="heading1">
             <div class="card-title" (click)="toggleAccordion(0)"
                 [ngClass]="{collapsed: !accordionList[0].isActive}">
@@ -24,7 +66,7 @@
                             <tr *ngFor="let item of ccfGroup">
                                 <td>{{item.inputName}}</td>
                                 <td>
-                                    <span class="hoverable pull-right" 
+                                    <span class="hoverable pull-right" *ngIf="!viewOnly"
                                         (click)="editAssumption(item, eadAssumptionGroupEnum[eadAssumptionGroupEnum.CreditConversionFactors])">
                                         <i class="fa fa-edit"></i>
                                     </span>
@@ -41,7 +83,7 @@
     </div>
 
     <!-- VIR -->
-    <div class="card">
+    <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
         <div class="card-header" id="heading2">
             <div class="card-title" (click)="toggleAccordion(1)"
                 [ngClass]="{collapsed: !accordionList[1].isActive}">
@@ -63,7 +105,7 @@
                             <tr *ngFor="let item of virGroup">
                                 <td>{{item.inputName}}</td>
                                 <td>
-                                    <span class="hoverable pull-right" 
+                                    <span class="hoverable pull-right" *ngIf="!viewOnly"
                                         (click)="editAssumption(item, eadAssumptionGroupEnum[eadAssumptionGroupEnum.VariableInterestRateProjections])">
                                         <i class="fa fa-edit"></i>
                                     </span>
@@ -80,7 +122,7 @@
     </div>
 
     <!-- Exchange Rate -->
-    <div class="card">
+    <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
         <div class="card-header" id="heading3">
             <div class="card-title" (click)="toggleAccordion(2)"
                 [ngClass]="{collapsed: !accordionList[2].isActive}">
@@ -102,7 +144,7 @@
                             <tr *ngFor="let item of exchangeRateGroup">
                                 <td>{{item.inputName}}</td>
                                 <td>
-                                    <span class="hoverable pull-right" 
+                                    <span class="hoverable pull-right" *ngIf="!viewOnly"
                                         (click)="editAssumption(item, eadAssumptionGroupEnum[eadAssumptionGroupEnum.ExchangeRateProjections])">
                                         <i class="fa fa-edit"></i>
                                     </span>

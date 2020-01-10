@@ -598,7 +598,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
                 {
                     _context.PdInputAssumptions.Add(new PdInputAssumption()
                     {
-                        PdGroup = PdInputAssumptionGroupEnum.CreditPD,
+                        PdGroup = PdInputAssumptionGroupEnum.InvestmentAssumption,
                         Key = prefix + (i + 1).ToString(),
                         InputName = names[i],
                         Value = values[i],
@@ -628,7 +628,7 @@ namespace TestDemo.Migrations.Seed.DefaultAsusmption.PdInput
                 {
                     _context.PdInputAssumptions.Add(new PdInputAssumption()
                     {
-                        PdGroup = PdInputAssumptionGroupEnum.CreditPD,
+                        PdGroup = PdInputAssumptionGroupEnum.InvestmentMacroeconomicScenario,
                         Key = keys[i],
                         InputName = names[i],
                         Value = values[i],

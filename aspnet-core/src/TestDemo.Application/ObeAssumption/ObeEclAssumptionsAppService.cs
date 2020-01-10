@@ -45,7 +45,7 @@ namespace TestDemo.ObeAssumption
 						.WhereIf(!string.IsNullOrWhiteSpace(input.KeyFilter),  e => e.Key.ToLower() == input.KeyFilter.ToLower().Trim())
 						.WhereIf(!string.IsNullOrWhiteSpace(input.InputNameFilter),  e => e.InputName.ToLower() == input.InputNameFilter.ToLower().Trim())
 						.WhereIf(!string.IsNullOrWhiteSpace(input.ValueFilter),  e => e.Value.ToLower() == input.ValueFilter.ToLower().Trim())
-						.WhereIf(input.DatatypeFilter > -1, e => e.Datatype == datatypeFilter)
+						.WhereIf(input.DatatypeFilter > -1, e => e.DataType == datatypeFilter)
 						.WhereIf(input.IsComputedFilter > -1,  e => Convert.ToInt32(e.IsComputed) == input.IsComputedFilter )
 						.WhereIf(input.AssumptionGroupFilter > -1, e => e.AssumptionGroup == assumptionGroupFilter)
 						.WhereIf(input.RequiresGroupApprovalFilter > -1,  e => Convert.ToInt32(e.RequiresGroupApproval) == input.RequiresGroupApprovalFilter );
@@ -64,7 +64,7 @@ namespace TestDemo.ObeAssumption
                                 Key = o.Key,
                                 InputName = o.InputName,
                                 Value = o.Value,
-                                Datatype = o.Datatype,
+                                Datatype = o.DataType,
                                 IsComputed = o.IsComputed,
                                 AssumptionGroup = o.AssumptionGroup,
                                 RequiresGroupApproval = o.RequiresGroupApproval,

@@ -24,7 +24,7 @@ namespace TestDemo.WholesaleAssumption
 		
 		public virtual string Value { get; set; }
 		
-		public virtual DataTypeEnum Datatype { get; set; }
+		public virtual DataTypeEnum DataType { get; set; }
 		
 		public virtual bool IsComputed { get; set; }
 		

@@ -23,7 +23,7 @@
                             <tr *ngFor="let item of scenarioAssumptionGroup">
                                 <td>{{item.inputName}}</td>
                                 <td>
-                                    <span class="hoverable pull-right" 
+                                    <span class="hoverable pull-right" *ngIf="!viewOnly"
                                         (click)="editAssumption(item, assumptionGroupEnum[assumptionGroupEnum.ScenarioInputs])">
                                         <i class="fa fa-edit"></i>
                                     </span>
@@ -66,7 +66,7 @@
                             <tr *ngFor="let item of absoluteCreditQualityAssumptionGroup">
                                 <td>{{item.inputName}}</td>
                                 <td>
-                                    <span class="hoverable pull-right" 
+                                    <span class="hoverable pull-right" *ngIf="!viewOnly"
                                         (click)="editAssumption(item, assumptionGroupEnum[assumptionGroupEnum.AbsoluteCreditQuality])">
                                         <i class="fa fa-edit"></i>
                                     </span>
@@ -109,7 +109,7 @@
                             <tr *ngFor="let item of relativeCreditQualityAssumptionGroup">
                                 <td>{{item.inputName}}</td>
                                 <td>
-                                    <span class="hoverable pull-right" 
+                                    <span class="hoverable pull-right" *ngIf="!viewOnly" 
                                         (click)="editAssumption(item, assumptionGroupEnum[assumptionGroupEnum.RelativeCreditQuality])">
                                         <i class="fa fa-edit"></i>
                                     </span>
@@ -152,7 +152,7 @@
                             <tr *ngFor="let item of forwardTransitionsAssumptionGroup">
                                 <td>{{item.inputName}}</td>
                                 <td>
-                                    <span class="hoverable pull-right" 
+                                    <span class="hoverable pull-right" *ngIf="!viewOnly"
                                         (click)="editAssumption(item, assumptionGroupEnum[assumptionGroupEnum.ForwardTransitions])">
                                         <i class="fa fa-edit"></i>
                                     </span>
@@ -195,7 +195,7 @@
                             <tr *ngFor="let item of backwardTransitionAssumptionGroup">
                                 <td>{{item.inputName}}</td>
                                 <td>
-                                    <span class="hoverable pull-right" 
+                                    <span class="hoverable pull-right" *ngIf="!viewOnly"
                                         (click)="editAssumption(item, assumptionGroupEnum[assumptionGroupEnum.BackwardTransitions])">
                                         <i class="fa fa-edit"></i>
                                     </span>

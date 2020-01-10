@@ -10,6 +10,8 @@ namespace TestDemo.InvestmentAssumption.Dtos
     {
 
 		public string Key { get; set; }
+
+        public int Month { get; set; }
 		
 		
 		public double BestValue { get; set; }

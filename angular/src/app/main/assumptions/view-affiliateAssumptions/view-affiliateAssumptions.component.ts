@@ -43,7 +43,8 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
     portfolioList = [
         {key: FrameworkEnum.Wholesale, isActive: true, reportDate: moment().endOf('month')},
         {key: FrameworkEnum.Retail, isActive: false, reportDate: moment().endOf('month')},
-        {key: FrameworkEnum.OBE, isActive: false, reportDate: moment().endOf('month')}
+        {key: FrameworkEnum.OBE, isActive: false, reportDate: moment().endOf('month')},
+        {key: FrameworkEnum.Investments, isActive: false, reportDate: moment().endOf('month')}
     ];
     selectedAffiliate = '';
     selectedPortfolio = '';
@@ -92,7 +93,9 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
         this.selectedAssumption = assumption.toString();
         switch (assumption) {
             case AssumptionTypeEnum.General:
-                this.getAffiliateFrameworkAssumption(portfolio);
+                if (portfolio !== FrameworkEnum.Investments) {
+                    this.getAffiliateFrameworkAssumption(portfolio);
+                }
                 break;
             case AssumptionTypeEnum.EadInputAssumption:
                 this.getAffiliateEadAssumption(portfolio);
@@ -101,7 +104,11 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
                 this.getAffiliateLgdAssumption(portfolio);
                 break;
             default:
-                this.getAffiliatePdAssumption(portfolio);
+                if (portfolio === FrameworkEnum.Investments) {
+                    this.getAffiliateInvestmentPdAssumption();
+                } else {
+                    this.getAffiliatePdAssumption(portfolio);
+                }
                 break;
         }
     }
@@ -129,6 +136,7 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
             this.portfolioList.find(x => x.key === FrameworkEnum.Wholesale).reportDate = result.lastWholesaleReportingDate;
             this.portfolioList.find(x => x.key === FrameworkEnum.Retail).reportDate = result.lastRetailReportingDate;
             this.portfolioList.find(x => x.key === FrameworkEnum.OBE).reportDate = result.lastObeReportingDate;
+            this.portfolioList.find(x => x.key === FrameworkEnum.Investments).reportDate = result.lastSecuritiesReportingDate;
         });
     }
 
@@ -164,6 +172,17 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
 
     getAffiliatePdAssumption(framework: FrameworkEnum): void {
         this._eclSharedServiceProxy.getAllPdAssumptionsForAffiliate(this._affiliateId, framework).subscribe(result => {
+            this.pdInputAssumptionTag.load(result, this.selectedAffiliate, framework);
+            //hide others
+            this.frameworkAssumptionTag.hide();
+            this.eadInputAssumptionTag.hide();
+            this.lgdInputAssumptionTag.hide();
+
+        });
+    }
+
+    getAffiliateInvestmentPdAssumption(framework = FrameworkEnum.Investments): void {
+        this._eclSharedServiceProxy.getAllInvSecPdAssumptionsForAffiliate(this._affiliateId, framework).subscribe(result => {
             this.pdInputAssumptionTag.load(result, this.selectedAffiliate, framework);
             //hide others
             this.frameworkAssumptionTag.hide();

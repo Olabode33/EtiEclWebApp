@@ -4,6 +4,9 @@ using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using TestDemo.InvestmentAssumption.Dtos;
 using TestDemo.Dto;
+using TestDemo.EclShared.Dtos;
+using System.Collections.Generic;
+using GetAllForLookupTableInput = TestDemo.InvestmentAssumption.Dtos.GetAllForLookupTableInput;
 
 namespace TestDemo.InvestmentAssumption
 {
@@ -11,7 +14,10 @@ namespace TestDemo.InvestmentAssumption
     {
         Task<PagedResultDto<GetInvestmentEclPdFitchDefaultRateForViewDto>> GetAll(GetAllInvestmentEclPdFitchDefaultRatesInput input);
 
-		Task<GetInvestmentEclPdFitchDefaultRateForEditOutput> GetInvestmentEclPdFitchDefaultRateForEdit(EntityDto<Guid> input);
+        Task<List<InvSecFitchCummulativeDefaultRateDto>> GetListForEclView(EntityDto<Guid> input);
+
+
+        Task<GetInvestmentEclPdFitchDefaultRateForEditOutput> GetInvestmentEclPdFitchDefaultRateForEdit(EntityDto<Guid> input);
 
 		Task CreateOrEdit(CreateOrEditInvestmentEclPdFitchDefaultRateDto input);
 

@@ -47,7 +47,7 @@ namespace TestDemo.RetailAssumption
 						.WhereIf(!string.IsNullOrWhiteSpace(input.KeyFilter),  e => e.Key.ToLower() == input.KeyFilter.ToLower().Trim())
 						.WhereIf(!string.IsNullOrWhiteSpace(input.InputNameFilter),  e => e.InputName.ToLower() == input.InputNameFilter.ToLower().Trim())
 						.WhereIf(!string.IsNullOrWhiteSpace(input.ValueFilter),  e => e.Value.ToLower() == input.ValueFilter.ToLower().Trim())
-						.WhereIf(input.DatatypeFilter > -1, e => e.Datatype == datatypeFilter)
+						.WhereIf(input.DatatypeFilter > -1, e => e.DataType == datatypeFilter)
 						.WhereIf(input.IsComputedFilter > -1,  e => Convert.ToInt32(e.IsComputed) == input.IsComputedFilter )
 						.WhereIf(input.EadGroupFilter > -1, e => e.EadGroup == eadGroupFilter)
 						.WhereIf(input.RequiresGroupApprovalFilter > -1,  e => Convert.ToInt32(e.RequiresGroupApproval) == input.RequiresGroupApprovalFilter );
@@ -66,7 +66,7 @@ namespace TestDemo.RetailAssumption
                                 Key = o.Key,
                                 InputName = o.InputName,
                                 Value = o.Value,
-                                Datatype = o.Datatype,
+                                Datatype = o.DataType,
                                 IsComputed = o.IsComputed,
                                 EadGroup = o.EadGroup,
                                 RequiresGroupApproval = o.RequiresGroupApproval,
@@ -108,7 +108,7 @@ namespace TestDemo.RetailAssumption
                                                                   Key = x.Key,
                                                                   InputName = x.InputName,
                                                                   Value = x.Value,
-                                                                  DataType = x.Datatype,
+                                                                  DataType = x.DataType,
                                                                   IsComputed = x.IsComputed,
                                                                   RequiresGroupApproval = x.RequiresGroupApproval,
                                                                   CanAffiliateEdit = x.CanAffiliateEdit,

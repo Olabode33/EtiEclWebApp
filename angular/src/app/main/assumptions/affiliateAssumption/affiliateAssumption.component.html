@@ -89,6 +89,10 @@
                                         {{l('OBE')}}
                                         <p-sortIcon field="lastObeReportingDate"></p-sortIcon>
                                     </th>
+                                    <th style="width: 150px" pSortableColumn="lastSecuritiesReportingDate">
+                                        {{l('Investments')}}
+                                        <p-sortIcon field="lastSecuritiesReportingDate"></p-sortIcon>
+                                    </th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-record="$implicit">
@@ -130,6 +134,10 @@
                                     <td style="width:150px">
                                         <span class="ui-column-title"> {{l('ObeLastReportDate')}}</span>
                                         {{record.lastObeReportingDate | momentFormat: 'll'}}
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('Investment')}}</span>
+                                        {{record.lastSecuritiesReportingDate | momentFormat: 'll'}}
                                     </td>
 
                                 </tr>

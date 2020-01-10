@@ -8,6 +8,7 @@ namespace TestDemo.EclShared.Dtos
 {
     public class InvSecMacroEconomicAssumptionDto : EntityDto<Guid>
     {
+        public string Key { get; set; }
 		public int Month { get; set; }
 		public double BestValue { get; set; }
 		public double OptimisticValue { get; set; }

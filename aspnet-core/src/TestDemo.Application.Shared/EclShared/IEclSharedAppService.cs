@@ -27,5 +27,9 @@ namespace TestDemo.EclShared
         Task<GetAllPdAssumptionsDto> GetAllPdAssumptionsForAffiliate(GetAffiliateAssumptionInputDto input);
         Task UpdateAffiliateAssumption(CreateOrEditAffiliateAssumptionsDto input);
         Task<CreateOrEditAffiliateAssumptionsDto> GetAffiliateAssumptionForEdit(long input);
+        Task<List<InvSecFitchCummulativeDefaultRateDto>> GetAffiliateInvSecPdFitchCummulativeAssumption(GetAffiliateAssumptionInputDto input);
+        Task<List<InvSecMacroEconomicAssumptionDto>> GetAffiliateInvSecPdMacroEcoAssumption(GetAffiliateAssumptionInputDto input);
+        Task<GetAllInvSecPdAssumptionsDto> GetAllInvSecPdAssumptionsForAffiliate(GetAffiliateAssumptionInputDto input);
+
     }
 }

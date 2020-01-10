@@ -13,23 +13,27 @@ export class EadInputAssumptionsComponent extends AppComponentBase {
     @ViewChild('editAssumptionModal', {static: true}) editAssumptionModal: EditAssumptionModalComponent;
 
     displayForm = false;
+    viewOnly = true;
 
     eadInputAssumptions: EadInputAssumptionDto[] = new Array();
 
+    eadGroup: EadInputAssumptionDto[] = new Array();
     ccfGroup: EadInputAssumptionDto[] = new Array();
     virGroup: EadInputAssumptionDto[] = new Array();
     exchangeRateGroup: EadInputAssumptionDto[] = new Array();
 
     dataTypeEnum = DataTypeEnum;
     eadAssumptionGroupEnum = EadInputAssumptionGroupEnum;
+    frameworkEnum = FrameworkEnum;
 
     affiliateName = '';
     affiliateFramework: FrameworkEnum;
 
     accordionList = [
-        {key: this.eadAssumptionGroupEnum[this.eadAssumptionGroupEnum.CreditConversionFactors], isActive: false},
+        {key: this.eadAssumptionGroupEnum[this.eadAssumptionGroupEnum.CreditConversionFactors], isActive: true},
         {key: this.eadAssumptionGroupEnum[this.eadAssumptionGroupEnum.VariableInterestRateProjections], isActive: false},
-        {key: this.eadAssumptionGroupEnum[this.eadAssumptionGroupEnum.ExchangeRateProjections], isActive: false}
+        {key: this.eadAssumptionGroupEnum[this.eadAssumptionGroupEnum.ExchangeRateProjections], isActive: false},
+        {key: this.eadAssumptionGroupEnum[this.eadAssumptionGroupEnum.General], isActive: false}
     ];
 
     constructor(
@@ -47,16 +51,21 @@ export class EadInputAssumptionsComponent extends AppComponentBase {
         this.accordionList[index].isActive = !state;
     }
 
-    load(assumptions: EadInputAssumptionDto[], affiliateName?: string, framework?: FrameworkEnum): void {
+    load(assumptions: EadInputAssumptionDto[], affiliateName?: string, framework?: FrameworkEnum, viewOnly = false): void {
         this.eadInputAssumptions = assumptions;
         this.affiliateName = affiliateName;
         this.affiliateFramework = framework;
         this.extractEadAssumptionGroups();
         this.displayForm = true;
+        this.viewOnly = viewOnly;
+        if (framework === FrameworkEnum.Investments) {
+            this.accordionList.find(x => x.key === this.eadAssumptionGroupEnum[this.eadAssumptionGroupEnum.General]).isActive = true;
+        }
     }
 
     extractEadAssumptionGroups(): void {
         //Extract general assumption to groups
+        this.eadGroup = this.eadInputAssumptions.filter(x => x.assumptionGroup === EadInputAssumptionGroupEnum.General || x.assumptionGroup === EadInputAssumptionGroupEnum.BehaviouralLife);
         this.ccfGroup = this.eadInputAssumptions.filter(x => x.assumptionGroup === EadInputAssumptionGroupEnum.CreditConversionFactors);
         this.virGroup = this.eadInputAssumptions.filter(x => x.assumptionGroup === EadInputAssumptionGroupEnum.VariableInterestRateProjections);
         this.exchangeRateGroup = this.eadInputAssumptions.filter(x => x.assumptionGroup === EadInputAssumptionGroupEnum.ExchangeRateProjections);

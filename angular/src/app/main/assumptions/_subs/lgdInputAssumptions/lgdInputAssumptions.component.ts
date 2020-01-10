@@ -13,6 +13,7 @@ export class LgdInputAssumptionsComponent extends AppComponentBase {
     @ViewChild('editAssumptionModal', {static: true}) editAssumptionModal: EditAssumptionModalComponent;
 
     displayForm = false;
+    viewOnly = false;
 
     lgdInputAssumptions: LgdAssumptionDto[] = new Array();
 
@@ -22,9 +23,11 @@ export class LgdInputAssumptionsComponent extends AppComponentBase {
     corLowGroup: LgdAssumptionDto[] = new Array();
     collateralGrowthGroup: LgdAssumptionDto[] = new Array();
     collateralTTRGroup: LgdAssumptionDto[] = new Array();
+    investmentGroup: LgdAssumptionDto[] = new Array();
 
     dataTypeEnum = DataTypeEnum;
     lgdAssumptionGroupEnum = LdgInputAssumptionGroupEnum;
+    frameworkEnum = FrameworkEnum;
 
     affiliateName = '';
     affiliateFramework: FrameworkEnum;
@@ -35,6 +38,7 @@ export class LgdInputAssumptionsComponent extends AppComponentBase {
         {key: this.lgdAssumptionGroupEnum[this.lgdAssumptionGroupEnum.CostOfRecoveryHigh], isActive: false},
         {key: this.lgdAssumptionGroupEnum[this.lgdAssumptionGroupEnum.CollateralGrowthBest], isActive: false},
         {key: this.lgdAssumptionGroupEnum[this.lgdAssumptionGroupEnum.CollateralTTR], isActive: false},
+        {key: this.lgdAssumptionGroupEnum[this.lgdAssumptionGroupEnum.General], isActive: false},
     ];
 
     constructor(
@@ -52,12 +56,16 @@ export class LgdInputAssumptionsComponent extends AppComponentBase {
         this.accordionList[index].isActive = !state;
     }
 
-    load(assumptions: LgdAssumptionDto[], affiliateName?: string, framework?: FrameworkEnum): void {
+    load(assumptions: LgdAssumptionDto[], affiliateName?: string, framework?: FrameworkEnum, viewOnly = false): void {
         this.lgdInputAssumptions = assumptions;
         this.affiliateName = affiliateName;
         this.affiliateFramework = framework;
         this.extractLgdAssumptionGroups();
         this.displayForm = true;
+        this.viewOnly = viewOnly;
+        if (framework === FrameworkEnum.Investments) {
+            this.accordionList.find(x => x.key === this.lgdAssumptionGroupEnum[this.lgdAssumptionGroupEnum.General]).isActive = true;
+        }
     }
 
     extractLgdAssumptionGroups(): void {
@@ -68,6 +76,7 @@ export class LgdInputAssumptionsComponent extends AppComponentBase {
         this.corLowGroup = this.lgdInputAssumptions.filter(x => x.assumptionGroup === LdgInputAssumptionGroupEnum.CostOfRecoveryLow);
         this.collateralGrowthGroup = this.lgdInputAssumptions.filter(x => x.assumptionGroup === LdgInputAssumptionGroupEnum.CollateralGrowthBest);
         this.collateralTTRGroup = this.lgdInputAssumptions.filter(x => x.assumptionGroup === LdgInputAssumptionGroupEnum.CollateralTTR);
+        this.investmentGroup = this.lgdInputAssumptions.filter(x => x.assumptionGroup === LdgInputAssumptionGroupEnum.General);
     }
 
     hide(): void {

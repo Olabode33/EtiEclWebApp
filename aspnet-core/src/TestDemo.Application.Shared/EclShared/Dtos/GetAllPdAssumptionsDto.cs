@@ -13,4 +13,11 @@ namespace TestDemo.EclShared.Dtos
         public List<PdInputAssumptionNplIndexDto> PdInputAssumptionNplIndex { get; set; }
         public List<PdInputSnPCummulativeDefaultRateDto> PdInputSnPCummulativeDefaultRate { get; set; }
     }
+
+    public class GetAllInvSecPdAssumptionsDto
+    {
+        public List<PdInputAssumptionDto> PdInputAssumption { get; set; }
+        public List<InvSecMacroEconomicAssumptionDto> PdInputAssumptionMacroeconomic { get; set; }
+        public List<InvSecFitchCummulativeDefaultRateDto> PdInputFitchCummulativeDefaultRate { get; set; }
+    }
 }

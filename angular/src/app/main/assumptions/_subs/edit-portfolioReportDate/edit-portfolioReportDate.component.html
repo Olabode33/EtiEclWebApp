@@ -26,6 +26,9 @@
                         <input *ngIf="affiliateFramework == frameworkEnum.OBE" required class="form-control m-input col-md-4" type="datetime" bsDatepicker
                             [(ngModel)]="affiliateAssumption.lastObeReportingDate._d" id="obeECL_ReportingDate"
                             name="obeECL_ReportingDate">
+                        <input *ngIf="affiliateFramework == frameworkEnum.Investments" required class="form-control m-input col-md-4" type="datetime" bsDatepicker
+                            [(ngModel)]="affiliateAssumption.lastSecuritiesReportingDate._d" id="invsecEcl_ReportingDate"
+                            name="invsecEcl_ReportingDate">
                     </div>
                 </form>
 

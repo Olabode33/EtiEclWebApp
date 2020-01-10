@@ -1,7 +1,7 @@
 <!--begin::Accordion-->
 <div *ngIf="displayForm" class="accordion accordion-light  accordion-toggle-arrow" id="accordionExample5">
     <!-- Cure Rate -->
-    <div class="card">
+    <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
         <div class="card-header" id="heading1">
             <div class="card-title" (click)="toggleAccordion(0)"
                 [ngClass]="{collapsed: !accordionList[0].isActive}">
@@ -23,7 +23,7 @@
                             <tr *ngFor="let item of cureRateGroup">
                                 <td>{{item.inputName}}</td>
                                 <td>
-                                    <span class="hoverable pull-right" (click)="editAssumption(item, lgdAssumptionGroupEnum[lgdAssumptionGroupEnum.UnsecuredRecoveriesCureRate])">
+                                    <span *ngIf="!viewOnly" class="hoverable pull-right" (click)="editAssumption(item, lgdAssumptionGroupEnum[lgdAssumptionGroupEnum.UnsecuredRecoveriesCureRate])">
                                         <i class="fa fa-edit"></i>
                                     </span>
                                     <span class="kt-widget1__number kt-font-brand">
@@ -39,7 +39,7 @@
     </div>
 
     <!-- Time to Default -->
-    <div class="card">
+    <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
         <div class="card-header" id="heading2">
             <div class="card-title" (click)="toggleAccordion(1)"
                 [ngClass]="{collapsed: !accordionList[1].isActive}">
@@ -61,7 +61,7 @@
                             <tr *ngFor="let item of timeToDefaultGroup">
                                 <td>{{item.inputName}}</td>
                                 <td>
-                                    <span class="hoverable pull-right" 
+                                    <span class="hoverable pull-right" *ngIf="!viewOnly"
                                         (click)="editAssumption(item, lgdAssumptionGroupEnum[lgdAssumptionGroupEnum.UnsecuredRecoveriesTimeInDefault])">
                                         <i class="fa fa-edit"></i>
                                     </span>
@@ -78,7 +78,7 @@
     </div>
 
     <!-- Cost of Recovery -->
-    <div class="card">
+    <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
         <div class="card-header" id="heading3">
             <div class="card-title" (click)="toggleAccordion(2)"
                 [ngClass]="{collapsed: !accordionList[2].isActive}">
@@ -111,7 +111,7 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <span class="hoverable pull-right" 
+                                    <span class="hoverable pull-right" *ngIf="!viewOnly"
                                         (click)="editAssumption(corLowGroup[i], lgdAssumptionGroupEnum[lgdAssumptionGroupEnum.CostOfRecoveryLow])">
                                         <i class="fa fa-edit"></i>
                                     </span>
@@ -129,7 +129,7 @@
     </div>
 
     <!-- Collateral Growth -->
-    <div class="card">
+    <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
         <div class="card-header" id="heading4">
             <div class="card-title" (click)="toggleAccordion(3)"
                 [ngClass]="{collapsed: !accordionList[3].isActive}">
@@ -151,7 +151,7 @@
                             <tr *ngFor="let item of collateralGrowthGroup">
                                 <td>{{item.inputName}}</td>
                                 <td>
-                                    <span class="hoverable pull-right" 
+                                    <span class="hoverable pull-right" *ngIf="!viewOnly"
                                         (click)="editAssumption(item, lgdAssumptionGroupEnum[lgdAssumptionGroupEnum.CollateralGrowthBest])">
                                         <i class="fa fa-edit"></i>
                                     </span>
@@ -168,7 +168,7 @@
     </div>
 
     <!-- Collateral TTR -->
-    <div class="card">
+    <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
         <div class="card-header" id="heading5">
             <div class="card-title" (click)="toggleAccordion(4)"
                 [ngClass]="{collapsed: !accordionList[4].isActive}">
@@ -190,12 +190,50 @@
                             <tr *ngFor="let item of collateralTTRGroup">
                                 <td>{{item.inputName}}</td>
                                 <td>
-                                    <span class="hoverable pull-right" 
+                                    <span class="hoverable pull-right" *ngIf="!viewOnly"
                                         (click)="editAssumption(item, lgdAssumptionGroupEnum[lgdAssumptionGroupEnum.CollateralTTR])">
                                         <i class="fa fa-edit"></i>
                                     </span>
                                     <span class="kt-widget1__number kt-font-brand">
                                         <span>{{item.value | number:'1.2-2'}}</span>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Investment -->
+    <div *ngIf="affiliateFramework === frameworkEnum.Investments" class="card">
+        <div class="card-header" id="heading6">
+            <div class="card-title" (click)="toggleAccordion(5)"
+                [ngClass]="{collapsed: !accordionList[5].isActive}">
+                <i class="flaticon-pie-chart-1"></i>
+                {{l(accordionList[5].key)}}
+            </div>
+        </div>
+        <div id="collapse6" class="collapse" [ngClass]="{show: accordionList[5].isActive}">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>{{l('Scenario')}}</th>
+                                <th>{{l('Estimate')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of investmentGroup">
+                                <td>{{item.inputName}}</td>
+                                <td>
+                                    <span class="hoverable pull-right" *ngIf="!viewOnly" (click)="editAssumption(item, lgdAssumptionGroupEnum[lgdAssumptionGroupEnum.General])">
+                                        <i class="fa fa-edit"></i>
+                                    </span>
+                                    <span class="kt-widget1__number kt-font-brand">
+                                        <span>{{item.value | percent:'1.2-2'}}</span>
                                     </span>
                                 </td>
                             </tr>

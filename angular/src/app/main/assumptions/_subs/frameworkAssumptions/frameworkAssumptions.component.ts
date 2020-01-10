@@ -13,6 +13,7 @@ export class FrameworkAssumptionsComponent extends AppComponentBase {
     @ViewChild('editAssumptionModal', {static: true}) editAssumptionModal: EditAssumptionModalComponent;
 
     displayForm = false;
+    viewOnly = false;
 
     frameworkAssumptions: AssumptionDto[] = new Array();
 
@@ -51,12 +52,13 @@ export class FrameworkAssumptionsComponent extends AppComponentBase {
         this.accordionList[index].isActive = !state;
     }
 
-    load(assumptions: AssumptionDto[], affiliateName?: string, framework?: FrameworkEnum): void {
+    load(assumptions: AssumptionDto[], affiliateName?: string, framework?: FrameworkEnum, viewOnly = false): void {
         this.frameworkAssumptions = assumptions;
         this.affiliateName = affiliateName;
         this.affiliateFramework = framework;
         this.extractGeneralAssumptionGroups();
         this.displayForm = true;
+        this.viewOnly = viewOnly;
     }
 
     extractGeneralAssumptionGroups(): void {

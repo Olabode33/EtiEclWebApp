@@ -18,6 +18,8 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.EclShared.Dtos;
+using GetAllForLookupTableInput = TestDemo.InvestmentAssumption.Dtos.GetAllForLookupTableInput;
 
 namespace TestDemo.InvestmentAssumption
 {
@@ -68,8 +70,29 @@ namespace TestDemo.InvestmentAssumption
                 await investmentEclPdInputAssumptions.ToListAsync()
             );
          }
-		 
-		 [AbpAuthorize(AppPermissions.Pages_InvestmentEclPdInputAssumptions_Edit)]
+
+        public async Task<List<PdInputAssumptionDto>> GetListForEclView(EntityDto<Guid> input)
+        {
+            var assumptions = _investmentEclPdInputAssumptionRepository.GetAll().Where(x => x.InvestmentEclId == input.Id)
+                                                              .Select(x => new PdInputAssumptionDto()
+                                                              {
+                                                                  AssumptionGroup = x.PdGroup,
+                                                                  Key = x.Key,
+                                                                  InputName = x.InputName,
+                                                                  Value = x.Value,
+                                                                  DataType = x.DataType,
+                                                                  IsComputed = x.IsComputed,
+                                                                  RequiresGroupApproval = x.RequiresGroupApproval,
+                                                                  CanAffiliateEdit = x.CanAffiliateEdit,
+                                                                  Status = x.Status,
+                                                                  Id = x.Id
+                                                              });
+
+            return await assumptions.ToListAsync();
+
+        }
+
+        [AbpAuthorize(AppPermissions.Pages_InvestmentEclPdInputAssumptions_Edit)]
 		 public async Task<GetInvestmentEclPdInputAssumptionForEditOutput> GetInvestmentEclPdInputAssumptionForEdit(EntityDto<Guid> input)
          {
             var investmentEclPdInputAssumption = await _investmentEclPdInputAssumptionRepository.FirstOrDefaultAsync(input.Id);

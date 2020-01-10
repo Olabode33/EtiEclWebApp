@@ -16,6 +16,8 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.EclShared.Dtos;
+using GetAllForLookupTableInput = TestDemo.InvestmentAssumption.Dtos.GetAllForLookupTableInput;
 
 namespace TestDemo.InvestmentAssumption
 {
@@ -68,8 +70,28 @@ namespace TestDemo.InvestmentAssumption
                 await investmentPdInputMacroEconomicAssumptions.ToListAsync()
             );
          }
-		 
-		 [AbpAuthorize(AppPermissions.Pages_InvestmentPdInputMacroEconomicAssumptions_Edit)]
+
+        public async Task<List<InvSecMacroEconomicAssumptionDto>> GetListForEclView(EntityDto<Guid> input)
+        {
+            var assumptions = _investmentPdInputMacroEconomicAssumptionRepository.GetAll().Where(x => x.InvestmentEclId == input.Id)
+                                                              .Select(x => new InvSecMacroEconomicAssumptionDto()
+                                                              {
+                                                                  Key = x.Key,
+                                                                  Month = x.Month,
+                                                                  BestValue = x.BestValue,
+                                                                  OptimisticValue = x.OptimisticValue,
+                                                                  DownturnValue = x.DownturnValue,
+                                                                  RequiresGroupApproval = x.RequiresGroupApproval,
+                                                                  CanAffiliateEdit = x.CanAffiliateEdit,
+                                                                  Status = x.Status,
+                                                                  Id = x.Id
+                                                              });
+
+            return await assumptions.ToListAsync();
+
+        }
+
+        [AbpAuthorize(AppPermissions.Pages_InvestmentPdInputMacroEconomicAssumptions_Edit)]
 		 public async Task<GetInvestmentPdInputMacroEconomicAssumptionForEditOutput> GetInvestmentPdInputMacroEconomicAssumptionForEdit(EntityDto<Guid> input)
          {
             var investmentPdInputMacroEconomicAssumption = await _investmentPdInputMacroEconomicAssumptionRepository.FirstOrDefaultAsync(input.Id);

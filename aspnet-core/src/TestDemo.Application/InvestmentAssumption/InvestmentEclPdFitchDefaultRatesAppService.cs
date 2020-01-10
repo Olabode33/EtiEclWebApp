@@ -16,6 +16,8 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.EclShared.Dtos;
+using GetAllForLookupTableInput = TestDemo.InvestmentAssumption.Dtos.GetAllForLookupTableInput;
 
 namespace TestDemo.InvestmentAssumption
 {
@@ -67,8 +69,26 @@ namespace TestDemo.InvestmentAssumption
                 await investmentEclPdFitchDefaultRates.ToListAsync()
             );
          }
-		 
-		 [AbpAuthorize(AppPermissions.Pages_InvestmentEclPdFitchDefaultRates_Edit)]
+
+        public async Task<List<InvSecFitchCummulativeDefaultRateDto>> GetListForEclView(EntityDto<Guid> input)
+        {
+            var assumptions = _investmentEclPdFitchDefaultRateRepository.GetAll().Where(x => x.InvestmentEclId == input.Id)
+                                                              .Select(x => new InvSecFitchCummulativeDefaultRateDto()
+                                                              {
+                                                                  Key = x.Key,
+                                                                  Rating = x.Rating,
+                                                                  Years = x.Year,
+                                                                  Value = x.Value,
+                                                                  RequiresGroupApproval = x.RequiresGroupApproval,
+                                                                  Status = x.Status,
+                                                                  Id = x.Id
+                                                              });
+
+            return await assumptions.ToListAsync();
+
+        }
+
+        [AbpAuthorize(AppPermissions.Pages_InvestmentEclPdFitchDefaultRates_Edit)]
 		 public async Task<GetInvestmentEclPdFitchDefaultRateForEditOutput> GetInvestmentEclPdFitchDefaultRateForEdit(EntityDto<Guid> input)
          {
             var investmentEclPdFitchDefaultRate = await _investmentEclPdFitchDefaultRateRepository.FirstOrDefaultAsync(input.Id);

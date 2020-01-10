@@ -2,7 +2,7 @@
     <!--begin::Accordion-->
     <div *ngIf="displayForm" class="accordion accordion-light  accordion-toggle-arrow" id="accordionExample5">
         <!-- 12 Month PD -->
-        <div class="card">
+        <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
             <div class="card-header" id="heading1">
                 <div class="card-title" (click)="toggleAccordion(0)"
                     [ngClass]="{collapsed: !accordionList[0].isActive}">
@@ -58,7 +58,7 @@
         </div>
 
         <!-- S&P Rates -->
-        <div class="card">
+        <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
             <div class="card-header" id="heading2">
                 <div class="card-title" (click)="toggleAccordion(1)"
                     [ngClass]="{collapsed: !accordionList[1].isActive}">
@@ -116,7 +116,7 @@
         </div>
 
         <!-- Non Internal Model -->
-        <div class="card">
+        <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
             <div class="card-header" id="heading3">
                 <div class="card-title" (click)="toggleAccordion(2)"
                     [ngClass]="{collapsed: !accordionList[2].isActive}">
@@ -174,7 +174,7 @@
         </div>
 
         <!-- NPL -->
-        <div class="card">
+        <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
             <div class="card-header" id="heading4">
                 <div class="card-title" (click)="toggleAccordion(3)"
                     [ngClass]="{collapsed: !accordionList[3].isActive}">
@@ -224,7 +224,7 @@
         </div>
         
         <!-- Macroeconomics Inputs -->
-        <div class="card">
+        <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
             <div class="card-header" id="heading5">
                 <div class="card-title" (click)="toggleAccordion(4)"
                     [ngClass]="{collapsed: !accordionList[4].isActive}">
@@ -286,7 +286,7 @@
         </div>
 
         <!-- Macroeconomic Projections -->
-        <div class="card">
+        <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
             <div class="card-header" id="heading6">
                 <div class="card-title" (click)="toggleAccordion(5)"
                     [ngClass]="{collapsed: !accordionList[5].isActive}">
@@ -346,7 +346,195 @@
             </div>
         </div>
 
-    </div>
+        <!-- Investment Pd Assumption -->
+        <div *ngIf="affiliateFramework === frameworkEnum.Investments" class="card">
+            <div class="card-header" id="heading7">
+                <div class="card-title" (click)="toggleAccordion(6)"
+                    [ngClass]="{collapsed: !accordionList[6].isActive}">
+                    <i class="flaticon-pie-chart-1"></i>
+                    {{l(accordionList[6].key)}}
+                </div>
+            </div>
+            <div id="collapse7" class="collapse" [ngClass]="{show: accordionList[6].isActive}">
+                <div class="card-body">
+                    <div class="form-group kt-form__group row">
+                        <label for="example-text-input" class="col-lg-4 col-xl-3 col-form-label">{{l('FitchRating')}}</label>
+                        <select id="InvSecMode" class="form-control col-lg-4" [(ngModel)]="selectedInvMode" name="InvSecMode" (ngModelChange)="filterInvPdAssumption()">
+                            <option value="">All</option>
+                            <option *ngFor="let item of invsecModes" [value]="item">{{item}}</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>{{l('Code')}}</th>
+                                            <th>{{l('FitchRating')}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of selectedInvPdAssumption">
+                                            <td><span class="text-right">{{item.inputName}}</span></td>
+                                            <td>
+                                                <span *ngIf="!viewOnly" class="hoverable pull-right" (click)="editPdAssumption(item, accordionList[6].key)">
+                                                    <i class="fa fa-edit"></i>
+                                                </span>
+                                                <span class="kt-widget1__number kt-font-brand">
+                                                    <span>{{item.value}}</span>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Investment Macro Scenario -->
+        <div *ngIf="affiliateFramework === frameworkEnum.Investments" class="card">
+            <div class="card-header" id="heading8">
+                <div class="card-title" (click)="toggleAccordion(7)"
+                    [ngClass]="{collapsed: !accordionList[7].isActive}">
+                    <i class="flaticon-pie-chart-1"></i>
+                    {{l(accordionList[7].key)}}
+                </div>
+            </div>
+            <div id="collapse8" class="collapse" [ngClass]="{show: accordionList[7].isActive}">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>{{l('Scenario')}}</th>
+                                            <th>{{l('Estimate')}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of invsecMacroEcoScenario">
+                                            <td><span class="text-right">{{item.inputName}}</span></td>
+                                            <td>
+                                                <span *ngIf="!viewOnly" class="hoverable pull-right" (click)="editPdAssumption(item, accordionList[7].key)">
+                                                    <i class="fa fa-edit"></i>
+                                                </span>
+                                                <span class="kt-widget1__number kt-font-brand">
+                                                    <span>{{item.value | percent: '1.2-2'}}</span>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Investment Macro Assumption -->
+        <div *ngIf="affiliateFramework === frameworkEnum.Investments" class="card">
+            <div class="card-header" id="heading9">
+                <div class="card-title" (click)="toggleAccordion(8)"
+                    [ngClass]="{collapsed: !accordionList[8].isActive}">
+                    <i class="flaticon-pie-chart-1"></i>
+                    {{l(accordionList[8].key)}}
+                </div>
+            </div>
+            <div id="collapse9" class="collapse" [ngClass]="{show: accordionList[8].isActive}">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>{{l('Month')}}</th>
+                                            <th>{{l('BestValue')}}</th>
+                                            <th>{{l('OptimisticValue')}}</th>
+                                            <th>{{l('DownturnValue')}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of invsecMacroEcoAssumption">
+                                            <td><span class="text-right">{{item.month}}</span></td>
+                                            <td><span class="text-right kt-widget1__number kt-font-brand">{{item.bestValue}}</span></td>
+                                            <td><span class="text-right kt-widget1__number kt-font-brand">{{item.optimisticValue}}</span></td>
+                                            <td>
+                                                <span *ngIf="!viewOnly" class="hoverable pull-right" (click)="editInvSecMacroAssumption(item)">
+                                                    <i class="fa fa-edit"></i>
+                                                </span>
+                                                <span class="kt-widget1__number kt-font-brand">
+                                                    <span>{{item.downturnValue}}</span>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Investment Fitch Rating -->
+        <div *ngIf="affiliateFramework === frameworkEnum.Investments" class="card">
+            <div class="card-header" id="heading10">
+                <div class="card-title" (click)="toggleAccordion(9)"
+                    [ngClass]="{collapsed: !accordionList[9].isActive}">
+                    <i class="flaticon-pie-chart-1"></i>
+                    {{l(accordionList[9].key)}}
+                </div>
+            </div>
+            <div id="collapse10" class="collapse" [ngClass]="{show: accordionList[9].isActive}">
+                <div class="card-body">
+                    <div class="form-group kt-form__group row">
+                        <label for="example-text-input" class="col-lg-4 col-xl-3 col-form-label">{{l('FitchRating')}}</label>
+                        <select id="FitchRating" class="form-control col-lg-4" [(ngModel)]="selectedFitchRating" name="FitchRating" (ngModelChange)="filterFitchRatingRates()">
+                            <option value="">All</option>
+                            <option *ngFor="let item of invsecFitchRatings" [value]="item">{{item}}</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>{{l('Rating')}}</th>
+                                            <th>{{l('Year')}}</th>
+                                            <th>{{l('Value')}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of selectedFitchRatingDefaultRate">
+                                            <td><span class="text-right">{{item.rating}}</span></td>
+                                            <td><span class="text-right">{{item.years}}</span></td>
+                                            <td>
+                                                <span *ngIf="!viewOnly" class="hoverable pull-right" (click)="editInvSecFitchAssumption(item)">
+                                                    <i class="fa fa-edit"></i>
+                                                </span>
+                                                <span class="kt-widget1__number kt-font-brand">
+                                                    <span>{{item.value}}</span>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
     <!--end::Accordion-->
 </div>
 <app-edit-assumption-modal #editAssumptionModal></app-edit-assumption-modal>

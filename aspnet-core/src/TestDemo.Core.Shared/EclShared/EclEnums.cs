@@ -51,7 +51,7 @@ namespace TestDemo.EclShared
 
     public enum PdInputAssumptionGroupEnum
     {
-        General, CreditPD, CreditEtiPolicy, CreditBestFit,  StatisticsIndexWeights
+        General, CreditPD, CreditEtiPolicy, CreditBestFit,  StatisticsIndexWeights, InvestmentAssumption, InvestmentMacroeconomicScenario
     }
 
     public enum PdInputAssumptionHistoricalIndexEtiNplEnum
