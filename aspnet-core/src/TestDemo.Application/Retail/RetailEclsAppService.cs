@@ -140,11 +140,11 @@ namespace TestDemo.Retail
         {
             var retailEcl = await _retailEclRepository.FirstOrDefaultAsync(input.Id);
 
-            var output = new GetRetailEclForEditOutput { RetailEcl = ObjectMapper.Map<CreateOrEditRetailEclDto>(retailEcl) };
+            var output = new GetRetailEclForEditOutput { EclDto = ObjectMapper.Map<CreateOrEditRetailEclDto>(retailEcl) };
 
-            if (output.RetailEcl.ClosedByUserId != null)
+            if (output.EclDto.ClosedByUserId != null)
             {
-                var _lookupUser = await _lookup_userRepository.FirstOrDefaultAsync((long)output.RetailEcl.ClosedByUserId);
+                var _lookupUser = await _lookup_userRepository.FirstOrDefaultAsync((long)output.EclDto.ClosedByUserId);
                 output.ClosedByUserName = _lookupUser.Name.ToString();
             }
 
@@ -152,11 +152,11 @@ namespace TestDemo.Retail
         }
 
         [AbpAuthorize(AppPermissions.Pages_RetailEcls_Edit)]
-        public async Task<GetRetailEclForEditOutput> GetRetailEclDetailsForEdit(EntityDto<Guid> input)
+        public async Task<GetRetailEclForEditOutput> GetEclDetailsForEdit(EntityDto<Guid> input)
         {
             var retailEcl = await _retailEclRepository.FirstOrDefaultAsync(input.Id);
 
-            var output = new GetRetailEclForEditOutput { RetailEcl = ObjectMapper.Map<CreateOrEditRetailEclDto>(retailEcl) };
+            var output = new GetRetailEclForEditOutput { EclDto = ObjectMapper.Map<CreateOrEditRetailEclDto>(retailEcl) };
             if (retailEcl.CreatorUserId != null)
             {
                 var _creatorUser = await _lookup_userRepository.FirstOrDefaultAsync((long)retailEcl.CreatorUserId);
@@ -169,9 +169,9 @@ namespace TestDemo.Retail
                 output.Country = ou.DisplayName;
             }
 
-            if (output.RetailEcl.ClosedByUserId != null)
+            if (output.EclDto.ClosedByUserId != null)
             {
-                var _lookupUser = await _lookup_userRepository.FirstOrDefaultAsync((long)output.RetailEcl.ClosedByUserId);
+                var _lookupUser = await _lookup_userRepository.FirstOrDefaultAsync((long)output.EclDto.ClosedByUserId);
                 output.ClosedByUserName = _lookupUser.FullName.ToString();
             }
 
@@ -631,7 +631,7 @@ namespace TestDemo.Retail
             var uploads = await _retailEclUploadsAppService.GetEclUploads(new EntityDto<Guid> {Id = eclId });
             if (uploads.Count > 0)
             {
-                var notCompleted = uploads.Any(x => x.RetailEclUpload.Status != GeneralStatusEnum.Completed);
+                var notCompleted = uploads.Any(x => x.EclUpload.Status != GeneralStatusEnum.Completed);
                 output.Status = !notCompleted;
                 output.Message = notCompleted == true ? L("UploadInProgressError") : "";
             } 

@@ -2,7 +2,7 @@
 import { ModalDirective } from 'ngx-bootstrap';
 import { GetAssumptionApprovalForViewDto, AssumptionApprovalDto , FrameworkEnum, AssumptionTypeEnum, GeneralStatusEnum, AssumptionApprovalsServiceProxy} from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { ApproveEclModalComponent } from '@app/main/eclShared/approve-ecl-modal/approve-ecl-modal.component';
+import { ApprovalModalComponent } from '@app/main/eclShared/approve-ecl-modal/approve-ecl-modal.component';
 
 @Component({
     selector: 'viewAssumptionApprovalModal',
@@ -11,7 +11,7 @@ import { ApproveEclModalComponent } from '@app/main/eclShared/approve-ecl-modal/
 export class ViewAssumptionApprovalModalComponent extends AppComponentBase {
 
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
-    @ViewChild('approvalModal', {static: true}) approvalModel: ApproveEclModalComponent;
+    @ViewChild('approvalModal', {static: true}) approvalModel: ApprovalModalComponent;
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
     active = false;

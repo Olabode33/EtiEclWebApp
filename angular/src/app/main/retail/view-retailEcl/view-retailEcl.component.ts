@@ -15,7 +15,7 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import { AppConsts } from '@shared/AppConsts';
 import { Location } from '@angular/common';
-import { ApproveEclModalComponent } from '@app/main/eclShared/approve-ecl-modal/approve-ecl-modal.component';
+import { ApprovalModalComponent } from '@app/main/eclShared/approve-ecl-modal/approve-ecl-modal.component';
 import { PdInputAssumptionsComponent } from '@app/main/assumptions/_subs/pdInputAssumptions/pdInputAssumptions.component';
 import { HttpClient } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
@@ -36,7 +36,7 @@ const secondsCounter = interval(5000);
 })
 export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
 
-    @ViewChild('aproveEclModal', {static: true}) approveEclModel: ApproveEclModalComponent;
+    @ViewChild('aproveEclModal', {static: true}) approveEclModel: ApprovalModalComponent;
     @ViewChild('frameworkAssumptionTag', {static: true}) frameworkAssumptionTag: FrameworkAssumptionsComponent;
     @ViewChild('eadInputAssumptionTag', {static: true}) eadInputAssumptionTag: EadInputAssumptionsComponent;
     @ViewChild('lgdInputAssumptionTag', {static: true}) lgdInputAssumptionTag: LgdInputAssumptionsComponent;
@@ -144,10 +144,10 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
     }
 
     getEclDetails() {
-        this._retailEcLsServiceProxy.getRetailEclDetailsForEdit(this._eclId)
+        this._retailEcLsServiceProxy.getEclDetailsForEdit(this._eclId)
                                     .subscribe(result => {
                                         this.retailEclDetails = result;
-                                        this.retailEClDto = result.retailEcl;
+                                        this.retailEClDto = result.eclDto;
 
                                         this.extractGeneralAssumptionGroups(result.frameworkAssumption);
                                         this.extractEadAssumptionGroups(result.eadInputAssumptions);
@@ -352,7 +352,7 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
     }
 
     autoReloadUploadSummary(): void {
-        let processing = this.retailUploads.filter(x => x.retailEclUpload.status === GeneralStatusEnum.Processing);
+        let processing = this.retailUploads.filter(x => x.eclUpload.status === GeneralStatusEnum.Processing);
         const sub_ = secondsCounter.subscribe(n => {
                             console.log(`It's been ${n} seconds since subscribing!`);
                             this.getEclUploadSummary();

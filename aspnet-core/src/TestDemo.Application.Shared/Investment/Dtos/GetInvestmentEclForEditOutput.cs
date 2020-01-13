@@ -8,7 +8,7 @@ namespace TestDemo.Investment.Dtos
 {
     public class GetInvestmentEclForEditOutput
     {
-		public CreateOrEditInvestmentEclDto InvestmentEcl { get; set; }
+		public CreateOrEditInvestmentEclDto EclDto { get; set; }
 
         public string Country { get; set; }
         public string CreatedByUserName { get; set; }

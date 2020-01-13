@@ -9,7 +9,7 @@ namespace TestDemo.Retail.Dtos
 {
     public class GetRetailEclForEditOutput
     {
-		public CreateOrEditRetailEclDto RetailEcl { get; set; }
+		public CreateOrEditRetailEclDto EclDto { get; set; }
         public string Country { get; set; }
         public string CreatedByUserName { get; set; }
 		public string ClosedByUserName { get; set;}

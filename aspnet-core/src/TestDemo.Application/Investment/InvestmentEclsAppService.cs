@@ -115,11 +115,11 @@ namespace TestDemo.Investment
         }
 
         [AbpAuthorize(AppPermissions.Pages_InvestmentEcls_Edit)]
-        public async Task<GetInvestmentEclForEditOutput> GetInvestmentEclForEdit(EntityDto<Guid> input)
+        public async Task<GetInvestmentEclForEditOutput> GetEclDetailsForEdit(EntityDto<Guid> input)
         {
             var investmentEcl = await _investmentEclRepository.FirstOrDefaultAsync(input.Id);
 
-            var output = new GetInvestmentEclForEditOutput { InvestmentEcl = ObjectMapper.Map<CreateOrEditInvestmentEclDto>(investmentEcl) };
+            var output = new GetInvestmentEclForEditOutput { EclDto = ObjectMapper.Map<CreateOrEditInvestmentEclDto>(investmentEcl) };
 
             if (investmentEcl.CreatorUserId != null)
             {

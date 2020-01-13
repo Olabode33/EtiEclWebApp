@@ -14,7 +14,7 @@ import { EntityTypeHistoryModalComponent } from '@app/shared/common/entityHistor
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { Location } from '@angular/common';
-import { ApproveEclModalComponent } from '../../eclShared/approve-ecl-modal/approve-ecl-modal.component';
+import { ApprovalModalComponent } from '../../eclShared/approve-ecl-modal/approve-ecl-modal.component';
 
 @Component({
     templateUrl: './assumptionApprovals.component.html',
@@ -27,7 +27,7 @@ export class AssumptionApprovalsComponent extends AppComponentBase implements On
     @ViewChild('entityTypeHistoryModal', { static: true }) entityTypeHistoryModal: EntityTypeHistoryModalComponent;
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
-    @ViewChild('approvalModal', {static: true}) approvalModel: ApproveEclModalComponent;
+    @ViewChild('approvalModal', {static: true}) approvalModel: ApprovalModalComponent;
 
     advancedFiltersAreShown = false;
     filterText = '';

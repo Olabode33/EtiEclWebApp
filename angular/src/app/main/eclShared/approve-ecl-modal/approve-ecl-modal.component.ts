@@ -18,7 +18,7 @@ export interface IApprovalModalOptions {
     styleUrls: ['./approve-ecl-modal.component.css'],
     encapsulation: ViewEncapsulation.None,
 })
-export class ApproveEclModalComponent extends AppComponentBase {
+export class ApprovalModalComponent extends AppComponentBase {
 
     static defaultOptions: IApprovalModalOptions = {
         serviceProxy: undefined,
@@ -45,7 +45,7 @@ export class ApproveEclModalComponent extends AppComponentBase {
     }
 
     configure(options: IApprovalModalOptions): void {
-        options = _.merge({}, ApproveEclModalComponent.defaultOptions, {title: this.l('ApproveEcl')}, options);
+        options = _.merge({}, ApprovalModalComponent.defaultOptions, {title: this.l('ApproveEcl')}, options);
         this.dataSource = options.dataSource;
         this.serviceProxy = options.serviceProxy;
         this.title = options.title;
@@ -54,7 +54,7 @@ export class ApproveEclModalComponent extends AppComponentBase {
 
     show(): void {
         if (!this.options) {
-            throw Error('Should call ApproveEclModalComponent.configure once before ApproveEclComponent.show!');
+            throw Error('Should call ApprovalModalComponent.configure once before ApproveEclComponent.show!');
         }
 
         this.modal.show();

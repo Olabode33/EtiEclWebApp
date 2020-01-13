@@ -6480,6 +6480,64 @@ export class InvestmentEclEadInputAssumptionsServiceProxy {
      * @param id (optional) 
      * @return Success
      */
+    getListForEclView(id: string | null | undefined): Observable<EadInputAssumptionDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclEadInputAssumptions/GetListForEclView?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetListForEclView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetListForEclView(<any>response_);
+                } catch (e) {
+                    return <Observable<EadInputAssumptionDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<EadInputAssumptionDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetListForEclView(response: HttpResponseBase): Observable<EadInputAssumptionDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(EadInputAssumptionDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<EadInputAssumptionDto[]>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
     getInvestmentEclEadInputAssumptionForEdit(id: string | null | undefined): Observable<GetInvestmentEclEadInputAssumptionForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/InvestmentEclEadInputAssumptions/GetInvestmentEclEadInputAssumptionForEdit?";
         if (id !== undefined)
@@ -6771,6 +6829,64 @@ export class InvestmentEclLgdInputAssumptionsServiceProxy {
             }));
         }
         return _observableOf<PagedResultDtoOfGetInvestmentEclLgdInputAssumptionForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getListForEclView(id: string | null | undefined): Observable<LgdAssumptionDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclLgdInputAssumptions/GetListForEclView?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetListForEclView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetListForEclView(<any>response_);
+                } catch (e) {
+                    return <Observable<LgdAssumptionDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LgdAssumptionDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetListForEclView(response: HttpResponseBase): Observable<LgdAssumptionDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(LgdAssumptionDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LgdAssumptionDto[]>(<any>null);
     }
 
     /**
@@ -7074,6 +7190,64 @@ export class InvestmentEclPdFitchDefaultRatesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
+    getListForEclView(id: string | null | undefined): Observable<InvSecFitchCummulativeDefaultRateDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclPdFitchDefaultRates/GetListForEclView?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetListForEclView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetListForEclView(<any>response_);
+                } catch (e) {
+                    return <Observable<InvSecFitchCummulativeDefaultRateDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<InvSecFitchCummulativeDefaultRateDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetListForEclView(response: HttpResponseBase): Observable<InvSecFitchCummulativeDefaultRateDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(InvSecFitchCummulativeDefaultRateDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<InvSecFitchCummulativeDefaultRateDto[]>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
     getInvestmentEclPdFitchDefaultRateForEdit(id: string | null | undefined): Observable<GetInvestmentEclPdFitchDefaultRateForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/InvestmentEclPdFitchDefaultRates/GetInvestmentEclPdFitchDefaultRateForEdit?";
         if (id !== undefined)
@@ -7365,6 +7539,64 @@ export class InvestmentEclPdInputAssumptionsServiceProxy {
             }));
         }
         return _observableOf<PagedResultDtoOfGetInvestmentEclPdInputAssumptionForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getListForEclView(id: string | null | undefined): Observable<PdInputAssumptionDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclPdInputAssumptions/GetListForEclView?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetListForEclView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetListForEclView(<any>response_);
+                } catch (e) {
+                    return <Observable<PdInputAssumptionDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PdInputAssumptionDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetListForEclView(response: HttpResponseBase): Observable<PdInputAssumptionDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(PdInputAssumptionDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PdInputAssumptionDto[]>(<any>null);
     }
 
     /**
@@ -7671,8 +7903,8 @@ export class InvestmentEclsServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getInvestmentEclForEdit(id: string | null | undefined): Observable<GetInvestmentEclForEditOutput> {
-        let url_ = this.baseUrl + "/api/services/app/InvestmentEcls/GetInvestmentEclForEdit?";
+    getEclDetailsForEdit(id: string | null | undefined): Observable<GetInvestmentEclForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEcls/GetEclDetailsForEdit?";
         if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -7686,11 +7918,11 @@ export class InvestmentEclsServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetInvestmentEclForEdit(response_);
+            return this.processGetEclDetailsForEdit(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetInvestmentEclForEdit(<any>response_);
+                    return this.processGetEclDetailsForEdit(<any>response_);
                 } catch (e) {
                     return <Observable<GetInvestmentEclForEditOutput>><any>_observableThrow(e);
                 }
@@ -7699,7 +7931,7 @@ export class InvestmentEclsServiceProxy {
         }));
     }
 
-    protected processGetInvestmentEclForEdit(response: HttpResponseBase): Observable<GetInvestmentEclForEditOutput> {
+    protected processGetEclDetailsForEdit(response: HttpResponseBase): Observable<GetInvestmentEclForEditOutput> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -7774,6 +8006,57 @@ export class InvestmentEclsServiceProxy {
     }
 
     /**
+     * @return Success
+     */
+    createEclAndAssumption(): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEcls/CreateEclAndAssumption";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateEclAndAssumption(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateEclAndAssumption(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateEclAndAssumption(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -7805,6 +8088,162 @@ export class InvestmentEclsServiceProxy {
     }
 
     protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    submitForApproval(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEcls/SubmitForApproval";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSubmitForApproval(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSubmitForApproval(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSubmitForApproval(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    approveReject(input: CreateOrEditInvestmentEclApprovalDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEcls/ApproveReject";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processApproveReject(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processApproveReject(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processApproveReject(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    runEcl(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEcls/RunEcl";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRunEcl(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRunEcl(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processRunEcl(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -7962,6 +8401,64 @@ export class InvestmentPdInputMacroEconomicAssumptionsServiceProxy {
             }));
         }
         return _observableOf<PagedResultDtoOfGetInvestmentPdInputMacroEconomicAssumptionForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getListForEclView(id: string | null | undefined): Observable<InvSecMacroEconomicAssumptionDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentPdInputMacroEconomicAssumptions/GetListForEclView?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetListForEclView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetListForEclView(<any>response_);
+                } catch (e) {
+                    return <Observable<InvSecMacroEconomicAssumptionDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<InvSecMacroEconomicAssumptionDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetListForEclView(response: HttpResponseBase): Observable<InvSecMacroEconomicAssumptionDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(InvSecMacroEconomicAssumptionDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<InvSecMacroEconomicAssumptionDto[]>(<any>null);
     }
 
     /**
@@ -28981,8 +29478,8 @@ export class RetailEclsServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getRetailEclDetailsForEdit(id: string | null | undefined): Observable<GetRetailEclForEditOutput> {
-        let url_ = this.baseUrl + "/api/services/app/RetailEcls/GetRetailEclDetailsForEdit?";
+    getEclDetailsForEdit(id: string | null | undefined): Observable<GetRetailEclForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEcls/GetEclDetailsForEdit?";
         if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -28996,11 +29493,11 @@ export class RetailEclsServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetRetailEclDetailsForEdit(response_);
+            return this.processGetEclDetailsForEdit(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetRetailEclDetailsForEdit(<any>response_);
+                    return this.processGetEclDetailsForEdit(<any>response_);
                 } catch (e) {
                     return <Observable<GetRetailEclForEditOutput>><any>_observableThrow(e);
                 }
@@ -29009,7 +29506,7 @@ export class RetailEclsServiceProxy {
         }));
     }
 
-    protected processGetRetailEclDetailsForEdit(response: HttpResponseBase): Observable<GetRetailEclForEditOutput> {
+    protected processGetEclDetailsForEdit(response: HttpResponseBase): Observable<GetRetailEclForEditOutput> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -46945,6 +47442,7 @@ export interface IInvSecFitchCummulativeDefaultRateDto {
 }
 
 export class InvSecMacroEconomicAssumptionDto implements IInvSecMacroEconomicAssumptionDto {
+    key!: string | undefined;
     month!: number | undefined;
     bestValue!: number | undefined;
     optimisticValue!: number | undefined;
@@ -46969,6 +47467,7 @@ export class InvSecMacroEconomicAssumptionDto implements IInvSecMacroEconomicAss
 
     init(data?: any) {
         if (data) {
+            this.key = data["key"];
             this.month = data["month"];
             this.bestValue = data["bestValue"];
             this.optimisticValue = data["optimisticValue"];
@@ -46993,6 +47492,7 @@ export class InvSecMacroEconomicAssumptionDto implements IInvSecMacroEconomicAss
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["key"] = this.key;
         data["month"] = this.month;
         data["bestValue"] = this.bestValue;
         data["optimisticValue"] = this.optimisticValue;
@@ -47010,6 +47510,7 @@ export class InvSecMacroEconomicAssumptionDto implements IInvSecMacroEconomicAss
 }
 
 export interface IInvSecMacroEconomicAssumptionDto {
+    key: string | undefined;
     month: number | undefined;
     bestValue: number | undefined;
     optimisticValue: number | undefined;
@@ -49886,12 +50387,15 @@ export interface IGetInvestmentEclEadInputAssumptionForEditOutput {
 }
 
 export class CreateOrEditInvestmentEclEadInputAssumptionDto implements ICreateOrEditInvestmentEclEadInputAssumptionDto {
+    investmentEclId!: string | undefined;
+    eadGroup!: EadInputAssumptionGroupEnum | undefined;
+    key!: string | undefined;
     inputName!: string | undefined;
     value!: string | undefined;
+    dataType!: DataTypeEnum | undefined;
     isComputed!: boolean | undefined;
-    requiresGroupApproval!: boolean | undefined;
     canAffiliateEdit!: boolean | undefined;
-    investmentEclId!: string | undefined;
+    requiresGroupApproval!: boolean | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditInvestmentEclEadInputAssumptionDto) {
@@ -49905,12 +50409,15 @@ export class CreateOrEditInvestmentEclEadInputAssumptionDto implements ICreateOr
 
     init(data?: any) {
         if (data) {
+            this.investmentEclId = data["investmentEclId"];
+            this.eadGroup = data["eadGroup"];
+            this.key = data["key"];
             this.inputName = data["inputName"];
             this.value = data["value"];
+            this.dataType = data["dataType"];
             this.isComputed = data["isComputed"];
-            this.requiresGroupApproval = data["requiresGroupApproval"];
             this.canAffiliateEdit = data["canAffiliateEdit"];
-            this.investmentEclId = data["investmentEclId"];
+            this.requiresGroupApproval = data["requiresGroupApproval"];
             this.id = data["id"];
         }
     }
@@ -49924,24 +50431,30 @@ export class CreateOrEditInvestmentEclEadInputAssumptionDto implements ICreateOr
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["investmentEclId"] = this.investmentEclId;
+        data["eadGroup"] = this.eadGroup;
+        data["key"] = this.key;
         data["inputName"] = this.inputName;
         data["value"] = this.value;
+        data["dataType"] = this.dataType;
         data["isComputed"] = this.isComputed;
-        data["requiresGroupApproval"] = this.requiresGroupApproval;
         data["canAffiliateEdit"] = this.canAffiliateEdit;
-        data["investmentEclId"] = this.investmentEclId;
+        data["requiresGroupApproval"] = this.requiresGroupApproval;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface ICreateOrEditInvestmentEclEadInputAssumptionDto {
+    investmentEclId: string | undefined;
+    eadGroup: EadInputAssumptionGroupEnum | undefined;
+    key: string | undefined;
     inputName: string | undefined;
     value: string | undefined;
+    dataType: DataTypeEnum | undefined;
     isComputed: boolean | undefined;
-    requiresGroupApproval: boolean | undefined;
     canAffiliateEdit: boolean | undefined;
-    investmentEclId: string | undefined;
+    requiresGroupApproval: boolean | undefined;
     id: string | undefined;
 }
 
@@ -50210,11 +50723,15 @@ export interface IGetInvestmentEclLgdInputAssumptionForEditOutput {
 }
 
 export class CreateOrEditInvestmentEclLgdInputAssumptionDto implements ICreateOrEditInvestmentEclLgdInputAssumptionDto {
-    value!: string | undefined;
-    isComputed!: boolean | undefined;
-    requiresGroupApproval!: boolean | undefined;
-    canAffiliateEdit!: boolean | undefined;
     investmentEclId!: string | undefined;
+    lgdGroup!: LdgInputAssumptionGroupEnum | undefined;
+    key!: string | undefined;
+    inputName!: string | undefined;
+    value!: string | undefined;
+    dataType!: DataTypeEnum | undefined;
+    isComputed!: boolean | undefined;
+    canAffiliateEdit!: boolean | undefined;
+    requiresGroupApproval!: boolean | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditInvestmentEclLgdInputAssumptionDto) {
@@ -50228,11 +50745,15 @@ export class CreateOrEditInvestmentEclLgdInputAssumptionDto implements ICreateOr
 
     init(data?: any) {
         if (data) {
-            this.value = data["value"];
-            this.isComputed = data["isComputed"];
-            this.requiresGroupApproval = data["requiresGroupApproval"];
-            this.canAffiliateEdit = data["canAffiliateEdit"];
             this.investmentEclId = data["investmentEclId"];
+            this.lgdGroup = data["lgdGroup"];
+            this.key = data["key"];
+            this.inputName = data["inputName"];
+            this.value = data["value"];
+            this.dataType = data["dataType"];
+            this.isComputed = data["isComputed"];
+            this.canAffiliateEdit = data["canAffiliateEdit"];
+            this.requiresGroupApproval = data["requiresGroupApproval"];
             this.id = data["id"];
         }
     }
@@ -50246,22 +50767,30 @@ export class CreateOrEditInvestmentEclLgdInputAssumptionDto implements ICreateOr
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["value"] = this.value;
-        data["isComputed"] = this.isComputed;
-        data["requiresGroupApproval"] = this.requiresGroupApproval;
-        data["canAffiliateEdit"] = this.canAffiliateEdit;
         data["investmentEclId"] = this.investmentEclId;
+        data["lgdGroup"] = this.lgdGroup;
+        data["key"] = this.key;
+        data["inputName"] = this.inputName;
+        data["value"] = this.value;
+        data["dataType"] = this.dataType;
+        data["isComputed"] = this.isComputed;
+        data["canAffiliateEdit"] = this.canAffiliateEdit;
+        data["requiresGroupApproval"] = this.requiresGroupApproval;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface ICreateOrEditInvestmentEclLgdInputAssumptionDto {
-    value: string | undefined;
-    isComputed: boolean | undefined;
-    requiresGroupApproval: boolean | undefined;
-    canAffiliateEdit: boolean | undefined;
     investmentEclId: string | undefined;
+    lgdGroup: LdgInputAssumptionGroupEnum | undefined;
+    key: string | undefined;
+    inputName: string | undefined;
+    value: string | undefined;
+    dataType: DataTypeEnum | undefined;
+    isComputed: boolean | undefined;
+    canAffiliateEdit: boolean | undefined;
+    requiresGroupApproval: boolean | undefined;
     id: string | undefined;
 }
 
@@ -50538,6 +51067,9 @@ export interface IGetInvestmentEclPdFitchDefaultRateForEditOutput {
 }
 
 export class CreateOrEditInvestmentEclPdFitchDefaultRateDto implements ICreateOrEditInvestmentEclPdFitchDefaultRateDto {
+    key!: string | undefined;
+    rating!: string | undefined;
+    year!: number | undefined;
     value!: number | undefined;
     requiresGroupApproval!: boolean | undefined;
     investmentEclId!: string | undefined;
@@ -50554,6 +51086,9 @@ export class CreateOrEditInvestmentEclPdFitchDefaultRateDto implements ICreateOr
 
     init(data?: any) {
         if (data) {
+            this.key = data["key"];
+            this.rating = data["rating"];
+            this.year = data["year"];
             this.value = data["value"];
             this.requiresGroupApproval = data["requiresGroupApproval"];
             this.investmentEclId = data["investmentEclId"];
@@ -50570,6 +51105,9 @@ export class CreateOrEditInvestmentEclPdFitchDefaultRateDto implements ICreateOr
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["key"] = this.key;
+        data["rating"] = this.rating;
+        data["year"] = this.year;
         data["value"] = this.value;
         data["requiresGroupApproval"] = this.requiresGroupApproval;
         data["investmentEclId"] = this.investmentEclId;
@@ -50579,6 +51117,9 @@ export class CreateOrEditInvestmentEclPdFitchDefaultRateDto implements ICreateOr
 }
 
 export interface ICreateOrEditInvestmentEclPdFitchDefaultRateDto {
+    key: string | undefined;
+    rating: string | undefined;
+    year: number | undefined;
     value: number | undefined;
     requiresGroupApproval: boolean | undefined;
     investmentEclId: string | undefined;
@@ -50854,11 +51395,15 @@ export interface IGetInvestmentEclPdInputAssumptionForEditOutput {
 }
 
 export class CreateOrEditInvestmentEclPdInputAssumptionDto implements ICreateOrEditInvestmentEclPdInputAssumptionDto {
+    investmentEclId!: string | undefined;
+    pdGroup!: PdInputAssumptionGroupEnum | undefined;
+    key!: string | undefined;
+    inputName!: string | undefined;
     value!: string | undefined;
+    dataType!: DataTypeEnum | undefined;
     isComputed!: boolean | undefined;
     canAffiliateEdit!: boolean | undefined;
     requiresGroupApproval!: boolean | undefined;
-    investmentEclId!: string | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditInvestmentEclPdInputAssumptionDto) {
@@ -50872,11 +51417,15 @@ export class CreateOrEditInvestmentEclPdInputAssumptionDto implements ICreateOrE
 
     init(data?: any) {
         if (data) {
+            this.investmentEclId = data["investmentEclId"];
+            this.pdGroup = data["pdGroup"];
+            this.key = data["key"];
+            this.inputName = data["inputName"];
             this.value = data["value"];
+            this.dataType = data["dataType"];
             this.isComputed = data["isComputed"];
             this.canAffiliateEdit = data["canAffiliateEdit"];
             this.requiresGroupApproval = data["requiresGroupApproval"];
-            this.investmentEclId = data["investmentEclId"];
             this.id = data["id"];
         }
     }
@@ -50890,22 +51439,30 @@ export class CreateOrEditInvestmentEclPdInputAssumptionDto implements ICreateOrE
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["investmentEclId"] = this.investmentEclId;
+        data["pdGroup"] = this.pdGroup;
+        data["key"] = this.key;
+        data["inputName"] = this.inputName;
         data["value"] = this.value;
+        data["dataType"] = this.dataType;
         data["isComputed"] = this.isComputed;
         data["canAffiliateEdit"] = this.canAffiliateEdit;
         data["requiresGroupApproval"] = this.requiresGroupApproval;
-        data["investmentEclId"] = this.investmentEclId;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface ICreateOrEditInvestmentEclPdInputAssumptionDto {
+    investmentEclId: string | undefined;
+    pdGroup: PdInputAssumptionGroupEnum | undefined;
+    key: string | undefined;
+    inputName: string | undefined;
     value: string | undefined;
+    dataType: DataTypeEnum | undefined;
     isComputed: boolean | undefined;
     canAffiliateEdit: boolean | undefined;
     requiresGroupApproval: boolean | undefined;
-    investmentEclId: string | undefined;
     id: string | undefined;
 }
 
@@ -51142,8 +51699,15 @@ export interface IInvestmentEclDto {
 }
 
 export class GetInvestmentEclForEditOutput implements IGetInvestmentEclForEditOutput {
-    investmentEcl!: CreateOrEditInvestmentEclDto | undefined;
-    userName!: string | undefined;
+    eclDto!: CreateOrEditInvestmentEclDto | undefined;
+    country!: string | undefined;
+    createdByUserName!: string | undefined;
+    closedByUserName!: string | undefined;
+    eadInputAssumptions!: EadInputAssumptionDto[] | undefined;
+    lgdInputAssumptions!: LgdAssumptionDto[] | undefined;
+    pdInputAssumption!: PdInputAssumptionDto[] | undefined;
+    pdInputAssumptionMacroeconomic!: InvSecMacroEconomicAssumptionDto[] | undefined;
+    pdInputFitchCummulativeDefaultRate!: InvSecFitchCummulativeDefaultRateDto[] | undefined;
 
     constructor(data?: IGetInvestmentEclForEditOutput) {
         if (data) {
@@ -51156,8 +51720,35 @@ export class GetInvestmentEclForEditOutput implements IGetInvestmentEclForEditOu
 
     init(data?: any) {
         if (data) {
-            this.investmentEcl = data["investmentEcl"] ? CreateOrEditInvestmentEclDto.fromJS(data["investmentEcl"]) : <any>undefined;
-            this.userName = data["userName"];
+            this.eclDto = data["eclDto"] ? CreateOrEditInvestmentEclDto.fromJS(data["eclDto"]) : <any>undefined;
+            this.country = data["country"];
+            this.createdByUserName = data["createdByUserName"];
+            this.closedByUserName = data["closedByUserName"];
+            if (data["eadInputAssumptions"] && data["eadInputAssumptions"].constructor === Array) {
+                this.eadInputAssumptions = [] as any;
+                for (let item of data["eadInputAssumptions"])
+                    this.eadInputAssumptions!.push(EadInputAssumptionDto.fromJS(item));
+            }
+            if (data["lgdInputAssumptions"] && data["lgdInputAssumptions"].constructor === Array) {
+                this.lgdInputAssumptions = [] as any;
+                for (let item of data["lgdInputAssumptions"])
+                    this.lgdInputAssumptions!.push(LgdAssumptionDto.fromJS(item));
+            }
+            if (data["pdInputAssumption"] && data["pdInputAssumption"].constructor === Array) {
+                this.pdInputAssumption = [] as any;
+                for (let item of data["pdInputAssumption"])
+                    this.pdInputAssumption!.push(PdInputAssumptionDto.fromJS(item));
+            }
+            if (data["pdInputAssumptionMacroeconomic"] && data["pdInputAssumptionMacroeconomic"].constructor === Array) {
+                this.pdInputAssumptionMacroeconomic = [] as any;
+                for (let item of data["pdInputAssumptionMacroeconomic"])
+                    this.pdInputAssumptionMacroeconomic!.push(InvSecMacroEconomicAssumptionDto.fromJS(item));
+            }
+            if (data["pdInputFitchCummulativeDefaultRate"] && data["pdInputFitchCummulativeDefaultRate"].constructor === Array) {
+                this.pdInputFitchCummulativeDefaultRate = [] as any;
+                for (let item of data["pdInputFitchCummulativeDefaultRate"])
+                    this.pdInputFitchCummulativeDefaultRate!.push(InvSecFitchCummulativeDefaultRateDto.fromJS(item));
+            }
         }
     }
 
@@ -51170,15 +51761,49 @@ export class GetInvestmentEclForEditOutput implements IGetInvestmentEclForEditOu
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["investmentEcl"] = this.investmentEcl ? this.investmentEcl.toJSON() : <any>undefined;
-        data["userName"] = this.userName;
+        data["eclDto"] = this.eclDto ? this.eclDto.toJSON() : <any>undefined;
+        data["country"] = this.country;
+        data["createdByUserName"] = this.createdByUserName;
+        data["closedByUserName"] = this.closedByUserName;
+        if (this.eadInputAssumptions && this.eadInputAssumptions.constructor === Array) {
+            data["eadInputAssumptions"] = [];
+            for (let item of this.eadInputAssumptions)
+                data["eadInputAssumptions"].push(item.toJSON());
+        }
+        if (this.lgdInputAssumptions && this.lgdInputAssumptions.constructor === Array) {
+            data["lgdInputAssumptions"] = [];
+            for (let item of this.lgdInputAssumptions)
+                data["lgdInputAssumptions"].push(item.toJSON());
+        }
+        if (this.pdInputAssumption && this.pdInputAssumption.constructor === Array) {
+            data["pdInputAssumption"] = [];
+            for (let item of this.pdInputAssumption)
+                data["pdInputAssumption"].push(item.toJSON());
+        }
+        if (this.pdInputAssumptionMacroeconomic && this.pdInputAssumptionMacroeconomic.constructor === Array) {
+            data["pdInputAssumptionMacroeconomic"] = [];
+            for (let item of this.pdInputAssumptionMacroeconomic)
+                data["pdInputAssumptionMacroeconomic"].push(item.toJSON());
+        }
+        if (this.pdInputFitchCummulativeDefaultRate && this.pdInputFitchCummulativeDefaultRate.constructor === Array) {
+            data["pdInputFitchCummulativeDefaultRate"] = [];
+            for (let item of this.pdInputFitchCummulativeDefaultRate)
+                data["pdInputFitchCummulativeDefaultRate"].push(item.toJSON());
+        }
         return data; 
     }
 }
 
 export interface IGetInvestmentEclForEditOutput {
-    investmentEcl: CreateOrEditInvestmentEclDto | undefined;
-    userName: string | undefined;
+    eclDto: CreateOrEditInvestmentEclDto | undefined;
+    country: string | undefined;
+    createdByUserName: string | undefined;
+    closedByUserName: string | undefined;
+    eadInputAssumptions: EadInputAssumptionDto[] | undefined;
+    lgdInputAssumptions: LgdAssumptionDto[] | undefined;
+    pdInputAssumption: PdInputAssumptionDto[] | undefined;
+    pdInputAssumptionMacroeconomic: InvSecMacroEconomicAssumptionDto[] | undefined;
+    pdInputFitchCummulativeDefaultRate: InvSecFitchCummulativeDefaultRateDto[] | undefined;
 }
 
 export class CreateOrEditInvestmentEclDto implements ICreateOrEditInvestmentEclDto {
@@ -51234,6 +51859,42 @@ export interface ICreateOrEditInvestmentEclDto {
     isApproved: boolean | undefined;
     status: EclStatusEnum | undefined;
     closedByUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class EntityDtoOfGuid implements IEntityDtoOfGuid {
+    id!: string | undefined;
+
+    constructor(data?: IEntityDtoOfGuid) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): EntityDtoOfGuid {
+        data = typeof data === 'object' ? data : {};
+        let result = new EntityDtoOfGuid();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IEntityDtoOfGuid {
     id: string | undefined;
 }
 
@@ -51515,6 +52176,7 @@ export interface IGetInvestmentPdInputMacroEconomicAssumptionForEditOutput {
 
 export class CreateOrEditInvestmentPdInputMacroEconomicAssumptionDto implements ICreateOrEditInvestmentPdInputMacroEconomicAssumptionDto {
     key!: string | undefined;
+    month!: number | undefined;
     bestValue!: number | undefined;
     optimisticValue!: number | undefined;
     downturnValue!: number | undefined;
@@ -51535,6 +52197,7 @@ export class CreateOrEditInvestmentPdInputMacroEconomicAssumptionDto implements 
     init(data?: any) {
         if (data) {
             this.key = data["key"];
+            this.month = data["month"];
             this.bestValue = data["bestValue"];
             this.optimisticValue = data["optimisticValue"];
             this.downturnValue = data["downturnValue"];
@@ -51555,6 +52218,7 @@ export class CreateOrEditInvestmentPdInputMacroEconomicAssumptionDto implements 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["key"] = this.key;
+        data["month"] = this.month;
         data["bestValue"] = this.bestValue;
         data["optimisticValue"] = this.optimisticValue;
         data["downturnValue"] = this.downturnValue;
@@ -51568,6 +52232,7 @@ export class CreateOrEditInvestmentPdInputMacroEconomicAssumptionDto implements 
 
 export interface ICreateOrEditInvestmentPdInputMacroEconomicAssumptionDto {
     key: string | undefined;
+    month: number | undefined;
     bestValue: number | undefined;
     optimisticValue: number | undefined;
     downturnValue: number | undefined;
@@ -53239,42 +53904,6 @@ export enum NotificationSeverity {
     Warn = 2, 
     Error = 3, 
     Fatal = 4, 
-}
-
-export class EntityDtoOfGuid implements IEntityDtoOfGuid {
-    id!: string | undefined;
-
-    constructor(data?: IEntityDtoOfGuid) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): EntityDtoOfGuid {
-        data = typeof data === 'object' ? data : {};
-        let result = new EntityDtoOfGuid();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        return data; 
-    }
-}
-
-export interface IEntityDtoOfGuid {
-    id: string | undefined;
 }
 
 export class GetNotificationSettingsOutput implements IGetNotificationSettingsOutput {
@@ -66512,14 +67141,15 @@ export interface IGetRetailEclAssumptionForEditOutput {
 }
 
 export class CreateOrEditRetailEclAssumptionDto implements ICreateOrEditRetailEclAssumptionDto {
+    retailEclId!: string | undefined;
+    assumptionGroup!: AssumptionGroupEnum | undefined;
     key!: string | undefined;
     inputName!: string | undefined;
     value!: string | undefined;
-    datatype!: DataTypeEnum | undefined;
-    isComputed!: boolean;
-    assumptionGroup!: AssumptionGroupEnum | undefined;
-    requiresGroupApproval!: boolean;
-    retailEclId!: string | undefined;
+    dataType!: DataTypeEnum | undefined;
+    isComputed!: boolean | undefined;
+    canAffiliateEdit!: boolean | undefined;
+    requiresGroupApproval!: boolean | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditRetailEclAssumptionDto) {
@@ -66533,14 +67163,15 @@ export class CreateOrEditRetailEclAssumptionDto implements ICreateOrEditRetailEc
 
     init(data?: any) {
         if (data) {
+            this.retailEclId = data["retailEclId"];
+            this.assumptionGroup = data["assumptionGroup"];
             this.key = data["key"];
             this.inputName = data["inputName"];
             this.value = data["value"];
-            this.datatype = data["datatype"];
+            this.dataType = data["dataType"];
             this.isComputed = data["isComputed"];
-            this.assumptionGroup = data["assumptionGroup"];
+            this.canAffiliateEdit = data["canAffiliateEdit"];
             this.requiresGroupApproval = data["requiresGroupApproval"];
-            this.retailEclId = data["retailEclId"];
             this.id = data["id"];
         }
     }
@@ -66554,28 +67185,30 @@ export class CreateOrEditRetailEclAssumptionDto implements ICreateOrEditRetailEc
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["retailEclId"] = this.retailEclId;
+        data["assumptionGroup"] = this.assumptionGroup;
         data["key"] = this.key;
         data["inputName"] = this.inputName;
         data["value"] = this.value;
-        data["datatype"] = this.datatype;
+        data["dataType"] = this.dataType;
         data["isComputed"] = this.isComputed;
-        data["assumptionGroup"] = this.assumptionGroup;
+        data["canAffiliateEdit"] = this.canAffiliateEdit;
         data["requiresGroupApproval"] = this.requiresGroupApproval;
-        data["retailEclId"] = this.retailEclId;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface ICreateOrEditRetailEclAssumptionDto {
+    retailEclId: string | undefined;
+    assumptionGroup: AssumptionGroupEnum | undefined;
     key: string | undefined;
     inputName: string | undefined;
     value: string | undefined;
-    datatype: DataTypeEnum | undefined;
-    isComputed: boolean;
-    assumptionGroup: AssumptionGroupEnum | undefined;
-    requiresGroupApproval: boolean;
-    retailEclId: string | undefined;
+    dataType: DataTypeEnum | undefined;
+    isComputed: boolean | undefined;
+    canAffiliateEdit: boolean | undefined;
+    requiresGroupApproval: boolean | undefined;
     id: string | undefined;
 }
 
@@ -68064,14 +68697,15 @@ export interface IGetRetailEclEadInputAssumptionForEditOutput {
 }
 
 export class CreateOrEditRetailEclEadInputAssumptionDto implements ICreateOrEditRetailEclEadInputAssumptionDto {
+    retailEclId!: string | undefined;
+    eadGroup!: EadInputAssumptionGroupEnum | undefined;
     key!: string | undefined;
     inputName!: string | undefined;
     value!: string | undefined;
-    datatype!: DataTypeEnum | undefined;
-    isComputed!: boolean;
-    eadGroup!: EadInputAssumptionGroupEnum | undefined;
-    requiresGroupApproval!: boolean;
-    retailEclId!: string | undefined;
+    dataType!: DataTypeEnum | undefined;
+    isComputed!: boolean | undefined;
+    canAffiliateEdit!: boolean | undefined;
+    requiresGroupApproval!: boolean | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditRetailEclEadInputAssumptionDto) {
@@ -68085,14 +68719,15 @@ export class CreateOrEditRetailEclEadInputAssumptionDto implements ICreateOrEdit
 
     init(data?: any) {
         if (data) {
+            this.retailEclId = data["retailEclId"];
+            this.eadGroup = data["eadGroup"];
             this.key = data["key"];
             this.inputName = data["inputName"];
             this.value = data["value"];
-            this.datatype = data["datatype"];
+            this.dataType = data["dataType"];
             this.isComputed = data["isComputed"];
-            this.eadGroup = data["eadGroup"];
+            this.canAffiliateEdit = data["canAffiliateEdit"];
             this.requiresGroupApproval = data["requiresGroupApproval"];
-            this.retailEclId = data["retailEclId"];
             this.id = data["id"];
         }
     }
@@ -68106,28 +68741,30 @@ export class CreateOrEditRetailEclEadInputAssumptionDto implements ICreateOrEdit
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["retailEclId"] = this.retailEclId;
+        data["eadGroup"] = this.eadGroup;
         data["key"] = this.key;
         data["inputName"] = this.inputName;
         data["value"] = this.value;
-        data["datatype"] = this.datatype;
+        data["dataType"] = this.dataType;
         data["isComputed"] = this.isComputed;
-        data["eadGroup"] = this.eadGroup;
+        data["canAffiliateEdit"] = this.canAffiliateEdit;
         data["requiresGroupApproval"] = this.requiresGroupApproval;
-        data["retailEclId"] = this.retailEclId;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface ICreateOrEditRetailEclEadInputAssumptionDto {
+    retailEclId: string | undefined;
+    eadGroup: EadInputAssumptionGroupEnum | undefined;
     key: string | undefined;
     inputName: string | undefined;
     value: string | undefined;
-    datatype: DataTypeEnum | undefined;
-    isComputed: boolean;
-    eadGroup: EadInputAssumptionGroupEnum | undefined;
-    requiresGroupApproval: boolean;
-    retailEclId: string | undefined;
+    dataType: DataTypeEnum | undefined;
+    isComputed: boolean | undefined;
+    canAffiliateEdit: boolean | undefined;
+    requiresGroupApproval: boolean | undefined;
     id: string | undefined;
 }
 
@@ -68416,14 +69053,15 @@ export interface IGetRetailEclLgdAssumptionForEditOutput {
 }
 
 export class CreateOrEditRetailEclLgdAssumptionDto implements ICreateOrEditRetailEclLgdAssumptionDto {
+    retailEclId!: string | undefined;
+    lgdGroup!: LdgInputAssumptionGroupEnum | undefined;
     key!: string | undefined;
     inputName!: string | undefined;
     value!: string | undefined;
     dataType!: DataTypeEnum | undefined;
-    isComputed!: boolean;
-    lgdGroup!: LdgInputAssumptionGroupEnum | undefined;
-    requiresGroupApproval!: boolean;
-    retailEclId!: string | undefined;
+    isComputed!: boolean | undefined;
+    canAffiliateEdit!: boolean | undefined;
+    requiresGroupApproval!: boolean | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditRetailEclLgdAssumptionDto) {
@@ -68437,14 +69075,15 @@ export class CreateOrEditRetailEclLgdAssumptionDto implements ICreateOrEditRetai
 
     init(data?: any) {
         if (data) {
+            this.retailEclId = data["retailEclId"];
+            this.lgdGroup = data["lgdGroup"];
             this.key = data["key"];
             this.inputName = data["inputName"];
             this.value = data["value"];
             this.dataType = data["dataType"];
             this.isComputed = data["isComputed"];
-            this.lgdGroup = data["lgdGroup"];
+            this.canAffiliateEdit = data["canAffiliateEdit"];
             this.requiresGroupApproval = data["requiresGroupApproval"];
-            this.retailEclId = data["retailEclId"];
             this.id = data["id"];
         }
     }
@@ -68458,28 +69097,30 @@ export class CreateOrEditRetailEclLgdAssumptionDto implements ICreateOrEditRetai
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["retailEclId"] = this.retailEclId;
+        data["lgdGroup"] = this.lgdGroup;
         data["key"] = this.key;
         data["inputName"] = this.inputName;
         data["value"] = this.value;
         data["dataType"] = this.dataType;
         data["isComputed"] = this.isComputed;
-        data["lgdGroup"] = this.lgdGroup;
+        data["canAffiliateEdit"] = this.canAffiliateEdit;
         data["requiresGroupApproval"] = this.requiresGroupApproval;
-        data["retailEclId"] = this.retailEclId;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface ICreateOrEditRetailEclLgdAssumptionDto {
+    retailEclId: string | undefined;
+    lgdGroup: LdgInputAssumptionGroupEnum | undefined;
     key: string | undefined;
     inputName: string | undefined;
     value: string | undefined;
     dataType: DataTypeEnum | undefined;
-    isComputed: boolean;
-    lgdGroup: LdgInputAssumptionGroupEnum | undefined;
-    requiresGroupApproval: boolean;
-    retailEclId: string | undefined;
+    isComputed: boolean | undefined;
+    canAffiliateEdit: boolean | undefined;
+    requiresGroupApproval: boolean | undefined;
     id: string | undefined;
 }
 
@@ -70829,16 +71470,14 @@ export interface IGetRetailEclPdAssumptionForEditOutput {
 
 export class CreateOrEditRetailEclPdAssumptionDto implements ICreateOrEditRetailEclPdAssumptionDto {
     retailEclId!: string | undefined;
+    pdGroup!: PdInputAssumptionGroupEnum | undefined;
     key!: string | undefined;
     inputName!: string | undefined;
     value!: string | undefined;
     dataType!: DataTypeEnum | undefined;
-    pdGroup!: PdInputAssumptionGroupEnum | undefined;
-    status!: GeneralStatusEnum | undefined;
     isComputed!: boolean | undefined;
     canAffiliateEdit!: boolean | undefined;
     requiresGroupApproval!: boolean | undefined;
-    organizationUnitId!: number | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditRetailEclPdAssumptionDto) {
@@ -70853,16 +71492,14 @@ export class CreateOrEditRetailEclPdAssumptionDto implements ICreateOrEditRetail
     init(data?: any) {
         if (data) {
             this.retailEclId = data["retailEclId"];
+            this.pdGroup = data["pdGroup"];
             this.key = data["key"];
             this.inputName = data["inputName"];
             this.value = data["value"];
             this.dataType = data["dataType"];
-            this.pdGroup = data["pdGroup"];
-            this.status = data["status"];
             this.isComputed = data["isComputed"];
             this.canAffiliateEdit = data["canAffiliateEdit"];
             this.requiresGroupApproval = data["requiresGroupApproval"];
-            this.organizationUnitId = data["organizationUnitId"];
             this.id = data["id"];
         }
     }
@@ -70877,16 +71514,14 @@ export class CreateOrEditRetailEclPdAssumptionDto implements ICreateOrEditRetail
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["retailEclId"] = this.retailEclId;
+        data["pdGroup"] = this.pdGroup;
         data["key"] = this.key;
         data["inputName"] = this.inputName;
         data["value"] = this.value;
         data["dataType"] = this.dataType;
-        data["pdGroup"] = this.pdGroup;
-        data["status"] = this.status;
         data["isComputed"] = this.isComputed;
         data["canAffiliateEdit"] = this.canAffiliateEdit;
         data["requiresGroupApproval"] = this.requiresGroupApproval;
-        data["organizationUnitId"] = this.organizationUnitId;
         data["id"] = this.id;
         return data; 
     }
@@ -70894,16 +71529,14 @@ export class CreateOrEditRetailEclPdAssumptionDto implements ICreateOrEditRetail
 
 export interface ICreateOrEditRetailEclPdAssumptionDto {
     retailEclId: string | undefined;
+    pdGroup: PdInputAssumptionGroupEnum | undefined;
     key: string | undefined;
     inputName: string | undefined;
     value: string | undefined;
     dataType: DataTypeEnum | undefined;
-    pdGroup: PdInputAssumptionGroupEnum | undefined;
-    status: GeneralStatusEnum | undefined;
     isComputed: boolean | undefined;
     canAffiliateEdit: boolean | undefined;
     requiresGroupApproval: boolean | undefined;
-    organizationUnitId: number | undefined;
     id: string | undefined;
 }
 
@@ -73204,7 +73837,7 @@ export interface IRetailEclDto {
 }
 
 export class GetRetailEclForEditOutput implements IGetRetailEclForEditOutput {
-    retailEcl!: CreateOrEditRetailEclDto | undefined;
+    eclDto!: CreateOrEditRetailEclDto | undefined;
     country!: string | undefined;
     createdByUserName!: string | undefined;
     closedByUserName!: string | undefined;
@@ -73229,7 +73862,7 @@ export class GetRetailEclForEditOutput implements IGetRetailEclForEditOutput {
 
     init(data?: any) {
         if (data) {
-            this.retailEcl = data["retailEcl"] ? CreateOrEditRetailEclDto.fromJS(data["retailEcl"]) : <any>undefined;
+            this.eclDto = data["eclDto"] ? CreateOrEditRetailEclDto.fromJS(data["eclDto"]) : <any>undefined;
             this.country = data["country"];
             this.createdByUserName = data["createdByUserName"];
             this.closedByUserName = data["closedByUserName"];
@@ -73290,7 +73923,7 @@ export class GetRetailEclForEditOutput implements IGetRetailEclForEditOutput {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["retailEcl"] = this.retailEcl ? this.retailEcl.toJSON() : <any>undefined;
+        data["eclDto"] = this.eclDto ? this.eclDto.toJSON() : <any>undefined;
         data["country"] = this.country;
         data["createdByUserName"] = this.createdByUserName;
         data["closedByUserName"] = this.closedByUserName;
@@ -73344,7 +73977,7 @@ export class GetRetailEclForEditOutput implements IGetRetailEclForEditOutput {
 }
 
 export interface IGetRetailEclForEditOutput {
-    retailEcl: CreateOrEditRetailEclDto | undefined;
+    eclDto: CreateOrEditRetailEclDto | undefined;
     country: string | undefined;
     createdByUserName: string | undefined;
     closedByUserName: string | undefined;
@@ -74640,7 +75273,7 @@ export interface IPagedResultDtoOfGetRetailEclUploadForViewDto {
 }
 
 export class GetRetailEclUploadForViewDto implements IGetRetailEclUploadForViewDto {
-    retailEclUpload!: RetailEclUploadDto | undefined;
+    eclUpload!: RetailEclUploadDto | undefined;
     retailEclTenantId!: string | undefined;
     dateUploaded!: moment.Moment | undefined;
     uploadedBy!: string | undefined;
@@ -74656,7 +75289,7 @@ export class GetRetailEclUploadForViewDto implements IGetRetailEclUploadForViewD
 
     init(data?: any) {
         if (data) {
-            this.retailEclUpload = data["retailEclUpload"] ? RetailEclUploadDto.fromJS(data["retailEclUpload"]) : <any>undefined;
+            this.eclUpload = data["eclUpload"] ? RetailEclUploadDto.fromJS(data["eclUpload"]) : <any>undefined;
             this.retailEclTenantId = data["retailEclTenantId"];
             this.dateUploaded = data["dateUploaded"] ? moment(data["dateUploaded"].toString()) : <any>undefined;
             this.uploadedBy = data["uploadedBy"];
@@ -74672,7 +75305,7 @@ export class GetRetailEclUploadForViewDto implements IGetRetailEclUploadForViewD
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["retailEclUpload"] = this.retailEclUpload ? this.retailEclUpload.toJSON() : <any>undefined;
+        data["eclUpload"] = this.eclUpload ? this.eclUpload.toJSON() : <any>undefined;
         data["retailEclTenantId"] = this.retailEclTenantId;
         data["dateUploaded"] = this.dateUploaded ? this.dateUploaded.toISOString() : <any>undefined;
         data["uploadedBy"] = this.uploadedBy;
@@ -74681,7 +75314,7 @@ export class GetRetailEclUploadForViewDto implements IGetRetailEclUploadForViewD
 }
 
 export interface IGetRetailEclUploadForViewDto {
-    retailEclUpload: RetailEclUploadDto | undefined;
+    eclUpload: RetailEclUploadDto | undefined;
     retailEclTenantId: string | undefined;
     dateUploaded: moment.Moment | undefined;
     uploadedBy: string | undefined;

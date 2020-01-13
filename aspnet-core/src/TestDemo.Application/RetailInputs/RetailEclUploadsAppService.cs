@@ -62,7 +62,7 @@ namespace TestDemo.RetailInputs
 
                                    select new GetRetailEclUploadForViewDto()
                                    {
-                                       RetailEclUpload = new RetailEclUploadDto
+                                       EclUpload = new RetailEclUploadDto
                                        {
                                            DocType = o.DocType,
                                            UploadComment = o.UploadComment,
@@ -91,7 +91,7 @@ namespace TestDemo.RetailInputs
 
                                    select new GetRetailEclUploadForViewDto()
                                    {
-                                       RetailEclUpload = new RetailEclUploadDto
+                                       EclUpload = new RetailEclUploadDto
                                        {
                                            DocType = o.DocType,
                                            UploadComment = o.UploadComment,

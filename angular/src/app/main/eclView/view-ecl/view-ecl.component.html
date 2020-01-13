@@ -1,0 +1,325 @@
+<div [@routerTransition]>
+
+    <div class="kt-subheader kt-grid__item">
+
+        <div class="kt-subheader__main">
+            <h3 class="kt-subheader__title">
+                <span>{{l(frameworkEnum[_eclFramework])}} ECL</span>
+            </h3>
+            <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+            <span class="kt-subheader__desc">
+                {{l("ViewEcl")}}
+            </span>
+        </div>
+        <div class="kt-subheader__toolbar">
+            <div class="kt-subheader__wrapper">
+                <button (click)="submitEcl()" class="btn btn-outline-primary" *ngIf="eclDto.status == eclStatusEnum.Draft">
+                    <i class="fa fa-check" style="font-size: 1.2rem !important;"></i>
+                    {{l("Submit")}}
+                </button>
+                <button (click)="approveEcl()" class="btn btn-primary" *ngIf="eclDto.status == eclStatusEnum.Submitted">
+                    <i class="fa fa-check-double" style="font-size: 1.2rem !important;"></i>
+                    {{l("Approve")}}
+                </button>
+                <button (click)="runEclComputation()" class="btn btn-success" *ngIf="eclDto.status == eclStatusEnum.Approved">
+                    <i class="fa fa-play-circle" style="font-size: 1.2rem !important;"></i>
+                    {{l("Run")}}
+                </button>
+                <button (click)="goBack()" class="btn btn-outline-danger">
+                    <i class="fa fa-reply" style="font-size: 1.2rem !important;"></i>
+                    {{l("GoBack")}}
+                </button>
+            </div>
+        </div>
+
+    </div>
+    <div class="kt-content">
+        <div class="kt-portlet">
+            <div class="kt-portlet__body">
+                <div class="kt-widget kt-widget--user-profile-3">
+                    <div class="kt-widget__top">
+                        <div class="kt-widget__content">
+                            <div class="kt-widget__head">
+                                <div class="kt-widget__user">
+                                    <a href="javascript:void(0);" class="kt-widget__username">
+                                        #4556 &nbsp;
+                                    </a>
+                                </div>
+                                <div class="kt-widget__action">
+                                    <span
+                                        class="kt-badge kt-badge--inline kt-badge--pill kt-badge--rounded
+                                               kt-badge--{{eclDto.status == eclStatusEnum.Completed ? 'success' : 'warning'}}">
+                                        {{l(eclStatusEnum[eclDto.status])}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="kt-widget__subhead kt-widget__subhead-overwrite">
+                                <div class="row align-middle mt-3">
+                                    <div class="col align-middle">
+                                        <div class="kt-widget__label kt-widget__label-overwrite">
+                                            {{l('ReportingDate')}}: 
+                                            <span class="btn btn-label-brand btn-sm btn-bold btn-upper">{{eclDto.reportingDate | momentFormat:'LL'}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col text-center align-middle">
+                                        <div class="kt-widget__label kt-widget__label-overwrite">
+                                            {{l('Affiliate')}}: 
+                                            <span class="btn btn-label-success btn-sm btn-bold btn-upper">{{eclDetails.country}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col text-right align-middle">
+                                        <div class="kt-widget__label kt-widget__label-overwrite">
+                                            {{l('CreatedBy')}}: 
+                                            <span class="btn btn-label-warning btn-sm btn-bold btn-upper">{{eclDetails.createdByUserName}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- <div class="kt-widget__info kt-widget__info-overwrite">
+
+                                <div class="kt-widget__progress kt-widget__progress-overwrite">
+                                    <div class="kt-widget__text">
+                                        Progress:
+                                    </div>
+                                    <div class="progress" style="height: 5px;width: 100%;" *ngIf="retailEClDto.status != eclStatusEnum.Completed">
+                                        <div class="progress-bar kt-bg-success" role="progressbar" style="width: 5%;"
+                                            aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="progress" style="height: 5px;width: 100%;" *ngIf="retailEClDto.status == eclStatusEnum.Completed">
+                                        <div class="progress-bar kt-bg-success" role="progressbar" style="width: 100%;"
+                                            aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="kt-widget__stats">
+                                        {{ retailEClDto.status == eclStatusEnum.Completed ? '100' : '5'  }}%
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Start Result -->
+        <div class="row" *ngIf="eclDto.status == eclStatusEnum.Completed">
+            <div class="col">
+                <div class="kt-portlet kt-portlet--height-fluid">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                Result Summary
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body kt-portlet__body--fluid">
+                        <div class="kt-widget12">
+                            <div class="kt-widget12__content">
+                                <div class="kt-widget12__item">
+                                    <div class="kt-widget12__info">
+                                        <span class="kt-widget12__desc">Total Exposure</span>
+                                        <span class="kt-widget12__value">₦{{fakeResultData.overrallResult.totalExposure | number}}</span>
+                                    </div>
+
+                                    <div class="kt-widget12__info">
+                                        <span class="kt-widget12__desc">Total Impairment (Pre-Override)</span>
+                                        <span class="kt-widget12__value">₦{{fakeResultData.overrallResult.totalImpairmentPre | number}}</span>
+                                    </div>
+                                </div>
+                                <div class="kt-widget12__item">
+                                    <div class="kt-widget12__info">
+                                        <span class="kt-widget12__desc">Total Impairment (Post-Override)</span>
+                                        <span class="kt-widget12__value">₦{{fakeResultData.overrallResult.totalImpairmentPost | number}}</span>
+                                    </div>
+                                    <div class="kt-widget12__info">
+                                        <span class="kt-widget12__desc">Final Coverage Ratio</span>
+                                        <div class="kt-widget12__progress">
+                                            <div class="progress kt-progress--sm">
+                                                <div class="progress-bar kt-bg-brand" role="progressbar"
+                                                    style="width: 26%;" aria-valuenow="100" aria-valuemin="0"
+                                                    aria-valuemax="100"></div>
+                                            </div>
+                                            <span class="kt-widget12__stat">
+                                                {{fakeResultData.overrallResult.finalCoverageRatio | percent}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" (click)="showFakeTopExposure = !showFakeTopExposure">
+                                {{showFakeTopExposure ? 'Hide' : 'Show'}} Top 20 Exposure Summary
+                            </button>
+                            <div class="kt-widget12__chart" *ngIf="showFakeTopExposure">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="4"></th>
+                                                <th colspan="3">Pre-Override</th>
+                                                <th colspan="3">Post-Override</th>
+                                            </tr>
+                                        </thead>
+                                        <thead>
+                                            <tr>
+                                                <th>Contract Id</th>
+                                                <th>Customer Name</th>
+                                                <th>Customer No.</th>
+                                                <th>Account No.</th>
+                                                <th>Exposure</th>
+                                                <th>Impairment</th>
+                                                <th>Coverage Ratio</th>
+                                                <th>Exposure</th>
+                                                <th>Impairment</th>
+                                                <th>Coverage Ratio</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of fakeResultData.topExposures">
+                                                <td>{{item.contractId}}</td>
+                                                <td>{{item.customerName}}</td>
+                                                <td>{{item.customerNo}}</td>
+                                                <td>{{item.accountNo}}</td>
+                                                <td>{{item.exposurePre | number}}</td>
+                                                <td>{{item.impairmentPre | number}}</td>
+                                                <td>{{item.coverageRatioPre | percent}}</td>
+                                                <td>{{item.exposurePost | number}}</td>
+                                                <td>{{item.impairmentPost | number}}</td>
+                                                <td>{{item.coverageRatioPost | percent}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Result -->
+
+        <!-- Start Upload & Overrides -->
+        <div class="kt-portlet ">
+            <div class="kt-portlet__head">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">
+                        {{l('UploadSummary')}}
+                    </h3>
+                </div>
+                <div class="kt-portlet__head-toolbar">
+                    <div class="btn-group" dropdown>
+                        <button dropdownToggle type="button" class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-upload"></i> {{"Upload" | localize}}
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-excel-operations" *dropdownMenu>
+                            <a href="javascript:;" class="no-padding">
+                                <span class="fileinput-button">
+                                    <p-fileUpload customUpload="true"
+                                            name="UploadLoanSnapshot"
+                                            #UploadLoanSnapshot
+                                            maxFileSize="10000000"
+                                            auto="auto"
+                                            accept=".csv,.xls,.xlsx"
+                                            (uploadHandler)="uploadLoanbook($event)"
+                                            (onError)="onUploadExcelError()"
+                                            chooseLabel="{{'RawDataLoanBook' | localize}}">
+                                    </p-fileUpload>
+                                </span>
+                            </a>
+                            <a href="javascript:;" class="no-padding">
+                                <span class="fileinput-button">
+                                    <p-fileUpload customUpload="true"
+                                            name="UploadPaymentSchedule"
+                                            #UploadPaymentSchedule
+                                            maxFileSize="10000000"
+                                            auto="auto"
+                                            accept=".csv,.xls,.xlsx"
+                                            (uploadHandler)="uploadPaymentSchedule($event)"
+                                            (onError)="onUploadExcelError()"
+                                            chooseLabel="{{'RawDataPaymentSchedule' | localize}}">
+                                    </p-fileUpload>
+                                </span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <span class="dropdown-item-text text-muted pl-3" href="#">
+                                <small [innerHTML]="l('ImportToExcelSampleFileDownloadInfo', '<a href=/assets/sampleFiles/ImportUsersSampleFile.xlsx>' + l('ClickHere') + '</a>')"></small>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="kt-portlet__body">
+                <div class="table-responsive">
+                    <p *ngIf="eclUploads.length <= 0" class="">
+                        {{l('NoUploadedRecordFoundForEcl')}}
+                    </p>
+                    <table *ngIf="eclUploads.length > 0" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>{{l('Actions')}}</th>
+                                <th>{{l('DocType')}}</th>
+                                <th>{{l('DateUploaded')}}</th>
+                                <th>{{l('UploadedBy')}}</th>
+                                <th>{{l('Status')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of eclUploads">
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm" (click)="navigateToViewUploadDetails(item.eclUpload.id, item.eclUpload.docType)">
+                                        <i class="fa fa-eye"></i> {{l('View')}}
+                                    </button>
+                                </td>
+                                <td class="align-middle">{{l(uploadDocEnum[item.eclUpload.docType])}}</td>
+                                <td class="align-middle">{{item.dateUploaded | momentFormat: 'LL'}}</td>
+                                <td class="align-middle">{{item.uploadedBy}}</td>
+                                <td class="align-middle">
+                                    <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline 
+                                                    kt-badge--unified-{{ getStatusLabelClass(item.eclUpload.status) }}">
+                                        {{l(statusEnum[item.eclUpload.status])}}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <!-- End Upload & Overrides-->
+
+        <!-- Start Assumptions-->
+        <div class="kt-portlet ">
+            <div class="kt-portlet__head">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">
+                        {{l('Assumptions')}}
+                    </h3>
+                </div>
+            </div>
+            <div class="kt-portlet__body">
+                <tabset>
+                    <tab heading="{{'FrameworkAssumptions' | localize}}">
+                        <app-frameworkAssumptions #frameworkAssumptionTag ></app-frameworkAssumptions>
+                    </tab>
+                    <tab heading="{{'EadAssumptions' | localize}}">
+                        <app-eadInputAssumptions #eadInputAssumptionTag></app-eadInputAssumptions>
+                    </tab>
+                    <tab heading="{{'LgdAssumptions' | localize}}">
+                        <app-lgdInputAssumptions #lgdInputAssumptionTag></app-lgdInputAssumptions>
+                    </tab>
+                    <tab heading="{{'PdAssumptions' | localize}}">
+                        <app-pdInputAssumptions #pdInputAssumptionTag></app-pdInputAssumptions>
+                    </tab>
+                </tabset>
+            </div>
+        </div>
+        <!-- End Assumptions-->
+
+        <!-- Start Audit Trail -->
+        <!-- End Audit Trail -->
+
+    </div>
+
+    <app-approve-ecl-modal #approvalModal (approved)="eclReviewed($event)"></app-approve-ecl-modal>
+</div>

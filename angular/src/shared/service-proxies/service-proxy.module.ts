@@ -5,6 +5,9 @@ import * as ApiServiceProxies from './service-proxies';
 
 @NgModule({
     providers: [
+        ApiServiceProxies.ObeEclsServiceProxy,
+        ApiServiceProxies.ObeEclUploadsServiceProxy,
+        ApiServiceProxies.InvestmentEclsServiceProxy,
         ApiServiceProxies.InvSecFitchCummulativeDefaultRatesServiceProxy,
         ApiServiceProxies.InvSecMacroEconomicAssumptionsServiceProxy,
         ApiServiceProxies.EclConfigurationsServiceProxy,

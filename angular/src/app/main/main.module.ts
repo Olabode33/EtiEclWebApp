@@ -84,7 +84,7 @@ import { CreateEditWholesaleEclComponent } from './wholesale/createEdit-wholesal
 import { ViewWholesaleEclComponent } from './wholesale/view-wholesaleEcl/view-wholesaleEcl.component';
 import { CreateEditRetailEclComponent } from './retail/createEdit-retailEcl/createEdit-retailEcl.component';
 import { ViewRetailEclComponent } from './retail/view-retailEcl/view-retailEcl.component';
-import { ApproveEclModalComponent } from './eclShared/approve-ecl-modal/approve-ecl-modal.component';
+import { ApprovalModalComponent } from './eclShared/approve-ecl-modal/approve-ecl-modal.component';
 import { AffiliateAssumptionComponent } from './assumptions/affiliateAssumption/affiliateAssumption.component';
 import { EadInputAssumptionsComponent } from './assumptions/_subs/eadInputAssumptions/eadInputAssumptions.component';
 import { LgdInputAssumptionsComponent } from './assumptions/_subs/lgdInputAssumptions/lgdInputAssumptions.component';
@@ -93,6 +93,7 @@ import { EditPortfolioReportDateComponent } from './assumptions/_subs/edit-portf
 import { EditAssumptionModalComponent } from './assumptions/_subs/edit-assumption-modal/edit-assumption-modal.component';
 import { ViewLoanbookDetailsComponent } from './eclShared/view-loanbookDetails/view-loanbookDetails.component';
 import { ViewPaymentScheduleComponent } from './eclShared/view-paymentSchedule/view-paymentSchedule.component';
+import { ViewEclComponent } from './eclView/view-ecl/view-ecl.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -119,11 +120,12 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
-		EclConfigurationsComponent,
-		CreateOrEditEclConfigurationModalComponent,
-		AffiliateOverrideThresholdsComponent,
-		CreateOrEditAffiliateOverrideThresholdModalComponent,
-    AffiliateOverrideThresholdOrganizationUnitLookupTableModalComponent,
+        ViewEclComponent,
+        EclConfigurationsComponent,
+        CreateOrEditEclConfigurationModalComponent,
+        AffiliateOverrideThresholdsComponent,
+        CreateOrEditAffiliateOverrideThresholdModalComponent,
+        AffiliateOverrideThresholdOrganizationUnitLookupTableModalComponent,
         ViewPaymentScheduleComponent,
         ViewLoanbookDetailsComponent,
         AssumptionApprovalsComponent,
@@ -138,7 +140,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         FrameworkAssumptionsComponent,
         ViewAffiliateAssumptionsComponent,
         AffiliateAssumptionComponent,
-        ApproveEclModalComponent,
+        ApprovalModalComponent,
         ViewRetailEclComponent,
         CreateEditRetailEclComponent,
         ViewWholesaleEclComponent,

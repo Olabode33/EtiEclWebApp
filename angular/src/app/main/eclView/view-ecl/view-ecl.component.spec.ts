@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { ApprovalModalComponent } from './approve-ecl-modal.component';
+import { ViewEclComponent } from './view-ecl.component';
 
-describe('ApproveEclModalComponent', () => {
-  let component: ApprovalModalComponent;
-  let fixture: ComponentFixture<ApprovalModalComponent>;
+describe('ViewEclComponent', () => {
+  let component: ViewEclComponent;
+  let fixture: ComponentFixture<ViewEclComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ApprovalModalComponent ]
+      declarations: [ ViewEclComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ApprovalModalComponent);
+    fixture = TestBed.createComponent(ViewEclComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

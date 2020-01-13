@@ -10,9 +10,7 @@ namespace TestDemo.Investment
     public interface IInvestmentEclsAppService : IApplicationService 
     {
         Task<PagedResultDto<GetInvestmentEclForViewDto>> GetAll(GetAllInvestmentEclsInput input);
-
-		Task<GetInvestmentEclForEditOutput> GetInvestmentEclForEdit(EntityDto<Guid> input);
-
+        
 		Task CreateOrEdit(CreateOrEditInvestmentEclDto input);
 
 		Task Delete(EntityDto<Guid> input);

@@ -26,6 +26,7 @@ import { AffiliateAssumptionComponent } from './assumptions/affiliateAssumption/
 import { ViewAffiliateAssumptionsComponent } from './assumptions/view-affiliateAssumptions/view-affiliateAssumptions.component';
 import { ViewLoanbookDetailsComponent } from './eclShared/view-loanbookDetails/view-loanbookDetails.component';
 import { ViewPaymentScheduleComponent } from './eclShared/view-paymentSchedule/view-paymentSchedule.component';
+import { ViewEclComponent } from './eclView/view-ecl/view-ecl.component';
 
 @NgModule({
     imports: [
@@ -56,6 +57,7 @@ import { ViewPaymentScheduleComponent } from './eclShared/view-paymentSchedule/v
                     { path: 'wholesale/ecl/view/:eclId', component: ViewWholesaleEclComponent},
                     { path: 'retail/ecl/create', component: CreateEditRetailEclComponent},
                     { path: 'retail/ecl/view/:eclId', component: ViewRetailEclComponent},
+                    { path: 'ecl/view/:framework/:eclId', component: ViewEclComponent},
                     { path: 'ecl/view/upload/loanbook/:framework/:uploadId', component: ViewLoanbookDetailsComponent},
                     { path: 'ecl/view/upload/payment/:framework/:uploadId', component: ViewPaymentScheduleComponent}
                 ]
