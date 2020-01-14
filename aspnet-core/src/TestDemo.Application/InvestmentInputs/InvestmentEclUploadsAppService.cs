@@ -18,6 +18,7 @@ using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
 using TestDemo.Authorization.Users;
+using Abp.UI;
 
 namespace TestDemo.InvestmentInputs
 {
@@ -128,12 +129,20 @@ namespace TestDemo.InvestmentInputs
 		 [AbpAuthorize(AppPermissions.Pages_InvestmentEclUploads_Create)]
 		 protected virtual async Task<Guid> Create(CreateOrEditInvestmentEclUploadDto input)
          {
-            var investmentEclUpload = ObjectMapper.Map<InvestmentEclUpload>(input);
+            var eclUploadExist = await _investmentEclUploadRepository.FirstOrDefaultAsync(x => x.DocType == input.DocType && x.InvestmentEclId == input.EclId);
 
-			
+            if (eclUploadExist == null)
+            {
+                var investmentEclUpload = ObjectMapper.Map<InvestmentEclUpload>(input);
 
-            var id = await _investmentEclUploadRepository.InsertAndGetIdAsync(investmentEclUpload);
-            return id;
+                var id = await _investmentEclUploadRepository.InsertAndGetIdAsync(investmentEclUpload);
+                return id;
+            }
+            else
+            {
+                throw new UserFriendlyException(L("UploadRecordExists"));
+            }
+            
          }
 
 		 [AbpAuthorize(AppPermissions.Pages_InvestmentEclUploads_Edit)]

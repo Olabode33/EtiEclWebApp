@@ -440,6 +440,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
         // }
     }
 
+    //TODO: Add view assetbook details
     navigateToViewUploadDetails(uploadId: string, docType: UploadDocTypeEnum): void {
         switch (docType) {
             case UploadDocTypeEnum.LoanBook:

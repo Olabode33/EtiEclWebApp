@@ -23,6 +23,7 @@ using Abp.UI;
 using TestDemo.EclShared.Dtos;
 using GetAllForLookupTableInput = TestDemo.Investment.Dtos.GetAllForLookupTableInput;
 using TestDemo.InvestmentAssumption.Dtos;
+using TestDemo.InvestmentInputs;
 
 namespace TestDemo.Investment
 {
@@ -39,7 +40,7 @@ namespace TestDemo.Investment
         private readonly IInvestmentEclPdInputAssumptionsAppService _invsecEclPdAssumptionsAppService;
         private readonly IInvestmentPdInputMacroEconomicAssumptionsAppService _invsecPdAssumptionMacroAsusmptionAppService;
         private readonly IInvestmentEclPdFitchDefaultRatesAppService _invsecEclPdAssumptionFitchRatingAppService;
-        //private readonly IRetailEclUploadsAppService _retailEclUploadsAppService;
+        private readonly IInvestmentEclUploadsAppService _invsecEclUploadsAppService;
 
         private readonly IInvestmentEclApprovalsAppService _invsecEclApprovalsAppService;
         private readonly IBackgroundJobManager _backgroundJobManager;
@@ -55,6 +56,7 @@ namespace TestDemo.Investment
                                         IInvestmentEclPdInputAssumptionsAppService invsecEclPdAssumptionsAppService,
                                         IInvestmentPdInputMacroEconomicAssumptionsAppService invsecPdAssumptionMacroAssumptionAppService,
                                         IInvestmentEclPdFitchDefaultRatesAppService invsecEclPdAssumptionFitchRatingAppService,
+                                        IInvestmentEclUploadsAppService invsecEclUploadsAppService,
                                         IInvestmentEclApprovalsAppService invsecEclApprovalsAppService,
                                         IBackgroundJobManager backgroundJobManager,
                                         IEclSharedAppService eclSharedAppService)
@@ -69,6 +71,7 @@ namespace TestDemo.Investment
             _invsecEclPdAssumptionsAppService = invsecEclPdAssumptionsAppService;
             _invsecEclPdAssumptionFitchRatingAppService = invsecEclPdAssumptionFitchRatingAppService;
             _invsecPdAssumptionMacroAsusmptionAppService = invsecPdAssumptionMacroAssumptionAppService;
+            _invsecEclUploadsAppService = invsecEclUploadsAppService;
 
             _invsecEclApprovalsAppService = invsecEclApprovalsAppService;
             _backgroundJobManager = backgroundJobManager;
@@ -434,20 +437,20 @@ namespace TestDemo.Investment
         {
             ValidationMessageDto output = new ValidationMessageDto();
 
-            //var uploads = await _retailEclUploadsAppService.GetEclUploads(new EntityDto<Guid> { Id = eclId });
-            //if (uploads.Count > 0)
-            //{
-            //    var notCompleted = uploads.Any(x => x.RetailEclUpload.Status != GeneralStatusEnum.Completed);
-            //    output.Status = !notCompleted;
-            //    output.Message = notCompleted == true ? L("UploadInProgressError") : "";
-            //}
-            //else
-            //{
-            //    output.Status = false;
-            //    output.Message = L("NoUploadedRecordFoundForEcl");
-            //}
+            var uploads = await _invsecEclUploadsAppService.GetEclUploads(new EntityDto<Guid> { Id = eclId });
+            if (uploads.Count > 0)
+            {
+                var notCompleted = uploads.Any(x => x.EclUpload.Status != GeneralStatusEnum.Completed);
+                output.Status = !notCompleted;
+                output.Message = notCompleted == true ? L("UploadInProgressError") : "";
+            }
+            else
+            {
+                output.Status = false;
+                output.Message = L("NoUploadedRecordFoundForEcl");
+            }
 
-            return new ValidationMessageDto { Status = true };
+            return output;
         }
 
         [AbpAuthorize(AppPermissions.Pages_InvestmentEcls)]
