@@ -80,9 +80,9 @@ namespace TestDemo.ObeInputs
            
 		    var output = new GetObeEclUploadForEditOutput {ObeEclUpload = ObjectMapper.Map<CreateOrEditObeEclUploadDto>(obeEclUpload)};
 
-		    if (output.ObeEclUpload.ObeEclId != null)
+		    if (output.ObeEclUpload.EclId != null)
             {
-                var _lookupObeEcl = await _lookup_obeEclRepository.FirstOrDefaultAsync((Guid)output.ObeEclUpload.ObeEclId);
+                var _lookupObeEcl = await _lookup_obeEclRepository.FirstOrDefaultAsync((Guid)output.ObeEclUpload.EclId);
                 output.ObeEclTenantId = _lookupObeEcl.TenantId.ToString();
             }
 			

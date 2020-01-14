@@ -80,9 +80,9 @@ namespace TestDemo.WholesaleInputs
            
 		    var output = new GetWholesaleEclUploadForEditOutput {WholesaleEclUpload = ObjectMapper.Map<CreateOrEditWholesaleEclUploadDto>(wholesaleEclUpload)};
 
-		    if (output.WholesaleEclUpload.WholesaleEclId != null)
+		    if (output.WholesaleEclUpload.EclId != null)
             {
-                var _lookupWholesaleEcl = await _lookup_wholesaleEclRepository.FirstOrDefaultAsync((Guid)output.WholesaleEclUpload.WholesaleEclId);
+                var _lookupWholesaleEcl = await _lookup_wholesaleEclRepository.FirstOrDefaultAsync((Guid)output.WholesaleEclUpload.EclId);
                 output.WholesaleEclTenantId = _lookupWholesaleEcl.TenantId.ToString();
             }
 			

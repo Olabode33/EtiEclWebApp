@@ -264,7 +264,7 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
     uploadLoanbook(data: { files: File }): void {
         let upload = new CreateOrEditRetailEclUploadDto();
         upload.docType = UploadDocTypeEnum.LoanBook;
-        upload.retailEclId = this._eclId;
+        upload.eclId = this._eclId;
         upload.status = GeneralStatusEnum.Processing;
         upload.uploadComment = 'Generic sample';
 
@@ -279,7 +279,7 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
     uploadPaymentSchedule(data: { files: File }): void {
         let upload = new CreateOrEditRetailEclUploadDto();
         upload.docType = UploadDocTypeEnum.PaymentSchedule;
-        upload.retailEclId = this._eclId;
+        upload.eclId = this._eclId;
         upload.status = GeneralStatusEnum.Processing;
         upload.uploadComment = 'Generic sample';
 

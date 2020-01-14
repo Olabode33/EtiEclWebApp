@@ -69,20 +69,20 @@ export class CreateOrEditWholesaleEclUploadModalComponent extends AppComponentBa
     }
 
         openSelectWholesaleEclModal() {
-        this.wholesaleEclUploadWholesaleEclLookupTableModal.id = this.wholesaleEclUpload.wholesaleEclId;
+        this.wholesaleEclUploadWholesaleEclLookupTableModal.id = this.wholesaleEclUpload.eclId;
         this.wholesaleEclUploadWholesaleEclLookupTableModal.displayName = this.wholesaleEclTenantId;
         this.wholesaleEclUploadWholesaleEclLookupTableModal.show();
     }
 
 
         setWholesaleEclIdNull() {
-        this.wholesaleEclUpload.wholesaleEclId = null;
+        this.wholesaleEclUpload.eclId = null;
         this.wholesaleEclTenantId = '';
     }
 
 
         getNewWholesaleEclId() {
-        this.wholesaleEclUpload.wholesaleEclId = this.wholesaleEclUploadWholesaleEclLookupTableModal.id;
+        this.wholesaleEclUpload.eclId = this.wholesaleEclUploadWholesaleEclLookupTableModal.id;
         this.wholesaleEclTenantId = this.wholesaleEclUploadWholesaleEclLookupTableModal.displayName;
     }
 

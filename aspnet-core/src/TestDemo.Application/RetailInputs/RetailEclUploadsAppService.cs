@@ -113,9 +113,9 @@ namespace TestDemo.RetailInputs
 
             var output = new GetRetailEclUploadForEditOutput { RetailEclUpload = ObjectMapper.Map<CreateOrEditRetailEclUploadDto>(retailEclUpload) };
 
-            if (output.RetailEclUpload.RetailEclId != null)
+            if (output.RetailEclUpload.EclId != null)
             {
-                var _lookupRetailEcl = await _lookup_retailEclRepository.FirstOrDefaultAsync((Guid)output.RetailEclUpload.RetailEclId);
+                var _lookupRetailEcl = await _lookup_retailEclRepository.FirstOrDefaultAsync((Guid)output.RetailEclUpload.EclId);
                 output.RetailEclTenantId = _lookupRetailEcl.TenantId.ToString();
             }
 
@@ -141,7 +141,7 @@ namespace TestDemo.RetailInputs
         [AbpAuthorize(AppPermissions.Pages_RetailEclUploads_Create)]
         protected virtual async Task<Guid> Create(CreateOrEditRetailEclUploadDto input)
         {
-            var retailEclUploadExist = await _retailEclUploadRepository.FirstOrDefaultAsync(x => x.DocType == input.DocType && x.RetailEclId == input.RetailEclId);
+            var retailEclUploadExist = await _retailEclUploadRepository.FirstOrDefaultAsync(x => x.DocType == input.DocType && x.RetailEclId == input.EclId);
             
             if (retailEclUploadExist == null)
             {

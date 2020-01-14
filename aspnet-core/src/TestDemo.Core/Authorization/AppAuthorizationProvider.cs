@@ -30,6 +30,20 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var investmentAssetBooks = pages.CreateChildPermission(AppPermissions.Pages_InvestmentAssetBooks, L("InvestmentAssetBooks"));
+            investmentAssetBooks.CreateChildPermission(AppPermissions.Pages_InvestmentAssetBooks_Create, L("CreateNewInvestmentAssetBook"));
+            investmentAssetBooks.CreateChildPermission(AppPermissions.Pages_InvestmentAssetBooks_Edit, L("EditInvestmentAssetBook"));
+            investmentAssetBooks.CreateChildPermission(AppPermissions.Pages_InvestmentAssetBooks_Delete, L("DeleteInvestmentAssetBook"));
+
+
+
+            var investmentEclUploads = pages.CreateChildPermission(AppPermissions.Pages_InvestmentEclUploads, L("InvestmentEclUploads"));
+            investmentEclUploads.CreateChildPermission(AppPermissions.Pages_InvestmentEclUploads_Create, L("CreateNewInvestmentEclUpload"));
+            investmentEclUploads.CreateChildPermission(AppPermissions.Pages_InvestmentEclUploads_Edit, L("EditInvestmentEclUpload"));
+            investmentEclUploads.CreateChildPermission(AppPermissions.Pages_InvestmentEclUploads_Delete, L("DeleteInvestmentEclUpload"));
+
+
+
             var obeEclOverrides = pages.CreateChildPermission(AppPermissions.Pages_ObeEclOverrides, L("ObeEclOverrides"));
             obeEclOverrides.CreateChildPermission(AppPermissions.Pages_ObeEclOverrides_Create, L("CreateNewObeEclOverride"));
             obeEclOverrides.CreateChildPermission(AppPermissions.Pages_ObeEclOverrides_Edit, L("EditObeEclOverride"));

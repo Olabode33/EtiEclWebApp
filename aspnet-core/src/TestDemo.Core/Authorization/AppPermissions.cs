@@ -6,6 +6,16 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_InvestmentAssetBooks = "Pages.InvestmentAssetBooks";
+        public const string Pages_InvestmentAssetBooks_Create = "Pages.InvestmentAssetBooks.Create";
+        public const string Pages_InvestmentAssetBooks_Edit = "Pages.InvestmentAssetBooks.Edit";
+        public const string Pages_InvestmentAssetBooks_Delete = "Pages.InvestmentAssetBooks.Delete";
+
+        public const string Pages_InvestmentEclUploads = "Pages.InvestmentEclUploads";
+        public const string Pages_InvestmentEclUploads_Create = "Pages.InvestmentEclUploads.Create";
+        public const string Pages_InvestmentEclUploads_Edit = "Pages.InvestmentEclUploads.Edit";
+        public const string Pages_InvestmentEclUploads_Delete = "Pages.InvestmentEclUploads.Delete";
+
         public const string Pages_ObeEclOverrides = "Pages.ObeEclOverrides";
         public const string Pages_ObeEclOverrides_Create = "Pages.ObeEclOverrides.Create";
         public const string Pages_ObeEclOverrides_Edit = "Pages.ObeEclOverrides.Edit";

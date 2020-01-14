@@ -1,4 +1,5 @@
-﻿using TestDemo.InvestmentAssumption;
+﻿using TestDemo.InvestmentInputs;
+using TestDemo.InvestmentAssumption;
 using TestDemo.Investment;
 using TestDemo.EclConfig;
 using TestDemo.WholesaleComputatoin;
@@ -41,6 +42,10 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<InvestmentAssetBook> InvestmentAssetBooks { get; set; }
+
+        public virtual DbSet<InvestmentEclUpload> InvestmentEclUploads { get; set; }
+
         public virtual DbSet<ObeEclOverride> ObeEclOverrides { get; set; }
 
         public virtual DbSet<WholesaleEclOverride> WholesaleEclOverrides { get; set; }

@@ -1,4 +1,5 @@
-﻿using TestDemo.InvestmentAssumption;
+﻿using TestDemo.InvestmentInputs;
+using TestDemo.InvestmentAssumption;
 using TestDemo.Investment;
 using TestDemo.EclConfig;
 using TestDemo.LgdCalibrationResult;

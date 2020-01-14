@@ -240,6 +240,20 @@
                                     </p-fileUpload>
                                 </span>
                             </a>
+                            <a href="javascript:;" class="no-padding">
+                                <span class="fileinput-button">
+                                    <p-fileUpload customUpload="true"
+                                            name="UploadAssetBook"
+                                            #UploadAssetBook
+                                            maxFileSize="10000000"
+                                            auto="auto"
+                                            accept=".csv,.xls,.xlsx"
+                                            (uploadHandler)="uploadAssetBook($event)"
+                                            (onError)="onUploadExcelError()"
+                                            chooseLabel="{{'RawDataAssetBook' | localize}}">
+                                    </p-fileUpload>
+                                </span>
+                            </a>
                             <div class="dropdown-divider"></div>
                             <span class="dropdown-item-text text-muted pl-3" href="#">
                                 <small [innerHTML]="l('ImportToExcelSampleFileDownloadInfo', '<a href=/assets/sampleFiles/ImportUsersSampleFile.xlsx>' + l('ClickHere') + '</a>')"></small>

@@ -7,7 +7,7 @@ import { EadInputAssumptionsComponent } from '@app/main/assumptions/_subs/eadInp
 import { LgdInputAssumptionsComponent } from '@app/main/assumptions/_subs/lgdInputAssumptions/lgdInputAssumptions.component';
 import { PdInputAssumptionsComponent } from '@app/main/assumptions/_subs/pdInputAssumptions/pdInputAssumptions.component';
 import { FileUpload } from 'primeng/primeng';
-import { GetRetailEclForEditOutput, CreateOrEditRetailEclDto, GetRetailEclUploadForViewDto, UploadDocTypeEnum, GeneralStatusEnum, DataTypeEnum, EclStatusEnum, AssumptionGroupEnum, EadInputAssumptionGroupEnum, LdgInputAssumptionGroupEnum, RetailEclsServiceProxy, RetailEclUploadsServiceProxy, TokenAuthServiceProxy, FrameworkEnum, WholesaleEclsServiceProxy, WholesaleEclUploadsServiceProxy, ObeEclsServiceProxy, ObeEclUploadsServiceProxy, InvestmentEclsServiceProxy, CreateOrEditRetailEclApprovalDto, GetWholesaleEclForEditOutput, CreateOrEditWholesaleEclDto, GetWholesaleEclUploadForViewDto, GetObeEclForEditOutput, CreateOrEditObeEclDto, GetObeEclUploadForViewDto, CreateOrEditObeEclApprovalDto, CreateOrEditInvestmentEclApprovalDto, CreateOrEditInvestmentEclDto, GetInvestmentEclForEditOutput, AssumptionDto, EadInputAssumptionDto, LgdAssumptionDto, GetAllPdAssumptionsDto, GetAllInvSecPdAssumptionsDto, EntityDtoOfGuid, CreateOrEditWholesaleEclUploadDto, CreateOrEditRetailEclUploadDto, CreateOrEditObeEclUploadDto, CreateOrEditWholesaleEclApprovalDto } from '@shared/service-proxies/service-proxies';
+import { GetRetailEclForEditOutput, CreateOrEditRetailEclDto, GetRetailEclUploadForViewDto, UploadDocTypeEnum, GeneralStatusEnum, DataTypeEnum, EclStatusEnum, AssumptionGroupEnum, EadInputAssumptionGroupEnum, LdgInputAssumptionGroupEnum, RetailEclsServiceProxy, RetailEclUploadsServiceProxy, TokenAuthServiceProxy, FrameworkEnum, WholesaleEclsServiceProxy, WholesaleEclUploadsServiceProxy, ObeEclsServiceProxy, ObeEclUploadsServiceProxy, InvestmentEclsServiceProxy, CreateOrEditRetailEclApprovalDto, GetWholesaleEclForEditOutput, CreateOrEditWholesaleEclDto, GetWholesaleEclUploadForViewDto, GetObeEclForEditOutput, CreateOrEditObeEclDto, GetObeEclUploadForViewDto, CreateOrEditObeEclApprovalDto, CreateOrEditInvestmentEclApprovalDto, CreateOrEditInvestmentEclDto, GetInvestmentEclForEditOutput, AssumptionDto, EadInputAssumptionDto, LgdAssumptionDto, GetAllPdAssumptionsDto, GetAllInvSecPdAssumptionsDto, EntityDtoOfGuid, CreateOrEditWholesaleEclUploadDto, CreateOrEditRetailEclUploadDto, CreateOrEditObeEclUploadDto, CreateOrEditWholesaleEclApprovalDto, InvestmentEclUploadsServiceProxy, GetInvestmentEclUploadForViewDto, CreateOrEditInvestmentEclUploadDto } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module/dist/src/notify/notify.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FileDownloadService } from '@shared/utils/file-download.service';
@@ -46,6 +46,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
 
     uploadPaymentUrl = '';
     uploadLoanbookUrl = '';
+    uploadAssetBookUrl = '';
 
     eclDetails: any = new Object();
     eclDto: any = new Object();
@@ -73,6 +74,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
         private _obeEclServiceProxy: ObeEclsServiceProxy,
         private _obeEclUploadServiceProxy: ObeEclUploadsServiceProxy,
         private _investmentEclServiceProxy: InvestmentEclsServiceProxy,
+        private _investmentEclUploadServiceProxy: InvestmentEclUploadsServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
@@ -85,6 +87,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
         this.isLoading = true;
         this.uploadPaymentUrl = AppConsts.remoteServiceBaseUrl + '/EclRawData/ImportPaymentScheduleFromExcel';
         this.uploadLoanbookUrl = AppConsts.remoteServiceBaseUrl + '/EclRawData/ImportLoanbookFromExcel';
+        this.uploadAssetBookUrl = AppConsts.remoteServiceBaseUrl + '/EclRawData/ImportAssetFromExcel';
     }
 
     ngOnInit() {
@@ -118,7 +121,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
                 break;
             case FrameworkEnum.Investments:
                 this._eclServiceProxy = this._investmentEclServiceProxy;
-                //this._eclUploadServiceProxy =
+                this._eclUploadServiceProxy = this._investmentEclUploadServiceProxy;
                 break;
             default:
                 throw Error(this.l('FrameworkDoesNotExistError'));
@@ -163,7 +166,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
             case FrameworkEnum.Investments:
                 this.eclDetails = new GetInvestmentEclForEditOutput();
                 this.eclDto = new CreateOrEditInvestmentEclDto();
-                this.eclUploads = new Array<GetObeEclUploadForViewDto>(); //Todo: 1. Fix to investment uploads
+                this.eclUploads = new Array<GetInvestmentEclUploadForViewDto>();
                 this.approvalDto = new CreateOrEditInvestmentEclApprovalDto();
                 this.approvalDto.investmentEclId = this._eclId;
                 this.approvalDto.reviewComment = '';
@@ -193,7 +196,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
             case FrameworkEnum.OBE:
                 return new CreateOrEditObeEclUploadDto();
             case FrameworkEnum.Investments:
-                return null;
+                return new CreateOrEditInvestmentEclUploadDto();
             default:
                 throw Error('FrameworkDoesNotExistError');
         }
@@ -324,7 +327,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
     uploadLoanbook(data: { files: File }): void {
         let upload = this.getUploadDto();
         upload.docType = UploadDocTypeEnum.LoanBook;
-        upload.retailEclId = this._eclId;
+        upload.eclId = this._eclId;
         upload.status = GeneralStatusEnum.Processing;
         upload.uploadComment = '';
 
@@ -338,7 +341,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
     uploadPaymentSchedule(data: { files: File }): void {
         let upload = this.getUploadDto();
         upload.docType = UploadDocTypeEnum.PaymentSchedule;
-        upload.retailEclId = this._eclId;
+        upload.eclId = this._eclId;
         upload.status = GeneralStatusEnum.Processing;
         upload.uploadComment = '';
 
@@ -350,14 +353,13 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
 
     uploadAssetBook(data: { files: File }): void {
         let upload = this.getUploadDto();
-        upload.docType = UploadDocTypeEnum.General; //Todo: 2 Update to assetbook
-        upload.retailEclId = this._eclId;
+        upload.docType = UploadDocTypeEnum.AssetBook;
+        upload.eclId = this._eclId;
         upload.status = GeneralStatusEnum.Processing;
         upload.uploadComment = '';
 
-        //Todo: 3 update for investment
         this._eclUploadServiceProxy.createOrEdit(upload).subscribe(result => {
-            this.startPaymentUpload(data, result);
+            this.startAssetBookUpload(data, result);
             this.getEclUploadSummary();
         });
     }
@@ -402,6 +404,26 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
                     this.autoReloadUploadSummary();
                 } else if (response.error != null) {
                     this.notify.error(this.l('ImportPaymentScheduleUploadFailed'));
+                }
+            });
+    }
+
+    startAssetBookUpload(data: { files: File }, uploadSummaryId: string): void {
+        const formData: FormData = new FormData();
+        const file = data.files[0];
+        formData.append('file', file, file.name);
+        formData.append('uploadSummaryId', uploadSummaryId);
+        formData.append('framework', this._eclFramework.toString());
+
+        this._httpClient
+            .post<any>(this.uploadAssetBookUrl, formData)
+            .pipe(finalize(() => this.excelUploadPaymentSchedule.clear()))
+            .subscribe(response => {
+                if (response.success) {
+                    this.notify.success(this.l('ImportAssetBookProcessStart'));
+                    this.autoReloadUploadSummary();
+                } else if (response.error != null) {
+                    this.notify.error(this.l('ImportAssetBookUploadFailed'));
                 }
             });
     }

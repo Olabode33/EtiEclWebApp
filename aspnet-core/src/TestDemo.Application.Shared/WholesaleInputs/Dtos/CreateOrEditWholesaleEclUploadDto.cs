@@ -19,7 +19,7 @@ namespace TestDemo.WholesaleInputs.Dtos
 		public GeneralStatusEnum Status { get; set; }
 		
 		
-		 public Guid WholesaleEclId { get; set; }
+		 public Guid EclId { get; set; }
 		 
 		 
     }

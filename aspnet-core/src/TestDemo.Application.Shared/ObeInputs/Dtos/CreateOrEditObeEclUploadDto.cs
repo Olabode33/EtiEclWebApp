@@ -19,7 +19,7 @@ namespace TestDemo.ObeInputs.Dtos
 		public GeneralStatusEnum Status { get; set; }
 		
 		
-		 public Guid? ObeEclId { get; set; }
+		 public Guid? EclId { get; set; }
 		 
 		 
     }

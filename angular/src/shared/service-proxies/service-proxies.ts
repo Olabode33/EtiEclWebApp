@@ -6034,6 +6034,303 @@ export class InstallServiceProxy {
 }
 
 @Injectable()
+export class InvestmentAssetBooksServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param investmentEclUploadUploadCommentFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, investmentEclUploadUploadCommentFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetInvestmentAssetBookForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentAssetBooks/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (investmentEclUploadUploadCommentFilter !== undefined)
+            url_ += "InvestmentEclUploadUploadCommentFilter=" + encodeURIComponent("" + investmentEclUploadUploadCommentFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetInvestmentAssetBookForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetInvestmentAssetBookForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetInvestmentAssetBookForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetInvestmentAssetBookForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetInvestmentAssetBookForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetInvestmentAssetBookForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getInvestmentAssetBookForEdit(id: string | null | undefined): Observable<GetInvestmentAssetBookForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentAssetBooks/GetInvestmentAssetBookForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetInvestmentAssetBookForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetInvestmentAssetBookForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetInvestmentAssetBookForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetInvestmentAssetBookForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetInvestmentAssetBookForEdit(response: HttpResponseBase): Observable<GetInvestmentAssetBookForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetInvestmentAssetBookForEditOutput.fromJS(resultData200) : new GetInvestmentAssetBookForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetInvestmentAssetBookForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditInvestmentAssetBookDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentAssetBooks/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentAssetBooks/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllInvestmentEclUploadForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfInvestmentAssetBookInvestmentEclUploadLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentAssetBooks/GetAllInvestmentEclUploadForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllInvestmentEclUploadForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllInvestmentEclUploadForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfInvestmentAssetBookInvestmentEclUploadLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfInvestmentAssetBookInvestmentEclUploadLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllInvestmentEclUploadForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfInvestmentAssetBookInvestmentEclUploadLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfInvestmentAssetBookInvestmentEclUploadLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfInvestmentAssetBookInvestmentEclUploadLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfInvestmentAssetBookInvestmentEclUploadLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
 export class InvestmentEclApprovalsServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -8323,6 +8620,365 @@ export class InvestmentEclsServiceProxy {
             }));
         }
         return _observableOf<PagedResultDtoOfInvestmentEclUserLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class InvestmentEclUploadsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param investmentEclReportingDateFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, investmentEclReportingDateFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetInvestmentEclUploadForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclUploads/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (investmentEclReportingDateFilter !== undefined)
+            url_ += "InvestmentEclReportingDateFilter=" + encodeURIComponent("" + investmentEclReportingDateFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetInvestmentEclUploadForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetInvestmentEclUploadForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetInvestmentEclUploadForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetInvestmentEclUploadForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetInvestmentEclUploadForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetInvestmentEclUploadForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getEclUploads(id: string | null | undefined): Observable<GetInvestmentEclUploadForViewDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclUploads/GetEclUploads?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetEclUploads(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetEclUploads(<any>response_);
+                } catch (e) {
+                    return <Observable<GetInvestmentEclUploadForViewDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetInvestmentEclUploadForViewDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetEclUploads(response: HttpResponseBase): Observable<GetInvestmentEclUploadForViewDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(GetInvestmentEclUploadForViewDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetInvestmentEclUploadForViewDto[]>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getInvestmentEclUploadForEdit(id: string | null | undefined): Observable<GetInvestmentEclUploadForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclUploads/GetInvestmentEclUploadForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetInvestmentEclUploadForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetInvestmentEclUploadForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetInvestmentEclUploadForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetInvestmentEclUploadForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetInvestmentEclUploadForEdit(response: HttpResponseBase): Observable<GetInvestmentEclUploadForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetInvestmentEclUploadForEditOutput.fromJS(resultData200) : new GetInvestmentEclUploadForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetInvestmentEclUploadForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditInvestmentEclUploadDto | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclUploads/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclUploads/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllInvestmentEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfInvestmentEclUploadInvestmentEclLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclUploads/GetAllInvestmentEclForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllInvestmentEclForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllInvestmentEclForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfInvestmentEclUploadInvestmentEclLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfInvestmentEclUploadInvestmentEclLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllInvestmentEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfInvestmentEclUploadInvestmentEclLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfInvestmentEclUploadInvestmentEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfInvestmentEclUploadInvestmentEclLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfInvestmentEclUploadInvestmentEclLookupTableDto>(<any>null);
     }
 }
 
@@ -49786,6 +50442,486 @@ export interface ICheckDatabaseOutput {
     isDatabaseExist: boolean | undefined;
 }
 
+export class PagedResultDtoOfGetInvestmentAssetBookForViewDto implements IPagedResultDtoOfGetInvestmentAssetBookForViewDto {
+    totalCount!: number | undefined;
+    items!: GetInvestmentAssetBookForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetInvestmentAssetBookForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetInvestmentAssetBookForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetInvestmentAssetBookForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetInvestmentAssetBookForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetInvestmentAssetBookForViewDto {
+    totalCount: number | undefined;
+    items: GetInvestmentAssetBookForViewDto[] | undefined;
+}
+
+export class GetInvestmentAssetBookForViewDto implements IGetInvestmentAssetBookForViewDto {
+    investmentAssetBook!: InvestmentAssetBookDto | undefined;
+    investmentEclUploadUploadComment!: string | undefined;
+
+    constructor(data?: IGetInvestmentAssetBookForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.investmentAssetBook = data["investmentAssetBook"] ? InvestmentAssetBookDto.fromJS(data["investmentAssetBook"]) : <any>undefined;
+            this.investmentEclUploadUploadComment = data["investmentEclUploadUploadComment"];
+        }
+    }
+
+    static fromJS(data: any): GetInvestmentAssetBookForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetInvestmentAssetBookForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["investmentAssetBook"] = this.investmentAssetBook ? this.investmentAssetBook.toJSON() : <any>undefined;
+        data["investmentEclUploadUploadComment"] = this.investmentEclUploadUploadComment;
+        return data; 
+    }
+}
+
+export interface IGetInvestmentAssetBookForViewDto {
+    investmentAssetBook: InvestmentAssetBookDto | undefined;
+    investmentEclUploadUploadComment: string | undefined;
+}
+
+export class InvestmentAssetBookDto implements IInvestmentAssetBookDto {
+    assetDescription!: string | undefined;
+    assetType!: string | undefined;
+    counterParty!: string | undefined;
+    sovereignDebt!: string | undefined;
+    ratingAgency!: string | undefined;
+    creditRatingAtPurchaseDate!: string | undefined;
+    currentCreditRating!: string | undefined;
+    nominalAmount!: number | undefined;
+    principalAmortisation!: string | undefined;
+    repaymentTerms!: string | undefined;
+    carryAmountNGAAP!: number | undefined;
+    carryingAmountIFRS!: number | undefined;
+    coupon!: number | undefined;
+    eir!: number | undefined;
+    purchaseDate!: moment.Moment | undefined;
+    issueDate!: moment.Moment | undefined;
+    purchasePrice!: number | undefined;
+    maturityDate!: moment.Moment | undefined;
+    redemptionPrice!: number | undefined;
+    businessModelClassification!: string | undefined;
+    ias39Impairment!: number | undefined;
+    prudentialClassification!: string | undefined;
+    forebearanceFlag!: string | undefined;
+    investmentEclUploadId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IInvestmentAssetBookDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assetDescription = data["assetDescription"];
+            this.assetType = data["assetType"];
+            this.counterParty = data["counterParty"];
+            this.sovereignDebt = data["sovereignDebt"];
+            this.ratingAgency = data["ratingAgency"];
+            this.creditRatingAtPurchaseDate = data["creditRatingAtPurchaseDate"];
+            this.currentCreditRating = data["currentCreditRating"];
+            this.nominalAmount = data["nominalAmount"];
+            this.principalAmortisation = data["principalAmortisation"];
+            this.repaymentTerms = data["repaymentTerms"];
+            this.carryAmountNGAAP = data["carryAmountNGAAP"];
+            this.carryingAmountIFRS = data["carryingAmountIFRS"];
+            this.coupon = data["coupon"];
+            this.eir = data["eir"];
+            this.purchaseDate = data["purchaseDate"] ? moment(data["purchaseDate"].toString()) : <any>undefined;
+            this.issueDate = data["issueDate"] ? moment(data["issueDate"].toString()) : <any>undefined;
+            this.purchasePrice = data["purchasePrice"];
+            this.maturityDate = data["maturityDate"] ? moment(data["maturityDate"].toString()) : <any>undefined;
+            this.redemptionPrice = data["redemptionPrice"];
+            this.businessModelClassification = data["businessModelClassification"];
+            this.ias39Impairment = data["ias39Impairment"];
+            this.prudentialClassification = data["prudentialClassification"];
+            this.forebearanceFlag = data["forebearanceFlag"];
+            this.investmentEclUploadId = data["investmentEclUploadId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): InvestmentAssetBookDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new InvestmentAssetBookDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assetDescription"] = this.assetDescription;
+        data["assetType"] = this.assetType;
+        data["counterParty"] = this.counterParty;
+        data["sovereignDebt"] = this.sovereignDebt;
+        data["ratingAgency"] = this.ratingAgency;
+        data["creditRatingAtPurchaseDate"] = this.creditRatingAtPurchaseDate;
+        data["currentCreditRating"] = this.currentCreditRating;
+        data["nominalAmount"] = this.nominalAmount;
+        data["principalAmortisation"] = this.principalAmortisation;
+        data["repaymentTerms"] = this.repaymentTerms;
+        data["carryAmountNGAAP"] = this.carryAmountNGAAP;
+        data["carryingAmountIFRS"] = this.carryingAmountIFRS;
+        data["coupon"] = this.coupon;
+        data["eir"] = this.eir;
+        data["purchaseDate"] = this.purchaseDate ? this.purchaseDate.toISOString() : <any>undefined;
+        data["issueDate"] = this.issueDate ? this.issueDate.toISOString() : <any>undefined;
+        data["purchasePrice"] = this.purchasePrice;
+        data["maturityDate"] = this.maturityDate ? this.maturityDate.toISOString() : <any>undefined;
+        data["redemptionPrice"] = this.redemptionPrice;
+        data["businessModelClassification"] = this.businessModelClassification;
+        data["ias39Impairment"] = this.ias39Impairment;
+        data["prudentialClassification"] = this.prudentialClassification;
+        data["forebearanceFlag"] = this.forebearanceFlag;
+        data["investmentEclUploadId"] = this.investmentEclUploadId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IInvestmentAssetBookDto {
+    assetDescription: string | undefined;
+    assetType: string | undefined;
+    counterParty: string | undefined;
+    sovereignDebt: string | undefined;
+    ratingAgency: string | undefined;
+    creditRatingAtPurchaseDate: string | undefined;
+    currentCreditRating: string | undefined;
+    nominalAmount: number | undefined;
+    principalAmortisation: string | undefined;
+    repaymentTerms: string | undefined;
+    carryAmountNGAAP: number | undefined;
+    carryingAmountIFRS: number | undefined;
+    coupon: number | undefined;
+    eir: number | undefined;
+    purchaseDate: moment.Moment | undefined;
+    issueDate: moment.Moment | undefined;
+    purchasePrice: number | undefined;
+    maturityDate: moment.Moment | undefined;
+    redemptionPrice: number | undefined;
+    businessModelClassification: string | undefined;
+    ias39Impairment: number | undefined;
+    prudentialClassification: string | undefined;
+    forebearanceFlag: string | undefined;
+    investmentEclUploadId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetInvestmentAssetBookForEditOutput implements IGetInvestmentAssetBookForEditOutput {
+    investmentAssetBook!: CreateOrEditInvestmentAssetBookDto | undefined;
+    investmentEclUploadUploadComment!: string | undefined;
+
+    constructor(data?: IGetInvestmentAssetBookForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.investmentAssetBook = data["investmentAssetBook"] ? CreateOrEditInvestmentAssetBookDto.fromJS(data["investmentAssetBook"]) : <any>undefined;
+            this.investmentEclUploadUploadComment = data["investmentEclUploadUploadComment"];
+        }
+    }
+
+    static fromJS(data: any): GetInvestmentAssetBookForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetInvestmentAssetBookForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["investmentAssetBook"] = this.investmentAssetBook ? this.investmentAssetBook.toJSON() : <any>undefined;
+        data["investmentEclUploadUploadComment"] = this.investmentEclUploadUploadComment;
+        return data; 
+    }
+}
+
+export interface IGetInvestmentAssetBookForEditOutput {
+    investmentAssetBook: CreateOrEditInvestmentAssetBookDto | undefined;
+    investmentEclUploadUploadComment: string | undefined;
+}
+
+export class CreateOrEditInvestmentAssetBookDto implements ICreateOrEditInvestmentAssetBookDto {
+    assetDescription!: string | undefined;
+    assetType!: string | undefined;
+    counterParty!: string | undefined;
+    sovereignDebt!: string | undefined;
+    ratingAgency!: string | undefined;
+    creditRatingAtPurchaseDate!: string | undefined;
+    currentCreditRating!: string | undefined;
+    nominalAmount!: number | undefined;
+    principalAmortisation!: string | undefined;
+    repaymentTerms!: string | undefined;
+    carryAmountNGAAP!: number | undefined;
+    carryingAmountIFRS!: number | undefined;
+    coupon!: number | undefined;
+    eir!: number | undefined;
+    purchaseDate!: moment.Moment | undefined;
+    issueDate!: moment.Moment | undefined;
+    purchasePrice!: number | undefined;
+    maturityDate!: moment.Moment | undefined;
+    redemptionPrice!: number | undefined;
+    businessModelClassification!: string | undefined;
+    ias39Impairment!: number | undefined;
+    prudentialClassification!: string | undefined;
+    forebearanceFlag!: string | undefined;
+    investmentEclUploadId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditInvestmentAssetBookDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assetDescription = data["assetDescription"];
+            this.assetType = data["assetType"];
+            this.counterParty = data["counterParty"];
+            this.sovereignDebt = data["sovereignDebt"];
+            this.ratingAgency = data["ratingAgency"];
+            this.creditRatingAtPurchaseDate = data["creditRatingAtPurchaseDate"];
+            this.currentCreditRating = data["currentCreditRating"];
+            this.nominalAmount = data["nominalAmount"];
+            this.principalAmortisation = data["principalAmortisation"];
+            this.repaymentTerms = data["repaymentTerms"];
+            this.carryAmountNGAAP = data["carryAmountNGAAP"];
+            this.carryingAmountIFRS = data["carryingAmountIFRS"];
+            this.coupon = data["coupon"];
+            this.eir = data["eir"];
+            this.purchaseDate = data["purchaseDate"] ? moment(data["purchaseDate"].toString()) : <any>undefined;
+            this.issueDate = data["issueDate"] ? moment(data["issueDate"].toString()) : <any>undefined;
+            this.purchasePrice = data["purchasePrice"];
+            this.maturityDate = data["maturityDate"] ? moment(data["maturityDate"].toString()) : <any>undefined;
+            this.redemptionPrice = data["redemptionPrice"];
+            this.businessModelClassification = data["businessModelClassification"];
+            this.ias39Impairment = data["ias39Impairment"];
+            this.prudentialClassification = data["prudentialClassification"];
+            this.forebearanceFlag = data["forebearanceFlag"];
+            this.investmentEclUploadId = data["investmentEclUploadId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditInvestmentAssetBookDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditInvestmentAssetBookDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assetDescription"] = this.assetDescription;
+        data["assetType"] = this.assetType;
+        data["counterParty"] = this.counterParty;
+        data["sovereignDebt"] = this.sovereignDebt;
+        data["ratingAgency"] = this.ratingAgency;
+        data["creditRatingAtPurchaseDate"] = this.creditRatingAtPurchaseDate;
+        data["currentCreditRating"] = this.currentCreditRating;
+        data["nominalAmount"] = this.nominalAmount;
+        data["principalAmortisation"] = this.principalAmortisation;
+        data["repaymentTerms"] = this.repaymentTerms;
+        data["carryAmountNGAAP"] = this.carryAmountNGAAP;
+        data["carryingAmountIFRS"] = this.carryingAmountIFRS;
+        data["coupon"] = this.coupon;
+        data["eir"] = this.eir;
+        data["purchaseDate"] = this.purchaseDate ? this.purchaseDate.toISOString() : <any>undefined;
+        data["issueDate"] = this.issueDate ? this.issueDate.toISOString() : <any>undefined;
+        data["purchasePrice"] = this.purchasePrice;
+        data["maturityDate"] = this.maturityDate ? this.maturityDate.toISOString() : <any>undefined;
+        data["redemptionPrice"] = this.redemptionPrice;
+        data["businessModelClassification"] = this.businessModelClassification;
+        data["ias39Impairment"] = this.ias39Impairment;
+        data["prudentialClassification"] = this.prudentialClassification;
+        data["forebearanceFlag"] = this.forebearanceFlag;
+        data["investmentEclUploadId"] = this.investmentEclUploadId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditInvestmentAssetBookDto {
+    assetDescription: string | undefined;
+    assetType: string | undefined;
+    counterParty: string | undefined;
+    sovereignDebt: string | undefined;
+    ratingAgency: string | undefined;
+    creditRatingAtPurchaseDate: string | undefined;
+    currentCreditRating: string | undefined;
+    nominalAmount: number | undefined;
+    principalAmortisation: string | undefined;
+    repaymentTerms: string | undefined;
+    carryAmountNGAAP: number | undefined;
+    carryingAmountIFRS: number | undefined;
+    coupon: number | undefined;
+    eir: number | undefined;
+    purchaseDate: moment.Moment | undefined;
+    issueDate: moment.Moment | undefined;
+    purchasePrice: number | undefined;
+    maturityDate: moment.Moment | undefined;
+    redemptionPrice: number | undefined;
+    businessModelClassification: string | undefined;
+    ias39Impairment: number | undefined;
+    prudentialClassification: string | undefined;
+    forebearanceFlag: string | undefined;
+    investmentEclUploadId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfInvestmentAssetBookInvestmentEclUploadLookupTableDto implements IPagedResultDtoOfInvestmentAssetBookInvestmentEclUploadLookupTableDto {
+    totalCount!: number | undefined;
+    items!: InvestmentAssetBookInvestmentEclUploadLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfInvestmentAssetBookInvestmentEclUploadLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(InvestmentAssetBookInvestmentEclUploadLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfInvestmentAssetBookInvestmentEclUploadLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfInvestmentAssetBookInvestmentEclUploadLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfInvestmentAssetBookInvestmentEclUploadLookupTableDto {
+    totalCount: number | undefined;
+    items: InvestmentAssetBookInvestmentEclUploadLookupTableDto[] | undefined;
+}
+
+export class InvestmentAssetBookInvestmentEclUploadLookupTableDto implements IInvestmentAssetBookInvestmentEclUploadLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IInvestmentAssetBookInvestmentEclUploadLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): InvestmentAssetBookInvestmentEclUploadLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new InvestmentAssetBookInvestmentEclUploadLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IInvestmentAssetBookInvestmentEclUploadLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
 export class PagedResultDtoOfGetInvestmentEclApprovalForViewDto implements IPagedResultDtoOfGetInvestmentEclApprovalForViewDto {
     totalCount!: number | undefined;
     items!: GetInvestmentEclApprovalForViewDto[] | undefined;
@@ -51983,6 +53119,337 @@ export class InvestmentEclUserLookupTableDto implements IInvestmentEclUserLookup
 
 export interface IInvestmentEclUserLookupTableDto {
     id: number | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetInvestmentEclUploadForViewDto implements IPagedResultDtoOfGetInvestmentEclUploadForViewDto {
+    totalCount!: number | undefined;
+    items!: GetInvestmentEclUploadForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetInvestmentEclUploadForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetInvestmentEclUploadForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetInvestmentEclUploadForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetInvestmentEclUploadForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetInvestmentEclUploadForViewDto {
+    totalCount: number | undefined;
+    items: GetInvestmentEclUploadForViewDto[] | undefined;
+}
+
+export class GetInvestmentEclUploadForViewDto implements IGetInvestmentEclUploadForViewDto {
+    eclUpload!: InvestmentEclUploadDto | undefined;
+    investmentEclReportingDate!: string | undefined;
+    dateUploaded!: moment.Moment | undefined;
+    uploadedBy!: string | undefined;
+
+    constructor(data?: IGetInvestmentEclUploadForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.eclUpload = data["eclUpload"] ? InvestmentEclUploadDto.fromJS(data["eclUpload"]) : <any>undefined;
+            this.investmentEclReportingDate = data["investmentEclReportingDate"];
+            this.dateUploaded = data["dateUploaded"] ? moment(data["dateUploaded"].toString()) : <any>undefined;
+            this.uploadedBy = data["uploadedBy"];
+        }
+    }
+
+    static fromJS(data: any): GetInvestmentEclUploadForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetInvestmentEclUploadForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["eclUpload"] = this.eclUpload ? this.eclUpload.toJSON() : <any>undefined;
+        data["investmentEclReportingDate"] = this.investmentEclReportingDate;
+        data["dateUploaded"] = this.dateUploaded ? this.dateUploaded.toISOString() : <any>undefined;
+        data["uploadedBy"] = this.uploadedBy;
+        return data; 
+    }
+}
+
+export interface IGetInvestmentEclUploadForViewDto {
+    eclUpload: InvestmentEclUploadDto | undefined;
+    investmentEclReportingDate: string | undefined;
+    dateUploaded: moment.Moment | undefined;
+    uploadedBy: string | undefined;
+}
+
+export class InvestmentEclUploadDto implements IInvestmentEclUploadDto {
+    docType!: UploadDocTypeEnum | undefined;
+    status!: GeneralStatusEnum | undefined;
+    investmentEclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IInvestmentEclUploadDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.docType = data["docType"];
+            this.status = data["status"];
+            this.investmentEclId = data["investmentEclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): InvestmentEclUploadDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new InvestmentEclUploadDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["docType"] = this.docType;
+        data["status"] = this.status;
+        data["investmentEclId"] = this.investmentEclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IInvestmentEclUploadDto {
+    docType: UploadDocTypeEnum | undefined;
+    status: GeneralStatusEnum | undefined;
+    investmentEclId: string | undefined;
+    id: string | undefined;
+}
+
+export enum UploadDocTypeEnum {
+    General = 0, 
+    LoanBook = 1, 
+    PaymentSchedule = 2, 
+    AssetBook = 3, 
+}
+
+export class GetInvestmentEclUploadForEditOutput implements IGetInvestmentEclUploadForEditOutput {
+    investmentEclUpload!: CreateOrEditInvestmentEclUploadDto | undefined;
+    investmentEclReportingDate!: string | undefined;
+
+    constructor(data?: IGetInvestmentEclUploadForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.investmentEclUpload = data["investmentEclUpload"] ? CreateOrEditInvestmentEclUploadDto.fromJS(data["investmentEclUpload"]) : <any>undefined;
+            this.investmentEclReportingDate = data["investmentEclReportingDate"];
+        }
+    }
+
+    static fromJS(data: any): GetInvestmentEclUploadForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetInvestmentEclUploadForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["investmentEclUpload"] = this.investmentEclUpload ? this.investmentEclUpload.toJSON() : <any>undefined;
+        data["investmentEclReportingDate"] = this.investmentEclReportingDate;
+        return data; 
+    }
+}
+
+export interface IGetInvestmentEclUploadForEditOutput {
+    investmentEclUpload: CreateOrEditInvestmentEclUploadDto | undefined;
+    investmentEclReportingDate: string | undefined;
+}
+
+export class CreateOrEditInvestmentEclUploadDto implements ICreateOrEditInvestmentEclUploadDto {
+    docType!: UploadDocTypeEnum | undefined;
+    uploadComment!: string | undefined;
+    status!: GeneralStatusEnum | undefined;
+    eclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditInvestmentEclUploadDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.docType = data["docType"];
+            this.uploadComment = data["uploadComment"];
+            this.status = data["status"];
+            this.eclId = data["eclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditInvestmentEclUploadDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditInvestmentEclUploadDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["docType"] = this.docType;
+        data["uploadComment"] = this.uploadComment;
+        data["status"] = this.status;
+        data["eclId"] = this.eclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditInvestmentEclUploadDto {
+    docType: UploadDocTypeEnum | undefined;
+    uploadComment: string | undefined;
+    status: GeneralStatusEnum | undefined;
+    eclId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfInvestmentEclUploadInvestmentEclLookupTableDto implements IPagedResultDtoOfInvestmentEclUploadInvestmentEclLookupTableDto {
+    totalCount!: number | undefined;
+    items!: InvestmentEclUploadInvestmentEclLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfInvestmentEclUploadInvestmentEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(InvestmentEclUploadInvestmentEclLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfInvestmentEclUploadInvestmentEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfInvestmentEclUploadInvestmentEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfInvestmentEclUploadInvestmentEclLookupTableDto {
+    totalCount: number | undefined;
+    items: InvestmentEclUploadInvestmentEclLookupTableDto[] | undefined;
+}
+
+export class InvestmentEclUploadInvestmentEclLookupTableDto implements IInvestmentEclUploadInvestmentEclLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IInvestmentEclUploadInvestmentEclLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): InvestmentEclUploadInvestmentEclLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new InvestmentEclUploadInvestmentEclLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IInvestmentEclUploadInvestmentEclLookupTableDto {
+    id: string | undefined;
     displayName: string | undefined;
 }
 
@@ -62798,12 +64265,6 @@ export interface IObeEclUploadDto {
     id: string | undefined;
 }
 
-export enum UploadDocTypeEnum {
-    General = 0, 
-    LoanBook = 1, 
-    PaymentSchedule = 2, 
-}
-
 export class GetObeEclUploadForEditOutput implements IGetObeEclUploadForEditOutput {
     obeEclUpload!: CreateOrEditObeEclUploadDto | undefined;
     obeEclTenantId!: string | undefined;
@@ -62848,7 +64309,7 @@ export class CreateOrEditObeEclUploadDto implements ICreateOrEditObeEclUploadDto
     docType!: UploadDocTypeEnum | undefined;
     uploadComment!: string | undefined;
     status!: GeneralStatusEnum | undefined;
-    obeEclId!: string | undefined;
+    eclId!: string | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditObeEclUploadDto) {
@@ -62865,7 +64326,7 @@ export class CreateOrEditObeEclUploadDto implements ICreateOrEditObeEclUploadDto
             this.docType = data["docType"];
             this.uploadComment = data["uploadComment"];
             this.status = data["status"];
-            this.obeEclId = data["obeEclId"];
+            this.eclId = data["eclId"];
             this.id = data["id"];
         }
     }
@@ -62882,7 +64343,7 @@ export class CreateOrEditObeEclUploadDto implements ICreateOrEditObeEclUploadDto
         data["docType"] = this.docType;
         data["uploadComment"] = this.uploadComment;
         data["status"] = this.status;
-        data["obeEclId"] = this.obeEclId;
+        data["eclId"] = this.eclId;
         data["id"] = this.id;
         return data; 
     }
@@ -62892,7 +64353,7 @@ export interface ICreateOrEditObeEclUploadDto {
     docType: UploadDocTypeEnum | undefined;
     uploadComment: string | undefined;
     status: GeneralStatusEnum | undefined;
-    obeEclId: string | undefined;
+    eclId: string | undefined;
     id: string | undefined;
 }
 
@@ -75416,7 +76877,7 @@ export class CreateOrEditRetailEclUploadDto implements ICreateOrEditRetailEclUpl
     docType!: UploadDocTypeEnum | undefined;
     uploadComment!: string | undefined;
     status!: GeneralStatusEnum | undefined;
-    retailEclId!: string | undefined;
+    eclId!: string | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditRetailEclUploadDto) {
@@ -75433,7 +76894,7 @@ export class CreateOrEditRetailEclUploadDto implements ICreateOrEditRetailEclUpl
             this.docType = data["docType"];
             this.uploadComment = data["uploadComment"];
             this.status = data["status"];
-            this.retailEclId = data["retailEclId"];
+            this.eclId = data["eclId"];
             this.id = data["id"];
         }
     }
@@ -75450,7 +76911,7 @@ export class CreateOrEditRetailEclUploadDto implements ICreateOrEditRetailEclUpl
         data["docType"] = this.docType;
         data["uploadComment"] = this.uploadComment;
         data["status"] = this.status;
-        data["retailEclId"] = this.retailEclId;
+        data["eclId"] = this.eclId;
         data["id"] = this.id;
         return data; 
     }
@@ -75460,7 +76921,7 @@ export interface ICreateOrEditRetailEclUploadDto {
     docType: UploadDocTypeEnum | undefined;
     uploadComment: string | undefined;
     status: GeneralStatusEnum | undefined;
-    retailEclId: string | undefined;
+    eclId: string | undefined;
     id: string | undefined;
 }
 
@@ -88431,7 +89892,7 @@ export class CreateOrEditWholesaleEclUploadDto implements ICreateOrEditWholesale
     docType!: UploadDocTypeEnum | undefined;
     uploadComment!: string | undefined;
     status!: GeneralStatusEnum | undefined;
-    wholesaleEclId!: string | undefined;
+    eclId!: string | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditWholesaleEclUploadDto) {
@@ -88448,7 +89909,7 @@ export class CreateOrEditWholesaleEclUploadDto implements ICreateOrEditWholesale
             this.docType = data["docType"];
             this.uploadComment = data["uploadComment"];
             this.status = data["status"];
-            this.wholesaleEclId = data["wholesaleEclId"];
+            this.eclId = data["eclId"];
             this.id = data["id"];
         }
     }
@@ -88465,7 +89926,7 @@ export class CreateOrEditWholesaleEclUploadDto implements ICreateOrEditWholesale
         data["docType"] = this.docType;
         data["uploadComment"] = this.uploadComment;
         data["status"] = this.status;
-        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["eclId"] = this.eclId;
         data["id"] = this.id;
         return data; 
     }
@@ -88475,7 +89936,7 @@ export interface ICreateOrEditWholesaleEclUploadDto {
     docType: UploadDocTypeEnum | undefined;
     uploadComment: string | undefined;
     status: GeneralStatusEnum | undefined;
-    wholesaleEclId: string | undefined;
+    eclId: string | undefined;
     id: string | undefined;
 }
 

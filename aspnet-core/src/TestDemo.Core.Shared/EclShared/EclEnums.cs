@@ -26,7 +26,7 @@ namespace TestDemo.EclShared
 
     public enum UploadDocTypeEnum
     {
-        General, LoanBook, PaymentSchedule
+        General, LoanBook, PaymentSchedule, AssetBook
     }
 
     public enum GeneralStatusEnum
