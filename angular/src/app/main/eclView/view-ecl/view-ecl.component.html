@@ -208,7 +208,8 @@
                 </div>
                 <div class="kt-portlet__head-toolbar">
                     <div class="btn-group" dropdown>
-                        <button dropdownToggle type="button" class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button dropdownToggle type="button" *ngIf="eclDto.status == eclStatusEnum.Draft"
+                            class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-upload"></i> {{"Upload" | localize}}
                         </button>
                         <div class="dropdown-menu dropdown-menu-right dropdown-excel-operations" *dropdownMenu>
@@ -313,9 +314,6 @@
             </div>
             <div class="kt-portlet__body">
                 <tabset>
-                    <tab heading="{{'FrameworkAssumptions' | localize}}">
-                        <app-frameworkAssumptions #frameworkAssumptionTag ></app-frameworkAssumptions>
-                    </tab>
                     <tab heading="{{'EadAssumptions' | localize}}">
                         <app-eadInputAssumptions #eadInputAssumptionTag></app-eadInputAssumptions>
                     </tab>
@@ -324,6 +322,9 @@
                     </tab>
                     <tab heading="{{'PdAssumptions' | localize}}">
                         <app-pdInputAssumptions #pdInputAssumptionTag></app-pdInputAssumptions>
+                    </tab>
+                    <tab heading="{{'FrameworkAssumptions' | localize}}">
+                        <app-frameworkAssumptions #frameworkAssumptionTag ></app-frameworkAssumptions>
                     </tab>
                 </tabset>
             </div>

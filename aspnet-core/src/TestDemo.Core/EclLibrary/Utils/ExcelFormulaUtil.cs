@@ -23,6 +23,11 @@ namespace EclEngine.Utils
                 return Financial.YearFrac(endDate, startDate, dayCountBasis);
         }
 
+        public static double PMT(double rate, double nper, double pv, double fv)
+        {
+            return Financial.Pmt(rate, nper, pv, fv, PaymentDue.EndOfPeriod);
+        }
+
         public static DateTime EOMonth(DateTime? date, int months = 0)
         {
             DateTime eoMonth =  new DateTime(date.Value.Year, date.Value.Month, DateTime.DaysInMonth(date.Value.Year, date.Value.Month));

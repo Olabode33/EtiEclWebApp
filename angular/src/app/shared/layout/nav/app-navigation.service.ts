@@ -23,8 +23,8 @@ export class AppNavigationService {
             new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants'),
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
             new AppMenuItem('Assumptions', 'Pages.Assumption.Affiliates', 'fa fa-list-ul', '/app/main/assumption/affiliates'),
-            new AppMenuItem('Calibration', 'Pages.Assumptions', 'fa fa-bezier-curve', '/app/main/eclShared/assumptions'),
-            new AppMenuItem('Configuration', 'Pages.Assumptions', 'fa fa-wrench', '', [
+            new AppMenuItem('Calibration', 'Pages.CalibrationResults', 'fa fa-bezier-curve', '/app/main/eclShared/assumptions'),
+            new AppMenuItem('Configuration', 'Pages.EclConfigurations', 'fa fa-wrench', '', [
                 new AppMenuItem('MacroeconomicVariables', 'Pages.MacroeconomicVariables', 'flaticon-more', '/app/main/config/macroeconomicVariables'),
                 new AppMenuItem('EclConfigurations', 'Pages.EclConfigurations', 'flaticon-more', '/app/main/eclConfig/eclConfigurations'),
                 new AppMenuItem('AffiliateOverrideThreshold', 'Pages.AffiliateOverrideThresholds', 'flaticon-more', '/app/main/eclConfig/affiliateOverrideThresholds'),

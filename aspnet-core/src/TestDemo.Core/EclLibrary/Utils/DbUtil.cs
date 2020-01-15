@@ -961,7 +961,7 @@ SELECT [EIR_GROUPS]
 
             return JsonConvert.SerializeObject(datable);
         }
-        private static DataTable RunQuery(string query, string db = _databaseName)
+        public static DataTable RunQuery(string query, string db = _databaseName)
         {
             try
             {

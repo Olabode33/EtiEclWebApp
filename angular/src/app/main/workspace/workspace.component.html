@@ -140,7 +140,7 @@
                                 <tr>
                                     <th style="width: 130px" [hidden]="!isGrantedAny('Pages.WholesaleEcls.Edit', 'Pages.WholesaleEcls.Delete')">{{l('Actions')}}</th>
                                     <th style="width: 150px" pSortableColumn="organisationUnitName">
-                                        {{l('Subsidiary')}}
+                                        {{l('Affiliate')}}
                                         <p-sortIcon field="organisationUnitName"></p-sortIcon>
                                     </th>
                                     <th style="width: 150px" pSortableColumn="framework">
@@ -166,7 +166,23 @@
                                 <tr>
                                     <td style="width: 130px"
                                         [hidden]="!isGrantedAny('Pages.WholesaleEcls.Edit', 'Pages.WholesaleEcls.Delete')">
-                                       <div class="btn-group dropdown" dropdown container="body">
+                                        <div class="btn-group m-btn-group m-btn-group--pill" dropdown container="body">
+                                            <button type="button" class="btn btn-primary btn-sm"
+                                                (click)="viewEcl(record.framework, record.id)">
+                                                <i class="fa fa-info-circle"></i> View
+                                            </button>
+                                            <button class="dropdown-toggle btn btn-sm btn-primary dropdown-toggle-split" dropdownToggle>
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" *dropdownMenu>
+                                                <li>
+                                                    <a href="javascript:;" (click)="viewEcl(record.framework, record.id)">
+                                                        {{l('ReOpen')}}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                       <!-- <div class="btn-group dropdown" dropdown container="body">
                                             <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
                                                 <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
                                             </button>
@@ -177,10 +193,10 @@
 														(click)="viewEcl(record.framework, record.id)">{{l('View')}}</a>
 												</li>
                                             </ul>
-                                        </div>
+                                        </div> -->
                                     </td>
                                     <td style="width:150px">
-                                            <span class="ui-column-title"> {{l('Subsidiary')}}</span>
+                                            <span class="ui-column-title"> {{l('Affiliate')}}</span>
                                             {{record.organisationUnitName}}
                                         </td>
                                     <td style="width:150px">

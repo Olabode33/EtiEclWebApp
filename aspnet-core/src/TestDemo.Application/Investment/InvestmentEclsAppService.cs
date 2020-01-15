@@ -24,6 +24,8 @@ using TestDemo.EclShared.Dtos;
 using GetAllForLookupTableInput = TestDemo.Investment.Dtos.GetAllForLookupTableInput;
 using TestDemo.InvestmentAssumption.Dtos;
 using TestDemo.InvestmentInputs;
+using TestDemo.EclLibrary.Investment.Utils;
+using TestDemo.EclLibrary.Investment.Calculations;
 
 namespace TestDemo.Investment
 {
@@ -427,10 +429,17 @@ namespace TestDemo.Investment
 
         public async Task RunEcl(EntityDto<Guid> input)
         {
-            var ecl = await _investmentEclRepository.FirstOrDefaultAsync(input.Id);
-            ecl.Status = EclStatusEnum.Running;
-            await _investmentEclRepository.UpdateAsync(ecl);
+            //var ecl = await _investmentEclRepository.FirstOrDefaultAsync(input.Id);
+            //ecl.Status = EclStatusEnum.Running;
+            //await _investmentEclRepository.UpdateAsync(ecl);
+
             //await _backgroundJobManager.EnqueueAsync<RunRetailPdJob, RetailPdJobArgs>(new RetailPdJobArgs { RetailEclId = input.Id });
+
+            InvestmentDbUtil investmentDbUtil = new InvestmentDbUtil();
+            var r = investmentDbUtil.GetInvestmentEclAssetBookData(input.Id);
+            EadInput ead = new EadInput();
+            ead.ComputeLifetimeEad(input.Id);
+            var stop = "stop";
         }
 
         protected virtual async Task<ValidationMessageDto> ValidateForSubmission(Guid eclId)

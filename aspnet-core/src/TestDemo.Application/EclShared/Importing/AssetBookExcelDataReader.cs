@@ -47,11 +47,11 @@ namespace TestDemo.EclShared.Importing
                 assetBook.RepaymentTerms = GetRequiredValueFromRowOrNull(worksheet, row, 10, nameof(assetBook.RepaymentTerms), exceptionMessage);
                 assetBook.CarryAmountNGAAP = GetDoubleValueFromRowOrNull(worksheet, row, 11, nameof(assetBook.CarryAmountNGAAP), exceptionMessage);
                 assetBook.CarryingAmountIFRS = GetDoubleValueFromRowOrNull(worksheet, row, 12, nameof(assetBook.CarryingAmountIFRS), exceptionMessage);
-                assetBook.Coupon = GetIntegerValueFromRowOrNull(worksheet, row, 13, nameof(assetBook.Coupon), exceptionMessage);
-                assetBook.Eir = GetIntegerValueFromRowOrNull(worksheet, row, 14, nameof(assetBook.Eir), exceptionMessage);
+                assetBook.Coupon = GetDoubleValueFromRowOrNull(worksheet, row, 13, nameof(assetBook.Coupon), exceptionMessage);
+                assetBook.Eir = GetDoubleValueFromRowOrNull(worksheet, row, 14, nameof(assetBook.Eir), exceptionMessage);
                 assetBook.PurchaseDate = GetDateTimeValueFromRowOrNull(worksheet, row, 15, nameof(assetBook.PurchaseDate), exceptionMessage);
                 assetBook.IssueDate = GetDateTimeValueFromRowOrNull(worksheet, row, 16, nameof(assetBook.IssueDate), exceptionMessage);
-                assetBook.PurchasePrice = GetIntegerValueFromRowOrNull(worksheet, row, 17, nameof(assetBook.PurchasePrice), exceptionMessage);
+                assetBook.PurchasePrice = GetDoubleValueFromRowOrNull(worksheet, row, 17, nameof(assetBook.PurchasePrice), exceptionMessage);
                 assetBook.MaturityDate = GetDateTimeValueFromRowOrNull(worksheet, row, 18, nameof(assetBook.MaturityDate), exceptionMessage);
                 assetBook.RedemptionPrice = GetDoubleValueFromRowOrNull(worksheet, row, 19, nameof(assetBook.RedemptionPrice), exceptionMessage);
                 assetBook.BusinessModelClassification = GetRequiredValueFromRowOrNull(worksheet, row, 20, nameof(assetBook.BusinessModelClassification), exceptionMessage);
