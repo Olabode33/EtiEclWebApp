@@ -4,7 +4,6 @@ using TestDemo.Investment;
 using TestDemo.EclConfig;
 using TestDemo.WholesaleComputatoin;
 using TestDemo.LgdCalibrationResult;
-using TestDemo.LgdCalibrationResult;
 using TestDemo.EadCalibrationResult;
 using TestDemo.GeneralCalibrationResult;
 using TestDemo.PdCalibrationResult;
@@ -37,11 +36,16 @@ using TestDemo.MultiTenancy;
 using TestDemo.MultiTenancy.Accounting;
 using TestDemo.MultiTenancy.Payments;
 using TestDemo.Storage;
+using TestDemo.InvestmentComputation;
 
 namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<InvestmentEclSicr> InvestmentEclSicr { get; set; }
+        public virtual DbSet<InvestmentEclDiscountFactor> InvestmentEclDiscountFactors { get; set; }
+        public virtual DbSet<InvestmentEclEadLifetime> InvestmentEclEadLifetimes { get; set; }
+        public virtual DbSet<InvestmentEclEadInput> InvestmentEclEadInput { get; set; }
         public virtual DbSet<InvestmentAssetBook> InvestmentAssetBooks { get; set; }
 
         public virtual DbSet<InvestmentEclUpload> InvestmentEclUploads { get; set; }
@@ -362,7 +366,12 @@ namespace TestDemo.EntityFrameworkCore
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            //Investment
+            modelBuilder.Entity<InvestmentEclEadLifetime>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<InvestmentEclDiscountFactor>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<InvestmentEclSicr>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
 
+            //Wholeslale
             modelBuilder.Entity<WholesalePdLifetimeBest>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<WholesalePdLifetimeOptimistic>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<WholesalePdLifetimeDownturn>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
@@ -376,6 +385,7 @@ namespace TestDemo.EntityFrameworkCore
             modelBuilder.Entity<WholesaleLgdCollateralTypeData>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<WholesaleLgdContractData>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
 
+            //Retail
             modelBuilder.Entity<RetailPdLifetimeBest>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<RetailPdLifetimeOptimistic>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<RetailPdLifetimeDownturn>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
@@ -389,7 +399,7 @@ namespace TestDemo.EntityFrameworkCore
             modelBuilder.Entity<RetailLgdCollateralTypeData>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<RetailLgdContractData>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
 
-
+            //OBE
             modelBuilder.Entity<ObePdLifetimeBest>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<ObePdLifetimeOptimistic>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<ObePdLifetimeDownturn>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));

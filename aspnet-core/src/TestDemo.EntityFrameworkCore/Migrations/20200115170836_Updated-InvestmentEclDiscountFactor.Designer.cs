@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestDemo.EntityFrameworkCore;
 
 namespace TestDemo.Migrations
 {
     [DbContext(typeof(TestDemoDbContext))]
-    partial class TestDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200115170836_Updated-InvestmentEclDiscountFactor")]
+    partial class UpdatedInvestmentEclDiscountFactor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2209,45 +2211,6 @@ namespace TestDemo.Migrations
                     b.HasIndex("EclId");
 
                     b.ToTable("InvestmentEclEadLifetimes");
-                });
-
-            modelBuilder.Entity("TestDemo.InvestmentComputation.InvestmentEclSicr", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("NEWID()");
-
-                    b.Property<string>("AssetDescription");
-
-                    b.Property<string>("AssetType");
-
-                    b.Property<string>("CurrentCreditRating");
-
-                    b.Property<Guid>("EclId");
-
-                    b.Property<int>("FinalStage");
-
-                    b.Property<string>("FitchRating");
-
-                    b.Property<string>("ForebearanceFlag");
-
-                    b.Property<string>("PrudentialClassification");
-
-                    b.Property<Guid>("RecordId");
-
-                    b.Property<string>("SovereignDebt");
-
-                    b.Property<int>("StageClassification");
-
-                    b.Property<int>("StageForebearance");
-
-                    b.Property<int>("StageRating");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EclId");
-
-                    b.ToTable("InvestmentEclSicr");
                 });
 
             modelBuilder.Entity("TestDemo.InvestmentInputs.InvestmentAssetBook", b =>
@@ -8065,14 +8028,6 @@ namespace TestDemo.Migrations
                 });
 
             modelBuilder.Entity("TestDemo.InvestmentComputation.InvestmentEclEadLifetime", b =>
-                {
-                    b.HasOne("TestDemo.Investment.InvestmentEcl", "EclFk")
-                        .WithMany()
-                        .HasForeignKey("EclId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("TestDemo.InvestmentComputation.InvestmentEclSicr", b =>
                 {
                     b.HasOne("TestDemo.Investment.InvestmentEcl", "EclFk")
                         .WithMany()
