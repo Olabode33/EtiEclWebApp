@@ -29,7 +29,9 @@ export class AppNavigationService {
                 new AppMenuItem('EclConfigurations', 'Pages.EclConfigurations', 'flaticon-more', '/app/main/eclConfig/eclConfigurations'),
                 new AppMenuItem('AffiliateOverrideThreshold', 'Pages.AffiliateOverrideThresholds', 'flaticon-more', '/app/main/eclConfig/affiliateOverrideThresholds'),
             ]),
-            new AppMenuItem('Administration', '', 'fa fa-cogs', '', [
+           
+            new AppMenuItem('InvestmentEclOverrides', 'Pages.InvestmentEclOverrides', 'flaticon-more', '/app/main/investmentComputation/investmentEclOverrides'),
+             new AppMenuItem('Administration', '', 'fa fa-cogs', '', [
                 new AppMenuItem('OrganizationUnits', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),
                 new AppMenuItem('Users', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),

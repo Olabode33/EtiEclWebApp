@@ -1,0 +1,71 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #investmentEclOverrideForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="investmentEclOverride.id">{{l("EditInvestmentEclOverride")}}</span>
+                        <span *ngIf="!investmentEclOverride.id">{{l("CreateNewInvestmentEclOverride")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+					<div class="form-group m-form__group">
+                        <label for="InvestmentEclSicrAssetDescription">{{l("InvestmentEclSicr")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="InvestmentEclSicrAssetDescription" name="investmentEclSicrAssetDescription" [(ngModel)]="investmentEclSicrAssetDescription" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectInvestmentEclSicrModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger btn-icon" type="button" (click)="setInvestmentEclSicrIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="investmentEclOverride.investmentEclSicrId" [(ngModel)]="investmentEclOverride.investmentEclSicrId" type="text" required hidden>
+		 
+
+								<div class="form-group">
+									<label for="InvestmentEclOverride_StageOverride">{{l("StageOverride")}}</label>
+									<input type="number" id="InvestmentEclOverride_StageOverride" class="form-control" [(ngModel)]="investmentEclOverride.stageOverride" name="StageOverride"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="InvestmentEclOverride_OverrideComment">{{l("OverrideComment")}} *</label>
+									<input type="text" id="InvestmentEclOverride_OverrideComment" class="form-control" [(ngModel)]="investmentEclOverride.overrideComment" name="OverrideComment"     required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="InvestmentEclOverride_Status">{{l("Status")}}</label>
+									<select class="form-control" name="Status" id="InvestmentEclOverride_Status" [(ngModel)]="investmentEclOverride.status">
+									<option value="0">{{l('Draft')}}</option>
+
+									<option value="1">{{l('Submitted')}}</option>
+
+									<option value="2">{{l('Approved')}}</option>
+
+									<option value="3">{{l('Rejected')}}</option>
+
+									<option value="4">{{l('Processing')}}</option>
+
+									<option value="5">{{l('Completed')}}</option>
+
+
+									</select>
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!investmentEclOverrideForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+<investmentEclOverrideInvestmentEclSicrLookupTableModal #investmentEclOverrideInvestmentEclSicrLookupTableModal (modalSave)="getNewInvestmentEclSicrId()"></investmentEclOverrideInvestmentEclSicrLookupTableModal>
+		 
+</div>

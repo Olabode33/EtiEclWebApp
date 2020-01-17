@@ -1,4 +1,6 @@
-﻿using TestDemo.InvestmentInputs.Dtos;
+﻿using TestDemo.InvestmentComputation.Dtos;
+using TestDemo.InvestmentComputation;
+using TestDemo.InvestmentInputs.Dtos;
 using TestDemo.InvestmentInputs;
 using TestDemo.InvestmentAssumption.Dtos;
 using TestDemo.InvestmentAssumption;
@@ -83,6 +85,10 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditInvestmentEclOverrideApprovalDto, InvestmentEclOverrideApproval>().ReverseMap();
+            configuration.CreateMap<InvestmentEclOverrideApprovalDto, InvestmentEclOverrideApproval>().ReverseMap();
+            configuration.CreateMap<CreateOrEditInvestmentEclOverrideDto, InvestmentEclOverride>().ReverseMap();
+            configuration.CreateMap<InvestmentEclOverrideDto, InvestmentEclOverride>().ReverseMap();
             configuration.CreateMap<CreateOrEditInvestmentAssetBookDto, InvestmentAssetBook>().ReverseMap();
             configuration.CreateMap<InvestmentAssetBookDto, InvestmentAssetBook>().ReverseMap();
             configuration.CreateMap<CreateOrEditInvestmentEclUploadDto, InvestmentEclUpload>()

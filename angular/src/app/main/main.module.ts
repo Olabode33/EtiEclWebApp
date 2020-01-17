@@ -2,6 +2,10 @@
 import { ViewAffiliateAssumptionsComponent } from './assumptions/view-affiliateAssumptions/view-affiliateAssumptions.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { InvestmentEclOverridesComponent } from './investmentComputation/investmentEclOverrides/investmentEclOverrides.component';
+import { CreateOrEditInvestmentEclOverrideModalComponent } from './investmentComputation/investmentEclOverrides/create-or-edit-investmentEclOverride-modal.component';
+import { InvestmentEclOverrideInvestmentEclSicrLookupTableModalComponent } from './investmentComputation/investmentEclOverrides/investmentEclOverride-investmentEclSicr-lookup-table-modal.component';
+
 import { EclConfigurationsComponent } from './eclConfig/eclConfigurations/eclConfigurations.component';
 import { CreateOrEditEclConfigurationModalComponent } from './eclConfig/eclConfigurations/create-or-edit-eclConfiguration-modal.component';
 
@@ -120,6 +124,9 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+		InvestmentEclOverridesComponent,
+		CreateOrEditInvestmentEclOverrideModalComponent,
+    InvestmentEclOverrideInvestmentEclSicrLookupTableModalComponent,
         ViewEclComponent,
         EclConfigurationsComponent,
         CreateOrEditEclConfigurationModalComponent,

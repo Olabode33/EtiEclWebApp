@@ -1,6 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="InvestmentAssetBook">Investment asset book</text>
+  <texts>    <text name="InvestmentEclOverrideApproval">Investment ecl override approval</text>
+    <text name="CreateNewInvestmentEclOverrideApproval">Create new investment ecl override approval</text>
+    <text name="EditInvestmentEclOverrideApproval">Edit investment ecl override approval</text>
+    <text name="DeleteInvestmentEclOverrideApproval">Delete investment ecl override approval</text>
+    <text name="InvestmentComputation">Investment computation</text>
+    <text name="InvestmentEclOverride">Investment ecl override</text>
+    <text name="StageOverride">Stage override</text>
+    <text name="InvestmentEclOverridesHeaderInfo">Investment ecl overrides header info</text>
+    <text name="CreateNewInvestmentEclOverride">Create new investment ecl override</text>
+    <text name="EditInvestmentEclOverride">Edit investment ecl override</text>
+    <text name="DeleteInvestmentEclOverride">Delete investment ecl override</text>
+    <text name="InvestmentEclOverrides">Investment ecl overrides</text>
+    <text name="InvestmentEclSicrAssetDescription">Investment ecl sicr asset description</text>
+    <text name="PickInvestmentEclSicr">Pick investment ecl sicr</text>
+    <text name="InvestmentAssetBook">Investment asset book</text>
     <text name="CreateNewInvestmentAssetBook">Create new investment asset book</text>
     <text name="EditInvestmentAssetBook">Edit investment asset book</text>
     <text name="DeleteInvestmentAssetBook">Delete investment asset book</text>

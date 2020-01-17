@@ -7407,6 +7407,672 @@ export class InvestmentEclLgdInputAssumptionsServiceProxy {
 }
 
 @Injectable()
+export class InvestmentEclOverrideApprovalsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param statusFilter (optional) 
+     * @param userNameFilter (optional) 
+     * @param investmentEclOverrideOverrideCommentFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, statusFilter: number | null | undefined, userNameFilter: string | null | undefined, investmentEclOverrideOverrideCommentFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetInvestmentEclOverrideApprovalForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclOverrideApprovals/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (statusFilter !== undefined)
+            url_ += "StatusFilter=" + encodeURIComponent("" + statusFilter) + "&"; 
+        if (userNameFilter !== undefined)
+            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&"; 
+        if (investmentEclOverrideOverrideCommentFilter !== undefined)
+            url_ += "InvestmentEclOverrideOverrideCommentFilter=" + encodeURIComponent("" + investmentEclOverrideOverrideCommentFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetInvestmentEclOverrideApprovalForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetInvestmentEclOverrideApprovalForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetInvestmentEclOverrideApprovalForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetInvestmentEclOverrideApprovalForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetInvestmentEclOverrideApprovalForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetInvestmentEclOverrideApprovalForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getInvestmentEclOverrideApprovalForEdit(id: string | null | undefined): Observable<GetInvestmentEclOverrideApprovalForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclOverrideApprovals/GetInvestmentEclOverrideApprovalForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetInvestmentEclOverrideApprovalForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetInvestmentEclOverrideApprovalForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetInvestmentEclOverrideApprovalForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetInvestmentEclOverrideApprovalForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetInvestmentEclOverrideApprovalForEdit(response: HttpResponseBase): Observable<GetInvestmentEclOverrideApprovalForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetInvestmentEclOverrideApprovalForEditOutput.fromJS(resultData200) : new GetInvestmentEclOverrideApprovalForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetInvestmentEclOverrideApprovalForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditInvestmentEclOverrideApprovalDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclOverrideApprovals/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclOverrideApprovals/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllUserForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfInvestmentEclOverrideApprovalUserLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclOverrideApprovals/GetAllUserForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllUserForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllUserForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfInvestmentEclOverrideApprovalUserLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfInvestmentEclOverrideApprovalUserLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllUserForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfInvestmentEclOverrideApprovalUserLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfInvestmentEclOverrideApprovalUserLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfInvestmentEclOverrideApprovalUserLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfInvestmentEclOverrideApprovalUserLookupTableDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllInvestmentEclOverrideForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfInvestmentEclOverrideApprovalInvestmentEclOverrideLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclOverrideApprovals/GetAllInvestmentEclOverrideForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllInvestmentEclOverrideForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllInvestmentEclOverrideForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfInvestmentEclOverrideApprovalInvestmentEclOverrideLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfInvestmentEclOverrideApprovalInvestmentEclOverrideLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllInvestmentEclOverrideForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfInvestmentEclOverrideApprovalInvestmentEclOverrideLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfInvestmentEclOverrideApprovalInvestmentEclOverrideLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfInvestmentEclOverrideApprovalInvestmentEclOverrideLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfInvestmentEclOverrideApprovalInvestmentEclOverrideLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class InvestmentEclOverridesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param statusFilter (optional) 
+     * @param investmentEclSicrAssetDescriptionFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, statusFilter: number | null | undefined, investmentEclSicrAssetDescriptionFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetInvestmentEclOverrideForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclOverrides/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (statusFilter !== undefined)
+            url_ += "StatusFilter=" + encodeURIComponent("" + statusFilter) + "&"; 
+        if (investmentEclSicrAssetDescriptionFilter !== undefined)
+            url_ += "InvestmentEclSicrAssetDescriptionFilter=" + encodeURIComponent("" + investmentEclSicrAssetDescriptionFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetInvestmentEclOverrideForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetInvestmentEclOverrideForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetInvestmentEclOverrideForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetInvestmentEclOverrideForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetInvestmentEclOverrideForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetInvestmentEclOverrideForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getInvestmentEclOverrideForEdit(id: string | null | undefined): Observable<GetInvestmentEclOverrideForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclOverrides/GetInvestmentEclOverrideForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetInvestmentEclOverrideForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetInvestmentEclOverrideForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetInvestmentEclOverrideForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetInvestmentEclOverrideForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetInvestmentEclOverrideForEdit(response: HttpResponseBase): Observable<GetInvestmentEclOverrideForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetInvestmentEclOverrideForEditOutput.fromJS(resultData200) : new GetInvestmentEclOverrideForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetInvestmentEclOverrideForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditInvestmentEclOverrideDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclOverrides/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclOverrides/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllInvestmentEclSicrForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfInvestmentEclOverrideInvestmentEclSicrLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclOverrides/GetAllInvestmentEclSicrForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllInvestmentEclSicrForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllInvestmentEclSicrForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfInvestmentEclOverrideInvestmentEclSicrLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfInvestmentEclOverrideInvestmentEclSicrLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllInvestmentEclSicrForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfInvestmentEclOverrideInvestmentEclSicrLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfInvestmentEclOverrideInvestmentEclSicrLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfInvestmentEclOverrideInvestmentEclSicrLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfInvestmentEclOverrideInvestmentEclSicrLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
 export class InvestmentEclPdFitchDefaultRatesServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -52014,6 +52680,750 @@ export class InvestmentEclLgdInputAssumptionInvestmentEclLookupTableDto implemen
 }
 
 export interface IInvestmentEclLgdInputAssumptionInvestmentEclLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetInvestmentEclOverrideApprovalForViewDto implements IPagedResultDtoOfGetInvestmentEclOverrideApprovalForViewDto {
+    totalCount!: number | undefined;
+    items!: GetInvestmentEclOverrideApprovalForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetInvestmentEclOverrideApprovalForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetInvestmentEclOverrideApprovalForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetInvestmentEclOverrideApprovalForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetInvestmentEclOverrideApprovalForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetInvestmentEclOverrideApprovalForViewDto {
+    totalCount: number | undefined;
+    items: GetInvestmentEclOverrideApprovalForViewDto[] | undefined;
+}
+
+export class GetInvestmentEclOverrideApprovalForViewDto implements IGetInvestmentEclOverrideApprovalForViewDto {
+    investmentEclOverrideApproval!: InvestmentEclOverrideApprovalDto | undefined;
+    userName!: string | undefined;
+    investmentEclOverrideOverrideComment!: string | undefined;
+
+    constructor(data?: IGetInvestmentEclOverrideApprovalForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.investmentEclOverrideApproval = data["investmentEclOverrideApproval"] ? InvestmentEclOverrideApprovalDto.fromJS(data["investmentEclOverrideApproval"]) : <any>undefined;
+            this.userName = data["userName"];
+            this.investmentEclOverrideOverrideComment = data["investmentEclOverrideOverrideComment"];
+        }
+    }
+
+    static fromJS(data: any): GetInvestmentEclOverrideApprovalForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetInvestmentEclOverrideApprovalForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["investmentEclOverrideApproval"] = this.investmentEclOverrideApproval ? this.investmentEclOverrideApproval.toJSON() : <any>undefined;
+        data["userName"] = this.userName;
+        data["investmentEclOverrideOverrideComment"] = this.investmentEclOverrideOverrideComment;
+        return data; 
+    }
+}
+
+export interface IGetInvestmentEclOverrideApprovalForViewDto {
+    investmentEclOverrideApproval: InvestmentEclOverrideApprovalDto | undefined;
+    userName: string | undefined;
+    investmentEclOverrideOverrideComment: string | undefined;
+}
+
+export class InvestmentEclOverrideApprovalDto implements IInvestmentEclOverrideApprovalDto {
+    reviewDate!: moment.Moment | undefined;
+    reviewComment!: string | undefined;
+    status!: GeneralStatusEnum | undefined;
+    reviewedByUserId!: number | undefined;
+    investmentEclOverrideId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IInvestmentEclOverrideApprovalDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.reviewDate = data["reviewDate"] ? moment(data["reviewDate"].toString()) : <any>undefined;
+            this.reviewComment = data["reviewComment"];
+            this.status = data["status"];
+            this.reviewedByUserId = data["reviewedByUserId"];
+            this.investmentEclOverrideId = data["investmentEclOverrideId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): InvestmentEclOverrideApprovalDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new InvestmentEclOverrideApprovalDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["reviewDate"] = this.reviewDate ? this.reviewDate.toISOString() : <any>undefined;
+        data["reviewComment"] = this.reviewComment;
+        data["status"] = this.status;
+        data["reviewedByUserId"] = this.reviewedByUserId;
+        data["investmentEclOverrideId"] = this.investmentEclOverrideId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IInvestmentEclOverrideApprovalDto {
+    reviewDate: moment.Moment | undefined;
+    reviewComment: string | undefined;
+    status: GeneralStatusEnum | undefined;
+    reviewedByUserId: number | undefined;
+    investmentEclOverrideId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetInvestmentEclOverrideApprovalForEditOutput implements IGetInvestmentEclOverrideApprovalForEditOutput {
+    investmentEclOverrideApproval!: CreateOrEditInvestmentEclOverrideApprovalDto | undefined;
+    userName!: string | undefined;
+    investmentEclOverrideOverrideComment!: string | undefined;
+
+    constructor(data?: IGetInvestmentEclOverrideApprovalForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.investmentEclOverrideApproval = data["investmentEclOverrideApproval"] ? CreateOrEditInvestmentEclOverrideApprovalDto.fromJS(data["investmentEclOverrideApproval"]) : <any>undefined;
+            this.userName = data["userName"];
+            this.investmentEclOverrideOverrideComment = data["investmentEclOverrideOverrideComment"];
+        }
+    }
+
+    static fromJS(data: any): GetInvestmentEclOverrideApprovalForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetInvestmentEclOverrideApprovalForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["investmentEclOverrideApproval"] = this.investmentEclOverrideApproval ? this.investmentEclOverrideApproval.toJSON() : <any>undefined;
+        data["userName"] = this.userName;
+        data["investmentEclOverrideOverrideComment"] = this.investmentEclOverrideOverrideComment;
+        return data; 
+    }
+}
+
+export interface IGetInvestmentEclOverrideApprovalForEditOutput {
+    investmentEclOverrideApproval: CreateOrEditInvestmentEclOverrideApprovalDto | undefined;
+    userName: string | undefined;
+    investmentEclOverrideOverrideComment: string | undefined;
+}
+
+export class CreateOrEditInvestmentEclOverrideApprovalDto implements ICreateOrEditInvestmentEclOverrideApprovalDto {
+    reviewDate!: moment.Moment | undefined;
+    reviewComment!: string | undefined;
+    status!: GeneralStatusEnum | undefined;
+    reviewedByUserId!: number | undefined;
+    investmentEclOverrideId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditInvestmentEclOverrideApprovalDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.reviewDate = data["reviewDate"] ? moment(data["reviewDate"].toString()) : <any>undefined;
+            this.reviewComment = data["reviewComment"];
+            this.status = data["status"];
+            this.reviewedByUserId = data["reviewedByUserId"];
+            this.investmentEclOverrideId = data["investmentEclOverrideId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditInvestmentEclOverrideApprovalDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditInvestmentEclOverrideApprovalDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["reviewDate"] = this.reviewDate ? this.reviewDate.toISOString() : <any>undefined;
+        data["reviewComment"] = this.reviewComment;
+        data["status"] = this.status;
+        data["reviewedByUserId"] = this.reviewedByUserId;
+        data["investmentEclOverrideId"] = this.investmentEclOverrideId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditInvestmentEclOverrideApprovalDto {
+    reviewDate: moment.Moment | undefined;
+    reviewComment: string | undefined;
+    status: GeneralStatusEnum | undefined;
+    reviewedByUserId: number | undefined;
+    investmentEclOverrideId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfInvestmentEclOverrideApprovalUserLookupTableDto implements IPagedResultDtoOfInvestmentEclOverrideApprovalUserLookupTableDto {
+    totalCount!: number | undefined;
+    items!: InvestmentEclOverrideApprovalUserLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfInvestmentEclOverrideApprovalUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(InvestmentEclOverrideApprovalUserLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfInvestmentEclOverrideApprovalUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfInvestmentEclOverrideApprovalUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfInvestmentEclOverrideApprovalUserLookupTableDto {
+    totalCount: number | undefined;
+    items: InvestmentEclOverrideApprovalUserLookupTableDto[] | undefined;
+}
+
+export class InvestmentEclOverrideApprovalUserLookupTableDto implements IInvestmentEclOverrideApprovalUserLookupTableDto {
+    id!: number | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IInvestmentEclOverrideApprovalUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): InvestmentEclOverrideApprovalUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new InvestmentEclOverrideApprovalUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IInvestmentEclOverrideApprovalUserLookupTableDto {
+    id: number | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfInvestmentEclOverrideApprovalInvestmentEclOverrideLookupTableDto implements IPagedResultDtoOfInvestmentEclOverrideApprovalInvestmentEclOverrideLookupTableDto {
+    totalCount!: number | undefined;
+    items!: InvestmentEclOverrideApprovalInvestmentEclOverrideLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfInvestmentEclOverrideApprovalInvestmentEclOverrideLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(InvestmentEclOverrideApprovalInvestmentEclOverrideLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfInvestmentEclOverrideApprovalInvestmentEclOverrideLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfInvestmentEclOverrideApprovalInvestmentEclOverrideLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfInvestmentEclOverrideApprovalInvestmentEclOverrideLookupTableDto {
+    totalCount: number | undefined;
+    items: InvestmentEclOverrideApprovalInvestmentEclOverrideLookupTableDto[] | undefined;
+}
+
+export class InvestmentEclOverrideApprovalInvestmentEclOverrideLookupTableDto implements IInvestmentEclOverrideApprovalInvestmentEclOverrideLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IInvestmentEclOverrideApprovalInvestmentEclOverrideLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): InvestmentEclOverrideApprovalInvestmentEclOverrideLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new InvestmentEclOverrideApprovalInvestmentEclOverrideLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IInvestmentEclOverrideApprovalInvestmentEclOverrideLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetInvestmentEclOverrideForViewDto implements IPagedResultDtoOfGetInvestmentEclOverrideForViewDto {
+    totalCount!: number | undefined;
+    items!: GetInvestmentEclOverrideForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetInvestmentEclOverrideForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetInvestmentEclOverrideForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetInvestmentEclOverrideForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetInvestmentEclOverrideForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetInvestmentEclOverrideForViewDto {
+    totalCount: number | undefined;
+    items: GetInvestmentEclOverrideForViewDto[] | undefined;
+}
+
+export class GetInvestmentEclOverrideForViewDto implements IGetInvestmentEclOverrideForViewDto {
+    investmentEclOverride!: InvestmentEclOverrideDto | undefined;
+    investmentEclSicrAssetDescription!: string | undefined;
+
+    constructor(data?: IGetInvestmentEclOverrideForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.investmentEclOverride = data["investmentEclOverride"] ? InvestmentEclOverrideDto.fromJS(data["investmentEclOverride"]) : <any>undefined;
+            this.investmentEclSicrAssetDescription = data["investmentEclSicrAssetDescription"];
+        }
+    }
+
+    static fromJS(data: any): GetInvestmentEclOverrideForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetInvestmentEclOverrideForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["investmentEclOverride"] = this.investmentEclOverride ? this.investmentEclOverride.toJSON() : <any>undefined;
+        data["investmentEclSicrAssetDescription"] = this.investmentEclSicrAssetDescription;
+        return data; 
+    }
+}
+
+export interface IGetInvestmentEclOverrideForViewDto {
+    investmentEclOverride: InvestmentEclOverrideDto | undefined;
+    investmentEclSicrAssetDescription: string | undefined;
+}
+
+export class InvestmentEclOverrideDto implements IInvestmentEclOverrideDto {
+    stageOverride!: number | undefined;
+    overrideComment!: string | undefined;
+    status!: GeneralStatusEnum | undefined;
+    investmentEclSicrId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IInvestmentEclOverrideDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.stageOverride = data["stageOverride"];
+            this.overrideComment = data["overrideComment"];
+            this.status = data["status"];
+            this.investmentEclSicrId = data["investmentEclSicrId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): InvestmentEclOverrideDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new InvestmentEclOverrideDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["stageOverride"] = this.stageOverride;
+        data["overrideComment"] = this.overrideComment;
+        data["status"] = this.status;
+        data["investmentEclSicrId"] = this.investmentEclSicrId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IInvestmentEclOverrideDto {
+    stageOverride: number | undefined;
+    overrideComment: string | undefined;
+    status: GeneralStatusEnum | undefined;
+    investmentEclSicrId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetInvestmentEclOverrideForEditOutput implements IGetInvestmentEclOverrideForEditOutput {
+    investmentEclOverride!: CreateOrEditInvestmentEclOverrideDto | undefined;
+    investmentEclSicrAssetDescription!: string | undefined;
+
+    constructor(data?: IGetInvestmentEclOverrideForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.investmentEclOverride = data["investmentEclOverride"] ? CreateOrEditInvestmentEclOverrideDto.fromJS(data["investmentEclOverride"]) : <any>undefined;
+            this.investmentEclSicrAssetDescription = data["investmentEclSicrAssetDescription"];
+        }
+    }
+
+    static fromJS(data: any): GetInvestmentEclOverrideForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetInvestmentEclOverrideForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["investmentEclOverride"] = this.investmentEclOverride ? this.investmentEclOverride.toJSON() : <any>undefined;
+        data["investmentEclSicrAssetDescription"] = this.investmentEclSicrAssetDescription;
+        return data; 
+    }
+}
+
+export interface IGetInvestmentEclOverrideForEditOutput {
+    investmentEclOverride: CreateOrEditInvestmentEclOverrideDto | undefined;
+    investmentEclSicrAssetDescription: string | undefined;
+}
+
+export class CreateOrEditInvestmentEclOverrideDto implements ICreateOrEditInvestmentEclOverrideDto {
+    stageOverride!: number | undefined;
+    overrideComment!: string;
+    status!: GeneralStatusEnum | undefined;
+    investmentEclSicrId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditInvestmentEclOverrideDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.stageOverride = data["stageOverride"];
+            this.overrideComment = data["overrideComment"];
+            this.status = data["status"];
+            this.investmentEclSicrId = data["investmentEclSicrId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditInvestmentEclOverrideDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditInvestmentEclOverrideDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["stageOverride"] = this.stageOverride;
+        data["overrideComment"] = this.overrideComment;
+        data["status"] = this.status;
+        data["investmentEclSicrId"] = this.investmentEclSicrId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditInvestmentEclOverrideDto {
+    stageOverride: number | undefined;
+    overrideComment: string;
+    status: GeneralStatusEnum | undefined;
+    investmentEclSicrId: string | undefined;
+    id: string | undefined;
+}
+
+export class PagedResultDtoOfInvestmentEclOverrideInvestmentEclSicrLookupTableDto implements IPagedResultDtoOfInvestmentEclOverrideInvestmentEclSicrLookupTableDto {
+    totalCount!: number | undefined;
+    items!: InvestmentEclOverrideInvestmentEclSicrLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfInvestmentEclOverrideInvestmentEclSicrLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(InvestmentEclOverrideInvestmentEclSicrLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfInvestmentEclOverrideInvestmentEclSicrLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfInvestmentEclOverrideInvestmentEclSicrLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfInvestmentEclOverrideInvestmentEclSicrLookupTableDto {
+    totalCount: number | undefined;
+    items: InvestmentEclOverrideInvestmentEclSicrLookupTableDto[] | undefined;
+}
+
+export class InvestmentEclOverrideInvestmentEclSicrLookupTableDto implements IInvestmentEclOverrideInvestmentEclSicrLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IInvestmentEclOverrideInvestmentEclSicrLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): InvestmentEclOverrideInvestmentEclSicrLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new InvestmentEclOverrideInvestmentEclSicrLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IInvestmentEclOverrideInvestmentEclSicrLookupTableDto {
     id: string | undefined;
     displayName: string | undefined;
 }

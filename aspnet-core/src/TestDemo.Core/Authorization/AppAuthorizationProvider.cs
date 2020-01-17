@@ -30,6 +30,20 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var investmentEclOverrideApprovals = pages.CreateChildPermission(AppPermissions.Pages_InvestmentEclOverrideApprovals, L("InvestmentEclOverrideApprovals"));
+            investmentEclOverrideApprovals.CreateChildPermission(AppPermissions.Pages_InvestmentEclOverrideApprovals_Create, L("CreateNewInvestmentEclOverrideApproval"));
+            investmentEclOverrideApprovals.CreateChildPermission(AppPermissions.Pages_InvestmentEclOverrideApprovals_Edit, L("EditInvestmentEclOverrideApproval"));
+            investmentEclOverrideApprovals.CreateChildPermission(AppPermissions.Pages_InvestmentEclOverrideApprovals_Delete, L("DeleteInvestmentEclOverrideApproval"));
+
+
+
+            var investmentEclOverrides = pages.CreateChildPermission(AppPermissions.Pages_InvestmentEclOverrides, L("InvestmentEclOverrides"));
+            investmentEclOverrides.CreateChildPermission(AppPermissions.Pages_InvestmentEclOverrides_Create, L("CreateNewInvestmentEclOverride"));
+            investmentEclOverrides.CreateChildPermission(AppPermissions.Pages_InvestmentEclOverrides_Edit, L("EditInvestmentEclOverride"));
+            investmentEclOverrides.CreateChildPermission(AppPermissions.Pages_InvestmentEclOverrides_Delete, L("DeleteInvestmentEclOverride"));
+
+
+
             var investmentAssetBooks = pages.CreateChildPermission(AppPermissions.Pages_InvestmentAssetBooks, L("InvestmentAssetBooks"));
             investmentAssetBooks.CreateChildPermission(AppPermissions.Pages_InvestmentAssetBooks_Create, L("CreateNewInvestmentAssetBook"));
             investmentAssetBooks.CreateChildPermission(AppPermissions.Pages_InvestmentAssetBooks_Edit, L("EditInvestmentAssetBook"));

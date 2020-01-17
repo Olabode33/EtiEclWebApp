@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestDemo.EntityFrameworkCore;
 
 namespace TestDemo.Migrations
 {
     [DbContext(typeof(TestDemoDbContext))]
-    partial class TestDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200116100220_Added-InvestmentEclOverride")]
+    partial class AddedInvestmentEclOverride
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2282,31 +2284,6 @@ namespace TestDemo.Migrations
                     b.HasIndex("ReviewedByUserId");
 
                     b.ToTable("InvestmentEclOverrideApprovals");
-                });
-
-            modelBuilder.Entity("TestDemo.InvestmentComputation.InvestmentEclPdLifetime", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("NEWID()");
-
-                    b.Property<double?>("BestValue");
-
-                    b.Property<double?>("DownturnValue");
-
-                    b.Property<Guid>("EclId");
-
-                    b.Property<int>("Month");
-
-                    b.Property<double?>("OptimisticValue");
-
-                    b.Property<string>("Rating");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EclId");
-
-                    b.ToTable("InvestmentEclPdLifetime");
                 });
 
             modelBuilder.Entity("TestDemo.InvestmentComputation.InvestmentEclSicr", b =>
@@ -8187,14 +8164,6 @@ namespace TestDemo.Migrations
                     b.HasOne("TestDemo.Authorization.Users.User", "ReviewedByUserFk")
                         .WithMany()
                         .HasForeignKey("ReviewedByUserId");
-                });
-
-            modelBuilder.Entity("TestDemo.InvestmentComputation.InvestmentEclPdLifetime", b =>
-                {
-                    b.HasOne("TestDemo.Investment.InvestmentEcl", "EclFk")
-                        .WithMany()
-                        .HasForeignKey("EclId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("TestDemo.InvestmentComputation.InvestmentEclSicr", b =>

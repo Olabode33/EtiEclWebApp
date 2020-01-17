@@ -42,6 +42,11 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<InvestmentEclPdLifetime> InvestmentEclPdLifetime { get; set; }
+        public virtual DbSet<InvestmentEclOverrideApproval> InvestmentEclOverrideApprovals { get; set; }
+
+        public virtual DbSet<InvestmentEclOverride> InvestmentEclOverrides { get; set; }
+
         public virtual DbSet<InvestmentEclSicr> InvestmentEclSicr { get; set; }
         public virtual DbSet<InvestmentEclDiscountFactor> InvestmentEclDiscountFactors { get; set; }
         public virtual DbSet<InvestmentEclEadLifetime> InvestmentEclEadLifetimes { get; set; }
@@ -370,6 +375,7 @@ namespace TestDemo.EntityFrameworkCore
             modelBuilder.Entity<InvestmentEclEadLifetime>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<InvestmentEclDiscountFactor>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<InvestmentEclSicr>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<InvestmentEclPdLifetime>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
 
             //Wholeslale
             modelBuilder.Entity<WholesalePdLifetimeBest>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));

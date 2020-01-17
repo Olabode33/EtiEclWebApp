@@ -1,5 +1,6 @@
 ﻿import { ViewRetailEclComponent } from './retail/view-retailEcl/view-retailEcl.component';
 import { NgModule } from '@angular/core';
+import { InvestmentEclOverridesComponent } from './investmentComputation/investmentEclOverrides/investmentEclOverrides.component';
 import { EclConfigurationsComponent } from './eclConfig/eclConfigurations/eclConfigurations.component';
 import { AffiliateOverrideThresholdsComponent } from './eclConfig/affiliateOverrideThresholds/affiliateOverrideThresholds.component';
 import { AssumptionApprovalsComponent } from './assumptions/assumptionApprovals/assumptionApprovals.component';
@@ -34,6 +35,7 @@ import { ViewEclComponent } from './eclView/view-ecl/view-ecl.component';
             {
                 path: '',
                 children: [
+                    { path: 'investmentComputation/investmentEclOverrides', component: InvestmentEclOverridesComponent, data: { permission: 'Pages.InvestmentEclOverrides' }  },
                     { path: 'eclConfig/eclConfigurations', component: EclConfigurationsComponent, data: { permission: 'Pages.EclConfigurations' }  },
                     { path: 'eclConfig/affiliateOverrideThresholds', component: AffiliateOverrideThresholdsComponent, data: { permission: 'Pages.AffiliateOverrideThresholds' }  },
                     { path: 'config/macroeconomicVariables', component: MacroeconomicVariablesComponent, data: { permission: 'Pages.MacroeconomicVariables' }  },
