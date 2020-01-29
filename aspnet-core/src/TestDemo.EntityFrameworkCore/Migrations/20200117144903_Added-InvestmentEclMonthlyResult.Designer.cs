@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestDemo.EntityFrameworkCore;
 
 namespace TestDemo.Migrations
 {
     [DbContext(typeof(TestDemoDbContext))]
-    partial class TestDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200117144903_Added-InvestmentEclMonthlyResult")]
+    partial class AddedInvestmentEclMonthlyResult
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2211,33 +2213,6 @@ namespace TestDemo.Migrations
                     b.ToTable("InvestmentEclEadLifetimes");
                 });
 
-            modelBuilder.Entity("TestDemo.InvestmentComputation.InvestmentEclFinalResult", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("NEWID()");
-
-                    b.Property<string>("AssetDescription");
-
-                    b.Property<double?>("BestValue");
-
-                    b.Property<double?>("DownturnValue");
-
-                    b.Property<Guid>("EclId");
-
-                    b.Property<double?>("OptimisticValue");
-
-                    b.Property<Guid>("RecordId");
-
-                    b.Property<int>("Stage");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EclId");
-
-                    b.ToTable("InvestmentEclFinalResult");
-                });
-
             modelBuilder.Entity("TestDemo.InvestmentComputation.InvestmentEclMonthlyResult", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2275,8 +2250,6 @@ namespace TestDemo.Migrations
                     b.Property<long?>("DeleterUserId");
 
                     b.Property<DateTime?>("DeletionTime");
-
-                    b.Property<Guid>("EclId");
 
                     b.Property<Guid>("InvestmentEclSicrId");
 
@@ -8217,14 +8190,6 @@ namespace TestDemo.Migrations
                 });
 
             modelBuilder.Entity("TestDemo.InvestmentComputation.InvestmentEclEadLifetime", b =>
-                {
-                    b.HasOne("TestDemo.Investment.InvestmentEcl", "EclFk")
-                        .WithMany()
-                        .HasForeignKey("EclId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("TestDemo.InvestmentComputation.InvestmentEclFinalResult", b =>
                 {
                     b.HasOne("TestDemo.Investment.InvestmentEcl", "EclFk")
                         .WithMany()

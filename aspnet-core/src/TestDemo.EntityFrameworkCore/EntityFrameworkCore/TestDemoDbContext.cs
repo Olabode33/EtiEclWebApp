@@ -42,6 +42,8 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<InvestmentEclFinalResult> InvestmentEclFinalResults { get; set; }
+        public virtual DbSet<InvestmentEclMonthlyResult> InvestmentEclMonthlyResults { get; set; }
         public virtual DbSet<InvestmentEclPdLifetime> InvestmentEclPdLifetime { get; set; }
         public virtual DbSet<InvestmentEclOverrideApproval> InvestmentEclOverrideApprovals { get; set; }
 
@@ -372,6 +374,8 @@ namespace TestDemo.EntityFrameworkCore
         {
             base.OnModelCreating(modelBuilder);
             //Investment
+            modelBuilder.Entity<InvestmentEclFinalResult>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<InvestmentEclMonthlyResult>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<InvestmentEclEadLifetime>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<InvestmentEclDiscountFactor>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<InvestmentEclSicr>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));

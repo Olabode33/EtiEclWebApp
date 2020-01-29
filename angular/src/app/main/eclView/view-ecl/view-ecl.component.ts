@@ -17,6 +17,7 @@ import { Location } from '@angular/common';
 import { finalize } from 'rxjs/operators';
 import { interval } from 'rxjs';
 import { FakeResultData } from '@app/main/retail/view-retailEcl/view-retailEcl.component';
+import { EclOverrideComponent } from '../_subs/ecl-override/ecl-override.component';
 
 const secondsCounter = interval(5000);
 
@@ -28,6 +29,8 @@ const secondsCounter = interval(5000);
     animations: [appModuleAnimation()]
 })
 export class ViewEclComponent extends AppComponentBase implements OnInit {
+    //TODO: Convert to use _sub component
+    //TODO: Include pre-override result view (Computed)
 
     @ViewChild('approvalModal', { static: true }) approvalModal: ApprovalModalComponent;
     @ViewChild('frameworkAssumptionTag', { static: true }) frameworkAssumptionTag: FrameworkAssumptionsComponent;
@@ -35,6 +38,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
     @ViewChild('lgdInputAssumptionTag', { static: true }) lgdInputAssumptionTag: LgdInputAssumptionsComponent;
     @ViewChild('pdInputAssumptionTag', { static: true }) pdInputAssumptionTag: PdInputAssumptionsComponent;
     @ViewChild('UploadPaymentSchedule', { static: true }) excelUploadPaymentSchedule: FileUpload;
+    @ViewChild('eclOverrideTag', { static: true }) eclOverrideTag: EclOverrideComponent;
 
     isLoading = false;
     isLoadingUploads = false;
@@ -98,6 +102,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
 
             this.configureServiceProxies();
             this.configureDataSources();
+            this.configureEclOverrideSubComponent();
             this.getEclDetails();
             this.getEclUploadSummary();
 
@@ -187,6 +192,10 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
         });
     }
 
+    configureEclOverrideSubComponent(): void {
+        this.eclOverrideTag.load(this._eclId, this._eclFramework);
+    }
+
     getUploadDto(): any {
         switch (this._eclFramework) {
             case FrameworkEnum.Wholesale:
@@ -233,6 +242,8 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
                                         this.loadLgdAssumptionComponent(result.lgdInputAssumptions);
                                     }
                                     this.loadPdAssumptionComponent(result);
+                                    console.log(this.showOverride());
+                                    this.eclOverrideTag.display(this.showOverride());
                                 });
         } else {
             throw Error('Function does not exist in service proxy');
@@ -438,6 +449,18 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
         //     sub_.unsubscribe();
         //     this.getEclUploadSummary();
         // }
+    }
+
+    showOverride(): boolean {
+        switch (this.eclDto.status) {
+            case EclStatusEnum.PreOverrideComplete:
+            case EclStatusEnum.PostOverrideComplete:
+            case EclStatusEnum.Completed:
+            case EclStatusEnum.Closed:
+                return true;
+            default:
+                return false;
+        }
     }
 
     //TODO: Add view assetbook details

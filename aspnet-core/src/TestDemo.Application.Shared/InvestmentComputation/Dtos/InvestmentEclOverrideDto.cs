@@ -13,8 +13,9 @@ namespace TestDemo.InvestmentComputation.Dtos
 
 		public GeneralStatusEnum Status { get; set; }
 
+		public Guid EclId { get; set; }
 
-		 public Guid InvestmentEclSicrId { get; set; }
+		public Guid InvestmentEclSicrId { get; set; }
 
 		 
     }

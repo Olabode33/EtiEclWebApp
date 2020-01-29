@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
 using Abp.Auditing;
+using TestDemo.Investment;
 
 namespace TestDemo.InvestmentComputation
 {
@@ -13,14 +14,14 @@ namespace TestDemo.InvestmentComputation
     [Audited]
     public class InvestmentEclOverride : FullAuditedEntity<Guid> 
     {
-
 		public virtual int StageOverride { get; set; }
 		
 		[Required]
 		public virtual string OverrideComment { get; set; }
 		
 		public virtual GeneralStatusEnum Status { get; set; }
-		
+
+		public virtual Guid EclId { get; set; }
 
 		public virtual Guid InvestmentEclSicrId { get; set; }
 		

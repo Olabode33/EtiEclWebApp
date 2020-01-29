@@ -102,6 +102,8 @@
             </div>
         </div>
 
+        <!--  -->
+
         <!-- Start Result -->
         <div class="row" *ngIf="eclDto.status == eclStatusEnum.Completed">
             <div class="col">
@@ -198,7 +200,11 @@
         </div>
         <!-- End Result -->
 
-        <!-- Start Upload & Overrides -->
+        <!--  Start Overrides -->
+        <app-ecl-override #eclOverrideTag></app-ecl-override>
+        <!-- End Overrides -->
+
+        <!-- Start Upload -->
         <div class="kt-portlet ">
             <div class="kt-portlet__head">
                 <div class="kt-portlet__head-label">
@@ -301,7 +307,7 @@
                 </div>
             </div>
         </div>
-        <!-- End Upload & Overrides-->
+        <!-- End Upload -->
 
         <!-- Start Assumptions-->
         <div class="kt-portlet ">

@@ -26,6 +26,9 @@ using TestDemo.InvestmentAssumption.Dtos;
 using TestDemo.InvestmentInputs;
 using TestDemo.EclLibrary.Investment.Utils;
 using TestDemo.EclLibrary.Investment.Calculations;
+using TestDemo.InvestmentComputation;
+using TestDemo.EclLibrary.Investment;
+using TestDemo.EclLibrary.BaseEngine.Dtos;
 
 namespace TestDemo.Investment
 {
@@ -47,6 +50,7 @@ namespace TestDemo.Investment
         private readonly IInvestmentEclApprovalsAppService _invsecEclApprovalsAppService;
         private readonly IBackgroundJobManager _backgroundJobManager;
         private readonly IEclSharedAppService _eclSharedAppService;
+        private readonly IEclCustomRepository _investmentEclCustomRepository;
 
 
         public InvestmentEclsAppService(IRepository<InvestmentEcl, Guid> investmentEclRepository, 
@@ -61,6 +65,7 @@ namespace TestDemo.Investment
                                         IInvestmentEclUploadsAppService invsecEclUploadsAppService,
                                         IInvestmentEclApprovalsAppService invsecEclApprovalsAppService,
                                         IBackgroundJobManager backgroundJobManager,
+                                        IEclCustomRepository investmentEclCustomRepository,
                                         IEclSharedAppService eclSharedAppService)
         {
             _investmentEclRepository = investmentEclRepository;
@@ -77,6 +82,7 @@ namespace TestDemo.Investment
 
             _invsecEclApprovalsAppService = invsecEclApprovalsAppService;
             _backgroundJobManager = backgroundJobManager;
+            _investmentEclCustomRepository = investmentEclCustomRepository;
             _eclSharedAppService = eclSharedAppService;
         }
 
@@ -223,7 +229,7 @@ namespace TestDemo.Investment
 
                 Guid id = await _investmentEclRepository.InsertAndGetIdAsync(new InvestmentEcl()
                 {
-                    ReportingDate = affiliateAssumption.LastRetailReportingDate,
+                    ReportingDate = affiliateAssumption.LastSecuritiesReportingDate,
                     OrganizationUnitId = affiliateAssumption.OrganizationUnitId,
                     Status = EclStatusEnum.Draft,
                 });
@@ -429,17 +435,7 @@ namespace TestDemo.Investment
 
         public async Task RunEcl(EntityDto<Guid> input)
         {
-            //var ecl = await _investmentEclRepository.FirstOrDefaultAsync(input.Id);
-            //ecl.Status = EclStatusEnum.Running;
-            //await _investmentEclRepository.UpdateAsync(ecl);
-
-            //await _backgroundJobManager.EnqueueAsync<RunRetailPdJob, RetailPdJobArgs>(new RetailPdJobArgs { RetailEclId = input.Id });
-
-            InvestmentDbUtil investmentDbUtil = new InvestmentDbUtil();
-            var r = investmentDbUtil.GetInvestmentEclAssetBookData(input.Id);
-            EadInput ead = new EadInput();
-            ead.ComputeLifetimeEad(input.Id);
-            var stop = "stop";
+            await _backgroundJobManager.EnqueueAsync<RunInvestmentEclJob, RunEclJobArgs>(new RunEclJobArgs { EclId = input.Id });
         }
 
         protected virtual async Task<ValidationMessageDto> ValidateForSubmission(Guid eclId)

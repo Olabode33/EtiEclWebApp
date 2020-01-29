@@ -65,6 +65,7 @@ export class InvestmentEclOverridesComponent extends AppComponentBase {
         this.primengTableHelper.showLoadingIndicator();
 
         this._investmentEclOverridesServiceProxy.getAll(
+            '',
             this.filterText,
             this.statusFilter,
             this.investmentEclSicrAssetDescriptionFilter,

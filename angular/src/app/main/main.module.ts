@@ -98,6 +98,8 @@ import { EditAssumptionModalComponent } from './assumptions/_subs/edit-assumptio
 import { ViewLoanbookDetailsComponent } from './eclShared/view-loanbookDetails/view-loanbookDetails.component';
 import { ViewPaymentScheduleComponent } from './eclShared/view-paymentSchedule/view-paymentSchedule.component';
 import { ViewEclComponent } from './eclView/view-ecl/view-ecl.component';
+import { EclOverrideComponent } from './eclView/_subs/ecl-override/ecl-override.component';
+import { ApplyOverrideModalComponent } from './eclView/_subs/apply-override-modal/apply-override-modal.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -124,9 +126,11 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
-		InvestmentEclOverridesComponent,
-		CreateOrEditInvestmentEclOverrideModalComponent,
-    InvestmentEclOverrideInvestmentEclSicrLookupTableModalComponent,
+        ApplyOverrideModalComponent,
+        EclOverrideComponent,
+        InvestmentEclOverridesComponent,
+        CreateOrEditInvestmentEclOverrideModalComponent,
+        InvestmentEclOverrideInvestmentEclSicrLookupTableModalComponent,
         ViewEclComponent,
         EclConfigurationsComponent,
         CreateOrEditEclConfigurationModalComponent,

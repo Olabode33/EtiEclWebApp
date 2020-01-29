@@ -7784,6 +7784,7 @@ export class InvestmentEclOverridesServiceProxy {
     }
 
     /**
+     * @param eclId (optional) 
      * @param filter (optional) 
      * @param statusFilter (optional) 
      * @param investmentEclSicrAssetDescriptionFilter (optional) 
@@ -7792,8 +7793,10 @@ export class InvestmentEclOverridesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | null | undefined, statusFilter: number | null | undefined, investmentEclSicrAssetDescriptionFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetInvestmentEclOverrideForViewDto> {
+    getAll(eclId: string | null | undefined, filter: string | null | undefined, statusFilter: number | null | undefined, investmentEclSicrAssetDescriptionFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetInvestmentEclOverrideForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/InvestmentEclOverrides/GetAll?";
+        if (eclId !== undefined)
+            url_ += "EclId=" + encodeURIComponent("" + eclId) + "&"; 
         if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
         if (statusFilter !== undefined)
@@ -7850,6 +7853,120 @@ export class InvestmentEclOverridesServiceProxy {
             }));
         }
         return _observableOf<PagedResultDtoOfGetInvestmentEclOverrideForViewDto>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    searchResult(input: GetRecordForOverrideInputDto | null | undefined): Observable<NameValueDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclOverrides/SearchResult";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSearchResult(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSearchResult(<any>response_);
+                } catch (e) {
+                    return <Observable<NameValueDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<NameValueDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSearchResult(response: HttpResponseBase): Observable<NameValueDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(NameValueDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<NameValueDto[]>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getEclRecordDetails(id: string | null | undefined): Observable<GetInvestmentPreResultForOverrideOutput> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclOverrides/GetEclRecordDetails?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetEclRecordDetails(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetEclRecordDetails(<any>response_);
+                } catch (e) {
+                    return <Observable<GetInvestmentPreResultForOverrideOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetInvestmentPreResultForOverrideOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetEclRecordDetails(response: HttpResponseBase): Observable<GetInvestmentPreResultForOverrideOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetInvestmentPreResultForOverrideOutput.fromJS(resultData200) : new GetInvestmentPreResultForOverrideOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetInvestmentPreResultForOverrideOutput>(<any>null);
     }
 
     /**
@@ -7990,6 +8107,58 @@ export class InvestmentEclOverridesServiceProxy {
     }
 
     protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    approveReject(input: ReviewEclOverrideInputDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclOverrides/ApproveReject";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processApproveReject(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processApproveReject(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processApproveReject(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -47943,8 +48112,8 @@ export enum EclStatusEnum {
     Submitted = 1, 
     Approved = 2, 
     Running = 3, 
-    ComputedPD = 4, 
-    ComputedSICR = 5, 
+    PreOverrideComplete = 4, 
+    PostOverrideComplete = 5, 
     ComputedEAD = 6, 
     ComputedLGD = 7, 
     ComputedECL = 8, 
@@ -53200,6 +53369,7 @@ export class InvestmentEclOverrideDto implements IInvestmentEclOverrideDto {
     stageOverride!: number | undefined;
     overrideComment!: string | undefined;
     status!: GeneralStatusEnum | undefined;
+    eclId!: string | undefined;
     investmentEclSicrId!: string | undefined;
     id!: string | undefined;
 
@@ -53217,6 +53387,7 @@ export class InvestmentEclOverrideDto implements IInvestmentEclOverrideDto {
             this.stageOverride = data["stageOverride"];
             this.overrideComment = data["overrideComment"];
             this.status = data["status"];
+            this.eclId = data["eclId"];
             this.investmentEclSicrId = data["investmentEclSicrId"];
             this.id = data["id"];
         }
@@ -53234,6 +53405,7 @@ export class InvestmentEclOverrideDto implements IInvestmentEclOverrideDto {
         data["stageOverride"] = this.stageOverride;
         data["overrideComment"] = this.overrideComment;
         data["status"] = this.status;
+        data["eclId"] = this.eclId;
         data["investmentEclSicrId"] = this.investmentEclSicrId;
         data["id"] = this.id;
         return data; 
@@ -53244,7 +53416,160 @@ export interface IInvestmentEclOverrideDto {
     stageOverride: number | undefined;
     overrideComment: string | undefined;
     status: GeneralStatusEnum | undefined;
+    eclId: string | undefined;
     investmentEclSicrId: string | undefined;
+    id: string | undefined;
+}
+
+export class GetRecordForOverrideInputDto implements IGetRecordForOverrideInputDto {
+    eclId!: string | undefined;
+    searchTerm!: string | undefined;
+
+    constructor(data?: IGetRecordForOverrideInputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.eclId = data["eclId"];
+            this.searchTerm = data["searchTerm"];
+        }
+    }
+
+    static fromJS(data: any): GetRecordForOverrideInputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetRecordForOverrideInputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["eclId"] = this.eclId;
+        data["searchTerm"] = this.searchTerm;
+        return data; 
+    }
+}
+
+export interface IGetRecordForOverrideInputDto {
+    eclId: string | undefined;
+    searchTerm: string | undefined;
+}
+
+export class GetInvestmentPreResultForOverrideOutput implements IGetInvestmentPreResultForOverrideOutput {
+    eclOverrides!: CreateOrEditInvestmentEclOverrideDto | undefined;
+    assetDescription!: string | undefined;
+    assetType!: string | undefined;
+    currentRating!: string | undefined;
+    stage!: number | undefined;
+
+    constructor(data?: IGetInvestmentPreResultForOverrideOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.eclOverrides = data["eclOverrides"] ? CreateOrEditInvestmentEclOverrideDto.fromJS(data["eclOverrides"]) : <any>undefined;
+            this.assetDescription = data["assetDescription"];
+            this.assetType = data["assetType"];
+            this.currentRating = data["currentRating"];
+            this.stage = data["stage"];
+        }
+    }
+
+    static fromJS(data: any): GetInvestmentPreResultForOverrideOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetInvestmentPreResultForOverrideOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["eclOverrides"] = this.eclOverrides ? this.eclOverrides.toJSON() : <any>undefined;
+        data["assetDescription"] = this.assetDescription;
+        data["assetType"] = this.assetType;
+        data["currentRating"] = this.currentRating;
+        data["stage"] = this.stage;
+        return data; 
+    }
+}
+
+export interface IGetInvestmentPreResultForOverrideOutput {
+    eclOverrides: CreateOrEditInvestmentEclOverrideDto | undefined;
+    assetDescription: string | undefined;
+    assetType: string | undefined;
+    currentRating: string | undefined;
+    stage: number | undefined;
+}
+
+export class CreateOrEditInvestmentEclOverrideDto implements ICreateOrEditInvestmentEclOverrideDto {
+    investmentEclSicrId!: string | undefined;
+    stage!: number | undefined;
+    overrideComment!: string;
+    status!: GeneralStatusEnum | undefined;
+    eclId!: string | undefined;
+    recordId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditInvestmentEclOverrideDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.investmentEclSicrId = data["investmentEclSicrId"];
+            this.stage = data["stage"];
+            this.overrideComment = data["overrideComment"];
+            this.status = data["status"];
+            this.eclId = data["eclId"];
+            this.recordId = data["recordId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditInvestmentEclOverrideDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditInvestmentEclOverrideDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["investmentEclSicrId"] = this.investmentEclSicrId;
+        data["stage"] = this.stage;
+        data["overrideComment"] = this.overrideComment;
+        data["status"] = this.status;
+        data["eclId"] = this.eclId;
+        data["recordId"] = this.recordId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditInvestmentEclOverrideDto {
+    investmentEclSicrId: string | undefined;
+    stage: number | undefined;
+    overrideComment: string;
+    status: GeneralStatusEnum | undefined;
+    eclId: string | undefined;
+    recordId: string | undefined;
     id: string | undefined;
 }
 
@@ -53288,14 +53613,12 @@ export interface IGetInvestmentEclOverrideForEditOutput {
     investmentEclSicrAssetDescription: string | undefined;
 }
 
-export class CreateOrEditInvestmentEclOverrideDto implements ICreateOrEditInvestmentEclOverrideDto {
-    stageOverride!: number | undefined;
-    overrideComment!: string;
+export class ReviewEclOverrideInputDto implements IReviewEclOverrideInputDto {
+    reviewComment!: string | undefined;
     status!: GeneralStatusEnum | undefined;
-    investmentEclSicrId!: string | undefined;
-    id!: string | undefined;
+    overrideRecordId!: string | undefined;
 
-    constructor(data?: ICreateOrEditInvestmentEclOverrideDto) {
+    constructor(data?: IReviewEclOverrideInputDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -53306,38 +53629,32 @@ export class CreateOrEditInvestmentEclOverrideDto implements ICreateOrEditInvest
 
     init(data?: any) {
         if (data) {
-            this.stageOverride = data["stageOverride"];
-            this.overrideComment = data["overrideComment"];
+            this.reviewComment = data["reviewComment"];
             this.status = data["status"];
-            this.investmentEclSicrId = data["investmentEclSicrId"];
-            this.id = data["id"];
+            this.overrideRecordId = data["overrideRecordId"];
         }
     }
 
-    static fromJS(data: any): CreateOrEditInvestmentEclOverrideDto {
+    static fromJS(data: any): ReviewEclOverrideInputDto {
         data = typeof data === 'object' ? data : {};
-        let result = new CreateOrEditInvestmentEclOverrideDto();
+        let result = new ReviewEclOverrideInputDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["stageOverride"] = this.stageOverride;
-        data["overrideComment"] = this.overrideComment;
+        data["reviewComment"] = this.reviewComment;
         data["status"] = this.status;
-        data["investmentEclSicrId"] = this.investmentEclSicrId;
-        data["id"] = this.id;
+        data["overrideRecordId"] = this.overrideRecordId;
         return data; 
     }
 }
 
-export interface ICreateOrEditInvestmentEclOverrideDto {
-    stageOverride: number | undefined;
-    overrideComment: string;
+export interface IReviewEclOverrideInputDto {
+    reviewComment: string | undefined;
     status: GeneralStatusEnum | undefined;
-    investmentEclSicrId: string | undefined;
-    id: string | undefined;
+    overrideRecordId: string | undefined;
 }
 
 export class PagedResultDtoOfInvestmentEclOverrideInvestmentEclSicrLookupTableDto implements IPagedResultDtoOfInvestmentEclOverrideInvestmentEclSicrLookupTableDto {

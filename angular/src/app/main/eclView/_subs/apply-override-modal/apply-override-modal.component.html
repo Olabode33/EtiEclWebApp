@@ -1,0 +1,105 @@
+<div bsModal #applyOverrideModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal"
+     (onShown)="shown()"
+     aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    {{title}}
+                </h4>
+                <button type="button" class="close" (click)="close()" [attr.aria-label]="l('Close')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form novalidate (ngSubmit)="approve()">
+                    <div [hidden]="reviewMode" class="row">
+                        <div class="form-group  col-md-6">
+                            <label>{{l('SelectAccount')}}</label>
+                            <div></div>
+                            <p-autoComplete [(ngModel)]="selectedAccount"
+                                            id="SelectAccount"
+                                            [suggestions]="filteredAccounts"
+                                            (completeMethod)="searchBooks($event)"
+                                            field="name"
+                                            placeholder="Accounts"
+                                            [minLength]="1"
+                                            name="SelectAccount"
+                                            inputStyleClass="form-control"
+                                            styleClass="width-percent-100">
+                            </p-autoComplete>
+                        </div>
+                        <div class="col-md-4">
+                            <label>&nbsp;</label>
+                            <div></div>
+                            <button (click)="getRecordDetails()" type="button" class="btn btn-success" *ngIf="selectedAccount !== undefined">
+                                <i class="fa fa-check" style="font-size: 1.2rem !important;"></i>
+                                {{l("Select")}}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div [hidden]="reviewMode" class="kt-separator kt-separator--border-dashed"></div>
+
+                    <h5>{{l('ContractDetails')}}</h5>
+                    <p *ngIf="dataSource === undefined">{{l('NoContractSelected')}}</p>
+                    <div *ngIf="dataSource !== null" class="row">
+                        <div *ngIf="hasProp('assetDescription')" class="col-md-6">
+                            <label class="control-label">{{l('AssetDescription')}}</label>
+                            <p class="kt-font-boldest">{{dataSource.assetDescription}}</p>
+                        </div>
+                        <div *ngIf="hasProp('assetType')" class="col-md-6">
+                            <label class="control-label">{{l('AssetType')}}</label>
+                            <p class="kt-font-boldest">{{dataSource.assetType}}</p>
+                        </div>
+                        <div *ngIf="hasProp('currentRating')" class="col-md-6">
+                            <label class="control-label">{{l('CurrentRating')}}</label>
+                            <p class="kt-font-boldest">{{dataSource.currentRating}}</p>
+                        </div>
+                        <div *ngIf="hasProp('stage')" class="col-md-6">
+                            <label class="control-label">{{l('Stage')}}</label>
+                            <p class="kt-font-boldest">{{dataSource.stage}}</p>
+                        </div>
+                    </div>
+
+                    <div class="kt-separator kt-separator--border-dashed"></div>
+
+                    <h5>{{l('OverrideAndOverlay')}}</h5>
+                    <p *ngIf="eclOverride === undefined">{{l('NoContractSelected')}}</p>
+                    <div *ngIf="eclOverride !== null" class="row">
+                        <div *ngIf="eclOverrideHasProp('stage')" class="col-md-4">
+                            <label class="control-label">{{l('Stage')}}</label>
+                            <select class="form-control custom-select" [disabled]="reviewMode"
+                                [(ngModel)]="eclOverride.stage" id="Stage" name="Stage">
+                                <option>-- {{l('Select')}} --</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+                        <div *ngIf="eclOverrideHasProp('overrideComment')" class="col-md-12">
+                            <label class="control-label mt-3">{{l('OverrideComment')}}</label>
+                            <textarea autoFocus [(ngModel)]="eclOverride.overrideComment" rows="7" [disabled]="reviewMode"
+                                   name="OverrideComment" class="form-control" placeholder="{{'OverrideComment' | localize}}"></textarea>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="modal-footer">
+                <button *ngIf="reviewMode" type="button" class="btn btn-success" (click)="reviewOverride()">
+                    <i class="fa fa-eye"></i>
+                    {{"Review" | localize}}
+                </button>
+                <button *ngIf="!reviewMode" type="button" class="btn btn-success" (click)="apply()">
+                    <i class="fa fa-pen-nib"></i>
+                    {{"ApplyOverride" | localize}}
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <app-approve-ecl-modal #approvalModal (approved)="close()"></app-approve-ecl-modal>
+</div>

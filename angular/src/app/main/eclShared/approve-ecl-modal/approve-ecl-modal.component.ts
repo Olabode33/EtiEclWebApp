@@ -56,7 +56,7 @@ export class ApprovalModalComponent extends AppComponentBase {
         if (!this.options) {
             throw Error('Should call ApprovalModalComponent.configure once before ApproveEclComponent.show!');
         }
-
+        console.log(this.dataSource);
         this.modal.show();
     }
 
@@ -77,6 +77,7 @@ export class ApprovalModalComponent extends AppComponentBase {
     }
 
     approve(): void {
+        //TODO: update approval note to come from configuration...
         this.message.confirm(
             this.l('ApprovalNote'),
             (isConfirmed) => {

@@ -7,6 +7,9 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import { LoginService } from './login/login.service';
 
+
+//TODO: Update Login page
+
 @Component({
     templateUrl: './account.component.html',
     styleUrls: [
