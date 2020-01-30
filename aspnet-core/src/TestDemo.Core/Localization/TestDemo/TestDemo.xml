@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+    <text name="RequiredNoOfApprovalsInfo">Set the no. of approvals required for assumptions update, ECL run and overrides</text>
+    <text name="RequiredNoOfApprovals">Required no. of approvals</text>
     <text name="ConfigureDataSourceInfo">Set {0} data source</text>
     <text name="HourOfDay">Hour of Day</text>
     <text name="InputMethod">Input Source</text>
