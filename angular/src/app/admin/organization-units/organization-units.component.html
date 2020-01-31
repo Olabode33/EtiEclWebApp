@@ -25,14 +25,16 @@
                             </div>
                         </div>
                         <div class="kt-portlet__body">
-                        <tabset class="tab-container">
+                            <organization-unit-members #ouMembers (membersAdded)="ouTree.membersAdded($event)" (memberRemoved)="ouTree.memberRemoved($event)"></organization-unit-members>
+                        <!-- <tabset class="tab-container">
+                            
                             <tab heading="{{'Members' | localize}}" [active]="true">
                                 <organization-unit-members #ouMembers (membersAdded)="ouTree.membersAdded($event)" (memberRemoved)="ouTree.memberRemoved($event)"></organization-unit-members>
                             </tab>
                             <tab heading="{{'Roles' | localize}}">
                                 <organization-unit-roles #ouRoles (rolesAdded)="ouTree.rolesAdded($event)" (roleRemoved)="ouTree.roleRemoved($event)"></organization-unit-roles>
                             </tab>
-                        </tabset>
+                        </tabset> -->
                     </div>
                 </div>
             </div>

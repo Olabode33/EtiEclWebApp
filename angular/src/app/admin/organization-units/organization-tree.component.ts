@@ -60,7 +60,7 @@ export class OrganizationTreeComponent extends AppComponentBase implements OnIni
 
     ngOnInit(): void {
         this.canManageOrganizationUnits = this.isGranted('Pages.Administration.OrganizationUnits.ManageOrganizationTree');
-        this.ouContextMenuItems = this.getContextMenuItems();
+        //this.ouContextMenuItems = this.getContextMenuItems();
         this.getTreeDataFromServer();
     }
 
