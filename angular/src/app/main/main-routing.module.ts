@@ -2,7 +2,6 @@
 import { NgModule } from '@angular/core';
 import { InvestmentEclOverridesComponent } from './investmentComputation/investmentEclOverrides/investmentEclOverrides.component';
 import { EclConfigurationsComponent } from './eclConfig/eclConfigurations/eclConfigurations.component';
-import { AffiliateOverrideThresholdsComponent } from './eclConfig/affiliateOverrideThresholds/affiliateOverrideThresholds.component';
 import { AssumptionApprovalsComponent } from './assumptions/assumptionApprovals/assumptionApprovals.component';
 import { MacroeconomicVariablesComponent } from './eclShared/macroeconomicVariables/macroeconomicVariables.component';
 import { RouterModule } from '@angular/router';
@@ -28,6 +27,7 @@ import { ViewAffiliateAssumptionsComponent } from './assumptions/view-affiliateA
 import { ViewLoanbookDetailsComponent } from './eclShared/view-loanbookDetails/view-loanbookDetails.component';
 import { ViewPaymentScheduleComponent } from './eclShared/view-paymentSchedule/view-paymentSchedule.component';
 import { ViewEclComponent } from './eclView/view-ecl/view-ecl.component';
+import { AffiliateConfigurationComponent } from './eclConfig/affiliate-configuration/affiliate-configuration.component';
 
 @NgModule({
     imports: [
@@ -37,7 +37,7 @@ import { ViewEclComponent } from './eclView/view-ecl/view-ecl.component';
                 children: [
                     { path: 'investmentComputation/investmentEclOverrides', component: InvestmentEclOverridesComponent, data: { permission: 'Pages.InvestmentEclOverrides' }  },
                     { path: 'eclConfig/eclConfigurations', component: EclConfigurationsComponent, data: { permission: 'Pages.EclConfigurations' }  },
-                    { path: 'eclConfig/affiliateOverrideThresholds', component: AffiliateOverrideThresholdsComponent, data: { permission: 'Pages.AffiliateOverrideThresholds' }  },
+                    { path: 'eclConfig/affiliates', component: AffiliateConfigurationComponent, data: { permission: 'Pages.EclConfigurations' }  },
                     { path: 'config/macroeconomicVariables', component: MacroeconomicVariablesComponent, data: { permission: 'Pages.MacroeconomicVariables' }  },
                     { path: 'wholesaleResults/wholesaleEclResultSummaryTopExposures', component: WholesaleEclResultSummaryTopExposuresComponent, data: { permission: 'Pages.WholesaleEclResultSummaryTopExposures' }  },
                     { path: 'wholesaleResults/wholesaleEclResultSummaryKeyInputs', component: WholesaleEclResultSummaryKeyInputsComponent, data: { permission: 'Pages.WholesaleEclResultSummaryKeyInputs' }  },

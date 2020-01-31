@@ -27,11 +27,9 @@ export class AppNavigationService {
             new AppMenuItem('Configuration', 'Pages.EclConfigurations', 'fa fa-wrench', '', [
                 new AppMenuItem('MacroeconomicVariables', 'Pages.MacroeconomicVariables', 'flaticon-more', '/app/main/config/macroeconomicVariables'),
                 new AppMenuItem('EclConfigurations', 'Pages.EclConfigurations', 'flaticon-more', '/app/main/eclConfig/eclConfigurations'),
-                new AppMenuItem('AffiliateOverrideThreshold', 'Pages.AffiliateOverrideThresholds', 'flaticon-more', '/app/main/eclConfig/affiliateOverrideThresholds'),
+                new AppMenuItem('Affiliates', 'Pages.AffiliateOverrideThresholds', 'flaticon-more', '/app/main/eclConfig/affiliates'),
             ]),
-           
-            new AppMenuItem('InvestmentEclOverrides', 'Pages.InvestmentEclOverrides', 'flaticon-more', '/app/main/investmentComputation/investmentEclOverrides'),
-             new AppMenuItem('Administration', '', 'fa fa-cogs', '', [
+            new AppMenuItem('Administration', '', 'fa fa-cogs', '', [
                 new AppMenuItem('OrganizationUnits', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),
                 new AppMenuItem('Users', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),

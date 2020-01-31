@@ -20,11 +20,11 @@ namespace TestDemo.EclConfig
 {
     public class AffiliateConfigurationAppService : TestDemoAppServiceBase
     {
-        private readonly IRepository<AffiliateConfiguration, long> _affiliateRepository;
+        private readonly IRepository<Affiliate, long> _affiliateRepository;
         private readonly OrganizationUnitManager _organizationUnitManager;
 
         public AffiliateConfigurationAppService(
-            IRepository<AffiliateConfiguration, long> affiliateRepository, 
+            IRepository<Affiliate, long> affiliateRepository, 
             OrganizationUnitManager organizationUnitManager)
         {
             _affiliateRepository = affiliateRepository;
@@ -62,6 +62,13 @@ namespace TestDemo.EclConfig
             );
         }
 
+        public async Task<GetAffiliateForEditOutput> GetAffiliateEdit(EntityDto input)
+        {
+            var affiliateConfiguration = await _affiliateRepository.FirstOrDefaultAsync(input.Id);
+            var output = new GetAffiliateForEditOutput { AffiliateConfiguration = ObjectMapper.Map<CreateOrEditAffiliateDto>(affiliateConfiguration) };
+            return output;
+        }
+
         public async Task CreateOrEdit(CreateOrEditAffiliateDto input)
         {
             if (input.Id == null)
@@ -77,7 +84,12 @@ namespace TestDemo.EclConfig
         [AbpAuthorize(AppPermissions.Pages_AffiliateOverrideThresholds_Create)]
         protected virtual async Task Create(CreateOrEditAffiliateDto input)
         {
-            var affiliate = ObjectMapper.Map<AffiliateConfiguration>(input);
+            var affiliate = new Affiliate
+            {
+                DisplayName = input.DisplayName,
+                OverrideThreshold = input.OverrideThreshold,
+                ParentId = input.ParentId
+            };
             
             await _organizationUnitManager.CreateAsync(affiliate);
             await CurrentUnitOfWork.SaveChangesAsync();
@@ -87,9 +99,11 @@ namespace TestDemo.EclConfig
         protected virtual async Task Update(CreateOrEditAffiliateDto input)
         {
             var affiliate = await _affiliateRepository.FirstOrDefaultAsync((int)input.Id);
-            ObjectMapper.Map(input, affiliate);
+
+            affiliate.OverrideThreshold = input.OverrideThreshold;
+            affiliate.DisplayName = input.DisplayName;
+
             await _organizationUnitManager.UpdateAsync(affiliate);
         }
-
     }
 }

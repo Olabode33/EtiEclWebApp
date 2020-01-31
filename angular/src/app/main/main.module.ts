@@ -1,4 +1,5 @@
-﻿import { FrameworkAssumptionsComponent } from './assumptions/_subs/frameworkAssumptions/frameworkAssumptions.component';
+﻿import { AffiliateConfigurationComponent } from './eclConfig/affiliate-configuration/affiliate-configuration.component';
+import { FrameworkAssumptionsComponent } from './assumptions/_subs/frameworkAssumptions/frameworkAssumptions.component';
 import { ViewAffiliateAssumptionsComponent } from './assumptions/view-affiliateAssumptions/view-affiliateAssumptions.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -8,10 +9,6 @@ import { InvestmentEclOverrideInvestmentEclSicrLookupTableModalComponent } from 
 
 import { EclConfigurationsComponent } from './eclConfig/eclConfigurations/eclConfigurations.component';
 import { CreateOrEditEclConfigurationModalComponent } from './eclConfig/eclConfigurations/create-or-edit-eclConfiguration-modal.component';
-
-import { AffiliateOverrideThresholdsComponent } from './eclConfig/affiliateOverrideThresholds/affiliateOverrideThresholds.component';
-import { CreateOrEditAffiliateOverrideThresholdModalComponent } from './eclConfig/affiliateOverrideThresholds/create-or-edit-affiliateOverrideThreshold-modal.component';
-import { AffiliateOverrideThresholdOrganizationUnitLookupTableModalComponent } from './eclConfig/affiliateOverrideThresholds/affiliateOverrideThreshold-organizationUnit-lookup-table-modal.component';
 
 import { AssumptionApprovalsComponent } from './assumptions/assumptionApprovals/assumptionApprovals.component';
 import { ViewAssumptionApprovalModalComponent } from './assumptions/assumptionApprovals/view-assumptionApproval-modal.component';
@@ -126,6 +123,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+        AffiliateConfigurationComponent,
         ApplyOverrideModalComponent,
         EclOverrideComponent,
         InvestmentEclOverridesComponent,
@@ -134,9 +132,6 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         ViewEclComponent,
         EclConfigurationsComponent,
         CreateOrEditEclConfigurationModalComponent,
-        AffiliateOverrideThresholdsComponent,
-        CreateOrEditAffiliateOverrideThresholdModalComponent,
-        AffiliateOverrideThresholdOrganizationUnitLookupTableModalComponent,
         ViewPaymentScheduleComponent,
         ViewLoanbookDetailsComponent,
         AssumptionApprovalsComponent,

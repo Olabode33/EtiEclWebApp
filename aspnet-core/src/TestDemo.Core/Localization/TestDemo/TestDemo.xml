@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+    <text name="AffiliateSettingsHeaderInfo">Manage configuration options for the different affiliates</text>
+    <text name="AffiliateSettings">Affiliate Settings</text>
+    <text name="OutstandingBalanceLimitInfo">Set the override threshold</text>
+    <text name="OutstandingBalanceLimit">Outstanding balance limit</text>
     <text name="RequiredNoOfApprovalsInfo">Set the no. of approvals required for assumptions update, ECL run and overrides</text>
     <text name="RequiredNoOfApprovals">Required no. of approvals</text>
     <text name="ConfigureDataSourceInfo">Set {0} data source</text>
@@ -100,11 +104,11 @@
     <text name="EclConfiguration">Ecl configuration</text>
     <text name="PropertyKey">Property key</text>
     <text name="DisplayName">Display name</text>
-    <text name="EclConfigurationsHeaderInfo">Management configuration options that applies to all affiliates</text>
+    <text name="EclConfigurationsHeaderInfo">Manage configuration options that applies to all affiliates</text>
     <text name="CreateNewEclConfiguration">Create new ecl configuration</text>
     <text name="EditEclConfiguration">Edit ecl configuration</text>
     <text name="DeleteEclConfiguration">Delete ecl configuration</text>
-    <text name="EclConfigurations">Settings</text>
+    <text name="EclConfigurations">General</text>
     <text name="EclConfig">Ecl config</text>
     <text name="Threshold">Threshold</text>
     <text name="AffiliateOverrideThresholdsHeaderInfo">Affiliate override thresholds header info</text>

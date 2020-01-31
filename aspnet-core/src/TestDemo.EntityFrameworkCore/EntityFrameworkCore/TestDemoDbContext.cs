@@ -42,7 +42,7 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
-        public virtual DbSet<AffiliateConfiguration> AffiliateConfigurations { get; set; }
+        public virtual DbSet<Affiliate> AffiliateConfigurations { get; set; }
         public virtual DbSet<InvestmentEclFinalResult> InvestmentEclFinalResults { get; set; }
         public virtual DbSet<InvestmentEclMonthlyResult> InvestmentEclMonthlyResults { get; set; }
         public virtual DbSet<InvestmentEclPdLifetime> InvestmentEclPdLifetime { get; set; }

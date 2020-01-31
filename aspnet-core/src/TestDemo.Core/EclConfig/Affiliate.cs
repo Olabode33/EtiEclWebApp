@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TestDemo.EclConfig
 {
-    public class AffiliateConfiguration: OrganizationUnit
+    public class Affiliate: OrganizationUnit
     {
         public double? OverrideThreshold { get; set; }
     }

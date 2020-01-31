@@ -66,11 +66,11 @@ namespace TestDemo.EclConfig
          }
 		 
 		 [AbpAuthorize(AppPermissions.Pages_AffiliateOverrideThresholds_Edit)]
-		 public async Task<GetAffiliateOverrideThresholdForEditOutput> GetAffiliateOverrideThresholdForEdit(EntityDto input)
+		 public async Task<GetAffiliateForEditOutput> GetAffiliateOverrideThresholdForEdit(EntityDto input)
          {
             var affiliateOverrideThreshold = await _affiliateOverrideThresholdRepository.FirstOrDefaultAsync(input.Id);
            
-		    var output = new GetAffiliateOverrideThresholdForEditOutput {AffiliateOverrideThreshold = ObjectMapper.Map<CreateOrEditAffiliateDto>(affiliateOverrideThreshold)};
+		    var output = new GetAffiliateForEditOutput {AffiliateConfiguration = ObjectMapper.Map<CreateOrEditAffiliateDto>(affiliateOverrideThreshold)};
 
 		    //if (output.AffiliateOverrideThreshold.OrganizationUnitId != null)
       //      {

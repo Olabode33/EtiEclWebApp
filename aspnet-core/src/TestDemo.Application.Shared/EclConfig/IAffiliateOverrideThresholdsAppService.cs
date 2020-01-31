@@ -11,7 +11,7 @@ namespace TestDemo.EclConfig
     {
         Task<PagedResultDto<GetAffiliateOverrideThresholdForViewDto>> GetAll(GetAllAffiliateConfigurationInput input);
 
-		Task<GetAffiliateOverrideThresholdForEditOutput> GetAffiliateOverrideThresholdForEdit(EntityDto input);
+		Task<GetAffiliateForEditOutput> GetAffiliateOverrideThresholdForEdit(EntityDto input);
 
 		Task CreateOrEdit(CreateOrEditAffiliateDto input);
 

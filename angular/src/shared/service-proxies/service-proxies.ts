@@ -572,6 +572,187 @@ export class AccountServiceProxy {
 }
 
 @Injectable()
+export class AffiliateConfigurationServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetAffiliateConfigurationForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/AffiliateConfiguration/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetAffiliateConfigurationForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetAffiliateConfigurationForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetAffiliateConfigurationForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetAffiliateConfigurationForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetAffiliateConfigurationForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetAffiliateConfigurationForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getAffiliateEdit(id: number | null | undefined): Observable<GetAffiliateForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/AffiliateConfiguration/GetAffiliateEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAffiliateEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAffiliateEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetAffiliateForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetAffiliateForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAffiliateEdit(response: HttpResponseBase): Observable<GetAffiliateForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetAffiliateForEditOutput.fromJS(resultData200) : new GetAffiliateForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetAffiliateForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditAffiliateDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/AffiliateConfiguration/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class AffiliateOverrideThresholdsServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -584,18 +765,15 @@ export class AffiliateOverrideThresholdsServiceProxy {
 
     /**
      * @param filter (optional) 
-     * @param organizationUnitDisplayNameFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | null | undefined, organizationUnitDisplayNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetAffiliateOverrideThresholdForViewDto> {
+    getAll(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetAffiliateOverrideThresholdForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/AffiliateOverrideThresholds/GetAll?";
         if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (organizationUnitDisplayNameFilter !== undefined)
-            url_ += "OrganizationUnitDisplayNameFilter=" + encodeURIComponent("" + organizationUnitDisplayNameFilter) + "&"; 
         if (sorting !== undefined)
             url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (skipCount !== undefined)
@@ -652,7 +830,7 @@ export class AffiliateOverrideThresholdsServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getAffiliateOverrideThresholdForEdit(id: number | null | undefined): Observable<GetAffiliateOverrideThresholdForEditOutput> {
+    getAffiliateOverrideThresholdForEdit(id: number | null | undefined): Observable<GetAffiliateForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/AffiliateOverrideThresholds/GetAffiliateOverrideThresholdForEdit?";
         if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
@@ -673,14 +851,14 @@ export class AffiliateOverrideThresholdsServiceProxy {
                 try {
                     return this.processGetAffiliateOverrideThresholdForEdit(<any>response_);
                 } catch (e) {
-                    return <Observable<GetAffiliateOverrideThresholdForEditOutput>><any>_observableThrow(e);
+                    return <Observable<GetAffiliateForEditOutput>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<GetAffiliateOverrideThresholdForEditOutput>><any>_observableThrow(response_);
+                return <Observable<GetAffiliateForEditOutput>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAffiliateOverrideThresholdForEdit(response: HttpResponseBase): Observable<GetAffiliateOverrideThresholdForEditOutput> {
+    protected processGetAffiliateOverrideThresholdForEdit(response: HttpResponseBase): Observable<GetAffiliateForEditOutput> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -691,7 +869,7 @@ export class AffiliateOverrideThresholdsServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? GetAffiliateOverrideThresholdForEditOutput.fromJS(resultData200) : new GetAffiliateOverrideThresholdForEditOutput();
+            result200 = resultData200 ? GetAffiliateForEditOutput.fromJS(resultData200) : new GetAffiliateForEditOutput();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -699,14 +877,14 @@ export class AffiliateOverrideThresholdsServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<GetAffiliateOverrideThresholdForEditOutput>(<any>null);
+        return _observableOf<GetAffiliateForEditOutput>(<any>null);
     }
 
     /**
      * @param input (optional) 
      * @return Success
      */
-    createOrEdit(input: CreateOrEditAffiliateOverrideThresholdDto | null | undefined): Observable<void> {
+    createOrEdit(input: CreateOrEditAffiliateDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/AffiliateOverrideThresholds/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -45331,6 +45509,222 @@ export interface ISwitchToLinkedAccountOutput {
     tenancyName: string | undefined;
 }
 
+export class PagedResultDtoOfGetAffiliateConfigurationForViewDto implements IPagedResultDtoOfGetAffiliateConfigurationForViewDto {
+    totalCount!: number | undefined;
+    items!: GetAffiliateConfigurationForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetAffiliateConfigurationForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetAffiliateConfigurationForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetAffiliateConfigurationForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetAffiliateConfigurationForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetAffiliateConfigurationForViewDto {
+    totalCount: number | undefined;
+    items: GetAffiliateConfigurationForViewDto[] | undefined;
+}
+
+export class GetAffiliateConfigurationForViewDto implements IGetAffiliateConfigurationForViewDto {
+    affiliateConfiguration!: AffiliateConfigurationDto | undefined;
+
+    constructor(data?: IGetAffiliateConfigurationForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.affiliateConfiguration = data["affiliateConfiguration"] ? AffiliateConfigurationDto.fromJS(data["affiliateConfiguration"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetAffiliateConfigurationForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAffiliateConfigurationForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["affiliateConfiguration"] = this.affiliateConfiguration ? this.affiliateConfiguration.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetAffiliateConfigurationForViewDto {
+    affiliateConfiguration: AffiliateConfigurationDto | undefined;
+}
+
+export class AffiliateConfigurationDto implements IAffiliateConfigurationDto {
+    affiliateName!: string | undefined;
+    code!: string | undefined;
+    overrideThreshold!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: IAffiliateConfigurationDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.affiliateName = data["affiliateName"];
+            this.code = data["code"];
+            this.overrideThreshold = data["overrideThreshold"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): AffiliateConfigurationDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AffiliateConfigurationDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["affiliateName"] = this.affiliateName;
+        data["code"] = this.code;
+        data["overrideThreshold"] = this.overrideThreshold;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IAffiliateConfigurationDto {
+    affiliateName: string | undefined;
+    code: string | undefined;
+    overrideThreshold: number | undefined;
+    id: number | undefined;
+}
+
+export class GetAffiliateForEditOutput implements IGetAffiliateForEditOutput {
+    affiliateConfiguration!: CreateOrEditAffiliateDto | undefined;
+
+    constructor(data?: IGetAffiliateForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.affiliateConfiguration = data["affiliateConfiguration"] ? CreateOrEditAffiliateDto.fromJS(data["affiliateConfiguration"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetAffiliateForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAffiliateForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["affiliateConfiguration"] = this.affiliateConfiguration ? this.affiliateConfiguration.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetAffiliateForEditOutput {
+    affiliateConfiguration: CreateOrEditAffiliateDto | undefined;
+}
+
+export class CreateOrEditAffiliateDto implements ICreateOrEditAffiliateDto {
+    parentId!: number | undefined;
+    displayName!: string | undefined;
+    overrideThreshold!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditAffiliateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.parentId = data["parentId"];
+            this.displayName = data["displayName"];
+            this.overrideThreshold = data["overrideThreshold"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditAffiliateDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditAffiliateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["parentId"] = this.parentId;
+        data["displayName"] = this.displayName;
+        data["overrideThreshold"] = this.overrideThreshold;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditAffiliateDto {
+    parentId: number | undefined;
+    displayName: string | undefined;
+    overrideThreshold: number | undefined;
+    id: number | undefined;
+}
+
 export class PagedResultDtoOfGetAffiliateOverrideThresholdForViewDto implements IPagedResultDtoOfGetAffiliateOverrideThresholdForViewDto {
     totalCount!: number | undefined;
     items!: GetAffiliateOverrideThresholdForViewDto[] | undefined;
@@ -45458,90 +45852,6 @@ export class AffiliateOverrideThresholdDto implements IAffiliateOverrideThreshol
 }
 
 export interface IAffiliateOverrideThresholdDto {
-    threshold: number | undefined;
-    organizationUnitId: number | undefined;
-    id: number | undefined;
-}
-
-export class GetAffiliateOverrideThresholdForEditOutput implements IGetAffiliateOverrideThresholdForEditOutput {
-    affiliateOverrideThreshold!: CreateOrEditAffiliateOverrideThresholdDto | undefined;
-    organizationUnitDisplayName!: string | undefined;
-
-    constructor(data?: IGetAffiliateOverrideThresholdForEditOutput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.affiliateOverrideThreshold = data["affiliateOverrideThreshold"] ? CreateOrEditAffiliateOverrideThresholdDto.fromJS(data["affiliateOverrideThreshold"]) : <any>undefined;
-            this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
-        }
-    }
-
-    static fromJS(data: any): GetAffiliateOverrideThresholdForEditOutput {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetAffiliateOverrideThresholdForEditOutput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["affiliateOverrideThreshold"] = this.affiliateOverrideThreshold ? this.affiliateOverrideThreshold.toJSON() : <any>undefined;
-        data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
-        return data; 
-    }
-}
-
-export interface IGetAffiliateOverrideThresholdForEditOutput {
-    affiliateOverrideThreshold: CreateOrEditAffiliateOverrideThresholdDto | undefined;
-    organizationUnitDisplayName: string | undefined;
-}
-
-export class CreateOrEditAffiliateOverrideThresholdDto implements ICreateOrEditAffiliateOverrideThresholdDto {
-    threshold!: number | undefined;
-    organizationUnitId!: number | undefined;
-    id!: number | undefined;
-
-    constructor(data?: ICreateOrEditAffiliateOverrideThresholdDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.threshold = data["threshold"];
-            this.organizationUnitId = data["organizationUnitId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): CreateOrEditAffiliateOverrideThresholdDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new CreateOrEditAffiliateOverrideThresholdDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["threshold"] = this.threshold;
-        data["organizationUnitId"] = this.organizationUnitId;
-        data["id"] = this.id;
-        return data; 
-    }
-}
-
-export interface ICreateOrEditAffiliateOverrideThresholdDto {
     threshold: number | undefined;
     organizationUnitId: number | undefined;
     id: number | undefined;
