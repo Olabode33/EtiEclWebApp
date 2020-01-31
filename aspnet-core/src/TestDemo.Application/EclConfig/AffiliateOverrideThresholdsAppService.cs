@@ -32,13 +32,13 @@ namespace TestDemo.EclConfig
 		
 		  }
 
-		 public async Task<PagedResultDto<GetAffiliateOverrideThresholdForViewDto>> GetAll(GetAllAffiliateOverrideThresholdsInput input)
+		 public async Task<PagedResultDto<GetAffiliateOverrideThresholdForViewDto>> GetAll(GetAllAffiliateConfigurationInput input)
          {
-			
-			var filteredAffiliateOverrideThresholds = _affiliateOverrideThresholdRepository.GetAll()
-						.Include( e => e.OrganizationUnitFk)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false )
-						.WhereIf(!string.IsNullOrWhiteSpace(input.OrganizationUnitDisplayNameFilter), e => e.OrganizationUnitFk != null && e.OrganizationUnitFk.DisplayName == input.OrganizationUnitDisplayNameFilter);
+
+            var filteredAffiliateOverrideThresholds = _affiliateOverrideThresholdRepository.GetAll()
+                        .Include(e => e.OrganizationUnitFk)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false);
+						//.WhereIf(!string.IsNullOrWhiteSpace(input.OrganizationUnitDisplayNameFilter), e => e.OrganizationUnitFk != null && e.OrganizationUnitFk.DisplayName == input.OrganizationUnitDisplayNameFilter);
 
 			var pagedAndFilteredAffiliateOverrideThresholds = filteredAffiliateOverrideThresholds
                 .OrderBy(input.Sorting ?? "id asc")
@@ -70,18 +70,18 @@ namespace TestDemo.EclConfig
          {
             var affiliateOverrideThreshold = await _affiliateOverrideThresholdRepository.FirstOrDefaultAsync(input.Id);
            
-		    var output = new GetAffiliateOverrideThresholdForEditOutput {AffiliateOverrideThreshold = ObjectMapper.Map<CreateOrEditAffiliateOverrideThresholdDto>(affiliateOverrideThreshold)};
+		    var output = new GetAffiliateOverrideThresholdForEditOutput {AffiliateOverrideThreshold = ObjectMapper.Map<CreateOrEditAffiliateDto>(affiliateOverrideThreshold)};
 
-		    if (output.AffiliateOverrideThreshold.OrganizationUnitId != null)
-            {
-                var _lookupOrganizationUnit = await _lookup_organizationUnitRepository.FirstOrDefaultAsync((long)output.AffiliateOverrideThreshold.OrganizationUnitId);
-                output.OrganizationUnitDisplayName = _lookupOrganizationUnit.DisplayName.ToString();
-            }
+		    //if (output.AffiliateOverrideThreshold.OrganizationUnitId != null)
+      //      {
+      //          var _lookupOrganizationUnit = await _lookup_organizationUnitRepository.FirstOrDefaultAsync((long)output.AffiliateOverrideThreshold.OrganizationUnitId);
+      //          output.OrganizationUnitDisplayName = _lookupOrganizationUnit.DisplayName.ToString();
+      //      }
 			
             return output;
          }
 
-		 public async Task CreateOrEdit(CreateOrEditAffiliateOverrideThresholdDto input)
+		 public async Task CreateOrEdit(CreateOrEditAffiliateDto input)
          {
             if(input.Id == null){
 				await Create(input);
@@ -92,7 +92,7 @@ namespace TestDemo.EclConfig
          }
 
 		 [AbpAuthorize(AppPermissions.Pages_AffiliateOverrideThresholds_Create)]
-		 protected virtual async Task Create(CreateOrEditAffiliateOverrideThresholdDto input)
+		 protected virtual async Task Create(CreateOrEditAffiliateDto input)
          {
             var affiliateOverrideThreshold = ObjectMapper.Map<AffiliateOverrideThreshold>(input);
 
@@ -102,7 +102,7 @@ namespace TestDemo.EclConfig
          }
 
 		 [AbpAuthorize(AppPermissions.Pages_AffiliateOverrideThresholds_Edit)]
-		 protected virtual async Task Update(CreateOrEditAffiliateOverrideThresholdDto input)
+		 protected virtual async Task Update(CreateOrEditAffiliateDto input)
          {
             var affiliateOverrideThreshold = await _affiliateOverrideThresholdRepository.FirstOrDefaultAsync((int)input.Id);
              ObjectMapper.Map(input, affiliateOverrideThreshold);

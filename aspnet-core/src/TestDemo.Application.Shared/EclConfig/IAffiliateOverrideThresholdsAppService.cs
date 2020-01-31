@@ -9,11 +9,11 @@ namespace TestDemo.EclConfig
 {
     public interface IAffiliateOverrideThresholdsAppService : IApplicationService 
     {
-        Task<PagedResultDto<GetAffiliateOverrideThresholdForViewDto>> GetAll(GetAllAffiliateOverrideThresholdsInput input);
+        Task<PagedResultDto<GetAffiliateOverrideThresholdForViewDto>> GetAll(GetAllAffiliateConfigurationInput input);
 
 		Task<GetAffiliateOverrideThresholdForEditOutput> GetAffiliateOverrideThresholdForEdit(EntityDto input);
 
-		Task CreateOrEdit(CreateOrEditAffiliateOverrideThresholdDto input);
+		Task CreateOrEdit(CreateOrEditAffiliateDto input);
 
 		Task Delete(EntityDto input);
 
