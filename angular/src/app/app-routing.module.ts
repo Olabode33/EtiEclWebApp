@@ -17,7 +17,7 @@ import { NotificationsComponent } from './shared/layout/notifications/notificati
                         path: '',
                         children: [
                             { path: 'notifications', component: NotificationsComponent },
-                            { path: '', redirectTo: '/workspace', pathMatch: 'full' }
+                            { path: '', redirectTo: '/home', pathMatch: 'full' }
                         ]
                     },
                     {

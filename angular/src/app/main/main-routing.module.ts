@@ -18,7 +18,7 @@ import { WholesaleEclsComponent } from './wholesale/wholesaleEcls/wholesaleEcls.
 import { OldAssumptionsComponent } from './eclShared/assumptions/assumptions.component';
 import { PdInputSnPCummulativeDefaultRatesComponent } from './eclShared/pdInputSnPCummulativeDefaultRates/pdInputSnPCummulativeDefaultRates.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { WorkspaceComponent } from './workspace/workspace.component';
+import { EclListComponent } from './ecl-list/ecl-list.component';
 import { CreateEditWholesaleEclComponent } from './wholesale/createEdit-wholesaleEcl/createEdit-wholesaleEcl.component';
 import { ViewWholesaleEclComponent } from './wholesale/view-wholesaleEcl/view-wholesaleEcl.component';
 import { CreateEditRetailEclComponent } from './retail/createEdit-retailEcl/createEdit-retailEcl.component';
@@ -28,6 +28,7 @@ import { ViewLoanbookDetailsComponent } from './eclShared/view-loanbookDetails/v
 import { ViewPaymentScheduleComponent } from './eclShared/view-paymentSchedule/view-paymentSchedule.component';
 import { ViewEclComponent } from './eclView/view-ecl/view-ecl.component';
 import { AffiliateConfigurationComponent } from './eclConfig/affiliate-configuration/affiliate-configuration.component';
+import { WorkspaceComponent } from './workspace/workspace.component';
 
 @NgModule({
     imports: [
@@ -54,7 +55,8 @@ import { AffiliateConfigurationComponent } from './eclConfig/affiliate-configura
                     { path: 'assumption/affiliates/approve/:ouId', component: AssumptionApprovalsComponent, data: { permission: 'Pages.Assumption.Affiliates' }  },
                     { path: 'eclShared/pdInputSnPCummulativeDefaultRates', component: PdInputSnPCummulativeDefaultRatesComponent, data: { permission: 'Pages.PdInputSnPCummulativeDefaultRates' }  },
                     { path: 'dashboard', component: DashboardComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
-                    { path: 'workspace', component: WorkspaceComponent },
+                    { path: 'workspace', component: EclListComponent },
+                    { path: 'home', component: WorkspaceComponent },
                     { path: 'wholesale/ecl/create', component: CreateEditWholesaleEclComponent},
                     { path: 'wholesale/ecl/view/:eclId', component: ViewWholesaleEclComponent},
                     { path: 'retail/ecl/create', component: CreateEditRetailEclComponent},

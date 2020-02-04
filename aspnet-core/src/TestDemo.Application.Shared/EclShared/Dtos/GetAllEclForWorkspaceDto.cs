@@ -14,4 +14,9 @@ namespace TestDemo.EclShared.Dtos
         public string CreatedByUserName { get; set; }
         public DateTime DateCreated { get; set; }
     }
+
+    public class GetAllEclForWorkspaceSummaryDto: GetAllEclForWorkspaceDto
+    {
+        public DateTime? LastUpdated { get; set; }
+    }
 }

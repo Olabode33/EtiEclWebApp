@@ -10,7 +10,7 @@ namespace TestDemo.EclShared
 {
     public interface IEclSharedAppService : IApplicationService
     {
-        Task<PagedResultDto<GetAllEclForWorkspaceDto>> GetAllEclForWorkspace(GetAllForLookupTableInput input);
+        Task<PagedResultDto<GetAllEclForWorkspaceDto>> GetAllEclForWorkspace(GetAllEclForWorkspaceInput input);
         Task<List<AssumptionDto>> GetFrameworkAssumptionSnapshot(FrameworkEnum framework);
         Task<List<EadInputAssumptionDto>> GetEadInputAssumptionSnapshot(FrameworkEnum framework);
         Task<List<LgdAssumptionDto>> GetLgdInputAssumptionSnapshot(FrameworkEnum framework);

@@ -1,17 +1,9 @@
-import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { WholesaleEclsServiceProxy, WholesaleEclDto, EclStatusEnum, EclSharedServiceProxy, FrameworkEnum, RetailEclsServiceProxy, InvestmentEclsServiceProxy } from '@shared/service-proxies/service-proxies';
-import { NotifyService } from '@abp/notify/notify.service';
+import { GetAllEclForWorkspaceSummaryDto } from './../../../shared/service-proxies/service-proxies';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ViewEncapsulation, Injector, AfterContentInit, AfterViewInit } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { Table } from 'primeng/components/table/table';
-import { Paginator } from 'primeng/components/paginator/paginator';
-import { LazyLoadEvent } from 'primeng/components/common/lazyloadevent';
-import { FileDownloadService } from '@shared/utils/file-download.service';
-import { EntityTypeHistoryModalComponent } from '@app/shared/common/entityHistory/entity-type-history-modal.component';
-import * as _ from 'lodash';
-import * as moment from 'moment';
+import { EclStatusEnum, EclSharedServiceProxy, GetWorkspaceSummaryDataOutput, FrameworkEnum } from '@shared/service-proxies/service-proxies';
 
 @Component({
     selector: 'app-workspace',
@@ -20,115 +12,63 @@ import * as moment from 'moment';
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()]
 })
-export class WorkspaceComponent extends AppComponentBase implements OnInit {
+export class WorkspaceComponent extends AppComponentBase implements OnInit, AfterViewInit {
 
-    @ViewChild('dataTable', { static: true }) dataTable: Table;
-    @ViewChild('paginator', { static: true }) paginator: Paginator;
-
-    eclStatusEnum = EclStatusEnum;
-    frameworkEnum = FrameworkEnum;
     pageHeader = '';
-    filterText = '';
-    ouFilter = -1;
-    statusFilter = -1;
-    frameworkFilter = -1;
+    eclStatusEnum = EclStatusEnum;
+    workspaceSummaryData: GetWorkspaceSummaryDataOutput = new GetWorkspaceSummaryDataOutput();
+    recentEclSummary: GetAllEclForWorkspaceSummaryDto[] = new Array();
+
+    frameworkEnum = FrameworkEnum;
 
     constructor(
         injector: Injector,
-        private _eclSharedServiceProxy: EclSharedServiceProxy,
-        private _retailEclServiceProxy: RetailEclsServiceProxy,
-        private _investmentEclServiceProxy: InvestmentEclsServiceProxy,
-        private _notifyService: NotifyService,
-        private _tokenAuth: TokenAuthServiceProxy,
+        private _router: Router,
         private _activatedRoute: ActivatedRoute,
-        private _fileDownloadService: FileDownloadService,
-        private _router: Router
+        private _eclSharedAppService: EclSharedServiceProxy
     ) {
         super(injector);
-    }
+     }
 
     ngOnInit() {
         this.pageHeader = this.l('WorkspaceWelcome', this.appSession.user.surname + ' ' + this.appSession.user.name);
     }
 
-    getWorkspaceEcls(event?: LazyLoadEvent) {
-        if (this.primengTableHelper.shouldResetPaging(event)) {
-            this.paginator.changePage(0);
-            return;
+    ngAfterViewInit() {
+        this.getWorkspaceData();
+        this.getRecentEclSummaryData();
+    }
+
+
+    getWorkspaceData(): void {
+        this._eclSharedAppService.getWorkspaceSummaryData().subscribe(result => {
+            this.workspaceSummaryData = result;
+        });
+    }
+
+    getRecentEclSummaryData(): void {
+        this._eclSharedAppService.getAllEclSummaryForWorkspace('', -1, -1, -1, '', 0, 10).subscribe(result => {
+            this.recentEclSummary = result;
+        });
+    }
+
+    navigateToAffiliateAssumptionPage(filter?: string): void {
+        if (filter === null || filter === undefined) {
+            this._router.navigate(['/app/main/assumption/affiliates']);
+        } else {
+            this._router.navigate(['/app/main/assumption/affiliates', filter]);
         }
-
-        this.primengTableHelper.showLoadingIndicator();
-
-        this._eclSharedServiceProxy.getAllEclForWorkspace(
-            this.filterText,
-            this.primengTableHelper.getSorting(this.dataTable),
-            this.primengTableHelper.getSkipCount(this.paginator, event),
-            this.primengTableHelper.getMaxResultCount(this.paginator, event)
-        ).subscribe(result => {
-            this.primengTableHelper.totalRecordsCount = result.totalCount;
-            this.primengTableHelper.records = result.items;
-            console.log(result.items);
-            this.primengTableHelper.hideLoadingIndicator();
-        });
     }
 
-    reloadPage(): void {
-        this.paginator.changePage(this.paginator.getPage());
+    navigateToEclWorkspace(status?: EclStatusEnum): void {
+        if (status === null || status === undefined) {
+            this._router.navigate(['/app/main/workspace']);
+        } else {
+            this._router.navigate(['/app/main/workspace', status]);
+        }
     }
 
-    navigateToCreateWholesaleEcl(): void {
-        this._router.navigate(['../wholesale/ecl/create'], { relativeTo: this._activatedRoute});
-    }
-
-    navigateToViewWholesaleEcl(eclId: string): void {
-        console.log(eclId);
-        this._router.navigate(['../wholesale/ecl/view', eclId], { relativeTo: this._activatedRoute});
-    }
-
-    navigateToCreateRetailEcl(): void {
-        this._router.navigate(['../retail/ecl/create'], { relativeTo: this._activatedRoute});
-    }
-
-    navigateToViewRetailEcl(eclId: string): void {
-        console.log(eclId);
-        this._router.navigate(['../retail/ecl/view', eclId], { relativeTo: this._activatedRoute});
-    }
-
-    navigateToCreateObeEcl(): void {
-        this._router.navigate(['../wholesale/ecl/create'], { relativeTo: this._activatedRoute});
-    }
-
-    navigateToDashboard(): void {
-        this._router.navigate(['../dashboard'], { relativeTo: this._activatedRoute});
-    }
-
-    viewEcl(framework: FrameworkEnum, eclId: string): void {
+    navigateToViewEcl(framework: FrameworkEnum, eclId: string): void {
         this._router.navigate(['/app/main/ecl/view/', framework.toString(), eclId]);
-        // switch (framework) {
-        //     case FrameworkEnum.OBE:
-        //         this.navigateToDashboard();
-        //         break;
-        //     case FrameworkEnum.Retail:
-        //         this.navigateToViewRetailEcl(eclId);
-        //         break;
-        //     case FrameworkEnum.Wholesale:
-        //         this.navigateToViewWholesaleEcl(eclId);
-        //         break;
-        // }
     }
-
-    createRetailEcl(): void {
-        this._retailEclServiceProxy.createEclAndAssumption().subscribe(result => {
-            this.notify.success('EclSuccessfullyCreated');
-            this.viewEcl(FrameworkEnum.Retail, result);
-        });
-    }
-
-    createInvestmentEcl(): void {
-        this._investmentEclServiceProxy.createEclAndAssumption().subscribe(result => {
-            this.notify.success('EclSuccessfullyCreated');
-            this.viewEcl(FrameworkEnum.Investments, result);
-        });
-    }
-
 }

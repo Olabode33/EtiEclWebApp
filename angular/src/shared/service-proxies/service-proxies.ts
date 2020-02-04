@@ -3759,16 +3759,152 @@ export class EclSharedServiceProxy {
     }
 
     /**
+     * @return Success
+     */
+    getWorkspaceSummaryData(): Observable<GetWorkspaceSummaryDataOutput> {
+        let url_ = this.baseUrl + "/api/services/app/EclShared/GetWorkspaceSummaryData";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWorkspaceSummaryData(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWorkspaceSummaryData(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWorkspaceSummaryDataOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWorkspaceSummaryDataOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWorkspaceSummaryData(response: HttpResponseBase): Observable<GetWorkspaceSummaryDataOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWorkspaceSummaryDataOutput.fromJS(resultData200) : new GetWorkspaceSummaryDataOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWorkspaceSummaryDataOutput>(<any>null);
+    }
+
+    /**
      * @param filter (optional) 
+     * @param affiliateId (optional) 
+     * @param portfolio (optional) 
+     * @param status (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAllEclForWorkspace(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetAllEclForWorkspaceDto> {
+    getAllEclSummaryForWorkspace(filter: string | null | undefined, affiliateId: number | null | undefined, portfolio: number | null | undefined, status: number | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<GetAllEclForWorkspaceSummaryDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/EclShared/GetAllEclSummaryForWorkspace?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (affiliateId !== undefined)
+            url_ += "AffiliateId=" + encodeURIComponent("" + affiliateId) + "&"; 
+        if (portfolio !== undefined)
+            url_ += "Portfolio=" + encodeURIComponent("" + portfolio) + "&"; 
+        if (status !== undefined)
+            url_ += "Status=" + encodeURIComponent("" + status) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllEclSummaryForWorkspace(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllEclSummaryForWorkspace(<any>response_);
+                } catch (e) {
+                    return <Observable<GetAllEclForWorkspaceSummaryDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetAllEclForWorkspaceSummaryDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllEclSummaryForWorkspace(response: HttpResponseBase): Observable<GetAllEclForWorkspaceSummaryDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(GetAllEclForWorkspaceSummaryDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetAllEclForWorkspaceSummaryDto[]>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param affiliateId (optional) 
+     * @param portfolio (optional) 
+     * @param status (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllEclForWorkspace(filter: string | null | undefined, affiliateId: number | null | undefined, portfolio: number | null | undefined, status: number | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetAllEclForWorkspaceDto> {
         let url_ = this.baseUrl + "/api/services/app/EclShared/GetAllEclForWorkspace?";
         if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (affiliateId !== undefined)
+            url_ += "AffiliateId=" + encodeURIComponent("" + affiliateId) + "&"; 
+        if (portfolio !== undefined)
+            url_ += "Portfolio=" + encodeURIComponent("" + portfolio) + "&"; 
+        if (status !== undefined)
+            url_ += "Status=" + encodeURIComponent("" + status) + "&"; 
         if (sorting !== undefined)
             url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (skipCount !== undefined)
@@ -48309,6 +48445,148 @@ export interface ICreateOrEditEclConfigurationDto {
     id: number | undefined;
 }
 
+export class GetWorkspaceSummaryDataOutput implements IGetWorkspaceSummaryDataOutput {
+    affiliateAssumptionNotUpdatedCount!: number | undefined;
+    affiliateAssumptionYetToBeApprovedCount!: number | undefined;
+    draftEclCount!: number | undefined;
+    submittedEclCount!: number | undefined;
+    wholesaleSubmittedOverrideCount!: number | undefined;
+    retailSubmittedOverrideCount!: number | undefined;
+    obeSubmittedOverrideCount!: number | undefined;
+    investmentSubmittedOverrideCount!: number | undefined;
+
+    constructor(data?: IGetWorkspaceSummaryDataOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.affiliateAssumptionNotUpdatedCount = data["affiliateAssumptionNotUpdatedCount"];
+            this.affiliateAssumptionYetToBeApprovedCount = data["affiliateAssumptionYetToBeApprovedCount"];
+            this.draftEclCount = data["draftEclCount"];
+            this.submittedEclCount = data["submittedEclCount"];
+            this.wholesaleSubmittedOverrideCount = data["wholesaleSubmittedOverrideCount"];
+            this.retailSubmittedOverrideCount = data["retailSubmittedOverrideCount"];
+            this.obeSubmittedOverrideCount = data["obeSubmittedOverrideCount"];
+            this.investmentSubmittedOverrideCount = data["investmentSubmittedOverrideCount"];
+        }
+    }
+
+    static fromJS(data: any): GetWorkspaceSummaryDataOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWorkspaceSummaryDataOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["affiliateAssumptionNotUpdatedCount"] = this.affiliateAssumptionNotUpdatedCount;
+        data["affiliateAssumptionYetToBeApprovedCount"] = this.affiliateAssumptionYetToBeApprovedCount;
+        data["draftEclCount"] = this.draftEclCount;
+        data["submittedEclCount"] = this.submittedEclCount;
+        data["wholesaleSubmittedOverrideCount"] = this.wholesaleSubmittedOverrideCount;
+        data["retailSubmittedOverrideCount"] = this.retailSubmittedOverrideCount;
+        data["obeSubmittedOverrideCount"] = this.obeSubmittedOverrideCount;
+        data["investmentSubmittedOverrideCount"] = this.investmentSubmittedOverrideCount;
+        return data; 
+    }
+}
+
+export interface IGetWorkspaceSummaryDataOutput {
+    affiliateAssumptionNotUpdatedCount: number | undefined;
+    affiliateAssumptionYetToBeApprovedCount: number | undefined;
+    draftEclCount: number | undefined;
+    submittedEclCount: number | undefined;
+    wholesaleSubmittedOverrideCount: number | undefined;
+    retailSubmittedOverrideCount: number | undefined;
+    obeSubmittedOverrideCount: number | undefined;
+    investmentSubmittedOverrideCount: number | undefined;
+}
+
+export class GetAllEclForWorkspaceSummaryDto implements IGetAllEclForWorkspaceSummaryDto {
+    lastUpdated!: moment.Moment | undefined;
+    framework!: FrameworkEnum | undefined;
+    reportingDate!: moment.Moment | undefined;
+    status!: EclStatusEnum | undefined;
+    organisationUnitName!: string | undefined;
+    createdByUserName!: string | undefined;
+    dateCreated!: moment.Moment | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IGetAllEclForWorkspaceSummaryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.lastUpdated = data["lastUpdated"] ? moment(data["lastUpdated"].toString()) : <any>undefined;
+            this.framework = data["framework"];
+            this.reportingDate = data["reportingDate"] ? moment(data["reportingDate"].toString()) : <any>undefined;
+            this.status = data["status"];
+            this.organisationUnitName = data["organisationUnitName"];
+            this.createdByUserName = data["createdByUserName"];
+            this.dateCreated = data["dateCreated"] ? moment(data["dateCreated"].toString()) : <any>undefined;
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): GetAllEclForWorkspaceSummaryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAllEclForWorkspaceSummaryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lastUpdated"] = this.lastUpdated ? this.lastUpdated.toISOString() : <any>undefined;
+        data["framework"] = this.framework;
+        data["reportingDate"] = this.reportingDate ? this.reportingDate.toISOString() : <any>undefined;
+        data["status"] = this.status;
+        data["organisationUnitName"] = this.organisationUnitName;
+        data["createdByUserName"] = this.createdByUserName;
+        data["dateCreated"] = this.dateCreated ? this.dateCreated.toISOString() : <any>undefined;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IGetAllEclForWorkspaceSummaryDto {
+    lastUpdated: moment.Moment | undefined;
+    framework: FrameworkEnum | undefined;
+    reportingDate: moment.Moment | undefined;
+    status: EclStatusEnum | undefined;
+    organisationUnitName: string | undefined;
+    createdByUserName: string | undefined;
+    dateCreated: moment.Moment | undefined;
+    id: string | undefined;
+}
+
+export enum EclStatusEnum {
+    Draft = 0, 
+    Submitted = 1, 
+    Approved = 2, 
+    Running = 3, 
+    PreOverrideComplete = 4, 
+    PostOverrideComplete = 5, 
+    ComputedEAD = 6, 
+    ComputedLGD = 7, 
+    ComputedECL = 8, 
+    Completed = 9, 
+    Closed = 10, 
+}
+
 export class PagedResultDtoOfGetAllEclForWorkspaceDto implements IPagedResultDtoOfGetAllEclForWorkspaceDto {
     totalCount!: number | undefined;
     items!: GetAllEclForWorkspaceDto[] | undefined;
@@ -48415,20 +48693,6 @@ export interface IGetAllEclForWorkspaceDto {
     createdByUserName: string | undefined;
     dateCreated: moment.Moment | undefined;
     id: string | undefined;
-}
-
-export enum EclStatusEnum {
-    Draft = 0, 
-    Submitted = 1, 
-    Approved = 2, 
-    Running = 3, 
-    PreOverrideComplete = 4, 
-    PostOverrideComplete = 5, 
-    ComputedEAD = 6, 
-    ComputedLGD = 7, 
-    ComputedECL = 8, 
-    Completed = 9, 
-    Closed = 10, 
 }
 
 export class LgdAssumptionDto implements ILgdAssumptionDto {

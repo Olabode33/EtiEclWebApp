@@ -1,0 +1,72 @@
+.kt-callout--info.kt-callout--diagonal-bg {
+    background-color: #fff;
+}
+
+.kt-callout--diagonal-bg {
+    overflow: hidden;
+    position: relative;
+    background-color: #fff;
+}
+
+.kt-callout .kt-callout__body .kt-callout__action {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: end;
+    -ms-flex-align: end;
+    align-items: flex-end;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.kt-callout--diagonal-bg .kt-callout__body {
+    position: relative;
+    z-index: 2;
+}
+
+.kt-callout .kt-callout__body {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.kt-callout .kt-callout__body .kt-callout__content {
+    -webkit-box-flex: 2;
+    -ms-flex: 2;
+    flex: 2;
+}
+
+.kt-callout--diagonal-bg:before {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #f7f8fa;
+    z-index: 1;
+}
+
+.kt-callout--diagonal-bg:after {
+    content: ' ';
+    width: 200%;
+    height: 1000px;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 45%;
+    -webkit-transform: rotate(20deg);
+    transform: rotate(20deg);
+    background-color: #fff;
+}

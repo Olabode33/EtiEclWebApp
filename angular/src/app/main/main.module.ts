@@ -80,7 +80,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { BsDatepickerModule, BsDatepickerConfig, BsDaterangepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { NgxBootstrapDatePickerConfigService } from 'assets/ngx-bootstrap/ngx-bootstrap-datepicker-config.service';
-import { WorkspaceComponent } from './workspace/workspace.component';
+import { EclListComponent } from './ecl-list/ecl-list.component';
 import { CreateEditWholesaleEclComponent } from './wholesale/createEdit-wholesaleEcl/createEdit-wholesaleEcl.component';
 import { ViewWholesaleEclComponent } from './wholesale/view-wholesaleEcl/view-wholesaleEcl.component';
 import { CreateEditRetailEclComponent } from './retail/createEdit-retailEcl/createEdit-retailEcl.component';
@@ -97,6 +97,7 @@ import { ViewPaymentScheduleComponent } from './eclShared/view-paymentSchedule/v
 import { ViewEclComponent } from './eclView/view-ecl/view-ecl.component';
 import { EclOverrideComponent } from './eclView/_subs/ecl-override/ecl-override.component';
 import { ApplyOverrideModalComponent } from './eclView/_subs/apply-override-modal/apply-override-modal.component';
+import { WorkspaceComponent } from './workspace/workspace.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -123,6 +124,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+        WorkspaceComponent,
         AffiliateConfigurationComponent,
         ApplyOverrideModalComponent,
         EclOverrideComponent,
@@ -151,7 +153,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         CreateEditRetailEclComponent,
         ViewWholesaleEclComponent,
         CreateEditWholesaleEclComponent,
-        WorkspaceComponent,
+        EclListComponent,
         WholesaleEclResultSummaryTopExposuresComponent,
         CreateOrEditWholesaleEclResultSummaryTopExposureModalComponent,
         WholesaleEclResultSummaryTopExposureWholesaleEclLookupTableModalComponent,

@@ -17,6 +17,7 @@ using Abp.Organizations;
 using Abp.Authorization;
 using TestDemo.Authorization;
 using TestDemo.Investment;
+using TestDemo.InvestmentComputation;
 
 namespace TestDemo.EclShared
 {
@@ -29,6 +30,7 @@ namespace TestDemo.EclShared
         private readonly IRepository<User, long> _lookup_userRepository;
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
         private readonly IRepository<AffiliateAssumption, Guid> _affiliateAssumptions;
+        private readonly IRepository<AssumptionApproval, Guid> _assumptionsApprovalRepository;
         private readonly IRepository<Assumption, Guid> _frameworkAssumptionRepository;
         private readonly IRepository<EadInputAssumption, Guid> _eadAssumptionRepository;
         private readonly IRepository<LgdInputAssumption, Guid> _lgdAssumptionRepository;
@@ -40,6 +42,7 @@ namespace TestDemo.EclShared
         private readonly IRepository<PdInputAssumptionSnPCummulativeDefaultRate, Guid> _pdSnPCummulativeAssumptionRepository;
         private readonly IRepository<InvSecFitchCummulativeDefaultRate, Guid> _invsecFitchCummulativeAssumptionRepository;
         private readonly IRepository<InvSecMacroEconomicAssumption, Guid> _invsecMacroEcoAssumptionRepository;
+        private readonly IRepository<InvestmentEclOverrideApproval, Guid> _investmentOverrideApprovalRepository;
         private readonly UserManager _userManager;
 
         public EclSharedAppService(
@@ -53,6 +56,7 @@ namespace TestDemo.EclShared
             IRepository<EadInputAssumption, Guid> eadAssumptionRepository,
             IRepository<LgdInputAssumption, Guid> lgdAssumptionRepository,
             IRepository<AffiliateAssumption, Guid> affiliateAssumptions,
+            IRepository<AssumptionApproval, Guid> assumptionsApprovalRepository,
             IRepository<PdInputAssumption, Guid> pdAssumptionRepository,
             IRepository<PdInputAssumptionMacroeconomicInput, Guid> pdAssumptionMacroEcoInputRepository,
             IRepository<PdInputAssumptionMacroeconomicProjection, Guid> pdAssumptionMacroecoProjectionRepository,
@@ -61,6 +65,7 @@ namespace TestDemo.EclShared
             IRepository<PdInputAssumptionSnPCummulativeDefaultRate, Guid> pdSnPCummulativeAssumptionRepository,
             IRepository<InvSecFitchCummulativeDefaultRate, Guid> invsecFitchCummulativeAssumptionRepository,
             IRepository<InvSecMacroEconomicAssumption, Guid> invsecMacroEcoAssumptionRepository,
+            IRepository<InvestmentEclOverrideApproval, Guid> investmentOverrideApprovalRepository,
         UserManager userManager)
         {
             _wholesaleEclRepository = wholesaleEclRepository;
@@ -70,6 +75,7 @@ namespace TestDemo.EclShared
             _lookup_userRepository = lookup_userRepository;
             _organizationUnitRepository = organizationUnitRepository;
             _affiliateAssumptions = affiliateAssumptions;
+            _assumptionsApprovalRepository = assumptionsApprovalRepository;
             _userManager = userManager;
             _frameworkAssumptionRepository = frameworkAssumptionRepository;
             _eadAssumptionRepository = eadAssumptionRepository;
@@ -82,14 +88,128 @@ namespace TestDemo.EclShared
             _pdSnPCummulativeAssumptionRepository = pdSnPCummulativeAssumptionRepository;
             _invsecMacroEcoAssumptionRepository = invsecMacroEcoAssumptionRepository;
             _invsecFitchCummulativeAssumptionRepository = invsecFitchCummulativeAssumptionRepository;
+            _investmentOverrideApprovalRepository = investmentOverrideApprovalRepository;
         }
 
-        public async Task<PagedResultDto<GetAllEclForWorkspaceDto>> GetAllEclForWorkspace(GetAllForLookupTableInput input)
+        public async Task<GetWorkspaceSummaryDataOutput> GetWorkspaceSummaryData()
+        {
+            GetWorkspaceSummaryDataOutput output = new GetWorkspaceSummaryDataOutput();
+            output.AffiliateAssumptionNotUpdatedCount = await _affiliateAssumptions.CountAsync(x => (x.LastAssumptionUpdate.Date - DateTime.Now.Date).TotalDays > 30);
+            output.AffiliateAssumptionYetToBeApprovedCount = await _assumptionsApprovalRepository.CountAsync(x => x.Status == GeneralStatusEnum.Submitted);
+            output.InvestmentSubmittedOverrideCount = await _investmentOverrideApprovalRepository.CountAsync(x => x.Status == GeneralStatusEnum.Submitted);
+
+            var draftEcls = await GetAllEclForWorkspace(new GetAllEclForWorkspaceInput { AffiliateId = 0, Portfolio = -1, Status = (int)EclStatusEnum.Draft });
+            var submittedEcls = await GetAllEclForWorkspace(new GetAllEclForWorkspaceInput { AffiliateId = 0, Portfolio = -1, Status = (int)EclStatusEnum.Submitted });
+
+            output.DraftEclCount = draftEcls.TotalCount;
+            output.SubmittedEclCount = submittedEcls.TotalCount;
+
+            return output;            
+        }
+
+        public async Task<List<GetAllEclForWorkspaceSummaryDto>> GetAllEclSummaryForWorkspace(GetAllEclForWorkspaceInput input)
         {
             var user = await _userManager.GetUserByIdAsync((long)AbpSession.UserId);
             var userOrganizationUnit = await _userManager.GetOrganizationUnitsAsync(user);
             //var userSubsChildren = _organizationUnitRepository.GetAll().Where(ou => userSubsidiaries.Any(uou => ou.Code.StartsWith(uou.Code)));
             var userOrganizationUnitIds = userOrganizationUnit.Select(ou => ou.Id);
+
+            var portfolioFilter = (FrameworkEnum)input.Portfolio;
+            var statusFilter = (EclStatusEnum)input.Status;
+
+
+            var allEcl = (from w in _wholesaleEclRepository.GetAll().WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
+
+                          join ou in _organizationUnitRepository.GetAll() on w.OrganizationUnitId equals ou.Id
+
+                          join u in _lookup_userRepository.GetAll() on w.CreatorUserId equals u.Id into u1
+                          from u2 in u1.DefaultIfEmpty()
+                          select new GetAllEclForWorkspaceSummaryDto()
+                          {
+                              Framework = FrameworkEnum.Wholesale,
+                              CreatedByUserName = u2 == null ? "" : u2.FullName,
+                              DateCreated = w.CreationTime,
+                              ReportingDate = w.ReportingDate,
+                              OrganisationUnitName = ou == null ? "" : ou.DisplayName,
+                              Status = w.Status,
+                              Id = w.Id,
+                              LastUpdated = w.LastModificationTime
+                          }
+                          ).Union(
+                            from w in _retailEclRepository.GetAll().WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
+
+                            join ou in _organizationUnitRepository.GetAll() on w.OrganizationUnitId equals ou.Id
+
+                            join u in _lookup_userRepository.GetAll() on w.CreatorUserId equals u.Id into u1
+                            from u2 in u1.DefaultIfEmpty()
+                            select new GetAllEclForWorkspaceSummaryDto()
+                            {
+                                Framework = FrameworkEnum.Retail,
+                                CreatedByUserName = u2 == null ? "" : u2.FullName,
+                                DateCreated = w.CreationTime,
+                                ReportingDate = w.ReportingDate,
+                                OrganisationUnitName = ou == null ? "" : ou.DisplayName,
+                                Status = w.Status,
+                                Id = w.Id,
+                                LastUpdated = w.LastModificationTime
+                            }
+                          ).Union(
+                            from w in _obeEclRepository.GetAll().WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
+
+                            join ou in _organizationUnitRepository.GetAll() on w.OrganizationUnitId equals ou.Id
+
+                            join u in _lookup_userRepository.GetAll() on w.CreatorUserId equals u.Id into u1
+                            from u2 in u1.DefaultIfEmpty()
+                            select new GetAllEclForWorkspaceSummaryDto()
+                            {
+                                Framework = FrameworkEnum.OBE,
+                                CreatedByUserName = u2 == null ? "" : u2.FullName,
+                                DateCreated = w.CreationTime,
+                                ReportingDate = w.ReportingDate,
+                                OrganisationUnitName = ou == null ? "" : ou.DisplayName,
+                                Status = w.Status,
+                                Id = w.Id,
+                                LastUpdated = w.LastModificationTime
+                            }
+                          ).Union(
+                            from w in _investmentclRepository.GetAll().WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
+
+                            join ou in _organizationUnitRepository.GetAll() on w.OrganizationUnitId equals ou.Id
+
+                            join u in _lookup_userRepository.GetAll() on w.CreatorUserId equals u.Id into u1
+                            from u2 in u1.DefaultIfEmpty()
+                            select new GetAllEclForWorkspaceSummaryDto()
+                            {
+                                Framework = FrameworkEnum.Investments,
+                                CreatedByUserName = u2 == null ? "" : u2.FullName,
+                                DateCreated = w.CreationTime,
+                                ReportingDate = w.ReportingDate,
+                                OrganisationUnitName = ou == null ? "" : ou.DisplayName,
+                                Status = w.Status,
+                                Id = w.Id,
+                                LastUpdated = w.LastModificationTime
+                            }
+                          );
+
+            var pagedEcls = allEcl
+                            .OrderBy("lastUpdated desc")
+                            .Take(10);
+
+            var totalCount = await allEcl.CountAsync();
+
+            return await pagedEcls.ToListAsync();
+        }
+
+
+        public async Task<PagedResultDto<GetAllEclForWorkspaceDto>> GetAllEclForWorkspace(GetAllEclForWorkspaceInput input)
+        {
+            var user = await _userManager.GetUserByIdAsync((long)AbpSession.UserId);
+            var userOrganizationUnit = await _userManager.GetOrganizationUnitsAsync(user);
+            //var userSubsChildren = _organizationUnitRepository.GetAll().Where(ou => userSubsidiaries.Any(uou => ou.Code.StartsWith(uou.Code)));
+            var userOrganizationUnitIds = userOrganizationUnit.Select(ou => ou.Id);
+
+            var portfolioFilter = (FrameworkEnum)input.Portfolio;
+            var statusFilter = (EclStatusEnum)input.Status;
 
 
             var allEcl = (from w in _wholesaleEclRepository.GetAll().WhereIf(userOrganizationUnitIds.Count() > 0,  x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
@@ -159,7 +279,10 @@ namespace TestDemo.EclShared
                                 Status = w.Status,
                                 Id = w.Id
                             }
-                          );
+                          )
+                          //.WhereIf(string.IsNullOrWhiteSpace(input.Filter),  x => x.OrganisationUnitName.ToLower().Contains(input.Filter.ToLower()) || x.CreatedByUserName.ToLower().Contains(input.Filter.ToLower()))
+                          .WhereIf(input.Portfolio > -1, x => x.Framework == portfolioFilter)
+                          .WhereIf(input.Status > -1, x => x.Status == statusFilter);
 
             var pagedEcls = allEcl
                             .OrderBy(input.Sorting ?? "dateCreated desc")

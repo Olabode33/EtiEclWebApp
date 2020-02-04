@@ -1,6 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+    <text name="ApproveOverrideInfo"><![CDATA[ You have <strong>{0} overrides</strong> that are yet to be approved. ]]></text>
+    <text name="ApplyOverrideInfo">Pre-override result is ready, Please apply overrides if necessary.</text>
+    <text name="ApproveEclInfo"><![CDATA[ You have <strong>{0} ECL(s)</strong> that are yet to be approved. ]]></text>
+    <text name="SubmitEclInfo"><![CDATA[ You have <strong>{0} ECL(s)</strong> that have not been submitted. ]]></text>
+    <text name="NewEclInfo">You are yet to create a portfolio's ECL for this month.</text>
+    <text name="ApproveAssumptionInfo"><![CDATA[ You have <strong>{0} sumbitted assumptions</strong> that are yet to be approved. ]]></text>
+    <text name="UpdateAffiliateAssumptionsInfo"><![CDATA[ You have <Strong>{0} affiliate(s)</strong> with assumptions that have not been updated for this month. ]]></text>
+    <text name="ApproveOverride">Approve Override</text>
+    <text name="ApproveEcl">Approve ECL</text>
+    <text name="SubmitEcl">Submit ECL</text>
+    <text name="ApproveAffiliateAssumptions">Approve Assumption</text>
+    <text name="UpdateAffiliateAssumptions">Update Assumption</text>
     <text name="AffiliateSettingsHeaderInfo">Manage configuration options for the different affiliates</text>
     <text name="AffiliateSettings">Affiliate Settings</text>
     <text name="OutstandingBalanceLimitInfo">Set the override threshold</text>
