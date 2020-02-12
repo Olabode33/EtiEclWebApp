@@ -14,5 +14,7 @@ namespace TestDemo.EclShared.Dtos
         public DateTime LastRetailReportingDate { get; set; }
         public DateTime LastObeReportingDate { get; set; }
         public DateTime LastSecuritiesReportingDate { get; set; }
+        public bool RequiresAttention { get; set; }
+        public bool HasSubmittedAssumptions { get; set; }
     }
 }

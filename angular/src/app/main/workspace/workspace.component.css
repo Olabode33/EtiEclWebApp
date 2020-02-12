@@ -70,3 +70,8 @@
     transform: rotate(20deg);
     background-color: #fff;
 }
+
+.kt-badge.kt-badge--inline {
+    height: auto !important;
+    padding: 0.25rem 0.75rem !important;
+}

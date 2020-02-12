@@ -156,7 +156,7 @@
         </div>
 
         <div class="row">
-            <div class="col-xl-8 col-lg-6 col-md-12">
+            <div class="col-lg-8 col-md-12">
                 <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
                     <div class="kt-portlet__head">
                         <div class="kt-portlet__head-label">
@@ -170,11 +170,11 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <td style="width:30%">{{l('Affiliate')}}</td>
+                                        <td style="width:25%">{{l('Affiliate')}}</td>
                                         <td style="width:15%">{{l('Portfolio')}}</td>
                                         <td style="width:20%">{{l('CreatedBy')}}</td>
                                         <td style="width:15%">{{l('ReportingDate')}}</td>
-                                        <td style="width:10%">{{l('Status')}}</td>
+                                        <td style="width:15%">{{l('Status')}}</td>
                                         <td style="width:10%"></td>
                                     </tr>
                                 </thead>
@@ -198,7 +198,10 @@
                                         <td class="align-middle">{{item.createdByUserName}}</td>
                                         <td class="kt-font-brand kt-font-bold align-middle">{{item.reportingDate | momentFormat:'ll'}}</td>
                                         <td class="align-middle">
-                                            <span class="kt-badge kt-badge--inline kt-badge--brand">{{l(eclStatusEnum[item.status])}}</span>
+                                            <span class="kt-badge kt-badge--inline 
+                                                         kt-badge--{{item.status === eclStatusEnum.Completed ? 'success': ( item.status === eclStatusEnum.Draft ? 'danger' : 'warning')}}">
+                                                {{l(eclStatusEnum[item.status])}}
+                                            </span>
                                         </td>
                                         <td>
                                             <button type="button" class="btn btn-outline-hover-info btn-sm btn-elevate btn-pill"
@@ -214,63 +217,108 @@
                 </div>
             </div>
 
-            <div class="col-xl-4 col-lg-6">
+            <div class="col-lg-4">
                 <!--Begin::Portlet-->
-                <div class="kt-portlet kt-portlet--height-fluid">
-                    <div class="kt-portlet__head">
+                <div class="kt-portlet kt-portlet--skin-solid kt-portlet--solid-primary kt-portlet--head-overlay">
+                    <div class="kt-portlet__head kt-portlet__head--noborder">
                         <div class="kt-portlet__head-label">
-                            <h3 class="kt-portlet__head-title">
-                                Recent Activities
+                            <h3 class="kt-portlet__head-title kt-font-light">
+                                {{l('ImpairmentSummary')}}
                             </h3>
                         </div>
                     </div>
-                    <div class="kt-portlet__body">
-                        <!--Begin::Timeline 3 -->
-                        <div class="kt-timeline-v2">
-                            <div class="kt-timeline-v2__items  kt-padding-top-25 kt-padding-bottom-30">
-                                <div class="kt-timeline-v2__item">
-                                    <span class="kt-timeline-v2__item-time">10:00</span>
-                                    <div class="kt-timeline-v2__item-cricle">
-                                        <i class="fa fa-genderless kt-font-danger"></i>
+                    <div class="kt-portlet__body  kt-margin-t-0 kt-padding-t-0">
+                        <div class="kt-widget29">
+                            <div class="kt-widget29__content">
+                                <h3 class="kt-widget29__title">{{l('Total')}}</h3>
+                                <div class="kt-widget29__item">
+                                     <div class="kt-widget29__info">
+                                         <span class="kt-widget29__subtitle">{{l('Exposure')}}</span>
+                                         <span class="kt-widget29__stats kt-font-success">$680</span>
+                                    </div>	
+                                    <div class="kt-widget29__info">
+                                         <span class="kt-widget29__subtitle">{{l('PreOverride')}}</span>
+                                         <span class="kt-widget29__stats kt-font-brand">+15%</span>
                                     </div>
-                                    <div class="kt-timeline-v2__item-text  kt-padding-top-5">
-                                        Lorem ipsum dolor sit amit,consectetur eiusmdd tempor<br>
-                                        incididunt ut labore et dolore magna
+                                    <div class="kt-widget29__info">
+                                         <span class="kt-widget29__subtitle">{{l('PostOverride')}}</span>
+                                         <span class="kt-widget29__stats kt-font-danger">29</span>
                                     </div>
-                                </div>
-                                <div class="kt-timeline-v2__item">
-                                    <span class="kt-timeline-v2__item-time">12:45</span>
-                                    <div class="kt-timeline-v2__item-cricle">
-                                        <i class="fa fa-genderless kt-font-success"></i>
+                                </div>	
+                            </div>
+
+                            <div class="kt-widget29__content">
+                                <h3 class="kt-widget29__title">{{l('Wholesale')}}</h3>
+                                <div class="kt-widget29__item">
+                                     <div class="kt-widget29__info">
+                                         <span class="kt-widget29__subtitle">{{l('Exposure')}}</span>
+                                         <span class="kt-widget29__stats kt-font-success">$680</span>
+                                    </div>	
+                                    <div class="kt-widget29__info">
+                                         <span class="kt-widget29__subtitle">{{l('PreOverride')}}</span>
+                                         <span class="kt-widget29__stats kt-font-brand">+15%</span>
                                     </div>
-                                    <div class="kt-timeline-v2__item-text kt-timeline-v2__item-text--bold">
-                                        AEOL Meeting With
+                                    <div class="kt-widget29__info">
+                                         <span class="kt-widget29__subtitle">{{l('PostOverride')}}</span>
+                                         <span class="kt-widget29__stats kt-font-danger">29</span>
                                     </div>
-                                </div>
-                                <div class="kt-timeline-v2__item">
-                                    <span class="kt-timeline-v2__item-time">14:00</span>
-                                    <div class="kt-timeline-v2__item-cricle">
-                                        <i class="fa fa-genderless kt-font-brand"></i>
+                                </div>	
+                            </div>
+
+                            <div class="kt-widget29__content">
+                                <h3 class="kt-widget29__title">{{l('Retail')}}</h3>
+                                <div class="kt-widget29__item">
+                                     <div class="kt-widget29__info">
+                                         <span class="kt-widget29__subtitle">{{l('Exposure')}}</span>
+                                         <span class="kt-widget29__stats kt-font-success">$680</span>
+                                    </div>	
+                                    <div class="kt-widget29__info">
+                                         <span class="kt-widget29__subtitle">{{l('PreOverride')}}</span>
+                                         <span class="kt-widget29__stats kt-font-brand">+15%</span>
                                     </div>
-                                    <div class="kt-timeline-v2__item-text kt-padding-top-5">
-                                        Make Deposit <a href="#" class="kt-link kt-link--brand kt-font-bolder">USD
-                                            700</a> To ESL.
+                                    <div class="kt-widget29__info">
+                                         <span class="kt-widget29__subtitle">{{l('PostOverride')}}</span>
+                                         <span class="kt-widget29__stats kt-font-danger">29</span>
                                     </div>
-                                </div>
-                                <div class="kt-timeline-v2__item">
-                                    <span class="kt-timeline-v2__item-time">16:00</span>
-                                    <div class="kt-timeline-v2__item-cricle">
-                                        <i class="fa fa-genderless kt-font-warning"></i>
+                                </div>	
+                            </div>
+
+                            <div class="kt-widget29__content">
+                                <h3 class="kt-widget29__title">{{l('Obe')}}</h3>
+                                <div class="kt-widget29__item">
+                                     <div class="kt-widget29__info">
+                                         <span class="kt-widget29__subtitle">{{l('Exposure')}}</span>
+                                         <span class="kt-widget29__stats kt-font-success">$680</span>
+                                    </div>	
+                                    <div class="kt-widget29__info">
+                                         <span class="kt-widget29__subtitle">{{l('PreOverride')}}</span>
+                                         <span class="kt-widget29__stats kt-font-brand">+15%</span>
                                     </div>
-                                    <div class="kt-timeline-v2__item-text kt-padding-top-5">
-                                        Lorem ipsum dolor sit amit,consectetur eiusmdd tempor<br>
-                                        incididunt ut labore et dolore magna elit enim at minim<br>
-                                        veniam quis nostrud
+                                    <div class="kt-widget29__info">
+                                         <span class="kt-widget29__subtitle">{{l('PostOverride')}}</span>
+                                         <span class="kt-widget29__stats kt-font-danger">29</span>
                                     </div>
-                                </div>
+                                </div>	
+                            </div>
+
+                            <div class="kt-widget29__content">
+                                <h3 class="kt-widget29__title">{{l('Investment')}}</h3>
+                                <div class="kt-widget29__item">
+                                     <div class="kt-widget29__info">
+                                         <span class="kt-widget29__subtitle">{{l('Exposure')}}</span>
+                                         <span class="kt-widget29__stats kt-font-success">$680</span>
+                                    </div>	
+                                    <div class="kt-widget29__info">
+                                         <span class="kt-widget29__subtitle">{{l('PreOverride')}}</span>
+                                         <span class="kt-widget29__stats kt-font-brand">+15%</span>
+                                    </div>
+                                    <div class="kt-widget29__info">
+                                         <span class="kt-widget29__subtitle">{{l('PostOverride')}}</span>
+                                         <span class="kt-widget29__stats kt-font-danger">29</span>
+                                    </div>
+                                </div>	
                             </div>
                         </div>
-                        <!--End::Timeline 3 -->
                     </div>
                 </div>
                 <!--End::Portlet-->

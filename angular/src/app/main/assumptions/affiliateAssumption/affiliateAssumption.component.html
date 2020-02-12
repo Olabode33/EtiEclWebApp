@@ -13,10 +13,12 @@
         </div>
         <div class="kt-subheader__toolbar">
             <div class="kt-subheader__wrapper">
-                
+                <button (click)="goBack()" class="btn btn-outline-danger">
+                    <i class="fa fa-reply" style="font-size: 1.2rem !important;"></i>
+                    {{l("GoBack")}}
+                </button>
             </div>
         </div>
-
     </div>
     <div class="kt-content">
         <div class="kt-portlet kt-portlet--mobile">
@@ -49,21 +51,6 @@
                             [scrollable]="true" ScrollWidth="100%" [responsive]="primengTableHelper.isResponsive"
                             [resizableColumns]="primengTableHelper.resizableColumns">
                             <ng-template pTemplate="header">
-                                <!-- <tr>
-                                    <th rowspan="2" style="width: 130px"
-                                        [hidden]="!isGrantedAny('Pages.Assumption.Affiliates', 'Pages.Assumption.Affiliates')">
-                                        {{l('Actions')}}
-                                    </th>
-                                    <th rowspan="2" style="width: 150px" pSortableColumn="affiliateName">
-                                        {{l('Affiliate')}}
-                                        <p-sortIcon field="affiliateName"></p-sortIcon>
-                                    </th>
-                                    <th rowspan="2" style="width: 150px" pSortableColumn="lastAssumptionUpdate">
-                                        {{l('LastUpdated')}}
-                                        <p-sortIcon field="lastAssumptionUpdate"></p-sortIcon>
-                                    </th>
-                                    <th colspan="3" class="text-center">{{l('ReportingDate')}}</th>
-                                </tr> -->
                                 <tr>
                                     <th  style="width: 130px"
                                         [hidden]="!isGrantedAny('Pages.Assumption.Affiliates', 'Pages.Assumption.Affiliates')">
@@ -99,24 +86,29 @@
                                 <tr>
                                     <td style="width: 130px"
                                         [hidden]="!isGrantedAny('Pages.Assumption.Affiliates', 'Pages.Assumption.Affiliates')">
-                                        <div class="btn-group dropdown" dropdown container="body">
-                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
-                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                        <div class="btn-group m-btn-group m-btn-group--pill" dropdown container="body">
+                                            <button type="button" class="btn btn-primary btn-sm"
+                                            (click)="navigateToViewAssumptions(record.organizationUnitId)">
+                                                <i class="fa fa-info-circle"></i> View
+                                            </button>
+                                            <button class="dropdown-toggle btn btn-sm btn-primary dropdown-toggle-split" dropdownToggle>
+                                                <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu" *dropdownMenu>
                                                 <li>
-                                                    <a href="javascript:;" (click)="navigateToViewAssumptions(record.organizationUnitId)"
-                                                        *ngIf="permission.isGranted('Pages.Assumption.Affiliates')">{{l('View')}}</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:;" (click)="navigateToApproveAssumptions(record.organizationUnitId)"
-                                                        *ngIf="permission.isGranted('Pages.Assumption.Affiliates')">{{l('Review')}}</a>
+                                                    <a href="javascript:;" (click)="navigateToApproveAssumptions(record.organizationUnitId)">
+                                                        {{l('Review')}}
+                                                    </a>
                                                 </li>
                                             </ul>
                                         </div>
                                     </td>
                                     <td style="width:150px">
                                         <span class="ui-column-title"> {{l('InputName')}}</span>
+                                        <i *ngIf="record.requiresAttention"
+                                            class="fa fa-info-circle kt-font-danger animated infinite flash slower" title="{{l('HasNotBeenUpdatedIn30Days')}}"></i>
+                                        <i *ngIf="record.hasSubmittedAssumptions"
+                                            class="fa fa-info-circle kt-font-warning animated infinite flash slower" title="{{l('HasSubmittedAssumptions')}}"></i>
                                         {{record.affiliateName}}
                                     </td>
                                     <td style="width:150px">

@@ -62,9 +62,9 @@ export class WorkspaceComponent extends AppComponentBase implements OnInit, Afte
 
     navigateToEclWorkspace(status?: EclStatusEnum): void {
         if (status === null || status === undefined) {
-            this._router.navigate(['/app/main/workspace']);
+            this._router.navigate(['/app/main/ecl']);
         } else {
-            this._router.navigate(['/app/main/workspace', status]);
+            this._router.navigate(['/app/main/ecl', status]);
         }
     }
 

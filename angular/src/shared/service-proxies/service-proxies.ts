@@ -48852,6 +48852,8 @@ export class GetAllAffiliateAssumptionDto implements IGetAllAffiliateAssumptionD
     lastRetailReportingDate!: moment.Moment | undefined;
     lastObeReportingDate!: moment.Moment | undefined;
     lastSecuritiesReportingDate!: moment.Moment | undefined;
+    requiresAttention!: boolean | undefined;
+    hasSubmittedAssumptions!: boolean | undefined;
     id!: string | undefined;
 
     constructor(data?: IGetAllAffiliateAssumptionDto) {
@@ -48872,6 +48874,8 @@ export class GetAllAffiliateAssumptionDto implements IGetAllAffiliateAssumptionD
             this.lastRetailReportingDate = data["lastRetailReportingDate"] ? moment(data["lastRetailReportingDate"].toString()) : <any>undefined;
             this.lastObeReportingDate = data["lastObeReportingDate"] ? moment(data["lastObeReportingDate"].toString()) : <any>undefined;
             this.lastSecuritiesReportingDate = data["lastSecuritiesReportingDate"] ? moment(data["lastSecuritiesReportingDate"].toString()) : <any>undefined;
+            this.requiresAttention = data["requiresAttention"];
+            this.hasSubmittedAssumptions = data["hasSubmittedAssumptions"];
             this.id = data["id"];
         }
     }
@@ -48892,6 +48896,8 @@ export class GetAllAffiliateAssumptionDto implements IGetAllAffiliateAssumptionD
         data["lastRetailReportingDate"] = this.lastRetailReportingDate ? this.lastRetailReportingDate.toISOString() : <any>undefined;
         data["lastObeReportingDate"] = this.lastObeReportingDate ? this.lastObeReportingDate.toISOString() : <any>undefined;
         data["lastSecuritiesReportingDate"] = this.lastSecuritiesReportingDate ? this.lastSecuritiesReportingDate.toISOString() : <any>undefined;
+        data["requiresAttention"] = this.requiresAttention;
+        data["hasSubmittedAssumptions"] = this.hasSubmittedAssumptions;
         data["id"] = this.id;
         return data; 
     }
@@ -48905,6 +48911,8 @@ export interface IGetAllAffiliateAssumptionDto {
     lastRetailReportingDate: moment.Moment | undefined;
     lastObeReportingDate: moment.Moment | undefined;
     lastSecuritiesReportingDate: moment.Moment | undefined;
+    requiresAttention: boolean | undefined;
+    hasSubmittedAssumptions: boolean | undefined;
     id: string | undefined;
 }
 

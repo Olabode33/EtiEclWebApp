@@ -1,6 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+    <text name="HasNotBeenUpdatedIn30Days">Has not been updated in the last 30 days!</text>
+    <text name="HasSubmittedAssumptions">Has submitted assumptions to be reviewed!</text>
+    <text name="PostOverride">Post-override</text>
+    <text name="PreOverride">Pre-override</text>
+    <text name="EclRunUpdates">Recent ECL Run</text>
+    <text name="ImpairmentSummary">Impairment Summary</text>
     <text name="ApproveOverrideInfo"><![CDATA[ You have <strong>{0} overrides</strong> that are yet to be approved. ]]></text>
     <text name="ApplyOverrideInfo">Pre-override result is ready, Please apply overrides if necessary.</text>
     <text name="ApproveEclInfo"><![CDATA[ You have <strong>{0} ECL(s)</strong> that are yet to be approved. ]]></text>

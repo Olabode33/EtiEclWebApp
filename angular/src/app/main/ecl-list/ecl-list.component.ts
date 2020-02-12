@@ -12,6 +12,7 @@ import { FileDownloadService } from '@shared/utils/file-download.service';
 import { EntityTypeHistoryModalComponent } from '@app/shared/common/entityHistory/entity-type-history-modal.component';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import { Location } from '@angular/common';
 
 @Component({
     selector: 'app-workspace',
@@ -42,13 +43,19 @@ export class EclListComponent extends AppComponentBase implements OnInit {
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
-        private _router: Router
+        private _router: Router,
+        private _location: Location
     ) {
         super(injector);
     }
 
     ngOnInit() {
         this.pageHeader = this.l('WorkspaceWelcome', this.appSession.user.surname + ' ' + this.appSession.user.name);
+        if (this._activatedRoute.snapshot.params['filter']) {
+            this._activatedRoute.paramMap.subscribe(params => {
+                this.statusFilter = +params.get('filter');
+            });
+        }
     }
 
     getWorkspaceEcls(event?: LazyLoadEvent) {
@@ -132,6 +139,10 @@ export class EclListComponent extends AppComponentBase implements OnInit {
             this.notify.success('EclSuccessfullyCreated');
             this.viewEcl(FrameworkEnum.Investments, result);
         });
+    }
+
+    goBack(): void {
+        this._location.back();
     }
 
 }

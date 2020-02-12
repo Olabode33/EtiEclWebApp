@@ -11,6 +11,7 @@ import { FileDownloadService } from '@shared/utils/file-download.service';
 import { EntityTypeHistoryModalComponent } from '@app/shared/common/entityHistory/entity-type-history-modal.component';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import { Location } from '@angular/common';
 
 @Component({
     selector: 'app-affiliateAssumption',
@@ -25,6 +26,7 @@ export class AffiliateAssumptionComponent extends AppComponentBase implements On
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
     filterText = '';
+    availableForReviewOnly = false;
 
     constructor(
         injector: Injector,
@@ -33,12 +35,18 @@ export class AffiliateAssumptionComponent extends AppComponentBase implements On
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
-        private _router: Router
+        private _router: Router,
+        private _location: Location
     ) {
         super(injector);
     }
 
     ngOnInit() {
+        this._activatedRoute.paramMap.subscribe(params => {
+            let filter = params.get('filter');
+            this.availableForReviewOnly = filter === 'submitted';
+            this.reloadPage();
+        });
     }
 
     getAffiliates(event?: LazyLoadEvent) {
@@ -56,7 +64,11 @@ export class AffiliateAssumptionComponent extends AppComponentBase implements On
             this.primengTableHelper.getMaxResultCount(this.paginator, event)
         ).subscribe(result => {
             this.primengTableHelper.totalRecordsCount = result.totalCount;
-            this.primengTableHelper.records = result.items;
+            if (this.availableForReviewOnly) {
+                this.primengTableHelper.records = result.items.filter(x => x.hasSubmittedAssumptions === true );
+            } else {
+                this.primengTableHelper.records = result.items;
+            }
             this.primengTableHelper.hideLoadingIndicator();
         });
     }
@@ -66,11 +78,15 @@ export class AffiliateAssumptionComponent extends AppComponentBase implements On
     }
 
     navigateToViewAssumptions(ouId: number): void {
-        this._router.navigate(['view', ouId], { relativeTo: this._activatedRoute});
+        this._router.navigate(['/app/main/assumption/affiliates/view', ouId]);
     }
 
     navigateToApproveAssumptions(ouId: number): void {
-        this._router.navigate(['approve', ouId], { relativeTo: this._activatedRoute});
+        this._router.navigate(['/app/main/assumption/affiliates/approve', ouId]);
+    }
+
+    goBack(): void {
+        this._location.back();
     }
 
 }

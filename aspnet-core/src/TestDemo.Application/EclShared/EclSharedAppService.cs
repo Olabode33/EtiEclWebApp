@@ -94,7 +94,7 @@ namespace TestDemo.EclShared
         public async Task<GetWorkspaceSummaryDataOutput> GetWorkspaceSummaryData()
         {
             GetWorkspaceSummaryDataOutput output = new GetWorkspaceSummaryDataOutput();
-            output.AffiliateAssumptionNotUpdatedCount = await _affiliateAssumptions.CountAsync(x => (x.LastAssumptionUpdate.Date - DateTime.Now.Date).TotalDays > 30);
+            output.AffiliateAssumptionNotUpdatedCount = await _affiliateAssumptions.CountAsync(x => (DateTime.Now.Date - x.LastAssumptionUpdate.Date).TotalDays > 30);
             output.AffiliateAssumptionYetToBeApprovedCount = await _assumptionsApprovalRepository.CountAsync(x => x.Status == GeneralStatusEnum.Submitted);
             output.InvestmentSubmittedOverrideCount = await _investmentOverrideApprovalRepository.CountAsync(x => x.Status == GeneralStatusEnum.Submitted);
 
@@ -356,6 +356,7 @@ namespace TestDemo.EclShared
         [AbpAuthorize(AppPermissions.Pages_AssumptionsUpdate)]
         public async Task<PagedResultDto<GetAllAffiliateAssumptionDto>> GetAllAffiliateAssumption(GetAllForLookupTableInput input)
         {
+            var submittedAssumptions = await _assumptionsApprovalRepository.GetAll().Where(x => x.Status == GeneralStatusEnum.Submitted).ToListAsync();
             var affiliates = _affiliateAssumptions.GetAll().Include(x => x.OrganizationUnitFk)
                                                     .Select(x => new GetAllAffiliateAssumptionDto
                                                     {
@@ -366,11 +367,13 @@ namespace TestDemo.EclShared
                                                         LastWholesaleReportingDate = x.LastWholesaleReportingDate,
                                                         LastRetailReportingDate = x.LastRetailReportingDate,
                                                         LastObeReportingDate = x.LastObeReportingDate,
-                                                        LastSecuritiesReportingDate = x.LastSecuritiesReportingDate
+                                                        LastSecuritiesReportingDate = x.LastSecuritiesReportingDate,
+                                                        RequiresAttention = (DateTime.Now.Date - x.LastAssumptionUpdate.Date).TotalDays > 30,
+                                                        HasSubmittedAssumptions = submittedAssumptions.Any(y => y.OrganizationUnitId == x.OrganizationUnitId)
                                                     });
 
             var pagedEcls = affiliates
-                            .OrderBy("affiliateName desc")
+                            .OrderBy("requiresAttention desc")
                             .PageBy(input);
 
             var totalCount = await affiliates.CountAsync();

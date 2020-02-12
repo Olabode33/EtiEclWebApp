@@ -13,10 +13,10 @@
         </div>
         <div class="kt-subheader__toolbar">
             <div class="kt-subheader__wrapper">
-                <button (click)="changeAffiliate()" class="btn btn-outline-primary">
+                <!-- <button (click)="changeAffiliate()" class="btn btn-outline-primary">
                     <i class="fa fa-random" style="font-size: 1.2rem !important;"></i>
                     {{l("ChangeAffiliate")}}
-                </button>
+                </button> -->
                 <button *ngIf="selectedRecords.length > 0" (click)="changeAffiliate()" class="btn btn-primary">
                     <i class="fa fa-eye" style="font-size: 1.2rem !important;"></i>
                     {{l("Review")}}

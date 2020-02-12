@@ -13,12 +13,8 @@
         </div>
         <div class="kt-subheader__toolbar">
             <div class="kt-subheader__wrapper">
-				<button (click)="navigateToDashboard()" class="btn btn-info"><i class="fa fa-chart-bar"></i>
-                    {{l("Dashboard")}}
-                </button>
-
                 <div class="btn-group" dropdown>
-                    <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                    <button dropdownToggle type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-plus"></i> {{"NewEcl" | localize}}
                     </button>
@@ -68,6 +64,13 @@
                         </a>
                     </div>
                 </div>
+				<button (click)="navigateToDashboard()" class="btn btn-info"><i class="fa fa-chart-bar"></i>
+                    {{l("Dashboard")}}
+                </button>
+                <button (click)="goBack()" class="btn btn-outline-danger">
+                    <i class="fa fa-reply" style="font-size: 1.2rem !important;"></i>
+                    {{l("GoBack")}}
+                </button>
             </div>
         </div>
       
@@ -90,20 +93,24 @@
                             <div class="col-xl-2 col-sm-6">
                                 <div class="form-group m-form__group align-items-center">
                                 <select class="form-control" name="IsApprovedFilter" id="IsApprovedFilterSelect" [(ngModel)]="frameworkFilter">
-                                    <option value="-1">{{l("SelectFramework")}}</option>
-                                    <option value="0">{{l("Wholesale")}}</option>
-                                    <option value="1">{{l("Retail")}}</option>
-                                    <option value="2">{{l("OBE")}}</option>
+                                    <option value=-1>{{l("SelectFramework")}}</option>
+                                    <option value="frameworkEnum.Wholesale">{{l("Wholesale")}}</option>
+                                    <option value="frameworkEnum.Retail">{{l("Retail")}}</option>
+                                    <option value="frameworkEnum.OBE">{{l("OBE")}}</option>
+                                    <option value="frameworkEnum.Investments">{{l("Investments")}}</option>
                                 </select>
                                 </div>
                             </div>
                             <div class="col-xl-2 col-sm-6">
                                     <div class="form-group m-form__group align-items-center">
                                 <select class="form-control" name="IsApprovedFilter" id="IsApprovedFilterSelect" [(ngModel)]="statusFilter">
-                                    <option value="-1">{{l("SelectStatus")}}</option>
-                                    <option value="0">{{l("Open")}}</option>
-                                    <option value="1">{{l("Inprogess")}}</option>
-                                    <option value="2">{{l("Closed")}}</option>
+                                    <option value=-1>{{l("SelectStatus")}}</option>
+                                    <option value="eclStatusEnum.Draft">{{l(eclStatusEnum[eclStatusEnum.Draft])}}</option>
+                                    <option value="eclStatusEnum.Submitted">{{l(eclStatusEnum[eclStatusEnum.Submitted])}}</option>
+                                    <option value="eclStatusEnum.Approved">{{l(eclStatusEnum[eclStatusEnum.Approved])}}</option>
+                                    <option value="eclStatusEnum.PreOverrideComplete">{{l(eclStatusEnum[eclStatusEnum.PreOverrideComplete])}}</option>
+                                    <option value="eclStatusEnum.PostOverrideComplete">{{l(eclStatusEnum[eclStatusEnum.PostOverrideComplete])}}</option>
+                                    <option value="eclStatusEnum.Completed">{{l(eclStatusEnum[eclStatusEnum.Completed])}}</option>
                                 </select>
                                 </div>
                             </div>
@@ -182,18 +189,6 @@
                                                 </li>
                                             </ul>
                                         </div>
-                                       <!-- <div class="btn-group dropdown" dropdown container="body">
-                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
-                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
-                                            </button>
-												<ul class="dropdown-menu"  *dropdownMenu>
-
-												<li>
-													<a href="javascript:;" *ngIf="permission.isGranted('Pages.WholesaleEcls.Edit')"
-														(click)="viewEcl(record.framework, record.id)">{{l('View')}}</a>
-												</li>
-                                            </ul>
-                                        </div> -->
                                     </td>
                                     <td style="width:150px">
                                             <span class="ui-column-title"> {{l('Affiliate')}}</span>
