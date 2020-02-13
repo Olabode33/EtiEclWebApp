@@ -3886,6 +3886,57 @@ export class EclSharedServiceProxy {
     }
 
     /**
+     * @return Success
+     */
+    getWorkspaceImpairmentSummary(): Observable<GetWorkspaceImpairmentSummaryDto> {
+        let url_ = this.baseUrl + "/api/services/app/EclShared/GetWorkspaceImpairmentSummary";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWorkspaceImpairmentSummary(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWorkspaceImpairmentSummary(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWorkspaceImpairmentSummaryDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWorkspaceImpairmentSummaryDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWorkspaceImpairmentSummary(response: HttpResponseBase): Observable<GetWorkspaceImpairmentSummaryDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetWorkspaceImpairmentSummaryDto.fromJS(resultData200) : new GetWorkspaceImpairmentSummaryDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWorkspaceImpairmentSummaryDto>(<any>null);
+    }
+
+    /**
      * @param filter (optional) 
      * @param affiliateId (optional) 
      * @param portfolio (optional) 
@@ -9262,6 +9313,130 @@ export class InvestmentEclPdInputAssumptionsServiceProxy {
             }));
         }
         return _observableOf<PagedResultDtoOfInvestmentEclPdInputAssumptionInvestmentEclLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class InvestmentEclResultsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getResultSummary(id: string | null | undefined): Observable<ViewEclResultSummaryDto> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclResults/GetResultSummary?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetResultSummary(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetResultSummary(<any>response_);
+                } catch (e) {
+                    return <Observable<ViewEclResultSummaryDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ViewEclResultSummaryDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetResultSummary(response: HttpResponseBase): Observable<ViewEclResultSummaryDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ViewEclResultSummaryDto.fromJS(resultData200) : new ViewEclResultSummaryDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ViewEclResultSummaryDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getTop20Exposure(id: string | null | undefined): Observable<ViewEclResultDetailsDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclResults/GetTop20Exposure?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetTop20Exposure(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetTop20Exposure(<any>response_);
+                } catch (e) {
+                    return <Observable<ViewEclResultDetailsDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ViewEclResultDetailsDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetTop20Exposure(response: HttpResponseBase): Observable<ViewEclResultDetailsDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ViewEclResultDetailsDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ViewEclResultDetailsDto[]>(<any>null);
     }
 }
 
@@ -48587,6 +48762,98 @@ export enum EclStatusEnum {
     Closed = 10, 
 }
 
+export class GetWorkspaceImpairmentSummaryDto implements IGetWorkspaceImpairmentSummaryDto {
+    totalExposure!: number | undefined;
+    totalPreOverride!: number | undefined;
+    totalPostOverride!: number | undefined;
+    wholesaleExposure!: number | undefined;
+    wholesalePreOverride!: number | undefined;
+    wholesalePostOverride!: number | undefined;
+    retailExposure!: number | undefined;
+    retailPreOverride!: number | undefined;
+    retailPostOverride!: number | undefined;
+    obeExposure!: number | undefined;
+    obePreOverride!: number | undefined;
+    obePostOverride!: number | undefined;
+    investmentExposure!: number | undefined;
+    investmentPreOverride!: number | undefined;
+    investmentPostOverride!: number | undefined;
+
+    constructor(data?: IGetWorkspaceImpairmentSummaryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalExposure = data["totalExposure"];
+            this.totalPreOverride = data["totalPreOverride"];
+            this.totalPostOverride = data["totalPostOverride"];
+            this.wholesaleExposure = data["wholesaleExposure"];
+            this.wholesalePreOverride = data["wholesalePreOverride"];
+            this.wholesalePostOverride = data["wholesalePostOverride"];
+            this.retailExposure = data["retailExposure"];
+            this.retailPreOverride = data["retailPreOverride"];
+            this.retailPostOverride = data["retailPostOverride"];
+            this.obeExposure = data["obeExposure"];
+            this.obePreOverride = data["obePreOverride"];
+            this.obePostOverride = data["obePostOverride"];
+            this.investmentExposure = data["investmentExposure"];
+            this.investmentPreOverride = data["investmentPreOverride"];
+            this.investmentPostOverride = data["investmentPostOverride"];
+        }
+    }
+
+    static fromJS(data: any): GetWorkspaceImpairmentSummaryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWorkspaceImpairmentSummaryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalExposure"] = this.totalExposure;
+        data["totalPreOverride"] = this.totalPreOverride;
+        data["totalPostOverride"] = this.totalPostOverride;
+        data["wholesaleExposure"] = this.wholesaleExposure;
+        data["wholesalePreOverride"] = this.wholesalePreOverride;
+        data["wholesalePostOverride"] = this.wholesalePostOverride;
+        data["retailExposure"] = this.retailExposure;
+        data["retailPreOverride"] = this.retailPreOverride;
+        data["retailPostOverride"] = this.retailPostOverride;
+        data["obeExposure"] = this.obeExposure;
+        data["obePreOverride"] = this.obePreOverride;
+        data["obePostOverride"] = this.obePostOverride;
+        data["investmentExposure"] = this.investmentExposure;
+        data["investmentPreOverride"] = this.investmentPreOverride;
+        data["investmentPostOverride"] = this.investmentPostOverride;
+        return data; 
+    }
+}
+
+export interface IGetWorkspaceImpairmentSummaryDto {
+    totalExposure: number | undefined;
+    totalPreOverride: number | undefined;
+    totalPostOverride: number | undefined;
+    wholesaleExposure: number | undefined;
+    wholesalePreOverride: number | undefined;
+    wholesalePostOverride: number | undefined;
+    retailExposure: number | undefined;
+    retailPreOverride: number | undefined;
+    retailPostOverride: number | undefined;
+    obeExposure: number | undefined;
+    obePreOverride: number | undefined;
+    obePostOverride: number | undefined;
+    investmentExposure: number | undefined;
+    investmentPreOverride: number | undefined;
+    investmentPostOverride: number | undefined;
+}
+
 export class PagedResultDtoOfGetAllEclForWorkspaceDto implements IPagedResultDtoOfGetAllEclForWorkspaceDto {
     totalCount!: number | undefined;
     items!: GetAllEclForWorkspaceDto[] | undefined;
@@ -54997,6 +55264,182 @@ export class InvestmentEclPdInputAssumptionInvestmentEclLookupTableDto implement
 export interface IInvestmentEclPdInputAssumptionInvestmentEclLookupTableDto {
     id: string | undefined;
     displayName: string | undefined;
+}
+
+export class ViewEclResultSummaryDto implements IViewEclResultSummaryDto {
+    totalExposure!: number | undefined;
+    preOverrideImpairment!: number | undefined;
+    preOverrideCoverageRatio!: number | undefined;
+    postOverrideImpairment!: number | undefined;
+    postOverrideCoverageRatio!: number | undefined;
+
+    constructor(data?: IViewEclResultSummaryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalExposure = data["totalExposure"];
+            this.preOverrideImpairment = data["preOverrideImpairment"];
+            this.preOverrideCoverageRatio = data["preOverrideCoverageRatio"];
+            this.postOverrideImpairment = data["postOverrideImpairment"];
+            this.postOverrideCoverageRatio = data["postOverrideCoverageRatio"];
+        }
+    }
+
+    static fromJS(data: any): ViewEclResultSummaryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ViewEclResultSummaryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalExposure"] = this.totalExposure;
+        data["preOverrideImpairment"] = this.preOverrideImpairment;
+        data["preOverrideCoverageRatio"] = this.preOverrideCoverageRatio;
+        data["postOverrideImpairment"] = this.postOverrideImpairment;
+        data["postOverrideCoverageRatio"] = this.postOverrideCoverageRatio;
+        return data; 
+    }
+}
+
+export interface IViewEclResultSummaryDto {
+    totalExposure: number | undefined;
+    preOverrideImpairment: number | undefined;
+    preOverrideCoverageRatio: number | undefined;
+    postOverrideImpairment: number | undefined;
+    postOverrideCoverageRatio: number | undefined;
+}
+
+export class ViewEclResultDetailsDto implements IViewEclResultDetailsDto {
+    contractId!: string | undefined;
+    customerNumber!: string | undefined;
+    customerName!: string | undefined;
+    accountNumber!: string | undefined;
+    segment!: string | undefined;
+    productType!: string | undefined;
+    sector!: string | undefined;
+    staging!: number | undefined;
+    exposure!: number | undefined;
+    preOverrideResult!: EclResultOverrideFigures | undefined;
+    postOverrideResult!: EclResultOverrideFigures | undefined;
+
+    constructor(data?: IViewEclResultDetailsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.contractId = data["contractId"];
+            this.customerNumber = data["customerNumber"];
+            this.customerName = data["customerName"];
+            this.accountNumber = data["accountNumber"];
+            this.segment = data["segment"];
+            this.productType = data["productType"];
+            this.sector = data["sector"];
+            this.staging = data["staging"];
+            this.exposure = data["exposure"];
+            this.preOverrideResult = data["preOverrideResult"] ? EclResultOverrideFigures.fromJS(data["preOverrideResult"]) : <any>undefined;
+            this.postOverrideResult = data["postOverrideResult"] ? EclResultOverrideFigures.fromJS(data["postOverrideResult"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): ViewEclResultDetailsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ViewEclResultDetailsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contractId"] = this.contractId;
+        data["customerNumber"] = this.customerNumber;
+        data["customerName"] = this.customerName;
+        data["accountNumber"] = this.accountNumber;
+        data["segment"] = this.segment;
+        data["productType"] = this.productType;
+        data["sector"] = this.sector;
+        data["staging"] = this.staging;
+        data["exposure"] = this.exposure;
+        data["preOverrideResult"] = this.preOverrideResult ? this.preOverrideResult.toJSON() : <any>undefined;
+        data["postOverrideResult"] = this.postOverrideResult ? this.postOverrideResult.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IViewEclResultDetailsDto {
+    contractId: string | undefined;
+    customerNumber: string | undefined;
+    customerName: string | undefined;
+    accountNumber: string | undefined;
+    segment: string | undefined;
+    productType: string | undefined;
+    sector: string | undefined;
+    staging: number | undefined;
+    exposure: number | undefined;
+    preOverrideResult: EclResultOverrideFigures | undefined;
+    postOverrideResult: EclResultOverrideFigures | undefined;
+}
+
+export class EclResultOverrideFigures implements IEclResultOverrideFigures {
+    eclBest!: number | undefined;
+    eclOptimistic!: number | undefined;
+    eclDownturn!: number | undefined;
+    impairment!: number | undefined;
+
+    constructor(data?: IEclResultOverrideFigures) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.eclBest = data["eclBest"];
+            this.eclOptimistic = data["eclOptimistic"];
+            this.eclDownturn = data["eclDownturn"];
+            this.impairment = data["impairment"];
+        }
+    }
+
+    static fromJS(data: any): EclResultOverrideFigures {
+        data = typeof data === 'object' ? data : {};
+        let result = new EclResultOverrideFigures();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["eclBest"] = this.eclBest;
+        data["eclOptimistic"] = this.eclOptimistic;
+        data["eclDownturn"] = this.eclDownturn;
+        data["impairment"] = this.impairment;
+        return data; 
+    }
+}
+
+export interface IEclResultOverrideFigures {
+    eclBest: number | undefined;
+    eclOptimistic: number | undefined;
+    eclDownturn: number | undefined;
+    impairment: number | undefined;
 }
 
 export class PagedResultDtoOfGetInvestmentEclForViewDto implements IPagedResultDtoOfGetInvestmentEclForViewDto {

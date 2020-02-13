@@ -18,6 +18,7 @@ import { DateRangePickerInitialValueSetterDirective } from './timing/date-range-
 import { DatePickerInitialValueSetterDirective } from './timing/date-picker-initial-value.directive';
 import { DateTimeService } from './timing/date-time.service';
 import { TimeZoneComboComponent } from './timing/timezone-combo.component';
+import { ShortNumberPipe } from '../pipes/short-number.pipe';
 
 @NgModule({
     imports: [
@@ -37,7 +38,8 @@ import { TimeZoneComboComponent } from './timing/timezone-combo.component';
         EntityTypeHistoryModalComponent,
         EntityChangeDetailModalComponent,
         DateRangePickerInitialValueSetterDirective,
-        DatePickerInitialValueSetterDirective
+        DatePickerInitialValueSetterDirective,
+        ShortNumberPipe
     ],
     exports: [
         TimeZoneComboComponent,
@@ -45,7 +47,8 @@ import { TimeZoneComboComponent } from './timing/timezone-combo.component';
         EntityTypeHistoryModalComponent,
         EntityChangeDetailModalComponent,
         DateRangePickerInitialValueSetterDirective,
-        DatePickerInitialValueSetterDirective
+        DatePickerInitialValueSetterDirective,
+        ShortNumberPipe
     ],
     providers: [
         DateTimeService,

@@ -98,6 +98,7 @@ import { ViewEclComponent } from './eclView/view-ecl/view-ecl.component';
 import { EclOverrideComponent } from './eclView/_subs/ecl-override/ecl-override.component';
 import { ApplyOverrideModalComponent } from './eclView/_subs/apply-override-modal/apply-override-modal.component';
 import { WorkspaceComponent } from './workspace/workspace.component';
+import { EclResultsComponent } from './eclView/_subs/ecl-results/ecl-results.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -124,6 +125,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+        EclResultsComponent,
         WorkspaceComponent,
         AffiliateConfigurationComponent,
         ApplyOverrideModalComponent,

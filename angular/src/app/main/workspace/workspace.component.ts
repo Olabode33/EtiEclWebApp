@@ -1,4 +1,4 @@
-import { GetAllEclForWorkspaceSummaryDto } from './../../../shared/service-proxies/service-proxies';
+import { GetAllEclForWorkspaceSummaryDto, GetWorkspaceImpairmentSummaryDto } from './../../../shared/service-proxies/service-proxies';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ViewEncapsulation, Injector, AfterContentInit, AfterViewInit } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -18,6 +18,7 @@ export class WorkspaceComponent extends AppComponentBase implements OnInit, Afte
     eclStatusEnum = EclStatusEnum;
     workspaceSummaryData: GetWorkspaceSummaryDataOutput = new GetWorkspaceSummaryDataOutput();
     recentEclSummary: GetAllEclForWorkspaceSummaryDto[] = new Array();
+    impairmentSummary: GetWorkspaceImpairmentSummaryDto = new GetWorkspaceImpairmentSummaryDto();
 
     frameworkEnum = FrameworkEnum;
 
@@ -37,8 +38,8 @@ export class WorkspaceComponent extends AppComponentBase implements OnInit, Afte
     ngAfterViewInit() {
         this.getWorkspaceData();
         this.getRecentEclSummaryData();
+        this.getImpairmentSummaryData();
     }
-
 
     getWorkspaceData(): void {
         this._eclSharedAppService.getWorkspaceSummaryData().subscribe(result => {
@@ -49,6 +50,12 @@ export class WorkspaceComponent extends AppComponentBase implements OnInit, Afte
     getRecentEclSummaryData(): void {
         this._eclSharedAppService.getAllEclSummaryForWorkspace('', -1, -1, -1, '', 0, 10).subscribe(result => {
             this.recentEclSummary = result;
+        });
+    }
+
+    getImpairmentSummaryData(): void {
+        this._eclSharedAppService.getWorkspaceImpairmentSummary().subscribe(result => {
+            this.impairmentSummary = result;
         });
     }
 

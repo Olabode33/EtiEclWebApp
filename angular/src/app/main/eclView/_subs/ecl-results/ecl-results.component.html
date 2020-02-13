@@ -1,0 +1,93 @@
+<div class="row" [hidden]="!show">
+    <div class="col">
+        <div class="kt-portlet kt-portlet--height-fluid">
+            <div class="kt-portlet__head">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">
+                        Result Summary
+                    </h3>
+                </div>
+            </div>
+            <div class="kt-portlet__body kt-portlet__body--fluid">
+                <div class="kt-widget12">
+                    <div class="kt-widget12__content">
+                        <div class="kt-widget12__item">
+                            <div class="kt-widget12__info">
+                                <span class="kt-widget12__desc">{{l('TotalExposure')}}</span>
+                                <span class="kt-widget12__value">{{resultSummary.totalExposure | number: '1.2-2'}}</span>
+                            </div>
+                            
+                            <div class="kt-widget12__info">
+                                <span class="kt-widget12__desc">{{l('FinalCoverageRatio')}}</span>
+                                <div class="kt-widget12__progress">
+                                    <div class="progress kt-progress--sm">
+                                        <div class="progress-bar kt-bg-brand" role="progressbar"
+                                            [style.width.%]="resultSummary.postOverrideCoverageRatio * 500" aria-valuenow="100" aria-valuemin="0"
+                                            aria-valuemax="100"></div>
+                                    </div>
+                                    <span class="kt-widget12__stat">
+                                        {{resultSummary.postOverrideCoverageRatio | percent: '1.2-2'}}
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="kt-widget12__item">
+                            <div class="kt-widget12__info">
+                                <span class="kt-widget12__desc">{{l('TotalPreImpairment')}}</span>
+                                <span class="kt-widget12__value">{{resultSummary.preOverrideImpairment | number: '1.2-2'}}</span>
+                            </div>
+                            <div class="kt-widget12__info">
+                                <span class="kt-widget12__desc">{{l('TotalPostImpairment')}}</span>
+                                <span class="kt-widget12__value">₦{{resultSummary.postOverrideImpairment | number: '1.2-2'}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" (click)="showFakeTopExposure = !showFakeTopExposure">
+                        {{showFakeTopExposure ? 'Hide' : 'Show'}} {{l('Total20Exposure')}}
+                    </button>
+                    <div class="kt-widget12__chart" *ngIf="showFakeTopExposure">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th *ngIf="_eclFramework !== frameworkEnum.Investments" colspan="5"></th>
+                                        <th *ngIf="_eclFramework === frameworkEnum.Investments" colspan="2"></th>
+                                        <th colspan="2">{{l('PreOverride')}}</th>
+                                        <th colspan="2">{{l('PostOverride')}}</th>
+                                    </tr>
+                                </thead>
+                                <thead>
+                                    <tr>
+                                        <th *ngIf="_eclFramework !== frameworkEnum.Investments" >{{l('ContractId')}}</th>
+                                        <th *ngIf="_eclFramework !== frameworkEnum.Investments">{{l('CustomerName')}}</th>
+                                        <th *ngIf="_eclFramework !== frameworkEnum.Investments">{{l('CustomerNo')}}</th>
+                                        <th>{{ _eclFramework === frameworkEnum.Investments ? l('AssetBooks') : l('AccountNo')}}</th>
+                                        <th>{{l('Exposure')}}</th>
+                                        <th>{{l('Impairment')}}</th>
+                                        <th>{{l('CoverageRatio')}}</th>
+                                        <th>{{l('Impairment')}}</th>
+                                        <th>{{l('CoverageRatio')}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of top20Exposures">
+                                        <td *ngIf="_eclFramework !== frameworkEnum.Investments" >{{item.contractId}}</td>
+                                        <td *ngIf="_eclFramework !== frameworkEnum.Investments" >{{item.customerName}}</td>
+                                        <td *ngIf="_eclFramework !== frameworkEnum.Investments" >{{item.customerNumber}}</td>
+                                        <td>{{item.accountNumber}}</td>
+                                        <td>{{item.exposure | number : '1.2-2'}}</td>
+                                        <td>{{item.preOverrideResult.impairment | number: '1.2-2'}}</td>
+                                        <td>{{item.preOverrideResult.impairment / item.exposure | percent: '1.2-2'}}</td>
+                                        <td>{{item.postOverrideResult.impairment | number: '1.2-2'}}</td>
+                                        <td>{{item.postOverrideResult.impairment / item.exposure | percent: '1.2-2'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -60,7 +60,9 @@ export class EclOverrideComponent extends AppComponentBase {
                 this._serviceProxy = this._investmentOverrideServiceProxy;
                 break;
             default:
-                throw Error('FrameworkDoesNotExistError');
+                this._serviceProxy = this._investmentOverrideServiceProxy;
+                //throw Error('FrameworkDoesNotExistError');
+                break;
         }
     }
 
@@ -79,7 +81,7 @@ export class EclOverrideComponent extends AppComponentBase {
 
         this.primengTableHelper.showLoadingIndicator();
 
-        this._investmentOverrideServiceProxy.getAll(
+        this._serviceProxy.getAll(
             this._eclId,
             this.filterText,
             this.statusFilter,

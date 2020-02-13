@@ -18,6 +18,7 @@ import { finalize } from 'rxjs/operators';
 import { interval } from 'rxjs';
 import { FakeResultData } from '@app/main/retail/view-retailEcl/view-retailEcl.component';
 import { EclOverrideComponent } from '../_subs/ecl-override/ecl-override.component';
+import { EclResultsComponent } from '../_subs/ecl-results/ecl-results.component';
 
 const secondsCounter = interval(5000);
 
@@ -39,6 +40,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
     @ViewChild('pdInputAssumptionTag', { static: true }) pdInputAssumptionTag: PdInputAssumptionsComponent;
     @ViewChild('UploadPaymentSchedule', { static: true }) excelUploadPaymentSchedule: FileUpload;
     @ViewChild('eclOverrideTag', { static: true }) eclOverrideTag: EclOverrideComponent;
+    @ViewChild('eclResultTag', { static: true }) eclResultTag: EclResultsComponent;
 
     isLoading = false;
     isLoadingUploads = false;
@@ -103,6 +105,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
             this.configureServiceProxies();
             this.configureDataSources();
             this.configureEclOverrideSubComponent();
+            this.configureEclResultSubComponent();
             this.getEclDetails();
             this.getEclUploadSummary();
 
@@ -196,6 +199,10 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
         this.eclOverrideTag.load(this._eclId, this._eclFramework);
     }
 
+    configureEclResultSubComponent(): void {
+        this.eclResultTag.load(this._eclId, this._eclFramework);
+    }
+
     getUploadDto(): any {
         switch (this._eclFramework) {
             case FrameworkEnum.Wholesale:
@@ -244,6 +251,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
                                     this.loadPdAssumptionComponent(result);
                                     console.log(this.showOverride());
                                     this.eclOverrideTag.display(this.showOverride());
+                                    this.eclResultTag.displayResult(this.eclDto.status);
                                 });
         } else {
             throw Error('Function does not exist in service proxy');

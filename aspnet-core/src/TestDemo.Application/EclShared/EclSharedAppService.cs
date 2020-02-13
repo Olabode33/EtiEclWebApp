@@ -43,6 +43,8 @@ namespace TestDemo.EclShared
         private readonly IRepository<InvSecFitchCummulativeDefaultRate, Guid> _invsecFitchCummulativeAssumptionRepository;
         private readonly IRepository<InvSecMacroEconomicAssumption, Guid> _invsecMacroEcoAssumptionRepository;
         private readonly IRepository<InvestmentEclOverrideApproval, Guid> _investmentOverrideApprovalRepository;
+        //Final Result Tables
+        private readonly IRepository<InvestmentEclFinalResult, Guid> _investmentFinalEclResult;
         private readonly UserManager _userManager;
 
         public EclSharedAppService(
@@ -66,6 +68,7 @@ namespace TestDemo.EclShared
             IRepository<InvSecFitchCummulativeDefaultRate, Guid> invsecFitchCummulativeAssumptionRepository,
             IRepository<InvSecMacroEconomicAssumption, Guid> invsecMacroEcoAssumptionRepository,
             IRepository<InvestmentEclOverrideApproval, Guid> investmentOverrideApprovalRepository,
+            IRepository<InvestmentEclFinalResult, Guid> investmentFinalEclResult,
         UserManager userManager)
         {
             _wholesaleEclRepository = wholesaleEclRepository;
@@ -89,6 +92,7 @@ namespace TestDemo.EclShared
             _invsecMacroEcoAssumptionRepository = invsecMacroEcoAssumptionRepository;
             _invsecFitchCummulativeAssumptionRepository = invsecFitchCummulativeAssumptionRepository;
             _investmentOverrideApprovalRepository = investmentOverrideApprovalRepository;
+            _investmentFinalEclResult = investmentFinalEclResult;
         }
 
         public async Task<GetWorkspaceSummaryDataOutput> GetWorkspaceSummaryData()
@@ -200,6 +204,40 @@ namespace TestDemo.EclShared
             return await pagedEcls.ToListAsync();
         }
 
+        public async Task<GetWorkspaceImpairmentSummaryDto> GetWorkspaceImpairmentSummary()
+        {
+            double wholesaleExposure = 0;
+            double wholesalePreOverride = 0;
+            double wholesalePostOverride = 0;
+            double retailExposure = 0;
+            double retailPreOverride = 0;
+            double retailPostOverride = 0;
+            double obeExposure = 0;
+            double obePreOverride = 0;
+            double obePostOverride = 0;
+            double? investmentExposure = await _investmentFinalEclResult.GetAll().SumAsync(x => x.Exposure);
+            double? investmentPreOverride = await _investmentFinalEclResult.GetAll().SumAsync(x => x.Impairment);
+            double? investmentPostOverride = await _investmentFinalEclResult.GetAll().SumAsync(x => x.Impairment);
+
+            return new GetWorkspaceImpairmentSummaryDto
+            {
+                TotalExposure = wholesaleExposure + retailExposure + obeExposure + investmentExposure,
+                TotalPreOverride = wholesalePreOverride + retailPreOverride + obePreOverride + investmentPreOverride,
+                TotalPostOverride = wholesalePostOverride + retailPostOverride + obePostOverride + investmentPostOverride,
+                WholesaleExposure = wholesaleExposure,
+                WholesalePreOverride = wholesalePreOverride,
+                WholesalePostOverride = wholesalePostOverride,
+                RetailExposure = retailExposure,
+                RetailPreOverride = retailPreOverride,
+                RetailPostOverride = retailPostOverride,
+                ObeExposure = obeExposure,
+                ObePreOverride = obePreOverride,
+                ObePostOverride = obePostOverride,
+                InvestmentExposure = investmentExposure,
+                InvestmentPreOverride = investmentPreOverride,
+                InvestmentPostOverride = investmentPostOverride
+            };
+        }
 
         public async Task<PagedResultDto<GetAllEclForWorkspaceDto>> GetAllEclForWorkspace(GetAllEclForWorkspaceInput input)
         {

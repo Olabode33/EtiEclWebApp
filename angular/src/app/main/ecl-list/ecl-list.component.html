@@ -94,10 +94,10 @@
                                 <div class="form-group m-form__group align-items-center">
                                 <select class="form-control" name="IsApprovedFilter" id="IsApprovedFilterSelect" [(ngModel)]="frameworkFilter">
                                     <option value=-1>{{l("SelectFramework")}}</option>
-                                    <option value="frameworkEnum.Wholesale">{{l("Wholesale")}}</option>
-                                    <option value="frameworkEnum.Retail">{{l("Retail")}}</option>
-                                    <option value="frameworkEnum.OBE">{{l("OBE")}}</option>
-                                    <option value="frameworkEnum.Investments">{{l("Investments")}}</option>
+                                    <option [value]="frameworkEnum.Wholesale">{{l("Wholesale")}}</option>
+                                    <option [value]="frameworkEnum.Retail">{{l("Retail")}}</option>
+                                    <option [value]="frameworkEnum.OBE">{{l("OBE")}}</option>
+                                    <option [value]="frameworkEnum.Investments">{{l("Investments")}}</option>
                                 </select>
                                 </div>
                             </div>
@@ -105,12 +105,12 @@
                                     <div class="form-group m-form__group align-items-center">
                                 <select class="form-control" name="IsApprovedFilter" id="IsApprovedFilterSelect" [(ngModel)]="statusFilter">
                                     <option value=-1>{{l("SelectStatus")}}</option>
-                                    <option value="eclStatusEnum.Draft">{{l(eclStatusEnum[eclStatusEnum.Draft])}}</option>
-                                    <option value="eclStatusEnum.Submitted">{{l(eclStatusEnum[eclStatusEnum.Submitted])}}</option>
-                                    <option value="eclStatusEnum.Approved">{{l(eclStatusEnum[eclStatusEnum.Approved])}}</option>
-                                    <option value="eclStatusEnum.PreOverrideComplete">{{l(eclStatusEnum[eclStatusEnum.PreOverrideComplete])}}</option>
-                                    <option value="eclStatusEnum.PostOverrideComplete">{{l(eclStatusEnum[eclStatusEnum.PostOverrideComplete])}}</option>
-                                    <option value="eclStatusEnum.Completed">{{l(eclStatusEnum[eclStatusEnum.Completed])}}</option>
+                                    <option [value]="eclStatusEnum.Draft">{{l(eclStatusEnum[eclStatusEnum.Draft])}}</option>
+                                    <option [value]="eclStatusEnum.Submitted">{{l(eclStatusEnum[eclStatusEnum.Submitted])}}</option>
+                                    <option [value]="eclStatusEnum.Approved">{{l(eclStatusEnum[eclStatusEnum.Approved])}}</option>
+                                    <option [value]="eclStatusEnum.PreOverrideComplete">{{l(eclStatusEnum[eclStatusEnum.PreOverrideComplete])}}</option>
+                                    <option [value]="eclStatusEnum.PostOverrideComplete">{{l(eclStatusEnum[eclStatusEnum.PostOverrideComplete])}}</option>
+                                    <option [value]="eclStatusEnum.Completed">{{l(eclStatusEnum[eclStatusEnum.Completed])}}</option>
                                 </select>
                                 </div>
                             </div>
