@@ -80,7 +80,7 @@
                         </div>
                     </div>
                 </a>
-                <a href="javascript:;" class="kt-notification__item linked-accounts" (click)="showLinkedAccounts()">
+                <!-- <a href="javascript:;" class="kt-notification__item linked-accounts" (click)="showLinkedAccounts()">
                     <div class="kt-notification__item-icon">
                         <i class="flaticon-user-settings"></i>
                     </div>
@@ -106,7 +106,7 @@
                             </a>
                         </li>
                     </ul>
-                </div>
+                </div> -->
                 <a href="javascript:;" class="kt-notification__item" (click)="changePassword()">
                     <div class="kt-notification__item-icon">
                         <i class="flaticon-more-v6"></i>
@@ -155,7 +155,7 @@
                         </div>
                     </div>
                 </a>
-                <a *ngIf="!('Pages.Administration.UiCustomization' | permission)" routerLink="admin/ui-customization" class="kt-notification__item">
+                <!-- <a *ngIf="!('Pages.Administration.UiCustomization' | permission)" routerLink="admin/ui-customization" class="kt-notification__item">
                     <div class="kt-notification__item-icon">
                         <i class="flaticon-medical"></i>
                     </div>
@@ -166,7 +166,7 @@
                             </span>
                         </div>
                     </div>
-                </a>
+                </a> 
                 <a href="javascript:;" class="kt-notification__item" (click)="downloadCollectedData()">
                     <div class="kt-notification__item-icon">
                         <i class="flaticon-download"></i>
@@ -178,7 +178,7 @@
                             </span>
                         </div>
                     </div>
-                </a>
+                </a> -->
                 <div class="kt-notification__custom">
                     <a (click)="logout()" class="btn btn-label-brand btn-sm btn-bold">{{"Logout" | localize}}</a>
                 </div>

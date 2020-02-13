@@ -1,8 +1,16 @@
 <div class="kt-login__form" [@routerTransition]>
-    <div class="kt-login__title">
-        <h3 class="m-0">
-            {{ 'LogIn' | localize }}
-        </h3>
+    <div class="kt-login__divider">
+        <div class="kt-divider">
+            <span></span>
+            <span>
+                <div class="kt-login__title">
+                    <h3 class="m-0 mb-3">
+                        {{ 'LogIn' | localize }}
+                    </h3>
+                </div>    
+            </span>
+            <span></span>
+        </div>
     </div>
 
     <form #loginForm="ngForm" class="kt-form" method="post" novalidate (ngSubmit)="login()">
@@ -17,20 +25,20 @@
             <validation-messages [formCtrl]="passwordInput" *ngIf="!passwordInput.touched"></validation-messages>
         </div>
 
-        <div class="form-group mt-4">
-            <label class="kt-checkbox">
+        <div class="kt-login__actions mt-4">
+            <button type="submit" class="btn btn-primary btn-block btn-elevate kt-login__btn-primary" [disabled]="!loginForm.form.valid">{{"LogIn" | localize}}</button>
+        </div>
+
+        <div class="kt-login__actions mt-4">
+            <a routerLink="/account/forgot-password" id="forget-password" class="kt-link kt-login__link-forgot pull-left">{{"ForgotPassword" | localize}}</a>
+            <label class="kt-checkbox pull-right">
                 <input class="form-control" [(ngModel)]="loginService.rememberMe" type="checkbox" name="rememberMe" value="true" />{{"RememberMe" | localize}}
                 <span></span>
             </label>
         </div>
-
-        <div class="kt-login__actions">
-            <a routerLink="/account/forgot-password" id="forget-password" class="kt-link kt-login__link-forgot">{{"ForgotPassword" | localize}}</a>
-            <button type="submit" class="btn btn-primary btn-elevate kt-login__btn-primary" [disabled]="!loginForm.form.valid">{{"LogIn" | localize}}</button>
-        </div>
     </form>
 
-    <div class="kt-login__divider">
+    <!-- <div class="kt-login__divider">
         <div class="kt-divider">
             <span></span>
             <span>{{"LoginWith" | localize}}</span>
@@ -43,10 +51,10 @@
             <i class="fab fa-{{provider.icon}}"></i>
             {{provider.name}}
         </a>
-    </div>
+    </div> -->
 
 </div>
-<div class="kt-login__account">
+<!-- <div class="kt-login__account">
     <span *ngIf="isSelfRegistrationAllowed">
         <a routerLink="/account/register">{{"CreateAnAccount" | localize}}</a>
         <span> | </span>
@@ -56,4 +64,4 @@
         <span> | </span>
     </span>
     <a routerLink="/account/email-activation" id="email-activation-btn">{{"EmailActivation" | localize}}</a>
-</div>
+</div> -->

@@ -63,7 +63,7 @@
                                 <timezone-combo name="Timezone" [(ngModel)]="user.timezone" defaultTimezoneScope="{{defaultTimezoneScope}}"></timezone-combo>
                             </div>
                         </tab>
-                        <tab *ngIf="!isMultiTenancyEnabled || isTwoFactorLoginEnabledForApplication" heading="{{'TwoFactorLogin' | localize}}">
+                        <!-- <tab *ngIf="!isMultiTenancyEnabled || isTwoFactorLoginEnabledForApplication" heading="{{'TwoFactorLogin' | localize}}">
                             <div>
                                 <h4>
                                     Google Authenticator
@@ -86,7 +86,7 @@
                                 </div>
 
                             </div>
-                        </tab>
+                        </tab> -->
                     </tabset>
                 </div>
                 <div class="modal-footer">

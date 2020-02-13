@@ -6,6 +6,27 @@
     /// </summary>
     public static class AppPermissions
     {
+        //Final 
+        //Assumptions
+        public const string Pages_AssumptionsUpdate = "Pages.Assumption.Affiliates";
+        public const string Pages_AssumptionsUpdate_Review = "Pages.Assumption.Affiliates.Review";
+
+        //Workspace
+        public const string Pages_Workspace = "Pages.Workspace";
+        public const string Pages_Workspace_CreateEcl = "Pages.Workspace.CreateEcl";
+        public const string Pages_Workspace_Dashboard = "Pages.Workspace.Dashboard";
+
+        //Ecl View
+        public const string Pages_EclView = "Pages.EclView";
+        public const string Pages_EclView_Edit = "Pages.EclView.Edit";
+        public const string Pages_EclView_Upload = "Pages.EclView.Upload";
+        public const string Pages_EclView_Submit = "Pages.EclView.Submit";
+        public const string Pages_EclView_Review = "Pages.EclView.Review";
+        public const string Pages_EclView_Run = "Pages.EclView.Run";
+        public const string Pages_EclView_Override = "Pages.EclView.Override";
+
+
+        //RAD Persmissions
         public const string Pages_InvestmentEclOverrideApprovals = "Pages.InvestmentEclOverrideApprovals";
         public const string Pages_InvestmentEclOverrideApprovals_Create = "Pages.InvestmentEclOverrideApprovals.Create";
         public const string Pages_InvestmentEclOverrideApprovals_Edit = "Pages.InvestmentEclOverrideApprovals.Edit";
@@ -106,27 +127,6 @@
         public const string Pages_MacroeconomicVariables_Edit = "Pages.MacroeconomicVariables.Edit";
         public const string Pages_MacroeconomicVariables_Delete = "Pages.MacroeconomicVariables.Delete";
 
-        //Final 
-        //Assumptions
-        public const string Pages_AssumptionsUpdate = "Pages.Assumption.Affiliates";
-
-        //Workspace
-        public const string Pages_Workspace = "Pages.Workspace";
-        public const string Pages_Workspace_CreateEcl = "Pages.Workspace.CreateEcl";
-        public const string Pages_Workspace_Dashboard = "Pages.Workspace.Dashboard";
-
-        //Ecl View
-        public const string Pages_EclView = "Pages.EclView";
-        public const string Pages_EclView_Edit = "Pages.EclView.Edit";
-        public const string Pages_EclView_Upload = "Pages.EclView.Upload";
-        public const string Pages_EclView_Submit = "Pages.EclView.Submit";
-        public const string Pages_EclView_Review = "Pages.EclView.Review";
-        public const string Pages_EclView_Run = "Pages.EclView.Run";
-        public const string Pages_EclView_Override = "Pages.EclView.Override";
-      
-
-
-        //RAD Persmissions
         public const string Pages_ObeEclPdAssumptionNonInternalModels = "Pages.ObeEclPdAssumptionNonInternalModels";
         public const string Pages_ObeEclPdAssumptionNonInternalModels_Create = "Pages.ObeEclPdAssumptionNonInternalModels.Create";
         public const string Pages_ObeEclPdAssumptionNonInternalModels_Edit = "Pages.ObeEclPdAssumptionNonInternalModels.Edit";
