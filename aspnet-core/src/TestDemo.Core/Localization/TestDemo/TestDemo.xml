@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+    <text name="ReviewOverride">Reivew Override</text>
     <text name="DateCreated">Date created</text>
     <text name="ApplyToSelected">Apply to selected</text>
     <text name="ApplyToAll">Apply to all</text>
