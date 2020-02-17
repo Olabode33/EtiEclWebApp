@@ -1,6 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+    <text name="DateCreated">Date created</text>
+    <text name="ApplyToSelected">Apply to selected</text>
+    <text name="ApplyToAll">Apply to all</text>
+    <text name="ReviewAppliedOverrides">Review applied overrides</text>
+    <text name="RunEclComputation">Run ECL computation</text>
+    <text name="ReviewSubmittedEcl">Review submitted Ecl</text>
+    <text name="SubmtEclForApproval">Submit ECL for approval</text>
+    <text name="UploadEclData">Update ECL data</text>
+    <text name="ViewDashboard">View dashboard</text>
+    <text name="CreateNewEcl">Create New Ecl</text>
+    <text name="ReviewUpdatedAssumption">Review updated assumption</text>
     <text name="Total20Exposure">Top 20 Exposure Summary</text>
     <text name="TotalExposure">Total Exposure</text>
     <text name="TotalPreImpairment">Total Impairment (Pre-Override)</text>
@@ -44,8 +55,8 @@
     <text name="ApplyOverride">Apply Override</text>
     <text name="NoOverridesFound">No overrides available for this ECL</text>
     <text name="OverrideAndOverlay">Overrides and Overlays</text>
-    <text name="PreOverrideComplete">Pre-override Complete</text>
-    <text name="PostOverrideComplete">Post-override Complete</text>
+    <text name="PreOverrideComplete">Pre-override</text>
+    <text name="PostOverrideComplete">Post-override</text>
     <text name="InvestmentEclOverrideApproval">Investment ecl override approval</text>
     <text name="CreateNewInvestmentEclOverrideApproval">Create new investment ecl override approval</text>
     <text name="EditInvestmentEclOverrideApproval">Edit investment ecl override approval</text>
@@ -129,7 +140,7 @@
     <text name="DisplayName">Display name</text>
     <text name="EclConfigurationsHeaderInfo">Manage configuration options that applies to all affiliates</text>
     <text name="CreateNewEclConfiguration">Create new ecl configuration</text>
-    <text name="EditEclConfiguration">Edit ecl configuration</text>
+    <text name="EditEclConfiguration">Update ecl configuration</text>
     <text name="DeleteEclConfiguration">Delete ecl configuration</text>
     <text name="EclConfigurations">General</text>
     <text name="EclConfig">Ecl config</text>
@@ -171,6 +182,7 @@
     <text name="UploadRecordExists">A record already exists for the uploaded document type!</text>
     <text name="LoanBook">Loanbook Snapshot</text>
     <text name="PaymentSchedule">Payment Schedule</text>
+    <text name="AssetBook">Asset book</text>
     <text name="UploadedSuccessfully">Uploaded Successfully!</text>
     <text name="ImportEclDataFailed">Ecl data import process has failed!</text>
     <text name="UploadSummary">Upload Summary</text>
@@ -378,8 +390,8 @@
     <text name="LookingForMpaVersion">Looking for Multi-Page Application Version?</text>
     <text name="LookingForSpaVersion">Looking for Single-Page Application Version?</text>
     <text name="ThisLanguageAlreadyExists">This language already exists!</text>
-    <text name="OrganizationUnitsHeaderInfo">Use organization units to organize users and entities</text>
-    <text name="OrganizationTree">Organization tree</text>
+    <text name="OrganizationUnitsHeaderInfo">Manage affiliate users</text>
+    <text name="OrganizationTree">Affiliates</text>
     <text name="Members">Members</text>
     <text name="SelectAnOrganizationUnitToSeeMembers">Select an organization unit to see members.</text>
     <text name="OrganizationUnitDeleteWarningMessage">Are you sure to delete organization unit {0}?</text>
@@ -758,7 +770,7 @@
     <text name="YourPhoneNumberIsNotVerified">Your phone number is not verified</text>
     <text name="WrongSmsVerificationCode">Wrong verification code!</text>
     <text name="SelectUsers">Select users</text>
-    <text name="OrganizationUnits">Organization Units</text>
+    <text name="OrganizationUnits">Manage affiliates</text>
     <text name="YouCanManageUsersOrganizationUnitsFromOrganizationUnitsPage">You can manage User's organization units From Organization Units page.</text>
     <text name="DemoUiComponents">Demo UI Components</text>
     <text name="DateAndTimePickers">Date and Time Pickers</text>

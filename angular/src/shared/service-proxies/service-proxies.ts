@@ -6782,6 +6782,60 @@ export class InvestmentEclApprovalsServiceProxy {
      * @param id (optional) 
      * @return Success
      */
+    getEclAudit(id: string | null | undefined): Observable<EclAuditInfoDto> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEclApprovals/GetEclAudit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetEclAudit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetEclAudit(<any>response_);
+                } catch (e) {
+                    return <Observable<EclAuditInfoDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<EclAuditInfoDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetEclAudit(response: HttpResponseBase): Observable<EclAuditInfoDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? EclAuditInfoDto.fromJS(resultData200) : new EclAuditInfoDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<EclAuditInfoDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
     getInvestmentEclApprovalForEdit(id: string | null | undefined): Observable<GetInvestmentEclApprovalForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/InvestmentEclApprovals/GetInvestmentEclApprovalForEdit?";
         if (id !== undefined)
@@ -52748,6 +52802,118 @@ export interface IInvestmentEclApprovalDto {
     reviewedByUserId: number | undefined;
     investmentEclId: string | undefined;
     id: string | undefined;
+}
+
+export class EclAuditInfoDto implements IEclAuditInfoDto {
+    dateCreated!: moment.Moment | undefined;
+    createdBy!: string | undefined;
+    lastUpdated!: moment.Moment | undefined;
+    updatedBy!: string | undefined;
+    approvals!: EclApprovalAuditInfoDto[] | undefined;
+
+    constructor(data?: IEclAuditInfoDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.dateCreated = data["dateCreated"] ? moment(data["dateCreated"].toString()) : <any>undefined;
+            this.createdBy = data["createdBy"];
+            this.lastUpdated = data["lastUpdated"] ? moment(data["lastUpdated"].toString()) : <any>undefined;
+            this.updatedBy = data["updatedBy"];
+            if (data["approvals"] && data["approvals"].constructor === Array) {
+                this.approvals = [] as any;
+                for (let item of data["approvals"])
+                    this.approvals!.push(EclApprovalAuditInfoDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): EclAuditInfoDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new EclAuditInfoDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["dateCreated"] = this.dateCreated ? this.dateCreated.toISOString() : <any>undefined;
+        data["createdBy"] = this.createdBy;
+        data["lastUpdated"] = this.lastUpdated ? this.lastUpdated.toISOString() : <any>undefined;
+        data["updatedBy"] = this.updatedBy;
+        if (this.approvals && this.approvals.constructor === Array) {
+            data["approvals"] = [];
+            for (let item of this.approvals)
+                data["approvals"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IEclAuditInfoDto {
+    dateCreated: moment.Moment | undefined;
+    createdBy: string | undefined;
+    lastUpdated: moment.Moment | undefined;
+    updatedBy: string | undefined;
+    approvals: EclApprovalAuditInfoDto[] | undefined;
+}
+
+export class EclApprovalAuditInfoDto implements IEclApprovalAuditInfoDto {
+    reviewedDate!: moment.Moment | undefined;
+    status!: GeneralStatusEnum | undefined;
+    reviewedBy!: string | undefined;
+    reviewComment!: string | undefined;
+    eclId!: string | undefined;
+
+    constructor(data?: IEclApprovalAuditInfoDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.reviewedDate = data["reviewedDate"] ? moment(data["reviewedDate"].toString()) : <any>undefined;
+            this.status = data["status"];
+            this.reviewedBy = data["reviewedBy"];
+            this.reviewComment = data["reviewComment"];
+            this.eclId = data["eclId"];
+        }
+    }
+
+    static fromJS(data: any): EclApprovalAuditInfoDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new EclApprovalAuditInfoDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["reviewedDate"] = this.reviewedDate ? this.reviewedDate.toISOString() : <any>undefined;
+        data["status"] = this.status;
+        data["reviewedBy"] = this.reviewedBy;
+        data["reviewComment"] = this.reviewComment;
+        data["eclId"] = this.eclId;
+        return data; 
+    }
+}
+
+export interface IEclApprovalAuditInfoDto {
+    reviewedDate: moment.Moment | undefined;
+    status: GeneralStatusEnum | undefined;
+    reviewedBy: string | undefined;
+    reviewComment: string | undefined;
+    eclId: string | undefined;
 }
 
 export class GetInvestmentEclApprovalForEditOutput implements IGetInvestmentEclApprovalForEditOutput {

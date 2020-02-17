@@ -24,6 +24,10 @@
         public const string Pages_EclView_Review = "Pages.EclView.Review";
         public const string Pages_EclView_Run = "Pages.EclView.Run";
         public const string Pages_EclView_Override = "Pages.EclView.Override";
+        public const string Pages_EclView_Override_Review = "Pages.EclView.Override.Review";
+
+        //Configuration
+        public const string Pages_Configuration = "Pages.Configurations";
 
 
         //RAD Persmissions

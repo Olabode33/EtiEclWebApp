@@ -69,13 +69,13 @@ export class EclResultsComponent extends AppComponentBase {
     }
 
     getResultSummary(): void {
-        this._investmentEclResultServiceProxy.getResultSummary(this._eclId).subscribe(result => {
+        this._serviceProxy.getResultSummary(this._eclId).subscribe(result => {
             this.resultSummary = result;
         });
     }
 
     getTop20Exposure(): void {
-        this._investmentEclResultServiceProxy.getTop20Exposure(this._eclId).subscribe(result => {
+        this._serviceProxy.getTop20Exposure(this._eclId).subscribe(result => {
             this.top20Exposures = result;
         });
     }

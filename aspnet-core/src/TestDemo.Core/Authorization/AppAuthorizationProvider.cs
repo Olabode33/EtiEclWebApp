@@ -30,6 +30,28 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+
+            //Final Permissions List
+            var assumptionsUpdate = pages.CreateChildPermission(AppPermissions.Pages_AssumptionsUpdate, L("Assumptions"));
+            assumptionsUpdate.CreateChildPermission(AppPermissions.Pages_AssumptionsUpdate_Review, L("ReviewUpdatedAssumption"));
+
+            var workspace = pages.CreateChildPermission(AppPermissions.Pages_Workspace, L("Workspace"));
+            workspace.CreateChildPermission(AppPermissions.Pages_Workspace_CreateEcl, L("CreateNewEcl"));
+            workspace.CreateChildPermission(AppPermissions.Pages_Workspace_Dashboard, L("ViewDashboard"));
+
+            var eclView = pages.CreateChildPermission(AppPermissions.Pages_EclView, L("ViewEcl"));
+            eclView.CreateChildPermission(AppPermissions.Pages_EclView_Edit, L("EditEclRecord"));
+            eclView.CreateChildPermission(AppPermissions.Pages_EclView_Upload, L("UploadEclData"));
+            eclView.CreateChildPermission(AppPermissions.Pages_EclView_Submit, L("SubmtEclForApproval"));
+            eclView.CreateChildPermission(AppPermissions.Pages_EclView_Review, L("ReviewSubmittedEcl"));
+            eclView.CreateChildPermission(AppPermissions.Pages_EclView_Run, L("RunEclComputation"));
+            eclView.CreateChildPermission(AppPermissions.Pages_EclView_Override, L("ApplyOverride"));
+            eclView.CreateChildPermission(AppPermissions.Pages_EclView_Override_Review, L("ReviewAppliedOverrides"));
+
+            var configuration = pages.CreateChildPermission(AppPermissions.Pages_Configuration, L("EditEclConfiguration"));
+
+            //Rad Permission
+
             var investmentEclOverrideApprovals = pages.CreateChildPermission(AppPermissions.Pages_InvestmentEclOverrideApprovals, L("InvestmentEclOverrideApprovals"));
             investmentEclOverrideApprovals.CreateChildPermission(AppPermissions.Pages_InvestmentEclOverrideApprovals_Create, L("CreateNewInvestmentEclOverrideApproval"));
             investmentEclOverrideApprovals.CreateChildPermission(AppPermissions.Pages_InvestmentEclOverrideApprovals_Edit, L("EditInvestmentEclOverrideApproval"));
@@ -169,23 +191,6 @@ namespace TestDemo.Authorization
             macroeconomicVariables.CreateChildPermission(AppPermissions.Pages_MacroeconomicVariables_Delete, L("DeleteMacroeconomicVariable"));
 
 
-
-            //Final Permissions List
-            var assumptionsUpdate = pages.CreateChildPermission(AppPermissions.Pages_AssumptionsUpdate, L("Assumptions"));
-
-            var workspace = pages.CreateChildPermission(AppPermissions.Pages_Workspace, L("Workspace"));
-            workspace.CreateChildPermission(AppPermissions.Pages_Workspace_CreateEcl, L("CreateEcl"));
-            workspace.CreateChildPermission(AppPermissions.Pages_Workspace_Dashboard, L("ViewDashboard"));
-
-            var eclView = pages.CreateChildPermission(AppPermissions.Pages_EclView, L("ViewEcl"));
-            eclView.CreateChildPermission(AppPermissions.Pages_EclView_Edit, L("EditEclRecord"));
-            eclView.CreateChildPermission(AppPermissions.Pages_EclView_Upload, L("UploadEclData"));
-            eclView.CreateChildPermission(AppPermissions.Pages_EclView_Submit, L("SubmtEclApproval"));
-            eclView.CreateChildPermission(AppPermissions.Pages_EclView_Review, L("ReviewEcl"));
-            eclView.CreateChildPermission(AppPermissions.Pages_EclView_Run, L("RunEclComputation"));
-            eclView.CreateChildPermission(AppPermissions.Pages_EclView_Override, L("ApplyOverride"));
-
-            //Rad Permission
             var obeEclPdAssumptionNonInternalModels = pages.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptionNonInternalModels, L("ObeEclPdAssumptionNonInternalModels"));
             obeEclPdAssumptionNonInternalModels.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptionNonInternalModels_Create, L("CreateNewObeEclPdAssumptionNonInternalModel"));
             obeEclPdAssumptionNonInternalModels.CreateChildPermission(AppPermissions.Pages_ObeEclPdAssumptionNonInternalModels_Edit, L("EditObeEclPdAssumptionNonInternalModel"));

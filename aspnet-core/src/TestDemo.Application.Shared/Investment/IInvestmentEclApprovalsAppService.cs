@@ -4,6 +4,7 @@ using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using TestDemo.Investment.Dtos;
 using TestDemo.Dto;
+using System.Collections.Generic;
 
 namespace TestDemo.Investment
 {
@@ -12,6 +13,8 @@ namespace TestDemo.Investment
         Task<PagedResultDto<GetInvestmentEclApprovalForViewDto>> GetAll(GetAllInvestmentEclApprovalsInput input);
 
 		Task<GetInvestmentEclApprovalForEditOutput> GetInvestmentEclApprovalForEdit(EntityDto<Guid> input);
+
+		Task<EclAuditInfoDto> GetEclAudit(EntityDto<Guid> input);
 
 		Task CreateOrEdit(CreateOrEditInvestmentEclApprovalDto input);
 

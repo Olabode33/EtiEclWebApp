@@ -19,6 +19,7 @@ import { interval } from 'rxjs';
 import { FakeResultData } from '@app/main/retail/view-retailEcl/view-retailEcl.component';
 import { EclOverrideComponent } from '../_subs/ecl-override/ecl-override.component';
 import { EclResultsComponent } from '../_subs/ecl-results/ecl-results.component';
+import { EclAuditInfoComponent } from '../_subs/ecl-audit-info/ecl-audit-info.component';
 
 const secondsCounter = interval(5000);
 
@@ -41,6 +42,8 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
     @ViewChild('UploadPaymentSchedule', { static: true }) excelUploadPaymentSchedule: FileUpload;
     @ViewChild('eclOverrideTag', { static: true }) eclOverrideTag: EclOverrideComponent;
     @ViewChild('eclResultTag', { static: true }) eclResultTag: EclResultsComponent;
+    @ViewChild('eclAuditInfoTag', { static: true }) eclAuditInfoTag: EclAuditInfoComponent;
+
 
     isLoading = false;
     isLoadingUploads = false;
@@ -106,6 +109,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
             this.configureDataSources();
             this.configureEclOverrideSubComponent();
             this.configureEclResultSubComponent();
+            this.configureEclAuditInfoSubComponent();
             this.getEclDetails();
             this.getEclUploadSummary();
 
@@ -201,6 +205,10 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
 
     configureEclResultSubComponent(): void {
         this.eclResultTag.load(this._eclId, this._eclFramework);
+    }
+
+    configureEclAuditInfoSubComponent(): void {
+        this.eclAuditInfoTag.load(this._eclId, this._eclFramework);
     }
 
     getUploadDto(): any {

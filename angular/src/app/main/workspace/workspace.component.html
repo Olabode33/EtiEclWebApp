@@ -22,7 +22,7 @@
     </div>
     <div class="kt-content">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6" *ngIf="isGranted('Pages.Assumption.Affiliates')">
                 <div class="kt-portlet kt-callout kt-callout--danger kt-callout--diagonal-bg kt-portlet--height-fluid">
                     <div class="kt-portlet__body">
                         <div class="kt-callout__body">
@@ -40,7 +40,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-6" *ngIf="isGranted('Pages.Assumption.Affiliates.Review')">
                 <div class="kt-portlet kt-callout kt-callout--danger kt-callout--diagonal-bg kt-portlet--height-fluid">
                     <div class="kt-portlet__body">
                         <div class="kt-callout__body">
@@ -60,7 +60,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4" *ngIf="isGranted('Pages.Workspace.CreateEcl')">
                 <div class="kt-portlet kt-callout kt-callout--danger kt-callout--diagonal-bg kt-portlet--height-fluid">
                     <div class="kt-portlet__body">
                         <div class="kt-callout__body">
@@ -80,7 +80,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-4" *ngIf="isGranted('Pages.EclView.Submit')">
                 <div class="kt-portlet kt-callout kt-callout--danger kt-callout--diagonal-bg kt-portlet--height-fluid">
                     <div class="kt-portlet__body">
                         <div class="kt-callout__body">
@@ -98,7 +98,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-4" *ngIf="isGranted('Pages.EclView.Review')">
                 <div class="kt-portlet kt-callout kt-callout--danger kt-callout--diagonal-bg kt-portlet--height-fluid">
                     <div class="kt-portlet__body">
                         <div class="kt-callout__body">
@@ -118,7 +118,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4" *ngIf="isGranted('Pages.EclView.Override')">
                 <div class="kt-portlet kt-callout kt-callout--danger kt-callout--diagonal-bg kt-portlet--height-fluid">
                     <div class="kt-portlet__body">
                         <div class="kt-callout__body">
@@ -136,7 +136,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-4" *ngIf="isGranted('Pages.EclView.Override.Review')">
                 <div class="kt-portlet kt-callout kt-callout--danger kt-callout--diagonal-bg kt-portlet--height-fluid">
                     <div class="kt-portlet__body">
                         <div class="kt-callout__body">
