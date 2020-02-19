@@ -3514,7 +3514,7 @@ export class EadInputAssumptionsServiceProxy {
 }
 
 @Injectable()
-export class EclConfigurationsServiceProxy {
+export class EclSettingsServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -3525,25 +3525,10 @@ export class EclConfigurationsServiceProxy {
     }
 
     /**
-     * @param filter (optional) 
-     * @param dataTypeFilter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | null | undefined, dataTypeFilter: number | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetEclConfigurationForViewDto> {
-        let url_ = this.baseUrl + "/api/services/app/EclConfigurations/GetAll?";
-        if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (dataTypeFilter !== undefined)
-            url_ += "DataTypeFilter=" + encodeURIComponent("" + dataTypeFilter) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+    getAllSettings(): Observable<EclSettingsEditDto> {
+        let url_ = this.baseUrl + "/api/services/app/EclSettings/GetAllSettings";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -3555,20 +3540,20 @@ export class EclConfigurationsServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAll(response_);
+            return this.processGetAllSettings(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAll(<any>response_);
+                    return this.processGetAllSettings(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfGetEclConfigurationForViewDto>><any>_observableThrow(e);
+                    return <Observable<EclSettingsEditDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfGetEclConfigurationForViewDto>><any>_observableThrow(response_);
+                return <Observable<EclSettingsEditDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetEclConfigurationForViewDto> {
+    protected processGetAllSettings(response: HttpResponseBase): Observable<EclSettingsEditDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -3579,7 +3564,7 @@ export class EclConfigurationsServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfGetEclConfigurationForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetEclConfigurationForViewDto();
+            result200 = resultData200 ? EclSettingsEditDto.fromJS(resultData200) : new EclSettingsEditDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -3587,69 +3572,15 @@ export class EclConfigurationsServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfGetEclConfigurationForViewDto>(<any>null);
-    }
-
-    /**
-     * @param id (optional) 
-     * @return Success
-     */
-    getEclConfigurationForEdit(id: number | null | undefined): Observable<GetEclConfigurationForEditOutput> {
-        let url_ = this.baseUrl + "/api/services/app/EclConfigurations/GetEclConfigurationForEdit?";
-        if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetEclConfigurationForEdit(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetEclConfigurationForEdit(<any>response_);
-                } catch (e) {
-                    return <Observable<GetEclConfigurationForEditOutput>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<GetEclConfigurationForEditOutput>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetEclConfigurationForEdit(response: HttpResponseBase): Observable<GetEclConfigurationForEditOutput> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? GetEclConfigurationForEditOutput.fromJS(resultData200) : new GetEclConfigurationForEditOutput();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<GetEclConfigurationForEditOutput>(<any>null);
+        return _observableOf<EclSettingsEditDto>(<any>null);
     }
 
     /**
      * @param input (optional) 
      * @return Success
      */
-    createOrEdit(input: CreateOrEditEclConfigurationDto | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/EclConfigurations/CreateOrEdit";
+    updateAllSettings(input: EclSettingsEditDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/EclSettings/UpdateAllSettings";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -3663,12 +3594,12 @@ export class EclConfigurationsServiceProxy {
             })
         };
 
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreateOrEdit(response_);
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateAllSettings(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCreateOrEdit(<any>response_);
+                    return this.processUpdateAllSettings(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -3677,57 +3608,7 @@ export class EclConfigurationsServiceProxy {
         }));
     }
 
-    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param id (optional) 
-     * @return Success
-     */
-    delete(id: number | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/EclConfigurations/Delete?";
-        if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDelete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDelete(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processDelete(response: HttpResponseBase): Observable<void> {
+    protected processUpdateAllSettings(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -48508,11 +48389,14 @@ export interface ICreateOrEditEadInputAssumptionDto {
     id: string | undefined;
 }
 
-export class PagedResultDtoOfGetEclConfigurationForViewDto implements IPagedResultDtoOfGetEclConfigurationForViewDto {
-    totalCount!: number | undefined;
-    items!: GetEclConfigurationForViewDto[] | undefined;
+export class EclSettingsEditDto implements IEclSettingsEditDto {
+    overrideCutOffTime!: moment.Moment | undefined;
+    requiredNumberOfApprovals!: number | undefined;
+    loanBookSnapshot!: LoanBookSnapshotEditDto | undefined;
+    paymentSchedule!: PaymentScheduleEditDto | undefined;
+    assetBook!: AssetBookSettingsEditDto | undefined;
 
-    constructor(data?: IPagedResultDtoOfGetEclConfigurationForViewDto) {
+    constructor(data?: IEclSettingsEditDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -48523,43 +48407,46 @@ export class PagedResultDtoOfGetEclConfigurationForViewDto implements IPagedResu
 
     init(data?: any) {
         if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(GetEclConfigurationForViewDto.fromJS(item));
-            }
+            this.overrideCutOffTime = data["overrideCutOffTime"] ? moment(data["overrideCutOffTime"].toString()) : <any>undefined;
+            this.requiredNumberOfApprovals = data["requiredNumberOfApprovals"];
+            this.loanBookSnapshot = data["loanBookSnapshot"] ? LoanBookSnapshotEditDto.fromJS(data["loanBookSnapshot"]) : <any>undefined;
+            this.paymentSchedule = data["paymentSchedule"] ? PaymentScheduleEditDto.fromJS(data["paymentSchedule"]) : <any>undefined;
+            this.assetBook = data["assetBook"] ? AssetBookSettingsEditDto.fromJS(data["assetBook"]) : <any>undefined;
         }
     }
 
-    static fromJS(data: any): PagedResultDtoOfGetEclConfigurationForViewDto {
+    static fromJS(data: any): EclSettingsEditDto {
         data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfGetEclConfigurationForViewDto();
+        let result = new EclSettingsEditDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
+        data["overrideCutOffTime"] = this.overrideCutOffTime ? this.overrideCutOffTime.toISOString() : <any>undefined;
+        data["requiredNumberOfApprovals"] = this.requiredNumberOfApprovals;
+        data["loanBookSnapshot"] = this.loanBookSnapshot ? this.loanBookSnapshot.toJSON() : <any>undefined;
+        data["paymentSchedule"] = this.paymentSchedule ? this.paymentSchedule.toJSON() : <any>undefined;
+        data["assetBook"] = this.assetBook ? this.assetBook.toJSON() : <any>undefined;
         return data; 
     }
 }
 
-export interface IPagedResultDtoOfGetEclConfigurationForViewDto {
-    totalCount: number | undefined;
-    items: GetEclConfigurationForViewDto[] | undefined;
+export interface IEclSettingsEditDto {
+    overrideCutOffTime: moment.Moment | undefined;
+    requiredNumberOfApprovals: number | undefined;
+    loanBookSnapshot: LoanBookSnapshotEditDto | undefined;
+    paymentSchedule: PaymentScheduleEditDto | undefined;
+    assetBook: AssetBookSettingsEditDto | undefined;
 }
 
-export class GetEclConfigurationForViewDto implements IGetEclConfigurationForViewDto {
-    eclConfiguration!: EclConfigurationDto | undefined;
+export class LoanBookSnapshotEditDto implements ILoanBookSnapshotEditDto {
+    wholesaleStaging!: boolean | undefined;
+    retailStaging!: boolean | undefined;
+    obeStaging!: boolean | undefined;
 
-    constructor(data?: IGetEclConfigurationForViewDto) {
+    constructor(data?: ILoanBookSnapshotEditDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -48570,35 +48457,40 @@ export class GetEclConfigurationForViewDto implements IGetEclConfigurationForVie
 
     init(data?: any) {
         if (data) {
-            this.eclConfiguration = data["eclConfiguration"] ? EclConfigurationDto.fromJS(data["eclConfiguration"]) : <any>undefined;
+            this.wholesaleStaging = data["wholesaleStaging"];
+            this.retailStaging = data["retailStaging"];
+            this.obeStaging = data["obeStaging"];
         }
     }
 
-    static fromJS(data: any): GetEclConfigurationForViewDto {
+    static fromJS(data: any): LoanBookSnapshotEditDto {
         data = typeof data === 'object' ? data : {};
-        let result = new GetEclConfigurationForViewDto();
+        let result = new LoanBookSnapshotEditDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["eclConfiguration"] = this.eclConfiguration ? this.eclConfiguration.toJSON() : <any>undefined;
+        data["wholesaleStaging"] = this.wholesaleStaging;
+        data["retailStaging"] = this.retailStaging;
+        data["obeStaging"] = this.obeStaging;
         return data; 
     }
 }
 
-export interface IGetEclConfigurationForViewDto {
-    eclConfiguration: EclConfigurationDto | undefined;
+export interface ILoanBookSnapshotEditDto {
+    wholesaleStaging: boolean | undefined;
+    retailStaging: boolean | undefined;
+    obeStaging: boolean | undefined;
 }
 
-export class EclConfigurationDto implements IEclConfigurationDto {
-    displayName!: string | undefined;
-    value!: string | undefined;
-    dataType!: DataTypeEnum | undefined;
-    id!: number | undefined;
+export class PaymentScheduleEditDto implements IPaymentScheduleEditDto {
+    wholesaleStaging!: boolean | undefined;
+    retailStaging!: boolean | undefined;
+    obeStaging!: boolean | undefined;
 
-    constructor(data?: IEclConfigurationDto) {
+    constructor(data?: IPaymentScheduleEditDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -48609,41 +48501,38 @@ export class EclConfigurationDto implements IEclConfigurationDto {
 
     init(data?: any) {
         if (data) {
-            this.displayName = data["displayName"];
-            this.value = data["value"];
-            this.dataType = data["dataType"];
-            this.id = data["id"];
+            this.wholesaleStaging = data["wholesaleStaging"];
+            this.retailStaging = data["retailStaging"];
+            this.obeStaging = data["obeStaging"];
         }
     }
 
-    static fromJS(data: any): EclConfigurationDto {
+    static fromJS(data: any): PaymentScheduleEditDto {
         data = typeof data === 'object' ? data : {};
-        let result = new EclConfigurationDto();
+        let result = new PaymentScheduleEditDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["displayName"] = this.displayName;
-        data["value"] = this.value;
-        data["dataType"] = this.dataType;
-        data["id"] = this.id;
+        data["wholesaleStaging"] = this.wholesaleStaging;
+        data["retailStaging"] = this.retailStaging;
+        data["obeStaging"] = this.obeStaging;
         return data; 
     }
 }
 
-export interface IEclConfigurationDto {
-    displayName: string | undefined;
-    value: string | undefined;
-    dataType: DataTypeEnum | undefined;
-    id: number | undefined;
+export interface IPaymentScheduleEditDto {
+    wholesaleStaging: boolean | undefined;
+    retailStaging: boolean | undefined;
+    obeStaging: boolean | undefined;
 }
 
-export class GetEclConfigurationForEditOutput implements IGetEclConfigurationForEditOutput {
-    eclConfiguration!: CreateOrEditEclConfigurationDto | undefined;
+export class AssetBookSettingsEditDto implements IAssetBookSettingsEditDto {
+    invesmentStaging!: boolean | undefined;
 
-    constructor(data?: IGetEclConfigurationForEditOutput) {
+    constructor(data?: IAssetBookSettingsEditDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -48654,78 +48543,26 @@ export class GetEclConfigurationForEditOutput implements IGetEclConfigurationFor
 
     init(data?: any) {
         if (data) {
-            this.eclConfiguration = data["eclConfiguration"] ? CreateOrEditEclConfigurationDto.fromJS(data["eclConfiguration"]) : <any>undefined;
+            this.invesmentStaging = data["invesmentStaging"];
         }
     }
 
-    static fromJS(data: any): GetEclConfigurationForEditOutput {
+    static fromJS(data: any): AssetBookSettingsEditDto {
         data = typeof data === 'object' ? data : {};
-        let result = new GetEclConfigurationForEditOutput();
+        let result = new AssetBookSettingsEditDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["eclConfiguration"] = this.eclConfiguration ? this.eclConfiguration.toJSON() : <any>undefined;
+        data["invesmentStaging"] = this.invesmentStaging;
         return data; 
     }
 }
 
-export interface IGetEclConfigurationForEditOutput {
-    eclConfiguration: CreateOrEditEclConfigurationDto | undefined;
-}
-
-export class CreateOrEditEclConfigurationDto implements ICreateOrEditEclConfigurationDto {
-    propertyKey!: string | undefined;
-    displayName!: string | undefined;
-    value!: string | undefined;
-    dataType!: DataTypeEnum | undefined;
-    id!: number | undefined;
-
-    constructor(data?: ICreateOrEditEclConfigurationDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.propertyKey = data["propertyKey"];
-            this.displayName = data["displayName"];
-            this.value = data["value"];
-            this.dataType = data["dataType"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): CreateOrEditEclConfigurationDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new CreateOrEditEclConfigurationDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["propertyKey"] = this.propertyKey;
-        data["displayName"] = this.displayName;
-        data["value"] = this.value;
-        data["dataType"] = this.dataType;
-        data["id"] = this.id;
-        return data; 
-    }
-}
-
-export interface ICreateOrEditEclConfigurationDto {
-    propertyKey: string | undefined;
-    displayName: string | undefined;
-    value: string | undefined;
-    dataType: DataTypeEnum | undefined;
-    id: number | undefined;
+export interface IAssetBookSettingsEditDto {
+    invesmentStaging: boolean | undefined;
 }
 
 export class GetWorkspaceSummaryDataOutput implements IGetWorkspaceSummaryDataOutput {

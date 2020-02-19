@@ -13,16 +13,25 @@
         </div>
         <div class="kt-subheader__toolbar">
             <div class="kt-subheader__wrapper">
-				<button *ngIf="isGranted('Pages.EclConfigurations.Create')" (click)="createEclConfiguration()" 
-			    class="btn btn-primary blue"><i class="fa fa-save"></i> {{l("SaveAll")}}</button>
+                <button (click)="saveAllEclSettings()" class="btn btn-primary">
+                    <i class="fa fa-save" style="font-size: 1.2rem !important;"></i>
+                    {{l("Save")}}
+                </button>
+                <button (click)="goBack()" class="btn btn-outline-danger">
+                    <i class="fa fa-reply" style="font-size: 1.2rem !important;"></i>
+                    {{l("GoBack")}}
+                </button>
             </div>
         </div>
       
     </div>
     <div class="kt-content">
         <div class="kt-portlet kt-portlet--mobile">
+            <div *ngIf="loading" class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+            </div>
             <div class="kt-portlet__body">
-                <tabset>
+                <tabset *ngIf="!loading">
                     <tab heading="{{'OverrideCutoffTime' | localize}}">
                         <div class="">
                             <div class="kt-portlet__body">
@@ -38,12 +47,7 @@
                                     <div class="kt-callout__action">
                                         <div class="row">
                                             <div class="form-group col-md-3">
-                                                <label for="OverrideCutoffDate">{{l('Date')}}</label>
-                                                <input class="form-control" type="datetime" bsDatepicker  id="OverrideCutoffDate" name="OverrideCutoffDate">
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <label for="OverrideCutoffTime">{{l('HourOfDay')}}</label>
-                                                <input class="form-control" id="OverrideCutoffTime" name="OverrideCutoffTime" type="number" max="23" min="0" >
+                                                <input class="form-control" type="datetime" bsDatepicker  id="OverrideCutoffDate" name="OverrideCutoffDate" [(ngModel)]="eclSettings.overrideCutOffTime._d">
                                             </div>
                                         </div>
                                     </div>
@@ -68,47 +72,44 @@
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label>{{l('Wholesale')}}</label>
-                                                    <div class="kt-radio-inline">
-                                                        <label class="kt-radio kt-radio--tick kt-radio--success">
-                                                            <input type="radio" name="WholesaleLoanBookSource"> {{l('Upload')}}
-                                                            <span></span>
-                                                        </label>
-                                                        <label class="kt-radio kt-radio--tick kt-radio--primary">
-                                                            <input type="radio" name="WholesaleLoanBookSource" checked=""> {{l('Staging')}}
-                                                            <span></span>
-                                                        </label>
+                                                    <div>
+                                                        <span class="kt-switch kt-switch--lg kt-switch--outline kt-switch--icon kt-switch--success">
+                                                            <label>
+                                                                <input type="checkbox" name="WholesaleLoanBookSource" id="WholesaleLoanBookSource" [(ngModel)]="eclSettings.loanBookSnapshot.wholesaleStaging">
+                                                                <span></span>
+                                                            </label>
+                                                        </span>
                                                     </div>
+                                                    <span class="form-text text-muted">{{ eclSettings.loanBookSnapshot.wholesaleStaging ? l('LoadFromStaging') : l('UseExcelUpload') }}</span>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label>{{l('Retail')}}</label>
-                                                    <div class="kt-radio-inline">
-                                                        <label class="kt-radio kt-radio--tick kt-radio--success">
-                                                            <input type="radio" name="RetailLoanBookSource"> {{l('Upload')}}
-                                                            <span></span>
-                                                        </label>
-                                                        <label class="kt-radio kt-radio--tick kt-radio--success">
-                                                            <input type="radio" name="RetailLoanBookSource" checked=""> {{l('Staging')}}
-                                                            <span></span>
-                                                        </label>
+                                                    <div>
+                                                        <span class="kt-switch kt-switch--lg kt-switch--outline kt-switch--icon kt-switch--success">
+                                                            <label>
+                                                                <input type="checkbox" name="RetailLoanBookSource" id="RetailLoanBookSource" [(ngModel)]="eclSettings.loanBookSnapshot.retailStaging">
+                                                                <span></span>
+                                                            </label>
+                                                        </span>
                                                     </div>
+                                                    <span class="form-text text-muted">{{ eclSettings.loanBookSnapshot.retailStaging ? l('LoadFromStaging') : l('UseExcelUpload') }}</span>
                                                 </div>
                                             </div>
                                             
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label>{{l('Obe')}}</label>
-                                                    <div class="kt-radio-inline">
-                                                        <label class="kt-radio kt-radio--tick kt-radio--success">
-                                                            <input type="radio" name="ObeLoanBookSource"> {{l('Upload')}}
-                                                            <span></span>
-                                                        </label>
-                                                        <label class="kt-radio kt-radio--tick kt-radio--primary">
-                                                            <input type="radio" name="ObeLoanBookSource" checked=""> {{l('Staging')}}
-                                                            <span></span>
-                                                        </label>
+                                                    <div>
+                                                        <span class="kt-switch kt-switch--lg kt-switch--outline kt-switch--icon kt-switch--success">
+                                                            <label>
+                                                                <input type="checkbox" name="ObeLoanBookSource" id="ObeLoanBookSource" [(ngModel)]="eclSettings.loanBookSnapshot.obeStaging">
+                                                                <span></span>
+                                                            </label>
+                                                        </span>
                                                     </div>
+                                                    <span class="form-text text-muted">{{ eclSettings.loanBookSnapshot.obeStaging ? l('LoadFromStaging') : l('UseExcelUpload') }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -134,47 +135,44 @@
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label>{{l('Wholesale')}}</label>
-                                                    <div class="kt-radio-inline">
-                                                        <label class="kt-radio kt-radio--tick kt-radio--success">
-                                                            <input type="radio" name="WholesalePaymentScheduleSource"> {{l('Upload')}}
-                                                            <span></span>
-                                                        </label>
-                                                        <label class="kt-radio kt-radio--tick kt-radio--primary">
-                                                            <input type="radio" name="WholesalePaymentScheduleSource" checked=""> {{l('Staging')}}
-                                                            <span></span>
-                                                        </label>
+                                                    <div>
+                                                        <span class="kt-switch kt-switch--lg kt-switch--outline kt-switch--icon kt-switch--success">
+                                                            <label>
+                                                                <input type="checkbox" name="WholesalePaymentScheduleSource" id="WholesalePaymentScheduleSource" [(ngModel)]="eclSettings.paymentSchedule.wholesaleStaging">
+                                                                <span></span>
+                                                            </label>
+                                                        </span>
                                                     </div>
+                                                    <span class="form-text text-muted">{{ eclSettings.paymentSchedule.wholesaleStaging ? l('LoadFromStaging') : l('UseExcelUpload') }}</span>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label>{{l('Retail')}}</label>
-                                                    <div class="kt-radio-inline">
-                                                        <label class="kt-radio kt-radio--tick kt-radio--success">
-                                                            <input type="radio" name="RetailPaymentScheduleSource"> {{l('Upload')}}
-                                                            <span></span>
-                                                        </label>
-                                                        <label class="kt-radio kt-radio--tick kt-radio--primary">
-                                                            <input type="radio" name="RetailPaymentScheduleSource" checked=""> {{l('Staging')}}
-                                                            <span></span>
-                                                        </label>
+                                                    <div>
+                                                        <span class="kt-switch kt-switch--lg kt-switch--outline kt-switch--icon kt-switch--success">
+                                                            <label>
+                                                                <input type="checkbox" name="RetailPaymentScheduleSource" id="RetailPaymentScheduleSource" [(ngModel)]="eclSettings.paymentSchedule.retailStaging">
+                                                                <span></span>
+                                                            </label>
+                                                        </span>
                                                     </div>
+                                                    <span class="form-text text-muted">{{ eclSettings.paymentSchedule.retailStaging ? l('LoadFromStaging') : l('UseExcelUpload') }}</span>
                                                 </div>
                                             </div>
                                             
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label>{{l('Obe')}}</label>
-                                                    <div class="kt-radio-inline">
-                                                        <label class="kt-radio kt-radio--tick kt-radio--success">
-                                                            <input type="radio" name="ObePaymentScheduleSource"> {{l('Upload')}}
-                                                            <span></span>
-                                                        </label>
-                                                        <label class="kt-radio kt-radio--tick kt-radio--primary">
-                                                            <input type="radio" name="ObePaymentScheduleSource" checked=""> {{l('Staging')}}
-                                                            <span></span>
-                                                        </label>
+                                                    <div>
+                                                        <span class="kt-switch kt-switch--lg kt-switch--outline kt-switch--icon kt-switch--success">
+                                                            <label>
+                                                                <input type="checkbox" name="ObePaymentScheduleSource" id="ObePaymentScheduleSource" [(ngModel)]="eclSettings.paymentSchedule.obeStaging">
+                                                                <span></span>
+                                                            </label>
+                                                        </span>
                                                     </div>
+                                                    <span class="form-text text-muted">{{ eclSettings.paymentSchedule.obeStaging ? l('LoadFromStaging') : l('UseExcelUpload') }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -201,16 +199,15 @@
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label>{{l('Investment')}}</label>
-                                                    <div class="kt-radio-inline">
-                                                        <label class="kt-radio kt-radio--tick kt-radio--success">
-                                                            <input type="radio" name="InvestmentAssetBook"> {{l('Upload')}}
-                                                            <span></span>
-                                                        </label>
-                                                        <label class="kt-radio kt-radio--tick kt-radio--primary">
-                                                            <input type="radio" name="InvestmentAssetBook" checked=""> {{l('Staging')}}
-                                                            <span></span>
-                                                        </label>
+                                                    <div>
+                                                        <span class="kt-switch kt-switch--lg kt-switch--outline kt-switch--icon kt-switch--success">
+                                                            <label>
+                                                                <input type="checkbox" name="InvestmentAssetBook" id="InvestmentAssetBook" [(ngModel)]="eclSettings.assetBook.invesmentStaging">
+                                                                <span></span>
+                                                            </label>
+                                                        </span>
                                                     </div>
+                                                    <span class="form-text text-muted">{{ eclSettings.assetBook.invesmentStaging ? l('LoadFromStaging') : l('UseExcelUpload') }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -236,7 +233,7 @@
                                     </div>
                                     <div class="kt-callout__action">
                                         <div class="form-group">
-                                            <input class="form-control col-lg-2 col-md-3" type="number"  id="RequiredNoOfApprovals" name="RequiredNoOfApprovals" min="1" max="5">
+                                            <input class="form-control col-lg-2 col-md-3" type="number" [(ngModel)]="eclSettings.requiredNumberOfApprovals"  id="RequiredNoOfApprovals" name="RequiredNoOfApprovals" min="1" max="5">
                                         </div>
                                     </div>
                                 </div>
@@ -247,9 +244,4 @@
             </div>
         </div>
     </div>
-
-    <createOrEditEclConfigurationModal #createOrEditEclConfigurationModal (modalSave)="getEclConfigurations()"></createOrEditEclConfigurationModal>
-    
-     <entityTypeHistoryModal #entityTypeHistoryModal></entityTypeHistoryModal>
-  
 </div>

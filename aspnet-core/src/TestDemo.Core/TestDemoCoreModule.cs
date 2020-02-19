@@ -27,6 +27,7 @@ using TestDemo.Localization;
 using TestDemo.MultiTenancy;
 using TestDemo.Net.Emailing;
 using TestDemo.Notifications;
+using TestDemo.EclConfig;
 
 namespace TestDemo
 {
@@ -58,6 +59,7 @@ namespace TestDemo
 
             //Adding setting providers
             Configuration.Settings.Providers.Add<AppSettingProvider>();
+            Configuration.Settings.Providers.Add<EclSettingProvider>();
 
             //Adding notification providers
             Configuration.Notifications.Providers.Add<AppNotificationProvider>();

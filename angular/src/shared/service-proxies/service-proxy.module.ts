@@ -16,7 +16,7 @@ import * as ApiServiceProxies from './service-proxies';
         ApiServiceProxies.InvestmentEclsServiceProxy,
         ApiServiceProxies.InvSecFitchCummulativeDefaultRatesServiceProxy,
         ApiServiceProxies.InvSecMacroEconomicAssumptionsServiceProxy,
-        ApiServiceProxies.EclConfigurationsServiceProxy,
+        ApiServiceProxies.EclSettingsServiceProxy,
         ApiServiceProxies.AffiliateOverrideThresholdsServiceProxy,
         ApiServiceProxies.ObeEclDataPaymentSchedulesServiceProxy,
         ApiServiceProxies.WholesaleEclDataPaymentSchedulesServiceProxy,

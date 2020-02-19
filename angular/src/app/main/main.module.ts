@@ -7,8 +7,7 @@ import { InvestmentEclOverridesComponent } from './investmentComputation/investm
 import { CreateOrEditInvestmentEclOverrideModalComponent } from './investmentComputation/investmentEclOverrides/create-or-edit-investmentEclOverride-modal.component';
 import { InvestmentEclOverrideInvestmentEclSicrLookupTableModalComponent } from './investmentComputation/investmentEclOverrides/investmentEclOverride-investmentEclSicr-lookup-table-modal.component';
 
-import { EclConfigurationsComponent } from './eclConfig/eclConfigurations/eclConfigurations.component';
-import { CreateOrEditEclConfigurationModalComponent } from './eclConfig/eclConfigurations/create-or-edit-eclConfiguration-modal.component';
+import { EclSettingsComponent } from './eclConfig/eclSettings/eclSettings.component';
 
 import { AssumptionApprovalsComponent } from './assumptions/assumptionApprovals/assumptionApprovals.component';
 import { ViewAssumptionApprovalModalComponent } from './assumptions/assumptionApprovals/view-assumptionApproval-modal.component';
@@ -136,8 +135,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         CreateOrEditInvestmentEclOverrideModalComponent,
         InvestmentEclOverrideInvestmentEclSicrLookupTableModalComponent,
         ViewEclComponent,
-        EclConfigurationsComponent,
-        CreateOrEditEclConfigurationModalComponent,
+        EclSettingsComponent,
         ViewPaymentScheduleComponent,
         ViewLoanbookDetailsComponent,
         AssumptionApprovalsComponent,

@@ -121,7 +121,7 @@ namespace TestDemo
             configuration.CreateMap<CreateOrEditInvestmentEclDto, InvestmentEcl>().ReverseMap();
             configuration.CreateMap<InvestmentEclDto, InvestmentEcl>().ReverseMap();
             configuration.CreateMap<CreateOrEditEclConfigurationDto, EclConfiguration>().ReverseMap();
-            configuration.CreateMap<EclConfigurationDto, EclConfiguration>().ReverseMap();
+            configuration.CreateMap<EclSettingsEditDto, EclConfiguration>().ReverseMap();
             configuration.CreateMap<CreateOrEditAffiliateDto, AffiliateOverrideThreshold>().ReverseMap();
             configuration.CreateMap<AffiliateOverrideThresholdDto, AffiliateOverrideThreshold>().ReverseMap();
             configuration.CreateMap<CreateOrEditAssumptionApprovalDto, AssumptionApproval>().ReverseMap();

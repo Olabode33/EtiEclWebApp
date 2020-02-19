@@ -1,9 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+    <text name="LoadFromStaging">Load from staging table</text>
+    <text name="UseExcelUpload">Use excel upload</text>
     <text name="ReviewOverride">Reivew Override</text>
     <text name="DateCreated">Date created</text>
-    <text name="ApplyToSelected">Apply to selected</text>
+    <text name="ApplyToSelected">Apply to selected</text>s
     <text name="ApplyToAll">Apply to all</text>
     <text name="ReviewAppliedOverrides">Review applied overrides</text>
     <text name="RunEclComputation">Run ECL computation</text>
