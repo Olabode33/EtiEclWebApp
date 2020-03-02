@@ -19,6 +19,7 @@ namespace TestDemo.EntityFrameworkCore.Repositories
     {
         private readonly IActiveTransactionProvider _transactionProvider;
         private const string InvestmentPreOverrideEclProcedure = "InvSec_proc_PreOverrideEclCompution";
+        private const string InvestmentPostOverrideEclProcedure = "InvSec_proc_PostOverrideEclCompution";
 
         public EclCustomRepository(IDbContextProvider<TestDemoDbContext> dbContextProvider, IActiveTransactionProvider transactionProvider)
             : base(dbContextProvider)
@@ -29,6 +30,11 @@ namespace TestDemo.EntityFrameworkCore.Repositories
         public async Task RunInvestmentPreOverrideEclStoredProcedure(Guid eclId)
         {
             await RunEclProcedure(InvestmentPreOverrideEclProcedure, eclId);
+        }
+
+        public async Task RunInvestmentPostOverrideEclStoredProcedure(Guid eclId)
+        {
+            await RunEclProcedure(InvestmentPostOverrideEclProcedure, eclId);
         }
 
         private async Task RunEclProcedure(string procedureName, Guid eclId)

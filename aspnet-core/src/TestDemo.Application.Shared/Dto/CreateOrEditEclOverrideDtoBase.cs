@@ -10,6 +10,7 @@ namespace TestDemo.Dto
     public class CreateOrEditEclOverrideDtoBase : EntityDto<Guid?>
 	{
 		public int? Stage { get; set; }
+		public double? ImpairmentOverride { get; set; }
 		[Required]
 		public string OverrideComment { get; set; }
 		public GeneralStatusEnum Status { get; set; }

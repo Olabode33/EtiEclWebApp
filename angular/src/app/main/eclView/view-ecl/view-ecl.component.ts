@@ -316,6 +316,8 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
                     }
                 }
             );
+        } else {
+            this.notify.error('Error: Function not available!');
         }
     }
 
@@ -339,6 +341,50 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
                     }
                 }
             );
+        } else {
+            this.notify.error('Error: Function not available!');
+        }
+    }
+
+    runEclPostComputation() {
+        if (typeof this._eclServiceProxy.runPostEcl === 'function') {
+            this.message.confirm(
+                this.l('StartEclPostOverrideRun'),
+                (isConfirmed) => {
+                    if (isConfirmed) {
+                        let dto = new EntityDtoOfGuid();
+                        dto.id = this._eclId;
+                        this._eclServiceProxy.runPostEcl(dto)
+                            .subscribe(() => {
+                                this.getEclDetails();
+                                this.notify.success(this.l('EclRunProcessStart'));
+                            });
+                    }
+                }
+            );
+        } else {
+            this.notify.error('Error: Function not available!');
+        }
+    }
+
+    closeEcl() {
+        if (typeof this._eclServiceProxy.closeEcl === 'function') {
+            this.message.confirm(
+                this.l('CloseEclInfo'),
+                (isConfirmed) => {
+                    if (isConfirmed) {
+                        let dto = new EntityDtoOfGuid();
+                        dto.id = this._eclId;
+                        this._eclServiceProxy.closeEcl(dto)
+                            .subscribe(() => {
+                                this.getEclDetails();
+                                this.notify.success(this.l('EclClosedSuccessfully'));
+                            });
+                    }
+                }
+            );
+        } else {
+            this.notify.error('Error: Function not available!');
         }
     }
 

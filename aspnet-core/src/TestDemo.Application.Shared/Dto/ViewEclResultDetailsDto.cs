@@ -13,7 +13,6 @@ namespace TestDemo.Dto
         public string Segment { get; set; }
         public string ProductType { get; set; }
         public string Sector { get; set; }
-        public int Staging { get; set; }
         public double? Exposure { get; set; }
         public EclResultOverrideFigures PreOverrideResult { get; set; }
         public EclResultOverrideFigures PostOverrideResult { get; set; }
@@ -21,6 +20,7 @@ namespace TestDemo.Dto
 
     public class EclResultOverrideFigures
     {
+        public int? Stage { get; set; }
         public double? EclBest { get; set; }
         public double? EclOptimistic { get; set; }
         public double? EclDownturn { get; set; }

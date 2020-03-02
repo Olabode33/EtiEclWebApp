@@ -199,7 +199,9 @@
                                         <td class="kt-font-brand kt-font-bold align-middle">{{item.reportingDate | momentFormat:'ll'}}</td>
                                         <td class="align-middle">
                                             <span class="kt-badge kt-badge--inline 
-                                                         kt-badge--{{item.status === eclStatusEnum.Completed ? 'success': ( item.status === eclStatusEnum.Draft ? 'danger' : 'warning')}}">
+                                                         kt-badge--{{item.status === eclStatusEnum.Completed ? 'success': 
+                                                                     ( item.status === eclStatusEnum.Draft ? 'danger' : 
+                                                                     ( item.status === eclStatusEnum.Closed ? 'primary' : 'warning'))}}">
                                                 {{l(eclStatusEnum[item.status])}}
                                             </span>
                                         </td>

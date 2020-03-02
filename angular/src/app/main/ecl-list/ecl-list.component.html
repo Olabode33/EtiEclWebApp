@@ -182,7 +182,7 @@
                                                 <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu" *dropdownMenu>
-                                                <li>
+                                                <li *ngIf="record.status === eclStatusEnum.Closed">
                                                     <a href="javascript:;" (click)="viewEcl(record.framework, record.id)">
                                                         {{l('ReOpen')}}
                                                     </a>
@@ -214,7 +214,9 @@
                                     <td style="width:150px">
                                         <span class="ui-column-title"> {{l('Status')}}</span>
                                         <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline 
-                                                     kt-badge--unified-{{record.status == eclStatusEnum.Completed ? 'success' : 'warning'}}">
+                                                     kt-badge--unified-{{record.status == eclStatusEnum.Completed ? 'success' : 
+                                                                            ( record.status === eclStatusEnum.Draft ? 'danger' : 
+                                                                            ( record.status === eclStatusEnum.Closed ? 'primary' : 'warning'))}}">
                                             {{l( eclStatusEnum[record.status])}}
                                         </span>
                                     </td>

@@ -14,7 +14,8 @@ namespace TestDemo.InvestmentComputation
     [Audited]
     public class InvestmentEclOverride : FullAuditedEntity<Guid> 
     {
-		public virtual int StageOverride { get; set; }
+		public virtual int? StageOverride { get; set; }
+		public virtual double? ImpairmentOverride { get; set; }
 		
 		[Required]
 		public virtual string OverrideComment { get; set; }

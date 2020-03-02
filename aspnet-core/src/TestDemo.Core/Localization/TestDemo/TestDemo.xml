@@ -1,11 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+
+    <text name="ApplyOverrideErrorRecordReviewed">Cannot apply override to reviewed facility!</text>
+    <text name="EclClosedSuccessfully">ECL successfully closed!</text>
+    <text name="CloseEcl">Close ECL</text>
+    <text name="CloseEclInfo">ECL Pre-override and Post-override results are valid</text>
+    <text name="StartEclPostOverrideRun">Queue ECL for post override computation</text>
+    <text name="PostRunErrorYetToReviewSubmittedOverrides">This ECL has submitted overrides that are yet to be reviewed</text>
+    <text name="Comment">Comment</text>
+    <text name="Impairment">Impairment</text>
     <text name="LoadFromStaging">Load from staging table</text>
     <text name="UseExcelUpload">Use excel upload</text>
     <text name="ReviewOverride">Reivew Override</text>
     <text name="DateCreated">Date created</text>
-    <text name="ApplyToSelected">Apply to selected</text>s
+    <text name="ApplyToSelected">Apply to selected</text>
     <text name="ApplyToAll">Apply to all</text>
     <text name="ReviewAppliedOverrides">Review applied overrides</text>
     <text name="RunEclComputation">Run ECL computation</text>
@@ -15,7 +24,7 @@
     <text name="ViewDashboard">View dashboard</text>
     <text name="CreateNewEcl">Create New Ecl</text>
     <text name="ReviewUpdatedAssumption">Review updated assumption</text>
-    <text name="Total20Exposure">Top 20 Exposure Summary</text>
+    <text name="Total20Exposure">Top 10 Exposure Summary</text>
     <text name="TotalExposure">Total Exposure</text>
     <text name="TotalPreImpairment">Total Impairment (Pre-Override)</text>
     <text name="TotalPostImpairment">Total Impairment (Post-Override)</text>
@@ -190,6 +199,7 @@
     <text name="ImportEclDataFailed">Ecl data import process has failed!</text>
     <text name="UploadSummary">Upload Summary</text>
     <text name="NoUploadedRecordFoundForEcl">No uploaded record was found for this ECL!</text>
+    <text name="NoOverrideRecordFoundForEcl">No override has been applied to this ECL!</text>
     <text name="AffiliateAssumptionDoesNotExistError">There's no assumptions for your affiliate, Please contact your system administrator!</text>
     <text name="UserDoesNotBelongToAnyAffiliateError">You don't belong to an affiliate, Please contact your system administrator!</text>
     <text name="ReviewingWithThreeDot">Reviewing ...</text>

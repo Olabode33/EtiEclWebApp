@@ -7,7 +7,9 @@ namespace TestDemo.InvestmentComputation.Dtos
 {
     public class InvestmentEclOverrideDto : EntityDto<Guid>
     {
-		public int StageOverride { get; set; }
+		public int? StageOverride { get; set; }
+
+		public double? ImpairmentOverride { get; set; }
 
 		public string OverrideComment { get; set; }
 

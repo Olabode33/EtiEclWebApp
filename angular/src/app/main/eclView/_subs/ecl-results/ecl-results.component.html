@@ -53,8 +53,8 @@
                                     <tr>
                                         <th *ngIf="_eclFramework !== frameworkEnum.Investments" colspan="5"></th>
                                         <th *ngIf="_eclFramework === frameworkEnum.Investments" colspan="2"></th>
-                                        <th colspan="2">{{l('PreOverride')}}</th>
-                                        <th colspan="2">{{l('PostOverride')}}</th>
+                                        <th colspan="3">{{l('PreOverride')}}</th>
+                                        <th colspan="3">{{l('PostOverride')}}</th>
                                     </tr>
                                 </thead>
                                 <thead>
@@ -64,21 +64,26 @@
                                         <th *ngIf="_eclFramework !== frameworkEnum.Investments">{{l('CustomerNo')}}</th>
                                         <th>{{ _eclFramework === frameworkEnum.Investments ? l('AssetBooks') : l('AccountNo')}}</th>
                                         <th>{{l('Exposure')}}</th>
+                                        <th>{{l('Stage')}}</th>
                                         <th>{{l('Impairment')}}</th>
                                         <th>{{l('CoverageRatio')}}</th>
+                                        <th>{{l('Stage')}}</th>
                                         <th>{{l('Impairment')}}</th>
                                         <th>{{l('CoverageRatio')}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let item of top20Exposures">
+                                    <tr *ngFor="let item of top20Exposures" 
+                                        [ngClass]="{'table-info': item.preOverrideResult.impairment !== item.postOverrideResult.impairment ||  item.preOverrideResult.stage !== item.postOverrideResult.stage}">
                                         <td *ngIf="_eclFramework !== frameworkEnum.Investments" >{{item.contractId}}</td>
                                         <td *ngIf="_eclFramework !== frameworkEnum.Investments" >{{item.customerName}}</td>
                                         <td *ngIf="_eclFramework !== frameworkEnum.Investments" >{{item.customerNumber}}</td>
                                         <td>{{item.accountNumber}}</td>
                                         <td>{{item.exposure | number : '1.2-2'}}</td>
+                                        <td>{{item.preOverrideResult.stage}}</td>
                                         <td>{{item.preOverrideResult.impairment | number: '1.2-2'}}</td>
                                         <td>{{item.preOverrideResult.impairment / item.exposure | percent: '1.2-2'}}</td>
+                                        <td>{{item.postOverrideResult.stage}}</td>
                                         <td>{{item.postOverrideResult.impairment | number: '1.2-2'}}</td>
                                         <td>{{item.postOverrideResult.impairment / item.exposure | percent: '1.2-2'}}</td>
                                     </tr>

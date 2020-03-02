@@ -17,6 +17,7 @@ using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
 using TestDemo.InvestmentInputs;
+using Abp.UI;
 
 namespace TestDemo.InvestmentComputation
 {
@@ -26,6 +27,7 @@ namespace TestDemo.InvestmentComputation
         private readonly IRepository<InvestmentEclOverride, Guid> _investmentEclOverrideRepository;
         private readonly IRepository<InvestmentEclSicr, Guid> _lookup_investmentEclSicrRepository;
         private readonly IRepository<InvestmentAssetBook, Guid> _lookup_investmentAssetbookRepository;
+        private readonly IRepository<InvestmentEclFinalResult, Guid> _lookup_investmentEclFinalResultRepository;
 
         private readonly IInvestmentEclOverrideApprovalsAppService _invsecEclOverrideApprovalsAppService;
 
@@ -34,13 +36,14 @@ namespace TestDemo.InvestmentComputation
             IRepository<InvestmentEclOverride, Guid> investmentEclOverrideRepository,
             IRepository<InvestmentEclSicr, Guid> lookup_investmentEclSicrRepository,
             IRepository<InvestmentAssetBook, Guid> lookup_investmentAssetbookRepository,
+            IRepository<InvestmentEclFinalResult, Guid> lookup_investmentEclFinalResultRepository,
             IInvestmentEclOverrideApprovalsAppService invsecEclOverrideApprovalsAppService
             )
         {
             _investmentEclOverrideRepository = investmentEclOverrideRepository;
             _lookup_investmentEclSicrRepository = lookup_investmentEclSicrRepository;
             _lookup_investmentAssetbookRepository = lookup_investmentAssetbookRepository;
-
+            _lookup_investmentEclFinalResultRepository = lookup_investmentEclFinalResultRepository;
             _invsecEclOverrideApprovalsAppService = invsecEclOverrideApprovalsAppService;
         }
 
@@ -70,6 +73,7 @@ namespace TestDemo.InvestmentComputation
                                              InvestmentEclOverride = new InvestmentEclOverrideDto
                                              {
                                                  StageOverride = o.StageOverride,
+                                                 ImpairmentOverride = o.ImpairmentOverride,
                                                  OverrideComment = o.OverrideComment,
                                                  Status = o.Status,
                                                  Id = o.Id,
@@ -108,6 +112,7 @@ namespace TestDemo.InvestmentComputation
         {
             var selectedRecord = await _lookup_investmentEclSicrRepository.FirstOrDefaultAsync(input.Id);
             var overrideRecord = await _investmentEclOverrideRepository.FirstOrDefaultAsync(x => x.InvestmentEclSicrId == input.Id && x.EclId == selectedRecord.EclId);
+            var preResult = await _lookup_investmentEclFinalResultRepository.FirstOrDefaultAsync(x => x.RecordId == selectedRecord.RecordId);
             var dto = new CreateOrEditInvestmentEclOverrideDto() { RecordId = selectedRecord.RecordId, InvestmentEclSicrId = selectedRecord.Id, EclId = selectedRecord.EclId };
 
             if (overrideRecord != null)
@@ -125,6 +130,7 @@ namespace TestDemo.InvestmentComputation
                 AssetType = selectedRecord.AssetType,
                 CurrentRating = selectedRecord.CurrentCreditRating,
                 Stage = selectedRecord.FinalStage,
+                Impairment = preResult.Impairment,
                 EclOverrides = dto
             };
         }
@@ -147,13 +153,20 @@ namespace TestDemo.InvestmentComputation
 
         public async Task CreateOrEdit(CreateOrEditInvestmentEclOverrideDto input)
         {
-            if (input.Id == null)
+            var validation = await ValidateForOverride(input);
+            if (validation.Status)
             {
-                await Create(input);
-            }
-            else
+                if (input.Id == null)
+                {
+                    await Create(input);
+                }
+                else
+                {
+                    await Update(input);
+                }
+            } else
             {
-                await Update(input);
+                throw new UserFriendlyException(validation.Message);
             }
         }
 
@@ -166,7 +179,8 @@ namespace TestDemo.InvestmentComputation
                 EclId = input.EclId,
                 InvestmentEclSicrId = input.InvestmentEclSicrId,
                 OverrideComment = input.OverrideComment,
-                StageOverride = (int)input.Stage,
+                StageOverride = input.Stage,
+                ImpairmentOverride = input.ImpairmentOverride,
                 Status = GeneralStatusEnum.Submitted
             });
         }
@@ -178,6 +192,7 @@ namespace TestDemo.InvestmentComputation
             //ObjectMapper.Map(input, investmentEclOverride);
             investmentEclOverride.OverrideComment = input.OverrideComment;
             investmentEclOverride.StageOverride = (int)input.Stage;
+            investmentEclOverride.ImpairmentOverride = input.ImpairmentOverride;
             investmentEclOverride.Status = input.Status;
 
             await _investmentEclOverrideRepository.UpdateAsync(investmentEclOverride);
@@ -234,6 +249,26 @@ namespace TestDemo.InvestmentComputation
                 totalCount,
                 lookupTableDtoList
             );
+        }
+
+
+        protected async Task<EclShared.Dtos.ValidationMessageDto> ValidateForOverride(CreateOrEditInvestmentEclOverrideDto input)
+        {
+            var output = new EclShared.Dtos.ValidationMessageDto();
+
+            var reviewedOverride = await _investmentEclOverrideRepository.FirstOrDefaultAsync(x => x.InvestmentEclSicrId == input.InvestmentEclSicrId && x.Status != GeneralStatusEnum.Submitted);
+
+            if (reviewedOverride != null)
+            {
+                output.Status = false;
+                output.Message = L("ApplyOverrideErrorRecordReviewed");
+            } else
+            {
+                output.Status = true;
+                output.Message = "";
+            }
+
+            return output;
         }
     }
 }

@@ -48,6 +48,7 @@ namespace TestDemo.Investment
         private readonly IInvestmentEclUploadsAppService _invsecEclUploadsAppService;
 
         private readonly IInvestmentEclApprovalsAppService _invsecEclApprovalsAppService;
+        private readonly IInvestmentEclOverridesAppService _invsecEclOverridesAppService;
         private readonly IBackgroundJobManager _backgroundJobManager;
         private readonly IEclSharedAppService _eclSharedAppService;
         private readonly IEclCustomRepository _investmentEclCustomRepository;
@@ -64,6 +65,7 @@ namespace TestDemo.Investment
                                         IInvestmentEclPdFitchDefaultRatesAppService invsecEclPdAssumptionFitchRatingAppService,
                                         IInvestmentEclUploadsAppService invsecEclUploadsAppService,
                                         IInvestmentEclApprovalsAppService invsecEclApprovalsAppService,
+                                        IInvestmentEclOverridesAppService invsecEclOverridesAppService,
                                         IBackgroundJobManager backgroundJobManager,
                                         IEclCustomRepository investmentEclCustomRepository,
                                         IEclSharedAppService eclSharedAppService)
@@ -79,7 +81,7 @@ namespace TestDemo.Investment
             _invsecEclPdAssumptionFitchRatingAppService = invsecEclPdAssumptionFitchRatingAppService;
             _invsecPdAssumptionMacroAsusmptionAppService = invsecPdAssumptionMacroAssumptionAppService;
             _invsecEclUploadsAppService = invsecEclUploadsAppService;
-
+            _invsecEclOverridesAppService = invsecEclOverridesAppService;
             _invsecEclApprovalsAppService = invsecEclApprovalsAppService;
             _backgroundJobManager = backgroundJobManager;
             _investmentEclCustomRepository = investmentEclCustomRepository;
@@ -438,6 +440,26 @@ namespace TestDemo.Investment
             await _backgroundJobManager.EnqueueAsync<RunInvestmentEclJob, RunEclJobArgs>(new RunEclJobArgs { EclId = input.Id });
         }
 
+        public async Task RunPostEcl(EntityDto<Guid> input)
+        {
+            var validation = await ValidateForPostRun(input.Id);
+            if (validation.Status)
+            {
+                await _backgroundJobManager.EnqueueAsync<RunInvestmentPostEclJob, RunEclJobArgs>(new RunEclJobArgs { EclId = input.Id });
+            } else
+            {
+                throw new UserFriendlyException(L("ValidationError") + validation.Message);
+            }
+        }
+
+        public async Task CloseEcl(EntityDto<Guid> input)
+        {
+            //Call archive ecl procedure
+            var ecl = await _investmentEclRepository.FirstOrDefaultAsync(input.Id);
+            ecl.Status = EclStatusEnum.Closed;
+            ObjectMapper.Map(ecl, ecl);
+        }
+
         protected virtual async Task<ValidationMessageDto> ValidateForSubmission(Guid eclId)
         {
             ValidationMessageDto output = new ValidationMessageDto();
@@ -453,6 +475,26 @@ namespace TestDemo.Investment
             {
                 output.Status = false;
                 output.Message = L("NoUploadedRecordFoundForEcl");
+            }
+
+            return output;
+        }
+
+        protected virtual async Task<ValidationMessageDto> ValidateForPostRun(Guid eclId)
+        {
+            ValidationMessageDto output = new ValidationMessageDto();
+            //Check if Ecl has overrides
+            var overrides = await _invsecEclOverridesAppService.GetAll(new InvestmentComputation.Dtos.GetAllInvestmentEclOverridesInput { EclId = eclId, Filter = "", InvestmentEclSicrAssetDescriptionFilter = "", MaxResultCount = 10,  SkipCount = 0, Sorting = "id", StatusFilter = -1});
+            if (overrides.Items.Count > 0)
+            {
+                var submitted = overrides.Items.Any(x => x.InvestmentEclOverride.Status == GeneralStatusEnum.Submitted);
+                output.Status = !submitted;
+                output.Message = submitted == true ? L("PostRunErrorYetToReviewSubmittedOverrides") : "";
+            }
+            else
+            {
+                output.Status = false;
+                output.Message = L("NoOverrideRecordFoundForEcl");
             }
 
             return output;

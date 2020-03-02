@@ -65,6 +65,10 @@
                                 {{l('StageOverride')}}
                                 <p-sortIcon field="investmentEclOverride.stageOverride"></p-sortIcon>
                             </th>
+                            <th style="width: 150px" pSortableColumn="stageOverride">
+                                {{l('ImpairmentOverride')}}
+                                <p-sortIcon field="investmentEclOverride.impairmentOverride"></p-sortIcon>
+                            </th>
                             <th style="width: 150px" pSortableColumn="status">
                                 {{l('Status')}}
                                 <p-sortIcon field="investmentEclOverride.status"></p-sortIcon>
@@ -89,6 +93,10 @@
                             <td style="width:150px">
                                 <span class="ui-column-title"> {{l('StageOverride')}}</span>
                                 {{record.investmentEclOverride.stageOverride}}
+                            </td>
+                            <td style="width:150px">
+                                <span class="ui-column-title"> {{l('Impairment')}}</span>
+                                {{record.investmentEclOverride.impairmentOverride | number:'1.2-2'}}
                             </td>
                             <td style="width:150px">
                                 <span class="ui-column-title"> {{l('Status')}}</span>

@@ -9873,6 +9873,110 @@ export class InvestmentEclsServiceProxy {
     }
 
     /**
+     * @param input (optional) 
+     * @return Success
+     */
+    runPostEcl(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEcls/RunPostEcl";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRunPostEcl(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRunPostEcl(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processRunPostEcl(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    closeEcl(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEcls/CloseEcl";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCloseEcl(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCloseEcl(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCloseEcl(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
      * @param filter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
@@ -54273,6 +54377,7 @@ export interface IGetInvestmentEclOverrideForViewDto {
 
 export class InvestmentEclOverrideDto implements IInvestmentEclOverrideDto {
     stageOverride!: number | undefined;
+    impairmentOverride!: number | undefined;
     overrideComment!: string | undefined;
     status!: GeneralStatusEnum | undefined;
     eclId!: string | undefined;
@@ -54291,6 +54396,7 @@ export class InvestmentEclOverrideDto implements IInvestmentEclOverrideDto {
     init(data?: any) {
         if (data) {
             this.stageOverride = data["stageOverride"];
+            this.impairmentOverride = data["impairmentOverride"];
             this.overrideComment = data["overrideComment"];
             this.status = data["status"];
             this.eclId = data["eclId"];
@@ -54309,6 +54415,7 @@ export class InvestmentEclOverrideDto implements IInvestmentEclOverrideDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["stageOverride"] = this.stageOverride;
+        data["impairmentOverride"] = this.impairmentOverride;
         data["overrideComment"] = this.overrideComment;
         data["status"] = this.status;
         data["eclId"] = this.eclId;
@@ -54320,6 +54427,7 @@ export class InvestmentEclOverrideDto implements IInvestmentEclOverrideDto {
 
 export interface IInvestmentEclOverrideDto {
     stageOverride: number | undefined;
+    impairmentOverride: number | undefined;
     overrideComment: string | undefined;
     status: GeneralStatusEnum | undefined;
     eclId: string | undefined;
@@ -54373,6 +54481,7 @@ export class GetInvestmentPreResultForOverrideOutput implements IGetInvestmentPr
     assetType!: string | undefined;
     currentRating!: string | undefined;
     stage!: number | undefined;
+    impairment!: number | undefined;
 
     constructor(data?: IGetInvestmentPreResultForOverrideOutput) {
         if (data) {
@@ -54390,6 +54499,7 @@ export class GetInvestmentPreResultForOverrideOutput implements IGetInvestmentPr
             this.assetType = data["assetType"];
             this.currentRating = data["currentRating"];
             this.stage = data["stage"];
+            this.impairment = data["impairment"];
         }
     }
 
@@ -54407,6 +54517,7 @@ export class GetInvestmentPreResultForOverrideOutput implements IGetInvestmentPr
         data["assetType"] = this.assetType;
         data["currentRating"] = this.currentRating;
         data["stage"] = this.stage;
+        data["impairment"] = this.impairment;
         return data; 
     }
 }
@@ -54417,11 +54528,13 @@ export interface IGetInvestmentPreResultForOverrideOutput {
     assetType: string | undefined;
     currentRating: string | undefined;
     stage: number | undefined;
+    impairment: number | undefined;
 }
 
 export class CreateOrEditInvestmentEclOverrideDto implements ICreateOrEditInvestmentEclOverrideDto {
     investmentEclSicrId!: string | undefined;
     stage!: number | undefined;
+    impairmentOverride!: number | undefined;
     overrideComment!: string;
     status!: GeneralStatusEnum | undefined;
     eclId!: string | undefined;
@@ -54441,6 +54554,7 @@ export class CreateOrEditInvestmentEclOverrideDto implements ICreateOrEditInvest
         if (data) {
             this.investmentEclSicrId = data["investmentEclSicrId"];
             this.stage = data["stage"];
+            this.impairmentOverride = data["impairmentOverride"];
             this.overrideComment = data["overrideComment"];
             this.status = data["status"];
             this.eclId = data["eclId"];
@@ -54460,6 +54574,7 @@ export class CreateOrEditInvestmentEclOverrideDto implements ICreateOrEditInvest
         data = typeof data === 'object' ? data : {};
         data["investmentEclSicrId"] = this.investmentEclSicrId;
         data["stage"] = this.stage;
+        data["impairmentOverride"] = this.impairmentOverride;
         data["overrideComment"] = this.overrideComment;
         data["status"] = this.status;
         data["eclId"] = this.eclId;
@@ -54472,6 +54587,7 @@ export class CreateOrEditInvestmentEclOverrideDto implements ICreateOrEditInvest
 export interface ICreateOrEditInvestmentEclOverrideDto {
     investmentEclSicrId: string | undefined;
     stage: number | undefined;
+    impairmentOverride: number | undefined;
     overrideComment: string;
     status: GeneralStatusEnum | undefined;
     eclId: string | undefined;
@@ -55383,7 +55499,6 @@ export class ViewEclResultDetailsDto implements IViewEclResultDetailsDto {
     segment!: string | undefined;
     productType!: string | undefined;
     sector!: string | undefined;
-    staging!: number | undefined;
     exposure!: number | undefined;
     preOverrideResult!: EclResultOverrideFigures | undefined;
     postOverrideResult!: EclResultOverrideFigures | undefined;
@@ -55406,7 +55521,6 @@ export class ViewEclResultDetailsDto implements IViewEclResultDetailsDto {
             this.segment = data["segment"];
             this.productType = data["productType"];
             this.sector = data["sector"];
-            this.staging = data["staging"];
             this.exposure = data["exposure"];
             this.preOverrideResult = data["preOverrideResult"] ? EclResultOverrideFigures.fromJS(data["preOverrideResult"]) : <any>undefined;
             this.postOverrideResult = data["postOverrideResult"] ? EclResultOverrideFigures.fromJS(data["postOverrideResult"]) : <any>undefined;
@@ -55429,7 +55543,6 @@ export class ViewEclResultDetailsDto implements IViewEclResultDetailsDto {
         data["segment"] = this.segment;
         data["productType"] = this.productType;
         data["sector"] = this.sector;
-        data["staging"] = this.staging;
         data["exposure"] = this.exposure;
         data["preOverrideResult"] = this.preOverrideResult ? this.preOverrideResult.toJSON() : <any>undefined;
         data["postOverrideResult"] = this.postOverrideResult ? this.postOverrideResult.toJSON() : <any>undefined;
@@ -55445,13 +55558,13 @@ export interface IViewEclResultDetailsDto {
     segment: string | undefined;
     productType: string | undefined;
     sector: string | undefined;
-    staging: number | undefined;
     exposure: number | undefined;
     preOverrideResult: EclResultOverrideFigures | undefined;
     postOverrideResult: EclResultOverrideFigures | undefined;
 }
 
 export class EclResultOverrideFigures implements IEclResultOverrideFigures {
+    stage!: number | undefined;
     eclBest!: number | undefined;
     eclOptimistic!: number | undefined;
     eclDownturn!: number | undefined;
@@ -55468,6 +55581,7 @@ export class EclResultOverrideFigures implements IEclResultOverrideFigures {
 
     init(data?: any) {
         if (data) {
+            this.stage = data["stage"];
             this.eclBest = data["eclBest"];
             this.eclOptimistic = data["eclOptimistic"];
             this.eclDownturn = data["eclDownturn"];
@@ -55484,6 +55598,7 @@ export class EclResultOverrideFigures implements IEclResultOverrideFigures {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["stage"] = this.stage;
         data["eclBest"] = this.eclBest;
         data["eclOptimistic"] = this.eclOptimistic;
         data["eclDownturn"] = this.eclDownturn;
@@ -55493,6 +55608,7 @@ export class EclResultOverrideFigures implements IEclResultOverrideFigures {
 }
 
 export interface IEclResultOverrideFigures {
+    stage: number | undefined;
     eclBest: number | undefined;
     eclOptimistic: number | undefined;
     eclDownturn: number | undefined;

@@ -35,6 +35,7 @@ export class ApplyOverrideModalComponent extends AppComponentBase {
     saving = false;
     isShown = false;
     reviewMode = false;
+    viewOnlyMode = false;
     generalStatusEnum = GeneralStatusEnum;
 
     options: IApplyOverrideModalOptions = _.merge({});
@@ -73,6 +74,7 @@ export class ApplyOverrideModalComponent extends AppComponentBase {
 
         this.title = this.l('ApplyOverride');
         this.reviewMode = false;
+        this.viewOnlyMode = false;
         this.dataSource = null;
         this.eclOverride = null;
         this.modal.show();
@@ -85,6 +87,19 @@ export class ApplyOverrideModalComponent extends AppComponentBase {
 
         this.title = this.l('ReviewOverride');
         this.reviewMode = true;
+        this.viewOnlyMode = false;
+        this.getRecordDetails(sicrId);
+        this.modal.show();
+    }
+
+    showInViewOnlyMode(sicrId: string): void {
+        if (!this.options) {
+            throw Error('Should call ApplyOverrideModalComponent.configure once before ApproveEclComponent.show!');
+        }
+
+        this.title = this.l('ViewOverride');
+        this.reviewMode = false;
+        this.viewOnlyMode = true;
         this.getRecordDetails(sicrId);
         this.modal.show();
     }
@@ -117,6 +132,9 @@ export class ApplyOverrideModalComponent extends AppComponentBase {
             this._invSecOverrideServiceProxy.getEclRecordDetails(this.selectedAccount.value).subscribe(result => {
                 this.dataSource = result;
                 this.eclOverride = result.eclOverrides;
+                if (this.eclOverrideHasProp('id') && this.eclOverride.id) {
+                    this.getOverrideAuditTrail();
+                }
             });
         } else {
             this._invSecOverrideServiceProxy.getEclRecordDetails(selectedAccountId).subscribe(result => {

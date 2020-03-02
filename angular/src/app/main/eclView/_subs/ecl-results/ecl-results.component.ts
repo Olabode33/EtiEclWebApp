@@ -48,6 +48,7 @@ export class EclResultsComponent extends AppComponentBase {
             case EclStatusEnum.PreOverrideComplete:
             case EclStatusEnum.PostOverrideComplete:
             case EclStatusEnum.Completed:
+            case EclStatusEnum.Closed:
                 this.show = true;
                 break;
             default:

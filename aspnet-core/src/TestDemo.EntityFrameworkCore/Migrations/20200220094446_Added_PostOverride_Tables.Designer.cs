@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestDemo.EntityFrameworkCore;
 
 namespace TestDemo.Migrations
 {
     [DbContext(typeof(TestDemoDbContext))]
-    partial class TestDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200220094446_Added_PostOverride_Tables")]
+    partial class Added_PostOverride_Tables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2219,8 +2221,7 @@ namespace TestDemo.Migrations
             modelBuilder.Entity("TestDemo.InvestmentComputation.InvestmentEclFinalPostOverrideResult", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("NEWID()");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("AssetDescription");
 
@@ -2281,8 +2282,7 @@ namespace TestDemo.Migrations
             modelBuilder.Entity("TestDemo.InvestmentComputation.InvestmentEclMonthlyPostOverrideResult", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("NEWID()");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<double?>("BestValue");
 
@@ -2358,7 +2358,7 @@ namespace TestDemo.Migrations
                     b.Property<string>("OverrideComment")
                         .IsRequired();
 
-                    b.Property<int?>("StageOverride");
+                    b.Property<int>("StageOverride");
 
                     b.Property<int>("Status");
 

@@ -11,5 +11,6 @@ namespace TestDemo.InvestmentComputation
     public interface IEclCustomRepository: IRepository<InvestmentEcl, Guid>
     {
         Task RunInvestmentPreOverrideEclStoredProcedure(Guid eclId);
+        Task RunInvestmentPostOverrideEclStoredProcedure(Guid eclId);
     }
 }

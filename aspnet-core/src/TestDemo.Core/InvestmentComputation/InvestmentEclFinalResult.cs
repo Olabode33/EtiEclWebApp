@@ -25,4 +25,20 @@ namespace TestDemo.InvestmentComputation
         [ForeignKey("EclId")]
         public InvestmentEcl EclFk { get; set; }
     }
+
+    [Table("InvestmentEclFinalPostOverrideResults")]
+    public class InvestmentEclFinalPostOverrideResult : Entity<Guid>
+    {
+        public virtual Guid RecordId { get; set; }
+        public virtual string AssetDescription { get; set; }
+        public virtual int Stage { get; set; }
+        public virtual double? Exposure { get; set; }
+        public virtual double? BestValue { get; set; }
+        public virtual double? OptimisticValue { get; set; }
+        public virtual double? DownturnValue { get; set; }
+        public virtual double? Impairment { get; set; }
+        public virtual Guid EclId { get; set; }
+        [ForeignKey("EclId")]
+        public InvestmentEcl EclFk { get; set; }
+    }
 }

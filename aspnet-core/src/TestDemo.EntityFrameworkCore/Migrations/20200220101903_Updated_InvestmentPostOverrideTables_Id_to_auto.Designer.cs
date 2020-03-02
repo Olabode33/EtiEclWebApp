@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestDemo.EntityFrameworkCore;
 
 namespace TestDemo.Migrations
 {
     [DbContext(typeof(TestDemoDbContext))]
-    partial class TestDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200220101903_Updated_InvestmentPostOverrideTables_Id_to_auto")]
+    partial class Updated_InvestmentPostOverrideTables_Id_to_auto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2358,7 +2360,7 @@ namespace TestDemo.Migrations
                     b.Property<string>("OverrideComment")
                         .IsRequired();
 
-                    b.Property<int?>("StageOverride");
+                    b.Property<int>("StageOverride");
 
                     b.Property<int>("Status");
 
