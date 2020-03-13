@@ -171,6 +171,8 @@
     <text name="ValidationError">Error validating record: </text>
     <text name="ApprovedSuccessfully">Approved successfully!</text>
     <text name="RejectedSuccessfully">Rejected successfully!</text>
+    <text name="EclDataAssetBooksHeaderInfo">View uploaded asset-book details.</text>
+    <text name="EclDataAssetBooks">Asset Book</text>
     <text name="EclDataPaymentSchedulesHeaderInfo">View uploaded payment schedule details.</text>
     <text name="EclDataPaymentSchedules">Payment Schedule</text>
     <text name="EclDataLoanBooksHeaderInfo">View uploaded loanbook snapshot details.</text>

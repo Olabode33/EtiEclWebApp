@@ -29,6 +29,7 @@ import { ViewPaymentScheduleComponent } from './eclShared/view-paymentSchedule/v
 import { ViewEclComponent } from './eclView/view-ecl/view-ecl.component';
 import { AffiliateConfigurationComponent } from './eclConfig/affiliate-configuration/affiliate-configuration.component';
 import { WorkspaceComponent } from './workspace/workspace.component';
+import { ViewAssetBookDetailsComponent } from './eclShared/view-assetBookDetails/view-assetBookDetails.component';
 
 @NgModule({
     imports: [
@@ -66,7 +67,8 @@ import { WorkspaceComponent } from './workspace/workspace.component';
                     { path: 'retail/ecl/view/:eclId', component: ViewRetailEclComponent},
                     { path: 'ecl/view/:framework/:eclId', component: ViewEclComponent},
                     { path: 'ecl/view/upload/loanbook/:framework/:uploadId', component: ViewLoanbookDetailsComponent},
-                    { path: 'ecl/view/upload/payment/:framework/:uploadId', component: ViewPaymentScheduleComponent}
+                    { path: 'ecl/view/upload/payment/:framework/:uploadId', component: ViewPaymentScheduleComponent},
+                    { path: 'ecl/view/upload/assetbook/:framework/:uploadId', component: ViewAssetBookDetailsComponent}
                 ]
             }
         ])

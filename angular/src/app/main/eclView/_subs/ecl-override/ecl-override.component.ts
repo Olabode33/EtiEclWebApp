@@ -21,6 +21,7 @@ export class EclOverrideComponent extends AppComponentBase {
     //TODO: Hide action buttons if ECL is post-override or completed
 
     show = false;
+    canApplyOverride = true;
 
     _serviceProxy: any;
     _eclId = '';
@@ -41,10 +42,11 @@ export class EclOverrideComponent extends AppComponentBase {
         super(injector);
     }
 
-    load(eclId: string, framework: FrameworkEnum, showOverride = false): void {
+    load(eclId: string, framework: FrameworkEnum, showOverride = false, canApplyOverride = true): void {
         this._eclId = eclId;
         this._eclFramework = framework;
         this.show = showOverride;
+        this.canApplyOverride = canApplyOverride;
         console.log(this._eclFramework);
         this.configureServiceProxy();
         this.configureApplyOverrideModal();
@@ -52,6 +54,10 @@ export class EclOverrideComponent extends AppComponentBase {
 
     display(showOverride: boolean): void {
         this.show = showOverride;
+    }
+
+    disableApplyOverride(canApplyOverride: boolean):  void {
+        this.canApplyOverride = canApplyOverride;
     }
 
     configureServiceProxy(): void {

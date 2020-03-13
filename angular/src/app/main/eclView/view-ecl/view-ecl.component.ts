@@ -397,6 +397,9 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
         }
     }
 
+
+    //#region Data Upload
+    //#region Loanbook Upload
     uploadLoanbook(data: { files: File }): void {
         let upload = this.getUploadDto();
         upload.docType = UploadDocTypeEnum.LoanBook;
@@ -409,36 +412,6 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
             this.getEclUploadSummary();
 
         });
-    }
-
-    uploadPaymentSchedule(data: { files: File }): void {
-        let upload = this.getUploadDto();
-        upload.docType = UploadDocTypeEnum.PaymentSchedule;
-        upload.eclId = this._eclId;
-        upload.status = GeneralStatusEnum.Processing;
-        upload.uploadComment = '';
-
-        this._eclUploadServiceProxy.createOrEdit(upload).subscribe(result => {
-            this.startPaymentUpload(data, result);
-            this.getEclUploadSummary();
-        });
-    }
-
-    uploadAssetBook(data: { files: File }): void {
-        let upload = this.getUploadDto();
-        upload.docType = UploadDocTypeEnum.AssetBook;
-        upload.eclId = this._eclId;
-        upload.status = GeneralStatusEnum.Processing;
-        upload.uploadComment = '';
-
-        this._eclUploadServiceProxy.createOrEdit(upload).subscribe(result => {
-            this.startAssetBookUpload(data, result);
-            this.getEclUploadSummary();
-        });
-    }
-
-    onUploadExcelError(): void {
-        this.notify.error(this.l('ImportEclDataFailed'));
     }
 
     startLoanbookUpload(data: { files: File }, uploadSummaryId: string): void {
@@ -460,6 +433,21 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
                 }
             });
     }
+    //#endregion
+
+    //#region Playment Schedule Upload
+    uploadPaymentSchedule(data: { files: File }): void {
+        let upload = this.getUploadDto();
+        upload.docType = UploadDocTypeEnum.PaymentSchedule;
+        upload.eclId = this._eclId;
+        upload.status = GeneralStatusEnum.Processing;
+        upload.uploadComment = '';
+
+        this._eclUploadServiceProxy.createOrEdit(upload).subscribe(result => {
+            this.startPaymentUpload(data, result);
+            this.getEclUploadSummary();
+        });
+    }
 
     startPaymentUpload(data: { files: File }, uploadSummaryId: string): void {
         const formData: FormData = new FormData();
@@ -479,6 +467,21 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
                     this.notify.error(this.l('ImportPaymentScheduleUploadFailed'));
                 }
             });
+    }
+    //#endregion
+
+    //#region Assetbook Upload
+    uploadAssetBook(data: { files: File }): void {
+        let upload = this.getUploadDto();
+        upload.docType = UploadDocTypeEnum.AssetBook;
+        upload.eclId = this._eclId;
+        upload.status = GeneralStatusEnum.Processing;
+        upload.uploadComment = '';
+
+        this._eclUploadServiceProxy.createOrEdit(upload).subscribe(result => {
+            this.startAssetBookUpload(data, result);
+            this.getEclUploadSummary();
+        });
     }
 
     startAssetBookUpload(data: { files: File }, uploadSummaryId: string): void {
@@ -500,6 +503,11 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
                 }
             });
     }
+    //#endregion
+
+    onUploadExcelError(): void {
+        this.notify.error(this.l('ImportEclDataFailed'));
+    }
 
     autoReloadUploadSummary(): void {
         let processing = this.eclUploads.filter(x => x.eclUpload.status === GeneralStatusEnum.Processing);
@@ -512,6 +520,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
         //     this.getEclUploadSummary();
         // }
     }
+    //#endregion
 
     showOverride(): boolean {
         switch (this.eclDto.status) {
@@ -525,6 +534,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
         }
     }
 
+    //#region Navigation
     //TODO: Add view assetbook details
     navigateToViewUploadDetails(uploadId: string, docType: UploadDocTypeEnum): void {
         switch (docType) {
@@ -533,6 +543,9 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
                 break;
             case UploadDocTypeEnum.PaymentSchedule:
                 this.navigateToViewPaymentScheduleDetails(uploadId);
+                break;
+            case UploadDocTypeEnum.AssetBook:
+                this.navigateToViewAssetBookDetails(uploadId);
                 break;
             default:
                 break;
@@ -547,6 +560,12 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
         this._router.navigate(['/app/main/ecl/view/upload/payment/', this._eclFramework.toString(), uploadId], { relativeTo: this._activatedRoute});
     }
 
+    navigateToViewAssetBookDetails(uploadId: string): void {
+        this._router.navigate(['/app/main/ecl/view/upload/assetbook/', this._eclFramework.toString(), uploadId], { relativeTo: this._activatedRoute});
+    }
+    //#endregion
+
+    //#region Utility Functions
     checkDtoProp(prop: string, dto: any): boolean {
         if (this.hasProp(prop, dto)) {
             return true;
@@ -579,5 +598,6 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
                 return 'dark';
         }
     }
+    //#endregion
 
 }

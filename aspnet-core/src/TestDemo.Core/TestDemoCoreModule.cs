@@ -28,6 +28,8 @@ using TestDemo.MultiTenancy;
 using TestDemo.Net.Emailing;
 using TestDemo.Notifications;
 using TestDemo.EclConfig;
+using TestDemo.Authorization.Ldap;
+using Abp.Zero.Ldap.Configuration;
 
 namespace TestDemo
 {
@@ -68,7 +70,7 @@ namespace TestDemo
             Configuration.MultiTenancy.IsEnabled = TestDemoConsts.MultiTenancyEnabled;
 
             //Enable LDAP authentication (It can be enabled only if MultiTenancy is disabled!)
-            //Configuration.Modules.ZeroLdap().Enable(typeof(AppLdapAuthenticationSource));
+            Configuration.Modules.ZeroLdap().Enable(typeof(AppLdapAuthenticationSource));
 
             //Twilio - Enable this line to activate Twilio SMS integration
             //Configuration.ReplaceService<ISmsSender,TwilioSmsSender>();
@@ -83,7 +85,7 @@ namespace TestDemo
             if (DebugHelper.IsDebug)
             {
                 //Disabling email sending in debug mode
-                Configuration.ReplaceService<IEmailSender, NullEmailSender>(DependencyLifeStyle.Transient);
+                //Configuration.ReplaceService<IEmailSender, NullEmailSender>(DependencyLifeStyle.Transient);
             }
 
             Configuration.ReplaceService(typeof(IEmailSenderConfiguration), () =>

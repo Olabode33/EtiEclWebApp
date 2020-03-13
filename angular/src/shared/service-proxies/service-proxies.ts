@@ -6357,6 +6357,93 @@ export class InvestmentAssetBooksServiceProxy {
     }
 
     /**
+     * @param assetDescriptionFilter (optional) 
+     * @param assetTypeFilter (optional) 
+     * @param counterPartyFilter (optional) 
+     * @param filter (optional) 
+     * @param customerNoFilter (optional) 
+     * @param accountNoFilter (optional) 
+     * @param contractNoFilter (optional) 
+     * @param customerNameFilter (optional) 
+     * @param eclId (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getEclData(assetDescriptionFilter: string | null | undefined, assetTypeFilter: string | null | undefined, counterPartyFilter: string | null | undefined, filter: string | null | undefined, customerNoFilter: string | null | undefined, accountNoFilter: string | null | undefined, contractNoFilter: string | null | undefined, customerNameFilter: string | null | undefined, eclId: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetInvestmentAssetBookForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentAssetBooks/GetEclData?";
+        if (assetDescriptionFilter !== undefined)
+            url_ += "AssetDescriptionFilter=" + encodeURIComponent("" + assetDescriptionFilter) + "&"; 
+        if (assetTypeFilter !== undefined)
+            url_ += "AssetTypeFilter=" + encodeURIComponent("" + assetTypeFilter) + "&"; 
+        if (counterPartyFilter !== undefined)
+            url_ += "CounterPartyFilter=" + encodeURIComponent("" + counterPartyFilter) + "&"; 
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (customerNoFilter !== undefined)
+            url_ += "CustomerNoFilter=" + encodeURIComponent("" + customerNoFilter) + "&"; 
+        if (accountNoFilter !== undefined)
+            url_ += "AccountNoFilter=" + encodeURIComponent("" + accountNoFilter) + "&"; 
+        if (contractNoFilter !== undefined)
+            url_ += "ContractNoFilter=" + encodeURIComponent("" + contractNoFilter) + "&"; 
+        if (customerNameFilter !== undefined)
+            url_ += "CustomerNameFilter=" + encodeURIComponent("" + customerNameFilter) + "&"; 
+        if (eclId !== undefined)
+            url_ += "EclId=" + encodeURIComponent("" + eclId) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetEclData(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetEclData(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetInvestmentAssetBookForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetInvestmentAssetBookForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetEclData(response: HttpResponseBase): Observable<PagedResultDtoOfGetInvestmentAssetBookForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetInvestmentAssetBookForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetInvestmentAssetBookForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetInvestmentAssetBookForViewDto>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
