@@ -136,13 +136,6 @@ namespace TestDemo.RetailAssumption
          {
             var retailEclEadInputAssumption = ObjectMapper.Map<RetailEclEadInputAssumption>(input);
 
-			
-			if (AbpSession.TenantId != null)
-			{
-				retailEclEadInputAssumption.TenantId = (int?) AbpSession.TenantId;
-			}
-		
-
             await _retailEclEadInputAssumptionRepository.InsertAsync(retailEclEadInputAssumption);
          }
 

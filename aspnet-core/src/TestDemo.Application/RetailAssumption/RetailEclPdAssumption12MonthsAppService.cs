@@ -106,13 +106,6 @@ namespace TestDemo.RetailAssumption
          {
             var retailEclPdAssumption12Month = ObjectMapper.Map<RetailEclPdAssumption12Month>(input);
 
-			
-			if (AbpSession.TenantId != null)
-			{
-				retailEclPdAssumption12Month.TenantId = (int?) AbpSession.TenantId;
-			}
-		
-
             await _retailEclPdAssumption12MonthRepository.InsertAsync(retailEclPdAssumption12Month);
          }
 

@@ -5,23 +5,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
 using Abp.Auditing;
+using TestDemo.EclLibrary.BaseEngine.ComputationBase;
 
 namespace TestDemo.WholesaleComputation
 {
 	[Table("WholesaleEadCirProjections")]
     [Audited]
-    public class WholesaleEadCirProjection : Entity<Guid> 
-    {
-
-		public virtual string CIR_GROUP { get; set; }
-		
-		public virtual int Months { get; set; }
-		
-		public virtual double Value { get; set; }
-		
-		public virtual double CIR_EFFECTIVE { get; set; }
-		
-
+    public class WholesaleEadCirProjection : EclEadCirProjectionBase
+	{
 		public virtual Guid? WholesaleEclId { get; set; }
 		
         [ForeignKey("WholesaleEclId")]

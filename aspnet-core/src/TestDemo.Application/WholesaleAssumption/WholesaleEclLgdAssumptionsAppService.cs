@@ -99,13 +99,6 @@ namespace TestDemo.WholesaleAssumption
          {
             var wholesaleEclLgdAssumption = ObjectMapper.Map<WholesaleEclLgdAssumption>(input);
 
-			
-			if (AbpSession.TenantId != null)
-			{
-				wholesaleEclLgdAssumption.TenantId = (int?) AbpSession.TenantId;
-			}
-		
-
             await _wholesaleEclLgdAssumptionRepository.InsertAsync(wholesaleEclLgdAssumption);
          }
 

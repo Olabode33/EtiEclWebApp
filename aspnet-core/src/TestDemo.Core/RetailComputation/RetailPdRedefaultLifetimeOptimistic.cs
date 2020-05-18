@@ -4,20 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
+using TestDemo.EclLibrary.BaseEngine.ComputationBase;
 
 namespace TestDemo.RetailComputation
 {
 	[Table("RetailPdRedefaultLifetimeOptimistics")]
-    public class RetailPdRedefaultLifetimeOptimistic : Entity<Guid> 
-    {
-
-		public virtual string PdGroup { get; set; }
-		
-		public virtual int Month { get; set; }
-		
-		public virtual double Value { get; set; }
-		
-
+    public class RetailPdRedefaultLifetimeOptimistic : EclPdRedefaultLifetimeBase
+	{
 		public virtual Guid RetailEclId { get; set; }
 		
         [ForeignKey("RetailEclId")]

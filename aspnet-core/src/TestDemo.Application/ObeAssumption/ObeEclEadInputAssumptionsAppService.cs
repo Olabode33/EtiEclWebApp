@@ -112,13 +112,6 @@ namespace TestDemo.ObeAssumption
          {
             var obeEclEadInputAssumption = ObjectMapper.Map<ObeEclEadInputAssumption>(input);
 
-			
-			if (AbpSession.TenantId != null)
-			{
-				obeEclEadInputAssumption.TenantId = (int?) AbpSession.TenantId;
-			}
-		
-
             await _obeEclEadInputAssumptionRepository.InsertAsync(obeEclEadInputAssumption);
          }
 

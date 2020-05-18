@@ -100,13 +100,6 @@ namespace TestDemo.WholesaleAssumption
          {
             var wholesaleEadInputAssumption = ObjectMapper.Map<WholesaleEclEadInputAssumption>(input);
 
-			
-			if (AbpSession.TenantId != null)
-			{
-				wholesaleEadInputAssumption.TenantId = (int?) AbpSession.TenantId;
-			}
-		
-
             await _wholesaleEadInputAssumptionRepository.InsertAsync(wholesaleEadInputAssumption);
          }
 

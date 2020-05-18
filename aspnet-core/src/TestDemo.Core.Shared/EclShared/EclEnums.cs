@@ -80,6 +80,18 @@ namespace TestDemo.EclShared
         IndexWeight, PdInputs, EadInputs, LgdInputs, Haircuts
     }
 
+    public enum CollateralProjectionType
+    {
+        Best, Optimistic, Downturn
+    }
+
+    public enum EclScenarioEnum
+    {
+        Best,
+        Optimistic,
+        Downturn
+    }
+
     public static class EclEnums
     {
         public const string Assumption = "Assumption";

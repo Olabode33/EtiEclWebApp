@@ -106,13 +106,6 @@ namespace TestDemo.ObeAssumption
          {
             var obeEclPdSnPCummulativeDefaultRate = ObjectMapper.Map<ObeEclPdSnPCummulativeDefaultRate>(input);
 
-			
-			if (AbpSession.TenantId != null)
-			{
-				obeEclPdSnPCummulativeDefaultRate.TenantId = (int?) AbpSession.TenantId;
-			}
-		
-
             await _obeEclPdSnPCummulativeDefaultRateRepository.InsertAsync(obeEclPdSnPCummulativeDefaultRate);
          }
 

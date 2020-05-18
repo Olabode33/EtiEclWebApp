@@ -8,34 +8,14 @@ using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
 using Abp.Auditing;
 using Abp.Organizations;
+using TestDemo.EclLibrary.BaseEngine.AssumptionBase;
 
 namespace TestDemo.RetailAssumption
 {
 	[Table("RetailEclAssumptions")]
     [Audited]
-    public class RetailEclAssumption : FullAuditedEntity<Guid> , IMayHaveTenant, IMustHaveOrganizationUnit
+    public class RetailEclAssumption : EclAssumptionBase
     {
-			public int? TenantId { get; set; }
-        public virtual long OrganizationUnitId { get; set; }
-
-        public virtual string Key { get; set; }
-		
-		public virtual string InputName { get; set; }
-		
-		public virtual string Value { get; set; }
-		
-		public virtual DataTypeEnum DataType { get; set; }
-		
-		[Required]
-		public virtual bool IsComputed { get; set; }
-		
-		public virtual AssumptionGroupEnum AssumptionGroup { get; set; }
-		
-		[Required]
-		public virtual bool RequiresGroupApproval { get; set; }
-
-        public virtual bool CanAffiliateEdit { get; set; }
-
         public virtual Guid? RetailEclId { get; set; }
 		
         [ForeignKey("RetailEclId")]

@@ -8,33 +8,14 @@ using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
 using Abp.Auditing;
 using Abp.Organizations;
+using TestDemo.EclLibrary.BaseEngine.AssumptionBase;
 
 namespace TestDemo.ObeAssumption
 {
 	[Table("ObeEclPdAssumptionMacroeconomicInputses")]
     [Audited]
-    public class ObeEclPdAssumptionMacroeconomicInputs : FullAuditedEntity<Guid>, IMustHaveOrganizationUnit
-    {
-
-		public virtual string Key { get; set; }
-		
-		public virtual string InputName { get; set; }
-		
-		public virtual double Value { get; set; }
-		
-		public virtual PdInputAssumptionMacroEconomicInputGroupEnum MacroeconomicGroup { get; set; }
-		
-		public virtual bool IsComputed { get; set; }
-		
-		public virtual bool CanAffiliateEdit { get; set; }
-		
-		public virtual bool RequiresGroupApproval { get; set; }
-		
-		public virtual GeneralStatusEnum Status { get; set; }
-		
-		public virtual long OrganizationUnitId { get; set; }
-		
-
+    public class ObeEclPdAssumptionMacroeconomicInputs : EclPdAssumptionMacroeconomicInputBase
+	{
 		public virtual Guid ObeEclId { get; set; }
 		
         [ForeignKey("ObeEclId")]

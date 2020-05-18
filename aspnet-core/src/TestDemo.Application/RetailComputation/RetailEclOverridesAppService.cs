@@ -37,7 +37,7 @@ namespace TestDemo.RetailComputation
 			
 			var filteredRetailEclOverrides = _retailEclOverrideRepository.GetAll()
 						.Include( e => e.RetailEclDataLoanBookFk)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.Reason.Contains(input.Filter) || e.ContractId.Contains(input.Filter))
+						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.ContractId.Contains(input.Filter))
 						.WhereIf(!string.IsNullOrWhiteSpace(input.RetailEclDataLoanBookCustomerNameFilter), e => e.RetailEclDataLoanBookFk != null && e.RetailEclDataLoanBookFk.CustomerName == input.RetailEclDataLoanBookCustomerNameFilter);
 
 			var pagedAndFilteredRetailEclOverrides = filteredRetailEclOverrides
@@ -51,19 +51,6 @@ namespace TestDemo.RetailComputation
                          select new GetRetailEclOverrideForViewDto() {
 							RetailEclOverride = new RetailEclOverrideDto
 							{
-                                Stage = o.Stage,
-                                TtrYears = o.TtrYears,
-                                FSV_Cash = o.FSV_Cash,
-                                FSV_CommercialProperty = o.FSV_CommercialProperty,
-                                FSV_Debenture = o.FSV_Debenture,
-                                FSV_Inventory = o.FSV_Inventory,
-                                FSV_PlantAndEquipment = o.FSV_PlantAndEquipment,
-                                FSV_Receivables = o.FSV_Receivables,
-                                FSV_ResidentialProperty = o.FSV_ResidentialProperty,
-                                FSV_Shares = o.FSV_Shares,
-                                FSV_Vehicle = o.FSV_Vehicle,
-                                OverlaysPercentage = o.OverlaysPercentage,
-                                Reason = o.Reason,
                                 ContractId = o.ContractId,
                                 Id = o.Id
 							},

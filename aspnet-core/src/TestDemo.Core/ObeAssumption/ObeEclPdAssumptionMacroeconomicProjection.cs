@@ -7,37 +7,14 @@ using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
 using Abp.Auditing;
 using Abp.Organizations;
+using TestDemo.EclLibrary.BaseEngine.AssumptionBase;
 
 namespace TestDemo.ObeAssumption
 {
 	[Table("ObeEclPdAssumptionMacroeconomicProjections")]
     [Audited]
-    public class ObeEclPdAssumptionMacroeconomicProjection : FullAuditedEntity<Guid>, IMustHaveOrganizationUnit
-    {
-
-		public virtual string Key { get; set; }
-		
-		public virtual DateTime Date { get; set; }
-		
-		public virtual string InputName { get; set; }
-		
-		public virtual double BestValue { get; set; }
-		
-		public virtual double OptimisticValue { get; set; }
-		
-		public virtual double DownturnValue { get; set; }
-		
-		public virtual PdInputAssumptionMacroEconomicInputGroupEnum MacroeconomicGroup { get; set; }
-		
-		public virtual bool IsComputed { get; set; }
-		
-		public virtual bool CanAffiliateEdit { get; set; }
-		
-		public virtual bool RequiresGroupApproval { get; set; }
-		
-		public virtual long OrganizationUnitId { get; set; }
-		
-
+    public class ObeEclPdAssumptionMacroeconomicProjection : EclPdAssumptionMacroeconomicProjectionBase
+	{
 		public virtual Guid ObeEclId { get; set; }
 		
         [ForeignKey("ObeEclId")]

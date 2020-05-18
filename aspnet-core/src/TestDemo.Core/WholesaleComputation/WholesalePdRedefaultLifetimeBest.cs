@@ -6,19 +6,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
 using Abp.Auditing;
+using TestDemo.EclLibrary.BaseEngine.ComputationBase;
 
 namespace TestDemo.WholesaleComputation
 {
 	[Table("WholesalePdRedefaultLifetimeBests")]
     [Audited]
-    public class WholesalePdRedefaultLifetimeBest : Entity<Guid> 
-    {
-
-		public virtual string PdGroup { get; set; }
-		
-		public virtual int Month { get; set; }
-		
-		public virtual double Value { get; set; }
+    public class WholesalePdRedefaultLifetimeBest : EclPdRedefaultLifetimeBase
+	{
 
 		public virtual Guid? WholesaleEclId { get; set; }
 		

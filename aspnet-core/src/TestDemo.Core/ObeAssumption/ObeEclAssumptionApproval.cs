@@ -9,42 +9,17 @@ using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
 using Abp.Auditing;
 using Abp.Organizations;
+using TestDemo.EclLibrary.BaseEngine.AssumptionBase;
 
 namespace TestDemo.ObeAssumption
 {
 	[Table("ObeEclAssumptionApprovals")]
     [Audited]
-    public class ObeEclAssumptionApproval : FullAuditedEntity<Guid> , IMayHaveTenant, IMustHaveOrganizationUnit
-    {
-			public int? TenantId { get; set; }
-        public virtual long OrganizationUnitId { get; set; }
-
-
-        public virtual AssumptionTypeEnum AssumptionType { get; set; }
-		
-		public virtual string OldValue { get; set; }
-		
-		public virtual string NewValue { get; set; }
-		
-		public virtual DateTime? DateReviewed { get; set; }
-		
-		public virtual string ReviewComment { get; set; }
-		
-		public virtual GeneralStatusEnum Status { get; set; }
-		
-		[Required]
-		public virtual bool RequiresGroupApproval { get; set; }
-		
-
+    public class ObeEclAssumptionApproval : EclAssumptionApprovalBase
+	{
 		public virtual Guid? ObeEclId { get; set; }
 		
         [ForeignKey("ObeEclId")]
-		public ObeEcl ObeEclFk { get; set; }
-		
-		public virtual long? ReviewedByUserId { get; set; }
-		
-        [ForeignKey("ReviewedByUserId")]
-		public User ReviewedByUserFk { get; set; }
-		
+		public ObeEcl ObeEclFk { get; set; }		
     }
 }

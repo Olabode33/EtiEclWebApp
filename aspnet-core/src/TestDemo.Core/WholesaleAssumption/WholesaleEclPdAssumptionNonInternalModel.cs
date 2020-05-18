@@ -6,33 +6,14 @@ using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
 using Abp.Auditing;
 using Abp.Organizations;
+using TestDemo.EclLibrary.BaseEngine.AssumptionBase;
 
 namespace TestDemo.WholesaleAssumption
 {
 	[Table("WholesaleEclPdAssumptionNonInternalModels")]
     [Audited]
-    public class WholesaleEclPdAssumptionNonInternalModel : FullAuditedEntity<Guid>, IMustHaveOrganizationUnit
-    {
-
-		public virtual string Key { get; set; }
-		
-		public virtual int Month { get; set; }
-		
-		public virtual string PdGroup { get; set; }
-		
-		public virtual double MarginalDefaultRate { get; set; }
-		
-		public virtual double CummulativeSurvival { get; set; }
-		
-		public virtual bool IsComputed { get; set; }
-		
-		public virtual bool CanAffiliateEdit { get; set; }
-		
-		public virtual bool RequiresGroupApproval { get; set; }
-		
-		public virtual long OrganizationUnitId { get; set; }
-		
-
+    public class WholesaleEclPdAssumptionNonInternalModel : EclPdAssumptionNonInternalModelBase
+	{
 		public virtual Guid WholesaleEclId { get; set; }
 		
         [ForeignKey("WholesaleEclId")]

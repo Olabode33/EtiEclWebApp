@@ -104,13 +104,6 @@ namespace TestDemo.WholesaleAssumption
          {
             var wholesaleEclPdSnPCummulativeDefaultRates = ObjectMapper.Map<WholesaleEclPdSnPCummulativeDefaultRate>(input);
 
-			
-			if (AbpSession.TenantId != null)
-			{
-				wholesaleEclPdSnPCummulativeDefaultRates.TenantId = (int?) AbpSession.TenantId;
-			}
-		
-
             await _wholesaleEclPdSnPCummulativeDefaultRatesRepository.InsertAsync(wholesaleEclPdSnPCummulativeDefaultRates);
          }
 

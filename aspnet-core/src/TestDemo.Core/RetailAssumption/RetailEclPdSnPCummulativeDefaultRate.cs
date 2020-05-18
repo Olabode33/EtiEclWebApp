@@ -6,29 +6,14 @@ using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
 using Abp.Auditing;
 using Abp.Organizations;
+using TestDemo.EclLibrary.BaseEngine.AssumptionBase;
 
 namespace TestDemo.RetailAssumption
 {
 	[Table("RetailEclPdSnPCummulativeDefaultRates")]
     [Audited]
-    public class RetailEclPdSnPCummulativeDefaultRate : FullAuditedEntity<Guid> , IMayHaveTenant, IMustHaveOrganizationUnit
-    {
-			public int? TenantId { get; set; }
-        public virtual long OrganizationUnitId { get; set; }
-
-
-        public virtual string Key { get; set; }
-		
-		public virtual string Rating { get; set; }
-		
-		public virtual int? Years { get; set; }
-		
-		public virtual double? Value { get; set; }
-		
-		[Required]
-		public virtual bool RequiresGroupApproval { get; set; }
-		
-
+    public class RetailEclPdSnPCummulativeDefaultRate : EclPdSnPCummulativeDefaultRateBase
+	{
 		public virtual Guid? RetailEclId { get; set; }
 		
         [ForeignKey("RetailEclId")]

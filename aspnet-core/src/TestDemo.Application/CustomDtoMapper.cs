@@ -216,10 +216,6 @@ namespace TestDemo
             configuration.CreateMap<RetailEclResultSummaryDto, RetailEclResultSummary>().ReverseMap();
             configuration.CreateMap<CreateOrEditRetailEclResultDetailDto, RetailEclResultDetail>().ReverseMap();
             configuration.CreateMap<RetailEclResultDetailDto, RetailEclResultDetail>().ReverseMap();
-            configuration.CreateMap<CreateOrEditRetailEclSicrApprovalDto, RetailEclSicrApproval>().ReverseMap();
-            configuration.CreateMap<RetailEclSicrApprovalDto, RetailEclSicrApproval>().ReverseMap();
-            configuration.CreateMap<CreateOrEditRetailEclSicrDto, RetailEclSicr>().ReverseMap();
-            configuration.CreateMap<RetailEclSicrDto, RetailEclSicr>().ReverseMap();
             configuration.CreateMap<CreateOrEditRetailEclDataPaymentScheduleDto, RetailEclDataPaymentSchedule>().ReverseMap();
             configuration.CreateMap<RetailEclDataPaymentScheduleDto, RetailEclDataPaymentSchedule>().ReverseMap();
             configuration.CreateMap<CreateOrEditRetailEclDataLoanBookDto, RetailEclDataLoanBook>().ReverseMap();

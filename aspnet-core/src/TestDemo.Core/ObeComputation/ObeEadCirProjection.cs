@@ -4,22 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
+using TestDemo.EclLibrary.BaseEngine.ComputationBase;
 
 namespace TestDemo.ObeComputation
 {
 	[Table("ObeEadCirProjections")]
-    public class ObeEadCirProjection : Entity<Guid> 
-    {
-
-		public virtual string CIR_GROUP { get; set; }
-		
-		public virtual int Months { get; set; }
-		
-		public virtual double Value { get; set; }
-		
-		public virtual double CIR_EFFECTIVE { get; set; }
-		
-
+    public class ObeEadCirProjection : EclEadCirProjectionBase
+	{
 		public virtual Guid ObeEclId { get; set; }
 		
         [ForeignKey("ObeEclId")]

@@ -129,13 +129,6 @@ namespace TestDemo.RetailAssumption
         {
             var retailEclPdSnPCummulativeDefaultRate = ObjectMapper.Map<RetailEclPdSnPCummulativeDefaultRate>(input);
 
-
-            if (AbpSession.TenantId != null)
-            {
-                retailEclPdSnPCummulativeDefaultRate.TenantId = (int?)AbpSession.TenantId;
-            }
-
-
             await _retailEclPdSnPCummulativeDefaultRateRepository.InsertAsync(retailEclPdSnPCummulativeDefaultRate);
         }
 

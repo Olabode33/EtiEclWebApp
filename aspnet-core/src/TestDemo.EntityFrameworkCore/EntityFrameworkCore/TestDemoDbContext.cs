@@ -277,12 +277,6 @@ namespace TestDemo.EntityFrameworkCore
 
         public virtual DbSet<RetailEclResultDetail> RetailEclResultDetails { get; set; }
 
-        public virtual DbSet<RetailEclComputedEadResult> RetailEclComputedEadResults { get; set; }
-
-        public virtual DbSet<RetailEclSicrApproval> RetailEclSicrApprovals { get; set; }
-
-        public virtual DbSet<RetailEclSicr> RetailEclSicrs { get; set; }
-
         public virtual DbSet<RetailEclDataPaymentSchedule> RetailEclDataPaymentSchedules { get; set; }
 
         public virtual DbSet<RetailEclDataLoanBook> RetailEclDataLoanBooks { get; set; }
@@ -479,30 +473,6 @@ namespace TestDemo.EntityFrameworkCore
                        {
                            o.HasIndex(e => new { e.TenantId });
                        });
-            modelBuilder.Entity<ObeEclPdSnPCummulativeDefaultRate>(o =>
-                       {
-                           o.HasIndex(e => new { e.TenantId });
-                       });
-            modelBuilder.Entity<ObeEclPdAssumption12Month>(o =>
-                       {
-                           o.HasIndex(e => new { e.TenantId });
-                       });
-            modelBuilder.Entity<ObeEclLgdAssumption>(o =>
-                       {
-                           o.HasIndex(e => new { e.TenantId });
-                       });
-            modelBuilder.Entity<ObeEclEadInputAssumption>(o =>
-                       {
-                           o.HasIndex(e => new { e.TenantId });
-                       });
-            modelBuilder.Entity<ObeEclAssumptionApproval>(o =>
-                       {
-                           o.HasIndex(e => new { e.TenantId });
-                       });
-            modelBuilder.Entity<ObeEclAssumption>(o =>
-                       {
-                           o.HasIndex(e => new { e.TenantId });
-                       });
             modelBuilder.Entity<ObeEclApproval>(o =>
                        {
                            o.HasIndex(e => new { e.TenantId });
@@ -531,18 +501,6 @@ namespace TestDemo.EntityFrameworkCore
                            r.HasIndex(e => new { e.TenantId });
                            r.Property(x => x.Id).HasDefaultValueSql("NEWID()");
                        });
-            modelBuilder.Entity<RetailEclComputedEadResult>(r =>
-                       {
-                           r.HasIndex(e => new { e.TenantId });
-                       });
-            modelBuilder.Entity<RetailEclSicrApproval>(r =>
-                       {
-                           r.HasIndex(e => new { e.TenantId });
-                       });
-            modelBuilder.Entity<RetailEclSicr>(r =>
-                       {
-                           r.HasIndex(e => new { e.TenantId });
-                       });
             modelBuilder.Entity<RetailEclDataPaymentSchedule>(r =>
                        {
                            r.HasIndex(e => new { e.TenantId });
@@ -556,30 +514,6 @@ namespace TestDemo.EntityFrameworkCore
                            r.HasIndex(e => new { e.TenantId });
                        });
             modelBuilder.Entity<RetailEclUpload>(r =>
-                       {
-                           r.HasIndex(e => new { e.TenantId });
-                       });
-            modelBuilder.Entity<RetailEclPdSnPCummulativeDefaultRate>(r =>
-                       {
-                           r.HasIndex(e => new { e.TenantId });
-                       });
-            modelBuilder.Entity<RetailEclPdAssumption12Month>(r =>
-                       {
-                           r.HasIndex(e => new { e.TenantId });
-                       });
-            modelBuilder.Entity<RetailEclLgdAssumption>(r =>
-                       {
-                           r.HasIndex(e => new { e.TenantId });
-                       });
-            modelBuilder.Entity<RetailEclEadInputAssumption>(r =>
-                       {
-                           r.HasIndex(e => new { e.TenantId });
-                       });
-            modelBuilder.Entity<RetailEclAssumptionApproval>(r =>
-                       {
-                           r.HasIndex(e => new { e.TenantId });
-                       });
-            modelBuilder.Entity<RetailEclAssumption>(r =>
                        {
                            r.HasIndex(e => new { e.TenantId });
                        });
@@ -639,34 +573,11 @@ namespace TestDemo.EntityFrameworkCore
                        {
                            w.HasIndex(e => new { e.TenantId });
                        });
-            modelBuilder.Entity<WholesaleEclEadInputAssumption>(w =>
-                       {
-                           w.HasIndex(e => new { e.TenantId });
-                       });
             modelBuilder.Entity<WholesaleEclApproval>(w =>
                        {
                            w.HasIndex(e => new { e.TenantId });
                        });
-            modelBuilder.Entity<WholesaleEclPdSnPCummulativeDefaultRate>(w =>
-                       {
-                           w.HasIndex(e => new { e.TenantId });
-                       });
-            modelBuilder.Entity<WholesaleEclPdAssumption12Month>(w =>
-                       {
-                           w.HasIndex(e => new { e.TenantId });
-                       });
-            modelBuilder.Entity<WholesaleEclLgdAssumption>(w =>
-                       {
-                           w.HasIndex(e => new { e.TenantId });
-                       });
-            modelBuilder.Entity<WholesaleEclEadInputAssumption>(w =>
-                       {
-                           w.HasIndex(e => new { e.TenantId });
-                       });
-            modelBuilder.Entity<WholesaleEclAssumption>(w =>
-                       {
-                           w.HasIndex(e => new { e.TenantId });
-                       });
+            
             modelBuilder.Entity<WholesaleEcl>(w =>
                        {
                            w.HasIndex(e => new { e.TenantId });

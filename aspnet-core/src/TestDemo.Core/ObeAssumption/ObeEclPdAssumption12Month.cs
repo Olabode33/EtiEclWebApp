@@ -6,30 +6,14 @@ using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
 using Abp.Auditing;
 using Abp.Organizations;
+using TestDemo.EclLibrary.BaseEngine.AssumptionBase;
 
 namespace TestDemo.ObeAssumption
 {
 	[Table("ObeEclPdAssumption12Months")]
     [Audited]
-    public class ObeEclPdAssumption12Month : FullAuditedEntity<Guid> , IMayHaveTenant, IMustHaveOrganizationUnit
-    {
-			public int? TenantId { get; set; }
-        public virtual long OrganizationUnitId { get; set; }
-
-
-        [Required]
-		public virtual int Credit { get; set; }
-		
-		public virtual double? PD { get; set; }
-		
-		public virtual string SnPMappingEtiCreditPolicy { get; set; }
-		
-		public virtual string SnPMappingBestFit { get; set; }
-		
-		[Required]
-		public virtual bool RequiresGroupApproval { get; set; }
-		
-
+    public class ObeEclPdAssumption12Month : EclPdAssumption12MonthBase
+	{
 		public virtual Guid? ObeEclId { get; set; }
 		
         [ForeignKey("ObeEclId")]

@@ -8,37 +8,17 @@ using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
 using Abp.Auditing;
 using Abp.Organizations;
+using TestDemo.EclLibrary.BaseEngine.AssumptionBase;
 
 namespace TestDemo.RetailAssumption
 {
 	[Table("RetailEclPdAssumptionMacroeconomicInputs")]
     [Audited]
-    public class RetailEclPdAssumptionMacroeconomicInput : FullAuditedEntity<Guid>, IMustHaveOrganizationUnit
-    {
-
-		public virtual string Key { get; set; }
-		
-		public virtual string InputName { get; set; }
-		
-		public virtual double Value { get; set; }
-
-        public virtual int MacroeconomicVariableId { get; set; }
-        [ForeignKey("MacroeconomicVariableId")]
-        public MacroeconomicVariable MacroeconomicVariable { get; set; }
-
-        public virtual bool IsComputed { get; set; }
-		
-		public virtual bool CanAffiliateEdit { get; set; }
-		
-		public virtual bool RequiresGroupApproval { get; set; }
-		
-		public virtual GeneralStatusEnum Status { get; set; }
-		
-
+    public class RetailEclPdAssumptionMacroeconomicInput : EclPdAssumptionMacroeconomicInputBase
+	{
 		public virtual Guid RetailEclId { get; set; }
 		
         [ForeignKey("RetailEclId")]
 		public RetailEcl RetailEclFk { get; set; }
-        public virtual long OrganizationUnitId { get; set; }
     }
 }

@@ -4,20 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
+using TestDemo.EclLibrary.BaseEngine.ComputationBase;
 
 namespace TestDemo.RetailComputation
 {
 	[Table("RetailEadEirProjetions")]
-    public class RetailEadEirProjection : Entity<Guid> 
-    {
-
-		public virtual string EIR_Group { get; set; }
-		
-		public virtual int Month { get; set; }
-		
-		public virtual double Value { get; set; }
-		
-
+    public class RetailEadEirProjection : EclEadEirProjectionBase
+	{
 		public virtual Guid RetailEclId { get; set; }
 		
         [ForeignKey("RetailEclId")]

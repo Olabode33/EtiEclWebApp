@@ -49,6 +49,7 @@
     <Folder Include="EclLibrary\BaseEngine\EadInput\" />
     <Folder Include="EclLibrary\BaseEngine\LgdInput\" />
     <Folder Include="EclLibrary\BaseEngine\Framework\" />
+    <Folder Include="EclLibrary\NewFolder\" />
     <Folder Include="EclLibrary\WholesaleEngine\" />
   </ItemGroup>
 </Project>
