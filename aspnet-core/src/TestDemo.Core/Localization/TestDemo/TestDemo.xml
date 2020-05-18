@@ -1,6 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>
+  <texts>    <text name="AffiliateMacroEconomicVariable">Affiliate macro economic variable</text>
+    <text name="AffiliateMacroEconomicVariableOffset">Affiliate macro economic variable offset</text>
+    <text name="TestDemo.AffiliateMacroEconomicVariable.AffiliateMacroEconomicVariableOffset">AffiliateMacroEconomicVariableOffset</text>
+    <text name="BackwardOffset">Backward offset</text>
+    <text name="AffiliateMacroEconomicVariableOffsetsHeaderInfo">Affiliate macro economic variable offsets header info</text>
+    <text name="CreateNewAffiliateMacroEconomicVariableOffset">Create new affiliate macro economic variable offset</text>
+    <text name="EditAffiliateMacroEconomicVariableOffset">Edit affiliate macro economic variable offset</text>
+    <text name="DeleteAffiliateMacroEconomicVariableOffset">Delete affiliate macro economic variable offset</text>
+    <text name="AffiliateMacroEconomicVariableOffsets">Affiliate macro economic variable offsets</text>
+    <text name="MacroeconomicVariableName">Macroeconomic variable name</text>
+    <text name="PickMacroeconomicVariable">Pick macroeconomic variable</text>
+
 
     <text name="ApplyOverrideErrorRecordReviewed">Cannot apply override to reviewed facility!</text>
     <text name="EclClosedSuccessfully">ECL successfully closed!</text>

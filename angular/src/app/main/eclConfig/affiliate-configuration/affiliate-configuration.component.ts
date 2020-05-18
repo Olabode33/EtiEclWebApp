@@ -43,6 +43,10 @@ export class AffiliateConfigurationComponent extends AppComponentBase implements
     ngOnInit() {
     }
 
+    applyOverride(){
+        
+    }
+
     getAffiliates(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);

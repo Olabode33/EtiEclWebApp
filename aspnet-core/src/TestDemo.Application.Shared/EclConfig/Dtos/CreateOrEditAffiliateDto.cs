@@ -9,6 +9,7 @@ namespace TestDemo.EclConfig.Dtos
     {
         public long? ParentId { get; set; }
 		public string DisplayName { get; set; }
-		public double OverrideThreshold { get; set; }		 
+		public double OverrideThreshold { get; set; }		
+        public string Currency { get; set; }
     }
 }

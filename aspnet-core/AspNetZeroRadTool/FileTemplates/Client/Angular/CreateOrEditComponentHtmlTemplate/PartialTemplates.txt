@@ -62,7 +62,8 @@
 			"placeholder" : "{{NP_Looped_Template_Here}}",
 			"templates" : [
 					{
-					"relation" : "single",
+					"relation" : "single",					
+					"viewType": "LookupTable",
 					"content" : "
 					<div class=\"form-group m-form__group\">
                         <label for=\"{{NP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}}{{NP_Duplication_Number_Here}}\">{{l(\"{{NP_Foreign_Entity_Name_Here}}\")}}</label>
@@ -77,6 +78,19 @@
                     </div>
                     <input class=\"form-control\" name=\"{{entity_Name_Here}}.{{nP_Name_Here}}\" [(ngModel)]=\"{{entity_Name_Here}}.{{nP_Name_Here}}\" type=\"text\" {{NP_IsNullable_Required_Here}} hidden>
 		 "
+					},
+					{
+					"relation" : "single",					
+					"viewType": "Dropdown",
+					"content" : "
+					<div class=\"form-group m-form__group\">
+						<label for=\"{{NP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}}{{NP_Duplication_Number_Here}}\">{{l(\"{{NP_Foreign_Entity_Name_Here}}\")}}</label>
+						<select name=\"{{entity_Name_Here}}.{{nP_Name_Here}}\" [(ngModel)]=\"{{entity_Name_Here}}.{{nP_Name_Here}}\" class=\"form-control\">
+							<option value=\"\">{{l(\"SelectA{{NP_Foreign_Entity_Name_Here}}\")}}</option>
+							<option *ngFor=\"let item of all{{NP_Foreign_Entity_Name_Here}}s\" value=\"{{item.id}}\">{{item.displayName}}</option>
+						</select>
+					</div>
+					 "
 					}
 				]
 		},
@@ -85,6 +99,7 @@
 			"templates" : [
 					{
 					"relation" : "single",
+					"viewType": "LookupTable",	
 					"preventDuplicate":true,
 					"content" : "<{{entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModal #{{entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModal{{NP_Duplication_Number_Here}} (modalSave)=\"getNew{{NP_Name_Here}}()\"></{{entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModal>
 		 "

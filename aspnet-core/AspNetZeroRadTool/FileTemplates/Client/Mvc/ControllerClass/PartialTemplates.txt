@@ -24,10 +24,23 @@
 				]
 		},
 		{
+			"placeholder" : "{{NP_Looped_Dropdown_Init_Here}}",
+			"templates" : [
+					{
+					"relation" : "single",
+					"viewType": "Dropdown",						
+					"preventDuplicate":true,
+					"content" : ",
+					{{Entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}List = await _{{entity_Name_Plural_Here}}AppService.GetAll{{NP_Foreign_Entity_Name_Here}}ForTableDropdown()"
+					}
+				]
+		},
+		{
 			"placeholder" : "{{NP_Looped_Controller_Here}}",
 			"templates" : [
 					{
 					"relation" : "single",
+					"viewType":"LookupTable",
 					"preventDuplicate" : true,
 					"content" : "        [AbpMvcAuthorize(AppPermissions.{{Permission_Name_Here}}_Create, AppPermissions.{{Permission_Name_Here}}_Edit)]
         public PartialViewResult {{NP_Foreign_Entity_Name_Here}}LookupTableModal({{NP_Id_Type_Here}}? id, string displayName)

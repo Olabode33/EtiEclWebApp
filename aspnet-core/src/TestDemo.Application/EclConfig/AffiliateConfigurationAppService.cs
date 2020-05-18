@@ -48,6 +48,7 @@ namespace TestDemo.EclConfig
                                                   AffiliateConfiguration = new AffiliateConfigurationDto
                                                   {
                                                       OverrideThreshold = o.OverrideThreshold,
+                                                      Currency=o.Currency,
                                                       AffiliateName = o.DisplayName,
                                                       Code = o.Code,
                                                       Id = (int)o.Id
@@ -88,6 +89,7 @@ namespace TestDemo.EclConfig
             {
                 DisplayName = input.DisplayName,
                 OverrideThreshold = input.OverrideThreshold,
+                Currency=input.Currency,
                 ParentId = input.ParentId
             };
             
@@ -101,6 +103,7 @@ namespace TestDemo.EclConfig
             var affiliate = await _affiliateRepository.FirstOrDefaultAsync((int)input.Id);
 
             affiliate.OverrideThreshold = input.OverrideThreshold;
+            affiliate.Currency = input.Currency;
             affiliate.DisplayName = input.DisplayName;
 
             await _organizationUnitManager.UpdateAsync(affiliate);

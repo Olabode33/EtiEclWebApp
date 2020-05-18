@@ -1,0 +1,61 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #affiliateMacroEconomicVariableOffsetForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="affiliateMacroEconomicVariableOffset.id">{{l("EditAffiliateMacroEconomicVariableOffset")}}</span>
+                        <span *ngIf="!affiliateMacroEconomicVariableOffset.id">{{l("CreateNewAffiliateMacroEconomicVariableOffset")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+					<div class="form-group m-form__group">
+                        <label for="OrganizationUnitDisplayName">{{l("OrganizationUnit")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="OrganizationUnitDisplayName" name="organizationUnitDisplayName" [(ngModel)]="organizationUnitDisplayName" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectOrganizationUnitModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger btn-icon" type="button" (click)="setAffiliateIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="affiliateMacroEconomicVariableOffset.affiliateId" [(ngModel)]="affiliateMacroEconomicVariableOffset.affiliateId" type="text" required hidden>
+		 
+					<div class="form-group m-form__group">
+                        <label for="MacroeconomicVariableName">{{l("MacroeconomicVariable")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="MacroeconomicVariableName" name="macroeconomicVariableName" [(ngModel)]="macroeconomicVariableName" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectMacroeconomicVariableModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger btn-icon" type="button" (click)="setMacroeconomicVariableIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="affiliateMacroEconomicVariableOffset.macroeconomicVariableId" [(ngModel)]="affiliateMacroEconomicVariableOffset.macroeconomicVariableId" type="text" required hidden>
+		 
+
+								<div class="form-group">
+									<label for="AffiliateMacroEconomicVariableOffset_BackwardOffset">{{l("BackwardOffset")}}</label>
+									<input type="number" id="AffiliateMacroEconomicVariableOffset_BackwardOffset" class="form-control" [(ngModel)]="affiliateMacroEconomicVariableOffset.backwardOffset" name="BackwardOffset"  />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!affiliateMacroEconomicVariableOffsetForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+<affiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableModal #affiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableModal (modalSave)="getNewAffiliateId()"></affiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableModal>
+		 <affiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableModal #affiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableModal (modalSave)="getNewMacroeconomicVariableId()"></affiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableModal>
+		 
+</div>

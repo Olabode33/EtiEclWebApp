@@ -128,7 +128,7 @@ import { EntityTypeHistoryModalComponent } from '@app/shared/common/entityHistor
 
     private setIsEntityHistoryEnabled(): boolean {
         let customSettings = (abp as any).custom;
-        return customSettings.EntityHistory && customSettings.EntityHistory.isEnabled && _.filter(customSettings.EntityHistory.enabledEntities, entityType => entityType === this._entityTypeFullName).length === 1;
+        return this.isGrantedAny('Pages.Administration.AuditLogs') && customSettings.EntityHistory && customSettings.EntityHistory.isEnabled && _.filter(customSettings.EntityHistory.enabledEntities, entityType => entityType === this._entityTypeFullName).length === 1;
     }
 "
 		},

@@ -1,4 +1,6 @@
-﻿using TestDemo.InvestmentComputation.Dtos;
+﻿using TestDemo.AffiliateMacroEconomicVariable.Dtos;
+using TestDemo.AffiliateMacroEconomicVariable;
+using TestDemo.InvestmentComputation.Dtos;
 using TestDemo.InvestmentComputation;
 using TestDemo.InvestmentInputs.Dtos;
 using TestDemo.InvestmentInputs;
@@ -85,6 +87,8 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditAffiliateMacroEconomicVariableOffsetDto, AffiliateMacroEconomicVariableOffset>().ReverseMap();
+            configuration.CreateMap<AffiliateMacroEconomicVariableOffsetDto, AffiliateMacroEconomicVariableOffset>().ReverseMap();
             configuration.CreateMap<CreateOrEditInvestmentEclOverrideApprovalDto, InvestmentEclOverrideApproval>().ReverseMap();
             configuration.CreateMap<InvestmentEclOverrideApprovalDto, InvestmentEclOverrideApproval>().ReverseMap();
             configuration.CreateMap<CreateOrEditInvestmentEclOverrideDto, InvestmentEclOverride>().ReverseMap();

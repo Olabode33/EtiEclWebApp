@@ -753,6 +753,495 @@ export class AffiliateConfigurationServiceProxy {
 }
 
 @Injectable()
+export class AffiliateMacroEconomicVariableOffsetsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param maxBackwardOffsetFilter (optional) 
+     * @param minBackwardOffsetFilter (optional) 
+     * @param organizationUnitDisplayNameFilter (optional) 
+     * @param macroeconomicVariableNameFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, maxBackwardOffsetFilter: number | null | undefined, minBackwardOffsetFilter: number | null | undefined, organizationUnitDisplayNameFilter: string | null | undefined, macroeconomicVariableNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetAffiliateMacroEconomicVariableOffsetForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/AffiliateMacroEconomicVariableOffsets/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (maxBackwardOffsetFilter !== undefined)
+            url_ += "MaxBackwardOffsetFilter=" + encodeURIComponent("" + maxBackwardOffsetFilter) + "&"; 
+        if (minBackwardOffsetFilter !== undefined)
+            url_ += "MinBackwardOffsetFilter=" + encodeURIComponent("" + minBackwardOffsetFilter) + "&"; 
+        if (organizationUnitDisplayNameFilter !== undefined)
+            url_ += "OrganizationUnitDisplayNameFilter=" + encodeURIComponent("" + organizationUnitDisplayNameFilter) + "&"; 
+        if (macroeconomicVariableNameFilter !== undefined)
+            url_ += "MacroeconomicVariableNameFilter=" + encodeURIComponent("" + macroeconomicVariableNameFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetAffiliateMacroEconomicVariableOffsetForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetAffiliateMacroEconomicVariableOffsetForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetAffiliateMacroEconomicVariableOffsetForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetAffiliateMacroEconomicVariableOffsetForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetAffiliateMacroEconomicVariableOffsetForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetAffiliateMacroEconomicVariableOffsetForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getAffiliateMacroEconomicVariableOffsetForView(id: number | null | undefined): Observable<GetAffiliateMacroEconomicVariableOffsetForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/AffiliateMacroEconomicVariableOffsets/GetAffiliateMacroEconomicVariableOffsetForView?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAffiliateMacroEconomicVariableOffsetForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAffiliateMacroEconomicVariableOffsetForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetAffiliateMacroEconomicVariableOffsetForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetAffiliateMacroEconomicVariableOffsetForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAffiliateMacroEconomicVariableOffsetForView(response: HttpResponseBase): Observable<GetAffiliateMacroEconomicVariableOffsetForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetAffiliateMacroEconomicVariableOffsetForViewDto.fromJS(resultData200) : new GetAffiliateMacroEconomicVariableOffsetForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetAffiliateMacroEconomicVariableOffsetForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getAffiliateMacroEconomicVariableOffsetForEdit(id: number | null | undefined): Observable<GetAffiliateMacroEconomicVariableOffsetForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/AffiliateMacroEconomicVariableOffsets/GetAffiliateMacroEconomicVariableOffsetForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAffiliateMacroEconomicVariableOffsetForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAffiliateMacroEconomicVariableOffsetForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetAffiliateMacroEconomicVariableOffsetForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetAffiliateMacroEconomicVariableOffsetForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAffiliateMacroEconomicVariableOffsetForEdit(response: HttpResponseBase): Observable<GetAffiliateMacroEconomicVariableOffsetForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetAffiliateMacroEconomicVariableOffsetForEditOutput.fromJS(resultData200) : new GetAffiliateMacroEconomicVariableOffsetForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetAffiliateMacroEconomicVariableOffsetForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditAffiliateMacroEconomicVariableOffsetDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/AffiliateMacroEconomicVariableOffsets/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/AffiliateMacroEconomicVariableOffsets/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param maxBackwardOffsetFilter (optional) 
+     * @param minBackwardOffsetFilter (optional) 
+     * @param organizationUnitDisplayNameFilter (optional) 
+     * @param macroeconomicVariableNameFilter (optional) 
+     * @return Success
+     */
+    getAffiliateMacroEconomicVariableOffsetsToExcel(filter: string | null | undefined, maxBackwardOffsetFilter: number | null | undefined, minBackwardOffsetFilter: number | null | undefined, organizationUnitDisplayNameFilter: string | null | undefined, macroeconomicVariableNameFilter: string | null | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/AffiliateMacroEconomicVariableOffsets/GetAffiliateMacroEconomicVariableOffsetsToExcel?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (maxBackwardOffsetFilter !== undefined)
+            url_ += "MaxBackwardOffsetFilter=" + encodeURIComponent("" + maxBackwardOffsetFilter) + "&"; 
+        if (minBackwardOffsetFilter !== undefined)
+            url_ += "MinBackwardOffsetFilter=" + encodeURIComponent("" + minBackwardOffsetFilter) + "&"; 
+        if (organizationUnitDisplayNameFilter !== undefined)
+            url_ += "OrganizationUnitDisplayNameFilter=" + encodeURIComponent("" + organizationUnitDisplayNameFilter) + "&"; 
+        if (macroeconomicVariableNameFilter !== undefined)
+            url_ += "MacroeconomicVariableNameFilter=" + encodeURIComponent("" + macroeconomicVariableNameFilter) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAffiliateMacroEconomicVariableOffsetsToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAffiliateMacroEconomicVariableOffsetsToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAffiliateMacroEconomicVariableOffsetsToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? FileDto.fromJS(resultData200) : new FileDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllOrganizationUnitForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfAffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/AffiliateMacroEconomicVariableOffsets/GetAllOrganizationUnitForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllOrganizationUnitForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllOrganizationUnitForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfAffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfAffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllOrganizationUnitForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfAffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfAffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfAffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfAffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllMacroeconomicVariableForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfAffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/AffiliateMacroEconomicVariableOffsets/GetAllMacroeconomicVariableForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllMacroeconomicVariableForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllMacroeconomicVariableForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfAffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfAffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllMacroeconomicVariableForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfAffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfAffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfAffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfAffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
 export class AffiliateOverrideThresholdsServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -46086,6 +46575,7 @@ export interface IGetAffiliateConfigurationForViewDto {
 
 export class AffiliateConfigurationDto implements IAffiliateConfigurationDto {
     affiliateName!: string | undefined;
+    currency!: string | undefined;
     code!: string | undefined;
     overrideThreshold!: number | undefined;
     id!: number | undefined;
@@ -46102,6 +46592,7 @@ export class AffiliateConfigurationDto implements IAffiliateConfigurationDto {
     init(data?: any) {
         if (data) {
             this.affiliateName = data["affiliateName"];
+            this.currency = data["currency"];
             this.code = data["code"];
             this.overrideThreshold = data["overrideThreshold"];
             this.id = data["id"];
@@ -46118,6 +46609,7 @@ export class AffiliateConfigurationDto implements IAffiliateConfigurationDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["affiliateName"] = this.affiliateName;
+        data["currency"] = this.currency;
         data["code"] = this.code;
         data["overrideThreshold"] = this.overrideThreshold;
         data["id"] = this.id;
@@ -46127,6 +46619,7 @@ export class AffiliateConfigurationDto implements IAffiliateConfigurationDto {
 
 export interface IAffiliateConfigurationDto {
     affiliateName: string | undefined;
+    currency: string | undefined;
     code: string | undefined;
     overrideThreshold: number | undefined;
     id: number | undefined;
@@ -46214,6 +46707,458 @@ export interface ICreateOrEditAffiliateDto {
     displayName: string | undefined;
     overrideThreshold: number | undefined;
     id: number | undefined;
+}
+
+export class PagedResultDtoOfGetAffiliateMacroEconomicVariableOffsetForViewDto implements IPagedResultDtoOfGetAffiliateMacroEconomicVariableOffsetForViewDto {
+    totalCount!: number | undefined;
+    items!: GetAffiliateMacroEconomicVariableOffsetForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetAffiliateMacroEconomicVariableOffsetForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetAffiliateMacroEconomicVariableOffsetForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetAffiliateMacroEconomicVariableOffsetForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetAffiliateMacroEconomicVariableOffsetForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetAffiliateMacroEconomicVariableOffsetForViewDto {
+    totalCount: number | undefined;
+    items: GetAffiliateMacroEconomicVariableOffsetForViewDto[] | undefined;
+}
+
+export class GetAffiliateMacroEconomicVariableOffsetForViewDto implements IGetAffiliateMacroEconomicVariableOffsetForViewDto {
+    affiliateMacroEconomicVariableOffset!: AffiliateMacroEconomicVariableOffsetDto | undefined;
+    organizationUnitDisplayName!: string | undefined;
+    macroeconomicVariableName!: string | undefined;
+
+    constructor(data?: IGetAffiliateMacroEconomicVariableOffsetForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.affiliateMacroEconomicVariableOffset = data["affiliateMacroEconomicVariableOffset"] ? AffiliateMacroEconomicVariableOffsetDto.fromJS(data["affiliateMacroEconomicVariableOffset"]) : <any>undefined;
+            this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
+            this.macroeconomicVariableName = data["macroeconomicVariableName"];
+        }
+    }
+
+    static fromJS(data: any): GetAffiliateMacroEconomicVariableOffsetForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAffiliateMacroEconomicVariableOffsetForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["affiliateMacroEconomicVariableOffset"] = this.affiliateMacroEconomicVariableOffset ? this.affiliateMacroEconomicVariableOffset.toJSON() : <any>undefined;
+        data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
+        data["macroeconomicVariableName"] = this.macroeconomicVariableName;
+        return data; 
+    }
+}
+
+export interface IGetAffiliateMacroEconomicVariableOffsetForViewDto {
+    affiliateMacroEconomicVariableOffset: AffiliateMacroEconomicVariableOffsetDto | undefined;
+    organizationUnitDisplayName: string | undefined;
+    macroeconomicVariableName: string | undefined;
+}
+
+export class AffiliateMacroEconomicVariableOffsetDto implements IAffiliateMacroEconomicVariableOffsetDto {
+    backwardOffset!: number | undefined;
+    affiliateId!: number | undefined;
+    macroeconomicVariableId!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: IAffiliateMacroEconomicVariableOffsetDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.backwardOffset = data["backwardOffset"];
+            this.affiliateId = data["affiliateId"];
+            this.macroeconomicVariableId = data["macroeconomicVariableId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): AffiliateMacroEconomicVariableOffsetDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AffiliateMacroEconomicVariableOffsetDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["backwardOffset"] = this.backwardOffset;
+        data["affiliateId"] = this.affiliateId;
+        data["macroeconomicVariableId"] = this.macroeconomicVariableId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IAffiliateMacroEconomicVariableOffsetDto {
+    backwardOffset: number | undefined;
+    affiliateId: number | undefined;
+    macroeconomicVariableId: number | undefined;
+    id: number | undefined;
+}
+
+export class GetAffiliateMacroEconomicVariableOffsetForEditOutput implements IGetAffiliateMacroEconomicVariableOffsetForEditOutput {
+    affiliateMacroEconomicVariableOffset!: CreateOrEditAffiliateMacroEconomicVariableOffsetDto | undefined;
+    organizationUnitDisplayName!: string | undefined;
+    macroeconomicVariableName!: string | undefined;
+
+    constructor(data?: IGetAffiliateMacroEconomicVariableOffsetForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.affiliateMacroEconomicVariableOffset = data["affiliateMacroEconomicVariableOffset"] ? CreateOrEditAffiliateMacroEconomicVariableOffsetDto.fromJS(data["affiliateMacroEconomicVariableOffset"]) : <any>undefined;
+            this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
+            this.macroeconomicVariableName = data["macroeconomicVariableName"];
+        }
+    }
+
+    static fromJS(data: any): GetAffiliateMacroEconomicVariableOffsetForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAffiliateMacroEconomicVariableOffsetForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["affiliateMacroEconomicVariableOffset"] = this.affiliateMacroEconomicVariableOffset ? this.affiliateMacroEconomicVariableOffset.toJSON() : <any>undefined;
+        data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
+        data["macroeconomicVariableName"] = this.macroeconomicVariableName;
+        return data; 
+    }
+}
+
+export interface IGetAffiliateMacroEconomicVariableOffsetForEditOutput {
+    affiliateMacroEconomicVariableOffset: CreateOrEditAffiliateMacroEconomicVariableOffsetDto | undefined;
+    organizationUnitDisplayName: string | undefined;
+    macroeconomicVariableName: string | undefined;
+}
+
+export class CreateOrEditAffiliateMacroEconomicVariableOffsetDto implements ICreateOrEditAffiliateMacroEconomicVariableOffsetDto {
+    backwardOffset!: number | undefined;
+    affiliateId!: number | undefined;
+    macroeconomicVariableId!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditAffiliateMacroEconomicVariableOffsetDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.backwardOffset = data["backwardOffset"];
+            this.affiliateId = data["affiliateId"];
+            this.macroeconomicVariableId = data["macroeconomicVariableId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditAffiliateMacroEconomicVariableOffsetDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditAffiliateMacroEconomicVariableOffsetDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["backwardOffset"] = this.backwardOffset;
+        data["affiliateId"] = this.affiliateId;
+        data["macroeconomicVariableId"] = this.macroeconomicVariableId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditAffiliateMacroEconomicVariableOffsetDto {
+    backwardOffset: number | undefined;
+    affiliateId: number | undefined;
+    macroeconomicVariableId: number | undefined;
+    id: number | undefined;
+}
+
+export class FileDto implements IFileDto {
+    fileName!: string;
+    fileType!: string | undefined;
+    fileToken!: string;
+
+    constructor(data?: IFileDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.fileName = data["fileName"];
+            this.fileType = data["fileType"];
+            this.fileToken = data["fileToken"];
+        }
+    }
+
+    static fromJS(data: any): FileDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new FileDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fileName"] = this.fileName;
+        data["fileType"] = this.fileType;
+        data["fileToken"] = this.fileToken;
+        return data; 
+    }
+}
+
+export interface IFileDto {
+    fileName: string;
+    fileType: string | undefined;
+    fileToken: string;
+}
+
+export class PagedResultDtoOfAffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableDto implements IPagedResultDtoOfAffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableDto {
+    totalCount!: number | undefined;
+    items!: AffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfAffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(AffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfAffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfAffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfAffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableDto {
+    totalCount: number | undefined;
+    items: AffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableDto[] | undefined;
+}
+
+export class AffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableDto implements IAffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableDto {
+    id!: number | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IAffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): AffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IAffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableDto {
+    id: number | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfAffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableDto implements IPagedResultDtoOfAffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableDto {
+    totalCount!: number | undefined;
+    items!: AffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfAffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(AffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfAffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfAffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfAffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableDto {
+    totalCount: number | undefined;
+    items: AffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableDto[] | undefined;
+}
+
+export class AffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableDto implements IAffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableDto {
+    id!: number | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IAffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): AffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IAffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableDto {
+    id: number | undefined;
+    displayName: string | undefined;
 }
 
 export class PagedResultDtoOfGetAffiliateOverrideThresholdForViewDto implements IPagedResultDtoOfGetAffiliateOverrideThresholdForViewDto {
@@ -47321,50 +48266,6 @@ export interface IAuditLogListDto {
     exception: string | undefined;
     customData: string | undefined;
     id: number | undefined;
-}
-
-export class FileDto implements IFileDto {
-    fileName!: string;
-    fileType!: string | undefined;
-    fileToken!: string;
-
-    constructor(data?: IFileDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.fileName = data["fileName"];
-            this.fileType = data["fileType"];
-            this.fileToken = data["fileToken"];
-        }
-    }
-
-    static fromJS(data: any): FileDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new FileDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["fileName"] = this.fileName;
-        data["fileType"] = this.fileType;
-        data["fileToken"] = this.fileToken;
-        return data; 
-    }
-}
-
-export interface IFileDto {
-    fileName: string;
-    fileType: string | undefined;
-    fileToken: string;
 }
 
 export class NameValueDto implements INameValueDto {

@@ -920,6 +920,27 @@ namespace TestDemo.Migrations
                     b.ToTable("AbpOrganizationUnitRoles");
                 });
 
+            modelBuilder.Entity("TestDemo.AffiliateMacroEconomicVariable.AffiliateMacroEconomicVariableOffset", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("AffiliateId");
+
+                    b.Property<int>("BackwardOffset");
+
+                    b.Property<int>("MacroeconomicVariableId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AffiliateId");
+
+                    b.HasIndex("MacroeconomicVariableId");
+
+                    b.ToTable("AffiliateMacroEconomicVariableOffsets");
+                });
+
             modelBuilder.Entity("TestDemo.Authorization.Roles.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -8151,6 +8172,19 @@ namespace TestDemo.Migrations
                     b.HasOne("Abp.Organizations.OrganizationUnit", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId");
+                });
+
+            modelBuilder.Entity("TestDemo.AffiliateMacroEconomicVariable.AffiliateMacroEconomicVariableOffset", b =>
+                {
+                    b.HasOne("Abp.Organizations.OrganizationUnit", "AffiliateFk")
+                        .WithMany()
+                        .HasForeignKey("AffiliateId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("TestDemo.EclShared.MacroeconomicVariable", "MacroeconomicVariableFk")
+                        .WithMany()
+                        .HasForeignKey("MacroeconomicVariableId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("TestDemo.Authorization.Roles.Role", b =>

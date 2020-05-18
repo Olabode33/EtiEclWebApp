@@ -1,4 +1,5 @@
-﻿using TestDemo.InvestmentInputs;
+﻿using TestDemo.AffiliateMacroEconomicVariable;
+using TestDemo.InvestmentInputs;
 using TestDemo.InvestmentAssumption;
 using TestDemo.Investment;
 using TestDemo.EclConfig;
@@ -42,6 +43,8 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<AffiliateMacroEconomicVariableOffset> AffiliateMacroEconomicVariableOffsets { get; set; }
+
         public virtual DbSet<Affiliate> AffiliateConfigurations { get; set; }
         public virtual DbSet<InvestmentEclFinalPostOverrideResult> InvestmentEclFinalPostOverrideResults { get; set; }
         public virtual DbSet<InvestmentEclFinalResult> InvestmentEclFinalResults { get; set; }

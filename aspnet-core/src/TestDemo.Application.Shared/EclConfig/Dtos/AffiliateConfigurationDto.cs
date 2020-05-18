@@ -11,5 +11,6 @@ namespace TestDemo.EclConfig.Dtos
         public string AffiliateName { get; set; }
         public string Code { get; set; }
         public double? OverrideThreshold { get; set; }
+        public string Currency { get; set; }
     }
 }

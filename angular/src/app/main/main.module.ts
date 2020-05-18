@@ -2,6 +2,12 @@
 import { FrameworkAssumptionsComponent } from './assumptions/_subs/frameworkAssumptions/frameworkAssumptions.component';
 import { ViewAffiliateAssumptionsComponent } from './assumptions/view-affiliateAssumptions/view-affiliateAssumptions.component';
 import { CommonModule } from '@angular/common';
+import { AffiliateMacroEconomicVariableOffsetsComponent } from './affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets/affiliateMacroEconomicVariableOffsets.component';
+import { ViewAffiliateMacroEconomicVariableOffsetModalComponent } from './affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets/view-affiliateMacroEconomicVariableOffset-modal.component';
+import { CreateOrEditAffiliateMacroEconomicVariableOffsetModalComponent } from './affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets/create-or-edit-affiliateMacroEconomicVariableOffset-modal.component';
+import { AffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableModalComponent } from './affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets/affiliateMacroEconomicVariableOffset-organizationUnit-lookup-table-modal.component';
+import { AffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableModalComponent } from './affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets/affiliateMacroEconomicVariableOffset-macroeconomicVariable-lookup-table-modal.component';
+
 import { NgModule } from '@angular/core';
 import { InvestmentEclOverridesComponent } from './investmentComputation/investmentEclOverrides/investmentEclOverrides.component';
 import { CreateOrEditInvestmentEclOverrideModalComponent } from './investmentComputation/investmentEclOverrides/create-or-edit-investmentEclOverride-modal.component';
@@ -126,6 +132,10 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+		AffiliateMacroEconomicVariableOffsetsComponent,
+		ViewAffiliateMacroEconomicVariableOffsetModalComponent,		CreateOrEditAffiliateMacroEconomicVariableOffsetModalComponent,
+    AffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableModalComponent,
+    AffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableModalComponent,
         ViewAssetBookDetailsComponent,
         EclAuditInfoComponent,
         EclResultsComponent,

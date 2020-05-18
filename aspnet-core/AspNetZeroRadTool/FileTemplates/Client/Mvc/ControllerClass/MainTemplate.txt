@@ -49,7 +49,7 @@ namespace {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Controllers
 
             var viewModel = new CreateOrEdit{{Entity_Name_Here}}ModalViewModel()
             {
-				{{Entity_Name_Here}} = get{{Entity_Name_Here}}ForEditOutput.{{Entity_Name_Here}}{{NP_Looped_Display_Property_Init_Here}}
+				{{Entity_Name_Here}} = get{{Entity_Name_Here}}ForEditOutput.{{Entity_Name_Here}}{{NP_Looped_Display_Property_Init_Here}}{{NP_Looped_Dropdown_Init_Here}},                
             };
 
             return PartialView("_CreateOrEditModal", viewModel);

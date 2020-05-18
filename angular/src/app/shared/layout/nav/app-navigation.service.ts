@@ -25,11 +25,13 @@ export class AppNavigationService {
             new AppMenuItem('Assumptions', 'Pages.Assumption.Affiliates', 'fa fa-list-ul', '/app/main/assumption/affiliates'),
             new AppMenuItem('Calibration', 'Pages.CalibrationResults', 'fa fa-bezier-curve', '/app/main/eclShared/assumptions'),
             new AppMenuItem('Configuration', 'Pages.EclConfigurations', 'fa fa-wrench', '', [
-                new AppMenuItem('MacroeconomicVariables', 'Pages.MacroeconomicVariables', 'flaticon-more', '/app/main/config/macroeconomicVariables'),
                 new AppMenuItem('EclConfigurations', 'Pages.EclConfigurations', 'flaticon-more', '/app/main/eclConfig/eclConfigurations'),
                 new AppMenuItem('Affiliates', 'Pages.AffiliateOverrideThresholds', 'flaticon-more', '/app/main/eclConfig/affiliates'),
+                new AppMenuItem('MacroeconomicVariables', 'Pages.MacroeconomicVariables', 'flaticon-more', '/app/main/config/macroeconomicVariables'),
+                new AppMenuItem('AffiliateMacroEconomicVariableOffsets', 'Pages.AffiliateMacroEconomicVariableOffsets', 'flaticon-more', '/app/main/affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets'),
             ]),
-            new AppMenuItem('Administration', '', 'fa fa-cogs', '', [
+           
+             new AppMenuItem('Administration', '', 'fa fa-cogs', '', [
                 new AppMenuItem('OrganizationUnits', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),
                 new AppMenuItem('Users', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),

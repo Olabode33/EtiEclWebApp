@@ -8,5 +8,6 @@ namespace TestDemo.EclConfig
     public class Affiliate: OrganizationUnit
     {
         public double? OverrideThreshold { get; set; }
+        public string Currency { get; set; }
     }
 }
