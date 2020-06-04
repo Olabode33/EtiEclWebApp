@@ -16,6 +16,7 @@ namespace TestDemo.Notifications
         Task NewTenantRegisteredAsync(Tenant tenant);
 
         Task GdprDataPrepared(UserIdentifier user, Guid binaryObjectId);
+        Task EclReportGenerated(UserIdentifier user, string fileToken, string fileType, string fileName);
 
         Task SendMessageAsync(UserIdentifier user, string message, NotificationSeverity severity = NotificationSeverity.Info);
 

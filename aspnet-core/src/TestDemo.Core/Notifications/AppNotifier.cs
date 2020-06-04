@@ -69,6 +69,22 @@ namespace TestDemo.Notifications
             await _notificationPublisher.PublishAsync(AppNotificationNames.GdprDataPrepared, notificationData, userIds: new[] { user });
         }
 
+        public async Task EclReportGenerated(UserIdentifier user, string fileToken, string fileType, string fileName)
+        {
+            var notificationData = new LocalizableMessageNotificationData(
+                new LocalizableString(
+                    "EclReportGenerationNotificationMessage",
+                    TestDemoConsts.LocalizationSourceName
+                )
+            );
+
+            notificationData["fileToken"] = fileToken;
+            notificationData["fileType"] = fileType;
+            notificationData["fileName"] = fileName;
+
+            await _notificationPublisher.PublishAsync(AppNotificationNames.DownloadInvalidImportUsers, notificationData, userIds: new[] { user });
+        }
+
         //This is for test purposes
         public async Task SendMessageAsync(UserIdentifier user, string message, NotificationSeverity severity = NotificationSeverity.Info)
         {

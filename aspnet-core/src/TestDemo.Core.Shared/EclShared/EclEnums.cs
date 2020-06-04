@@ -92,6 +92,15 @@ namespace TestDemo.EclShared
         Downturn
     }
 
+    public enum EclType
+    {
+        None = -1,
+        Retail,
+        Wholesale,
+        Obe,
+        Investment
+    }
+
     public static class EclEnums
     {
         public const string Assumption = "Assumption";

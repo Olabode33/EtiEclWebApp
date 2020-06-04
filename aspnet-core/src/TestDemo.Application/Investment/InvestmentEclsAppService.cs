@@ -27,6 +27,9 @@ using TestDemo.InvestmentInputs;
 using TestDemo.InvestmentComputation;
 using TestDemo.EclLibrary.Investment;
 using TestDemo.EclLibrary.BaseEngine.Dtos;
+using TestDemo.Reports.Jobs;
+using TestDemo.Reports;
+using Abp.Runtime.Session;
 
 namespace TestDemo.Investment
 {
@@ -447,6 +450,25 @@ namespace TestDemo.Investment
             } else
             {
                 throw new UserFriendlyException(L("ValidationError") + validation.Message);
+            }
+        }
+
+        public async Task GenerateReport(EntityDto<Guid> input)
+        {
+            var ecl = await _investmentEclRepository.FirstOrDefaultAsync(input.Id);
+
+            if (ecl.Status == EclStatusEnum.PreOverrideComplete || ecl.Status == EclStatusEnum.PostOverrideComplete || ecl.Status == EclStatusEnum.Completed || ecl.Status == EclStatusEnum.Closed)
+            {
+                await _backgroundJobManager.EnqueueAsync<GenerateEclReportJob, GenerateReportJobArgs>(new GenerateReportJobArgs()
+                {
+                    eclId = input.Id,
+                    eclType = EclType.Investment,
+                    userIdentifier = AbpSession.ToUserIdentifier()
+                });
+            }
+            else
+            {
+                throw new UserFriendlyException(L("GenerateReportErrorEclNotRun"));
             }
         }
 

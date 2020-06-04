@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="AffiliateMacroEconomicVariable">Affiliate macro economic variable</text>
+  <texts>
+    <text name="GenerateReportErrorEclNotRun">Cannot generate report because the selected ECL has not been computed.</text>
+    
+    <text name="EclReportGenerationStartedNotification">We are preparing your report. You will be notified when your report is ready.</text>
+    <text name="EclReportGenerationNotificationMessage">Your report has been generated, click here to download.</text>        <text name="AffiliateMacroEconomicVariable">Affiliate macro economic variable</text>
     <text name="AffiliateMacroEconomicVariableOffset">Affiliate macro economic variable offset</text>
     <text name="TestDemo.AffiliateMacroEconomicVariable.AffiliateMacroEconomicVariableOffset">AffiliateMacroEconomicVariableOffset</text>
     <text name="BackwardOffset">Backward offset</text>

@@ -388,6 +388,19 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
         }
     }
 
+    generateReport(): void {
+        if (typeof this._eclServiceProxy.closeEcl === 'function') {
+
+            let dto = new EntityDtoOfGuid();
+            dto.id = this._eclId;
+            this._investmentEclServiceProxy.generateReport(dto).subscribe(() => {
+                this.message.success(this.l('EclReportGenerationStartedNotification'));
+            });
+        } else {
+            this.notify.error('Error: Function not available!');
+        }
+    }
+
     eclReviewed(event?: any): void {
         if (event !== null) {
             if (event.status === GeneralStatusEnum.Approved) {
