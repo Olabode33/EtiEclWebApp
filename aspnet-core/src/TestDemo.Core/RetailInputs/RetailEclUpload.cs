@@ -8,24 +8,14 @@ using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
 using Abp.Auditing;
 using Abp.Organizations;
+using TestDemo.EclLibrary.BaseEngine.InputBase;
 
 namespace TestDemo.RetailInputs
 {
 	[Table("RetailEclUploads")]
     [Audited]
-    public class RetailEclUpload : FullAuditedEntity<Guid> , IMayHaveTenant, IMustHaveOrganizationUnit
-    {
-			public int? TenantId { get; set; }
-        public virtual long OrganizationUnitId { get; set; }
-
-
-        public virtual UploadDocTypeEnum DocType { get; set; }
-		
-		public virtual string UploadComment { get; set; }
-		
-		public virtual GeneralStatusEnum Status { get; set; }
-		
-
+    public class RetailEclUpload : EclUploadBase
+	{
 		public virtual Guid RetailEclId { get; set; }
 		
         [ForeignKey("RetailEclId")]

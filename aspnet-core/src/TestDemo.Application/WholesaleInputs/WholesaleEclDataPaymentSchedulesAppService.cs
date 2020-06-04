@@ -34,20 +34,20 @@ namespace TestDemo.WholesaleInputs
 
 		 public async Task<PagedResultDto<GetWholesaleEclDataPaymentScheduleForViewDto>> GetAll(GetAllWholesaleEclDataPaymentSchedulesInput input)
          {
-			
-			var filteredWholesaleEclDataPaymentSchedules = _wholesaleEclDataPaymentScheduleRepository.GetAll()
-						.Include( e => e.WholesaleEclUploadFk)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.ContractRefNo.Contains(input.Filter) || e.Component.Contains(input.Filter) || e.Frequency.Contains(input.Filter))
-						.WhereIf(!string.IsNullOrWhiteSpace(input.ContractRefNoFilter),  e => e.ContractRefNo.ToLower() == input.ContractRefNoFilter.ToLower().Trim())
-						.WhereIf(input.MinStartDateFilter != null, e => e.StartDate >= input.MinStartDateFilter)
-						.WhereIf(input.MaxStartDateFilter != null, e => e.StartDate <= input.MaxStartDateFilter)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.ComponentFilter),  e => e.Component.ToLower() == input.ComponentFilter.ToLower().Trim())
-						.WhereIf(input.MinNoOfSchedulesFilter != null, e => e.NoOfSchedules >= input.MinNoOfSchedulesFilter)
-						.WhereIf(input.MaxNoOfSchedulesFilter != null, e => e.NoOfSchedules <= input.MaxNoOfSchedulesFilter)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.FrequencyFilter),  e => e.Frequency.ToLower() == input.FrequencyFilter.ToLower().Trim())
-						.WhereIf(input.MinAmountFilter != null, e => e.Amount >= input.MinAmountFilter)
-						.WhereIf(input.MaxAmountFilter != null, e => e.Amount <= input.MaxAmountFilter)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.WholesaleEclUploadUploadCommentFilter), e => e.WholesaleEclUploadFk != null && e.WholesaleEclUploadFk.UploadComment.ToLower() == input.WholesaleEclUploadUploadCommentFilter.ToLower().Trim());
+
+            var filteredWholesaleEclDataPaymentSchedules = _wholesaleEclDataPaymentScheduleRepository.GetAll()
+                        //.Include( e => e.WholesaleEclUploadFk)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.ContractRefNo.Contains(input.Filter) || e.Component.Contains(input.Filter) || e.Frequency.Contains(input.Filter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.ContractRefNoFilter), e => e.ContractRefNo.ToLower() == input.ContractRefNoFilter.ToLower().Trim())
+                        .WhereIf(input.MinStartDateFilter != null, e => e.StartDate >= input.MinStartDateFilter)
+                        .WhereIf(input.MaxStartDateFilter != null, e => e.StartDate <= input.MaxStartDateFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.ComponentFilter), e => e.Component.ToLower() == input.ComponentFilter.ToLower().Trim())
+                        .WhereIf(input.MinNoOfSchedulesFilter != null, e => e.NoOfSchedules >= input.MinNoOfSchedulesFilter)
+                        .WhereIf(input.MaxNoOfSchedulesFilter != null, e => e.NoOfSchedules <= input.MaxNoOfSchedulesFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.FrequencyFilter), e => e.Frequency.ToLower() == input.FrequencyFilter.ToLower().Trim())
+                        .WhereIf(input.MinAmountFilter != null, e => e.Amount >= input.MinAmountFilter)
+                        .WhereIf(input.MaxAmountFilter != null, e => e.Amount <= input.MaxAmountFilter);
+						//.WhereIf(!string.IsNullOrWhiteSpace(input.WholesaleEclUploadUploadCommentFilter), e => e.WholesaleEclUploadFk != null && e.WholesaleEclUploadFk.UploadComment.ToLower() == input.WholesaleEclUploadUploadCommentFilter.ToLower().Trim());
 
 			var pagedAndFilteredWholesaleEclDataPaymentSchedules = filteredWholesaleEclDataPaymentSchedules
                 .OrderBy(input.Sorting ?? "id asc")

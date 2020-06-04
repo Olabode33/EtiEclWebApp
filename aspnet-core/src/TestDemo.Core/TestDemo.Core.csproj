@@ -18,6 +18,26 @@
     <EmbeddedResource Include="Localization\TestDemo\*.xml;Net\Emailing\EmailTemplates\default.html" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="EclLibrary\BaseEngine\EadInput\**" />
+    <Compile Remove="EclLibrary\BaseEngine\Framework\**" />
+    <Compile Remove="EclLibrary\BaseEngine\LgdInput\**" />
+    <Compile Remove="EclLibrary\Investment\Calculations\**" />
+    <Compile Remove="EclLibrary\Investment\Utils\**" />
+    <Compile Remove="EclLibrary\WholesaleEngine\**" />
+    <EmbeddedResource Remove="EclLibrary\BaseEngine\EadInput\**" />
+    <EmbeddedResource Remove="EclLibrary\BaseEngine\Framework\**" />
+    <EmbeddedResource Remove="EclLibrary\BaseEngine\LgdInput\**" />
+    <EmbeddedResource Remove="EclLibrary\Investment\Calculations\**" />
+    <EmbeddedResource Remove="EclLibrary\Investment\Utils\**" />
+    <EmbeddedResource Remove="EclLibrary\WholesaleEngine\**" />
+    <None Remove="EclLibrary\BaseEngine\EadInput\**" />
+    <None Remove="EclLibrary\BaseEngine\Framework\**" />
+    <None Remove="EclLibrary\BaseEngine\LgdInput\**" />
+    <None Remove="EclLibrary\Investment\Calculations\**" />
+    <None Remove="EclLibrary\Investment\Utils\**" />
+    <None Remove="EclLibrary\WholesaleEngine\**" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="ExcelFinancialFunctions" Version="2.4.1" />
     <PackageReference Include="MathNet.Numerics" Version="4.9.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.0" />
@@ -44,12 +64,5 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TestDemo.Core.Shared\TestDemo.Core.Shared.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="EclLibrary\BaseEngine\EadInput\" />
-    <Folder Include="EclLibrary\BaseEngine\LgdInput\" />
-    <Folder Include="EclLibrary\BaseEngine\Framework\" />
-    <Folder Include="EclLibrary\NewFolder\" />
-    <Folder Include="EclLibrary\WholesaleEngine\" />
   </ItemGroup>
 </Project>

@@ -36,7 +36,7 @@ namespace TestDemo.RetailInputs
          {
 			
 			var filteredRetailEclDataPaymentSchedules = _retailEclDataPaymentScheduleRepository.GetAll()
-						.Include( e => e.RetailEclUploadFk)
+						//.Include( e => e.RetailEclUploadFk)
 						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.ContractRefNo.Contains(input.Filter) || e.Component.Contains(input.Filter) || e.Frequency.Contains(input.Filter))
 						.WhereIf(!string.IsNullOrWhiteSpace(input.ContractRefNoFilter),  e => e.ContractRefNo.ToLower() == input.ContractRefNoFilter.ToLower().Trim());
 

@@ -36,7 +36,7 @@ namespace TestDemo.ObeInputs
          {
 			
 			var filteredObeEclDataPaymentSchedules = _obeEclDataPaymentScheduleRepository.GetAll()
-						.Include( e => e.ObeEclUploadFk)
+						//.Include( e => e.ObeEclUploadFk)
 						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.ContractRefNo.Contains(input.Filter) || e.Component.Contains(input.Filter) || e.Frequency.Contains(input.Filter))
 						.WhereIf(!string.IsNullOrWhiteSpace(input.ContractRefNoFilter),  e => e.ContractRefNo.ToLower() == input.ContractRefNoFilter.ToLower().Trim())
 						.WhereIf(input.MinStartDateFilter != null, e => e.StartDate >= input.MinStartDateFilter)

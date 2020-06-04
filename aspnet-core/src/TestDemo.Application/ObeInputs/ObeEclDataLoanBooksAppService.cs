@@ -36,7 +36,7 @@ namespace TestDemo.ObeInputs
          {
 			
 			var filteredObeEclDataLoanBooks = _obeEclDataLoanBookRepository.GetAll()
-						.Include( e => e.ObeEclUploadFk)
+						//.Include( e => e.ObeEclUploadFk)
 						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.CustomerNo.Contains(input.Filter) || e.AccountNo.Contains(input.Filter) || e.ContractNo.Contains(input.Filter) || e.CustomerName.Contains(input.Filter) || e.Segment.Contains(input.Filter) || e.Sector.Contains(input.Filter) || e.Currency.Contains(input.Filter) || e.ProductType.Contains(input.Filter) || e.ProductMapping.Contains(input.Filter) || e.SpecialisedLending.Contains(input.Filter) || e.RatingModel.Contains(input.Filter) || e.Classification.Contains(input.Filter) || e.RestructureRisk.Contains(input.Filter) || e.RestructureType.Contains(input.Filter) || e.PrincipalPaymentTermsOrigination.Contains(input.Filter) || e.InterestPaymentTermsOrigination.Contains(input.Filter) || e.PrincipalPaymentStructure.Contains(input.Filter) || e.InterestPaymentStructure.Contains(input.Filter) || e.InterestRateType.Contains(input.Filter) || e.BaseRate.Contains(input.Filter) || e.OriginationContractualInterestRate.Contains(input.Filter) || e.GuarantorPD.Contains(input.Filter) || e.GuarantorLGD.Contains(input.Filter) || e.ContractId.Contains(input.Filter))
 						.WhereIf(!string.IsNullOrWhiteSpace(input.CustomerNoFilter),  e => e.CustomerNo.ToLower() == input.CustomerNoFilter.ToLower().Trim())
 						.WhereIf(!string.IsNullOrWhiteSpace(input.AccountNoFilter),  e => e.AccountNo.ToLower() == input.AccountNoFilter.ToLower().Trim())

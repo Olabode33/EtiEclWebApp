@@ -8,33 +8,18 @@ using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
 using Abp.Auditing;
 using Abp.Organizations;
+using TestDemo.EclLibrary.BaseEngine.InputBase;
 
 namespace TestDemo.ObeInputs
 {
 	[Table("ObeEclUploadApprovals")]
     [Audited]
-    public class ObeEclUploadApproval : FullAuditedEntity<Guid> , IMayHaveTenant, IMustHaveOrganizationUnit
+    public class ObeEclUploadApproval : EclUploadApprovalBase
     {
-			public int? TenantId { get; set; }
-        public virtual long OrganizationUnitId { get; set; }
-
-
-        public virtual DateTime? ReviewedDate { get; set; }
-		
-		public virtual string ReviewComment { get; set; }
-		
-		public virtual GeneralStatusEnum Status { get; set; }
-		
-
 		public virtual Guid? ObeEclUploadId { get; set; }
 		
         [ForeignKey("ObeEclUploadId")]
 		public ObeEclUpload ObeEclUploadFk { get; set; }
-		
-		public virtual long? ReviewedByUserId { get; set; }
-		
-        [ForeignKey("ReviewedByUserId")]
-		public User ReviewedByUserFk { get; set; }
 		
     }
 }

@@ -24,8 +24,6 @@ using TestDemo.EclShared.Dtos;
 using GetAllForLookupTableInput = TestDemo.Investment.Dtos.GetAllForLookupTableInput;
 using TestDemo.InvestmentAssumption.Dtos;
 using TestDemo.InvestmentInputs;
-using TestDemo.EclLibrary.Investment.Utils;
-using TestDemo.EclLibrary.Investment.Calculations;
 using TestDemo.InvestmentComputation;
 using TestDemo.EclLibrary.Investment;
 using TestDemo.EclLibrary.BaseEngine.Dtos;
