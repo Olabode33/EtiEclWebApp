@@ -30,6 +30,8 @@ using TestDemo.EclLibrary.BaseEngine.Dtos;
 using TestDemo.Reports.Jobs;
 using TestDemo.Reports;
 using Abp.Runtime.Session;
+using Abp.Configuration;
+using TestDemo.EclConfig;
 
 namespace TestDemo.Investment
 {
@@ -430,9 +432,29 @@ namespace TestDemo.Investment
         public virtual async Task ApproveReject(CreateOrEditInvestmentEclApprovalDto input)
         {
             var ecl = await _investmentEclRepository.FirstOrDefaultAsync((Guid)input.InvestmentEclId);
-            ecl.Status = input.Status == GeneralStatusEnum.Approved ? EclStatusEnum.Approved : EclStatusEnum.Draft;
-            ObjectMapper.Map(ecl, ecl);
+
             await _invsecEclApprovalsAppService.CreateOrEdit(input);
+
+            if (input.Status == GeneralStatusEnum.Approved)
+            {
+                var requiredApprovals = await SettingManager.GetSettingValueAsync<int>(EclSettings.RequiredNoOfApprovals);
+                var eclAudit = await _invsecEclApprovalsAppService.GetEclAudit(new EntityDto<Guid> { Id = input.InvestmentEclId });
+                var eclApprovals = eclAudit.Approvals;
+                if (eclApprovals.Count(x => x.Status == GeneralStatusEnum.Approved) >= requiredApprovals)
+                {
+                    ecl.Status = EclStatusEnum.Approved;
+                }
+                else
+                {
+                    ecl.Status = EclStatusEnum.AwaitngAdditionApproval;
+                }
+            }
+            else
+            {
+                ecl.Status = EclStatusEnum.Draft;
+            }
+
+            ObjectMapper.Map(ecl, ecl);
         }
 
 
