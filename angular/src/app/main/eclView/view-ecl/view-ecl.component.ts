@@ -378,7 +378,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
                         this._eclServiceProxy.closeEcl(dto)
                             .subscribe(() => {
                                 this.getEclDetails();
-                                this.notify.success(this.l('EclClosedSuccessfully'));
+                                this.notify.success(this.l('EclCloseStartedNotification'));
                             });
                     }
                 }

@@ -17,7 +17,7 @@
                     <i class="fa fa-check" style="font-size: 1.2rem !important;"></i>
                     {{l("Submit")}}
                 </button>
-                <button (click)="approveEcl()" class="btn btn-primary" *ngIf="eclDto.status == eclStatusEnum.Submitted">
+                <button (click)="approveEcl()" class="btn btn-primary" *ngIf="eclDto.status == eclStatusEnum.Submitted || eclDto.status == eclStatusEnum.AwaitngAdditionApproval">
                     <i class="fa fa-check-double" style="font-size: 1.2rem !important;"></i>
                     {{l("Approve")}}
                 </button>

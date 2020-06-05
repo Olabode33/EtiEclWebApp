@@ -1,7 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+    <text name="ReOpenEcl">Re-open ECL</text>
+    <text name="EclReopenSuccessfully">ECL successfully reopened!</text>
+    
     <text name="GenerateReportErrorEclNotRun">Cannot generate report because the selected ECL has not been computed.</text>
+    
+    <text name="EclCloseStartedNotification">ECL archiving started. You will be notified when the ECL has been closed.</text>
+    <text name="EclCloseNotificationMessage">ECL archiving completed. The ECL has be closed successfully!</text>
+    
+    <text name="EclReopenStartedNotification">ECL restore started. You will be notified when the ECL has been re-opened.</text>
+    <text name="EclReopenNotificationMessage">ECL restore completed. The ECL has be reopened successfully!</text>
+    
+    <text name="EclRunStartedNotification">ECL computation started. You will be notified when the ECL run has been completed.</text>
+    <text name="EclRunNotificationMessage">ECL computation completed. The ECL computation has be completed successfully!</text>
     
     <text name="EclReportGenerationStartedNotification">We are preparing your report. You will be notified when your report is ready.</text>
     <text name="EclReportGenerationNotificationMessage">Your report has been generated, click here to download.</text>        <text name="AffiliateMacroEconomicVariable">Affiliate macro economic variable</text>

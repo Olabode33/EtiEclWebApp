@@ -1,6 +1,6 @@
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { WholesaleEclsServiceProxy, WholesaleEclDto, EclStatusEnum, EclSharedServiceProxy, FrameworkEnum, RetailEclsServiceProxy, InvestmentEclsServiceProxy } from '@shared/service-proxies/service-proxies';
+import { WholesaleEclsServiceProxy, WholesaleEclDto, EclStatusEnum, EclSharedServiceProxy, FrameworkEnum, RetailEclsServiceProxy, InvestmentEclsServiceProxy, EntityDtoOfGuid } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -127,6 +127,28 @@ export class EclListComponent extends AppComponentBase implements OnInit {
         // }
     }
 
+    reOpenEcl(framework: FrameworkEnum, eclId: string): void {
+        switch (framework) {
+            case FrameworkEnum.Investments:
+                this.reopenInvestmentEcl(eclId);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    generateReport(framework: FrameworkEnum, eclId: string): void {
+        switch (framework) {
+            case FrameworkEnum.Investments:
+                this.generateInvestmentReport(eclId);
+                break;
+
+            default:
+                break;
+        }
+    }
+
     createRetailEcl(): void {
         this._retailEclServiceProxy.createEclAndAssumption().subscribe(result => {
             this.notify.success('EclSuccessfullyCreated');
@@ -143,6 +165,32 @@ export class EclListComponent extends AppComponentBase implements OnInit {
 
     goBack(): void {
         this._location.back();
+    }
+
+    reopenInvestmentEcl(eclId: string) {
+        this.message.confirm(
+            this.l('CloseEclInfo'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    let dto = new EntityDtoOfGuid();
+                    dto.id = eclId;
+                    this._investmentEclServiceProxy.reopenEcl(dto)
+                        .subscribe(() => {
+                            //this.reloadPage();
+                            this.notify.success(this.l('EclReopenStartedNotification'));
+                        });
+                }
+            }
+        );
+    }
+
+
+    generateInvestmentReport(eclId: string): void {
+        let dto = new EntityDtoOfGuid();
+        dto.id = eclId;
+        this._investmentEclServiceProxy.generateReport(dto).subscribe(() => {
+            this.message.success(this.l('EclReportGenerationStartedNotification'));
+        });
     }
 
 }

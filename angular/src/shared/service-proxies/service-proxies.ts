@@ -10605,6 +10605,58 @@ export class InvestmentEclsServiceProxy {
     }
 
     /**
+     * @param input (optional) 
+     * @return Success
+     */
+    reopenEcl(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/InvestmentEcls/ReopenEcl";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processReopenEcl(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processReopenEcl(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processReopenEcl(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
      * @param filter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
@@ -49166,6 +49218,7 @@ export enum EclStatusEnum {
     ComputedECL = 8, 
     Completed = 9, 
     Closed = 10, 
+    AwaitngAdditionApproval = 11, 
 }
 
 export class GetWorkspaceImpairmentSummaryDto implements IGetWorkspaceImpairmentSummaryDto {

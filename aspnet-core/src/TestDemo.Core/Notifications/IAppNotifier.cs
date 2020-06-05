@@ -17,6 +17,9 @@ namespace TestDemo.Notifications
 
         Task GdprDataPrepared(UserIdentifier user, Guid binaryObjectId);
         Task EclReportGenerated(UserIdentifier user, string fileToken, string fileType, string fileName);
+        Task EclClosed(UserIdentifier user);
+        Task EclReopened(UserIdentifier user);
+        Task EclComputed(UserIdentifier user);
 
         Task SendMessageAsync(UserIdentifier user, string message, NotificationSeverity severity = NotificationSeverity.Info);
 

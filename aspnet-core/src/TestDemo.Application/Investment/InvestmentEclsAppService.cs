@@ -32,6 +32,7 @@ using TestDemo.Reports;
 using Abp.Runtime.Session;
 using Abp.Configuration;
 using TestDemo.EclConfig;
+using TestDemo.EclLibrary.Jobs;
 
 namespace TestDemo.Investment
 {
@@ -460,7 +461,10 @@ namespace TestDemo.Investment
 
         public async Task RunEcl(EntityDto<Guid> input)
         {
-            await _backgroundJobManager.EnqueueAsync<RunInvestmentEclJob, RunEclJobArgs>(new RunEclJobArgs { EclId = input.Id });
+            await _backgroundJobManager.EnqueueAsync<RunInvestmentEclJob, RunEclJobArgs>(new RunEclJobArgs { 
+                EclId = input.Id,
+                UserIdentifier = AbpSession.ToUserIdentifier()
+            });
         }
 
         public async Task RunPostEcl(EntityDto<Guid> input)
@@ -468,7 +472,10 @@ namespace TestDemo.Investment
             var validation = await ValidateForPostRun(input.Id);
             if (validation.Status)
             {
-                await _backgroundJobManager.EnqueueAsync<RunInvestmentPostEclJob, RunEclJobArgs>(new RunEclJobArgs { EclId = input.Id });
+                await _backgroundJobManager.EnqueueAsync<RunInvestmentPostEclJob, RunEclJobArgs>(new RunEclJobArgs { 
+                    EclId = input.Id,
+                    UserIdentifier = AbpSession.ToUserIdentifier()
+                });
             } else
             {
                 throw new UserFriendlyException(L("ValidationError") + validation.Message);
@@ -497,9 +504,22 @@ namespace TestDemo.Investment
         public async Task CloseEcl(EntityDto<Guid> input)
         {
             //Call archive ecl procedure
-            var ecl = await _investmentEclRepository.FirstOrDefaultAsync(input.Id);
-            ecl.Status = EclStatusEnum.Closed;
-            ObjectMapper.Map(ecl, ecl);
+            await _backgroundJobManager.EnqueueAsync<CloseEclJob, RunEclJobArgs>(new RunEclJobArgs()
+            {
+                EclId = input.Id,
+                EclType = EclType.Investment,
+                UserIdentifier = AbpSession.ToUserIdentifier()
+            });
+        }
+
+        public async Task ReopenEcl(EntityDto<Guid> input)
+        {
+            //Call archive ecl procedure
+            await _backgroundJobManager.EnqueueAsync<ReopenEclJob, RunEclJobArgs>(new RunEclJobArgs(){ 
+                EclId = input.Id, 
+                EclType = EclType.Investment,
+                UserIdentifier = AbpSession.ToUserIdentifier()
+            });
         }
 
         protected virtual async Task<ValidationMessageDto> ValidateForSubmission(Guid eclId)

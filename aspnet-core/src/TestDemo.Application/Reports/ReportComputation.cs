@@ -89,7 +89,7 @@ namespace TestDemo.Reports
             summarySheet.Cells["B2:J60"].Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_DARK_BLUE));
             ////////***///
 
-            startCellIndex += 3;
+            startCellIndex = 3;
 
             summarySheet.Cells["C" + startCellIndex.ToString()].Value = "Results Summary";
             summarySheet.Cells["C" + startCellIndex.ToString()].Style.Font.Size = 16;

@@ -12,5 +12,8 @@ namespace TestDemo.Notifications
         public const string TenantsMovedToEdition = "App.TenantsMovedToEdition"; 
         public const string DownloadInvalidImportUsers = "App.DownloadInvalidImportUsers";
         public const string EclReportGenerated = "App.EclReportGenerated";
+        public const string EclClosed = "App.EclClosed";
+        public const string EclReopened = "App.EclReopened";
+        public const string EclComputed = "App.EclComputed";
     }
 }

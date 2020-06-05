@@ -12,5 +12,13 @@ namespace TestDemo.InvestmentComputation
     {
         Task RunInvestmentPreOverrideEclStoredProcedure(Guid eclId);
         Task RunInvestmentPostOverrideEclStoredProcedure(Guid eclId);
+        Task RunInvestmentCloseEclStoredProcedure(Guid eclId);
+        Task RunInvestmentReopenEclStoredProcedure(Guid eclId);
+        Task RunWholesaleCloseEclStoredProcedure(Guid eclId);
+        Task RunWholesaleReopenEclStoredProcedure(Guid eclId);
+        Task RunRetailCloseEclStoredProcedure(Guid eclId);
+        Task RunRetailReopenEclStoredProcedure(Guid eclId);
+        Task RunObeCloseEclStoredProcedure(Guid eclId);
+        Task RunObeReopenEclStoredProcedure(Guid eclId);
     }
 }

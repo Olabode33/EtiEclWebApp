@@ -20,6 +20,14 @@ namespace TestDemo.EntityFrameworkCore.Repositories
         private readonly IActiveTransactionProvider _transactionProvider;
         private const string InvestmentPreOverrideEclProcedure = "InvSec_proc_PreOverrideEclCompution";
         private const string InvestmentPostOverrideEclProcedure = "InvSec_proc_PostOverrideEclCompution";
+        private const string InvestmentCloseEclProcedure = "ECL_Investment_Archive";
+        private const string InvestmentReopenEclProcedure = "ECL_Investment_Restore";
+        private const string WholesaleCloseEclProcedure = "ECL_Wholesale_Archive";
+        private const string WholesaleReopenEclProcedure = "ECL_Wholesale_Restore";
+        private const string RetailCloseEclProcedure = "ECL_Retail_Archive";
+        private const string RetailReopenEclProcedure = "ECL_Retail_Restore";
+        private const string ObeCloseEclProcedure = "ECL_Obe_Archive";
+        private const string ObeReopenEclProcedure = "ECL_Obe_Restore";
 
         public EclCustomRepository(IDbContextProvider<TestDemoDbContext> dbContextProvider, IActiveTransactionProvider transactionProvider)
             : base(dbContextProvider)
@@ -37,10 +45,55 @@ namespace TestDemo.EntityFrameworkCore.Repositories
             await RunEclProcedure(InvestmentPostOverrideEclProcedure, eclId);
         }
 
+        public async Task RunInvestmentCloseEclStoredProcedure(Guid eclId)
+        {
+            await RunEclProcedure(InvestmentCloseEclProcedure, eclId);
+        }
+        public async Task RunInvestmentReopenEclStoredProcedure(Guid eclId)
+        {
+            await RunEclProcedure(InvestmentReopenEclProcedure, eclId);
+        }
+
+        public async Task RunWholesaleCloseEclStoredProcedure(Guid eclId)
+        {
+            await RunEclProcedure_(WholesaleCloseEclProcedure, eclId);
+        }
+        public async Task RunWholesaleReopenEclStoredProcedure(Guid eclId)
+        {
+            await RunEclProcedure_(WholesaleReopenEclProcedure, eclId);
+        }
+
+        public async Task RunRetailCloseEclStoredProcedure(Guid eclId)
+        {
+            await RunEclProcedure_(RetailCloseEclProcedure, eclId);
+        }
+        public async Task RunRetailReopenEclStoredProcedure(Guid eclId)
+        {
+            await RunEclProcedure_(RetailReopenEclProcedure, eclId);
+        }
+
+        public async Task RunObeCloseEclStoredProcedure(Guid eclId)
+        {
+            await RunEclProcedure_(ObeCloseEclProcedure, eclId);
+        }
+        public async Task RunObeReopenEclStoredProcedure(Guid eclId)
+        {
+            await RunEclProcedure_(ObeReopenEclProcedure, eclId);
+        }
+
         private async Task RunEclProcedure(string procedureName, Guid eclId)
         {
             SqlParameter[] parameters = new SqlParameter[]{
                                                             new SqlParameter() {ParameterName = "@ECL_ID", SqlDbType = SqlDbType.UniqueIdentifier, Direction = ParameterDirection.Input, Value = eclId}
+                                                          };
+
+            await RunProcedure(procedureName, parameters);
+        }
+
+        private async Task RunEclProcedure_(string procedureName, Guid eclId)
+        {
+            SqlParameter[] parameters = new SqlParameter[]{
+                                                            new SqlParameter() {ParameterName = "@eclId", SqlDbType = SqlDbType.NVarChar, Direction = ParameterDirection.Input, Value = eclId.ToString()}
                                                           };
 
             await RunProcedure(procedureName, parameters);

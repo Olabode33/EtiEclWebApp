@@ -85,6 +85,42 @@ namespace TestDemo.Notifications
             await _notificationPublisher.PublishAsync(AppNotificationNames.DownloadInvalidImportUsers, notificationData, userIds: new[] { user });
         }
 
+        public async Task EclClosed(UserIdentifier user)
+        {
+            var notificationData = new LocalizableMessageNotificationData(
+                new LocalizableString(
+                    "EclCloseNotificationMessage",
+                    TestDemoConsts.LocalizationSourceName
+                    )
+                );
+
+            await _notificationPublisher.PublishAsync(AppNotificationNames.EclClosed, notificationData, userIds: new[] { user });
+        }
+
+        public async Task EclReopened(UserIdentifier user)
+        {
+            var notificationData = new LocalizableMessageNotificationData(
+                new LocalizableString(
+                    "EclReopenNotificationMessage",
+                    TestDemoConsts.LocalizationSourceName
+                    )
+                );
+
+            await _notificationPublisher.PublishAsync(AppNotificationNames.NewUserRegistered, notificationData, userIds: new[] { user });
+        }
+
+        public async Task EclComputed(UserIdentifier user)
+        {
+            var notificationData = new LocalizableMessageNotificationData(
+                new LocalizableString(
+                    "EclRunNotificationMessage",
+                    TestDemoConsts.LocalizationSourceName
+                    )
+                );
+
+            await _notificationPublisher.PublishAsync(AppNotificationNames.NewUserRegistered, notificationData, userIds: new[] { user });
+        }
+
         //This is for test purposes
         public async Task SendMessageAsync(UserIdentifier user, string message, NotificationSeverity severity = NotificationSeverity.Info)
         {
