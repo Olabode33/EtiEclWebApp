@@ -229,9 +229,9 @@ namespace TestDemo.Reports.Jobs
                 $"   Post_Optimistic=0," +
                 $"   Post_Downturn=0," +
 
-                $"   try_convert(float, isnull((select UserInputValue from {_eclType}ReportUserInput where {_eclType}EclId = '{_eclId}' and UserInputKey = 2), 0)) UserInput_EclBE," +
-                $"   try_convert(float, isnull((select UserInputValue from {_eclType}ReportUserInput where {_eclType}EclId = '{_eclId}' and UserInputKey = 3), 0)) UserInput_EclO," +
-                $"   try_convert(float, isnull((select UserInputValue from {_eclType}ReportUserInput where {_eclType}EclId = '{_eclId}' and UserInputKey = 4), 0)) UserInput_EclD";
+                $"   try_convert(float, isnull((select UserInputValue from {_eclType}EclAssumptions where {_eclType}EclId = '{_eclId}' and [Key] = 'BestEstimateScenarioLikelihood'), 0)) UserInput_EclBE," +
+                $"   try_convert(float, isnull((select UserInputValue from {_eclType}EclAssumptions where {_eclType}EclId = '{_eclId}' and [Key] = 'OptimisticScenarioLikelihood'), 0)) UserInput_EclO," +
+                $"   try_convert(float, isnull((select UserInputValue from {_eclType}EclAssumptions where {_eclType}EclId = '{_eclId}' and [Key] = 'DownturnScenarioLikelihood'), 0)) UserInput_EclD";
 
             dt = GetData(qry);
 

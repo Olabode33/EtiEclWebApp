@@ -43,6 +43,31 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+
+
+        public virtual DbSet<RetailEclEadLifetimeProjection> RetailEclEadLifetimeProjections { get; set; }
+        public virtual DbSet<RetailEclFrameworkFinal> RetailEclFrameworkFinals { get; set; }
+        public virtual DbSet<RetailEclFrameworkFinalOverride> RetailEclFrameworkFinalOverrides { get; set; }
+        public virtual DbSet<RetailEclLgdCollateral> RetailEclLgdCollateral { get; set; }
+        public virtual DbSet<RetailEclLgdCollateralProjection> RetailEclLgdCollateralProjection { get; set; }
+        public virtual DbSet<RetailEclPdCreditIndex> RetailEclPdCreditIndex { get; set; }
+
+        public virtual DbSet<WholesaleEclEadLifetimeProjection> WholesaleEclEadLifetimeProjections { get; set; }
+        public virtual DbSet<WholesaleEclFrameworkFinal> WholesaleEclFrameworkFinals { get; set; }
+        public virtual DbSet<WholesaleEclFrameworkFinalOverride> WholesaleEclFrameworkFinalOverrides { get; set; }
+        public virtual DbSet<WholesaleEclLgdCollateral> WholesaleEclLgdCollateral { get; set; }
+        public virtual DbSet<WholesaleEclLgdCollateralProjection> WholesaleEclLgdCollateralProjection { get; set; }
+        public virtual DbSet<WholesaleEcIPdCreditIndex> WholesaleEclPdCreditIndex { get; set; }
+
+        public virtual DbSet<ObeEclEadLifetimeProjection> ObeEclEadLifetimeProjections { get; set; }
+        public virtual DbSet<ObeEclFrameworkFinal> ObeEclFrameworkFinals { get; set; }
+        public virtual DbSet<ObeEclFrameworkFinalOverride> ObeEclFrameworkFinalOverrides { get; set; }
+        public virtual DbSet<ObeEclLgdCollateral> ObeEclLgdCollateral { get; set; }
+        public virtual DbSet<ObeEclLgdCollateralProjection> ObeEclLgdCollateralProjection { get; set; }
+        public virtual DbSet<ObeEclPdCreditIndex> ObeEclPdCreditIndex { get; set; }
+
+
+
         public virtual DbSet<AffiliateMacroEconomicVariableOffset> AffiliateMacroEconomicVariableOffsets { get; set; }
 
         public virtual DbSet<Affiliate> AffiliateConfigurations { get; set; }
@@ -52,55 +77,34 @@ namespace TestDemo.EntityFrameworkCore
         public virtual DbSet<InvestmentEclMonthlyResult> InvestmentEclMonthlyResults { get; set; }
         public virtual DbSet<InvestmentEclPdLifetime> InvestmentEclPdLifetime { get; set; }
         public virtual DbSet<InvestmentEclOverrideApproval> InvestmentEclOverrideApprovals { get; set; }
-
         public virtual DbSet<InvestmentEclOverride> InvestmentEclOverrides { get; set; }
-
         public virtual DbSet<InvestmentEclSicr> InvestmentEclSicr { get; set; }
         public virtual DbSet<InvestmentEclDiscountFactor> InvestmentEclDiscountFactors { get; set; }
         public virtual DbSet<InvestmentEclEadLifetime> InvestmentEclEadLifetimes { get; set; }
         public virtual DbSet<InvestmentEclEadInput> InvestmentEclEadInput { get; set; }
         public virtual DbSet<InvestmentAssetBook> InvestmentAssetBooks { get; set; }
-
         public virtual DbSet<InvestmentEclUpload> InvestmentEclUploads { get; set; }
-
         public virtual DbSet<ObeEclOverride> ObeEclOverrides { get; set; }
-
         public virtual DbSet<WholesaleEclOverride> WholesaleEclOverrides { get; set; }
-
         public virtual DbSet<RetailEclOverride> RetailEclOverrides { get; set; }
-
         public virtual DbSet<InvestmentPdInputMacroEconomicAssumption> InvestmentPdInputMacroEconomicAssumptions { get; set; }
-
         public virtual DbSet<InvestmentEclPdFitchDefaultRate> InvestmentEclPdFitchDefaultRates { get; set; }
-
         public virtual DbSet<InvestmentEclPdInputAssumption> InvestmentEclPdInputAssumptions { get; set; }
-
         public virtual DbSet<InvestmentEclLgdInputAssumption> InvestmentEclLgdInputAssumptions { get; set; }
-
         public virtual DbSet<InvestmentEclEadInputAssumption> InvestmentEclEadInputAssumptions { get; set; }
-
         public virtual DbSet<InvSecFitchCummulativeDefaultRate> InvSecFitchCummulativeDefaultRates { get; set; }
-
         public virtual DbSet<InvSecMacroEconomicAssumption> InvSecMacroEconomicAssumptions { get; set; }
-
         public virtual DbSet<InvestmentEclApproval> InvestmentEclApprovals { get; set; }
-
         public virtual DbSet<InvestmentEcl> InvestmentEcls { get; set; }
 
         public virtual DbSet<EclConfiguration> EclConfigurations { get; set; }
-
         public virtual DbSet<AffiliateOverrideThreshold> AffiliateOverrideThresholds { get; set; }
-
         public virtual DbSet<AssumptionApproval> AssumptionApprovals { get; set; }
-
         public virtual DbSet<MacroeconomicVariable> MacroeconomicVariables { get; set; }
-
         public virtual DbSet<AffiliateAssumption> AffiliateAssumptions { get; set; }
 
         public virtual DbSet<ObeEclPdAssumptionNonInternalModel> ObeEclPdAssumptionNonInternalModels { get; set; }
-
         public virtual DbSet<RetailEclPdAssumptionNonInteralModel> RetailEclPdAssumptionNonInteralModels { get; set; }
-
         public virtual DbSet<ObeEclPdAssumptionNplIndex> ObeEclPdAssumptionNplIndexes { get; set; }
 
         public virtual DbSet<RetailEclPdAssumptionNplIndex> RetailEclPdAssumptionNplIndexes { get; set; }
@@ -396,6 +400,12 @@ namespace TestDemo.EntityFrameworkCore
             modelBuilder.Entity<WholesaleEadInput>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<WholesaleLgdCollateralTypeData>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<WholesaleLgdContractData>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<WholesaleEclEadLifetimeProjection>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<WholesaleEclFrameworkFinal>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<WholesaleEclFrameworkFinalOverride>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<WholesaleEclLgdCollateral>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<WholesaleEclLgdCollateralProjection>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<WholesaleEcIPdCreditIndex>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
 
             //Retail
             modelBuilder.Entity<RetailPdLifetimeBest>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
@@ -410,6 +420,12 @@ namespace TestDemo.EntityFrameworkCore
             modelBuilder.Entity<RetailEadInput>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<RetailLgdCollateralTypeData>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<RetailLgdContractData>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<RetailEclEadLifetimeProjection>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<RetailEclFrameworkFinal>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<RetailEclFrameworkFinalOverride>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<RetailEclLgdCollateral>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<RetailEclLgdCollateralProjection>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<RetailEclPdCreditIndex>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
 
             //OBE
             modelBuilder.Entity<ObePdLifetimeBest>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
@@ -423,7 +439,13 @@ namespace TestDemo.EntityFrameworkCore
             modelBuilder.Entity<ObeEadEirProjection>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<ObeEadInput>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<ObeLgdCollateralTypeData>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
-            modelBuilder.Entity<ObeLgdContractData>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<ObeLgdContractData>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()")); 
+            modelBuilder.Entity<ObeEclEadLifetimeProjection>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<ObeEclFrameworkFinal>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<ObeEclFrameworkFinalOverride>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<ObeEclLgdCollateral>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<ObeEclLgdCollateralProjection>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<ObeEclPdCreditIndex>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
 
             modelBuilder.Entity<ObeEclResultSummaryTopExposure>(o =>
             {
