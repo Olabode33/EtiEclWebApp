@@ -33,7 +33,7 @@
                     <i class="fa fa-check-circle" style="font-size: 1.2rem !important;"></i>
                     {{l("Close")}}
                 </button>
-                <button (click)="generateReport()" class="btn btn-primary">
+                <button (click)="generateReport()" class="btn btn-primary" *ngIf="eclDto.status == eclStatusEnum.Completed || eclDto.status == eclStatusEnum.PreOverrideComplete || eclDto.status == eclStatusEnum.PostOverrideComplete">
                     <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
                     {{l("Generate Report")}}
                 </button>

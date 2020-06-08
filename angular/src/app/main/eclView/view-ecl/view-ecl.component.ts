@@ -1,3 +1,4 @@
+import { GetEclForEditOutput, CreateOrEditEclDto, EclUploadDto, CreateOrEditEclApprovalDto, GetEclUploadForViewDto } from './../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, ViewEncapsulation, ViewChild, Injector } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
@@ -7,7 +8,7 @@ import { EadInputAssumptionsComponent } from '@app/main/assumptions/_subs/eadInp
 import { LgdInputAssumptionsComponent } from '@app/main/assumptions/_subs/lgdInputAssumptions/lgdInputAssumptions.component';
 import { PdInputAssumptionsComponent } from '@app/main/assumptions/_subs/pdInputAssumptions/pdInputAssumptions.component';
 import { FileUpload } from 'primeng/primeng';
-import { GetRetailEclForEditOutput, CreateOrEditRetailEclDto, GetRetailEclUploadForViewDto, UploadDocTypeEnum, GeneralStatusEnum, DataTypeEnum, EclStatusEnum, AssumptionGroupEnum, EadInputAssumptionGroupEnum, LdgInputAssumptionGroupEnum, RetailEclsServiceProxy, RetailEclUploadsServiceProxy, TokenAuthServiceProxy, FrameworkEnum, WholesaleEclsServiceProxy, WholesaleEclUploadsServiceProxy, ObeEclsServiceProxy, ObeEclUploadsServiceProxy, InvestmentEclsServiceProxy, CreateOrEditRetailEclApprovalDto, GetWholesaleEclForEditOutput, CreateOrEditWholesaleEclDto, GetWholesaleEclUploadForViewDto, GetObeEclForEditOutput, CreateOrEditObeEclDto, GetObeEclUploadForViewDto, CreateOrEditObeEclApprovalDto, CreateOrEditInvestmentEclApprovalDto, CreateOrEditInvestmentEclDto, GetInvestmentEclForEditOutput, AssumptionDto, EadInputAssumptionDto, LgdAssumptionDto, GetAllPdAssumptionsDto, GetAllInvSecPdAssumptionsDto, EntityDtoOfGuid, CreateOrEditWholesaleEclUploadDto, CreateOrEditRetailEclUploadDto, CreateOrEditObeEclUploadDto, CreateOrEditWholesaleEclApprovalDto, InvestmentEclUploadsServiceProxy, GetInvestmentEclUploadForViewDto, CreateOrEditInvestmentEclUploadDto } from '@shared/service-proxies/service-proxies';
+import { GetRetailEclForEditOutput, CreateOrEditRetailEclDto, GetRetailEclUploadForViewDto, UploadDocTypeEnum, GeneralStatusEnum, DataTypeEnum, EclStatusEnum, AssumptionGroupEnum, EadInputAssumptionGroupEnum, LdgInputAssumptionGroupEnum, RetailEclsServiceProxy, RetailEclUploadsServiceProxy, TokenAuthServiceProxy, FrameworkEnum, WholesaleEclsServiceProxy, WholesaleEclUploadsServiceProxy, ObeEclsServiceProxy, ObeEclUploadsServiceProxy, InvestmentEclsServiceProxy, CreateOrEditRetailEclApprovalDto, GetWholesaleEclForEditOutput, CreateOrEditWholesaleEclDto, GetWholesaleEclUploadForViewDto, GetObeEclForEditOutput, CreateOrEditObeEclDto, GetObeEclUploadForViewDto, CreateOrEditObeEclApprovalDto, CreateOrEditInvestmentEclApprovalDto, AssumptionDto, EadInputAssumptionDto, LgdAssumptionDto, GetAllPdAssumptionsDto, GetAllInvSecPdAssumptionsDto, EntityDtoOfGuid, CreateOrEditWholesaleEclUploadDto, CreateOrEditRetailEclUploadDto, CreateOrEditObeEclUploadDto, CreateOrEditWholesaleEclApprovalDto, InvestmentEclUploadsServiceProxy, GetInvestmentEclUploadForViewDto, CreateOrEditInvestmentEclUploadDto } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module/dist/src/notify/notify.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FileDownloadService } from '@shared/utils/file-download.service';
@@ -57,10 +58,10 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
     uploadLoanbookUrl = '';
     uploadAssetBookUrl = '';
 
-    eclDetails: any = new Object();
-    eclDto: any = new Object();
-    eclUploads: any[] = new Array();
-    approvalDto: any = new Object();
+    eclDetails: GetEclForEditOutput = new GetEclForEditOutput();
+    eclDto: CreateOrEditEclDto = new CreateOrEditEclDto();
+    eclUploads: GetEclUploadForViewDto[] = new Array<GetEclUploadForViewDto>();
+    approvalDto: CreateOrEditEclApprovalDto = new CreateOrEditEclApprovalDto();
 
     frameworkEnum = FrameworkEnum;
     uploadDocEnum = UploadDocTypeEnum;
@@ -143,47 +144,15 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
     configureDataSources(): void {
         switch (this._eclFramework) {
             case FrameworkEnum.Wholesale:
-                this.eclDetails = new GetWholesaleEclForEditOutput();
-                this.eclDto = new CreateOrEditWholesaleEclDto();
-                this.eclUploads = new Array<GetWholesaleEclUploadForViewDto>();
-                this.approvalDto = new CreateOrEditWholesaleEclApprovalDto();
-                this.approvalDto.wholesaleEclId = this._eclId;
-                this.approvalDto.reviewComment = '';
-                this.approvalDto.status = GeneralStatusEnum.Draft;
-
                 this.configureApprovalModal(this.l('ApproveFrameworkEcl', 'Wholesale'));
                 break;
             case FrameworkEnum.Retail:
-                this.eclDetails = new GetRetailEclForEditOutput();
-                this.eclDto = new CreateOrEditRetailEclDto();
-                this.eclUploads = new Array<GetRetailEclUploadForViewDto>();
-                this.approvalDto = new CreateOrEditRetailEclApprovalDto();
-                this.approvalDto.retailEclId = this._eclId;
-                this.approvalDto.reviewComment = '';
-                this.approvalDto.status = GeneralStatusEnum.Draft;
-
                 this.configureApprovalModal(this.l('ApproveFrameworkEcl', 'Retail'));
                 break;
             case FrameworkEnum.OBE:
-                this.eclDetails = new GetObeEclForEditOutput();
-                this.eclDto = new CreateOrEditObeEclDto();
-                this.eclUploads = new Array<GetObeEclUploadForViewDto>();
-                this.approvalDto = new CreateOrEditObeEclApprovalDto();
-                this.approvalDto.obeEclId = this._eclId;
-                this.approvalDto.reviewComment = '';
-                this.approvalDto.status = GeneralStatusEnum.Draft;
-
                 this.configureApprovalModal(this.l('ApproveFrameworkEcl', 'OBE'));
                 break;
             case FrameworkEnum.Investments:
-                this.eclDetails = new GetInvestmentEclForEditOutput();
-                this.eclDto = new CreateOrEditInvestmentEclDto();
-                this.eclUploads = new Array<GetInvestmentEclUploadForViewDto>();
-                this.approvalDto = new CreateOrEditInvestmentEclApprovalDto();
-                this.approvalDto.investmentEclId = this._eclId;
-                this.approvalDto.reviewComment = '';
-                this.approvalDto.status = GeneralStatusEnum.Draft;
-
                 this.configureApprovalModal(this.l('ApproveFrameworkEcl', 'Investment'));
                 break;
             default:
@@ -192,6 +161,11 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
     }
 
     configureApprovalModal(title: string): void {
+
+        this.approvalDto.eclId = this._eclId;
+        this.approvalDto.reviewComment = '';
+        this.approvalDto.status = GeneralStatusEnum.Draft;
+
         this.approvalModal.configure({
             title: title,
             serviceProxy: this._eclServiceProxy,

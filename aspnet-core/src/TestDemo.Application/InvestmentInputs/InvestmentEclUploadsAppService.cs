@@ -19,6 +19,7 @@ using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
 using TestDemo.Authorization.Users;
 using Abp.UI;
+using TestDemo.Dto.Inputs;
 
 namespace TestDemo.InvestmentInputs
 {
@@ -73,7 +74,7 @@ namespace TestDemo.InvestmentInputs
             );
          }
 
-        public async Task<List<GetInvestmentEclUploadForViewDto>> GetEclUploads(EntityDto<Guid> input)
+        public async Task<List<GetEclUploadForViewDto>> GetEclUploads(EntityDto<Guid> input)
         {
             var retailEclUploads = from o in _investmentEclUploadRepository.GetAll().Where(x => x.InvestmentEclId == input.Id)
                                    join o1 in _lookup_investmentEclRepository.GetAll() on o.InvestmentEclId equals o1.Id into j1
@@ -82,14 +83,14 @@ namespace TestDemo.InvestmentInputs
                                    join u in _lookup_userRepository.GetAll() on o.CreatorUserId equals u.Id into u1
                                    from u2 in u1.DefaultIfEmpty()
 
-                                   select new GetInvestmentEclUploadForViewDto()
+                                   select new GetEclUploadForViewDto()
                                    {
-                                       EclUpload = new InvestmentEclUploadDto
+                                       EclUpload = new EclUploadDto
                                        {
                                            DocType = o.DocType,
                                            //UploadComment = o.UploadComment,
                                            Status = o.Status,
-                                           InvestmentEclId = o.InvestmentEclId,
+                                           EclId = o.InvestmentEclId,
                                            Id = o.Id
                                        },
                                        DateUploaded = o.CreationTime,

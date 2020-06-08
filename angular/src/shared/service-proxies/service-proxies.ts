@@ -10089,7 +10089,7 @@ export class InvestmentEclsServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getEclDetailsForEdit(id: string | null | undefined): Observable<GetInvestmentEclForEditOutput> {
+    getEclDetailsForEdit(id: string | null | undefined): Observable<GetEclForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/InvestmentEcls/GetEclDetailsForEdit?";
         if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
@@ -10110,14 +10110,14 @@ export class InvestmentEclsServiceProxy {
                 try {
                     return this.processGetEclDetailsForEdit(<any>response_);
                 } catch (e) {
-                    return <Observable<GetInvestmentEclForEditOutput>><any>_observableThrow(e);
+                    return <Observable<GetEclForEditOutput>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<GetInvestmentEclForEditOutput>><any>_observableThrow(response_);
+                return <Observable<GetEclForEditOutput>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetEclDetailsForEdit(response: HttpResponseBase): Observable<GetInvestmentEclForEditOutput> {
+    protected processGetEclDetailsForEdit(response: HttpResponseBase): Observable<GetEclForEditOutput> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -10128,7 +10128,7 @@ export class InvestmentEclsServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? GetInvestmentEclForEditOutput.fromJS(resultData200) : new GetInvestmentEclForEditOutput();
+            result200 = resultData200 ? GetEclForEditOutput.fromJS(resultData200) : new GetEclForEditOutput();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -10136,14 +10136,14 @@ export class InvestmentEclsServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<GetInvestmentEclForEditOutput>(<any>null);
+        return _observableOf<GetEclForEditOutput>(<any>null);
     }
 
     /**
      * @param input (optional) 
      * @return Success
      */
-    createOrEdit(input: CreateOrEditInvestmentEclDto | null | undefined): Observable<void> {
+    createOrEdit(input: CreateOrEditEclDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/InvestmentEcls/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -10348,7 +10348,7 @@ export class InvestmentEclsServiceProxy {
      * @param input (optional) 
      * @return Success
      */
-    approveReject(input: CreateOrEditInvestmentEclApprovalDto | null | undefined): Observable<void> {
+    approveReject(input: CreateOrEditEclApprovalDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/InvestmentEcls/ApproveReject";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -10801,7 +10801,7 @@ export class InvestmentEclUploadsServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getEclUploads(id: string | null | undefined): Observable<GetInvestmentEclUploadForViewDto[]> {
+    getEclUploads(id: string | null | undefined): Observable<GetEclUploadForViewDto[]> {
         let url_ = this.baseUrl + "/api/services/app/InvestmentEclUploads/GetEclUploads?";
         if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
@@ -10822,14 +10822,14 @@ export class InvestmentEclUploadsServiceProxy {
                 try {
                     return this.processGetEclUploads(<any>response_);
                 } catch (e) {
-                    return <Observable<GetInvestmentEclUploadForViewDto[]>><any>_observableThrow(e);
+                    return <Observable<GetEclUploadForViewDto[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<GetInvestmentEclUploadForViewDto[]>><any>_observableThrow(response_);
+                return <Observable<GetEclUploadForViewDto[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetEclUploads(response: HttpResponseBase): Observable<GetInvestmentEclUploadForViewDto[]> {
+    protected processGetEclUploads(response: HttpResponseBase): Observable<GetEclUploadForViewDto[]> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -10843,7 +10843,7 @@ export class InvestmentEclUploadsServiceProxy {
             if (resultData200 && resultData200.constructor === Array) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(GetInvestmentEclUploadForViewDto.fromJS(item));
+                    result200!.push(GetEclUploadForViewDto.fromJS(item));
             }
             return _observableOf(result200);
             }));
@@ -10852,7 +10852,7 @@ export class InvestmentEclUploadsServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<GetInvestmentEclUploadForViewDto[]>(<any>null);
+        return _observableOf<GetEclUploadForViewDto[]>(<any>null);
     }
 
     /**
@@ -56169,8 +56169,8 @@ export interface IInvestmentEclDto {
     id: string | undefined;
 }
 
-export class GetInvestmentEclForEditOutput implements IGetInvestmentEclForEditOutput {
-    eclDto!: CreateOrEditInvestmentEclDto | undefined;
+export class GetEclForEditOutput implements IGetEclForEditOutput {
+    eclDto!: CreateOrEditEclDto | undefined;
     country!: string | undefined;
     createdByUserName!: string | undefined;
     closedByUserName!: string | undefined;
@@ -56180,7 +56180,7 @@ export class GetInvestmentEclForEditOutput implements IGetInvestmentEclForEditOu
     pdInputAssumptionMacroeconomic!: InvSecMacroEconomicAssumptionDto[] | undefined;
     pdInputFitchCummulativeDefaultRate!: InvSecFitchCummulativeDefaultRateDto[] | undefined;
 
-    constructor(data?: IGetInvestmentEclForEditOutput) {
+    constructor(data?: IGetEclForEditOutput) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -56191,7 +56191,7 @@ export class GetInvestmentEclForEditOutput implements IGetInvestmentEclForEditOu
 
     init(data?: any) {
         if (data) {
-            this.eclDto = data["eclDto"] ? CreateOrEditInvestmentEclDto.fromJS(data["eclDto"]) : <any>undefined;
+            this.eclDto = data["eclDto"] ? CreateOrEditEclDto.fromJS(data["eclDto"]) : <any>undefined;
             this.country = data["country"];
             this.createdByUserName = data["createdByUserName"];
             this.closedByUserName = data["closedByUserName"];
@@ -56223,9 +56223,9 @@ export class GetInvestmentEclForEditOutput implements IGetInvestmentEclForEditOu
         }
     }
 
-    static fromJS(data: any): GetInvestmentEclForEditOutput {
+    static fromJS(data: any): GetEclForEditOutput {
         data = typeof data === 'object' ? data : {};
-        let result = new GetInvestmentEclForEditOutput();
+        let result = new GetEclForEditOutput();
         result.init(data);
         return result;
     }
@@ -56265,8 +56265,8 @@ export class GetInvestmentEclForEditOutput implements IGetInvestmentEclForEditOu
     }
 }
 
-export interface IGetInvestmentEclForEditOutput {
-    eclDto: CreateOrEditInvestmentEclDto | undefined;
+export interface IGetEclForEditOutput {
+    eclDto: CreateOrEditEclDto | undefined;
     country: string | undefined;
     createdByUserName: string | undefined;
     closedByUserName: string | undefined;
@@ -56277,7 +56277,7 @@ export interface IGetInvestmentEclForEditOutput {
     pdInputFitchCummulativeDefaultRate: InvSecFitchCummulativeDefaultRateDto[] | undefined;
 }
 
-export class CreateOrEditInvestmentEclDto implements ICreateOrEditInvestmentEclDto {
+export class CreateOrEditEclDto implements ICreateOrEditEclDto {
     reportingDate!: moment.Moment | undefined;
     closedDate!: moment.Moment | undefined;
     isApproved!: boolean | undefined;
@@ -56285,7 +56285,7 @@ export class CreateOrEditInvestmentEclDto implements ICreateOrEditInvestmentEclD
     closedByUserId!: number | undefined;
     id!: string | undefined;
 
-    constructor(data?: ICreateOrEditInvestmentEclDto) {
+    constructor(data?: ICreateOrEditEclDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -56305,9 +56305,9 @@ export class CreateOrEditInvestmentEclDto implements ICreateOrEditInvestmentEclD
         }
     }
 
-    static fromJS(data: any): CreateOrEditInvestmentEclDto {
+    static fromJS(data: any): CreateOrEditEclDto {
         data = typeof data === 'object' ? data : {};
-        let result = new CreateOrEditInvestmentEclDto();
+        let result = new CreateOrEditEclDto();
         result.init(data);
         return result;
     }
@@ -56324,7 +56324,7 @@ export class CreateOrEditInvestmentEclDto implements ICreateOrEditInvestmentEclD
     }
 }
 
-export interface ICreateOrEditInvestmentEclDto {
+export interface ICreateOrEditEclDto {
     reportingDate: moment.Moment | undefined;
     closedDate: moment.Moment | undefined;
     isApproved: boolean | undefined;
@@ -56367,6 +56367,58 @@ export class EntityDtoOfGuid implements IEntityDtoOfGuid {
 
 export interface IEntityDtoOfGuid {
     id: string | undefined;
+}
+
+export class CreateOrEditEclApprovalDto implements ICreateOrEditEclApprovalDto {
+    reviewedDate!: moment.Moment | undefined;
+    reviewComment!: string | undefined;
+    status!: GeneralStatusEnum | undefined;
+    reviewedByUserId!: number | undefined;
+    eclId!: string | undefined;
+
+    constructor(data?: ICreateOrEditEclApprovalDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.reviewedDate = data["reviewedDate"] ? moment(data["reviewedDate"].toString()) : <any>undefined;
+            this.reviewComment = data["reviewComment"];
+            this.status = data["status"];
+            this.reviewedByUserId = data["reviewedByUserId"];
+            this.eclId = data["eclId"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditEclApprovalDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditEclApprovalDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["reviewedDate"] = this.reviewedDate ? this.reviewedDate.toISOString() : <any>undefined;
+        data["reviewComment"] = this.reviewComment;
+        data["status"] = this.status;
+        data["reviewedByUserId"] = this.reviewedByUserId;
+        data["eclId"] = this.eclId;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditEclApprovalDto {
+    reviewedDate: moment.Moment | undefined;
+    reviewComment: string | undefined;
+    status: GeneralStatusEnum | undefined;
+    reviewedByUserId: number | undefined;
+    eclId: string | undefined;
 }
 
 export class PagedResultDtoOfInvestmentEclUserLookupTableDto implements IPagedResultDtoOfInvestmentEclUserLookupTableDto {
@@ -56606,6 +56658,102 @@ export enum UploadDocTypeEnum {
     LoanBook = 1, 
     PaymentSchedule = 2, 
     AssetBook = 3, 
+}
+
+export class GetEclUploadForViewDto implements IGetEclUploadForViewDto {
+    eclUpload!: EclUploadDto | undefined;
+    eclReportingDate!: string | undefined;
+    dateUploaded!: moment.Moment | undefined;
+    uploadedBy!: string | undefined;
+
+    constructor(data?: IGetEclUploadForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.eclUpload = data["eclUpload"] ? EclUploadDto.fromJS(data["eclUpload"]) : <any>undefined;
+            this.eclReportingDate = data["eclReportingDate"];
+            this.dateUploaded = data["dateUploaded"] ? moment(data["dateUploaded"].toString()) : <any>undefined;
+            this.uploadedBy = data["uploadedBy"];
+        }
+    }
+
+    static fromJS(data: any): GetEclUploadForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetEclUploadForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["eclUpload"] = this.eclUpload ? this.eclUpload.toJSON() : <any>undefined;
+        data["eclReportingDate"] = this.eclReportingDate;
+        data["dateUploaded"] = this.dateUploaded ? this.dateUploaded.toISOString() : <any>undefined;
+        data["uploadedBy"] = this.uploadedBy;
+        return data; 
+    }
+}
+
+export interface IGetEclUploadForViewDto {
+    eclUpload: EclUploadDto | undefined;
+    eclReportingDate: string | undefined;
+    dateUploaded: moment.Moment | undefined;
+    uploadedBy: string | undefined;
+}
+
+export class EclUploadDto implements IEclUploadDto {
+    docType!: UploadDocTypeEnum | undefined;
+    status!: GeneralStatusEnum | undefined;
+    eclId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IEclUploadDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.docType = data["docType"];
+            this.status = data["status"];
+            this.eclId = data["eclId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): EclUploadDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new EclUploadDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["docType"] = this.docType;
+        data["status"] = this.status;
+        data["eclId"] = this.eclId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IEclUploadDto {
+    docType: UploadDocTypeEnum | undefined;
+    status: GeneralStatusEnum | undefined;
+    eclId: string | undefined;
+    id: string | undefined;
 }
 
 export class GetInvestmentEclUploadForEditOutput implements IGetInvestmentEclUploadForEditOutput {

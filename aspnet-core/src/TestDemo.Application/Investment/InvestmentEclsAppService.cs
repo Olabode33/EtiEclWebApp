@@ -33,26 +33,29 @@ using Abp.Runtime.Session;
 using Abp.Configuration;
 using TestDemo.EclConfig;
 using TestDemo.EclLibrary.Jobs;
+using TestDemo.EclInterfaces;
+using TestDemo.Dto.Ecls;
+using TestDemo.Dto.Approvals;
 
 namespace TestDemo.Investment
 {
     [AbpAuthorize(AppPermissions.Pages_InvestmentEcls)]
-    public class InvestmentEclsAppService : TestDemoAppServiceBase, IInvestmentEclsAppService
+    public class InvestmentEclsAppService : TestDemoAppServiceBase, IEclsAppService
     {
         private readonly IRepository<InvestmentEcl, Guid> _investmentEclRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
         private readonly IRepository<AffiliateAssumption, Guid> _affiliateAssumptionRepository;
+        private readonly IRepository<InvestmentEclApproval, Guid> _investmentApprovalsRepository;
+        private readonly IRepository<InvestmentEclOverride, Guid> _investmentOverridesRepository;
+        private readonly IRepository<InvestmentEclUpload, Guid> _investmentUploadRepository;
 
         private readonly IInvestmentEclEadInputAssumptionsAppService _invsecEclEadInputAssumptionsAppService;
         private readonly IInvestmentEclLgdInputAssumptionsAppService _invsecEclLgdAssumptionsAppService;
         private readonly IInvestmentEclPdInputAssumptionsAppService _invsecEclPdAssumptionsAppService;
         private readonly IInvestmentPdInputMacroEconomicAssumptionsAppService _invsecPdAssumptionMacroAsusmptionAppService;
         private readonly IInvestmentEclPdFitchDefaultRatesAppService _invsecEclPdAssumptionFitchRatingAppService;
-        private readonly IInvestmentEclUploadsAppService _invsecEclUploadsAppService;
 
-        private readonly IInvestmentEclApprovalsAppService _invsecEclApprovalsAppService;
-        private readonly IInvestmentEclOverridesAppService _invsecEclOverridesAppService;
         private readonly IBackgroundJobManager _backgroundJobManager;
         private readonly IEclSharedAppService _eclSharedAppService;
         private readonly IEclCustomRepository _investmentEclCustomRepository;
@@ -62,14 +65,14 @@ namespace TestDemo.Investment
                                         IRepository<User, long> lookup_userRepository,
                                         IRepository<OrganizationUnit, long> organizationUnitRepository,
                                         IRepository<AffiliateAssumption, Guid> affiliateAssumptionRepository,
+                                        IRepository<InvestmentEclApproval, Guid> investmentApprovalsRepository,
+                                        IRepository<InvestmentEclOverride, Guid> investmentOverridesRepository,
+                                        IRepository<InvestmentEclUpload, Guid> investmentUploadRepository,
                                         IInvestmentEclEadInputAssumptionsAppService invsecEclEadInputAssumptionsAppService,
                                         IInvestmentEclLgdInputAssumptionsAppService invsecEclLgdAssumptionsAppService,
                                         IInvestmentEclPdInputAssumptionsAppService invsecEclPdAssumptionsAppService,
                                         IInvestmentPdInputMacroEconomicAssumptionsAppService invsecPdAssumptionMacroAssumptionAppService,
                                         IInvestmentEclPdFitchDefaultRatesAppService invsecEclPdAssumptionFitchRatingAppService,
-                                        IInvestmentEclUploadsAppService invsecEclUploadsAppService,
-                                        IInvestmentEclApprovalsAppService invsecEclApprovalsAppService,
-                                        IInvestmentEclOverridesAppService invsecEclOverridesAppService,
                                         IBackgroundJobManager backgroundJobManager,
                                         IEclCustomRepository investmentEclCustomRepository,
                                         IEclSharedAppService eclSharedAppService)
@@ -78,15 +81,15 @@ namespace TestDemo.Investment
             _lookup_userRepository = lookup_userRepository;
             _organizationUnitRepository = organizationUnitRepository;
             _affiliateAssumptionRepository = affiliateAssumptionRepository;
+            _investmentApprovalsRepository = investmentApprovalsRepository;
+            _investmentOverridesRepository = investmentOverridesRepository;
+            _investmentUploadRepository = investmentUploadRepository;
 
             _invsecEclEadInputAssumptionsAppService = invsecEclEadInputAssumptionsAppService;
             _invsecEclLgdAssumptionsAppService = invsecEclLgdAssumptionsAppService;
             _invsecEclPdAssumptionsAppService = invsecEclPdAssumptionsAppService;
             _invsecEclPdAssumptionFitchRatingAppService = invsecEclPdAssumptionFitchRatingAppService;
             _invsecPdAssumptionMacroAsusmptionAppService = invsecPdAssumptionMacroAssumptionAppService;
-            _invsecEclUploadsAppService = invsecEclUploadsAppService;
-            _invsecEclOverridesAppService = invsecEclOverridesAppService;
-            _invsecEclApprovalsAppService = invsecEclApprovalsAppService;
             _backgroundJobManager = backgroundJobManager;
             _investmentEclCustomRepository = investmentEclCustomRepository;
             _eclSharedAppService = eclSharedAppService;
@@ -132,11 +135,11 @@ namespace TestDemo.Investment
         }
 
         [AbpAuthorize(AppPermissions.Pages_InvestmentEcls_Edit)]
-        public async Task<GetInvestmentEclForEditOutput> GetEclDetailsForEdit(EntityDto<Guid> input)
+        public async Task<GetEclForEditOutput> GetEclDetailsForEdit(EntityDto<Guid> input)
         {
             var investmentEcl = await _investmentEclRepository.FirstOrDefaultAsync(input.Id);
 
-            var output = new GetInvestmentEclForEditOutput { EclDto = ObjectMapper.Map<CreateOrEditInvestmentEclDto>(investmentEcl) };
+            var output = new GetEclForEditOutput { EclDto = ObjectMapper.Map<CreateOrEditEclDto>(investmentEcl) };
 
             if (investmentEcl.CreatorUserId != null)
             {
@@ -165,7 +168,7 @@ namespace TestDemo.Investment
             return output;
         }
 
-        public async Task CreateOrEdit(CreateOrEditInvestmentEclDto input)
+        public async Task CreateOrEdit(CreateOrEditEclDto input)
         {
             if (input.Id == null)
             {
@@ -178,7 +181,7 @@ namespace TestDemo.Investment
         }
 
         [AbpAuthorize(AppPermissions.Pages_InvestmentEcls_Create)]
-        protected virtual async Task Create(CreateOrEditInvestmentEclDto input)
+        protected virtual async Task Create(CreateOrEditEclDto input)
         {
             var investmentEcl = ObjectMapper.Map<InvestmentEcl>(input);
 
@@ -188,7 +191,7 @@ namespace TestDemo.Investment
         }
 
         [AbpAuthorize(AppPermissions.Pages_InvestmentEcls_Edit)]
-        protected virtual async Task Update(CreateOrEditInvestmentEclDto input)
+        protected virtual async Task Update(CreateOrEditEclDto input)
         {
             var investmentEcl = await _investmentEclRepository.FirstOrDefaultAsync((Guid)input.Id);
             ObjectMapper.Map(input, investmentEcl);
@@ -226,6 +229,7 @@ namespace TestDemo.Investment
                 throw new UserFriendlyException(L("UserDoesNotBelongToAnyAffiliateError"));
             }
         }
+        
         protected virtual async Task<Guid> CreateAndGetId(long ouId)
         {
             var affiliateAssumption = await _affiliateAssumptionRepository.FirstOrDefaultAsync(x => x.OrganizationUnitId == ouId);
@@ -408,7 +412,6 @@ namespace TestDemo.Investment
         }
 
 
-
         [AbpAuthorize(AppPermissions.Pages_InvestmentEcls_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
@@ -430,17 +433,24 @@ namespace TestDemo.Investment
             }
         }
 
-        public virtual async Task ApproveReject(CreateOrEditInvestmentEclApprovalDto input)
+        public virtual async Task ApproveReject(CreateOrEditEclApprovalDto input)
         {
-            var ecl = await _investmentEclRepository.FirstOrDefaultAsync((Guid)input.InvestmentEclId);
+            var ecl = await _investmentEclRepository.FirstOrDefaultAsync((Guid)input.EclId);
 
-            await _invsecEclApprovalsAppService.CreateOrEdit(input);
+            await _investmentApprovalsRepository.InsertAsync(new InvestmentEclApproval
+            {
+                InvestmentEclId = input.EclId,
+                ReviewComment = input.ReviewComment,
+                ReviewedByUserId = AbpSession.UserId,
+                ReviewedDate = DateTime.Now,
+                Status = input.Status
+            });
+            await CurrentUnitOfWork.SaveChangesAsync();
 
             if (input.Status == GeneralStatusEnum.Approved)
             {
                 var requiredApprovals = await SettingManager.GetSettingValueAsync<int>(EclSettings.RequiredNoOfApprovals);
-                var eclAudit = await _invsecEclApprovalsAppService.GetEclAudit(new EntityDto<Guid> { Id = input.InvestmentEclId });
-                var eclApprovals = eclAudit.Approvals;
+                var eclApprovals = await _investmentApprovalsRepository.GetAllListAsync(x => x.InvestmentEclId == input.EclId && x.Status == GeneralStatusEnum.Approved);
                 if (eclApprovals.Count(x => x.Status == GeneralStatusEnum.Approved) >= requiredApprovals)
                 {
                     ecl.Status = EclStatusEnum.Approved;
@@ -457,7 +467,6 @@ namespace TestDemo.Investment
 
             ObjectMapper.Map(ecl, ecl);
         }
-
 
         public async Task RunEcl(EntityDto<Guid> input)
         {
@@ -526,10 +535,10 @@ namespace TestDemo.Investment
         {
             ValidationMessageDto output = new ValidationMessageDto();
 
-            var uploads = await _invsecEclUploadsAppService.GetEclUploads(new EntityDto<Guid> { Id = eclId });
+            var uploads = await _investmentUploadRepository.GetAllListAsync(x => x.InvestmentEclId == eclId);
             if (uploads.Count > 0)
             {
-                var notCompleted = uploads.Any(x => x.EclUpload.Status != GeneralStatusEnum.Completed);
+                var notCompleted = uploads.Any(x => x.Status != GeneralStatusEnum.Completed);
                 output.Status = !notCompleted;
                 output.Message = notCompleted == true ? L("UploadInProgressError") : "";
             }
@@ -546,10 +555,10 @@ namespace TestDemo.Investment
         {
             ValidationMessageDto output = new ValidationMessageDto();
             //Check if Ecl has overrides
-            var overrides = await _invsecEclOverridesAppService.GetAll(new InvestmentComputation.Dtos.GetAllInvestmentEclOverridesInput { EclId = eclId, Filter = "", InvestmentEclSicrAssetDescriptionFilter = "", MaxResultCount = 10,  SkipCount = 0, Sorting = "id", StatusFilter = -1});
-            if (overrides.Items.Count > 0)
+            var overrides = await _investmentOverridesRepository.GetAllListAsync(x => x.EclId == eclId);
+            if (overrides.Count > 0)
             {
-                var submitted = overrides.Items.Any(x => x.InvestmentEclOverride.Status == GeneralStatusEnum.Submitted);
+                var submitted = overrides.Any(x => x.Status == GeneralStatusEnum.Submitted);
                 output.Status = !submitted;
                 output.Message = submitted == true ? L("PostRunErrorYetToReviewSubmittedOverrides") : "";
             }

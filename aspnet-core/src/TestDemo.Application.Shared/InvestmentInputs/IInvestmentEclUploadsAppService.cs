@@ -5,6 +5,7 @@ using Abp.Application.Services.Dto;
 using TestDemo.InvestmentInputs.Dtos;
 using TestDemo.Dto;
 using System.Collections.Generic;
+using TestDemo.Dto.Inputs;
 
 namespace TestDemo.InvestmentInputs
 {
@@ -12,7 +13,7 @@ namespace TestDemo.InvestmentInputs
     {
         Task<PagedResultDto<GetInvestmentEclUploadForViewDto>> GetAll(GetAllInvestmentEclUploadsInput input);
 
-        Task<List<GetInvestmentEclUploadForViewDto>> GetEclUploads(EntityDto<Guid> input);
+        Task<List<GetEclUploadForViewDto>> GetEclUploads(EntityDto<Guid> input);
 
         Task<GetInvestmentEclUploadForEditOutput> GetInvestmentEclUploadForEdit(EntityDto<Guid> input);
 
