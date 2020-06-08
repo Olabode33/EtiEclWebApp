@@ -18,6 +18,8 @@ using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
 using TestDemo.InvestmentInputs;
 using Abp.UI;
+using TestDemo.EclConfig;
+using Abp.Configuration;
 
 namespace TestDemo.InvestmentComputation
 {
@@ -28,23 +30,21 @@ namespace TestDemo.InvestmentComputation
         private readonly IRepository<InvestmentEclSicr, Guid> _lookup_investmentEclSicrRepository;
         private readonly IRepository<InvestmentAssetBook, Guid> _lookup_investmentAssetbookRepository;
         private readonly IRepository<InvestmentEclFinalResult, Guid> _lookup_investmentEclFinalResultRepository;
-
-        private readonly IInvestmentEclOverrideApprovalsAppService _invsecEclOverrideApprovalsAppService;
-
+        private readonly IRepository<InvestmentEclOverrideApproval, Guid> _lookup_investmentEclOverrideApprovalRepository;
 
         public InvestmentEclOverridesAppService(
             IRepository<InvestmentEclOverride, Guid> investmentEclOverrideRepository,
             IRepository<InvestmentEclSicr, Guid> lookup_investmentEclSicrRepository,
             IRepository<InvestmentAssetBook, Guid> lookup_investmentAssetbookRepository,
             IRepository<InvestmentEclFinalResult, Guid> lookup_investmentEclFinalResultRepository,
-            IInvestmentEclOverrideApprovalsAppService invsecEclOverrideApprovalsAppService
+            IRepository<InvestmentEclOverrideApproval, Guid> lookup_investmentEclOverrideRepository
             )
         {
             _investmentEclOverrideRepository = investmentEclOverrideRepository;
             _lookup_investmentEclSicrRepository = lookup_investmentEclSicrRepository;
             _lookup_investmentAssetbookRepository = lookup_investmentAssetbookRepository;
             _lookup_investmentEclFinalResultRepository = lookup_investmentEclFinalResultRepository;
-            _invsecEclOverrideApprovalsAppService = invsecEclOverrideApprovalsAppService;
+            _lookup_investmentEclOverrideApprovalRepository = lookup_investmentEclOverrideRepository;
         }
 
         public async Task<PagedResultDto<GetInvestmentEclOverrideForViewDto>> GetAll(GetAllInvestmentEclOverridesInput input)
@@ -207,18 +207,36 @@ namespace TestDemo.InvestmentComputation
         public virtual async Task ApproveReject(EclShared.Dtos.ReviewEclOverrideInputDto input)
         {
             var ecl = await _investmentEclOverrideRepository.FirstOrDefaultAsync((Guid)input.OverrideRecordId);
-            ecl.Status = input.Status;
-            ObjectMapper.Map(ecl, ecl);
 
-            var approvalDto = new CreateOrEditInvestmentEclOverrideApprovalDto()
+            await _lookup_investmentEclOverrideApprovalRepository.InsertAsync(new InvestmentEclOverrideApproval
             {
                 InvestmentEclOverrideId = input.OverrideRecordId,
                 ReviewComment = input.ReviewComment,
-                Status = input.Status,
+                ReviewedByUserId = AbpSession.UserId,
                 ReviewDate = DateTime.Now,
-                ReviewedByUserId = AbpSession.UserId
-            };
-            await _invsecEclOverrideApprovalsAppService.CreateOrEdit(approvalDto);
+                Status = input.Status
+            });
+            await CurrentUnitOfWork.SaveChangesAsync();
+
+            if (input.Status == GeneralStatusEnum.Approved)
+            {
+                var requiredApprovals = await SettingManager.GetSettingValueAsync<int>(EclSettings.RequiredNoOfApprovals);
+                var eclApprovals = await _lookup_investmentEclOverrideApprovalRepository.GetAllListAsync(x => x.InvestmentEclOverrideId == input.OverrideRecordId && x.Status == GeneralStatusEnum.Approved);
+                if (eclApprovals.Count(x => x.Status == GeneralStatusEnum.Approved) >= requiredApprovals)
+                {
+                    ecl.Status = GeneralStatusEnum.Approved;
+                }
+                else
+                {
+                    ecl.Status = GeneralStatusEnum.AwaitngAdditionApproval;
+                }
+            }
+            else
+            {
+                ecl.Status = GeneralStatusEnum.Draft;
+            }
+
+            ObjectMapper.Map(ecl, ecl);
         }
 
         [AbpAuthorize(AppPermissions.Pages_InvestmentEclOverrides)]
