@@ -4,6 +4,8 @@ using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using TestDemo.WholesaleAssumption.Dtos;
 using TestDemo.Dto;
+using TestDemo.EclShared.Dtos;
+using System.Collections.Generic;
 
 namespace TestDemo.WholesaleAssumption
 {
@@ -16,9 +18,6 @@ namespace TestDemo.WholesaleAssumption
 		Task CreateOrEdit(CreateOrEditWholesaleEclPdAssumptionNplIndexDto input);
 
 		Task Delete(EntityDto<Guid> input);
-
-		
-		Task<PagedResultDto<WholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto>> GetAllWholesaleEclForLookupTable(GetAllForLookupTableInput input);
-		
+        Task<List<PdInputAssumptionNplIndexDto>> GetListForEclView(EntityDto<Guid> input);
     }
 }

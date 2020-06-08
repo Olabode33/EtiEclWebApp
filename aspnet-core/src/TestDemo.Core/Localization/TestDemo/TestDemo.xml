@@ -1,11 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+    <text name="EclMustBeApprovedBeforeRunning">Ecl must be approved before running computation</text>
+    <text name="QueuePostOverride">Running</text>
     <text name="AwaitngAdditionApproval">Awaiting Additional Approval</text>
     
     <text name="ReOpenEcl">Re-open ECL</text>
     <text name="EclReopenSuccessfully">ECL successfully reopened!</text>
     
+    <text name="CloseEcltErrorEclNotRun">Cannot close the selected ECL because it has not been computed.</text>
+    <text name="ReopenEcltErrorEclNotRun">Cannot re-open the selected ECL because it has not been closed.</text>
     <text name="GenerateReportErrorEclNotRun">Cannot generate report because the selected ECL has not been computed.</text>
     
     <text name="EclCloseStartedNotification">ECL archiving started. You will be notified when the ECL has been closed.</text>
@@ -34,7 +38,8 @@
     <text name="ApplyOverrideErrorRecordReviewed">Cannot apply override to reviewed facility!</text>
     <text name="EclClosedSuccessfully">ECL successfully closed!</text>
     <text name="CloseEcl">Close ECL</text>
-    <text name="CloseEclInfo">ECL Pre-override and Post-override results are valid</text>
+    <text name="CloseEclInfo">By closing this ECL, it can only be viewed on the dashboard and only the report can be generated from the application.</text>
+    <text name="ReopenEclInfo">Restore the selected ECL for re-computation</text>
     <text name="StartEclPostOverrideRun">Queue ECL for post override computation</text>
     <text name="PostRunErrorYetToReviewSubmittedOverrides">This ECL has submitted overrides that are yet to be reviewed</text>
     <text name="Comment">Comment</text>

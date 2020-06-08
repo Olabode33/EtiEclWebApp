@@ -11,10 +11,6 @@ namespace TestDemo.RetailComputation
 	[Table("RetailEclOverrides")]
     public class RetailEclOverride : EclOverrideBase
 	{
-		public virtual Guid? RetailEclDataLoanBookId { get; set; }
-		
-        [ForeignKey("RetailEclDataLoanBookId")]
-		public RetailEclDataLoanBook RetailEclDataLoanBookFk { get; set; }
-		
+		public virtual Guid? RetailEclId { get; set; }
     }
 }

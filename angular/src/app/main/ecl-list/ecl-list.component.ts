@@ -1,6 +1,6 @@
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { WholesaleEclsServiceProxy, WholesaleEclDto, EclStatusEnum, EclSharedServiceProxy, FrameworkEnum, RetailEclsServiceProxy, InvestmentEclsServiceProxy, EntityDtoOfGuid } from '@shared/service-proxies/service-proxies';
+import { WholesaleEclsServiceProxy, WholesaleEclDto, EclStatusEnum, EclSharedServiceProxy, FrameworkEnum, RetailEclsServiceProxy, InvestmentEclsServiceProxy, EntityDtoOfGuid, ObeEclsServiceProxy } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -26,6 +26,8 @@ export class EclListComponent extends AppComponentBase implements OnInit {
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
+    loadingEclAssumption = false;
+
     eclStatusEnum = EclStatusEnum;
     frameworkEnum = FrameworkEnum;
     pageHeader = '';
@@ -39,6 +41,8 @@ export class EclListComponent extends AppComponentBase implements OnInit {
         private _eclSharedServiceProxy: EclSharedServiceProxy,
         private _retailEclServiceProxy: RetailEclsServiceProxy,
         private _investmentEclServiceProxy: InvestmentEclsServiceProxy,
+        private _wholesaleEclServiceProxy: WholesaleEclsServiceProxy,
+        private _obeEclServiceProxy: ObeEclsServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
@@ -77,7 +81,6 @@ export class EclListComponent extends AppComponentBase implements OnInit {
         ).subscribe(result => {
             this.primengTableHelper.totalRecordsCount = result.totalCount;
             this.primengTableHelper.records = result.items;
-            console.log(result.items);
             this.primengTableHelper.hideLoadingIndicator();
         });
     }
@@ -86,78 +89,45 @@ export class EclListComponent extends AppComponentBase implements OnInit {
         this.paginator.changePage(this.paginator.getPage());
     }
 
-    navigateToCreateWholesaleEcl(): void {
-        this._router.navigate(['../wholesale/ecl/create'], { relativeTo: this._activatedRoute});
-    }
-
-    navigateToViewWholesaleEcl(eclId: string): void {
-        console.log(eclId);
-        this._router.navigate(['../wholesale/ecl/view', eclId], { relativeTo: this._activatedRoute});
-    }
-
-    navigateToCreateRetailEcl(): void {
-        this._router.navigate(['../retail/ecl/create'], { relativeTo: this._activatedRoute});
-    }
-
-    navigateToViewRetailEcl(eclId: string): void {
-        console.log(eclId);
-        this._router.navigate(['../retail/ecl/view', eclId], { relativeTo: this._activatedRoute});
-    }
-
-    navigateToCreateObeEcl(): void {
-        this._router.navigate(['../wholesale/ecl/create'], { relativeTo: this._activatedRoute});
-    }
-
     navigateToDashboard(): void {
         this._router.navigate(['../dashboard'], { relativeTo: this._activatedRoute});
     }
 
     viewEcl(framework: FrameworkEnum, eclId: string): void {
         this._router.navigate(['/app/main/ecl/view/', framework.toString(), eclId]);
-        // switch (framework) {
-        //     case FrameworkEnum.OBE:
-        //         this.navigateToDashboard();
-        //         break;
-        //     case FrameworkEnum.Retail:
-        //         this.navigateToViewRetailEcl(eclId);
-        //         break;
-        //     case FrameworkEnum.Wholesale:
-        //         this.navigateToViewWholesaleEcl(eclId);
-        //         break;
-        // }
-    }
-
-    reOpenEcl(framework: FrameworkEnum, eclId: string): void {
-        switch (framework) {
-            case FrameworkEnum.Investments:
-                this.reopenInvestmentEcl(eclId);
-                break;
-
-            default:
-                break;
-        }
-    }
-
-    generateReport(framework: FrameworkEnum, eclId: string): void {
-        switch (framework) {
-            case FrameworkEnum.Investments:
-                this.generateInvestmentReport(eclId);
-                break;
-
-            default:
-                break;
-        }
     }
 
     createRetailEcl(): void {
+        this.loadingEclAssumption = true;
         this._retailEclServiceProxy.createEclAndAssumption().subscribe(result => {
+            this.loadingEclAssumption = false;
             this.notify.success('EclSuccessfullyCreated');
             this.viewEcl(FrameworkEnum.Retail, result);
         });
     }
 
+    createWholesaleEcl(): void {
+        this.loadingEclAssumption = true;
+        this._wholesaleEclServiceProxy.createEclAndAssumption().subscribe(result => {
+            this.loadingEclAssumption = false;
+            this.notify.success('EclSuccessfullyCreated');
+            this.viewEcl(FrameworkEnum.Wholesale, result);
+        });
+    }
+
+    createObeEcl(): void {
+        this.loadingEclAssumption = true;
+        this._obeEclServiceProxy.createEclAndAssumption().subscribe(result => {
+            this.loadingEclAssumption = false;
+            this.notify.success('EclSuccessfullyCreated');
+            this.viewEcl(FrameworkEnum.OBE, result);
+        });
+    }
+
     createInvestmentEcl(): void {
+        this.loadingEclAssumption = true;
         this._investmentEclServiceProxy.createEclAndAssumption().subscribe(result => {
+            this.loadingEclAssumption = false;
             this.notify.success('EclSuccessfullyCreated');
             this.viewEcl(FrameworkEnum.Investments, result);
         });
@@ -167,9 +137,80 @@ export class EclListComponent extends AppComponentBase implements OnInit {
         this._location.back();
     }
 
+    reOpenEcl(framework: FrameworkEnum, eclId: string): void {
+        switch (framework) {
+            case FrameworkEnum.Investments:
+                this.reopenInvestmentEcl(eclId);
+                break;
+            case FrameworkEnum.Wholesale:
+                this.reopenWholesalesEcl(eclId);
+                break;
+            case FrameworkEnum.Retail:
+                this.reopenRetailEcl(eclId);
+                break;
+            case FrameworkEnum.OBE:
+                this.reopenObeEcl(eclId);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    reopenWholesalesEcl(eclId: string) {
+        this.message.confirm(
+            this.l('ReopenEclInfo'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    let dto = new EntityDtoOfGuid();
+                    dto.id = eclId;
+                    this._wholesaleEclServiceProxy.reopenEcl(dto)
+                        .subscribe(() => {
+                            //this.reloadPage();
+                            this.notify.success(this.l('EclReopenStartedNotification'));
+                        });
+                }
+            }
+        );
+    }
+
+    reopenRetailEcl(eclId: string) {
+        this.message.confirm(
+            this.l('ReopenEclInfo'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    let dto = new EntityDtoOfGuid();
+                    dto.id = eclId;
+                    this._retailEclServiceProxy.reopenEcl(dto)
+                        .subscribe(() => {
+                            //this.reloadPage();
+                            this.notify.success(this.l('EclReopenStartedNotification'));
+                        });
+                }
+            }
+        );
+    }
+
+    reopenObeEcl(eclId: string) {
+        this.message.confirm(
+            this.l('ReopenEclInfo'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    let dto = new EntityDtoOfGuid();
+                    dto.id = eclId;
+                    this._obeEclServiceProxy.reopenEcl(dto)
+                        .subscribe(() => {
+                            //this.reloadPage();
+                            this.notify.success(this.l('EclReopenStartedNotification'));
+                        });
+                }
+            }
+        );
+    }
+
     reopenInvestmentEcl(eclId: string) {
         this.message.confirm(
-            this.l('CloseEclInfo'),
+            this.l('ReopenEclInfo'),
             (isConfirmed) => {
                 if (isConfirmed) {
                     let dto = new EntityDtoOfGuid();
@@ -184,6 +225,48 @@ export class EclListComponent extends AppComponentBase implements OnInit {
         );
     }
 
+    generateReport(framework: FrameworkEnum, eclId: string): void {
+        switch (framework) {
+            case FrameworkEnum.Investments:
+                this.generateInvestmentReport(eclId);
+                break;
+            case FrameworkEnum.Wholesale:
+                this.generateWholesaleReport(eclId);
+                break;
+            case FrameworkEnum.Retail:
+                this.generateRetailReport(eclId);
+                break;
+            case FrameworkEnum.OBE:
+                this.generateObeReport(eclId);
+                break;
+            default:
+                break;
+        }
+    }
+
+    generateWholesaleReport(eclId: string): void {
+        let dto = new EntityDtoOfGuid();
+        dto.id = eclId;
+        this._wholesaleEclServiceProxy.generateReport(dto).subscribe(() => {
+            this.message.success(this.l('EclReportGenerationStartedNotification'));
+        });
+    }
+
+    generateRetailReport(eclId: string): void {
+        let dto = new EntityDtoOfGuid();
+        dto.id = eclId;
+        this._retailEclServiceProxy.generateReport(dto).subscribe(() => {
+            this.message.success(this.l('EclReportGenerationStartedNotification'));
+        });
+    }
+
+    generateObeReport(eclId: string): void {
+        let dto = new EntityDtoOfGuid();
+        dto.id = eclId;
+        this._obeEclServiceProxy.generateReport(dto).subscribe(() => {
+            this.message.success(this.l('EclReportGenerationStartedNotification'));
+        });
+    }
 
     generateInvestmentReport(eclId: string): void {
         let dto = new EntityDtoOfGuid();

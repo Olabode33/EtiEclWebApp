@@ -34,19 +34,19 @@ namespace TestDemo.WholesaleComputation
 
 		 public async Task<PagedResultDto<GetWholesaleEclOverrideForViewDto>> GetAll(GetAllWholesaleEclOverridesInput input)
          {
-			
-			var filteredWholesaleEclOverrides = _wholesaleEclOverrideRepository.GetAll()
-						.Include( e => e.WholesaleEclDataLoanBookFk)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.ContractId.Contains(input.Filter))
-						.WhereIf(!string.IsNullOrWhiteSpace(input.WholesaleEclDataLoanBookCustomerNameFilter), e => e.WholesaleEclDataLoanBookFk != null && e.WholesaleEclDataLoanBookFk.CustomerName == input.WholesaleEclDataLoanBookCustomerNameFilter);
+
+            var filteredWholesaleEclOverrides = _wholesaleEclOverrideRepository.GetAll()
+                        //.Include( e => e.WholesaleEclDataLoanBookFk)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.ContractId.Contains(input.Filter));
+						//.WhereIf(!string.IsNullOrWhiteSpace(input.WholesaleEclDataLoanBookCustomerNameFilter), e => e.WholesaleEclDataLoanBookFk != null && e.WholesaleEclDataLoanBookFk.CustomerName == input.WholesaleEclDataLoanBookCustomerNameFilter);
 
 			var pagedAndFilteredWholesaleEclOverrides = filteredWholesaleEclOverrides
                 .OrderBy(input.Sorting ?? "id asc")
                 .PageBy(input);
 
 			var wholesaleEclOverrides = from o in pagedAndFilteredWholesaleEclOverrides
-                         join o1 in _lookup_wholesaleEclDataLoanBookRepository.GetAll() on o.WholesaleEclDataLoanBookId equals o1.Id into j1
-                         from s1 in j1.DefaultIfEmpty()
+                         //join o1 in _lookup_wholesaleEclDataLoanBookRepository.GetAll() on o.WholesaleEclDataLoanBookId equals o1.Id into j1
+                         //from s1 in j1.DefaultIfEmpty()
                          
                          select new GetWholesaleEclOverrideForViewDto() {
 							WholesaleEclOverride = new WholesaleEclOverrideDto
@@ -54,7 +54,7 @@ namespace TestDemo.WholesaleComputation
                                 ContractId = o.ContractId,
                                 Id = o.Id
 							},
-                         	WholesaleEclDataLoanBookCustomerName = s1 == null ? "" : s1.CustomerName.ToString()
+                         	//WholesaleEclDataLoanBookCustomerName = s1 == null ? "" : s1.CustomerName.ToString()
 						};
 
             var totalCount = await filteredWholesaleEclOverrides.CountAsync();

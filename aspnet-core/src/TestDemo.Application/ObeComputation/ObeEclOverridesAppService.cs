@@ -34,19 +34,19 @@ namespace TestDemo.ObeComputation
 
 		 public async Task<PagedResultDto<GetObeEclOverrideForViewDto>> GetAll(GetAllObeEclOverridesInput input)
          {
-			
-			var filteredObeEclOverrides = _obeEclOverrideRepository.GetAll()
-						.Include( e => e.ObeEclDataLoanBookFk)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  ||  e.ContractId.Contains(input.Filter))
-						.WhereIf(!string.IsNullOrWhiteSpace(input.ObeEclDataLoanBookCustomerNameFilter), e => e.ObeEclDataLoanBookFk != null && e.ObeEclDataLoanBookFk.CustomerName == input.ObeEclDataLoanBookCustomerNameFilter);
+
+            var filteredObeEclOverrides = _obeEclOverrideRepository.GetAll()
+                        //.Include( e => e.ObeEclDataLoanBookFk)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.ContractId.Contains(input.Filter));
+						//.WhereIf(!string.IsNullOrWhiteSpace(input.ObeEclDataLoanBookCustomerNameFilter), e => e.ObeEclDataLoanBookFk != null && e.ObeEclDataLoanBookFk.CustomerName == input.ObeEclDataLoanBookCustomerNameFilter);
 
 			var pagedAndFilteredObeEclOverrides = filteredObeEclOverrides
                 .OrderBy(input.Sorting ?? "id asc")
                 .PageBy(input);
 
 			var obeEclOverrides = from o in pagedAndFilteredObeEclOverrides
-                         join o1 in _lookup_obeEclDataLoanBookRepository.GetAll() on o.ObeEclDataLoanBookId equals o1.Id into j1
-                         from s1 in j1.DefaultIfEmpty()
+                         //join o1 in _lookup_obeEclDataLoanBookRepository.GetAll() on o.ObeEclDataLoanBookId equals o1.Id into j1
+                         //from s1 in j1.DefaultIfEmpty()
                          
                          select new GetObeEclOverrideForViewDto() {
 							ObeEclOverride = new ObeEclOverrideDto
@@ -54,7 +54,7 @@ namespace TestDemo.ObeComputation
                                 ContractId = o.ContractId,
                                 Id = o.Id
 							},
-                         	ObeEclDataLoanBookCustomerName = s1 == null ? "" : s1.CustomerName.ToString()
+                         	//ObeEclDataLoanBookCustomerName = s1 == null ? "" : s1.CustomerName.ToString()
 						};
 
             var totalCount = await filteredObeEclOverrides.CountAsync();

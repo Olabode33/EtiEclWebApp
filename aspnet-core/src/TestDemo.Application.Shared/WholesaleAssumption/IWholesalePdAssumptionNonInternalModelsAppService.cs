@@ -4,6 +4,8 @@ using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using TestDemo.WholesaleAssumption.Dtos;
 using TestDemo.Dto;
+using TestDemo.EclShared.Dtos;
+using System.Collections.Generic;
 
 namespace TestDemo.WholesaleAssumption
 {
@@ -17,8 +19,6 @@ namespace TestDemo.WholesaleAssumption
 
 		Task Delete(EntityDto<Guid> input);
 
-		
-		Task<PagedResultDto<WholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto>> GetAllWholesaleEclForLookupTable(GetAllForLookupTableInput input);
-		
+        Task<List<PdInputAssumptionNonInternalModelDto>> GetListForEclView(EntityDto<Guid> input);
     }
 }

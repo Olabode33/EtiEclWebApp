@@ -19714,7 +19714,7 @@ export class ObeEclsServiceProxy {
      * @param input (optional) 
      * @return Success
      */
-    createOrEdit(input: CreateOrEditObeEclDto | null | undefined): Observable<void> {
+    createOrEdit(input: CreateOrEditEclDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/ObeEcls/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -19813,22 +19813,13 @@ export class ObeEclsServiceProxy {
     }
 
     /**
-     * @param filter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
+     * @param id (optional) 
      * @return Success
      */
-    getAllUserForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfObeEclUserLookupTableDto> {
-        let url_ = this.baseUrl + "/api/services/app/ObeEcls/GetAllUserForLookupTable?";
-        if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+    getEclDetailsForEdit(id: string | null | undefined): Observable<GetEclForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEcls/GetEclDetailsForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -19840,20 +19831,20 @@ export class ObeEclsServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllUserForLookupTable(response_);
+            return this.processGetEclDetailsForEdit(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAllUserForLookupTable(<any>response_);
+                    return this.processGetEclDetailsForEdit(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfObeEclUserLookupTableDto>><any>_observableThrow(e);
+                    return <Observable<GetEclForEditOutput>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfObeEclUserLookupTableDto>><any>_observableThrow(response_);
+                return <Observable<GetEclForEditOutput>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAllUserForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfObeEclUserLookupTableDto> {
+    protected processGetEclDetailsForEdit(response: HttpResponseBase): Observable<GetEclForEditOutput> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -19864,7 +19855,7 @@ export class ObeEclsServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfObeEclUserLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfObeEclUserLookupTableDto();
+            result200 = resultData200 ? GetEclForEditOutput.fromJS(resultData200) : new GetEclForEditOutput();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -19872,7 +19863,422 @@ export class ObeEclsServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfObeEclUserLookupTableDto>(<any>null);
+        return _observableOf<GetEclForEditOutput>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    createEclAndAssumption(): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEcls/CreateEclAndAssumption";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateEclAndAssumption(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateEclAndAssumption(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateEclAndAssumption(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    submitForApproval(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEcls/SubmitForApproval";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSubmitForApproval(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSubmitForApproval(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSubmitForApproval(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    approveReject(input: CreateOrEditEclApprovalDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEcls/ApproveReject";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processApproveReject(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processApproveReject(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processApproveReject(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    runEcl(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEcls/RunEcl";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRunEcl(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRunEcl(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processRunEcl(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    runPostEcl(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEcls/RunPostEcl";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRunPostEcl(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRunPostEcl(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processRunPostEcl(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    generateReport(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEcls/GenerateReport";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGenerateReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGenerateReport(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGenerateReport(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    closeEcl(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEcls/CloseEcl";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCloseEcl(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCloseEcl(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCloseEcl(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    reopenEcl(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEcls/ReopenEcl";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processReopenEcl(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processReopenEcl(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processReopenEcl(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 }
 
@@ -32231,7 +32637,7 @@ export class RetailEclsServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getEclDetailsForEdit(id: string | null | undefined): Observable<GetRetailEclForEditOutput> {
+    getEclDetailsForEdit(id: string | null | undefined): Observable<GetEclForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/RetailEcls/GetEclDetailsForEdit?";
         if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
@@ -32252,14 +32658,14 @@ export class RetailEclsServiceProxy {
                 try {
                     return this.processGetEclDetailsForEdit(<any>response_);
                 } catch (e) {
-                    return <Observable<GetRetailEclForEditOutput>><any>_observableThrow(e);
+                    return <Observable<GetEclForEditOutput>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<GetRetailEclForEditOutput>><any>_observableThrow(response_);
+                return <Observable<GetEclForEditOutput>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetEclDetailsForEdit(response: HttpResponseBase): Observable<GetRetailEclForEditOutput> {
+    protected processGetEclDetailsForEdit(response: HttpResponseBase): Observable<GetEclForEditOutput> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -32270,7 +32676,7 @@ export class RetailEclsServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? GetRetailEclForEditOutput.fromJS(resultData200) : new GetRetailEclForEditOutput();
+            result200 = resultData200 ? GetEclForEditOutput.fromJS(resultData200) : new GetEclForEditOutput();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -32278,14 +32684,14 @@ export class RetailEclsServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<GetRetailEclForEditOutput>(<any>null);
+        return _observableOf<GetEclForEditOutput>(<any>null);
     }
 
     /**
      * @param input (optional) 
      * @return Success
      */
-    createOrEdit(input: CreateOrEditRetailEclDto | null | undefined): Observable<void> {
+    createOrEdit(input: CreateOrEditEclDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/RetailEcls/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -32440,7 +32846,7 @@ export class RetailEclsServiceProxy {
      * @param input (optional) 
      * @return Success
      */
-    approveReject(input: CreateOrEditRetailEclApprovalDto | null | undefined): Observable<void> {
+    approveReject(input: CreateOrEditEclApprovalDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/RetailEcls/ApproveReject";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -32572,6 +32978,214 @@ export class RetailEclsServiceProxy {
     }
 
     protected processRunEcl(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    runPostEcl(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEcls/RunPostEcl";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRunPostEcl(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRunPostEcl(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processRunPostEcl(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    generateReport(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEcls/GenerateReport";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGenerateReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGenerateReport(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGenerateReport(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    closeEcl(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEcls/CloseEcl";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCloseEcl(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCloseEcl(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCloseEcl(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    reopenEcl(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEcls/ReopenEcl";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processReopenEcl(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processReopenEcl(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processReopenEcl(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -37083,6 +37697,64 @@ export class WholesaleEadInputAssumptionsServiceProxy {
     }
 
     /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getListForEclView(id: string | null | undefined): Observable<EadInputAssumptionDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEadInputAssumptions/GetListForEclView?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetListForEclView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetListForEclView(<any>response_);
+                } catch (e) {
+                    return <Observable<EadInputAssumptionDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<EadInputAssumptionDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetListForEclView(response: HttpResponseBase): Observable<EadInputAssumptionDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(EadInputAssumptionDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<EadInputAssumptionDto[]>(<any>null);
+    }
+
+    /**
      * @param filter (optional) 
      * @param inputNameFilter (optional) 
      * @param wholesaleEclTenantIdFilter (optional) 
@@ -37305,69 +37977,6 @@ export class WholesaleEadInputAssumptionsServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param filter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
-     * @return Success
-     */
-    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto> {
-        let url_ = this.baseUrl + "/api/services/app/WholesaleEadInputAssumptions/GetAllWholesaleEclForLookupTable?";
-        if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllWholesaleEclForLookupTable(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
-                } catch (e) {
-                    return <Observable<PagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<PagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<PagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto>(<any>null);
     }
 }
 
@@ -38118,6 +38727,64 @@ export class WholesaleEclAssumptionsServiceProxy {
     }
 
     /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getListForEclView(id: string | null | undefined): Observable<AssumptionDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclAssumptions/GetListForEclView?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetListForEclView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetListForEclView(<any>response_);
+                } catch (e) {
+                    return <Observable<AssumptionDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<AssumptionDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetListForEclView(response: HttpResponseBase): Observable<AssumptionDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(AssumptionDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<AssumptionDto[]>(<any>null);
+    }
+
+    /**
      * @param filter (optional) 
      * @param inputNameFilter (optional) 
      * @param isComputedFilter (optional) 
@@ -38343,69 +39010,6 @@ export class WholesaleEclAssumptionsServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param filter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
-     * @return Success
-     */
-    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto> {
-        let url_ = this.baseUrl + "/api/services/app/WholesaleEclAssumptions/GetAllWholesaleEclForLookupTable?";
-        if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllWholesaleEclForLookupTable(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
-                } catch (e) {
-                    return <Observable<PagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<PagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<PagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto>(<any>null);
     }
 }
 
@@ -39369,6 +39973,64 @@ export class WholesaleEclLgdAssumptionsServiceProxy {
     }
 
     /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getListForEclView(id: string | null | undefined): Observable<LgdAssumptionDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclLgdAssumptions/GetListForEclView?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetListForEclView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetListForEclView(<any>response_);
+                } catch (e) {
+                    return <Observable<LgdAssumptionDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LgdAssumptionDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetListForEclView(response: HttpResponseBase): Observable<LgdAssumptionDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(LgdAssumptionDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LgdAssumptionDto[]>(<any>null);
+    }
+
+    /**
      * @param filter (optional) 
      * @param inputNameFilter (optional) 
      * @param wholesaleEclTenantIdFilter (optional) 
@@ -39591,69 +40253,6 @@ export class WholesaleEclLgdAssumptionsServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param filter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
-     * @return Success
-     */
-    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto> {
-        let url_ = this.baseUrl + "/api/services/app/WholesaleEclLgdAssumptions/GetAllWholesaleEclForLookupTable?";
-        if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllWholesaleEclForLookupTable(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
-                } catch (e) {
-                    return <Observable<PagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<PagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<PagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto>(<any>null);
     }
 }
 
@@ -40281,6 +40880,64 @@ export class WholesaleEclPdAssumptionMacroeconomicInputsServiceProxy {
     }
 
     /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getListForEclView(id: string | null | undefined): Observable<PdInputAssumptionMacroeconomicInputDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptionMacroeconomicInputs/GetListForEclView?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetListForEclView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetListForEclView(<any>response_);
+                } catch (e) {
+                    return <Observable<PdInputAssumptionMacroeconomicInputDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PdInputAssumptionMacroeconomicInputDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetListForEclView(response: HttpResponseBase): Observable<PdInputAssumptionMacroeconomicInputDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(PdInputAssumptionMacroeconomicInputDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PdInputAssumptionMacroeconomicInputDto[]>(<any>null);
+    }
+
+    /**
      * @param filter (optional) 
      * @param wholesaleEclTenantIdFilter (optional) 
      * @param sorting (optional) 
@@ -40501,69 +41158,6 @@ export class WholesaleEclPdAssumptionMacroeconomicInputsServiceProxy {
         }
         return _observableOf<void>(<any>null);
     }
-
-    /**
-     * @param filter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
-     * @return Success
-     */
-    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto> {
-        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptionMacroeconomicInputs/GetAllWholesaleEclForLookupTable?";
-        if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllWholesaleEclForLookupTable(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
-                } catch (e) {
-                    return <Observable<PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto>(<any>null);
-    }
 }
 
 @Injectable()
@@ -40575,6 +41169,64 @@ export class WholesaleEclPdAssumptionMacroeconomicProjectionsServiceProxy {
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
         this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getListForEclView(id: string | null | undefined): Observable<PdInputAssumptionMacroeconomicProjectionDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptionMacroeconomicProjections/GetListForEclView?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetListForEclView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetListForEclView(<any>response_);
+                } catch (e) {
+                    return <Observable<PdInputAssumptionMacroeconomicProjectionDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PdInputAssumptionMacroeconomicProjectionDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetListForEclView(response: HttpResponseBase): Observable<PdInputAssumptionMacroeconomicProjectionDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(PdInputAssumptionMacroeconomicProjectionDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PdInputAssumptionMacroeconomicProjectionDto[]>(<any>null);
     }
 
     /**
@@ -40798,69 +41450,6 @@ export class WholesaleEclPdAssumptionMacroeconomicProjectionsServiceProxy {
         }
         return _observableOf<void>(<any>null);
     }
-
-    /**
-     * @param filter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
-     * @return Success
-     */
-    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto> {
-        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptionMacroeconomicProjections/GetAllWholesaleEclForLookupTable?";
-        if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllWholesaleEclForLookupTable(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
-                } catch (e) {
-                    return <Observable<PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto>(<any>null);
-    }
 }
 
 @Injectable()
@@ -40872,6 +41461,64 @@ export class WholesaleEclPdAssumptionNplIndexesServiceProxy {
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
         this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getListForEclView(id: string | null | undefined): Observable<PdInputAssumptionNplIndexDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptionNplIndexes/GetListForEclView?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetListForEclView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetListForEclView(<any>response_);
+                } catch (e) {
+                    return <Observable<PdInputAssumptionNplIndexDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PdInputAssumptionNplIndexDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetListForEclView(response: HttpResponseBase): Observable<PdInputAssumptionNplIndexDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(PdInputAssumptionNplIndexDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PdInputAssumptionNplIndexDto[]>(<any>null);
     }
 
     /**
@@ -41095,69 +41742,6 @@ export class WholesaleEclPdAssumptionNplIndexesServiceProxy {
         }
         return _observableOf<void>(<any>null);
     }
-
-    /**
-     * @param filter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
-     * @return Success
-     */
-    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto> {
-        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptionNplIndexes/GetAllWholesaleEclForLookupTable?";
-        if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllWholesaleEclForLookupTable(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
-                } catch (e) {
-                    return <Observable<PagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<PagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<PagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto>(<any>null);
-    }
 }
 
 @Injectable()
@@ -41169,6 +41753,64 @@ export class WholesaleEclPdAssumptionsServiceProxy {
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
         this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getListForEclView(id: string | null | undefined): Observable<PdInputAssumptionDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptions/GetListForEclView?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetListForEclView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetListForEclView(<any>response_);
+                } catch (e) {
+                    return <Observable<PdInputAssumptionDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PdInputAssumptionDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetListForEclView(response: HttpResponseBase): Observable<PdInputAssumptionDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(PdInputAssumptionDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PdInputAssumptionDto[]>(<any>null);
     }
 
     /**
@@ -41392,69 +42034,6 @@ export class WholesaleEclPdAssumptionsServiceProxy {
         }
         return _observableOf<void>(<any>null);
     }
-
-    /**
-     * @param filter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
-     * @return Success
-     */
-    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto> {
-        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdAssumptions/GetAllWholesaleEclForLookupTable?";
-        if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllWholesaleEclForLookupTable(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
-                } catch (e) {
-                    return <Observable<PagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<PagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<PagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto>(<any>null);
-    }
 }
 
 @Injectable()
@@ -41466,6 +42045,64 @@ export class WholesaleEclPdSnPCummulativeDefaultRatesesServiceProxy {
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
         this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getListForEclView(id: string | null | undefined): Observable<PdInputSnPCummulativeDefaultRateDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdSnPCummulativeDefaultRateses/GetListForEclView?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetListForEclView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetListForEclView(<any>response_);
+                } catch (e) {
+                    return <Observable<PdInputSnPCummulativeDefaultRateDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PdInputSnPCummulativeDefaultRateDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetListForEclView(response: HttpResponseBase): Observable<PdInputSnPCummulativeDefaultRateDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(PdInputSnPCummulativeDefaultRateDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PdInputSnPCummulativeDefaultRateDto[]>(<any>null);
     }
 
     /**
@@ -41706,69 +42343,6 @@ export class WholesaleEclPdSnPCummulativeDefaultRatesesServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param filter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
-     * @return Success
-     */
-    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto> {
-        let url_ = this.baseUrl + "/api/services/app/WholesaleEclPdSnPCummulativeDefaultRateses/GetAllWholesaleEclForLookupTable?";
-        if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllWholesaleEclForLookupTable(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
-                } catch (e) {
-                    return <Observable<PagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<PagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<PagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto>(<any>null);
     }
 }
 
@@ -43437,7 +44011,7 @@ export class WholesaleEclsServiceProxy {
      * @param input (optional) 
      * @return Success
      */
-    createOrEdit(input: CreateOrEditWholesaleEclDto | null | undefined): Observable<void> {
+    createOrEdit(input: CreateOrEditEclDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/WholesaleEcls/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -43536,22 +44110,13 @@ export class WholesaleEclsServiceProxy {
     }
 
     /**
-     * @param filter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
+     * @param id (optional) 
      * @return Success
      */
-    getAllUserForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclUserLookupTableDto> {
-        let url_ = this.baseUrl + "/api/services/app/WholesaleEcls/GetAllUserForLookupTable?";
-        if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+    getEclDetailsForEdit(id: string | null | undefined): Observable<GetEclForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEcls/GetEclDetailsForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -43563,20 +44128,20 @@ export class WholesaleEclsServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllUserForLookupTable(response_);
+            return this.processGetEclDetailsForEdit(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAllUserForLookupTable(<any>response_);
+                    return this.processGetEclDetailsForEdit(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfWholesaleEclUserLookupTableDto>><any>_observableThrow(e);
+                    return <Observable<GetEclForEditOutput>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfWholesaleEclUserLookupTableDto>><any>_observableThrow(response_);
+                return <Observable<GetEclForEditOutput>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAllUserForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclUserLookupTableDto> {
+    protected processGetEclDetailsForEdit(response: HttpResponseBase): Observable<GetEclForEditOutput> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -43587,7 +44152,7 @@ export class WholesaleEclsServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfWholesaleEclUserLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclUserLookupTableDto();
+            result200 = resultData200 ? GetEclForEditOutput.fromJS(resultData200) : new GetEclForEditOutput();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -43595,35 +44160,30 @@ export class WholesaleEclsServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfWholesaleEclUserLookupTableDto>(<any>null);
+        return _observableOf<GetEclForEditOutput>(<any>null);
     }
 
     /**
-     * @param input (optional) 
      * @return Success
      */
-    runEcl(input: EntityDtoOfGuid | null | undefined): Observable<string> {
-        let url_ = this.baseUrl + "/api/services/app/WholesaleEcls/RunEcl";
+    createEclAndAssumption(): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEcls/CreateEclAndAssumption";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
-
         let options_ : any = {
-            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processRunEcl(response_);
+            return this.processCreateEclAndAssumption(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processRunEcl(<any>response_);
+                    return this.processCreateEclAndAssumption(<any>response_);
                 } catch (e) {
                     return <Observable<string>><any>_observableThrow(e);
                 }
@@ -43632,7 +44192,7 @@ export class WholesaleEclsServiceProxy {
         }));
     }
 
-    protected processRunEcl(response: HttpResponseBase): Observable<string> {
+    protected processCreateEclAndAssumption(response: HttpResponseBase): Observable<string> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -43652,6 +44212,370 @@ export class WholesaleEclsServiceProxy {
             }));
         }
         return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    submitForApproval(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEcls/SubmitForApproval";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSubmitForApproval(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSubmitForApproval(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSubmitForApproval(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    approveReject(input: CreateOrEditEclApprovalDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEcls/ApproveReject";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processApproveReject(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processApproveReject(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processApproveReject(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    runEcl(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEcls/RunEcl";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRunEcl(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRunEcl(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processRunEcl(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    runPostEcl(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEcls/RunPostEcl";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRunPostEcl(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRunPostEcl(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processRunPostEcl(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    generateReport(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEcls/GenerateReport";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGenerateReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGenerateReport(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGenerateReport(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    closeEcl(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEcls/CloseEcl";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCloseEcl(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCloseEcl(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCloseEcl(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    reopenEcl(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEcls/ReopenEcl";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processReopenEcl(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processReopenEcl(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processReopenEcl(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 }
 
@@ -45035,6 +45959,64 @@ export class WholesalePdAssumptionNonInternalModelsServiceProxy {
     }
 
     /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getListForEclView(id: string | null | undefined): Observable<PdInputAssumptionNonInternalModelDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/WholesalePdAssumptionNonInternalModels/GetListForEclView?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetListForEclView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetListForEclView(<any>response_);
+                } catch (e) {
+                    return <Observable<PdInputAssumptionNonInternalModelDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PdInputAssumptionNonInternalModelDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetListForEclView(response: HttpResponseBase): Observable<PdInputAssumptionNonInternalModelDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(PdInputAssumptionNonInternalModelDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PdInputAssumptionNonInternalModelDto[]>(<any>null);
+    }
+
+    /**
      * @param filter (optional) 
      * @param wholesaleEclTenantIdFilter (optional) 
      * @param sorting (optional) 
@@ -45254,69 +46236,6 @@ export class WholesalePdAssumptionNonInternalModelsServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param filter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
-     * @return Success
-     */
-    getAllWholesaleEclForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto> {
-        let url_ = this.baseUrl + "/api/services/app/WholesalePdAssumptionNonInternalModels/GetAllWholesaleEclForLookupTable?";
-        if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllWholesaleEclForLookupTable(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetAllWholesaleEclForLookupTable(<any>response_);
-                } catch (e) {
-                    return <Observable<PagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<PagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetAllWholesaleEclForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<PagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto>(<any>null);
     }
 }
 
@@ -47009,6 +47928,7 @@ export enum GeneralStatusEnum {
     Rejected = 3, 
     Processing = 4, 
     Completed = 5, 
+    AwaitngAdditionApproval = 6, 
 }
 
 export class GetAssumptionApprovalForEditOutput implements IGetAssumptionApprovalForEditOutput {
@@ -49219,6 +50139,7 @@ export enum EclStatusEnum {
     Completed = 9, 
     Closed = 10, 
     AwaitngAdditionApproval = 11, 
+    QueuePostOverride = 12, 
 }
 
 export class GetWorkspaceImpairmentSummaryDto implements IGetWorkspaceImpairmentSummaryDto {
@@ -56179,6 +57100,12 @@ export class GetEclForEditOutput implements IGetEclForEditOutput {
     pdInputAssumption!: PdInputAssumptionDto[] | undefined;
     pdInputAssumptionMacroeconomic!: InvSecMacroEconomicAssumptionDto[] | undefined;
     pdInputFitchCummulativeDefaultRate!: InvSecFitchCummulativeDefaultRateDto[] | undefined;
+    frameworkAssumption!: AssumptionDto[] | undefined;
+    pdInputAssumptionMacroeconomicInput!: PdInputAssumptionMacroeconomicInputDto[] | undefined;
+    pdInputAssumptionMacroeconomicProjections!: PdInputAssumptionMacroeconomicProjectionDto[] | undefined;
+    pdInputAssumptionNonInternalModels!: PdInputAssumptionNonInternalModelDto[] | undefined;
+    pdInputAssumptionNplIndex!: PdInputAssumptionNplIndexDto[] | undefined;
+    pdInputSnPCummulativeDefaultRate!: PdInputSnPCummulativeDefaultRateDto[] | undefined;
 
     constructor(data?: IGetEclForEditOutput) {
         if (data) {
@@ -56219,6 +57146,36 @@ export class GetEclForEditOutput implements IGetEclForEditOutput {
                 this.pdInputFitchCummulativeDefaultRate = [] as any;
                 for (let item of data["pdInputFitchCummulativeDefaultRate"])
                     this.pdInputFitchCummulativeDefaultRate!.push(InvSecFitchCummulativeDefaultRateDto.fromJS(item));
+            }
+            if (data["frameworkAssumption"] && data["frameworkAssumption"].constructor === Array) {
+                this.frameworkAssumption = [] as any;
+                for (let item of data["frameworkAssumption"])
+                    this.frameworkAssumption!.push(AssumptionDto.fromJS(item));
+            }
+            if (data["pdInputAssumptionMacroeconomicInput"] && data["pdInputAssumptionMacroeconomicInput"].constructor === Array) {
+                this.pdInputAssumptionMacroeconomicInput = [] as any;
+                for (let item of data["pdInputAssumptionMacroeconomicInput"])
+                    this.pdInputAssumptionMacroeconomicInput!.push(PdInputAssumptionMacroeconomicInputDto.fromJS(item));
+            }
+            if (data["pdInputAssumptionMacroeconomicProjections"] && data["pdInputAssumptionMacroeconomicProjections"].constructor === Array) {
+                this.pdInputAssumptionMacroeconomicProjections = [] as any;
+                for (let item of data["pdInputAssumptionMacroeconomicProjections"])
+                    this.pdInputAssumptionMacroeconomicProjections!.push(PdInputAssumptionMacroeconomicProjectionDto.fromJS(item));
+            }
+            if (data["pdInputAssumptionNonInternalModels"] && data["pdInputAssumptionNonInternalModels"].constructor === Array) {
+                this.pdInputAssumptionNonInternalModels = [] as any;
+                for (let item of data["pdInputAssumptionNonInternalModels"])
+                    this.pdInputAssumptionNonInternalModels!.push(PdInputAssumptionNonInternalModelDto.fromJS(item));
+            }
+            if (data["pdInputAssumptionNplIndex"] && data["pdInputAssumptionNplIndex"].constructor === Array) {
+                this.pdInputAssumptionNplIndex = [] as any;
+                for (let item of data["pdInputAssumptionNplIndex"])
+                    this.pdInputAssumptionNplIndex!.push(PdInputAssumptionNplIndexDto.fromJS(item));
+            }
+            if (data["pdInputSnPCummulativeDefaultRate"] && data["pdInputSnPCummulativeDefaultRate"].constructor === Array) {
+                this.pdInputSnPCummulativeDefaultRate = [] as any;
+                for (let item of data["pdInputSnPCummulativeDefaultRate"])
+                    this.pdInputSnPCummulativeDefaultRate!.push(PdInputSnPCummulativeDefaultRateDto.fromJS(item));
             }
         }
     }
@@ -56261,6 +57218,36 @@ export class GetEclForEditOutput implements IGetEclForEditOutput {
             for (let item of this.pdInputFitchCummulativeDefaultRate)
                 data["pdInputFitchCummulativeDefaultRate"].push(item.toJSON());
         }
+        if (this.frameworkAssumption && this.frameworkAssumption.constructor === Array) {
+            data["frameworkAssumption"] = [];
+            for (let item of this.frameworkAssumption)
+                data["frameworkAssumption"].push(item.toJSON());
+        }
+        if (this.pdInputAssumptionMacroeconomicInput && this.pdInputAssumptionMacroeconomicInput.constructor === Array) {
+            data["pdInputAssumptionMacroeconomicInput"] = [];
+            for (let item of this.pdInputAssumptionMacroeconomicInput)
+                data["pdInputAssumptionMacroeconomicInput"].push(item.toJSON());
+        }
+        if (this.pdInputAssumptionMacroeconomicProjections && this.pdInputAssumptionMacroeconomicProjections.constructor === Array) {
+            data["pdInputAssumptionMacroeconomicProjections"] = [];
+            for (let item of this.pdInputAssumptionMacroeconomicProjections)
+                data["pdInputAssumptionMacroeconomicProjections"].push(item.toJSON());
+        }
+        if (this.pdInputAssumptionNonInternalModels && this.pdInputAssumptionNonInternalModels.constructor === Array) {
+            data["pdInputAssumptionNonInternalModels"] = [];
+            for (let item of this.pdInputAssumptionNonInternalModels)
+                data["pdInputAssumptionNonInternalModels"].push(item.toJSON());
+        }
+        if (this.pdInputAssumptionNplIndex && this.pdInputAssumptionNplIndex.constructor === Array) {
+            data["pdInputAssumptionNplIndex"] = [];
+            for (let item of this.pdInputAssumptionNplIndex)
+                data["pdInputAssumptionNplIndex"].push(item.toJSON());
+        }
+        if (this.pdInputSnPCummulativeDefaultRate && this.pdInputSnPCummulativeDefaultRate.constructor === Array) {
+            data["pdInputSnPCummulativeDefaultRate"] = [];
+            for (let item of this.pdInputSnPCummulativeDefaultRate)
+                data["pdInputSnPCummulativeDefaultRate"].push(item.toJSON());
+        }
         return data; 
     }
 }
@@ -56275,6 +57262,12 @@ export interface IGetEclForEditOutput {
     pdInputAssumption: PdInputAssumptionDto[] | undefined;
     pdInputAssumptionMacroeconomic: InvSecMacroEconomicAssumptionDto[] | undefined;
     pdInputFitchCummulativeDefaultRate: InvSecFitchCummulativeDefaultRateDto[] | undefined;
+    frameworkAssumption: AssumptionDto[] | undefined;
+    pdInputAssumptionMacroeconomicInput: PdInputAssumptionMacroeconomicInputDto[] | undefined;
+    pdInputAssumptionMacroeconomicProjections: PdInputAssumptionMacroeconomicProjectionDto[] | undefined;
+    pdInputAssumptionNonInternalModels: PdInputAssumptionNonInternalModelDto[] | undefined;
+    pdInputAssumptionNplIndex: PdInputAssumptionNplIndexDto[] | undefined;
+    pdInputSnPCummulativeDefaultRate: PdInputSnPCummulativeDefaultRateDto[] | undefined;
 }
 
 export class CreateOrEditEclDto implements ICreateOrEditEclDto {
@@ -66342,94 +67335,6 @@ export interface ICreateOrEditObeEclDto {
     status: EclStatusEnum | undefined;
     closedByUserId: number | undefined;
     id: string | undefined;
-}
-
-export class PagedResultDtoOfObeEclUserLookupTableDto implements IPagedResultDtoOfObeEclUserLookupTableDto {
-    totalCount!: number | undefined;
-    items!: ObeEclUserLookupTableDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfObeEclUserLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(ObeEclUserLookupTableDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfObeEclUserLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfObeEclUserLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfObeEclUserLookupTableDto {
-    totalCount: number | undefined;
-    items: ObeEclUserLookupTableDto[] | undefined;
-}
-
-export class ObeEclUserLookupTableDto implements IObeEclUserLookupTableDto {
-    id!: number | undefined;
-    displayName!: string | undefined;
-
-    constructor(data?: IObeEclUserLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.displayName = data["displayName"];
-        }
-    }
-
-    static fromJS(data: any): ObeEclUserLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ObeEclUserLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["displayName"] = this.displayName;
-        return data; 
-    }
-}
-
-export interface IObeEclUserLookupTableDto {
-    id: number | undefined;
-    displayName: string | undefined;
 }
 
 export class PagedResultDtoOfGetObeEclSicrApprovalForViewDto implements IPagedResultDtoOfGetObeEclSicrApprovalForViewDto {
@@ -76761,12 +77666,12 @@ export interface IGetRetailEclPdSnPCummulativeDefaultRateForEditOutput {
 }
 
 export class CreateOrEditRetailEclPdSnPCummulativeDefaultRateDto implements ICreateOrEditRetailEclPdSnPCummulativeDefaultRateDto {
+    retailEclId!: string | undefined;
     key!: string | undefined;
     rating!: string | undefined;
     years!: number | undefined;
     value!: number | undefined;
-    requiresGroupApproval!: boolean;
-    retailEclId!: string | undefined;
+    requiresGroupApproval!: boolean | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditRetailEclPdSnPCummulativeDefaultRateDto) {
@@ -76780,12 +77685,12 @@ export class CreateOrEditRetailEclPdSnPCummulativeDefaultRateDto implements ICre
 
     init(data?: any) {
         if (data) {
+            this.retailEclId = data["retailEclId"];
             this.key = data["key"];
             this.rating = data["rating"];
             this.years = data["years"];
             this.value = data["value"];
             this.requiresGroupApproval = data["requiresGroupApproval"];
-            this.retailEclId = data["retailEclId"];
             this.id = data["id"];
         }
     }
@@ -76799,24 +77704,24 @@ export class CreateOrEditRetailEclPdSnPCummulativeDefaultRateDto implements ICre
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["retailEclId"] = this.retailEclId;
         data["key"] = this.key;
         data["rating"] = this.rating;
         data["years"] = this.years;
         data["value"] = this.value;
         data["requiresGroupApproval"] = this.requiresGroupApproval;
-        data["retailEclId"] = this.retailEclId;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface ICreateOrEditRetailEclPdSnPCummulativeDefaultRateDto {
+    retailEclId: string | undefined;
     key: string | undefined;
     rating: string | undefined;
     years: number | undefined;
     value: number | undefined;
-    requiresGroupApproval: boolean;
-    retailEclId: string | undefined;
+    requiresGroupApproval: boolean | undefined;
     id: string | undefined;
 }
 
@@ -84092,14 +84997,15 @@ export interface IGetWholesaleEadInputAssumptionForEditOutput {
 }
 
 export class CreateOrEditWholesaleEadInputAssumptionDto implements ICreateOrEditWholesaleEadInputAssumptionDto {
+    wholesaleEclId!: string | undefined;
+    eadGroup!: EadInputAssumptionGroupEnum | undefined;
     key!: string | undefined;
     inputName!: string | undefined;
     value!: string | undefined;
-    datatype!: DataTypeEnum | undefined;
+    dataType!: DataTypeEnum | undefined;
     isComputed!: boolean | undefined;
-    eadGroup!: EadInputAssumptionGroupEnum | undefined;
+    canAffiliateEdit!: boolean | undefined;
     requiresGroupApproval!: boolean | undefined;
-    wholesaleEclId!: string | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditWholesaleEadInputAssumptionDto) {
@@ -84113,14 +85019,15 @@ export class CreateOrEditWholesaleEadInputAssumptionDto implements ICreateOrEdit
 
     init(data?: any) {
         if (data) {
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.eadGroup = data["eadGroup"];
             this.key = data["key"];
             this.inputName = data["inputName"];
             this.value = data["value"];
-            this.datatype = data["datatype"];
+            this.dataType = data["dataType"];
             this.isComputed = data["isComputed"];
-            this.eadGroup = data["eadGroup"];
+            this.canAffiliateEdit = data["canAffiliateEdit"];
             this.requiresGroupApproval = data["requiresGroupApproval"];
-            this.wholesaleEclId = data["wholesaleEclId"];
             this.id = data["id"];
         }
     }
@@ -84134,117 +85041,31 @@ export class CreateOrEditWholesaleEadInputAssumptionDto implements ICreateOrEdit
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["eadGroup"] = this.eadGroup;
         data["key"] = this.key;
         data["inputName"] = this.inputName;
         data["value"] = this.value;
-        data["datatype"] = this.datatype;
+        data["dataType"] = this.dataType;
         data["isComputed"] = this.isComputed;
-        data["eadGroup"] = this.eadGroup;
+        data["canAffiliateEdit"] = this.canAffiliateEdit;
         data["requiresGroupApproval"] = this.requiresGroupApproval;
-        data["wholesaleEclId"] = this.wholesaleEclId;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface ICreateOrEditWholesaleEadInputAssumptionDto {
+    wholesaleEclId: string | undefined;
+    eadGroup: EadInputAssumptionGroupEnum | undefined;
     key: string | undefined;
     inputName: string | undefined;
     value: string | undefined;
-    datatype: DataTypeEnum | undefined;
+    dataType: DataTypeEnum | undefined;
     isComputed: boolean | undefined;
-    eadGroup: EadInputAssumptionGroupEnum | undefined;
+    canAffiliateEdit: boolean | undefined;
     requiresGroupApproval: boolean | undefined;
-    wholesaleEclId: string | undefined;
     id: string | undefined;
-}
-
-export class PagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto {
-    totalCount!: number | undefined;
-    items!: WholesaleEadInputAssumptionWholesaleEclLookupTableDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(WholesaleEadInputAssumptionWholesaleEclLookupTableDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfWholesaleEadInputAssumptionWholesaleEclLookupTableDto {
-    totalCount: number | undefined;
-    items: WholesaleEadInputAssumptionWholesaleEclLookupTableDto[] | undefined;
-}
-
-export class WholesaleEadInputAssumptionWholesaleEclLookupTableDto implements IWholesaleEadInputAssumptionWholesaleEclLookupTableDto {
-    id!: string | undefined;
-    displayName!: string | undefined;
-
-    constructor(data?: IWholesaleEadInputAssumptionWholesaleEclLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.displayName = data["displayName"];
-        }
-    }
-
-    static fromJS(data: any): WholesaleEadInputAssumptionWholesaleEclLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new WholesaleEadInputAssumptionWholesaleEclLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["displayName"] = this.displayName;
-        return data; 
-    }
-}
-
-export interface IWholesaleEadInputAssumptionWholesaleEclLookupTableDto {
-    id: string | undefined;
-    displayName: string | undefined;
 }
 
 export class PagedResultDtoOfGetWholesaleEclApprovalForViewDto implements IPagedResultDtoOfGetWholesaleEclApprovalForViewDto {
@@ -85292,13 +86113,15 @@ export interface IGetWholesaleEclAssumptionForEditOutput {
 }
 
 export class CreateOrEditWholesaleEclAssumptionDto implements ICreateOrEditWholesaleEclAssumptionDto {
+    wholesaleEclId!: string | undefined;
+    assumptionGroup!: AssumptionGroupEnum | undefined;
     key!: string | undefined;
     inputName!: string | undefined;
     value!: string | undefined;
-    datatype!: DataTypeEnum | undefined;
-    isComputed!: boolean;
-    assumptionGroup!: AssumptionGroupEnum | undefined;
-    wholesaleEclId!: string | undefined;
+    dataType!: DataTypeEnum | undefined;
+    isComputed!: boolean | undefined;
+    canAffiliateEdit!: boolean | undefined;
+    requiresGroupApproval!: boolean | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditWholesaleEclAssumptionDto) {
@@ -85312,13 +86135,15 @@ export class CreateOrEditWholesaleEclAssumptionDto implements ICreateOrEditWhole
 
     init(data?: any) {
         if (data) {
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.assumptionGroup = data["assumptionGroup"];
             this.key = data["key"];
             this.inputName = data["inputName"];
             this.value = data["value"];
-            this.datatype = data["datatype"];
+            this.dataType = data["dataType"];
             this.isComputed = data["isComputed"];
-            this.assumptionGroup = data["assumptionGroup"];
-            this.wholesaleEclId = data["wholesaleEclId"];
+            this.canAffiliateEdit = data["canAffiliateEdit"];
+            this.requiresGroupApproval = data["requiresGroupApproval"];
             this.id = data["id"];
         }
     }
@@ -85332,115 +86157,31 @@ export class CreateOrEditWholesaleEclAssumptionDto implements ICreateOrEditWhole
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["assumptionGroup"] = this.assumptionGroup;
         data["key"] = this.key;
         data["inputName"] = this.inputName;
         data["value"] = this.value;
-        data["datatype"] = this.datatype;
+        data["dataType"] = this.dataType;
         data["isComputed"] = this.isComputed;
-        data["assumptionGroup"] = this.assumptionGroup;
-        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["canAffiliateEdit"] = this.canAffiliateEdit;
+        data["requiresGroupApproval"] = this.requiresGroupApproval;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface ICreateOrEditWholesaleEclAssumptionDto {
+    wholesaleEclId: string | undefined;
+    assumptionGroup: AssumptionGroupEnum | undefined;
     key: string | undefined;
     inputName: string | undefined;
     value: string | undefined;
-    datatype: DataTypeEnum | undefined;
-    isComputed: boolean;
-    assumptionGroup: AssumptionGroupEnum | undefined;
-    wholesaleEclId: string | undefined;
+    dataType: DataTypeEnum | undefined;
+    isComputed: boolean | undefined;
+    canAffiliateEdit: boolean | undefined;
+    requiresGroupApproval: boolean | undefined;
     id: string | undefined;
-}
-
-export class PagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto {
-    totalCount!: number | undefined;
-    items!: WholesaleEclAssumptionWholesaleEclLookupTableDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(WholesaleEclAssumptionWholesaleEclLookupTableDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfWholesaleEclAssumptionWholesaleEclLookupTableDto {
-    totalCount: number | undefined;
-    items: WholesaleEclAssumptionWholesaleEclLookupTableDto[] | undefined;
-}
-
-export class WholesaleEclAssumptionWholesaleEclLookupTableDto implements IWholesaleEclAssumptionWholesaleEclLookupTableDto {
-    id!: string | undefined;
-    displayName!: string | undefined;
-
-    constructor(data?: IWholesaleEclAssumptionWholesaleEclLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.displayName = data["displayName"];
-        }
-    }
-
-    static fromJS(data: any): WholesaleEclAssumptionWholesaleEclLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new WholesaleEclAssumptionWholesaleEclLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["displayName"] = this.displayName;
-        return data; 
-    }
-}
-
-export interface IWholesaleEclAssumptionWholesaleEclLookupTableDto {
-    id: string | undefined;
-    displayName: string | undefined;
 }
 
 export class PagedResultDtoOfGetWholesaleEclDataLoanBookForViewDto implements IPagedResultDtoOfGetWholesaleEclDataLoanBookForViewDto {
@@ -86808,13 +87549,15 @@ export interface IGetWholesaleEclLgdAssumptionForEditOutput {
 }
 
 export class CreateOrEditWholesaleEclLgdAssumptionDto implements ICreateOrEditWholesaleEclLgdAssumptionDto {
+    wholesaleEclId!: string | undefined;
+    lgdGroup!: LdgInputAssumptionGroupEnum | undefined;
     key!: string | undefined;
     inputName!: string | undefined;
     value!: string | undefined;
     dataType!: DataTypeEnum | undefined;
     isComputed!: boolean | undefined;
-    lgdGroup!: LdgInputAssumptionGroupEnum | undefined;
-    wholesaleEclId!: string | undefined;
+    canAffiliateEdit!: boolean | undefined;
+    requiresGroupApproval!: boolean | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditWholesaleEclLgdAssumptionDto) {
@@ -86828,13 +87571,15 @@ export class CreateOrEditWholesaleEclLgdAssumptionDto implements ICreateOrEditWh
 
     init(data?: any) {
         if (data) {
+            this.wholesaleEclId = data["wholesaleEclId"];
+            this.lgdGroup = data["lgdGroup"];
             this.key = data["key"];
             this.inputName = data["inputName"];
             this.value = data["value"];
             this.dataType = data["dataType"];
             this.isComputed = data["isComputed"];
-            this.lgdGroup = data["lgdGroup"];
-            this.wholesaleEclId = data["wholesaleEclId"];
+            this.canAffiliateEdit = data["canAffiliateEdit"];
+            this.requiresGroupApproval = data["requiresGroupApproval"];
             this.id = data["id"];
         }
     }
@@ -86848,115 +87593,31 @@ export class CreateOrEditWholesaleEclLgdAssumptionDto implements ICreateOrEditWh
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["lgdGroup"] = this.lgdGroup;
         data["key"] = this.key;
         data["inputName"] = this.inputName;
         data["value"] = this.value;
         data["dataType"] = this.dataType;
         data["isComputed"] = this.isComputed;
-        data["lgdGroup"] = this.lgdGroup;
-        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["canAffiliateEdit"] = this.canAffiliateEdit;
+        data["requiresGroupApproval"] = this.requiresGroupApproval;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface ICreateOrEditWholesaleEclLgdAssumptionDto {
+    wholesaleEclId: string | undefined;
+    lgdGroup: LdgInputAssumptionGroupEnum | undefined;
     key: string | undefined;
     inputName: string | undefined;
     value: string | undefined;
     dataType: DataTypeEnum | undefined;
     isComputed: boolean | undefined;
-    lgdGroup: LdgInputAssumptionGroupEnum | undefined;
-    wholesaleEclId: string | undefined;
+    canAffiliateEdit: boolean | undefined;
+    requiresGroupApproval: boolean | undefined;
     id: string | undefined;
-}
-
-export class PagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto {
-    totalCount!: number | undefined;
-    items!: WholesaleEclLgdAssumptionWholesaleEclLookupTableDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(WholesaleEclLgdAssumptionWholesaleEclLookupTableDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfWholesaleEclLgdAssumptionWholesaleEclLookupTableDto {
-    totalCount: number | undefined;
-    items: WholesaleEclLgdAssumptionWholesaleEclLookupTableDto[] | undefined;
-}
-
-export class WholesaleEclLgdAssumptionWholesaleEclLookupTableDto implements IWholesaleEclLgdAssumptionWholesaleEclLookupTableDto {
-    id!: string | undefined;
-    displayName!: string | undefined;
-
-    constructor(data?: IWholesaleEclLgdAssumptionWholesaleEclLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.displayName = data["displayName"];
-        }
-    }
-
-    static fromJS(data: any): WholesaleEclLgdAssumptionWholesaleEclLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new WholesaleEclLgdAssumptionWholesaleEclLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["displayName"] = this.displayName;
-        return data; 
-    }
-}
-
-export interface IWholesaleEclLgdAssumptionWholesaleEclLookupTableDto {
-    id: string | undefined;
-    displayName: string | undefined;
 }
 
 export class PagedResultDtoOfGetWholesaleEclOverrideForViewDto implements IPagedResultDtoOfGetWholesaleEclOverrideForViewDto {
@@ -87857,6 +88518,15 @@ export interface IGetWholesaleEclPdAssumptionMacroeconomicInputForEditOutput {
 
 export class CreateOrEditWholesaleEclPdAssumptionMacroeconomicInputDto implements ICreateOrEditWholesaleEclPdAssumptionMacroeconomicInputDto {
     wholesaleEclId!: string | undefined;
+    key!: string | undefined;
+    inputName!: string | undefined;
+    value!: number | undefined;
+    macroeconomicVariableId!: number | undefined;
+    isComputed!: boolean | undefined;
+    canAffiliateEdit!: boolean | undefined;
+    requiresGroupApproval!: boolean | undefined;
+    status!: GeneralStatusEnum | undefined;
+    organizationUnitId!: number | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditWholesaleEclPdAssumptionMacroeconomicInputDto) {
@@ -87871,6 +88541,15 @@ export class CreateOrEditWholesaleEclPdAssumptionMacroeconomicInputDto implement
     init(data?: any) {
         if (data) {
             this.wholesaleEclId = data["wholesaleEclId"];
+            this.key = data["key"];
+            this.inputName = data["inputName"];
+            this.value = data["value"];
+            this.macroeconomicVariableId = data["macroeconomicVariableId"];
+            this.isComputed = data["isComputed"];
+            this.canAffiliateEdit = data["canAffiliateEdit"];
+            this.requiresGroupApproval = data["requiresGroupApproval"];
+            this.status = data["status"];
+            this.organizationUnitId = data["organizationUnitId"];
             this.id = data["id"];
         }
     }
@@ -87885,6 +88564,15 @@ export class CreateOrEditWholesaleEclPdAssumptionMacroeconomicInputDto implement
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["wholesaleEclId"] = this.wholesaleEclId;
+        data["key"] = this.key;
+        data["inputName"] = this.inputName;
+        data["value"] = this.value;
+        data["macroeconomicVariableId"] = this.macroeconomicVariableId;
+        data["isComputed"] = this.isComputed;
+        data["canAffiliateEdit"] = this.canAffiliateEdit;
+        data["requiresGroupApproval"] = this.requiresGroupApproval;
+        data["status"] = this.status;
+        data["organizationUnitId"] = this.organizationUnitId;
         data["id"] = this.id;
         return data; 
     }
@@ -87892,95 +88580,16 @@ export class CreateOrEditWholesaleEclPdAssumptionMacroeconomicInputDto implement
 
 export interface ICreateOrEditWholesaleEclPdAssumptionMacroeconomicInputDto {
     wholesaleEclId: string | undefined;
+    key: string | undefined;
+    inputName: string | undefined;
+    value: number | undefined;
+    macroeconomicVariableId: number | undefined;
+    isComputed: boolean | undefined;
+    canAffiliateEdit: boolean | undefined;
+    requiresGroupApproval: boolean | undefined;
+    status: GeneralStatusEnum | undefined;
+    organizationUnitId: number | undefined;
     id: string | undefined;
-}
-
-export class PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto {
-    totalCount!: number | undefined;
-    items!: WholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(WholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto {
-    totalCount: number | undefined;
-    items: WholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto[] | undefined;
-}
-
-export class WholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto implements IWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto {
-    id!: string | undefined;
-    displayName!: string | undefined;
-
-    constructor(data?: IWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.displayName = data["displayName"];
-        }
-    }
-
-    static fromJS(data: any): WholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new WholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["displayName"] = this.displayName;
-        return data; 
-    }
-}
-
-export interface IWholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto {
-    id: string | undefined;
-    displayName: string | undefined;
 }
 
 export class PagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto implements IPagedResultDtoOfGetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto {
@@ -88153,6 +88762,17 @@ export interface IGetWholesaleEclPdAssumptionMacroeconomicProjectionForEditOutpu
 
 export class CreateOrEditWholesaleEclPdAssumptionMacroeconomicProjectionDto implements ICreateOrEditWholesaleEclPdAssumptionMacroeconomicProjectionDto {
     wholesaleEclId!: string | undefined;
+    key!: string | undefined;
+    date!: moment.Moment | undefined;
+    inputName!: string | undefined;
+    bestValue!: number | undefined;
+    optimisticValue!: number | undefined;
+    downturnValue!: number | undefined;
+    macroeconomicVariableId!: number | undefined;
+    isComputed!: boolean | undefined;
+    canAffiliateEdit!: boolean | undefined;
+    status!: GeneralStatusEnum | undefined;
+    organizationUnitId!: number | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditWholesaleEclPdAssumptionMacroeconomicProjectionDto) {
@@ -88167,6 +88787,17 @@ export class CreateOrEditWholesaleEclPdAssumptionMacroeconomicProjectionDto impl
     init(data?: any) {
         if (data) {
             this.wholesaleEclId = data["wholesaleEclId"];
+            this.key = data["key"];
+            this.date = data["date"] ? moment(data["date"].toString()) : <any>undefined;
+            this.inputName = data["inputName"];
+            this.bestValue = data["bestValue"];
+            this.optimisticValue = data["optimisticValue"];
+            this.downturnValue = data["downturnValue"];
+            this.macroeconomicVariableId = data["macroeconomicVariableId"];
+            this.isComputed = data["isComputed"];
+            this.canAffiliateEdit = data["canAffiliateEdit"];
+            this.status = data["status"];
+            this.organizationUnitId = data["organizationUnitId"];
             this.id = data["id"];
         }
     }
@@ -88181,6 +88812,17 @@ export class CreateOrEditWholesaleEclPdAssumptionMacroeconomicProjectionDto impl
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["wholesaleEclId"] = this.wholesaleEclId;
+        data["key"] = this.key;
+        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
+        data["inputName"] = this.inputName;
+        data["bestValue"] = this.bestValue;
+        data["optimisticValue"] = this.optimisticValue;
+        data["downturnValue"] = this.downturnValue;
+        data["macroeconomicVariableId"] = this.macroeconomicVariableId;
+        data["isComputed"] = this.isComputed;
+        data["canAffiliateEdit"] = this.canAffiliateEdit;
+        data["status"] = this.status;
+        data["organizationUnitId"] = this.organizationUnitId;
         data["id"] = this.id;
         return data; 
     }
@@ -88188,95 +88830,18 @@ export class CreateOrEditWholesaleEclPdAssumptionMacroeconomicProjectionDto impl
 
 export interface ICreateOrEditWholesaleEclPdAssumptionMacroeconomicProjectionDto {
     wholesaleEclId: string | undefined;
+    key: string | undefined;
+    date: moment.Moment | undefined;
+    inputName: string | undefined;
+    bestValue: number | undefined;
+    optimisticValue: number | undefined;
+    downturnValue: number | undefined;
+    macroeconomicVariableId: number | undefined;
+    isComputed: boolean | undefined;
+    canAffiliateEdit: boolean | undefined;
+    status: GeneralStatusEnum | undefined;
+    organizationUnitId: number | undefined;
     id: string | undefined;
-}
-
-export class PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto {
-    totalCount!: number | undefined;
-    items!: WholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(WholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto {
-    totalCount: number | undefined;
-    items: WholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto[] | undefined;
-}
-
-export class WholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto implements IWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto {
-    id!: string | undefined;
-    displayName!: string | undefined;
-
-    constructor(data?: IWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.displayName = data["displayName"];
-        }
-    }
-
-    static fromJS(data: any): WholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new WholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["displayName"] = this.displayName;
-        return data; 
-    }
-}
-
-export interface IWholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto {
-    id: string | undefined;
-    displayName: string | undefined;
 }
 
 export class PagedResultDtoOfGetWholesaleEclPdAssumptionNplIndexForViewDto implements IPagedResultDtoOfGetWholesaleEclPdAssumptionNplIndexForViewDto {
@@ -88449,6 +89014,16 @@ export interface IGetWholesaleEclPdAssumptionNplIndexForEditOutput {
 
 export class CreateOrEditWholesaleEclPdAssumptionNplIndexDto implements ICreateOrEditWholesaleEclPdAssumptionNplIndexDto {
     wholesaleEclId!: string | undefined;
+    key!: string | undefined;
+    date!: moment.Moment | undefined;
+    actual!: number | undefined;
+    standardised!: number | undefined;
+    etiNplSeries!: number | undefined;
+    status!: GeneralStatusEnum | undefined;
+    isComputed!: boolean | undefined;
+    canAffiliateEdit!: boolean | undefined;
+    requiresGroupApproval!: boolean | undefined;
+    organizationUnitId!: number | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditWholesaleEclPdAssumptionNplIndexDto) {
@@ -88463,6 +89038,16 @@ export class CreateOrEditWholesaleEclPdAssumptionNplIndexDto implements ICreateO
     init(data?: any) {
         if (data) {
             this.wholesaleEclId = data["wholesaleEclId"];
+            this.key = data["key"];
+            this.date = data["date"] ? moment(data["date"].toString()) : <any>undefined;
+            this.actual = data["actual"];
+            this.standardised = data["standardised"];
+            this.etiNplSeries = data["etiNplSeries"];
+            this.status = data["status"];
+            this.isComputed = data["isComputed"];
+            this.canAffiliateEdit = data["canAffiliateEdit"];
+            this.requiresGroupApproval = data["requiresGroupApproval"];
+            this.organizationUnitId = data["organizationUnitId"];
             this.id = data["id"];
         }
     }
@@ -88477,6 +89062,16 @@ export class CreateOrEditWholesaleEclPdAssumptionNplIndexDto implements ICreateO
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["wholesaleEclId"] = this.wholesaleEclId;
+        data["key"] = this.key;
+        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
+        data["actual"] = this.actual;
+        data["standardised"] = this.standardised;
+        data["etiNplSeries"] = this.etiNplSeries;
+        data["status"] = this.status;
+        data["isComputed"] = this.isComputed;
+        data["canAffiliateEdit"] = this.canAffiliateEdit;
+        data["requiresGroupApproval"] = this.requiresGroupApproval;
+        data["organizationUnitId"] = this.organizationUnitId;
         data["id"] = this.id;
         return data; 
     }
@@ -88484,95 +89079,17 @@ export class CreateOrEditWholesaleEclPdAssumptionNplIndexDto implements ICreateO
 
 export interface ICreateOrEditWholesaleEclPdAssumptionNplIndexDto {
     wholesaleEclId: string | undefined;
+    key: string | undefined;
+    date: moment.Moment | undefined;
+    actual: number | undefined;
+    standardised: number | undefined;
+    etiNplSeries: number | undefined;
+    status: GeneralStatusEnum | undefined;
+    isComputed: boolean | undefined;
+    canAffiliateEdit: boolean | undefined;
+    requiresGroupApproval: boolean | undefined;
+    organizationUnitId: number | undefined;
     id: string | undefined;
-}
-
-export class PagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto {
-    totalCount!: number | undefined;
-    items!: WholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(WholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto {
-    totalCount: number | undefined;
-    items: WholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto[] | undefined;
-}
-
-export class WholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto implements IWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto {
-    id!: string | undefined;
-    displayName!: string | undefined;
-
-    constructor(data?: IWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.displayName = data["displayName"];
-        }
-    }
-
-    static fromJS(data: any): WholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new WholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["displayName"] = this.displayName;
-        return data; 
-    }
-}
-
-export interface IWholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto {
-    id: string | undefined;
-    displayName: string | undefined;
 }
 
 export class PagedResultDtoOfGetWholesaleEclPdAssumptionForViewDto implements IPagedResultDtoOfGetWholesaleEclPdAssumptionForViewDto {
@@ -88745,6 +89262,14 @@ export interface IGetWholesaleEclPdAssumptionForEditOutput {
 
 export class CreateOrEditWholesaleEclPdAssumptionDto implements ICreateOrEditWholesaleEclPdAssumptionDto {
     wholesaleEclId!: string | undefined;
+    pdGroup!: PdInputAssumptionGroupEnum | undefined;
+    key!: string | undefined;
+    inputName!: string | undefined;
+    value!: string | undefined;
+    dataType!: DataTypeEnum | undefined;
+    isComputed!: boolean | undefined;
+    canAffiliateEdit!: boolean | undefined;
+    requiresGroupApproval!: boolean | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditWholesaleEclPdAssumptionDto) {
@@ -88759,6 +89284,14 @@ export class CreateOrEditWholesaleEclPdAssumptionDto implements ICreateOrEditWho
     init(data?: any) {
         if (data) {
             this.wholesaleEclId = data["wholesaleEclId"];
+            this.pdGroup = data["pdGroup"];
+            this.key = data["key"];
+            this.inputName = data["inputName"];
+            this.value = data["value"];
+            this.dataType = data["dataType"];
+            this.isComputed = data["isComputed"];
+            this.canAffiliateEdit = data["canAffiliateEdit"];
+            this.requiresGroupApproval = data["requiresGroupApproval"];
             this.id = data["id"];
         }
     }
@@ -88773,6 +89306,14 @@ export class CreateOrEditWholesaleEclPdAssumptionDto implements ICreateOrEditWho
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["wholesaleEclId"] = this.wholesaleEclId;
+        data["pdGroup"] = this.pdGroup;
+        data["key"] = this.key;
+        data["inputName"] = this.inputName;
+        data["value"] = this.value;
+        data["dataType"] = this.dataType;
+        data["isComputed"] = this.isComputed;
+        data["canAffiliateEdit"] = this.canAffiliateEdit;
+        data["requiresGroupApproval"] = this.requiresGroupApproval;
         data["id"] = this.id;
         return data; 
     }
@@ -88780,95 +89321,15 @@ export class CreateOrEditWholesaleEclPdAssumptionDto implements ICreateOrEditWho
 
 export interface ICreateOrEditWholesaleEclPdAssumptionDto {
     wholesaleEclId: string | undefined;
+    pdGroup: PdInputAssumptionGroupEnum | undefined;
+    key: string | undefined;
+    inputName: string | undefined;
+    value: string | undefined;
+    dataType: DataTypeEnum | undefined;
+    isComputed: boolean | undefined;
+    canAffiliateEdit: boolean | undefined;
+    requiresGroupApproval: boolean | undefined;
     id: string | undefined;
-}
-
-export class PagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto {
-    totalCount!: number | undefined;
-    items!: WholesaleEclPdAssumptionWholesaleEclLookupTableDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(WholesaleEclPdAssumptionWholesaleEclLookupTableDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfWholesaleEclPdAssumptionWholesaleEclLookupTableDto {
-    totalCount: number | undefined;
-    items: WholesaleEclPdAssumptionWholesaleEclLookupTableDto[] | undefined;
-}
-
-export class WholesaleEclPdAssumptionWholesaleEclLookupTableDto implements IWholesaleEclPdAssumptionWholesaleEclLookupTableDto {
-    id!: string | undefined;
-    displayName!: string | undefined;
-
-    constructor(data?: IWholesaleEclPdAssumptionWholesaleEclLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.displayName = data["displayName"];
-        }
-    }
-
-    static fromJS(data: any): WholesaleEclPdAssumptionWholesaleEclLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new WholesaleEclPdAssumptionWholesaleEclLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["displayName"] = this.displayName;
-        return data; 
-    }
-}
-
-export interface IWholesaleEclPdAssumptionWholesaleEclLookupTableDto {
-    id: string | undefined;
-    displayName: string | undefined;
 }
 
 export class PagedResultDtoOfGetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto implements IPagedResultDtoOfGetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto {
@@ -89056,11 +89517,12 @@ export interface IGetWholesaleEclPdSnPCummulativeDefaultRatesForEditOutput {
 }
 
 export class CreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesDto implements ICreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesDto {
+    wholesaleEclId!: string | undefined;
     key!: string | undefined;
     rating!: string | undefined;
     years!: number | undefined;
     value!: number | undefined;
-    wholesaleEclId!: string | undefined;
+    requiresGroupApproval!: boolean | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesDto) {
@@ -89074,11 +89536,12 @@ export class CreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesDto implements 
 
     init(data?: any) {
         if (data) {
+            this.wholesaleEclId = data["wholesaleEclId"];
             this.key = data["key"];
             this.rating = data["rating"];
             this.years = data["years"];
             this.value = data["value"];
-            this.wholesaleEclId = data["wholesaleEclId"];
+            this.requiresGroupApproval = data["requiresGroupApproval"];
             this.id = data["id"];
         }
     }
@@ -89092,111 +89555,25 @@ export class CreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesDto implements 
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["wholesaleEclId"] = this.wholesaleEclId;
         data["key"] = this.key;
         data["rating"] = this.rating;
         data["years"] = this.years;
         data["value"] = this.value;
-        data["wholesaleEclId"] = this.wholesaleEclId;
+        data["requiresGroupApproval"] = this.requiresGroupApproval;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface ICreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesDto {
+    wholesaleEclId: string | undefined;
     key: string | undefined;
     rating: string | undefined;
     years: number | undefined;
     value: number | undefined;
-    wholesaleEclId: string | undefined;
+    requiresGroupApproval: boolean | undefined;
     id: string | undefined;
-}
-
-export class PagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto {
-    totalCount!: number | undefined;
-    items!: WholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(WholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto {
-    totalCount: number | undefined;
-    items: WholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto[] | undefined;
-}
-
-export class WholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto implements IWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto {
-    id!: string | undefined;
-    displayName!: string | undefined;
-
-    constructor(data?: IWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.displayName = data["displayName"];
-        }
-    }
-
-    static fromJS(data: any): WholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new WholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["displayName"] = this.displayName;
-        return data; 
-    }
-}
-
-export interface IWholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto {
-    id: string | undefined;
-    displayName: string | undefined;
 }
 
 export class PagedResultDtoOfGetWholesaleEclResultDetailForViewDto implements IPagedResultDtoOfGetWholesaleEclResultDetailForViewDto {
@@ -91175,94 +91552,6 @@ export interface ICreateOrEditWholesaleEclDto {
     id: string | undefined;
 }
 
-export class PagedResultDtoOfWholesaleEclUserLookupTableDto implements IPagedResultDtoOfWholesaleEclUserLookupTableDto {
-    totalCount!: number | undefined;
-    items!: WholesaleEclUserLookupTableDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfWholesaleEclUserLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(WholesaleEclUserLookupTableDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfWholesaleEclUserLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfWholesaleEclUserLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfWholesaleEclUserLookupTableDto {
-    totalCount: number | undefined;
-    items: WholesaleEclUserLookupTableDto[] | undefined;
-}
-
-export class WholesaleEclUserLookupTableDto implements IWholesaleEclUserLookupTableDto {
-    id!: number | undefined;
-    displayName!: string | undefined;
-
-    constructor(data?: IWholesaleEclUserLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.displayName = data["displayName"];
-        }
-    }
-
-    static fromJS(data: any): WholesaleEclUserLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new WholesaleEclUserLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["displayName"] = this.displayName;
-        return data; 
-    }
-}
-
-export interface IWholesaleEclUserLookupTableDto {
-    id: number | undefined;
-    displayName: string | undefined;
-}
-
 export class PagedResultDtoOfGetWholesaleEclSicrApprovalForViewDto implements IPagedResultDtoOfGetWholesaleEclSicrApprovalForViewDto {
     totalCount!: number | undefined;
     items!: GetWholesaleEclSicrApprovalForViewDto[] | undefined;
@@ -92928,8 +93217,17 @@ export interface IGetWholesalePdAssumptionNonInternalModelForEditOutput {
 }
 
 export class CreateOrEditWholesalePdAssumptionNonInternalModelDto implements ICreateOrEditWholesalePdAssumptionNonInternalModelDto {
-    canAffiliateEdit!: boolean | undefined;
     wholesaleEclId!: string | undefined;
+    key!: string | undefined;
+    month!: number | undefined;
+    pdGroup!: string | undefined;
+    marginalDefaultRate!: number | undefined;
+    cummulativeSurvival!: number | undefined;
+    isComputed!: boolean | undefined;
+    canAffiliateEdit!: boolean | undefined;
+    requiresGroupApproval!: boolean | undefined;
+    organizationUnitId!: number | undefined;
+    status!: GeneralStatusEnum | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditWholesalePdAssumptionNonInternalModelDto) {
@@ -92943,8 +93241,17 @@ export class CreateOrEditWholesalePdAssumptionNonInternalModelDto implements ICr
 
     init(data?: any) {
         if (data) {
-            this.canAffiliateEdit = data["canAffiliateEdit"];
             this.wholesaleEclId = data["wholesaleEclId"];
+            this.key = data["key"];
+            this.month = data["month"];
+            this.pdGroup = data["pdGroup"];
+            this.marginalDefaultRate = data["marginalDefaultRate"];
+            this.cummulativeSurvival = data["cummulativeSurvival"];
+            this.isComputed = data["isComputed"];
+            this.canAffiliateEdit = data["canAffiliateEdit"];
+            this.requiresGroupApproval = data["requiresGroupApproval"];
+            this.organizationUnitId = data["organizationUnitId"];
+            this.status = data["status"];
             this.id = data["id"];
         }
     }
@@ -92958,105 +93265,35 @@ export class CreateOrEditWholesalePdAssumptionNonInternalModelDto implements ICr
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["canAffiliateEdit"] = this.canAffiliateEdit;
         data["wholesaleEclId"] = this.wholesaleEclId;
+        data["key"] = this.key;
+        data["month"] = this.month;
+        data["pdGroup"] = this.pdGroup;
+        data["marginalDefaultRate"] = this.marginalDefaultRate;
+        data["cummulativeSurvival"] = this.cummulativeSurvival;
+        data["isComputed"] = this.isComputed;
+        data["canAffiliateEdit"] = this.canAffiliateEdit;
+        data["requiresGroupApproval"] = this.requiresGroupApproval;
+        data["organizationUnitId"] = this.organizationUnitId;
+        data["status"] = this.status;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface ICreateOrEditWholesalePdAssumptionNonInternalModelDto {
-    canAffiliateEdit: boolean | undefined;
     wholesaleEclId: string | undefined;
+    key: string | undefined;
+    month: number | undefined;
+    pdGroup: string | undefined;
+    marginalDefaultRate: number | undefined;
+    cummulativeSurvival: number | undefined;
+    isComputed: boolean | undefined;
+    canAffiliateEdit: boolean | undefined;
+    requiresGroupApproval: boolean | undefined;
+    organizationUnitId: number | undefined;
+    status: GeneralStatusEnum | undefined;
     id: string | undefined;
-}
-
-export class PagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto implements IPagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto {
-    totalCount!: number | undefined;
-    items!: WholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(WholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto {
-    totalCount: number | undefined;
-    items: WholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto[] | undefined;
-}
-
-export class WholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto implements IWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto {
-    id!: string | undefined;
-    displayName!: string | undefined;
-
-    constructor(data?: IWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.displayName = data["displayName"];
-        }
-    }
-
-    static fromJS(data: any): WholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new WholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["displayName"] = this.displayName;
-        return data; 
-    }
-}
-
-export interface IWholesalePdAssumptionNonInternalModelWholesaleEclLookupTableDto {
-    id: string | undefined;
-    displayName: string | undefined;
 }
 
 export class AdditionalData implements IAdditionalData {

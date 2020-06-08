@@ -11,10 +11,6 @@ namespace TestDemo.ObeComputation
 	[Table("ObeEclOverrides")]
     public class ObeEclOverride : EclOverrideBase
 	{
-		public virtual Guid? ObeEclDataLoanBookId { get; set; }
-		
-        [ForeignKey("ObeEclDataLoanBookId")]
-		public ObeEclDataLoanBook ObeEclDataLoanBookFk { get; set; }
-		
+		public virtual Guid? ObeEclId { get; set; }
     }
 }

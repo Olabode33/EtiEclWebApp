@@ -9,10 +9,6 @@ import { AffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableModalCom
 import { AffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableModalComponent } from './affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets/affiliateMacroEconomicVariableOffset-macroeconomicVariable-lookup-table-modal.component';
 
 import { NgModule } from '@angular/core';
-import { InvestmentEclOverridesComponent } from './investmentComputation/investmentEclOverrides/investmentEclOverrides.component';
-import { CreateOrEditInvestmentEclOverrideModalComponent } from './investmentComputation/investmentEclOverrides/create-or-edit-investmentEclOverride-modal.component';
-import { InvestmentEclOverrideInvestmentEclSicrLookupTableModalComponent } from './investmentComputation/investmentEclOverrides/investmentEclOverride-investmentEclSicr-lookup-table-modal.component';
-
 import { EclSettingsComponent } from './eclConfig/eclSettings/eclSettings.component';
 
 import { AssumptionApprovalsComponent } from './assumptions/assumptionApprovals/assumptionApprovals.component';
@@ -23,23 +19,6 @@ import { CreateOrEditMacroeconomicVariableModalComponent } from './eclShared/mac
 
 import { FormsModule } from '@angular/forms';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
-
-import { WholesaleEclResultSummaryTopExposuresComponent } from './wholesaleResults/wholesaleEclResultSummaryTopExposures/wholesaleEclResultSummaryTopExposures.component';
-import { CreateOrEditWholesaleEclResultSummaryTopExposureModalComponent } from './wholesaleResults/wholesaleEclResultSummaryTopExposures/create-or-edit-wholesaleEclResultSummaryTopExposure-modal.component';
-import { WholesaleEclResultSummaryTopExposureWholesaleEclLookupTableModalComponent } from './wholesaleResults/wholesaleEclResultSummaryTopExposures/wholesaleEclResultSummaryTopExposure-wholesaleEcl-lookup-table-modal.component';
-import { WholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableModalComponent } from './wholesaleResults/wholesaleEclResultSummaryTopExposures/wholesaleEclResultSummaryTopExposure-wholesaleEclDataLoanBook-lookup-table-modal.component';
-
-import { WholesaleEclResultSummaryKeyInputsComponent } from './wholesaleResults/wholesaleEclResultSummaryKeyInputs/wholesaleEclResultSummaryKeyInputs.component';
-import { CreateOrEditWholesaleEclResultSummaryKeyInputModalComponent } from './wholesaleResults/wholesaleEclResultSummaryKeyInputs/create-or-edit-wholesaleEclResultSummaryKeyInput-modal.component';
-import { WholesaleEclResultSummaryKeyInputWholesaleEclLookupTableModalComponent } from './wholesaleResults/wholesaleEclResultSummaryKeyInputs/wholesaleEclResultSummaryKeyInput-wholesaleEcl-lookup-table-modal.component';
-
-import { WholesaleEclResultSummariesComponent } from './wholesaleResult/wholesaleEclResultSummaries/wholesaleEclResultSummaries.component';
-import { CreateOrEditWholesaleEclResultSummaryModalComponent } from './wholesaleResult/wholesaleEclResultSummaries/create-or-edit-wholesaleEclResultSummary-modal.component';
-import { WholesaleEclResultSummaryWholesaleEclLookupTableModalComponent } from './wholesaleResult/wholesaleEclResultSummaries/wholesaleEclResultSummary-wholesaleEcl-lookup-table-modal.component';
-
-import { WholesaleEclSicrsComponent } from './wholesaleComputation/wholesaleEclSicrs/wholesaleEclSicrs.component';
-import { CreateOrEditWholesaleEclSicrModalComponent } from './wholesaleComputation/wholesaleEclSicrs/create-or-edit-wholesaleEclSicr-modal.component';
-import { WholesaleEclSicrWholesaleEclDataLoanBookLookupTableModalComponent } from './wholesaleComputation/wholesaleEclSicrs/wholesaleEclSicr-wholesaleEclDataLoanBook-lookup-table-modal.component';
 
 import { WholesaleEclDataPaymentSchedulesComponent } from './wholesaleInputs/wholesaleEclDataPaymentSchedules/wholesaleEclDataPaymentSchedules.component';
 import { CreateOrEditWholesaleEclDataPaymentScheduleModalComponent } from './wholesaleInputs/wholesaleEclDataPaymentSchedules/create-or-edit-wholesaleEclDataPaymentSchedule-modal.component';
@@ -52,18 +31,6 @@ import { WholesaleEclDataLoanBookWholesaleEclUploadLookupTableModalComponent } f
 import { WholesaleEclUploadsComponent } from './wholesaleInputs/wholesaleEclUploads/wholesaleEclUploads.component';
 import { CreateOrEditWholesaleEclUploadModalComponent } from './wholesaleInputs/wholesaleEclUploads/create-or-edit-wholesaleEclUpload-modal.component';
 import { WholesaleEclUploadWholesaleEclLookupTableModalComponent } from './wholesaleInputs/wholesaleEclUploads/wholesaleEclUpload-wholesaleEcl-lookup-table-modal.component';
-
-import { WholesaleEclPdSnPCummulativeDefaultRatesesComponent } from './wholesaleAssumption/wholesaleEclPdSnPCummulativeDefaultRateses/wholesaleEclPdSnPCummulativeDefaultRateses.component';
-import { CreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesModalComponent } from './wholesaleAssumption/wholesaleEclPdSnPCummulativeDefaultRateses/create-or-edit-wholesaleEclPdSnPCummulativeDefaultRates-modal.component';
-import { WholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableModalComponent } from './wholesaleAssumption/wholesaleEclPdSnPCummulativeDefaultRateses/wholesaleEclPdSnPCummulativeDefaultRates-wholesaleEcl-lookup-table-modal.component';
-
-import { WholesaleEclPdAssumption12MonthsesComponent } from './wholesaleAssumption/wholesaleEclPdAssumption12Monthses/wholesaleEclPdAssumption12Monthses.component';
-import { CreateOrEditWholesaleEclPdAssumption12MonthsModalComponent } from './wholesaleAssumption/wholesaleEclPdAssumption12Monthses/create-or-edit-wholesaleEclPdAssumption12Months-modal.component';
-import { WholesaleEclPdAssumption12MonthsWholesaleEclLookupTableModalComponent } from './wholesaleAssumption/wholesaleEclPdAssumption12Monthses/wholesaleEclPdAssumption12Months-wholesaleEcl-lookup-table-modal.component';
-
-import { WholesaleEclsComponent } from './wholesale/wholesaleEcls/wholesaleEcls.component';
-import { CreateOrEditWholesaleEclModalComponent } from './wholesale/wholesaleEcls/create-or-edit-wholesaleEcl-modal.component';
-import { WholesaleEclUserLookupTableModalComponent } from './wholesale/wholesaleEcls/wholesaleEcl-user-lookup-table-modal.component';
 
 import { OldAssumptionsComponent } from './eclShared/assumptions/assumptions.component';
 import { CreateOrEditAssumptionModalComponent } from './eclShared/assumptions/create-or-edit-assumption-modal.component';
@@ -86,8 +53,6 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BsDatepickerModule, BsDatepickerConfig, BsDaterangepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { NgxBootstrapDatePickerConfigService } from 'assets/ngx-bootstrap/ngx-bootstrap-datepicker-config.service';
 import { EclListComponent } from './ecl-list/ecl-list.component';
-import { CreateEditWholesaleEclComponent } from './wholesale/createEdit-wholesaleEcl/createEdit-wholesaleEcl.component';
-import { ViewWholesaleEclComponent } from './wholesale/view-wholesaleEcl/view-wholesaleEcl.component';
 import { CreateEditRetailEclComponent } from './retail/createEdit-retailEcl/createEdit-retailEcl.component';
 import { ViewRetailEclComponent } from './retail/view-retailEcl/view-retailEcl.component';
 import { ApprovalModalComponent } from './eclShared/approve-ecl-modal/approve-ecl-modal.component';
@@ -132,10 +97,10 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
-		AffiliateMacroEconomicVariableOffsetsComponent,
-		ViewAffiliateMacroEconomicVariableOffsetModalComponent,		CreateOrEditAffiliateMacroEconomicVariableOffsetModalComponent,
-    AffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableModalComponent,
-    AffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableModalComponent,
+        AffiliateMacroEconomicVariableOffsetsComponent,
+        ViewAffiliateMacroEconomicVariableOffsetModalComponent, CreateOrEditAffiliateMacroEconomicVariableOffsetModalComponent,
+        AffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableModalComponent,
+        AffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableModalComponent,
         ViewAssetBookDetailsComponent,
         EclAuditInfoComponent,
         EclResultsComponent,
@@ -143,9 +108,6 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         AffiliateConfigurationComponent,
         ApplyOverrideModalComponent,
         EclOverrideComponent,
-        InvestmentEclOverridesComponent,
-        CreateOrEditInvestmentEclOverrideModalComponent,
-        InvestmentEclOverrideInvestmentEclSicrLookupTableModalComponent,
         ViewEclComponent,
         EclSettingsComponent,
         ViewPaymentScheduleComponent,
@@ -165,22 +127,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         ApprovalModalComponent,
         ViewRetailEclComponent,
         CreateEditRetailEclComponent,
-        ViewWholesaleEclComponent,
-        CreateEditWholesaleEclComponent,
         EclListComponent,
-        WholesaleEclResultSummaryTopExposuresComponent,
-        CreateOrEditWholesaleEclResultSummaryTopExposureModalComponent,
-        WholesaleEclResultSummaryTopExposureWholesaleEclLookupTableModalComponent,
-        WholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableModalComponent,
-        WholesaleEclResultSummaryKeyInputsComponent,
-        CreateOrEditWholesaleEclResultSummaryKeyInputModalComponent,
-        WholesaleEclResultSummaryKeyInputWholesaleEclLookupTableModalComponent,
-        WholesaleEclResultSummariesComponent,
-        CreateOrEditWholesaleEclResultSummaryModalComponent,
-        WholesaleEclResultSummaryWholesaleEclLookupTableModalComponent,
-        WholesaleEclSicrsComponent,
-        CreateOrEditWholesaleEclSicrModalComponent,
-        WholesaleEclSicrWholesaleEclDataLoanBookLookupTableModalComponent,
         WholesaleEclDataPaymentSchedulesComponent,
         CreateOrEditWholesaleEclDataPaymentScheduleModalComponent,
         WholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableModalComponent,
@@ -190,15 +137,6 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         WholesaleEclUploadsComponent,
         CreateOrEditWholesaleEclUploadModalComponent,
         WholesaleEclUploadWholesaleEclLookupTableModalComponent,
-        WholesaleEclPdSnPCummulativeDefaultRatesesComponent,
-        CreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesModalComponent,
-        WholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableModalComponent,
-        WholesaleEclPdAssumption12MonthsesComponent,
-        CreateOrEditWholesaleEclPdAssumption12MonthsModalComponent,
-        WholesaleEclPdAssumption12MonthsWholesaleEclLookupTableModalComponent,
-        WholesaleEclsComponent,
-        CreateOrEditWholesaleEclModalComponent,
-        WholesaleEclUserLookupTableModalComponent,
         OldAssumptionsComponent,
         CreateOrEditAssumptionModalComponent,
         PdInputSnPCummulativeDefaultRatesComponent,

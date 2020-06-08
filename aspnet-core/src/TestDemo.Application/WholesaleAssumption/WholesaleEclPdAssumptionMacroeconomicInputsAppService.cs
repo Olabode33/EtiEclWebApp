@@ -17,6 +17,7 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.EclShared.Dtos;
 
 namespace TestDemo.WholesaleAssumption
 {
@@ -34,7 +35,30 @@ namespace TestDemo.WholesaleAssumption
 		
 		  }
 
-		 public async Task<PagedResultDto<GetWholesaleEclPdAssumptionMacroeconomicInputForViewDto>> GetAll(GetAllWholesaleEclPdAssumptionMacroeconomicInputsInput input)
+        public async Task<List<PdInputAssumptionMacroeconomicInputDto>> GetListForEclView(EntityDto<Guid> input)
+        {
+            var assumptions = _wholesaleEclPdAssumptionMacroeconomicInputRepository.GetAll()
+                                                              .Include(x => x.MacroeconomicVariable)
+                                                              .Where(x => x.WholesaleEclId == input.Id)
+                                                              .Select(x => new PdInputAssumptionMacroeconomicInputDto()
+                                                              {
+                                                                  AssumptionGroup = x.MacroeconomicVariableId,
+                                                                  Key = x.Key,
+                                                                  InputName = x.InputName,
+                                                                  MacroeconomicVariable = x.MacroeconomicVariable == null ? "" : x.MacroeconomicVariable.Name,
+                                                                  Value = x.Value,
+                                                                  IsComputed = x.IsComputed,
+                                                                  RequiresGroupApproval = x.RequiresGroupApproval,
+                                                                  CanAffiliateEdit = x.CanAffiliateEdit,
+                                                                  OrganizationUnitId = x.OrganizationUnitId,
+                                                                  Status = x.Status,
+                                                                  Id = x.Id
+                                                              });
+
+            return await assumptions.ToListAsync();
+        }
+
+        public async Task<PagedResultDto<GetWholesaleEclPdAssumptionMacroeconomicInputForViewDto>> GetAll(GetAllWholesaleEclPdAssumptionMacroeconomicInputsInput input)
          {
 			
 			var filteredWholesaleEclPdAssumptionMacroeconomicInputs = _wholesaleEclPdAssumptionMacroeconomicInputRepository.GetAll()
@@ -114,33 +138,5 @@ namespace TestDemo.WholesaleAssumption
             await _wholesaleEclPdAssumptionMacroeconomicInputRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_WholesaleEclPdAssumptionMacroeconomicInputs)]
-         public async Task<PagedResultDto<WholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto>> GetAllWholesaleEclForLookupTable(GetAllForLookupTableInput input)
-         {
-             var query = _lookup_wholesaleEclRepository.GetAll().WhereIf(
-                    !string.IsNullOrWhiteSpace(input.Filter),
-                   e=> e.TenantId.ToString().Contains(input.Filter)
-                );
-
-            var totalCount = await query.CountAsync();
-
-            var wholesaleEclList = await query
-                .PageBy(input)
-                .ToListAsync();
-
-			var lookupTableDtoList = new List<WholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto>();
-			foreach(var wholesaleEcl in wholesaleEclList){
-				lookupTableDtoList.Add(new WholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto
-				{
-					Id = wholesaleEcl.Id.ToString(),
-					DisplayName = wholesaleEcl.TenantId?.ToString()
-				});
-			}
-
-            return new PagedResultDto<WholesaleEclPdAssumptionMacroeconomicInputWholesaleEclLookupTableDto>(
-                totalCount,
-                lookupTableDtoList
-            );
-         }
     }
 }

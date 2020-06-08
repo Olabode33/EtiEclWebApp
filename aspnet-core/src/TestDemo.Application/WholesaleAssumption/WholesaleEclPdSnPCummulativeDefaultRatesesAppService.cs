@@ -15,6 +15,7 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.EclShared.Dtos;
 
 namespace TestDemo.WholesaleAssumption
 {
@@ -32,7 +33,26 @@ namespace TestDemo.WholesaleAssumption
 		
 		  }
 
-		 public async Task<PagedResultDto<GetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto>> GetAll(GetAllWholesaleEclPdSnPCummulativeDefaultRatesesInput input)
+        public async Task<List<PdInputSnPCummulativeDefaultRateDto>> GetListForEclView(EntityDto<Guid> input)
+        {
+            var assumptions = _wholesaleEclPdSnPCummulativeDefaultRatesRepository.GetAll().Where(x => x.WholesaleEclId == input.Id)
+                                                              .Select(x => new PdInputSnPCummulativeDefaultRateDto()
+                                                              {
+                                                                  Key = x.Key,
+                                                                  Rating = x.Rating,
+                                                                  Years = x.Years,
+                                                                  Value = x.Value,
+                                                                  RequiresGroupApproval = x.RequiresGroupApproval,
+                                                                  OrganizationUnitId = x.OrganizationUnitId,
+                                                                  Status = x.Status,
+                                                                  Id = x.Id
+                                                              });
+
+            return await assumptions.ToListAsync();
+
+        }
+
+        public async Task<PagedResultDto<GetWholesaleEclPdSnPCummulativeDefaultRatesForViewDto>> GetAll(GetAllWholesaleEclPdSnPCummulativeDefaultRatesesInput input)
          {
 			
 			var filteredWholesaleEclPdSnPCummulativeDefaultRateses = _wholesaleEclPdSnPCummulativeDefaultRatesRepository.GetAll()
@@ -114,39 +134,10 @@ namespace TestDemo.WholesaleAssumption
              ObjectMapper.Map(input, wholesaleEclPdSnPCummulativeDefaultRates);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclPdSnPCummulativeDefaultRateses_Delete)]
-         public async Task Delete(EntityDto<Guid> input)
-         {
+        [AbpAuthorize(AppPermissions.Pages_WholesaleEclPdSnPCummulativeDefaultRateses_Delete)]
+        public async Task Delete(EntityDto<Guid> input)
+        {
             await _wholesaleEclPdSnPCummulativeDefaultRatesRepository.DeleteAsync(input.Id);
-         } 
-
-		[AbpAuthorize(AppPermissions.Pages_WholesaleEclPdSnPCummulativeDefaultRateses)]
-         public async Task<PagedResultDto<WholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto>> GetAllWholesaleEclForLookupTable(GetAllForLookupTableInput input)
-         {
-             var query = _lookup_wholesaleEclRepository.GetAll().WhereIf(
-                    !string.IsNullOrWhiteSpace(input.Filter),
-                   e=> e.TenantId.ToString().Contains(input.Filter)
-                );
-
-            var totalCount = await query.CountAsync();
-
-            var wholesaleEclList = await query
-                .PageBy(input)
-                .ToListAsync();
-
-			var lookupTableDtoList = new List<WholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto>();
-			foreach(var wholesaleEcl in wholesaleEclList){
-				lookupTableDtoList.Add(new WholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto
-				{
-					Id = wholesaleEcl.Id.ToString(),
-					DisplayName = wholesaleEcl.TenantId?.ToString()
-				});
-			}
-
-            return new PagedResultDto<WholesaleEclPdSnPCummulativeDefaultRatesWholesaleEclLookupTableDto>(
-                totalCount,
-                lookupTableDtoList
-            );
-         }
+        }
     }
 }

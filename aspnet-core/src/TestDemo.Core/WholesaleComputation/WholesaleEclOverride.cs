@@ -11,10 +11,6 @@ namespace TestDemo.WholesaleComputation
 	[Table("WholesaleEclOverrides")]
     public class WholesaleEclOverride : EclOverrideBase
 	{
-		public virtual Guid? WholesaleEclDataLoanBookId { get; set; }
-		
-        [ForeignKey("WholesaleEclDataLoanBookId")]
-		public WholesaleEclDataLoanBook WholesaleEclDataLoanBookFk { get; set; }
-		
+		public virtual Guid? WholesaleEclId { get; set; }
     }
 }

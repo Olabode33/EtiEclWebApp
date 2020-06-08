@@ -17,6 +17,7 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.EclShared.Dtos;
 
 namespace TestDemo.WholesaleAssumption
 {
@@ -34,7 +35,32 @@ namespace TestDemo.WholesaleAssumption
 		
 		  }
 
-		 public async Task<PagedResultDto<GetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto>> GetAll(GetAllWholesaleEclPdAssumptionMacroeconomicProjectionsInput input)
+        public async Task<List<PdInputAssumptionMacroeconomicProjectionDto>> GetListForEclView(EntityDto<Guid> input)
+        {
+            var assumptions = _wholesaleEclPdAssumptionMacroeconomicProjectionRepository.GetAll()
+                                                              .Include(x => x.MacroeconomicVariable)
+                                                              .Where(x => x.WholesaleEclId == input.Id)
+                                                              .Select(x => new PdInputAssumptionMacroeconomicProjectionDto()
+                                                              {
+                                                                  AssumptionGroup = x.MacroeconomicVariableId,
+                                                                  Key = x.Key,
+                                                                  Date = x.Date,
+                                                                  InputName = x.MacroeconomicVariable != null ? x.MacroeconomicVariable.Name : "",
+                                                                  BestValue = x.BestValue,
+                                                                  OptimisticValue = x.OptimisticValue,
+                                                                  DownturnValue = x.DownturnValue,
+                                                                  IsComputed = x.IsComputed,
+                                                                  CanAffiliateEdit = x.CanAffiliateEdit,
+                                                                  OrganizationUnitId = x.OrganizationUnitId,
+                                                                  Status = x.Status,
+                                                                  Id = x.Id
+                                                              });
+
+            return await assumptions.ToListAsync();
+
+        }
+
+        public async Task<PagedResultDto<GetWholesaleEclPdAssumptionMacroeconomicProjectionForViewDto>> GetAll(GetAllWholesaleEclPdAssumptionMacroeconomicProjectionsInput input)
          {
 			
 			var filteredWholesaleEclPdAssumptionMacroeconomicProjections = _wholesaleEclPdAssumptionMacroeconomicProjectionRepository.GetAll()
@@ -114,33 +140,5 @@ namespace TestDemo.WholesaleAssumption
             await _wholesaleEclPdAssumptionMacroeconomicProjectionRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_WholesaleEclPdAssumptionMacroeconomicProjections)]
-         public async Task<PagedResultDto<WholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto>> GetAllWholesaleEclForLookupTable(GetAllForLookupTableInput input)
-         {
-             var query = _lookup_wholesaleEclRepository.GetAll().WhereIf(
-                    !string.IsNullOrWhiteSpace(input.Filter),
-                   e=> e.TenantId.ToString().Contains(input.Filter)
-                );
-
-            var totalCount = await query.CountAsync();
-
-            var wholesaleEclList = await query
-                .PageBy(input)
-                .ToListAsync();
-
-			var lookupTableDtoList = new List<WholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto>();
-			foreach(var wholesaleEcl in wholesaleEclList){
-				lookupTableDtoList.Add(new WholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto
-				{
-					Id = wholesaleEcl.Id.ToString(),
-					DisplayName = wholesaleEcl.TenantId?.ToString()
-				});
-			}
-
-            return new PagedResultDto<WholesaleEclPdAssumptionMacroeconomicProjectionWholesaleEclLookupTableDto>(
-                totalCount,
-                lookupTableDtoList
-            );
-         }
     }
 }

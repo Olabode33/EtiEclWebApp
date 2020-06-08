@@ -25,16 +25,30 @@ using Abp.BackgroundJobs;
 using TestDemo.EclLibrary.BaseEngine.PDInput;
 using Abp.UI;
 using TestDemo.RetailInputs;
+using TestDemo.RetailComputation;
+using TestDemo.EclInterfaces;
+using TestDemo.Dto.Ecls;
+using TestDemo.Dto.Approvals;
+using TestDemo.Reports.Jobs;
+using TestDemo.Reports;
+using Abp.Runtime.Session;
+using Abp.Configuration;
+using TestDemo.EclConfig;
+using TestDemo.EclLibrary.Jobs;
+using TestDemo.EclLibrary.BaseEngine.Dtos;
 
 namespace TestDemo.Retail
 {
     [AbpAuthorize(AppPermissions.Pages_RetailEcls)]
-    public class RetailEclsAppService : TestDemoAppServiceBase, IRetailEclsAppService
+    public class RetailEclsAppService : TestDemoAppServiceBase, IEclsAppService
     {
         private readonly IRepository<RetailEcl, Guid> _retailEclRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
         private readonly IRepository<AffiliateAssumption, Guid> _affiliateAssumptionRepository;
+        private readonly IRepository<RetailEclApproval, Guid> _retailApprovalsRepository;
+        private readonly IRepository<RetailEclOverride, Guid> _retailOverridesRepository;
+        private readonly IRepository<RetailEclUpload, Guid> _retailUploadRepository;
 
         private readonly IRetailEclAssumptionsAppService _retailEclAssumptionAppService;
         private readonly IRetailEclEadInputAssumptionsAppService _retailEclEadInputAssumptionsAppService;
@@ -45,9 +59,7 @@ namespace TestDemo.Retail
         private readonly IRetailEclPdAssumptionNonInteralModelsAppService _retailEclPdAssumptionNonInteralAppService;
         private readonly IRetailEclPdAssumptionNplIndexesAppService _retailEclPdAssumptionNplAppService;
         private readonly IRetailEclPdSnPCummulativeDefaultRatesAppService _retailPdAssumptionSnpAppService;
-        private readonly IRetailEclUploadsAppService _retailEclUploadsAppService;
 
-        private readonly IRetailEclApprovalsAppService _retailEclApprovalsAppService;
         private readonly IBackgroundJobManager _backgroundJobManager;
         private readonly IEclSharedAppService _eclSharedAppService;
 
@@ -55,17 +67,18 @@ namespace TestDemo.Retail
                                     IRepository<User, long> lookup_userRepository,
                                     IRepository<OrganizationUnit, long> organizationUnitRepository,
                                     IRepository<AffiliateAssumption, Guid> affiliateAssumptionRepository,
+                                    IRepository<RetailEclApproval, Guid> retailApprovalsRepository,
+                                    IRepository<RetailEclOverride, Guid> retailOverridesRepository,
+                                    IRepository<RetailEclUpload, Guid> retailUploadRepository,
                                     IRetailEclAssumptionsAppService retailEclAssumptionAppService,
                                     IRetailEclEadInputAssumptionsAppService retailEclEadInputAssumptionsAppService,
                                     IRetailEclLgdAssumptionsAppService retailEclLgdAssumptionsAppService,
-                                    IRetailEclApprovalsAppService retailEclApprovalsAppService,
                                     IRetailEclPdAssumptionsAppService retailEclPdAssumptionsAppService,
                                     IRetailEclPdAssumptionMacroeconomicInputsAppService retailPdAssumptionMacroInputAppService,
                                     IRetailEclPdAssumptionMacroeconomicProjectionsAppService retailEclPdAssumptionMacroProjectionAppService,
                                     IRetailEclPdAssumptionNonInteralModelsAppService retailEclPdAssumptionNonInteralAppService,
                                     IRetailEclPdAssumptionNplIndexesAppService retailEclPdAssumptionNplAppService,
                                     IRetailEclPdSnPCummulativeDefaultRatesAppService retailPdAssumptionSnpAppService,
-                                    IRetailEclUploadsAppService retailEclUploadsAppService,
                                     IBackgroundJobManager backgroundJobManager,
                                     IEclSharedAppService eclSharedAppService
                                     )
@@ -74,6 +87,9 @@ namespace TestDemo.Retail
             _lookup_userRepository = lookup_userRepository;
             _organizationUnitRepository = organizationUnitRepository;
             _affiliateAssumptionRepository = affiliateAssumptionRepository;
+            _retailApprovalsRepository = retailApprovalsRepository;
+            _retailOverridesRepository = retailOverridesRepository;
+            _retailUploadRepository = retailUploadRepository;
 
             _retailEclAssumptionAppService = retailEclAssumptionAppService;
             _retailEclEadInputAssumptionsAppService = retailEclEadInputAssumptionsAppService;
@@ -84,8 +100,6 @@ namespace TestDemo.Retail
             _retailEclPdAssumptionNonInteralAppService = retailEclPdAssumptionNonInteralAppService;
             _retailEclPdAssumptionNplAppService = retailEclPdAssumptionNplAppService;
             _retailPdAssumptionSnpAppService = retailPdAssumptionSnpAppService;
-            _retailEclApprovalsAppService = retailEclApprovalsAppService;
-            _retailEclUploadsAppService = retailEclUploadsAppService;
 
             _backgroundJobManager = backgroundJobManager;
             _eclSharedAppService = eclSharedAppService;
@@ -152,11 +166,11 @@ namespace TestDemo.Retail
         }
 
         [AbpAuthorize(AppPermissions.Pages_RetailEcls_Edit)]
-        public async Task<GetRetailEclForEditOutput> GetEclDetailsForEdit(EntityDto<Guid> input)
+        public async Task<GetEclForEditOutput> GetEclDetailsForEdit(EntityDto<Guid> input)
         {
             var retailEcl = await _retailEclRepository.FirstOrDefaultAsync(input.Id);
 
-            var output = new GetRetailEclForEditOutput { EclDto = ObjectMapper.Map<CreateOrEditRetailEclDto>(retailEcl) };
+            var output = new GetEclForEditOutput { EclDto = ObjectMapper.Map<CreateOrEditEclDto>(retailEcl) };
             if (retailEcl.CreatorUserId != null)
             {
                 var _creatorUser = await _lookup_userRepository.FirstOrDefaultAsync((long)retailEcl.CreatorUserId);
@@ -188,7 +202,7 @@ namespace TestDemo.Retail
             return output;
         }
 
-        public async Task CreateOrEdit(CreateOrEditRetailEclDto input)
+        public async Task CreateOrEdit(CreateOrEditEclDto input)
         {
             if (input.Id == null)
             {
@@ -238,7 +252,7 @@ namespace TestDemo.Retail
         }
 
         [AbpAuthorize(AppPermissions.Pages_RetailEcls_Create)]
-        protected virtual async Task Create(CreateOrEditRetailEclDto input)
+        protected virtual async Task Create(CreateOrEditEclDto input)
         {
             var retailEcl = ObjectMapper.Map<RetailEcl>(input);
 
@@ -282,7 +296,7 @@ namespace TestDemo.Retail
         }
 
         [AbpAuthorize(AppPermissions.Pages_RetailEcls_Edit)]
-        protected virtual async Task Update(CreateOrEditRetailEclDto input)
+        protected virtual async Task Update(CreateOrEditEclDto input)
         {
             var retailEcl = await _retailEclRepository.FirstOrDefaultAsync((Guid)input.Id);
             ObjectMapper.Map(input, retailEcl);
@@ -603,12 +617,40 @@ namespace TestDemo.Retail
             }
         }
 
-        public virtual async Task ApproveReject(CreateOrEditRetailEclApprovalDto input)
+        public virtual async Task ApproveReject(CreateOrEditEclApprovalDto input)
         {
-            var ecl = await _retailEclRepository.FirstOrDefaultAsync((Guid)input.RetailEclId);
-            ecl.Status = input.Status == GeneralStatusEnum.Approved ? EclStatusEnum.Approved : EclStatusEnum.Draft;
+            var ecl = await _retailEclRepository.FirstOrDefaultAsync((Guid)input.EclId);
+
+            await _retailApprovalsRepository.InsertAsync(new RetailEclApproval
+            {
+                RetailEclId = input.EclId,
+                ReviewComment = input.ReviewComment,
+                ReviewedByUserId = AbpSession.UserId,
+                ReviewedDate = DateTime.Now,
+                Status = input.Status,
+                OrganizationUnitId = ecl.OrganizationUnitId
+            });
+            await CurrentUnitOfWork.SaveChangesAsync();
+
+            if (input.Status == GeneralStatusEnum.Approved)
+            {
+                var requiredApprovals = await SettingManager.GetSettingValueAsync<int>(EclSettings.RequiredNoOfApprovals);
+                var eclApprovals = await _retailApprovalsRepository.GetAllListAsync(x => x.RetailEclId == input.EclId && x.Status == GeneralStatusEnum.Approved);
+                if (eclApprovals.Count(x => x.Status == GeneralStatusEnum.Approved) >= requiredApprovals)
+                {
+                    ecl.Status = EclStatusEnum.Approved;
+                }
+                else
+                {
+                    ecl.Status = EclStatusEnum.AwaitngAdditionApproval;
+                }
+            }
+            else
+            {
+                ecl.Status = EclStatusEnum.Draft;
+            }
+
             ObjectMapper.Map(ecl, ecl);
-            await _retailEclApprovalsAppService.CreateOrEdit(input);
         }
 
         [AbpAuthorize(AppPermissions.Pages_RetailEcls_Delete)]
@@ -620,21 +662,100 @@ namespace TestDemo.Retail
         public async Task RunEcl(EntityDto<Guid> input)
         {
             var ecl = await _retailEclRepository.FirstOrDefaultAsync(input.Id);
-            ecl.Status = EclStatusEnum.Running;
-            await _retailEclRepository.UpdateAsync(ecl);
-            await _backgroundJobManager.EnqueueAsync<RunRetailPdJob, RetailPdJobArgs>(new RetailPdJobArgs { RetailEclId = input.Id });
+            if (ecl.Status == EclStatusEnum.Approved)
+            {
+                ecl.Status = EclStatusEnum.Running;
+                await _retailEclRepository.UpdateAsync(ecl);
+            }
+            else
+            {
+                throw new UserFriendlyException(L("EclMustBeApprovedBeforeRunning"));
+            }
+        }
+
+        public async Task RunPostEcl(EntityDto<Guid> input)
+        {
+            var validation = await ValidateForPostRun(input.Id);
+            if (validation.Status)
+            {
+                var ecl = await _retailEclRepository.FirstOrDefaultAsync(input.Id);
+                ecl.Status = EclStatusEnum.QueuePostOverride;
+                await _retailEclRepository.UpdateAsync(ecl);
+            }
+            else
+            {
+                throw new UserFriendlyException(L("ValidationError") + validation.Message);
+            }
+        }
+
+        public async Task GenerateReport(EntityDto<Guid> input)
+        {
+            var ecl = await _retailEclRepository.FirstOrDefaultAsync(input.Id);
+
+            if (ecl.Status == EclStatusEnum.PreOverrideComplete || ecl.Status == EclStatusEnum.PostOverrideComplete || ecl.Status == EclStatusEnum.Completed || ecl.Status == EclStatusEnum.Closed)
+            {
+                await _backgroundJobManager.EnqueueAsync<GenerateEclReportJob, GenerateReportJobArgs>(new GenerateReportJobArgs()
+                {
+                    eclId = input.Id,
+                    eclType = EclType.Retail,
+                    userIdentifier = AbpSession.ToUserIdentifier()
+                });
+            }
+            else
+            {
+                throw new UserFriendlyException(L("GenerateReportErrorEclNotRun"));
+            }
+        }
+
+        public async Task CloseEcl(EntityDto<Guid> input)
+        {
+            var ecl = await _retailEclRepository.FirstOrDefaultAsync(input.Id);
+
+            if (ecl.Status == EclStatusEnum.PreOverrideComplete || ecl.Status == EclStatusEnum.PostOverrideComplete || ecl.Status == EclStatusEnum.Completed )
+            {
+                await _backgroundJobManager.EnqueueAsync<CloseEclJob, RunEclJobArgs>(new RunEclJobArgs()
+                {
+                    EclId = input.Id,
+                    EclType = EclType.Retail,
+                    UserIdentifier = AbpSession.ToUserIdentifier()
+                });
+            }
+            else
+            {
+                throw new UserFriendlyException(L("CloseEcltErrorEclNotRun"));
+            }
+        }
+
+        public async Task ReopenEcl(EntityDto<Guid> input)
+        {
+            var ecl = await _retailEclRepository.FirstOrDefaultAsync(input.Id);
+
+            if (ecl.Status == EclStatusEnum.Closed)
+            {
+                await _backgroundJobManager.EnqueueAsync<ReopenEclJob, RunEclJobArgs>(new RunEclJobArgs()
+                {
+                    EclId = input.Id,
+                    EclType = EclType.Retail,
+                    UserIdentifier = AbpSession.ToUserIdentifier()
+                });
+            }
+            else
+            {
+                throw new UserFriendlyException(L("ReopenEcltErrorEclNotRun"));
+            }
         }
 
         protected virtual async Task<ValidationMessageDto> ValidateForSubmission(Guid eclId)
         {
             ValidationMessageDto output = new ValidationMessageDto();
-            var uploads = await _retailEclUploadsAppService.GetEclUploads(new EntityDto<Guid> {Id = eclId });
+
+            var uploads = await _retailUploadRepository.GetAllListAsync(x => x.RetailEclId == eclId);
             if (uploads.Count > 0)
             {
-                var notCompleted = uploads.Any(x => x.EclUpload.Status != GeneralStatusEnum.Completed);
+                var notCompleted = uploads.Any(x => x.Status != GeneralStatusEnum.Completed);
                 output.Status = !notCompleted;
                 output.Message = notCompleted == true ? L("UploadInProgressError") : "";
-            } 
+            }
             else
             {
                 output.Status = false;
@@ -643,5 +764,26 @@ namespace TestDemo.Retail
 
             return output;
         }
+
+        protected virtual async Task<ValidationMessageDto> ValidateForPostRun(Guid eclId)
+        {
+            ValidationMessageDto output = new ValidationMessageDto();
+            //Check if Ecl has overrides
+            var overrides = await _retailOverridesRepository.GetAllListAsync(x => x.RetailEclId == eclId);
+            if (overrides.Count > 0)
+            {
+                var submitted = overrides.Any(x => x.Status == GeneralStatusEnum.Submitted || x.Status == GeneralStatusEnum.AwaitngAdditionApproval);
+                output.Status = !submitted;
+                output.Message = submitted == true ? L("PostRunErrorYetToReviewSubmittedOverrides") : "";
+            }
+            else
+            {
+                output.Status = false;
+                output.Message = L("NoOverrideRecordFoundForEcl");
+            }
+
+            return output;
+        }
+
     }
 }

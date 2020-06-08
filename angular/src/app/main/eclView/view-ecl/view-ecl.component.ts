@@ -363,11 +363,11 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
     }
 
     generateReport(): void {
-        if (typeof this._eclServiceProxy.closeEcl === 'function') {
+        if (typeof this._eclServiceProxy.generateReport === 'function') {
 
             let dto = new EntityDtoOfGuid();
             dto.id = this._eclId;
-            this._investmentEclServiceProxy.generateReport(dto).subscribe(() => {
+            this._eclServiceProxy.generateReport(dto).subscribe(() => {
                 this.message.success(this.l('EclReportGenerationStartedNotification'));
             });
         } else {
@@ -377,9 +377,9 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
 
     eclReviewed(event?: any): void {
         if (event !== null) {
-            if (event.status === GeneralStatusEnum.Approved) {
-                setTimeout(() => this.runEclComputation(), 3000);
-            }
+            // if (event.status === GeneralStatusEnum.Approved) {
+            //     setTimeout(() => this.runEclComputation(), 3000);
+            // }
             this.getEclDetails();
         }
     }
@@ -499,7 +499,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
     autoReloadUploadSummary(): void {
         let processing = this.eclUploads.filter(x => x.eclUpload.status === GeneralStatusEnum.Processing);
         const sub_ = secondsCounter.subscribe(n => {
-                            console.log(`It's been ${n} seconds since subscribing!`);
+                            //console.log(`It's been ${n} seconds since subscribing!`);
                             this.getEclUploadSummary();
                         });
         // if (processing.length <= 0) {

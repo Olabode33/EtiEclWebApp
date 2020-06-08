@@ -21,7 +21,7 @@ namespace TestDemo.EclShared
 
     public enum EclStatusEnum
     {
-        Draft, Submitted, Approved, Running, PreOverrideComplete, PostOverrideComplete, ComputedEAD, ComputedLGD, ComputedECL, Completed, Closed, AwaitngAdditionApproval
+        Draft, Submitted, Approved, Running, PreOverrideComplete, PostOverrideComplete, ComputedEAD, ComputedLGD, ComputedECL, Completed, Closed, AwaitngAdditionApproval, QueuePostOverride
     }
 
     public enum UploadDocTypeEnum

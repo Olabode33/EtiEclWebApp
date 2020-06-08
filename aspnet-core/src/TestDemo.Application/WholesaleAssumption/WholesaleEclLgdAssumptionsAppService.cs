@@ -17,6 +17,7 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.EclShared.Dtos;
 
 namespace TestDemo.WholesaleAssumption
 {
@@ -34,7 +35,29 @@ namespace TestDemo.WholesaleAssumption
 		
 		  }
 
-		 public async Task<PagedResultDto<GetWholesaleEclLgdAssumptionForViewDto>> GetAll(GetAllWholesaleEclLgdAssumptionsInput input)
+        public async Task<List<LgdAssumptionDto>> GetListForEclView(EntityDto<Guid> input)
+        {
+            var assumptions = _wholesaleEclLgdAssumptionRepository.GetAll().Where(x => x.WholesaleEclId == input.Id)
+                                                              .Select(x => new LgdAssumptionDto()
+                                                              {
+                                                                  AssumptionGroup = x.LgdGroup,
+                                                                  Key = x.Key,
+                                                                  InputName = x.InputName,
+                                                                  Value = x.Value,
+                                                                  DataType = x.DataType,
+                                                                  IsComputed = x.IsComputed,
+                                                                  RequiresGroupApproval = x.RequiresGroupApproval,
+                                                                  CanAffiliateEdit = x.CanAffiliateEdit,
+                                                                  OrganizationUnitId = x.OrganizationUnitId,
+                                                                  Status = x.Status,
+                                                                  Id = x.Id
+                                                              });
+
+            return await assumptions.ToListAsync();
+
+        }
+
+        public async Task<PagedResultDto<GetWholesaleEclLgdAssumptionForViewDto>> GetAll(GetAllWholesaleEclLgdAssumptionsInput input)
          {
 			
 			var filteredWholesaleEclLgdAssumptions = _wholesaleEclLgdAssumptionRepository.GetAll()
@@ -114,34 +137,5 @@ namespace TestDemo.WholesaleAssumption
          {
             await _wholesaleEclLgdAssumptionRepository.DeleteAsync(input.Id);
          } 
-
-		[AbpAuthorize(AppPermissions.Pages_WholesaleEclLgdAssumptions)]
-         public async Task<PagedResultDto<WholesaleEclLgdAssumptionWholesaleEclLookupTableDto>> GetAllWholesaleEclForLookupTable(GetAllForLookupTableInput input)
-         {
-             var query = _lookup_wholesaleEclRepository.GetAll().WhereIf(
-                    !string.IsNullOrWhiteSpace(input.Filter),
-                   e=> e.TenantId.ToString().Contains(input.Filter)
-                );
-
-            var totalCount = await query.CountAsync();
-
-            var wholesaleEclList = await query
-                .PageBy(input)
-                .ToListAsync();
-
-			var lookupTableDtoList = new List<WholesaleEclLgdAssumptionWholesaleEclLookupTableDto>();
-			foreach(var wholesaleEcl in wholesaleEclList){
-				lookupTableDtoList.Add(new WholesaleEclLgdAssumptionWholesaleEclLookupTableDto
-				{
-					Id = wholesaleEcl.Id.ToString(),
-					DisplayName = wholesaleEcl.TenantId?.ToString()
-				});
-			}
-
-            return new PagedResultDto<WholesaleEclLgdAssumptionWholesaleEclLookupTableDto>(
-                totalCount,
-                lookupTableDtoList
-            );
-         }
     }
 }

@@ -19,7 +19,7 @@
                         <i class="fa fa-plus"></i> {{"NewEcl" | localize}}
                     </button>
                     <div class="dropdown-menu dropdown-menu-right dropdown-excel-operations" *dropdownMenu>
-                        <a class="dropdown-item" id="ExportUsersToExcelButton" (click)="navigateToCreateWholesaleEcl()"
+                        <a class="dropdown-item" id="ExportUsersToExcelButton" (click)="createWholesaleEcl()"
                             href="javascript:;">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon pr-1">
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -41,7 +41,7 @@
                             </svg>
                             {{'Retail' | localize}}
                         </a>
-                        <a class="dropdown-item" id="ExportUsersToExcelButton" (click)="navigateToCreateObeEcl()"
+                        <a class="dropdown-item" id="ExportUsersToExcelButton" (click)="createObeEcl()"
                             href="javascript:;">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon pr-1">
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -107,6 +107,7 @@
                                     <option value=-1>{{l("SelectStatus")}}</option>
                                     <option [value]="eclStatusEnum.Draft">{{l(eclStatusEnum[eclStatusEnum.Draft])}}</option>
                                     <option [value]="eclStatusEnum.Submitted">{{l(eclStatusEnum[eclStatusEnum.Submitted])}}</option>
+                                    <option [value]="eclStatusEnum.AwaitngAdditionApproval">{{l(eclStatusEnum[eclStatusEnum.AwaitngAdditionApproval])}}</option>
                                     <option [value]="eclStatusEnum.Approved">{{l(eclStatusEnum[eclStatusEnum.Approved])}}</option>
                                     <option [value]="eclStatusEnum.PreOverrideComplete">{{l(eclStatusEnum[eclStatusEnum.PreOverrideComplete])}}</option>
                                     <option [value]="eclStatusEnum.PostOverrideComplete">{{l(eclStatusEnum[eclStatusEnum.PostOverrideComplete])}}</option>

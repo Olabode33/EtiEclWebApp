@@ -34,19 +34,19 @@ namespace TestDemo.RetailComputation
 
 		 public async Task<PagedResultDto<GetRetailEclOverrideForViewDto>> GetAll(GetAllRetailEclOverridesInput input)
          {
-			
-			var filteredRetailEclOverrides = _retailEclOverrideRepository.GetAll()
-						.Include( e => e.RetailEclDataLoanBookFk)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.ContractId.Contains(input.Filter))
-						.WhereIf(!string.IsNullOrWhiteSpace(input.RetailEclDataLoanBookCustomerNameFilter), e => e.RetailEclDataLoanBookFk != null && e.RetailEclDataLoanBookFk.CustomerName == input.RetailEclDataLoanBookCustomerNameFilter);
+
+            var filteredRetailEclOverrides = _retailEclOverrideRepository.GetAll()
+                        //.Include( e => e.RetailEclDataLoanBookFk)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.ContractId.Contains(input.Filter));
+						//.WhereIf(!string.IsNullOrWhiteSpace(input.RetailEclDataLoanBookCustomerNameFilter), e => e.RetailEclDataLoanBookFk != null && e.RetailEclDataLoanBookFk.CustomerName == input.RetailEclDataLoanBookCustomerNameFilter);
 
 			var pagedAndFilteredRetailEclOverrides = filteredRetailEclOverrides
                 .OrderBy(input.Sorting ?? "id asc")
                 .PageBy(input);
 
 			var retailEclOverrides = from o in pagedAndFilteredRetailEclOverrides
-                         join o1 in _lookup_retailEclDataLoanBookRepository.GetAll() on o.RetailEclDataLoanBookId equals o1.Id into j1
-                         from s1 in j1.DefaultIfEmpty()
+                        // join o1 in _lookup_retailEclDataLoanBookRepository.GetAll() on o.RetailEclDataLoanBookId equals o1.Id into j1
+                         //from s1 in j1.DefaultIfEmpty()
                          
                          select new GetRetailEclOverrideForViewDto() {
 							RetailEclOverride = new RetailEclOverrideDto
@@ -54,7 +54,7 @@ namespace TestDemo.RetailComputation
                                 ContractId = o.ContractId,
                                 Id = o.Id
 							},
-                         	RetailEclDataLoanBookCustomerName = s1 == null ? "" : s1.CustomerName.ToString()
+                         	//RetailEclDataLoanBookCustomerName = s1 == null ? "" : s1.CustomerName.ToString()
 						};
 
             var totalCount = await filteredRetailEclOverrides.CountAsync();

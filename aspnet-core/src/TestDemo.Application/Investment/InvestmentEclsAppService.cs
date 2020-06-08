@@ -470,10 +470,19 @@ namespace TestDemo.Investment
 
         public async Task RunEcl(EntityDto<Guid> input)
         {
-            await _backgroundJobManager.EnqueueAsync<RunInvestmentEclJob, RunEclJobArgs>(new RunEclJobArgs { 
-                EclId = input.Id,
-                UserIdentifier = AbpSession.ToUserIdentifier()
-            });
+            var ecl = await _investmentEclRepository.FirstOrDefaultAsync((Guid)input.Id);
+            if (ecl.Status == EclStatusEnum.Approved)
+            {
+                await _backgroundJobManager.EnqueueAsync<RunInvestmentEclJob, RunEclJobArgs>(new RunEclJobArgs
+                {
+                    EclId = input.Id,
+                    UserIdentifier = AbpSession.ToUserIdentifier()
+                });
+            }
+            else
+            {
+                throw new UserFriendlyException(L("EclMustBeApprovedBeforeRunning"));
+            }
         }
 
         public async Task RunPostEcl(EntityDto<Guid> input)
@@ -512,23 +521,42 @@ namespace TestDemo.Investment
 
         public async Task CloseEcl(EntityDto<Guid> input)
         {
-            //Call archive ecl procedure
-            await _backgroundJobManager.EnqueueAsync<CloseEclJob, RunEclJobArgs>(new RunEclJobArgs()
+            var ecl = await _investmentEclRepository.FirstOrDefaultAsync(input.Id);
+
+            if (ecl.Status == EclStatusEnum.PreOverrideComplete || ecl.Status == EclStatusEnum.PostOverrideComplete || ecl.Status == EclStatusEnum.Completed)
             {
-                EclId = input.Id,
-                EclType = EclType.Investment,
-                UserIdentifier = AbpSession.ToUserIdentifier()
-            });
+                //Call archive ecl procedure
+                await _backgroundJobManager.EnqueueAsync<CloseEclJob, RunEclJobArgs>(new RunEclJobArgs()
+                {
+                    EclId = input.Id,
+                    EclType = EclType.Investment,
+                    UserIdentifier = AbpSession.ToUserIdentifier()
+                });
+            }
+            else
+            {
+                throw new UserFriendlyException(L("CloseEcltErrorEclNotRun"));
+            }
         }
 
         public async Task ReopenEcl(EntityDto<Guid> input)
         {
-            //Call archive ecl procedure
-            await _backgroundJobManager.EnqueueAsync<ReopenEclJob, RunEclJobArgs>(new RunEclJobArgs(){ 
-                EclId = input.Id, 
-                EclType = EclType.Investment,
-                UserIdentifier = AbpSession.ToUserIdentifier()
-            });
+            var ecl = await _investmentEclRepository.FirstOrDefaultAsync(input.Id);
+
+            if (ecl.Status == EclStatusEnum.Closed)
+            {
+                //Call archive ecl procedure
+                await _backgroundJobManager.EnqueueAsync<ReopenEclJob, RunEclJobArgs>(new RunEclJobArgs()
+                {
+                    EclId = input.Id,
+                    EclType = EclType.Investment,
+                    UserIdentifier = AbpSession.ToUserIdentifier()
+                });
+            }
+            else
+            {
+                throw new UserFriendlyException(L("ReopenEcltErrorEclNotRun"));
+            }
         }
 
         protected virtual async Task<ValidationMessageDto> ValidateForSubmission(Guid eclId)
@@ -558,7 +586,7 @@ namespace TestDemo.Investment
             var overrides = await _investmentOverridesRepository.GetAllListAsync(x => x.EclId == eclId);
             if (overrides.Count > 0)
             {
-                var submitted = overrides.Any(x => x.Status == GeneralStatusEnum.Submitted);
+                var submitted = overrides.Any(x => x.Status == GeneralStatusEnum.Submitted || x.Status == GeneralStatusEnum.AwaitngAdditionApproval);
                 output.Status = !submitted;
                 output.Message = submitted == true ? L("PostRunErrorYetToReviewSubmittedOverrides") : "";
             }

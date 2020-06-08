@@ -70,7 +70,7 @@ namespace TestDemo.RetailAssumption
                                 IsComputed = o.IsComputed,
                                 LgdGroup = o.LgdGroup,
                                 RequiresGroupApproval = o.RequiresGroupApproval,
-                                Id = o.Id
+                                Id = o.Id,
 							},
                          	RetailEclTenantId = s1 == null ? "" : s1.TenantId.ToString()
 						};
@@ -113,7 +113,7 @@ namespace TestDemo.RetailAssumption
                                                                   RequiresGroupApproval = x.RequiresGroupApproval,
                                                                   CanAffiliateEdit = x.CanAffiliateEdit,
                                                                   OrganizationUnitId = x.OrganizationUnitId,
-                                                                  //Status = x.s,
+                                                                  Status = x.Status,
                                                                   Id = x.Id
                                                               });
 

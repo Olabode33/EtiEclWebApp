@@ -16,6 +16,7 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.EclShared.Dtos;
 
 namespace TestDemo.WholesaleAssumption
 {
@@ -33,7 +34,29 @@ namespace TestDemo.WholesaleAssumption
 		
 		  }
 
-		 public async Task<PagedResultDto<GetWholesaleEclPdAssumptionNplIndexForViewDto>> GetAll(GetAllWholesaleEclPdAssumptionNplIndexesInput input)
+        public async Task<List<PdInputAssumptionNplIndexDto>> GetListForEclView(EntityDto<Guid> input)
+        {
+            var assumptions = _wholesaleEclPdAssumptionNplIndexRepository.GetAll()
+                                                              .Where(x => x.WholesaleEclId == input.Id)
+                                                              .Select(x => new PdInputAssumptionNplIndexDto()
+                                                              {
+                                                                  Key = x.Key,
+                                                                  Date = x.Date,
+                                                                  Actual = x.Actual,
+                                                                  Standardised = x.Standardised,
+                                                                  EtiNplSeries = x.EtiNplSeries,
+                                                                  IsComputed = x.IsComputed,
+                                                                  RequiresGroupApproval = x.RequiresGroupApproval,
+                                                                  CanAffiliateEdit = x.CanAffiliateEdit,
+                                                                  OrganizationUnitId = x.OrganizationUnitId,
+                                                                  Status = x.Status,
+                                                                  Id = x.Id
+                                                              });
+
+            return await assumptions.ToListAsync();
+        }
+
+        public async Task<PagedResultDto<GetWholesaleEclPdAssumptionNplIndexForViewDto>> GetAll(GetAllWholesaleEclPdAssumptionNplIndexesInput input)
          {
 			
 			var filteredWholesaleEclPdAssumptionNplIndexes = _wholesaleEclPdAssumptionNplIndexRepository.GetAll()
@@ -112,34 +135,5 @@ namespace TestDemo.WholesaleAssumption
          {
             await _wholesaleEclPdAssumptionNplIndexRepository.DeleteAsync(input.Id);
          } 
-
-		[AbpAuthorize(AppPermissions.Pages_WholesaleEclPdAssumptionNplIndexes)]
-         public async Task<PagedResultDto<WholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto>> GetAllWholesaleEclForLookupTable(GetAllForLookupTableInput input)
-         {
-             var query = _lookup_wholesaleEclRepository.GetAll().WhereIf(
-                    !string.IsNullOrWhiteSpace(input.Filter),
-                   e=> e.TenantId.ToString().Contains(input.Filter)
-                );
-
-            var totalCount = await query.CountAsync();
-
-            var wholesaleEclList = await query
-                .PageBy(input)
-                .ToListAsync();
-
-			var lookupTableDtoList = new List<WholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto>();
-			foreach(var wholesaleEcl in wholesaleEclList){
-				lookupTableDtoList.Add(new WholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto
-				{
-					Id = wholesaleEcl.Id.ToString(),
-					DisplayName = wholesaleEcl.TenantId?.ToString()
-				});
-			}
-
-            return new PagedResultDto<WholesaleEclPdAssumptionNplIndexWholesaleEclLookupTableDto>(
-                totalCount,
-                lookupTableDtoList
-            );
-         }
     }
 }

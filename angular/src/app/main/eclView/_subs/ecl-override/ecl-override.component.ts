@@ -117,6 +117,7 @@ export class EclOverrideComponent extends AppComponentBase {
     getStatusLabelClass(uploadStatus: GeneralStatusEnum): string {
         switch (uploadStatus) {
             case GeneralStatusEnum.Submitted:
+            case GeneralStatusEnum.AwaitngAdditionApproval:
                 return 'warning';
             case GeneralStatusEnum.Approved:
                 return 'success';

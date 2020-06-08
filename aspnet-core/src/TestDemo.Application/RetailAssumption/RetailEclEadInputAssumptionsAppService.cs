@@ -113,7 +113,7 @@ namespace TestDemo.RetailAssumption
                                                                   RequiresGroupApproval = x.RequiresGroupApproval,
                                                                   CanAffiliateEdit = x.CanAffiliateEdit,
                                                                   OrganizationUnitId = x.OrganizationUnitId,
-                                                                  //Status = x.s,
+                                                                  Status = x.Status,
                                                                   Id = x.Id
                                                               });
 

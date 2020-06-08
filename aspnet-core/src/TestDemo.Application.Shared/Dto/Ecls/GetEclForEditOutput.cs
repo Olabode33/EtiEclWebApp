@@ -16,5 +16,11 @@ namespace TestDemo.Dto.Ecls
         public List<PdInputAssumptionDto> PdInputAssumption { get; set; }
         public List<InvSecMacroEconomicAssumptionDto> PdInputAssumptionMacroeconomic { get; set; }
         public List<InvSecFitchCummulativeDefaultRateDto> PdInputFitchCummulativeDefaultRate { get; set; }
+        public List<AssumptionDto> FrameworkAssumption { get; set; }
+        public List<PdInputAssumptionMacroeconomicInputDto> PdInputAssumptionMacroeconomicInput { get; set; }
+        public List<PdInputAssumptionMacroeconomicProjectionDto> PdInputAssumptionMacroeconomicProjections { get; set; }
+        public List<PdInputAssumptionNonInternalModelDto> PdInputAssumptionNonInternalModels { get; set; }
+        public List<PdInputAssumptionNplIndexDto> PdInputAssumptionNplIndex { get; set; }
+        public List<PdInputSnPCummulativeDefaultRateDto> PdInputSnPCummulativeDefaultRate { get; set; }
     }
 }

@@ -142,7 +142,7 @@
                                     <i class="fa fa-upload"></i> {{"Upload" | localize}}
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right dropdown-excel-operations" *dropdownMenu>
-                                    <a href="javascript:;" class="no-padding">
+                                    <a [hidden]="_eclFramework == frameworkEnum.Investments" href="javascript:;" class="no-padding">
                                         <span class="fileinput-button">
                                             <p-fileUpload customUpload="true"
                                                     name="UploadLoanSnapshot"
@@ -156,7 +156,7 @@
                                             </p-fileUpload>
                                         </span>
                                     </a>
-                                    <a href="javascript:;" class="no-padding">
+                                    <a [hidden]="_eclFramework == frameworkEnum.Investments" href="javascript:;" class="no-padding">
                                         <span class="fileinput-button">
                                             <p-fileUpload customUpload="true"
                                                     name="UploadPaymentSchedule"
@@ -170,7 +170,7 @@
                                             </p-fileUpload>
                                         </span>
                                     </a>
-                                    <a href="javascript:;" class="no-padding">
+                                    <a [hidden]="_eclFramework != frameworkEnum.Investments" href="javascript:;" class="no-padding">
                                         <span class="fileinput-button">
                                             <p-fileUpload customUpload="true"
                                                     name="UploadAssetBook"
