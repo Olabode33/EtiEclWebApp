@@ -4,6 +4,8 @@ using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using TestDemo.ObeInputs.Dtos;
 using TestDemo.Dto;
+using TestDemo.Dto.Inputs;
+using System.Collections.Generic;
 
 namespace TestDemo.ObeInputs
 {
@@ -11,9 +13,11 @@ namespace TestDemo.ObeInputs
     {
         Task<PagedResultDto<GetObeEclUploadForViewDto>> GetAll(GetAllObeEclUploadsInput input);
 
+		Task<List<GetEclUploadForViewDto>> GetEclUploads(EntityDto<Guid> input);
+
 		Task<GetObeEclUploadForEditOutput> GetObeEclUploadForEdit(EntityDto<Guid> input);
 
-		Task CreateOrEdit(CreateOrEditObeEclUploadDto input);
+		Task<Guid> CreateOrEdit(CreateOrEditObeEclUploadDto input);
 
 		Task Delete(EntityDto<Guid> input);
 

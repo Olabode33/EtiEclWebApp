@@ -11,5 +11,6 @@ namespace TestDemo.Dto.Inputs
         public UploadDocTypeEnum DocType { get; set; }
         public GeneralStatusEnum Status { get; set; }
         public Guid EclId { get; set; }
+        public string UploadComment { get; set; }
     }
 }
