@@ -1,4 +1,4 @@
-import { EclApprovalAuditInfoDto, EclAuditInfoDto } from './../../../../../shared/service-proxies/service-proxies';
+import { EclApprovalAuditInfoDto, EclAuditInfoDto, ObeEclApprovalsServiceProxy, RetailEclApprovalsServiceProxy, WholesaleEclApprovalsServiceProxy } from './../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, Injector } from '@angular/core';
 import { InvestmentEclApprovalsServiceProxy, FrameworkEnum, EclStatusEnum, ViewEclResultSummaryDto, ViewEclResultDetailsDto, GeneralStatusEnum } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -27,7 +27,10 @@ export class EclAuditInfoComponent extends AppComponentBase {
 
     constructor(
         injector: Injector,
-        private _investmentEclApprovalServiceProxy: InvestmentEclApprovalsServiceProxy
+        private _investmentEclApprovalServiceProxy: InvestmentEclApprovalsServiceProxy,
+        private _obeEclApprovalServiceProxy: ObeEclApprovalsServiceProxy,
+        private _retailEclApprovalServiceProxy: RetailEclApprovalsServiceProxy,
+        private _wholesaleEclApprovalServiceProxy: WholesaleEclApprovalsServiceProxy
     ) {
         super(injector);
         this.auditInfo = new EclAuditInfoDto();
@@ -44,29 +47,27 @@ export class EclAuditInfoComponent extends AppComponentBase {
     }
 
     configureServiceProxy(): void {
-        //TODO: Update service proxy for the different portfolio
         switch (this._eclFramework) {
             case FrameworkEnum.Wholesale:
-                this._serviceProxy = this._investmentEclApprovalServiceProxy;
+                this._serviceProxy = this._wholesaleEclApprovalServiceProxy;
                 break;
             case FrameworkEnum.Retail:
-                this._serviceProxy = this._investmentEclApprovalServiceProxy;
+                this._serviceProxy = this._retailEclApprovalServiceProxy;
                 break;
             case FrameworkEnum.OBE:
-                this._serviceProxy = this._investmentEclApprovalServiceProxy;
+                this._serviceProxy = this._obeEclApprovalServiceProxy;
                 break;
             case FrameworkEnum.Investments:
                 this._serviceProxy = this._investmentEclApprovalServiceProxy;
                 break;
             default:
-                //throw Error('FrameworkDoesNotExistError');
-                this._serviceProxy = this._investmentEclApprovalServiceProxy;
+                throw Error('FrameworkDoesNotExistError');
                 break;
         }
     }
 
     getApprovalAuditInformation(): void {
-        this._investmentEclApprovalServiceProxy.getEclAudit(this._eclId).subscribe(result => {
+        this._serviceProxy.getEclAudit(this._eclId).subscribe(result => {
             this.auditInfo = result;
             this.approvalsAuditInfo = result.approvals;
         });
