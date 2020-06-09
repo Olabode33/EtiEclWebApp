@@ -43,7 +43,10 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
-
+        
+        public virtual DbSet<WholesaleEclOverrideApproval> WholesaleEclOverrideApprovals { get; set; }
+        public virtual DbSet<RetailEclOverrideApproval> RetailEclOverrideApprovals { get; set; }
+        public virtual DbSet<ObeEclOverrideApproval> ObeEclOverrideApprovals { get; set; }
 
         public virtual DbSet<RetailEclEadLifetimeProjection> RetailEclEadLifetimeProjections { get; set; }
         public virtual DbSet<RetailEclFrameworkFinal> RetailEclFrameworkFinals { get; set; }
