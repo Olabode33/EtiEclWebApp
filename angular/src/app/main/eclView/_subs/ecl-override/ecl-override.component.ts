@@ -1,5 +1,5 @@
 import { Component, OnInit, Injector, ViewChild } from '@angular/core';
-import { FrameworkEnum, InvestmentEclOverridesServiceProxy, GeneralStatusEnum } from '@shared/service-proxies/service-proxies';
+import { FrameworkEnum, InvestmentEclOverridesServiceProxy, GeneralStatusEnum, WholesaleEclOverridesServiceProxy, RetailEclOverridesServiceProxy, ObeEclOverridesServiceProxy } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { Table } from 'primeng/components/table/table';
 import { Paginator } from 'primeng/components/paginator/paginator';
@@ -13,7 +13,7 @@ import { ApplyOverrideModalComponent } from '../apply-override-modal/apply-overr
 })
 export class EclOverrideComponent extends AppComponentBase {
 
-    @ViewChild('applyOverrideModal', {static: true}) applyOverrideModal: ApplyOverrideModalComponent;
+    @ViewChild('applyOverrideModal', { static: true }) applyOverrideModal: ApplyOverrideModalComponent;
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
@@ -37,7 +37,10 @@ export class EclOverrideComponent extends AppComponentBase {
 
     constructor(
         injector: Injector,
-        private _investmentOverrideServiceProxy: InvestmentEclOverridesServiceProxy
+        private _investmentOverrideServiceProxy: InvestmentEclOverridesServiceProxy,
+        private _wholesaleOverrideServiceProxy: WholesaleEclOverridesServiceProxy,
+        private _retailOverrideServiceProxy: RetailEclOverridesServiceProxy,
+        private _obeOverrideServiceProxy: ObeEclOverridesServiceProxy
     ) {
         super(injector);
     }
@@ -56,7 +59,7 @@ export class EclOverrideComponent extends AppComponentBase {
         this.show = showOverride;
     }
 
-    disableApplyOverride(canApplyOverride: boolean):  void {
+    disableApplyOverride(canApplyOverride: boolean): void {
         this.canApplyOverride = canApplyOverride;
     }
 
@@ -65,9 +68,17 @@ export class EclOverrideComponent extends AppComponentBase {
             case FrameworkEnum.Investments:
                 this._serviceProxy = this._investmentOverrideServiceProxy;
                 break;
+            case FrameworkEnum.Retail:
+                this._serviceProxy = this._retailOverrideServiceProxy;
+                break;
+            case FrameworkEnum.Wholesale:
+                this._serviceProxy = this._wholesaleOverrideServiceProxy;
+                break;
+            case FrameworkEnum.OBE:
+                this._serviceProxy = this._obeOverrideServiceProxy;
+                break;
             default:
-                this._serviceProxy = this._investmentOverrideServiceProxy;
-                //throw Error('FrameworkDoesNotExistError');
+                throw Error('FrameworkDoesNotExistError');
                 break;
         }
     }

@@ -91,7 +91,7 @@ namespace TestDemo
             configuration.CreateMap<AffiliateMacroEconomicVariableOffsetDto, AffiliateMacroEconomicVariableOffset>().ReverseMap();
             configuration.CreateMap<CreateOrEditInvestmentEclOverrideApprovalDto, InvestmentEclOverrideApproval>().ReverseMap();
             configuration.CreateMap<InvestmentEclOverrideApprovalDto, InvestmentEclOverrideApproval>().ReverseMap();
-            configuration.CreateMap<CreateOrEditInvestmentEclOverrideDto, InvestmentEclOverride>().ReverseMap();
+            configuration.CreateMap<CreateOrEditEclOverrideDto, InvestmentEclOverride>().ReverseMap();
             configuration.CreateMap<InvestmentEclOverrideDto, InvestmentEclOverride>().ReverseMap();
             configuration.CreateMap<CreateOrEditInvestmentAssetBookDto, InvestmentAssetBook>().ReverseMap();
             configuration.CreateMap<InvestmentAssetBookDto, InvestmentAssetBook>().ReverseMap();

@@ -57,21 +57,21 @@
                             <th style="width: 130px"
                                 [hidden]="!isGrantedAny('Pages.InvestmentEclOverrides.Edit', 'Pages.InvestmentEclOverrides.Delete')">
                                 {{l('Actions')}}</th>
-                            <th style="width: 150px" pSortableColumn="investmentEclSicrAssetDescription">
-                                {{l('AssetDescription')}}
-                                <p-sortIcon field="investmentEclSicrAssetDescription"></p-sortIcon>
+                            <th style="width: 150px" pSortableColumn="contractId">
+                                {{ _eclFramework == frameworkEnum.Investments ?  l('AssetDescription') : l('ContractId')  }}
+                                <p-sortIcon field="contractId"></p-sortIcon>
                             </th>
                             <th style="width: 150px" pSortableColumn="stageOverride">
                                 {{l('StageOverride')}}
-                                <p-sortIcon field="investmentEclOverride.stageOverride"></p-sortIcon>
+                                <p-sortIcon field="eclOverride.stageOverride"></p-sortIcon>
                             </th>
                             <th style="width: 150px" pSortableColumn="stageOverride">
                                 {{l('ImpairmentOverride')}}
-                                <p-sortIcon field="investmentEclOverride.impairmentOverride"></p-sortIcon>
+                                <p-sortIcon field="eclOverride.impairmentOverride"></p-sortIcon>
                             </th>
                             <th style="width: 150px" pSortableColumn="status">
                                 {{l('Status')}}
-                                <p-sortIcon field="investmentEclOverride.status"></p-sortIcon>
+                                <p-sortIcon field="eclOverride.status"></p-sortIcon>
                             </th>
         
                         </tr>
@@ -81,28 +81,28 @@
                             <td style="width: 130px"
                                 [hidden]="!isGrantedAny('Pages.InvestmentEclOverrides.Edit', 'Pages.InvestmentEclOverrides.Delete')">
                                 <button type="button" class="btn btn-primary" 
-                                        (click)="reviewOverride(record.investmentEclOverride.investmentEclSicrId)">
+                                        (click)="reviewOverride(record.eclOverride.recordId)">
                                     <i class="fa fa-eye"></i> 
                                     {{l('Review')}}
                                 </button>
                             </td>
                             <td style="width:150px">
                                 <span class="ui-column-title"> {{l('AssetDescription')}}</span>
-                                {{record.investmentEclSicrAssetDescription}}
+                                {{record.contractId}}
                             </td>
                             <td style="width:150px">
                                 <span class="ui-column-title"> {{l('StageOverride')}}</span>
-                                {{record.investmentEclOverride.stageOverride}}
+                                {{record.eclOverride.stageOverride}}
                             </td>
                             <td style="width:150px">
                                 <span class="ui-column-title"> {{l('Impairment')}}</span>
-                                {{record.investmentEclOverride.impairmentOverride | number:'1.2-2'}}
+                                {{record.eclOverride.impairmentOverride | number:'1.2-2'}}
                             </td>
                             <td style="width:150px">
                                 <span class="ui-column-title"> {{l('Status')}}</span>
                                 <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline 
-                                                kt-badge--unified-{{ getStatusLabelClass(record.investmentEclOverride.status) }}">
-                                                {{l( generalStatusEnum[record.investmentEclOverride.status])}}
+                                                kt-badge--unified-{{ getStatusLabelClass(record.eclOverride.status) }}">
+                                                {{l( generalStatusEnum[record.eclOverride.status])}}
                                 </span>
                             </td>
         

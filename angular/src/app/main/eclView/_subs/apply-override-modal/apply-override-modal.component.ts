@@ -2,7 +2,7 @@ import { GetRecordForOverrideInputDto, ReviewEclOverrideInputDto, InvestmentEclO
 import { Component, OnInit, ViewEncapsulation, ViewChild, Output, EventEmitter, Injector } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ModalDirective } from 'ngx-bootstrap';
-import { GeneralStatusEnum, CreateOrEditInvestmentEclOverrideDto, NameValueDto, InvestmentEclOverridesServiceProxy } from '@shared/service-proxies/service-proxies';
+import { GeneralStatusEnum, NameValueDto, InvestmentEclOverridesServiceProxy } from '@shared/service-proxies/service-proxies';
 import * as _ from 'lodash';
 import { ApprovalModalComponent } from '@app/main/eclShared/approve-ecl-modal/approve-ecl-modal.component';
 
@@ -129,7 +129,7 @@ export class ApplyOverrideModalComponent extends AppComponentBase {
     getRecordDetails(selectedAccountId?: string): void {
         //console.log(this.selectedAccount);
         if (!selectedAccountId) {
-            this._invSecOverrideServiceProxy.getEclRecordDetails(this.selectedAccount.value).subscribe(result => {
+            this.serviceProxy.getEclRecordDetails(this.selectedAccount.value).subscribe(result => {
                 this.dataSource = result;
                 this.eclOverride = result.eclOverrides;
                 if (this.eclOverrideHasProp('id') && this.eclOverride.id) {
@@ -137,7 +137,7 @@ export class ApplyOverrideModalComponent extends AppComponentBase {
                 }
             });
         } else {
-            this._invSecOverrideServiceProxy.getEclRecordDetails(selectedAccountId).subscribe(result => {
+            this.serviceProxy.getEclRecordDetails(selectedAccountId).subscribe(result => {
                 this.dataSource = result;
                 this.eclOverride = result.eclOverrides;
                 if (this.eclOverrideHasProp('id')) {

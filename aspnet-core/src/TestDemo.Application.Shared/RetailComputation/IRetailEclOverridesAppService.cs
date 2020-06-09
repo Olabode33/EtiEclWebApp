@@ -4,21 +4,19 @@ using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using TestDemo.RetailComputation.Dtos;
 using TestDemo.Dto;
+using TestDemo.InvestmentComputation.Dtos;
+using TestDemo.Dto.Overrides;
 
 namespace TestDemo.RetailComputation
 {
     public interface IRetailEclOverridesAppService : IApplicationService 
     {
-        Task<PagedResultDto<GetRetailEclOverrideForViewDto>> GetAll(GetAllRetailEclOverridesInput input);
+        Task<PagedResultDto<GetEclOverrideForViewDto>> GetAll(GetAllEclOverrideInput input);
 
 		Task<GetRetailEclOverrideForEditOutput> GetRetailEclOverrideForEdit(EntityDto<Guid> input);
 
-		Task CreateOrEdit(CreateOrEditRetailEclOverrideDto input);
+		Task CreateOrEdit(CreateOrEditEclOverrideDto input);
 
 		Task Delete(EntityDto<Guid> input);
-
-		
-		Task<PagedResultDto<RetailEclOverrideRetailEclDataLoanBookLookupTableDto>> GetAllRetailEclDataLoanBookForLookupTable(GetAllForLookupTableInput input);
-		
     }
 }

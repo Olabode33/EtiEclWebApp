@@ -6,7 +6,7 @@ namespace TestDemo.InvestmentComputation.Dtos
 {
     public class GetInvestmentEclOverrideForEditOutput
     {
-		public CreateOrEditInvestmentEclOverrideDto InvestmentEclOverride { get; set; }
+		public CreateOrEditEclOverrideDto InvestmentEclOverride { get; set; }
 
 		public string InvestmentEclSicrAssetDescription { get; set;}
 

@@ -8717,13 +8717,13 @@ export class InvestmentEclOverridesServiceProxy {
      * @param eclId (optional) 
      * @param filter (optional) 
      * @param statusFilter (optional) 
-     * @param investmentEclSicrAssetDescriptionFilter (optional) 
+     * @param contractIdFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(eclId: string | null | undefined, filter: string | null | undefined, statusFilter: number | null | undefined, investmentEclSicrAssetDescriptionFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetInvestmentEclOverrideForViewDto> {
+    getAll(eclId: string | null | undefined, filter: string | null | undefined, statusFilter: number | null | undefined, contractIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetEclOverrideForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/InvestmentEclOverrides/GetAll?";
         if (eclId !== undefined)
             url_ += "EclId=" + encodeURIComponent("" + eclId) + "&"; 
@@ -8731,8 +8731,8 @@ export class InvestmentEclOverridesServiceProxy {
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
         if (statusFilter !== undefined)
             url_ += "StatusFilter=" + encodeURIComponent("" + statusFilter) + "&"; 
-        if (investmentEclSicrAssetDescriptionFilter !== undefined)
-            url_ += "InvestmentEclSicrAssetDescriptionFilter=" + encodeURIComponent("" + investmentEclSicrAssetDescriptionFilter) + "&"; 
+        if (contractIdFilter !== undefined)
+            url_ += "ContractIdFilter=" + encodeURIComponent("" + contractIdFilter) + "&"; 
         if (sorting !== undefined)
             url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (skipCount !== undefined)
@@ -8756,14 +8756,14 @@ export class InvestmentEclOverridesServiceProxy {
                 try {
                     return this.processGetAll(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfGetInvestmentEclOverrideForViewDto>><any>_observableThrow(e);
+                    return <Observable<PagedResultDtoOfGetEclOverrideForViewDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfGetInvestmentEclOverrideForViewDto>><any>_observableThrow(response_);
+                return <Observable<PagedResultDtoOfGetEclOverrideForViewDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetInvestmentEclOverrideForViewDto> {
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetEclOverrideForViewDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -8774,7 +8774,7 @@ export class InvestmentEclOverridesServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfGetInvestmentEclOverrideForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetInvestmentEclOverrideForViewDto();
+            result200 = resultData200 ? PagedResultDtoOfGetEclOverrideForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetEclOverrideForViewDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -8782,7 +8782,7 @@ export class InvestmentEclOverridesServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfGetInvestmentEclOverrideForViewDto>(<any>null);
+        return _observableOf<PagedResultDtoOfGetEclOverrideForViewDto>(<any>null);
     }
 
     /**
@@ -8957,7 +8957,7 @@ export class InvestmentEclOverridesServiceProxy {
      * @param input (optional) 
      * @return Success
      */
-    createOrEdit(input: CreateOrEditInvestmentEclOverrideDto | null | undefined): Observable<void> {
+    createOrEdit(input: CreateOrEditEclOverrideDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/InvestmentEclOverrides/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -15949,19 +15949,25 @@ export class ObeEclOverridesServiceProxy {
     }
 
     /**
+     * @param eclId (optional) 
      * @param filter (optional) 
-     * @param obeEclDataLoanBookCustomerNameFilter (optional) 
+     * @param statusFilter (optional) 
+     * @param contractIdFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | null | undefined, obeEclDataLoanBookCustomerNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetObeEclOverrideForViewDto> {
+    getAll(eclId: string | null | undefined, filter: string | null | undefined, statusFilter: number | null | undefined, contractIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetEclOverrideForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/ObeEclOverrides/GetAll?";
+        if (eclId !== undefined)
+            url_ += "EclId=" + encodeURIComponent("" + eclId) + "&"; 
         if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (obeEclDataLoanBookCustomerNameFilter !== undefined)
-            url_ += "ObeEclDataLoanBookCustomerNameFilter=" + encodeURIComponent("" + obeEclDataLoanBookCustomerNameFilter) + "&"; 
+        if (statusFilter !== undefined)
+            url_ += "StatusFilter=" + encodeURIComponent("" + statusFilter) + "&"; 
+        if (contractIdFilter !== undefined)
+            url_ += "ContractIdFilter=" + encodeURIComponent("" + contractIdFilter) + "&"; 
         if (sorting !== undefined)
             url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (skipCount !== undefined)
@@ -15985,14 +15991,14 @@ export class ObeEclOverridesServiceProxy {
                 try {
                     return this.processGetAll(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfGetObeEclOverrideForViewDto>><any>_observableThrow(e);
+                    return <Observable<PagedResultDtoOfGetEclOverrideForViewDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfGetObeEclOverrideForViewDto>><any>_observableThrow(response_);
+                return <Observable<PagedResultDtoOfGetEclOverrideForViewDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetObeEclOverrideForViewDto> {
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetEclOverrideForViewDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -16003,7 +16009,7 @@ export class ObeEclOverridesServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfGetObeEclOverrideForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetObeEclOverrideForViewDto();
+            result200 = resultData200 ? PagedResultDtoOfGetEclOverrideForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetEclOverrideForViewDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -16011,7 +16017,121 @@ export class ObeEclOverridesServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfGetObeEclOverrideForViewDto>(<any>null);
+        return _observableOf<PagedResultDtoOfGetEclOverrideForViewDto>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    searchResult(input: GetRecordForOverrideInputDto | null | undefined): Observable<NameValueDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclOverrides/SearchResult";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSearchResult(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSearchResult(<any>response_);
+                } catch (e) {
+                    return <Observable<NameValueDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<NameValueDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSearchResult(response: HttpResponseBase): Observable<NameValueDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(NameValueDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<NameValueDto[]>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getEclRecordDetails(id: string | null | undefined): Observable<GetPreResultForOverrideOutput> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclOverrides/GetEclRecordDetails?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetEclRecordDetails(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetEclRecordDetails(<any>response_);
+                } catch (e) {
+                    return <Observable<GetPreResultForOverrideOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetPreResultForOverrideOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetEclRecordDetails(response: HttpResponseBase): Observable<GetPreResultForOverrideOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetPreResultForOverrideOutput.fromJS(resultData200) : new GetPreResultForOverrideOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetPreResultForOverrideOutput>(<any>null);
     }
 
     /**
@@ -16072,7 +16192,7 @@ export class ObeEclOverridesServiceProxy {
      * @param input (optional) 
      * @return Success
      */
-    createOrEdit(input: CreateOrEditObeEclOverrideDto | null | undefined): Observable<void> {
+    createOrEdit(input: CreateOrEditEclOverrideDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/ObeEclOverrides/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -16171,47 +16291,39 @@ export class ObeEclOverridesServiceProxy {
     }
 
     /**
-     * @param filter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
+     * @param input (optional) 
      * @return Success
      */
-    getAllObeEclDataLoanBookForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfObeEclOverrideObeEclDataLoanBookLookupTableDto> {
-        let url_ = this.baseUrl + "/api/services/app/ObeEclOverrides/GetAllObeEclDataLoanBookForLookupTable?";
-        if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+    approveReject(input: ReviewEclOverrideInputDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclOverrides/ApproveReject";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(input);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Content-Type": "application/json", 
             })
         };
 
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllObeEclDataLoanBookForLookupTable(response_);
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processApproveReject(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAllObeEclDataLoanBookForLookupTable(<any>response_);
+                    return this.processApproveReject(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfObeEclOverrideObeEclDataLoanBookLookupTableDto>><any>_observableThrow(e);
+                    return <Observable<void>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfObeEclOverrideObeEclDataLoanBookLookupTableDto>><any>_observableThrow(response_);
+                return <Observable<void>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAllObeEclDataLoanBookForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfObeEclOverrideObeEclDataLoanBookLookupTableDto> {
+    protected processApproveReject(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -16220,17 +16332,14 @@ export class ObeEclOverridesServiceProxy {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfObeEclOverrideObeEclDataLoanBookLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfObeEclOverrideObeEclDataLoanBookLookupTableDto();
-            return _observableOf(result200);
+            return _observableOf<void>(<any>null);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfObeEclOverrideObeEclDataLoanBookLookupTableDto>(<any>null);
+        return _observableOf<void>(<any>null);
     }
 }
 
@@ -21434,6 +21543,64 @@ export class ObeEclUploadsServiceProxy {
      * @param id (optional) 
      * @return Success
      */
+    getEclUploads(id: string | null | undefined): Observable<GetEclUploadForViewDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/ObeEclUploads/GetEclUploads?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetEclUploads(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetEclUploads(<any>response_);
+                } catch (e) {
+                    return <Observable<GetEclUploadForViewDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetEclUploadForViewDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetEclUploads(response: HttpResponseBase): Observable<GetEclUploadForViewDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(GetEclUploadForViewDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetEclUploadForViewDto[]>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
     getObeEclUploadForEdit(id: string | null | undefined): Observable<GetObeEclUploadForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/ObeEclUploads/GetObeEclUploadForEdit?";
         if (id !== undefined)
@@ -21488,7 +21655,7 @@ export class ObeEclUploadsServiceProxy {
      * @param input (optional) 
      * @return Success
      */
-    createOrEdit(input: CreateOrEditObeEclUploadDto | null | undefined): Observable<void> {
+    createOrEdit(input: CreateOrEditObeEclUploadDto | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/ObeEclUploads/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -21500,6 +21667,7 @@ export class ObeEclUploadsServiceProxy {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json", 
+                "Accept": "application/json"
             })
         };
 
@@ -21510,14 +21678,14 @@ export class ObeEclUploadsServiceProxy {
                 try {
                     return this.processCreateOrEdit(<any>response_);
                 } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
+                    return <Observable<string>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<void>><any>_observableThrow(response_);
+                return <Observable<string>><any>_observableThrow(response_);
         }));
     }
 
-    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<string> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -21526,14 +21694,17 @@ export class ObeEclUploadsServiceProxy {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<void>(<any>null);
+        return _observableOf<string>(<any>null);
     }
 
     /**
@@ -28185,19 +28356,25 @@ export class RetailEclOverridesServiceProxy {
     }
 
     /**
+     * @param eclId (optional) 
      * @param filter (optional) 
-     * @param retailEclDataLoanBookCustomerNameFilter (optional) 
+     * @param statusFilter (optional) 
+     * @param contractIdFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | null | undefined, retailEclDataLoanBookCustomerNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetRetailEclOverrideForViewDto> {
+    getAll(eclId: string | null | undefined, filter: string | null | undefined, statusFilter: number | null | undefined, contractIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetEclOverrideForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/RetailEclOverrides/GetAll?";
+        if (eclId !== undefined)
+            url_ += "EclId=" + encodeURIComponent("" + eclId) + "&"; 
         if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (retailEclDataLoanBookCustomerNameFilter !== undefined)
-            url_ += "RetailEclDataLoanBookCustomerNameFilter=" + encodeURIComponent("" + retailEclDataLoanBookCustomerNameFilter) + "&"; 
+        if (statusFilter !== undefined)
+            url_ += "StatusFilter=" + encodeURIComponent("" + statusFilter) + "&"; 
+        if (contractIdFilter !== undefined)
+            url_ += "ContractIdFilter=" + encodeURIComponent("" + contractIdFilter) + "&"; 
         if (sorting !== undefined)
             url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (skipCount !== undefined)
@@ -28221,14 +28398,14 @@ export class RetailEclOverridesServiceProxy {
                 try {
                     return this.processGetAll(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfGetRetailEclOverrideForViewDto>><any>_observableThrow(e);
+                    return <Observable<PagedResultDtoOfGetEclOverrideForViewDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfGetRetailEclOverrideForViewDto>><any>_observableThrow(response_);
+                return <Observable<PagedResultDtoOfGetEclOverrideForViewDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetRetailEclOverrideForViewDto> {
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetEclOverrideForViewDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -28239,7 +28416,7 @@ export class RetailEclOverridesServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfGetRetailEclOverrideForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetRetailEclOverrideForViewDto();
+            result200 = resultData200 ? PagedResultDtoOfGetEclOverrideForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetEclOverrideForViewDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -28247,7 +28424,121 @@ export class RetailEclOverridesServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfGetRetailEclOverrideForViewDto>(<any>null);
+        return _observableOf<PagedResultDtoOfGetEclOverrideForViewDto>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    searchResult(input: GetRecordForOverrideInputDto | null | undefined): Observable<NameValueDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclOverrides/SearchResult";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSearchResult(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSearchResult(<any>response_);
+                } catch (e) {
+                    return <Observable<NameValueDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<NameValueDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSearchResult(response: HttpResponseBase): Observable<NameValueDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(NameValueDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<NameValueDto[]>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getEclRecordDetails(id: string | null | undefined): Observable<GetPreResultForOverrideOutput> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclOverrides/GetEclRecordDetails?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetEclRecordDetails(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetEclRecordDetails(<any>response_);
+                } catch (e) {
+                    return <Observable<GetPreResultForOverrideOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetPreResultForOverrideOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetEclRecordDetails(response: HttpResponseBase): Observable<GetPreResultForOverrideOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetPreResultForOverrideOutput.fromJS(resultData200) : new GetPreResultForOverrideOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetPreResultForOverrideOutput>(<any>null);
     }
 
     /**
@@ -28308,7 +28599,7 @@ export class RetailEclOverridesServiceProxy {
      * @param input (optional) 
      * @return Success
      */
-    createOrEdit(input: CreateOrEditRetailEclOverrideDto | null | undefined): Observable<void> {
+    createOrEdit(input: CreateOrEditEclOverrideDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/RetailEclOverrides/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -28407,47 +28698,39 @@ export class RetailEclOverridesServiceProxy {
     }
 
     /**
-     * @param filter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
+     * @param input (optional) 
      * @return Success
      */
-    getAllRetailEclDataLoanBookForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfRetailEclOverrideRetailEclDataLoanBookLookupTableDto> {
-        let url_ = this.baseUrl + "/api/services/app/RetailEclOverrides/GetAllRetailEclDataLoanBookForLookupTable?";
-        if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+    approveReject(input: ReviewEclOverrideInputDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RetailEclOverrides/ApproveReject";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(input);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Content-Type": "application/json", 
             })
         };
 
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllRetailEclDataLoanBookForLookupTable(response_);
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processApproveReject(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAllRetailEclDataLoanBookForLookupTable(<any>response_);
+                    return this.processApproveReject(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfRetailEclOverrideRetailEclDataLoanBookLookupTableDto>><any>_observableThrow(e);
+                    return <Observable<void>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfRetailEclOverrideRetailEclDataLoanBookLookupTableDto>><any>_observableThrow(response_);
+                return <Observable<void>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAllRetailEclDataLoanBookForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfRetailEclOverrideRetailEclDataLoanBookLookupTableDto> {
+    protected processApproveReject(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -28456,17 +28739,14 @@ export class RetailEclOverridesServiceProxy {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfRetailEclOverrideRetailEclDataLoanBookLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfRetailEclOverrideRetailEclDataLoanBookLookupTableDto();
-            return _observableOf(result200);
+            return _observableOf<void>(<any>null);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfRetailEclOverrideRetailEclDataLoanBookLookupTableDto>(<any>null);
+        return _observableOf<void>(<any>null);
     }
 }
 
@@ -33670,7 +33950,7 @@ export class RetailEclUploadsServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getEclUploads(id: string | null | undefined): Observable<GetRetailEclUploadForViewDto[]> {
+    getEclUploads(id: string | null | undefined): Observable<GetEclUploadForViewDto[]> {
         let url_ = this.baseUrl + "/api/services/app/RetailEclUploads/GetEclUploads?";
         if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
@@ -33691,14 +33971,14 @@ export class RetailEclUploadsServiceProxy {
                 try {
                     return this.processGetEclUploads(<any>response_);
                 } catch (e) {
-                    return <Observable<GetRetailEclUploadForViewDto[]>><any>_observableThrow(e);
+                    return <Observable<GetEclUploadForViewDto[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<GetRetailEclUploadForViewDto[]>><any>_observableThrow(response_);
+                return <Observable<GetEclUploadForViewDto[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetEclUploads(response: HttpResponseBase): Observable<GetRetailEclUploadForViewDto[]> {
+    protected processGetEclUploads(response: HttpResponseBase): Observable<GetEclUploadForViewDto[]> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -33712,7 +33992,7 @@ export class RetailEclUploadsServiceProxy {
             if (resultData200 && resultData200.constructor === Array) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(GetRetailEclUploadForViewDto.fromJS(item));
+                    result200!.push(GetEclUploadForViewDto.fromJS(item));
             }
             return _observableOf(result200);
             }));
@@ -33721,7 +34001,7 @@ export class RetailEclUploadsServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<GetRetailEclUploadForViewDto[]>(<any>null);
+        return _observableOf<GetEclUploadForViewDto[]>(<any>null);
     }
 
     /**
@@ -40268,19 +40548,25 @@ export class WholesaleEclOverridesServiceProxy {
     }
 
     /**
+     * @param eclId (optional) 
      * @param filter (optional) 
-     * @param wholesaleEclDataLoanBookCustomerNameFilter (optional) 
+     * @param statusFilter (optional) 
+     * @param contractIdFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | null | undefined, wholesaleEclDataLoanBookCustomerNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetWholesaleEclOverrideForViewDto> {
+    getAll(eclId: string | null | undefined, filter: string | null | undefined, statusFilter: number | null | undefined, contractIdFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetEclOverrideForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/WholesaleEclOverrides/GetAll?";
+        if (eclId !== undefined)
+            url_ += "EclId=" + encodeURIComponent("" + eclId) + "&"; 
         if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (wholesaleEclDataLoanBookCustomerNameFilter !== undefined)
-            url_ += "WholesaleEclDataLoanBookCustomerNameFilter=" + encodeURIComponent("" + wholesaleEclDataLoanBookCustomerNameFilter) + "&"; 
+        if (statusFilter !== undefined)
+            url_ += "StatusFilter=" + encodeURIComponent("" + statusFilter) + "&"; 
+        if (contractIdFilter !== undefined)
+            url_ += "ContractIdFilter=" + encodeURIComponent("" + contractIdFilter) + "&"; 
         if (sorting !== undefined)
             url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (skipCount !== undefined)
@@ -40304,14 +40590,14 @@ export class WholesaleEclOverridesServiceProxy {
                 try {
                     return this.processGetAll(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfGetWholesaleEclOverrideForViewDto>><any>_observableThrow(e);
+                    return <Observable<PagedResultDtoOfGetEclOverrideForViewDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfGetWholesaleEclOverrideForViewDto>><any>_observableThrow(response_);
+                return <Observable<PagedResultDtoOfGetEclOverrideForViewDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWholesaleEclOverrideForViewDto> {
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetEclOverrideForViewDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -40322,7 +40608,7 @@ export class WholesaleEclOverridesServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfGetWholesaleEclOverrideForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetWholesaleEclOverrideForViewDto();
+            result200 = resultData200 ? PagedResultDtoOfGetEclOverrideForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetEclOverrideForViewDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -40330,7 +40616,7 @@ export class WholesaleEclOverridesServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfGetWholesaleEclOverrideForViewDto>(<any>null);
+        return _observableOf<PagedResultDtoOfGetEclOverrideForViewDto>(<any>null);
     }
 
     /**
@@ -40391,7 +40677,121 @@ export class WholesaleEclOverridesServiceProxy {
      * @param input (optional) 
      * @return Success
      */
-    createOrEdit(input: CreateOrEditWholesaleEclOverrideDto | null | undefined): Observable<void> {
+    searchResult(input: GetRecordForOverrideInputDto | null | undefined): Observable<NameValueDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclOverrides/SearchResult";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSearchResult(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSearchResult(<any>response_);
+                } catch (e) {
+                    return <Observable<NameValueDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<NameValueDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSearchResult(response: HttpResponseBase): Observable<NameValueDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(NameValueDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<NameValueDto[]>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getEclRecordDetails(id: string | null | undefined): Observable<GetPreResultForOverrideOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclOverrides/GetEclRecordDetails?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetEclRecordDetails(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetEclRecordDetails(<any>response_);
+                } catch (e) {
+                    return <Observable<GetPreResultForOverrideOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetPreResultForOverrideOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetEclRecordDetails(response: HttpResponseBase): Observable<GetPreResultForOverrideOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetPreResultForOverrideOutput.fromJS(resultData200) : new GetPreResultForOverrideOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetPreResultForOverrideOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditEclOverrideDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/WholesaleEclOverrides/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -40490,47 +40890,39 @@ export class WholesaleEclOverridesServiceProxy {
     }
 
     /**
-     * @param filter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
+     * @param input (optional) 
      * @return Success
      */
-    getAllWholesaleEclDataLoanBookForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfWholesaleEclOverrideWholesaleEclDataLoanBookLookupTableDto> {
-        let url_ = this.baseUrl + "/api/services/app/WholesaleEclOverrides/GetAllWholesaleEclDataLoanBookForLookupTable?";
-        if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+    approveReject(input: ReviewEclOverrideInputDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclOverrides/ApproveReject";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(input);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Content-Type": "application/json", 
             })
         };
 
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllWholesaleEclDataLoanBookForLookupTable(response_);
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processApproveReject(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAllWholesaleEclDataLoanBookForLookupTable(<any>response_);
+                    return this.processApproveReject(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfWholesaleEclOverrideWholesaleEclDataLoanBookLookupTableDto>><any>_observableThrow(e);
+                    return <Observable<void>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfWholesaleEclOverrideWholesaleEclDataLoanBookLookupTableDto>><any>_observableThrow(response_);
+                return <Observable<void>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAllWholesaleEclDataLoanBookForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWholesaleEclOverrideWholesaleEclDataLoanBookLookupTableDto> {
+    protected processApproveReject(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -40539,17 +40931,14 @@ export class WholesaleEclOverridesServiceProxy {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfWholesaleEclOverrideWholesaleEclDataLoanBookLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfWholesaleEclOverrideWholesaleEclDataLoanBookLookupTableDto();
-            return _observableOf(result200);
+            return _observableOf<void>(<any>null);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfWholesaleEclOverrideWholesaleEclDataLoanBookLookupTableDto>(<any>null);
+        return _observableOf<void>(<any>null);
     }
 }
 
@@ -45731,6 +46120,64 @@ export class WholesaleEclUploadsServiceProxy {
      * @param id (optional) 
      * @return Success
      */
+    getEclUploads(id: string | null | undefined): Observable<GetEclUploadForViewDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/WholesaleEclUploads/GetEclUploads?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetEclUploads(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetEclUploads(<any>response_);
+                } catch (e) {
+                    return <Observable<GetEclUploadForViewDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetEclUploadForViewDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetEclUploads(response: HttpResponseBase): Observable<GetEclUploadForViewDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(GetEclUploadForViewDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetEclUploadForViewDto[]>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
     getWholesaleEclUploadForEdit(id: string | null | undefined): Observable<GetWholesaleEclUploadForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/WholesaleEclUploads/GetWholesaleEclUploadForEdit?";
         if (id !== undefined)
@@ -45785,7 +46232,7 @@ export class WholesaleEclUploadsServiceProxy {
      * @param input (optional) 
      * @return Success
      */
-    createOrEdit(input: CreateOrEditWholesaleEclUploadDto | null | undefined): Observable<void> {
+    createOrEdit(input: CreateOrEditWholesaleEclUploadDto | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/WholesaleEclUploads/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -45797,6 +46244,7 @@ export class WholesaleEclUploadsServiceProxy {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json", 
+                "Accept": "application/json"
             })
         };
 
@@ -45807,14 +46255,14 @@ export class WholesaleEclUploadsServiceProxy {
                 try {
                     return this.processCreateOrEdit(<any>response_);
                 } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
+                    return <Observable<string>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<void>><any>_observableThrow(response_);
+                return <Observable<string>><any>_observableThrow(response_);
         }));
     }
 
-    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<string> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -45823,14 +46271,17 @@ export class WholesaleEclUploadsServiceProxy {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<void>(<any>null);
+        return _observableOf<string>(<any>null);
     }
 
     /**
@@ -55618,11 +56069,11 @@ export interface IInvestmentEclOverrideApprovalInvestmentEclOverrideLookupTableD
     displayName: string | undefined;
 }
 
-export class PagedResultDtoOfGetInvestmentEclOverrideForViewDto implements IPagedResultDtoOfGetInvestmentEclOverrideForViewDto {
+export class PagedResultDtoOfGetEclOverrideForViewDto implements IPagedResultDtoOfGetEclOverrideForViewDto {
     totalCount!: number | undefined;
-    items!: GetInvestmentEclOverrideForViewDto[] | undefined;
+    items!: GetEclOverrideForViewDto[] | undefined;
 
-    constructor(data?: IPagedResultDtoOfGetInvestmentEclOverrideForViewDto) {
+    constructor(data?: IPagedResultDtoOfGetEclOverrideForViewDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -55637,14 +56088,14 @@ export class PagedResultDtoOfGetInvestmentEclOverrideForViewDto implements IPage
             if (data["items"] && data["items"].constructor === Array) {
                 this.items = [] as any;
                 for (let item of data["items"])
-                    this.items!.push(GetInvestmentEclOverrideForViewDto.fromJS(item));
+                    this.items!.push(GetEclOverrideForViewDto.fromJS(item));
             }
         }
     }
 
-    static fromJS(data: any): PagedResultDtoOfGetInvestmentEclOverrideForViewDto {
+    static fromJS(data: any): PagedResultDtoOfGetEclOverrideForViewDto {
         data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfGetInvestmentEclOverrideForViewDto();
+        let result = new PagedResultDtoOfGetEclOverrideForViewDto();
         result.init(data);
         return result;
     }
@@ -55661,16 +56112,18 @@ export class PagedResultDtoOfGetInvestmentEclOverrideForViewDto implements IPage
     }
 }
 
-export interface IPagedResultDtoOfGetInvestmentEclOverrideForViewDto {
+export interface IPagedResultDtoOfGetEclOverrideForViewDto {
     totalCount: number | undefined;
-    items: GetInvestmentEclOverrideForViewDto[] | undefined;
+    items: GetEclOverrideForViewDto[] | undefined;
 }
 
-export class GetInvestmentEclOverrideForViewDto implements IGetInvestmentEclOverrideForViewDto {
-    investmentEclOverride!: InvestmentEclOverrideDto | undefined;
-    investmentEclSicrAssetDescription!: string | undefined;
+export class GetEclOverrideForViewDto implements IGetEclOverrideForViewDto {
+    eclOverride!: EclOverrideDto | undefined;
+    contractId!: string | undefined;
+    customerName!: string | undefined;
+    accountNumber!: string | undefined;
 
-    constructor(data?: IGetInvestmentEclOverrideForViewDto) {
+    constructor(data?: IGetEclOverrideForViewDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -55681,41 +56134,47 @@ export class GetInvestmentEclOverrideForViewDto implements IGetInvestmentEclOver
 
     init(data?: any) {
         if (data) {
-            this.investmentEclOverride = data["investmentEclOverride"] ? InvestmentEclOverrideDto.fromJS(data["investmentEclOverride"]) : <any>undefined;
-            this.investmentEclSicrAssetDescription = data["investmentEclSicrAssetDescription"];
+            this.eclOverride = data["eclOverride"] ? EclOverrideDto.fromJS(data["eclOverride"]) : <any>undefined;
+            this.contractId = data["contractId"];
+            this.customerName = data["customerName"];
+            this.accountNumber = data["accountNumber"];
         }
     }
 
-    static fromJS(data: any): GetInvestmentEclOverrideForViewDto {
+    static fromJS(data: any): GetEclOverrideForViewDto {
         data = typeof data === 'object' ? data : {};
-        let result = new GetInvestmentEclOverrideForViewDto();
+        let result = new GetEclOverrideForViewDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["investmentEclOverride"] = this.investmentEclOverride ? this.investmentEclOverride.toJSON() : <any>undefined;
-        data["investmentEclSicrAssetDescription"] = this.investmentEclSicrAssetDescription;
+        data["eclOverride"] = this.eclOverride ? this.eclOverride.toJSON() : <any>undefined;
+        data["contractId"] = this.contractId;
+        data["customerName"] = this.customerName;
+        data["accountNumber"] = this.accountNumber;
         return data; 
     }
 }
 
-export interface IGetInvestmentEclOverrideForViewDto {
-    investmentEclOverride: InvestmentEclOverrideDto | undefined;
-    investmentEclSicrAssetDescription: string | undefined;
+export interface IGetEclOverrideForViewDto {
+    eclOverride: EclOverrideDto | undefined;
+    contractId: string | undefined;
+    customerName: string | undefined;
+    accountNumber: string | undefined;
 }
 
-export class InvestmentEclOverrideDto implements IInvestmentEclOverrideDto {
+export class EclOverrideDto implements IEclOverrideDto {
     stageOverride!: number | undefined;
     impairmentOverride!: number | undefined;
     overrideComment!: string | undefined;
     status!: GeneralStatusEnum | undefined;
     eclId!: string | undefined;
-    investmentEclSicrId!: string | undefined;
+    recordId!: string | undefined;
     id!: string | undefined;
 
-    constructor(data?: IInvestmentEclOverrideDto) {
+    constructor(data?: IEclOverrideDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -55731,14 +56190,14 @@ export class InvestmentEclOverrideDto implements IInvestmentEclOverrideDto {
             this.overrideComment = data["overrideComment"];
             this.status = data["status"];
             this.eclId = data["eclId"];
-            this.investmentEclSicrId = data["investmentEclSicrId"];
+            this.recordId = data["recordId"];
             this.id = data["id"];
         }
     }
 
-    static fromJS(data: any): InvestmentEclOverrideDto {
+    static fromJS(data: any): EclOverrideDto {
         data = typeof data === 'object' ? data : {};
-        let result = new InvestmentEclOverrideDto();
+        let result = new EclOverrideDto();
         result.init(data);
         return result;
     }
@@ -55750,19 +56209,19 @@ export class InvestmentEclOverrideDto implements IInvestmentEclOverrideDto {
         data["overrideComment"] = this.overrideComment;
         data["status"] = this.status;
         data["eclId"] = this.eclId;
-        data["investmentEclSicrId"] = this.investmentEclSicrId;
+        data["recordId"] = this.recordId;
         data["id"] = this.id;
         return data; 
     }
 }
 
-export interface IInvestmentEclOverrideDto {
+export interface IEclOverrideDto {
     stageOverride: number | undefined;
     impairmentOverride: number | undefined;
     overrideComment: string | undefined;
     status: GeneralStatusEnum | undefined;
     eclId: string | undefined;
-    investmentEclSicrId: string | undefined;
+    recordId: string | undefined;
     id: string | undefined;
 }
 
@@ -55807,7 +56266,7 @@ export interface IGetRecordForOverrideInputDto {
 }
 
 export class GetInvestmentPreResultForOverrideOutput implements IGetInvestmentPreResultForOverrideOutput {
-    eclOverrides!: CreateOrEditInvestmentEclOverrideDto | undefined;
+    eclOverrides!: CreateOrEditEclOverrideDto | undefined;
     assetDescription!: string | undefined;
     assetType!: string | undefined;
     currentRating!: string | undefined;
@@ -55825,7 +56284,7 @@ export class GetInvestmentPreResultForOverrideOutput implements IGetInvestmentPr
 
     init(data?: any) {
         if (data) {
-            this.eclOverrides = data["eclOverrides"] ? CreateOrEditInvestmentEclOverrideDto.fromJS(data["eclOverrides"]) : <any>undefined;
+            this.eclOverrides = data["eclOverrides"] ? CreateOrEditEclOverrideDto.fromJS(data["eclOverrides"]) : <any>undefined;
             this.assetDescription = data["assetDescription"];
             this.assetType = data["assetType"];
             this.currentRating = data["currentRating"];
@@ -55854,7 +56313,7 @@ export class GetInvestmentPreResultForOverrideOutput implements IGetInvestmentPr
 }
 
 export interface IGetInvestmentPreResultForOverrideOutput {
-    eclOverrides: CreateOrEditInvestmentEclOverrideDto | undefined;
+    eclOverrides: CreateOrEditEclOverrideDto | undefined;
     assetDescription: string | undefined;
     assetType: string | undefined;
     currentRating: string | undefined;
@@ -55862,8 +56321,9 @@ export interface IGetInvestmentPreResultForOverrideOutput {
     impairment: number | undefined;
 }
 
-export class CreateOrEditInvestmentEclOverrideDto implements ICreateOrEditInvestmentEclOverrideDto {
-    investmentEclSicrId!: string | undefined;
+export class CreateOrEditEclOverrideDto implements ICreateOrEditEclOverrideDto {
+    eclSicrId!: string | undefined;
+    contractId!: string | undefined;
     stage!: number | undefined;
     impairmentOverride!: number | undefined;
     overrideComment!: string;
@@ -55872,7 +56332,7 @@ export class CreateOrEditInvestmentEclOverrideDto implements ICreateOrEditInvest
     recordId!: string | undefined;
     id!: string | undefined;
 
-    constructor(data?: ICreateOrEditInvestmentEclOverrideDto) {
+    constructor(data?: ICreateOrEditEclOverrideDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -55883,7 +56343,8 @@ export class CreateOrEditInvestmentEclOverrideDto implements ICreateOrEditInvest
 
     init(data?: any) {
         if (data) {
-            this.investmentEclSicrId = data["investmentEclSicrId"];
+            this.eclSicrId = data["eclSicrId"];
+            this.contractId = data["contractId"];
             this.stage = data["stage"];
             this.impairmentOverride = data["impairmentOverride"];
             this.overrideComment = data["overrideComment"];
@@ -55894,16 +56355,17 @@ export class CreateOrEditInvestmentEclOverrideDto implements ICreateOrEditInvest
         }
     }
 
-    static fromJS(data: any): CreateOrEditInvestmentEclOverrideDto {
+    static fromJS(data: any): CreateOrEditEclOverrideDto {
         data = typeof data === 'object' ? data : {};
-        let result = new CreateOrEditInvestmentEclOverrideDto();
+        let result = new CreateOrEditEclOverrideDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["investmentEclSicrId"] = this.investmentEclSicrId;
+        data["eclSicrId"] = this.eclSicrId;
+        data["contractId"] = this.contractId;
         data["stage"] = this.stage;
         data["impairmentOverride"] = this.impairmentOverride;
         data["overrideComment"] = this.overrideComment;
@@ -55915,8 +56377,9 @@ export class CreateOrEditInvestmentEclOverrideDto implements ICreateOrEditInvest
     }
 }
 
-export interface ICreateOrEditInvestmentEclOverrideDto {
-    investmentEclSicrId: string | undefined;
+export interface ICreateOrEditEclOverrideDto {
+    eclSicrId: string | undefined;
+    contractId: string | undefined;
     stage: number | undefined;
     impairmentOverride: number | undefined;
     overrideComment: string;
@@ -55927,7 +56390,7 @@ export interface ICreateOrEditInvestmentEclOverrideDto {
 }
 
 export class GetInvestmentEclOverrideForEditOutput implements IGetInvestmentEclOverrideForEditOutput {
-    investmentEclOverride!: CreateOrEditInvestmentEclOverrideDto | undefined;
+    investmentEclOverride!: CreateOrEditEclOverrideDto | undefined;
     investmentEclSicrAssetDescription!: string | undefined;
 
     constructor(data?: IGetInvestmentEclOverrideForEditOutput) {
@@ -55941,7 +56404,7 @@ export class GetInvestmentEclOverrideForEditOutput implements IGetInvestmentEclO
 
     init(data?: any) {
         if (data) {
-            this.investmentEclOverride = data["investmentEclOverride"] ? CreateOrEditInvestmentEclOverrideDto.fromJS(data["investmentEclOverride"]) : <any>undefined;
+            this.investmentEclOverride = data["investmentEclOverride"] ? CreateOrEditEclOverrideDto.fromJS(data["investmentEclOverride"]) : <any>undefined;
             this.investmentEclSicrAssetDescription = data["investmentEclSicrAssetDescription"];
         }
     }
@@ -55962,7 +56425,7 @@ export class GetInvestmentEclOverrideForEditOutput implements IGetInvestmentEclO
 }
 
 export interface IGetInvestmentEclOverrideForEditOutput {
-    investmentEclOverride: CreateOrEditInvestmentEclOverrideDto | undefined;
+    investmentEclOverride: CreateOrEditEclOverrideDto | undefined;
     investmentEclSicrAssetDescription: string | undefined;
 }
 
@@ -55970,6 +56433,7 @@ export class ReviewEclOverrideInputDto implements IReviewEclOverrideInputDto {
     reviewComment!: string | undefined;
     status!: GeneralStatusEnum | undefined;
     overrideRecordId!: string | undefined;
+    eclId!: string | undefined;
 
     constructor(data?: IReviewEclOverrideInputDto) {
         if (data) {
@@ -55985,6 +56449,7 @@ export class ReviewEclOverrideInputDto implements IReviewEclOverrideInputDto {
             this.reviewComment = data["reviewComment"];
             this.status = data["status"];
             this.overrideRecordId = data["overrideRecordId"];
+            this.eclId = data["eclId"];
         }
     }
 
@@ -56000,6 +56465,7 @@ export class ReviewEclOverrideInputDto implements IReviewEclOverrideInputDto {
         data["reviewComment"] = this.reviewComment;
         data["status"] = this.status;
         data["overrideRecordId"] = this.overrideRecordId;
+        data["eclId"] = this.eclId;
         return data; 
     }
 }
@@ -56008,6 +56474,7 @@ export interface IReviewEclOverrideInputDto {
     reviewComment: string | undefined;
     status: GeneralStatusEnum | undefined;
     overrideRecordId: string | undefined;
+    eclId: string | undefined;
 }
 
 export class PagedResultDtoOfInvestmentEclOverrideInvestmentEclSicrLookupTableDto implements IPagedResultDtoOfInvestmentEclOverrideInvestmentEclSicrLookupTableDto {
@@ -57705,6 +58172,7 @@ export class EclUploadDto implements IEclUploadDto {
     docType!: UploadDocTypeEnum | undefined;
     status!: GeneralStatusEnum | undefined;
     eclId!: string | undefined;
+    uploadComment!: string | undefined;
     id!: string | undefined;
 
     constructor(data?: IEclUploadDto) {
@@ -57721,6 +58189,7 @@ export class EclUploadDto implements IEclUploadDto {
             this.docType = data["docType"];
             this.status = data["status"];
             this.eclId = data["eclId"];
+            this.uploadComment = data["uploadComment"];
             this.id = data["id"];
         }
     }
@@ -57737,6 +58206,7 @@ export class EclUploadDto implements IEclUploadDto {
         data["docType"] = this.docType;
         data["status"] = this.status;
         data["eclId"] = this.eclId;
+        data["uploadComment"] = this.uploadComment;
         data["id"] = this.id;
         return data; 
     }
@@ -57746,6 +58216,7 @@ export interface IEclUploadDto {
     docType: UploadDocTypeEnum | undefined;
     status: GeneralStatusEnum | undefined;
     eclId: string | undefined;
+    uploadComment: string | undefined;
     id: string | undefined;
 }
 
@@ -63169,113 +63640,15 @@ export interface IObeEclLgdAssumptionObeEclLookupTableDto {
     displayName: string | undefined;
 }
 
-export class PagedResultDtoOfGetObeEclOverrideForViewDto implements IPagedResultDtoOfGetObeEclOverrideForViewDto {
-    totalCount!: number | undefined;
-    items!: GetObeEclOverrideForViewDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfGetObeEclOverrideForViewDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(GetObeEclOverrideForViewDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfGetObeEclOverrideForViewDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfGetObeEclOverrideForViewDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfGetObeEclOverrideForViewDto {
-    totalCount: number | undefined;
-    items: GetObeEclOverrideForViewDto[] | undefined;
-}
-
-export class GetObeEclOverrideForViewDto implements IGetObeEclOverrideForViewDto {
-    obeEclOverride!: ObeEclOverrideDto | undefined;
-    obeEclDataLoanBookCustomerName!: string | undefined;
-
-    constructor(data?: IGetObeEclOverrideForViewDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.obeEclOverride = data["obeEclOverride"] ? ObeEclOverrideDto.fromJS(data["obeEclOverride"]) : <any>undefined;
-            this.obeEclDataLoanBookCustomerName = data["obeEclDataLoanBookCustomerName"];
-        }
-    }
-
-    static fromJS(data: any): GetObeEclOverrideForViewDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetObeEclOverrideForViewDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["obeEclOverride"] = this.obeEclOverride ? this.obeEclOverride.toJSON() : <any>undefined;
-        data["obeEclDataLoanBookCustomerName"] = this.obeEclDataLoanBookCustomerName;
-        return data; 
-    }
-}
-
-export interface IGetObeEclOverrideForViewDto {
-    obeEclOverride: ObeEclOverrideDto | undefined;
-    obeEclDataLoanBookCustomerName: string | undefined;
-}
-
-export class ObeEclOverrideDto implements IObeEclOverrideDto {
-    stage!: number | undefined;
-    ttrYears!: number | undefined;
-    fsV_Cash!: number | undefined;
-    fsV_CommercialProperty!: number | undefined;
-    fsV_Debenture!: number | undefined;
-    fsV_Inventory!: number | undefined;
-    fsV_PlantAndEquipment!: number | undefined;
-    fsV_Receivables!: number | undefined;
-    fsV_ResidentialProperty!: number | undefined;
-    fsV_Shares!: number | undefined;
-    fsV_Vehicle!: number | undefined;
-    overlaysPercentage!: number | undefined;
-    reason!: string | undefined;
+export class GetPreResultForOverrideOutput implements IGetPreResultForOverrideOutput {
+    eclOverrides!: CreateOrEditEclOverrideDto | undefined;
     contractId!: string | undefined;
-    obeEclDataLoanBookId!: string | undefined;
-    id!: string | undefined;
+    accountNumber!: string | undefined;
+    accountName!: string | undefined;
+    stage!: number | undefined;
+    impairment!: number | undefined;
 
-    constructor(data?: IObeEclOverrideDto) {
+    constructor(data?: IGetPreResultForOverrideOutput) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -63286,71 +63659,41 @@ export class ObeEclOverrideDto implements IObeEclOverrideDto {
 
     init(data?: any) {
         if (data) {
-            this.stage = data["stage"];
-            this.ttrYears = data["ttrYears"];
-            this.fsV_Cash = data["fsV_Cash"];
-            this.fsV_CommercialProperty = data["fsV_CommercialProperty"];
-            this.fsV_Debenture = data["fsV_Debenture"];
-            this.fsV_Inventory = data["fsV_Inventory"];
-            this.fsV_PlantAndEquipment = data["fsV_PlantAndEquipment"];
-            this.fsV_Receivables = data["fsV_Receivables"];
-            this.fsV_ResidentialProperty = data["fsV_ResidentialProperty"];
-            this.fsV_Shares = data["fsV_Shares"];
-            this.fsV_Vehicle = data["fsV_Vehicle"];
-            this.overlaysPercentage = data["overlaysPercentage"];
-            this.reason = data["reason"];
+            this.eclOverrides = data["eclOverrides"] ? CreateOrEditEclOverrideDto.fromJS(data["eclOverrides"]) : <any>undefined;
             this.contractId = data["contractId"];
-            this.obeEclDataLoanBookId = data["obeEclDataLoanBookId"];
-            this.id = data["id"];
+            this.accountNumber = data["accountNumber"];
+            this.accountName = data["accountName"];
+            this.stage = data["stage"];
+            this.impairment = data["impairment"];
         }
     }
 
-    static fromJS(data: any): ObeEclOverrideDto {
+    static fromJS(data: any): GetPreResultForOverrideOutput {
         data = typeof data === 'object' ? data : {};
-        let result = new ObeEclOverrideDto();
+        let result = new GetPreResultForOverrideOutput();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["stage"] = this.stage;
-        data["ttrYears"] = this.ttrYears;
-        data["fsV_Cash"] = this.fsV_Cash;
-        data["fsV_CommercialProperty"] = this.fsV_CommercialProperty;
-        data["fsV_Debenture"] = this.fsV_Debenture;
-        data["fsV_Inventory"] = this.fsV_Inventory;
-        data["fsV_PlantAndEquipment"] = this.fsV_PlantAndEquipment;
-        data["fsV_Receivables"] = this.fsV_Receivables;
-        data["fsV_ResidentialProperty"] = this.fsV_ResidentialProperty;
-        data["fsV_Shares"] = this.fsV_Shares;
-        data["fsV_Vehicle"] = this.fsV_Vehicle;
-        data["overlaysPercentage"] = this.overlaysPercentage;
-        data["reason"] = this.reason;
+        data["eclOverrides"] = this.eclOverrides ? this.eclOverrides.toJSON() : <any>undefined;
         data["contractId"] = this.contractId;
-        data["obeEclDataLoanBookId"] = this.obeEclDataLoanBookId;
-        data["id"] = this.id;
+        data["accountNumber"] = this.accountNumber;
+        data["accountName"] = this.accountName;
+        data["stage"] = this.stage;
+        data["impairment"] = this.impairment;
         return data; 
     }
 }
 
-export interface IObeEclOverrideDto {
-    stage: number | undefined;
-    ttrYears: number | undefined;
-    fsV_Cash: number | undefined;
-    fsV_CommercialProperty: number | undefined;
-    fsV_Debenture: number | undefined;
-    fsV_Inventory: number | undefined;
-    fsV_PlantAndEquipment: number | undefined;
-    fsV_Receivables: number | undefined;
-    fsV_ResidentialProperty: number | undefined;
-    fsV_Shares: number | undefined;
-    fsV_Vehicle: number | undefined;
-    overlaysPercentage: number | undefined;
-    reason: string | undefined;
+export interface IGetPreResultForOverrideOutput {
+    eclOverrides: CreateOrEditEclOverrideDto | undefined;
     contractId: string | undefined;
-    obeEclDataLoanBookId: string | undefined;
-    id: string | undefined;
+    accountNumber: string | undefined;
+    accountName: string | undefined;
+    stage: number | undefined;
+    impairment: number | undefined;
 }
 
 export class GetObeEclOverrideForEditOutput implements IGetObeEclOverrideForEditOutput {
@@ -63487,94 +63830,6 @@ export interface ICreateOrEditObeEclOverrideDto {
     contractId: string;
     obeEclDataLoanBookId: string | undefined;
     id: string | undefined;
-}
-
-export class PagedResultDtoOfObeEclOverrideObeEclDataLoanBookLookupTableDto implements IPagedResultDtoOfObeEclOverrideObeEclDataLoanBookLookupTableDto {
-    totalCount!: number | undefined;
-    items!: ObeEclOverrideObeEclDataLoanBookLookupTableDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfObeEclOverrideObeEclDataLoanBookLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(ObeEclOverrideObeEclDataLoanBookLookupTableDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfObeEclOverrideObeEclDataLoanBookLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfObeEclOverrideObeEclDataLoanBookLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfObeEclOverrideObeEclDataLoanBookLookupTableDto {
-    totalCount: number | undefined;
-    items: ObeEclOverrideObeEclDataLoanBookLookupTableDto[] | undefined;
-}
-
-export class ObeEclOverrideObeEclDataLoanBookLookupTableDto implements IObeEclOverrideObeEclDataLoanBookLookupTableDto {
-    id!: string | undefined;
-    displayName!: string | undefined;
-
-    constructor(data?: IObeEclOverrideObeEclDataLoanBookLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.displayName = data["displayName"];
-        }
-    }
-
-    static fromJS(data: any): ObeEclOverrideObeEclDataLoanBookLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ObeEclOverrideObeEclDataLoanBookLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["displayName"] = this.displayName;
-        return data; 
-    }
-}
-
-export interface IObeEclOverrideObeEclDataLoanBookLookupTableDto {
-    id: string | undefined;
-    displayName: string | undefined;
 }
 
 export class PagedResultDtoOfGetObeEclPdAssumption12MonthForViewDto implements IPagedResultDtoOfGetObeEclPdAssumption12MonthForViewDto {
@@ -75061,190 +75316,6 @@ export interface IRetailEclLgdAssumptionRetailEclLookupTableDto {
     displayName: string | undefined;
 }
 
-export class PagedResultDtoOfGetRetailEclOverrideForViewDto implements IPagedResultDtoOfGetRetailEclOverrideForViewDto {
-    totalCount!: number | undefined;
-    items!: GetRetailEclOverrideForViewDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfGetRetailEclOverrideForViewDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(GetRetailEclOverrideForViewDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfGetRetailEclOverrideForViewDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfGetRetailEclOverrideForViewDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfGetRetailEclOverrideForViewDto {
-    totalCount: number | undefined;
-    items: GetRetailEclOverrideForViewDto[] | undefined;
-}
-
-export class GetRetailEclOverrideForViewDto implements IGetRetailEclOverrideForViewDto {
-    retailEclOverride!: RetailEclOverrideDto | undefined;
-    retailEclDataLoanBookCustomerName!: string | undefined;
-
-    constructor(data?: IGetRetailEclOverrideForViewDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.retailEclOverride = data["retailEclOverride"] ? RetailEclOverrideDto.fromJS(data["retailEclOverride"]) : <any>undefined;
-            this.retailEclDataLoanBookCustomerName = data["retailEclDataLoanBookCustomerName"];
-        }
-    }
-
-    static fromJS(data: any): GetRetailEclOverrideForViewDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetRetailEclOverrideForViewDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["retailEclOverride"] = this.retailEclOverride ? this.retailEclOverride.toJSON() : <any>undefined;
-        data["retailEclDataLoanBookCustomerName"] = this.retailEclDataLoanBookCustomerName;
-        return data; 
-    }
-}
-
-export interface IGetRetailEclOverrideForViewDto {
-    retailEclOverride: RetailEclOverrideDto | undefined;
-    retailEclDataLoanBookCustomerName: string | undefined;
-}
-
-export class RetailEclOverrideDto implements IRetailEclOverrideDto {
-    stage!: number | undefined;
-    ttrYears!: number | undefined;
-    fsV_Cash!: number | undefined;
-    fsV_CommercialProperty!: number | undefined;
-    fsV_Debenture!: number | undefined;
-    fsV_Inventory!: number | undefined;
-    fsV_PlantAndEquipment!: number | undefined;
-    fsV_Receivables!: number | undefined;
-    fsV_ResidentialProperty!: number | undefined;
-    fsV_Shares!: number | undefined;
-    fsV_Vehicle!: number | undefined;
-    overlaysPercentage!: number | undefined;
-    reason!: string | undefined;
-    contractId!: string | undefined;
-    retailEclDataLoanBookId!: string | undefined;
-    id!: string | undefined;
-
-    constructor(data?: IRetailEclOverrideDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.stage = data["stage"];
-            this.ttrYears = data["ttrYears"];
-            this.fsV_Cash = data["fsV_Cash"];
-            this.fsV_CommercialProperty = data["fsV_CommercialProperty"];
-            this.fsV_Debenture = data["fsV_Debenture"];
-            this.fsV_Inventory = data["fsV_Inventory"];
-            this.fsV_PlantAndEquipment = data["fsV_PlantAndEquipment"];
-            this.fsV_Receivables = data["fsV_Receivables"];
-            this.fsV_ResidentialProperty = data["fsV_ResidentialProperty"];
-            this.fsV_Shares = data["fsV_Shares"];
-            this.fsV_Vehicle = data["fsV_Vehicle"];
-            this.overlaysPercentage = data["overlaysPercentage"];
-            this.reason = data["reason"];
-            this.contractId = data["contractId"];
-            this.retailEclDataLoanBookId = data["retailEclDataLoanBookId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): RetailEclOverrideDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new RetailEclOverrideDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["stage"] = this.stage;
-        data["ttrYears"] = this.ttrYears;
-        data["fsV_Cash"] = this.fsV_Cash;
-        data["fsV_CommercialProperty"] = this.fsV_CommercialProperty;
-        data["fsV_Debenture"] = this.fsV_Debenture;
-        data["fsV_Inventory"] = this.fsV_Inventory;
-        data["fsV_PlantAndEquipment"] = this.fsV_PlantAndEquipment;
-        data["fsV_Receivables"] = this.fsV_Receivables;
-        data["fsV_ResidentialProperty"] = this.fsV_ResidentialProperty;
-        data["fsV_Shares"] = this.fsV_Shares;
-        data["fsV_Vehicle"] = this.fsV_Vehicle;
-        data["overlaysPercentage"] = this.overlaysPercentage;
-        data["reason"] = this.reason;
-        data["contractId"] = this.contractId;
-        data["retailEclDataLoanBookId"] = this.retailEclDataLoanBookId;
-        data["id"] = this.id;
-        return data; 
-    }
-}
-
-export interface IRetailEclOverrideDto {
-    stage: number | undefined;
-    ttrYears: number | undefined;
-    fsV_Cash: number | undefined;
-    fsV_CommercialProperty: number | undefined;
-    fsV_Debenture: number | undefined;
-    fsV_Inventory: number | undefined;
-    fsV_PlantAndEquipment: number | undefined;
-    fsV_Receivables: number | undefined;
-    fsV_ResidentialProperty: number | undefined;
-    fsV_Shares: number | undefined;
-    fsV_Vehicle: number | undefined;
-    overlaysPercentage: number | undefined;
-    reason: string | undefined;
-    contractId: string | undefined;
-    retailEclDataLoanBookId: string | undefined;
-    id: string | undefined;
-}
-
 export class GetRetailEclOverrideForEditOutput implements IGetRetailEclOverrideForEditOutput {
     retailEclOverride!: CreateOrEditRetailEclOverrideDto | undefined;
     retailEclDataLoanBookCustomerName!: string | undefined;
@@ -75379,94 +75450,6 @@ export interface ICreateOrEditRetailEclOverrideDto {
     contractId: string;
     retailEclDataLoanBookId: string | undefined;
     id: string | undefined;
-}
-
-export class PagedResultDtoOfRetailEclOverrideRetailEclDataLoanBookLookupTableDto implements IPagedResultDtoOfRetailEclOverrideRetailEclDataLoanBookLookupTableDto {
-    totalCount!: number | undefined;
-    items!: RetailEclOverrideRetailEclDataLoanBookLookupTableDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfRetailEclOverrideRetailEclDataLoanBookLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(RetailEclOverrideRetailEclDataLoanBookLookupTableDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfRetailEclOverrideRetailEclDataLoanBookLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfRetailEclOverrideRetailEclDataLoanBookLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfRetailEclOverrideRetailEclDataLoanBookLookupTableDto {
-    totalCount: number | undefined;
-    items: RetailEclOverrideRetailEclDataLoanBookLookupTableDto[] | undefined;
-}
-
-export class RetailEclOverrideRetailEclDataLoanBookLookupTableDto implements IRetailEclOverrideRetailEclDataLoanBookLookupTableDto {
-    id!: string | undefined;
-    displayName!: string | undefined;
-
-    constructor(data?: IRetailEclOverrideRetailEclDataLoanBookLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.displayName = data["displayName"];
-        }
-    }
-
-    static fromJS(data: any): RetailEclOverrideRetailEclDataLoanBookLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new RetailEclOverrideRetailEclDataLoanBookLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["displayName"] = this.displayName;
-        return data; 
-    }
-}
-
-export interface IRetailEclOverrideRetailEclDataLoanBookLookupTableDto {
-    id: string | undefined;
-    displayName: string | undefined;
 }
 
 export class PagedResultDtoOfGetRetailEclPdAssumption12MonthForViewDto implements IPagedResultDtoOfGetRetailEclPdAssumption12MonthForViewDto {
@@ -87620,186 +87603,6 @@ export interface ICreateOrEditWholesaleEclLgdAssumptionDto {
     id: string | undefined;
 }
 
-export class PagedResultDtoOfGetWholesaleEclOverrideForViewDto implements IPagedResultDtoOfGetWholesaleEclOverrideForViewDto {
-    totalCount!: number | undefined;
-    items!: GetWholesaleEclOverrideForViewDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfGetWholesaleEclOverrideForViewDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(GetWholesaleEclOverrideForViewDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfGetWholesaleEclOverrideForViewDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfGetWholesaleEclOverrideForViewDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfGetWholesaleEclOverrideForViewDto {
-    totalCount: number | undefined;
-    items: GetWholesaleEclOverrideForViewDto[] | undefined;
-}
-
-export class GetWholesaleEclOverrideForViewDto implements IGetWholesaleEclOverrideForViewDto {
-    wholesaleEclOverride!: WholesaleEclOverrideDto | undefined;
-    wholesaleEclDataLoanBookCustomerName!: string | undefined;
-
-    constructor(data?: IGetWholesaleEclOverrideForViewDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.wholesaleEclOverride = data["wholesaleEclOverride"] ? WholesaleEclOverrideDto.fromJS(data["wholesaleEclOverride"]) : <any>undefined;
-            this.wholesaleEclDataLoanBookCustomerName = data["wholesaleEclDataLoanBookCustomerName"];
-        }
-    }
-
-    static fromJS(data: any): GetWholesaleEclOverrideForViewDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetWholesaleEclOverrideForViewDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["wholesaleEclOverride"] = this.wholesaleEclOverride ? this.wholesaleEclOverride.toJSON() : <any>undefined;
-        data["wholesaleEclDataLoanBookCustomerName"] = this.wholesaleEclDataLoanBookCustomerName;
-        return data; 
-    }
-}
-
-export interface IGetWholesaleEclOverrideForViewDto {
-    wholesaleEclOverride: WholesaleEclOverrideDto | undefined;
-    wholesaleEclDataLoanBookCustomerName: string | undefined;
-}
-
-export class WholesaleEclOverrideDto implements IWholesaleEclOverrideDto {
-    ttrYears!: number | undefined;
-    fsV_Cash!: number | undefined;
-    fsV_CommercialProperty!: number | undefined;
-    fsV_Debenture!: number | undefined;
-    fsV_Inventory!: number | undefined;
-    fsV_PlantAndEquipment!: number | undefined;
-    fsV_Receivables!: number | undefined;
-    fsV_ResidentialProperty!: number | undefined;
-    fsV_Shares!: number | undefined;
-    fsV_Vehicle!: number | undefined;
-    overlaysPercentage!: number | undefined;
-    reason!: string | undefined;
-    contractId!: string | undefined;
-    wholesaleEclDataLoanBookId!: string | undefined;
-    id!: string | undefined;
-
-    constructor(data?: IWholesaleEclOverrideDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.ttrYears = data["ttrYears"];
-            this.fsV_Cash = data["fsV_Cash"];
-            this.fsV_CommercialProperty = data["fsV_CommercialProperty"];
-            this.fsV_Debenture = data["fsV_Debenture"];
-            this.fsV_Inventory = data["fsV_Inventory"];
-            this.fsV_PlantAndEquipment = data["fsV_PlantAndEquipment"];
-            this.fsV_Receivables = data["fsV_Receivables"];
-            this.fsV_ResidentialProperty = data["fsV_ResidentialProperty"];
-            this.fsV_Shares = data["fsV_Shares"];
-            this.fsV_Vehicle = data["fsV_Vehicle"];
-            this.overlaysPercentage = data["overlaysPercentage"];
-            this.reason = data["reason"];
-            this.contractId = data["contractId"];
-            this.wholesaleEclDataLoanBookId = data["wholesaleEclDataLoanBookId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): WholesaleEclOverrideDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new WholesaleEclOverrideDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["ttrYears"] = this.ttrYears;
-        data["fsV_Cash"] = this.fsV_Cash;
-        data["fsV_CommercialProperty"] = this.fsV_CommercialProperty;
-        data["fsV_Debenture"] = this.fsV_Debenture;
-        data["fsV_Inventory"] = this.fsV_Inventory;
-        data["fsV_PlantAndEquipment"] = this.fsV_PlantAndEquipment;
-        data["fsV_Receivables"] = this.fsV_Receivables;
-        data["fsV_ResidentialProperty"] = this.fsV_ResidentialProperty;
-        data["fsV_Shares"] = this.fsV_Shares;
-        data["fsV_Vehicle"] = this.fsV_Vehicle;
-        data["overlaysPercentage"] = this.overlaysPercentage;
-        data["reason"] = this.reason;
-        data["contractId"] = this.contractId;
-        data["wholesaleEclDataLoanBookId"] = this.wholesaleEclDataLoanBookId;
-        data["id"] = this.id;
-        return data; 
-    }
-}
-
-export interface IWholesaleEclOverrideDto {
-    ttrYears: number | undefined;
-    fsV_Cash: number | undefined;
-    fsV_CommercialProperty: number | undefined;
-    fsV_Debenture: number | undefined;
-    fsV_Inventory: number | undefined;
-    fsV_PlantAndEquipment: number | undefined;
-    fsV_Receivables: number | undefined;
-    fsV_ResidentialProperty: number | undefined;
-    fsV_Shares: number | undefined;
-    fsV_Vehicle: number | undefined;
-    overlaysPercentage: number | undefined;
-    reason: string | undefined;
-    contractId: string | undefined;
-    wholesaleEclDataLoanBookId: string | undefined;
-    id: string | undefined;
-}
-
 export class GetWholesaleEclOverrideForEditOutput implements IGetWholesaleEclOverrideForEditOutput {
     wholesaleEclOverride!: CreateOrEditWholesaleEclOverrideDto | undefined;
     wholesaleEclDataLoanBookCustomerName!: string | undefined;
@@ -87930,94 +87733,6 @@ export interface ICreateOrEditWholesaleEclOverrideDto {
     contractId: string;
     wholesaleEclDataLoanBookId: string | undefined;
     id: string | undefined;
-}
-
-export class PagedResultDtoOfWholesaleEclOverrideWholesaleEclDataLoanBookLookupTableDto implements IPagedResultDtoOfWholesaleEclOverrideWholesaleEclDataLoanBookLookupTableDto {
-    totalCount!: number | undefined;
-    items!: WholesaleEclOverrideWholesaleEclDataLoanBookLookupTableDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfWholesaleEclOverrideWholesaleEclDataLoanBookLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(WholesaleEclOverrideWholesaleEclDataLoanBookLookupTableDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfWholesaleEclOverrideWholesaleEclDataLoanBookLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfWholesaleEclOverrideWholesaleEclDataLoanBookLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfWholesaleEclOverrideWholesaleEclDataLoanBookLookupTableDto {
-    totalCount: number | undefined;
-    items: WholesaleEclOverrideWholesaleEclDataLoanBookLookupTableDto[] | undefined;
-}
-
-export class WholesaleEclOverrideWholesaleEclDataLoanBookLookupTableDto implements IWholesaleEclOverrideWholesaleEclDataLoanBookLookupTableDto {
-    id!: string | undefined;
-    displayName!: string | undefined;
-
-    constructor(data?: IWholesaleEclOverrideWholesaleEclDataLoanBookLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.displayName = data["displayName"];
-        }
-    }
-
-    static fromJS(data: any): WholesaleEclOverrideWholesaleEclDataLoanBookLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new WholesaleEclOverrideWholesaleEclDataLoanBookLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["displayName"] = this.displayName;
-        return data; 
-    }
-}
-
-export interface IWholesaleEclOverrideWholesaleEclDataLoanBookLookupTableDto {
-    id: string | undefined;
-    displayName: string | undefined;
 }
 
 export class PagedResultDtoOfGetWholesaleEclPdAssumption12MonthsForViewDto implements IPagedResultDtoOfGetWholesaleEclPdAssumption12MonthsForViewDto {

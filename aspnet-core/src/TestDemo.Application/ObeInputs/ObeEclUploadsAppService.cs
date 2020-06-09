@@ -32,7 +32,7 @@ namespace TestDemo.ObeInputs
 
 
         public ObeEclUploadsAppService(
-            IRepository<ObeEclUpload, Guid> obeEclUploadRepository, 
+            IRepository<ObeEclUpload, Guid> obeEclUploadRepository,
             IRepository<ObeEcl, Guid> lookup_obeEclRepository,
             IRepository<User, long> lookup_userRepository)
         {
@@ -84,25 +84,25 @@ namespace TestDemo.ObeInputs
         public async Task<List<GetEclUploadForViewDto>> GetEclUploads(EntityDto<Guid> input)
         {
             var eclUploads = from o in _obeEclUploadRepository.GetAll().Where(x => x.ObeEclId == input.Id)
-                                   join o1 in _lookup_obeEclRepository.GetAll() on o.ObeEclId equals o1.Id into j1
-                                   from s1 in j1.DefaultIfEmpty()
+                             join o1 in _lookup_obeEclRepository.GetAll() on o.ObeEclId equals o1.Id into j1
+                             from s1 in j1.DefaultIfEmpty()
 
-                                   join u in _lookup_userRepository.GetAll() on o.CreatorUserId equals u.Id into u1
-                                   from u2 in u1.DefaultIfEmpty()
+                             join u in _lookup_userRepository.GetAll() on o.CreatorUserId equals u.Id into u1
+                             from u2 in u1.DefaultIfEmpty()
 
-                                   select new GetEclUploadForViewDto()
-                                   {
-                                       EclUpload = new EclUploadDto
-                                       {
-                                           DocType = o.DocType,
-                                           UploadComment = o.UploadComment,
-                                           Status = o.Status,
-                                           EclId = (Guid)o.ObeEclId,
-                                           Id = o.Id
-                                       },
-                                       DateUploaded = o.CreationTime,
-                                       UploadedBy = u2 == null ? "" : u2.FullName
-                                   };
+                             select new GetEclUploadForViewDto()
+                             {
+                                 EclUpload = new EclUploadDto
+                                 {
+                                     DocType = o.DocType,
+                                     UploadComment = o.UploadComment,
+                                     Status = o.Status,
+                                     EclId = (Guid)o.ObeEclId,
+                                     Id = o.Id
+                                 },
+                                 DateUploaded = o.CreationTime,
+                                 UploadedBy = u2 == null ? "" : u2.FullName
+                             };
 
             return await eclUploads.ToListAsync();
         }

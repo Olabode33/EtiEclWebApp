@@ -20,6 +20,7 @@ using TestDemo.InvestmentInputs;
 using Abp.UI;
 using TestDemo.EclConfig;
 using Abp.Configuration;
+using TestDemo.Dto.Overrides;
 
 namespace TestDemo.InvestmentComputation
 {
@@ -47,7 +48,7 @@ namespace TestDemo.InvestmentComputation
             _lookup_investmentEclOverrideApprovalRepository = lookup_investmentEclOverrideRepository;
         }
 
-        public async Task<PagedResultDto<GetInvestmentEclOverrideForViewDto>> GetAll(GetAllInvestmentEclOverridesInput input)
+        public async Task<PagedResultDto<GetEclOverrideForViewDto>> GetAll(GetAllEclOverrideInput input)
         {
             //TODO: Add Permission for Override Approvals
             //TODO: Set default filter status based on user's permission / privileges (Approver's default to submitted & initiators default to all)
@@ -58,8 +59,7 @@ namespace TestDemo.InvestmentComputation
                         .Where(x => x.EclId == input.EclId)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.OverrideComment.ToLower().Contains(input.Filter.ToLower()) || (e.InvestmentEclSicrFk != null && e.InvestmentEclSicrFk.AssetDescription.ToLower().Contains(input.Filter.ToLower())))
                         .WhereIf(input.StatusFilter > -1, e => e.Status == statusFilter);
-                        //.WhereIf(!string.IsNullOrWhiteSpace(input.InvestmentEclSicrAssetDescriptionFilter), e => e.InvestmentEclSicrFk != null && e.InvestmentEclSicrFk.AssetDescription == input.InvestmentEclSicrAssetDescriptionFilter);
-
+                        
             var pagedAndFilteredInvestmentEclOverrides = filteredInvestmentEclOverrides
                 .OrderBy(input.Sorting ?? "id asc")
                 .PageBy(input);
@@ -68,9 +68,9 @@ namespace TestDemo.InvestmentComputation
                                          join o1 in _lookup_investmentEclSicrRepository.GetAll() on o.InvestmentEclSicrId equals o1.Id into j1
                                          from s1 in j1.DefaultIfEmpty()
 
-                                         select new GetInvestmentEclOverrideForViewDto()
+                                         select new GetEclOverrideForViewDto()
                                          {
-                                             InvestmentEclOverride = new InvestmentEclOverrideDto
+                                             EclOverride = new EclOverrideDto
                                              {
                                                  StageOverride = o.StageOverride,
                                                  ImpairmentOverride = o.ImpairmentOverride,
@@ -78,14 +78,16 @@ namespace TestDemo.InvestmentComputation
                                                  Status = o.Status,
                                                  Id = o.Id,
                                                  EclId = o.EclId,
-                                                 InvestmentEclSicrId = o.InvestmentEclSicrId
+                                                 RecordId = o.InvestmentEclSicrId
                                              },
-                                             InvestmentEclSicrAssetDescription = s1 == null ? "" : s1.AssetDescription.ToString()
+                                             ContractId = s1 == null ? "" : s1.AssetDescription.ToString(),
+                                             AccountNumber = s1 == null ? "" : s1.AssetDescription,
+                                             CustomerName = s1 == null ? "" : s1.AssetDescription
                                          };
 
             var totalCount = await filteredInvestmentEclOverrides.CountAsync();
 
-            return new PagedResultDto<GetInvestmentEclOverrideForViewDto>(
+            return new PagedResultDto<GetEclOverrideForViewDto>(
                 totalCount,
                 await investmentEclOverrides.ToListAsync()
             );
@@ -113,7 +115,7 @@ namespace TestDemo.InvestmentComputation
             var selectedRecord = await _lookup_investmentEclSicrRepository.FirstOrDefaultAsync(input.Id);
             var overrideRecord = await _investmentEclOverrideRepository.FirstOrDefaultAsync(x => x.InvestmentEclSicrId == input.Id && x.EclId == selectedRecord.EclId);
             var preResult = await _lookup_investmentEclFinalResultRepository.FirstOrDefaultAsync(x => x.RecordId == selectedRecord.RecordId);
-            var dto = new CreateOrEditInvestmentEclOverrideDto() { RecordId = selectedRecord.RecordId, InvestmentEclSicrId = selectedRecord.Id, EclId = selectedRecord.EclId };
+            var dto = new CreateOrEditEclOverrideDto() { RecordId = selectedRecord.RecordId, EclSicrId = selectedRecord.Id, EclId = selectedRecord.EclId };
 
             if (overrideRecord != null)
             {
@@ -140,18 +142,18 @@ namespace TestDemo.InvestmentComputation
         {
             var investmentEclOverride = await _investmentEclOverrideRepository.FirstOrDefaultAsync(input.Id);
 
-            var output = new GetInvestmentEclOverrideForEditOutput { InvestmentEclOverride = ObjectMapper.Map<CreateOrEditInvestmentEclOverrideDto>(investmentEclOverride) };
+            var output = new GetInvestmentEclOverrideForEditOutput { InvestmentEclOverride = ObjectMapper.Map<CreateOrEditEclOverrideDto>(investmentEclOverride) };
 
-            if (output.InvestmentEclOverride.InvestmentEclSicrId != null)
+            if (output.InvestmentEclOverride.EclSicrId != null)
             {
-                var _lookupInvestmentEclSicr = await _lookup_investmentEclSicrRepository.FirstOrDefaultAsync((Guid)output.InvestmentEclOverride.InvestmentEclSicrId);
+                var _lookupInvestmentEclSicr = await _lookup_investmentEclSicrRepository.FirstOrDefaultAsync((Guid)output.InvestmentEclOverride.EclSicrId);
                 output.InvestmentEclSicrAssetDescription = _lookupInvestmentEclSicr.AssetDescription.ToString();
             }
 
             return output;
         }
 
-        public async Task CreateOrEdit(CreateOrEditInvestmentEclOverrideDto input)
+        public async Task CreateOrEdit(CreateOrEditEclOverrideDto input)
         {
             var validation = await ValidateForOverride(input);
             if (validation.Status)
@@ -171,13 +173,13 @@ namespace TestDemo.InvestmentComputation
         }
 
         [AbpAuthorize(AppPermissions.Pages_InvestmentEclOverrides_Create)]
-        protected virtual async Task Create(CreateOrEditInvestmentEclOverrideDto input)
+        protected virtual async Task Create(CreateOrEditEclOverrideDto input)
         {
             await _investmentEclOverrideRepository.InsertAsync(new InvestmentEclOverride
             {
                 Id = new Guid(),
                 EclId = input.EclId,
-                InvestmentEclSicrId = input.InvestmentEclSicrId,
+                InvestmentEclSicrId = input.EclSicrId,
                 OverrideComment = input.OverrideComment,
                 StageOverride = input.Stage,
                 ImpairmentOverride = input.ImpairmentOverride,
@@ -186,7 +188,7 @@ namespace TestDemo.InvestmentComputation
         }
 
         [AbpAuthorize(AppPermissions.Pages_InvestmentEclOverrides_Edit)]
-        protected virtual async Task Update(CreateOrEditInvestmentEclOverrideDto input)
+        protected virtual async Task Update(CreateOrEditEclOverrideDto input)
         {
             var investmentEclOverride = await _investmentEclOverrideRepository.FirstOrDefaultAsync((Guid)input.Id);
             //ObjectMapper.Map(input, investmentEclOverride);
@@ -270,11 +272,11 @@ namespace TestDemo.InvestmentComputation
         }
 
 
-        protected async Task<EclShared.Dtos.ValidationMessageDto> ValidateForOverride(CreateOrEditInvestmentEclOverrideDto input)
+        protected async Task<EclShared.Dtos.ValidationMessageDto> ValidateForOverride(CreateOrEditEclOverrideDto input)
         {
             var output = new EclShared.Dtos.ValidationMessageDto();
 
-            var reviewedOverride = await _investmentEclOverrideRepository.FirstOrDefaultAsync(x => x.InvestmentEclSicrId == input.InvestmentEclSicrId && x.Status != GeneralStatusEnum.Submitted);
+            var reviewedOverride = await _investmentEclOverrideRepository.FirstOrDefaultAsync(x => x.InvestmentEclSicrId == input.EclSicrId && x.Status != GeneralStatusEnum.Submitted);
 
             if (reviewedOverride != null)
             {

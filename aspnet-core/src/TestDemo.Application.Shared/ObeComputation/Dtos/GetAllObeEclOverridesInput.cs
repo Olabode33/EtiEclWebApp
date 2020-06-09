@@ -5,11 +5,11 @@ namespace TestDemo.ObeComputation.Dtos
 {
     public class GetAllObeEclOverridesInput : PagedAndSortedResultRequestDto
     {
-		public string Filter { get; set; }
+        public Guid EclId { get; set; }
+        public string Filter { get; set; }
+        public int StatusFilter { get; set; }
+        public string ObeEclDataLoanBookCustomerNameFilter { get; set; }
 
 
-		 public string ObeEclDataLoanBookCustomerNameFilter { get; set; }
-
-		 
     }
 }

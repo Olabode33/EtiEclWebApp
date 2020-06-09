@@ -9,5 +9,6 @@ namespace TestDemo.EclShared.Dtos
 		public string ReviewComment { get; set; }
 		public GeneralStatusEnum Status { get; set; }
 		public Guid OverrideRecordId { get; set; }
+		public Guid EclId { get; set; }
 	}
 }

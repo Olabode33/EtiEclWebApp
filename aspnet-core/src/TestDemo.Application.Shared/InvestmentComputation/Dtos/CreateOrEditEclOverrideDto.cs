@@ -7,8 +7,9 @@ using TestDemo.Dto;
 
 namespace TestDemo.InvestmentComputation.Dtos
 {
-    public class CreateOrEditInvestmentEclOverrideDto : CreateOrEditEclOverrideDtoBase
+    public class CreateOrEditEclOverrideDto : CreateOrEditEclOverrideDtoBase
     { 
-		public Guid InvestmentEclSicrId { get; set; }
+		public Guid EclSicrId { get; set; }
+        public string ContractId { get; set; }
     }
 }

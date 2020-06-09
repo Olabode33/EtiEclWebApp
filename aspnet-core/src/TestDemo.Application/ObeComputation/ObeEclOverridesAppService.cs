@@ -15,132 +15,262 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.Dto.Overrides;
+using Abp.UI;
+using TestDemo.InvestmentComputation.Dtos;
+using TestDemo.EclShared;
+using Abp.Configuration;
+using TestDemo.EclConfig;
 
 namespace TestDemo.ObeComputation
 {
-	[AbpAuthorize(AppPermissions.Pages_ObeEclOverrides)]
+    [AbpAuthorize(AppPermissions.Pages_ObeEclOverrides)]
     public class ObeEclOverridesAppService : TestDemoAppServiceBase, IObeEclOverridesAppService
     {
-		 private readonly IRepository<ObeEclOverride, Guid> _obeEclOverrideRepository;
-		 private readonly IRepository<ObeEclDataLoanBook,Guid> _lookup_obeEclDataLoanBookRepository;
-		 
+        private readonly IRepository<ObeEclOverride, Guid> _obeEclOverrideRepository;
+        private readonly IRepository<ObeEclDataLoanBook, Guid> _lookup_obeEclDataLoanBookRepository;
+        private readonly IRepository<ObeEclOverrideApproval, Guid> _lookup_obeEclOverrideApprovalRepository;
+        private readonly IRepository<ObeEclFrameworkFinal, Guid> _lookup_obeEclFrameworkRepository;
 
-		  public ObeEclOverridesAppService(IRepository<ObeEclOverride, Guid> obeEclOverrideRepository , IRepository<ObeEclDataLoanBook, Guid> lookup_obeEclDataLoanBookRepository) 
-		  {
-			_obeEclOverrideRepository = obeEclOverrideRepository;
-			_lookup_obeEclDataLoanBookRepository = lookup_obeEclDataLoanBookRepository;
-		
-		  }
 
-		 public async Task<PagedResultDto<GetObeEclOverrideForViewDto>> GetAll(GetAllObeEclOverridesInput input)
-         {
+        public ObeEclOverridesAppService(
+            IRepository<ObeEclOverride, Guid> obeEclOverrideRepository,
+            IRepository<ObeEclDataLoanBook, Guid> lookup_obeEclDataLoanBookRepository,
+            IRepository<ObeEclFrameworkFinal, Guid> lookup_obeEclFrameworkRepository,
+            IRepository<ObeEclOverrideApproval, Guid> lookup_obeEclOverrideApprovalRepository)
+        {
+            _obeEclOverrideRepository = obeEclOverrideRepository;
+            _lookup_obeEclDataLoanBookRepository = lookup_obeEclDataLoanBookRepository;
+            _lookup_obeEclOverrideApprovalRepository = lookup_obeEclOverrideApprovalRepository;
+            _lookup_obeEclFrameworkRepository = lookup_obeEclFrameworkRepository;
 
-            var filteredObeEclOverrides = _obeEclOverrideRepository.GetAll()
-                        //.Include( e => e.ObeEclDataLoanBookFk)
+        }
+
+        public async Task<PagedResultDto<GetEclOverrideForViewDto>> GetAll(GetAllEclOverrideInput input)
+        {
+
+            var filteredRetailEclOverrides = _obeEclOverrideRepository.GetAll()
+                        .Where(x => x.ObeEclId == input.EclId)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.ContractId.Contains(input.Filter));
-						//.WhereIf(!string.IsNullOrWhiteSpace(input.ObeEclDataLoanBookCustomerNameFilter), e => e.ObeEclDataLoanBookFk != null && e.ObeEclDataLoanBookFk.CustomerName == input.ObeEclDataLoanBookCustomerNameFilter);
 
-			var pagedAndFilteredObeEclOverrides = filteredObeEclOverrides
+            var filteredFrameworkResult = _lookup_obeEclFrameworkRepository.GetAll()
+                        .Where(x => x.ObeEclId == input.EclId);
+
+            var pagedAndFilteredRetailEclOverrides = filteredRetailEclOverrides
                 .OrderBy(input.Sorting ?? "id asc")
                 .PageBy(input);
 
-			var obeEclOverrides = from o in pagedAndFilteredObeEclOverrides
-                         //join o1 in _lookup_obeEclDataLoanBookRepository.GetAll() on o.ObeEclDataLoanBookId equals o1.Id into j1
-                         //from s1 in j1.DefaultIfEmpty()
-                         
-                         select new GetObeEclOverrideForViewDto() {
-							ObeEclOverride = new ObeEclOverrideDto
-							{
+            var retailEclOverrides = from o in pagedAndFilteredRetailEclOverrides
+                                     join o1 in filteredFrameworkResult on o.ContractId equals o1.ContractId into j1
+                                     from s1 in j1.DefaultIfEmpty()
+
+                                     select new GetEclOverrideForViewDto()
+                                     {
+                                         EclOverride = new EclOverrideDto
+                                         {
+                                             StageOverride = o.StageOverride,
+                                             ImpairmentOverride = o.ImpairmentOverride,
+                                             OverrideComment = o.OverrideComment,
+                                             Status = o.Status,
+                                             Id = o.Id,
+                                             EclId = (Guid)o.ObeEclId,
+                                             RecordId = s1 == null ? o.Id : s1.Id
+                                         },
+                                         ContractId = o.ContractId,
+                                         //AccountNumber = s1 == null ? "" : s1.AssetDescription,
+                                         //CustomerName = s1 == null ? "" : s1.AssetDescription
+                                     };
+
+            var totalCount = await filteredRetailEclOverrides.CountAsync();
+
+            return new PagedResultDto<GetEclOverrideForViewDto>(
+                totalCount,
+                await retailEclOverrides.ToListAsync()
+            );
+        }
+
+        public async Task<List<NameValueDto>> SearchResult(EclShared.Dtos.GetRecordForOverrideInputDto input)
+        {
+            var filteredRecords = _lookup_obeEclFrameworkRepository.GetAll().Where(x => x.ObeEclId == input.EclId);
+
+            var query = from o in filteredRecords
+                        join o1 in _lookup_obeEclDataLoanBookRepository.GetAll() on o.ContractId equals o1.ContractId into j1
+                        from s1 in j1.DefaultIfEmpty()
+
+                        select new GetObeEclOverrideForViewDto()
+                        {
+                            ObeEclOverride = new ObeEclOverrideDto
+                            {
                                 ContractId = o.ContractId,
                                 Id = o.Id
-							},
-                         	//ObeEclDataLoanBookCustomerName = s1 == null ? "" : s1.CustomerName.ToString()
-						};
+                            },
+                            ObeEclDataLoanBookCustomerName = s1 == null ? "" : s1.CustomerName.ToString()
+                        };
 
-            var totalCount = await filteredObeEclOverrides.CountAsync();
+            return await query.Where(x => x.ObeEclDataLoanBookCustomerName.ToLower().Contains(input.searchTerm.ToLower()))
+                                            .Select(x => new NameValueDto
+                                            {
+                                                Value = x.ObeEclOverride.Id.ToString(),
+                                                Name = x.ObeEclDataLoanBookCustomerName
+                                            }).ToListAsync();
+        }
 
-            return new PagedResultDto<GetObeEclOverrideForViewDto>(
-                totalCount,
-                await obeEclOverrides.ToListAsync()
-            );
-         }
-		 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclOverrides_Edit)]
-		 public async Task<GetObeEclOverrideForEditOutput> GetObeEclOverrideForEdit(EntityDto<Guid> input)
-         {
+        public async Task<GetPreResultForOverrideOutput> GetEclRecordDetails(EntityDto<Guid> input)
+        {
+            var selectedRecord = await _lookup_obeEclFrameworkRepository.FirstOrDefaultAsync(input.Id);
+            var overrideRecord = await _obeEclOverrideRepository.FirstOrDefaultAsync(x => x.ObeEclId == selectedRecord.ObeEclId && x.ContractId == selectedRecord.ContractId);
+            var contract = await _lookup_obeEclDataLoanBookRepository.FirstOrDefaultAsync(x => x.ObeEclUploadId == selectedRecord.ObeEclId && x.ContractId == selectedRecord.ContractId);
+
+            var dto = new InvestmentComputation.Dtos.CreateOrEditEclOverrideDto() { ContractId = selectedRecord.ContractId, EclSicrId = selectedRecord.Id, EclId = selectedRecord.ObeEclId };
+
+            if (overrideRecord != null)
+            {
+                dto.EclId = (Guid)overrideRecord.ObeEclId;
+                dto.Id = overrideRecord.Id;
+                dto.OverrideComment = overrideRecord.OverrideComment;
+                dto.Stage = overrideRecord.StageOverride;
+                dto.Status = overrideRecord.Status;
+            }
+
+            return new GetPreResultForOverrideOutput
+            {
+                ContractId = selectedRecord.ContractId,
+                AccountNumber = contract.AccountNo,
+                AccountName = contract.CustomerName,
+                Stage = selectedRecord.Stage,
+                Impairment = selectedRecord.FinalEclValue,
+                EclOverrides = dto
+            };
+        }
+
+
+
+
+
+        [AbpAuthorize(AppPermissions.Pages_ObeEclOverrides_Edit)]
+        public async Task<GetObeEclOverrideForEditOutput> GetObeEclOverrideForEdit(EntityDto<Guid> input)
+        {
             var obeEclOverride = await _obeEclOverrideRepository.FirstOrDefaultAsync(input.Id);
-           
-		    var output = new GetObeEclOverrideForEditOutput {ObeEclOverride = ObjectMapper.Map<CreateOrEditObeEclOverrideDto>(obeEclOverride)};
 
-		    if (output.ObeEclOverride.ObeEclDataLoanBookId != null)
+            var output = new GetObeEclOverrideForEditOutput { ObeEclOverride = ObjectMapper.Map<CreateOrEditObeEclOverrideDto>(obeEclOverride) };
+
+            if (output.ObeEclOverride.ObeEclDataLoanBookId != null)
             {
                 var _lookupObeEclDataLoanBook = await _lookup_obeEclDataLoanBookRepository.FirstOrDefaultAsync((Guid)output.ObeEclOverride.ObeEclDataLoanBookId);
                 output.ObeEclDataLoanBookCustomerName = _lookupObeEclDataLoanBook.CustomerName.ToString();
             }
-			
+
             return output;
-         }
+        }
 
-		 public async Task CreateOrEdit(CreateOrEditObeEclOverrideDto input)
-         {
-            if(input.Id == null){
-				await Create(input);
-			}
-			else{
-				await Update(input);
-			}
-         }
+        public async Task CreateOrEdit(CreateOrEditEclOverrideDto input)
+        {
+            var validation = await ValidateForOverride(input);
+            if (validation.Status)
+            {
+                if (input.Id == null)
+                {
+                    await Create(input);
+                }
+                else
+                {
+                    await Update(input);
+                }
+            }
+            else
+            {
+                throw new UserFriendlyException(validation.Message);
+            }
+        }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclOverrides_Create)]
-		 protected virtual async Task Create(CreateOrEditObeEclOverrideDto input)
-         {
-            var obeEclOverride = ObjectMapper.Map<ObeEclOverride>(input);
+        protected virtual async Task Create(CreateOrEditEclOverrideDto input)
+        {
+            await _obeEclOverrideRepository.InsertAsync(new ObeEclOverride
+            {
+                Id = new Guid(),
+                ObeEclId = input.EclId,
+                ContractId = input.ContractId,
+                OverrideComment = input.OverrideComment,
+                StageOverride = input.Stage,
+                ImpairmentOverride = input.ImpairmentOverride,
+                Status = GeneralStatusEnum.Submitted
+            });
+        }
 
-			
+        protected virtual async Task Update(CreateOrEditEclOverrideDto input)
+        {
+            var eclOverride = await _obeEclOverrideRepository.FirstOrDefaultAsync((Guid)input.Id);
 
-            await _obeEclOverrideRepository.InsertAsync(obeEclOverride);
-         }
+            eclOverride.ObeEclId = input.EclId;
+            eclOverride.ContractId = input.ContractId;
+            eclOverride.OverrideComment = input.OverrideComment;
+            eclOverride.StageOverride = input.Stage;
+            eclOverride.ImpairmentOverride = input.ImpairmentOverride;
+            eclOverride.Status = GeneralStatusEnum.Submitted;
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclOverrides_Edit)]
-		 protected virtual async Task Update(CreateOrEditObeEclOverrideDto input)
-         {
-            var obeEclOverride = await _obeEclOverrideRepository.FirstOrDefaultAsync((Guid)input.Id);
-             ObjectMapper.Map(input, obeEclOverride);
-         }
+            await _obeEclOverrideRepository.UpdateAsync(eclOverride);
+        }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclOverrides_Delete)]
-         public async Task Delete(EntityDto<Guid> input)
-         {
+        [AbpAuthorize(AppPermissions.Pages_ObeEclOverrides_Delete)]
+        public async Task Delete(EntityDto<Guid> input)
+        {
             await _obeEclOverrideRepository.DeleteAsync(input.Id);
-         } 
+        }
 
-		[AbpAuthorize(AppPermissions.Pages_ObeEclOverrides)]
-         public async Task<PagedResultDto<ObeEclOverrideObeEclDataLoanBookLookupTableDto>> GetAllObeEclDataLoanBookForLookupTable(GetAllForLookupTableInput input)
-         {
-             var query = _lookup_obeEclDataLoanBookRepository.GetAll().WhereIf(
-                    !string.IsNullOrWhiteSpace(input.Filter),
-                   e=> e.CustomerName.ToString().Contains(input.Filter)
-                );
+        public virtual async Task ApproveReject(EclShared.Dtos.ReviewEclOverrideInputDto input)
+        {
+            var ecl = await _obeEclOverrideRepository.FirstOrDefaultAsync((Guid)input.OverrideRecordId);
 
-            var totalCount = await query.CountAsync();
+            await _lookup_obeEclOverrideApprovalRepository.InsertAsync(new ObeEclOverrideApproval
+            {
+                EclOverrideId = input.OverrideRecordId,
+                ObeEclId = input.EclId,
+                ReviewComment = input.ReviewComment,
+                ReviewedByUserId = AbpSession.UserId,
+                ReviewDate = DateTime.Now,
+                Status = input.Status
+            });
+            await CurrentUnitOfWork.SaveChangesAsync();
 
-            var obeEclDataLoanBookList = await query
-                .PageBy(input)
-                .ToListAsync();
+            if (input.Status == GeneralStatusEnum.Approved)
+            {
+                var requiredApprovals = await SettingManager.GetSettingValueAsync<int>(EclSettings.RequiredNoOfApprovals);
+                var eclApprovals = await _lookup_obeEclOverrideApprovalRepository.GetAllListAsync(x => x.ObeEclId == input.OverrideRecordId && x.Status == GeneralStatusEnum.Approved);
+                if (eclApprovals.Count(x => x.Status == GeneralStatusEnum.Approved) >= requiredApprovals)
+                {
+                    ecl.Status = GeneralStatusEnum.Approved;
+                }
+                else
+                {
+                    ecl.Status = GeneralStatusEnum.AwaitngAdditionApproval;
+                }
+            }
+            else
+            {
+                ecl.Status = GeneralStatusEnum.Draft;
+            }
 
-			var lookupTableDtoList = new List<ObeEclOverrideObeEclDataLoanBookLookupTableDto>();
-			foreach(var obeEclDataLoanBook in obeEclDataLoanBookList){
-				lookupTableDtoList.Add(new ObeEclOverrideObeEclDataLoanBookLookupTableDto
-				{
-					Id = obeEclDataLoanBook.Id.ToString(),
-					DisplayName = obeEclDataLoanBook.CustomerName?.ToString()
-				});
-			}
+            ObjectMapper.Map(ecl, ecl);
+        }
 
-            return new PagedResultDto<ObeEclOverrideObeEclDataLoanBookLookupTableDto>(
-                totalCount,
-                lookupTableDtoList
-            );
-         }
+        protected async Task<EclShared.Dtos.ValidationMessageDto> ValidateForOverride(CreateOrEditEclOverrideDto input)
+        {
+            var output = new EclShared.Dtos.ValidationMessageDto();
+
+            var reviewedOverride = await _obeEclOverrideRepository.FirstOrDefaultAsync(x => x.ContractId == input.ContractId && x.Status != GeneralStatusEnum.Submitted);
+
+            if (reviewedOverride != null)
+            {
+                output.Status = false;
+                output.Message = L("ApplyOverrideErrorRecordReviewed");
+            }
+            else
+            {
+                output.Status = true;
+                output.Message = "";
+            }
+
+            return output;
+        }
     }
 }

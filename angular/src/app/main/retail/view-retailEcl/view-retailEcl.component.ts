@@ -202,7 +202,7 @@ export class ViewRetailEclComponent extends AppComponentBase implements OnInit {
 
     getEclUploadSummary(): void {
         this._retailEclUploadServiceProxy.getEclUploads(this._eclId).subscribe(result => {
-            this.retailUploads = result;
+            //this.retailUploads = result;
         });
     }
 
