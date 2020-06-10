@@ -1,4 +1,5 @@
 ﻿using Abp.Application.Services.Dto;
+using Abp.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,7 +8,7 @@ using System.Text;
 namespace TestDemo.CalibrationResult
 {
     [Table("CalibrationResult_LGD_HairCut")]
-    public class CalibrationResultLgdHairCut: EntityDto
+    public class CalibrationResultLgdHairCut: Entity
     {
         public virtual double? Debenture { get; set; }
         public virtual double? Cash { get; set; }

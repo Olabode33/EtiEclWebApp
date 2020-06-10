@@ -5,6 +5,11 @@ import * as ApiServiceProxies from './service-proxies';
 
 @NgModule({
     providers: [
+        ApiServiceProxies.CalibrationEadBehaviouralTermsServiceProxy,
+        ApiServiceProxies.CalibrationPdCrDrServiceProxy,
+        ApiServiceProxies.CalibrationLgdHairCutServiceProxy,
+        ApiServiceProxies.CalibrationLgdRecoveryRateServiceProxy,
+        ApiServiceProxies.CalibrationEadCcfSummaryServiceProxy,
         ApiServiceProxies.ObeEclApprovalsServiceProxy,
         ApiServiceProxies.RetailEclApprovalsServiceProxy,
         ApiServiceProxies.WholesaleEclApprovalsServiceProxy,

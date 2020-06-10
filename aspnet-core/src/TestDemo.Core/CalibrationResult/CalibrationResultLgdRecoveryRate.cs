@@ -1,4 +1,5 @@
 ﻿using Abp.Application.Services.Dto;
+using Abp.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,7 +8,7 @@ using System.Text;
 namespace TestDemo.CalibrationResult
 {
     [Table("CalibrationResult_LGD_RecoveryRate")]
-    public class CalibrationResultLgdRecoveryRate: EntityDto
+    public class CalibrationResultLgdRecoveryRate: Entity
     {
         public virtual double? Overall_Exposure_At_Default { get; set; }
         public virtual double? Overall_PvOfAmountReceived { get; set; }

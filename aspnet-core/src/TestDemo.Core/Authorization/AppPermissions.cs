@@ -6,6 +6,11 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_CalibrationEadBehaviouralTerms = "Pages.CalibrationEadBehaviouralTerms";
+        public const string Pages_CalibrationEadBehaviouralTerms_Create = "Pages.CalibrationEadBehaviouralTerms.Create";
+        public const string Pages_CalibrationEadBehaviouralTerms_Edit = "Pages.CalibrationEadBehaviouralTerms.Edit";
+        public const string Pages_CalibrationEadBehaviouralTerms_Delete = "Pages.CalibrationEadBehaviouralTerms.Delete";
+
         public const string Pages_AffiliateMacroEconomicVariableOffsets = "Pages.AffiliateMacroEconomicVariableOffsets";
         public const string Pages_AffiliateMacroEconomicVariableOffsets_Create = "Pages.AffiliateMacroEconomicVariableOffsets.Create";
         public const string Pages_AffiliateMacroEconomicVariableOffsets_Edit = "Pages.AffiliateMacroEconomicVariableOffsets.Edit";

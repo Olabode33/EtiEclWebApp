@@ -1,0 +1,14 @@
+﻿using TestDemo.EclShared;
+
+using System;
+using Abp.Application.Services.Dto;
+
+namespace TestDemo.Calibration.Dtos
+{
+    public class CalibrationRunDto : EntityDto<Guid>
+    {
+        public DateTime? ClosedDate { get; set; }
+        public CalibrationStatusEnum Status { get; set; }
+        public long? CloseByUserId { get; set; }
+    }
+}

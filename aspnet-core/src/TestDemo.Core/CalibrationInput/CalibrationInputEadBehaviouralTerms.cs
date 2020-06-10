@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.Auditing;
+using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace TestDemo.CalibrationInput
 {
     [Table("CalibrationInput_EAD_Behavioural_Terms")]
     [Audited]
-    public class CalibrationInputEadBehaviouralTerms: EntityDto
+    public class CalibrationInputEadBehaviouralTerms: Entity
     {
         public virtual string Customer_No { get; set; }
         public virtual string Account_No { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Abp.Application.Services.Dto;
+using Abp.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,7 +8,7 @@ using System.Text;
 namespace TestDemo.CalibrationResult
 {
     [Table("CalibrationResult_EAD_CCF_Summary")]
-    public class CalibrationResultEadCcfSummary: EntityDto
+    public class CalibrationResultEadCcfSummary: Entity
     {
         public virtual double? OD_TotalLimitOdDefaultedLoan { get; set; }
         public virtual double? OD_BalanceAtDefault { get; set; }

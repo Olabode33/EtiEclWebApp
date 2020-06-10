@@ -30,6 +30,13 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var calibrationEadBehaviouralTerms = pages.CreateChildPermission(AppPermissions.Pages_CalibrationEadBehaviouralTerms, L("CalibrationEadBehaviouralTerms"));
+            calibrationEadBehaviouralTerms.CreateChildPermission(AppPermissions.Pages_CalibrationEadBehaviouralTerms_Create, L("CreateNewCalibrationEadBehaviouralTerm"));
+            calibrationEadBehaviouralTerms.CreateChildPermission(AppPermissions.Pages_CalibrationEadBehaviouralTerms_Edit, L("EditCalibrationEadBehaviouralTerm"));
+            calibrationEadBehaviouralTerms.CreateChildPermission(AppPermissions.Pages_CalibrationEadBehaviouralTerms_Delete, L("DeleteCalibrationEadBehaviouralTerm"));
+
+
+
             var affiliateMacroEconomicVariableOffsets = pages.CreateChildPermission(AppPermissions.Pages_AffiliateMacroEconomicVariableOffsets, L("AffiliateMacroEconomicVariableOffsets"));
             affiliateMacroEconomicVariableOffsets.CreateChildPermission(AppPermissions.Pages_AffiliateMacroEconomicVariableOffsets_Create, L("CreateNewAffiliateMacroEconomicVariableOffset"));
             affiliateMacroEconomicVariableOffsets.CreateChildPermission(AppPermissions.Pages_AffiliateMacroEconomicVariableOffsets_Edit, L("EditAffiliateMacroEconomicVariableOffset"));

@@ -1104,6 +1104,376 @@ namespace TestDemo.Migrations
                     b.ToTable("AbpUsers");
                 });
 
+            modelBuilder.Entity("TestDemo.Calibration.Approvals.CalibrationEadBehaviouralTermApproval", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("CalibrationId");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<string>("ReviewComment");
+
+                    b.Property<long?>("ReviewedByUserId");
+
+                    b.Property<DateTime>("ReviewedDate");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CalibrationId");
+
+                    b.HasIndex("ReviewedByUserId");
+
+                    b.ToTable("CalibrationEadBehaviouralTermApprovals");
+                });
+
+            modelBuilder.Entity("TestDemo.Calibration.Approvals.CalibrationEadCcfSummaryApproval", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("CalibrationId");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<string>("ReviewComment");
+
+                    b.Property<long?>("ReviewedByUserId");
+
+                    b.Property<DateTime>("ReviewedDate");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CalibrationId");
+
+                    b.HasIndex("ReviewedByUserId");
+
+                    b.ToTable("CalibrationEadCcfSummaryApprovals");
+                });
+
+            modelBuilder.Entity("TestDemo.Calibration.Approvals.CalibrationLgdHairCutApproval", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("CalibrationId");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<string>("ReviewComment");
+
+                    b.Property<long?>("ReviewedByUserId");
+
+                    b.Property<DateTime>("ReviewedDate");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CalibrationId");
+
+                    b.HasIndex("ReviewedByUserId");
+
+                    b.ToTable("CalibrationLgdHairCutApprovals");
+                });
+
+            modelBuilder.Entity("TestDemo.Calibration.Approvals.CalibrationLgdRecoveryRateApproval", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("CalibrationId");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<string>("ReviewComment");
+
+                    b.Property<long?>("ReviewedByUserId");
+
+                    b.Property<DateTime>("ReviewedDate");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CalibrationId");
+
+                    b.HasIndex("ReviewedByUserId");
+
+                    b.ToTable("CalibrationLgdRecoveryRateApprovals");
+                });
+
+            modelBuilder.Entity("TestDemo.Calibration.Approvals.CalibrationPdCrDrApproval", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("CalibrationId");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<string>("ReviewComment");
+
+                    b.Property<long?>("ReviewedByUserId");
+
+                    b.Property<DateTime>("ReviewedDate");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CalibrationId");
+
+                    b.HasIndex("ReviewedByUserId");
+
+                    b.ToTable("CalibrationPdCrDrApprovals");
+                });
+
+            modelBuilder.Entity("TestDemo.Calibration.CalibrationEadBehaviouralTerm", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long?>("CloseByUserId");
+
+                    b.Property<DateTime?>("ClosedDate");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CloseByUserId");
+
+                    b.ToTable("CalibrationRunEadBehaviouralTerms");
+                });
+
+            modelBuilder.Entity("TestDemo.Calibration.CalibrationEadCcfSummary", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long?>("CloseByUserId");
+
+                    b.Property<DateTime?>("ClosedDate");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CloseByUserId");
+
+                    b.ToTable("CalibrationRunEadCcfSummary");
+                });
+
+            modelBuilder.Entity("TestDemo.Calibration.CalibrationLgdHairCut", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long?>("CloseByUserId");
+
+                    b.Property<DateTime?>("ClosedDate");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CloseByUserId");
+
+                    b.ToTable("CalibrationRunLgdHairCut");
+                });
+
+            modelBuilder.Entity("TestDemo.Calibration.CalibrationLgdRecoveryRate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long?>("CloseByUserId");
+
+                    b.Property<DateTime?>("ClosedDate");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CloseByUserId");
+
+                    b.ToTable("CalibrationRunLgdRecoveryRate");
+                });
+
+            modelBuilder.Entity("TestDemo.Calibration.CalibrationPdCrDr", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long?>("CloseByUserId");
+
+                    b.Property<DateTime?>("ClosedDate");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CloseByUserId");
+
+                    b.ToTable("CalibrationRunPdCrDrs");
+                });
+
             modelBuilder.Entity("TestDemo.CalibrationInput.CalibrationInputEadBehaviouralTerms", b =>
                 {
                     b.Property<int>("Id")
@@ -1311,6 +1681,8 @@ namespace TestDemo.Migrations
                     b.Property<string>("Contract_No");
 
                     b.Property<DateTime?>("Contract_Start_Date");
+
+                    b.Property<int?>("Current_Rating");
 
                     b.Property<string>("Customer_No");
 
@@ -9199,6 +9571,96 @@ namespace TestDemo.Migrations
                     b.HasOne("TestDemo.Authorization.Users.User", "LastModifierUser")
                         .WithMany()
                         .HasForeignKey("LastModifierUserId");
+                });
+
+            modelBuilder.Entity("TestDemo.Calibration.Approvals.CalibrationEadBehaviouralTermApproval", b =>
+                {
+                    b.HasOne("TestDemo.Calibration.CalibrationEadBehaviouralTerm", "CalibrationFk")
+                        .WithMany()
+                        .HasForeignKey("CalibrationId");
+
+                    b.HasOne("TestDemo.Authorization.Users.User", "ReviewedByUserFk")
+                        .WithMany()
+                        .HasForeignKey("ReviewedByUserId");
+                });
+
+            modelBuilder.Entity("TestDemo.Calibration.Approvals.CalibrationEadCcfSummaryApproval", b =>
+                {
+                    b.HasOne("TestDemo.Calibration.CalibrationEadCcfSummary", "CalibrationFk")
+                        .WithMany()
+                        .HasForeignKey("CalibrationId");
+
+                    b.HasOne("TestDemo.Authorization.Users.User", "ReviewedByUserFk")
+                        .WithMany()
+                        .HasForeignKey("ReviewedByUserId");
+                });
+
+            modelBuilder.Entity("TestDemo.Calibration.Approvals.CalibrationLgdHairCutApproval", b =>
+                {
+                    b.HasOne("TestDemo.Calibration.CalibrationLgdHairCut", "CalibrationFk")
+                        .WithMany()
+                        .HasForeignKey("CalibrationId");
+
+                    b.HasOne("TestDemo.Authorization.Users.User", "ReviewedByUserFk")
+                        .WithMany()
+                        .HasForeignKey("ReviewedByUserId");
+                });
+
+            modelBuilder.Entity("TestDemo.Calibration.Approvals.CalibrationLgdRecoveryRateApproval", b =>
+                {
+                    b.HasOne("TestDemo.Calibration.CalibrationLgdRecoveryRate", "CalibrationFk")
+                        .WithMany()
+                        .HasForeignKey("CalibrationId");
+
+                    b.HasOne("TestDemo.Authorization.Users.User", "ReviewedByUserFk")
+                        .WithMany()
+                        .HasForeignKey("ReviewedByUserId");
+                });
+
+            modelBuilder.Entity("TestDemo.Calibration.Approvals.CalibrationPdCrDrApproval", b =>
+                {
+                    b.HasOne("TestDemo.Calibration.CalibrationPdCrDr", "CalibrationFk")
+                        .WithMany()
+                        .HasForeignKey("CalibrationId");
+
+                    b.HasOne("TestDemo.Authorization.Users.User", "ReviewedByUserFk")
+                        .WithMany()
+                        .HasForeignKey("ReviewedByUserId");
+                });
+
+            modelBuilder.Entity("TestDemo.Calibration.CalibrationEadBehaviouralTerm", b =>
+                {
+                    b.HasOne("TestDemo.Authorization.Users.User", "CloseByUserFk")
+                        .WithMany()
+                        .HasForeignKey("CloseByUserId");
+                });
+
+            modelBuilder.Entity("TestDemo.Calibration.CalibrationEadCcfSummary", b =>
+                {
+                    b.HasOne("TestDemo.Authorization.Users.User", "CloseByUserFk")
+                        .WithMany()
+                        .HasForeignKey("CloseByUserId");
+                });
+
+            modelBuilder.Entity("TestDemo.Calibration.CalibrationLgdHairCut", b =>
+                {
+                    b.HasOne("TestDemo.Authorization.Users.User", "CloseByUserFk")
+                        .WithMany()
+                        .HasForeignKey("CloseByUserId");
+                });
+
+            modelBuilder.Entity("TestDemo.Calibration.CalibrationLgdRecoveryRate", b =>
+                {
+                    b.HasOne("TestDemo.Authorization.Users.User", "CloseByUserFk")
+                        .WithMany()
+                        .HasForeignKey("CloseByUserId");
+                });
+
+            modelBuilder.Entity("TestDemo.Calibration.CalibrationPdCrDr", b =>
+                {
+                    b.HasOne("TestDemo.Authorization.Users.User", "CloseByUserFk")
+                        .WithMany()
+                        .HasForeignKey("CloseByUserId");
                 });
 
             modelBuilder.Entity("TestDemo.EclConfig.AffiliateOverrideThreshold", b =>

@@ -1,4 +1,5 @@
 ﻿using Abp.Application.Services.Dto;
+using Abp.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,7 +8,7 @@ using System.Text;
 namespace TestDemo.CalibrationInput
 {
     [Table("CalibrationInput_EAD_CCF_Summary")]
-    public class CalibrationInputEadCcfSummary: EntityDto
+    public class CalibrationInputEadCcfSummary: Entity
     {
         public virtual string Customer_No { get; set; }
         public virtual string Account_No { get; set; }

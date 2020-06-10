@@ -1,5 +1,7 @@
 ﻿import { ViewRetailEclComponent } from './retail/view-retailEcl/view-retailEcl.component';
 import { NgModule } from '@angular/core';
+import { CalibrationEadBehaviouralTermsComponent } from './calibration/calibrationEadBehaviouralTerms/calibrationEadBehaviouralTerms.component';
+import { CreateOrEditCalibrationEadBehaviouralTermComponent } from './calibration/calibrationEadBehaviouralTerms/create-or-edit-calibrationEadBehaviouralTerm.component';
 import { AffiliateMacroEconomicVariableOffsetsComponent } from './affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets/affiliateMacroEconomicVariableOffsets.component';
 import { EclSettingsComponent } from './eclConfig/eclSettings/eclSettings.component';
 import { AssumptionApprovalsComponent } from './assumptions/assumptionApprovals/assumptionApprovals.component';
@@ -28,6 +30,8 @@ import { ViewAssetBookDetailsComponent } from './eclShared/view-assetBookDetails
             {
                 path: '',
                 children: [
+                    { path: 'calibration/calibrationEadBehaviouralTerms', component: CalibrationEadBehaviouralTermsComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms' }  },
+                    { path: 'calibration/calibrationEadBehaviouralTerms/createOrEdit', component: CreateOrEditCalibrationEadBehaviouralTermComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms.Create' }  },
                     { path: 'affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets', component: AffiliateMacroEconomicVariableOffsetsComponent, data: { permission: 'Pages.AffiliateMacroEconomicVariableOffsets' }  },
                     { path: 'eclConfig/eclConfigurations', component: EclSettingsComponent, data: { permission: 'Pages.EclConfigurations' }  },
                     { path: 'eclConfig/affiliates', component: AffiliateConfigurationComponent, data: { permission: 'Pages.EclConfigurations' }  },

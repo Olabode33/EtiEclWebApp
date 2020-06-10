@@ -1,4 +1,5 @@
 ﻿using Abp.Application.Services.Dto;
+using Abp.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,7 +8,7 @@ using System.Text;
 namespace TestDemo.CalibrationResult
 {
     [Table("CalibrationResult_PD_12Months")]
-    public class CalibrationResultPd12Months: EntityDto
+    public class CalibrationResultPd12Months: Entity
     {
         public virtual int? Rating { get; set; }
         public virtual double? Outstanding_Balance { get; set; }

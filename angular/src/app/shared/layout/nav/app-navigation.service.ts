@@ -31,6 +31,8 @@ export class AppNavigationService {
                 new AppMenuItem('AffiliateMacroEconomicVariableOffsets', 'Pages.AffiliateMacroEconomicVariableOffsets', 'flaticon-more', '/app/main/affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets'),
             ]),
            
+            
+            new AppMenuItem('CalibrationEadBehaviouralTerms', 'Pages.CalibrationEadBehaviouralTerms', 'flaticon-more', '/app/main/calibration/calibrationEadBehaviouralTerms'),
              new AppMenuItem('Administration', '', 'fa fa-cogs', '', [
                 new AppMenuItem('OrganizationUnits', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),

@@ -1,4 +1,5 @@
-﻿using TestDemo.AffiliateMacroEconomicVariable;
+﻿using TestDemo.Calibration;
+using TestDemo.AffiliateMacroEconomicVariable;
 using TestDemo.InvestmentInputs;
 using TestDemo.InvestmentAssumption;
 using TestDemo.Investment;
@@ -40,11 +41,23 @@ using TestDemo.Storage;
 using TestDemo.InvestmentComputation;
 using TestDemo.CalibrationInput;
 using TestDemo.CalibrationResult;
+using TestDemo.Calibration.Approvals;
 
 namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<CalibrationEadBehaviouralTermApproval> CalibrationEadBehaviouralTermApprovals { get; set; }
+        public virtual DbSet<CalibrationEadCcfSummaryApproval> CalibrationEadCcfSummaryApproval { get; set; }
+        public virtual DbSet<CalibrationLgdHairCutApproval> CalibrationLgdHairCutApproval { get; set; }
+        public virtual DbSet<CalibrationLgdRecoveryRateApproval> CalibrationLgdRecoveryRateApproval { get; set; }
+        public virtual DbSet<CalibrationPdCrDrApproval> CalibrationPdCrDrApproval { get; set; }
+        public virtual DbSet<CalibrationEadBehaviouralTerm> CalibrationEadBehaviouralTerms { get; set; }
+        public virtual DbSet<CalibrationEadCcfSummary> CalibrationEadCcfSummary { get; set; }
+        public virtual DbSet<CalibrationLgdHairCut> CalibrationLgdHairCut { get; set; }
+        public virtual DbSet<CalibrationLgdRecoveryRate> CalibrationLgdRecoveryRate { get; set; }
+        public virtual DbSet<CalibrationPdCrDr> CalibrationPdCrDr { get; set; }
+
         public virtual DbSet<CalibrationInputEadBehaviouralTerms> CalibrationInputEadBehaviouralTerms { get; set; }
         public virtual DbSet<CalibrationInputEadCcfSummary> CalibrationInputEadCcfSummary { get; set; }
         public virtual DbSet<CalibrationInputLgdHairCut> CalibrationInputLgdHairCut { get; set; }
@@ -54,7 +67,7 @@ namespace TestDemo.EntityFrameworkCore
         public virtual DbSet<CalibrationResultEadCcfSummary> CalibrationResultEadCcfSummary { get; set; }
         public virtual DbSet<CalibrationResultLgdHairCut> CalibrationResultLgdHairCut { get; set; }
         public virtual DbSet<CalibrationResultLgdRecoveryRate> CalibrationResultLgdRecoveryRate { get; set; }
-        public virtual DbSet<CalibrationResult12MonthPd> CalibrationResult12MonthPd { get; set; }
+        public virtual DbSet<CalibrationResultPd12Months> CalibrationResult12MonthPd { get; set; }
         public virtual DbSet<CalibrationResultPd12MonthsSummary> CalibrationResultPd12MonthsSummary { get; set; }
         
         public virtual DbSet<WholesaleEclOverrideApproval> WholesaleEclOverrideApprovals { get; set; }
