@@ -38,11 +38,24 @@ using TestDemo.MultiTenancy.Accounting;
 using TestDemo.MultiTenancy.Payments;
 using TestDemo.Storage;
 using TestDemo.InvestmentComputation;
+using TestDemo.CalibrationInput;
+using TestDemo.CalibrationResult;
 
 namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<CalibrationInputEadBehaviouralTerms> CalibrationInputEadBehaviouralTerms { get; set; }
+        public virtual DbSet<CalibrationInputEadCcfSummary> CalibrationInputEadCcfSummary { get; set; }
+        public virtual DbSet<CalibrationInputLgdHairCut> CalibrationInputLgdHairCut { get; set; }
+        public virtual DbSet<CalibrationInputLgdRecoveryRate> CalibrationInputLgdRecoveryRate { get; set; }
+        public virtual DbSet<CalibrationInputPdCrDr> CalibrationInputPdCrDr { get; set; }
+        public virtual DbSet<CalibrationResultEadBehaviouralTerms> CalibrationResultEadBehaviouralTerms { get; set; }
+        public virtual DbSet<CalibrationResultEadCcfSummary> CalibrationResultEadCcfSummary { get; set; }
+        public virtual DbSet<CalibrationResultLgdHairCut> CalibrationResultLgdHairCut { get; set; }
+        public virtual DbSet<CalibrationResultLgdRecoveryRate> CalibrationResultLgdRecoveryRate { get; set; }
+        public virtual DbSet<CalibrationResult12MonthPd> CalibrationResult12MonthPd { get; set; }
+        public virtual DbSet<CalibrationResultPd12MonthsSummary> CalibrationResultPd12MonthsSummary { get; set; }
         
         public virtual DbSet<WholesaleEclOverrideApproval> WholesaleEclOverrideApprovals { get; set; }
         public virtual DbSet<RetailEclOverrideApproval> RetailEclOverrideApprovals { get; set; }
