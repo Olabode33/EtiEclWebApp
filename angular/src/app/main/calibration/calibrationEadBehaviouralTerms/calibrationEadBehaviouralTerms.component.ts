@@ -1,4 +1,4 @@
-﻿import { CalibrationStatusEnum, CreateOrEditCalibrationRunDto } from './../../../../shared/service-proxies/service-proxies';
+﻿import { CalibrationStatusEnum, CreateOrEditCalibrationRunDto, CommonLookupServiceProxy, NameValueDtoOfInt64 } from './../../../../shared/service-proxies/service-proxies';
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CalibrationEadBehaviouralTermsServiceProxy, GeneralStatusEnum, CalibrationRunDto } from '@shared/service-proxies/service-proxies';
@@ -15,6 +15,7 @@ import { FileDownloadService } from '@shared/utils/file-download.service';
 import { EntityTypeHistoryModalComponent } from '@app/shared/common/entityHistory/entity-type-history-modal.component';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import { OuLookupTableModalComponent } from '@app/main/eclShared/ou-lookup-modal/ou-lookup-table-modal.component';
 
 @Component({
     templateUrl: './calibrationEadBehaviouralTerms.component.html',
@@ -25,6 +26,7 @@ export class CalibrationEadBehaviouralTermsComponent extends AppComponentBase im
 
 
     @ViewChild('entityTypeHistoryModal', { static: true }) entityTypeHistoryModal: EntityTypeHistoryModalComponent;
+    @ViewChild('ouLookupTableModal', { static: true }) ouLookupTableModal: OuLookupTableModalComponent;
 
 
     @ViewChild('dataTable', { static: true }) dataTable: Table;
@@ -33,16 +35,21 @@ export class CalibrationEadBehaviouralTermsComponent extends AppComponentBase im
     advancedFiltersAreShown = false;
     filterText = '';
     statusFilter = -1;
-    userNameFilter = '';
+    affiliateFilter = -1;
 
     generalStatusEnum = CalibrationStatusEnum;
 
     _entityTypeFullName = 'TestDemo.Calibration.CalibrationEadBehaviouralTerm';
     entityHistoryEnabled = false;
 
+    _affiliateId = -1;
+
+    ouList: NameValueDtoOfInt64[] = new Array();
+
     constructor(
         injector: Injector,
         private _calibrationServiceProxy: CalibrationEadBehaviouralTermsServiceProxy,
+        private _commonServiceProxy: CommonLookupServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
@@ -50,6 +57,14 @@ export class CalibrationEadBehaviouralTermsComponent extends AppComponentBase im
         private _router: Router
     ) {
         super(injector);
+        _commonServiceProxy.getUserAffiliates().subscribe(result => {
+            if (result.length > 0) {
+                this._affiliateId = result[0].value;
+            }
+        });
+        _commonServiceProxy.getAllOrganizationUnitForLookupTable('', '', 0, 100).subscribe(result => {
+            this.ouList = result.items;
+        });
     }
 
     ngOnInit(): void {
@@ -72,7 +87,7 @@ export class CalibrationEadBehaviouralTermsComponent extends AppComponentBase im
         this._calibrationServiceProxy.getAll(
             this.filterText,
             this.statusFilter,
-            this.userNameFilter,
+            this.affiliateFilter,
             this.primengTableHelper.getSorting(this.dataTable),
             this.primengTableHelper.getSkipCount(this.paginator, event),
             this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -88,12 +103,25 @@ export class CalibrationEadBehaviouralTermsComponent extends AppComponentBase im
     }
 
     create(): void {
+        if (this._affiliateId === -1) {
+            this.ouLookupTableModal.show();
+        } else {
+            let c = new CreateOrEditCalibrationRunDto();
+            this._calibrationServiceProxy.createOrEdit(c).subscribe(result => {
+                this.reloadPage();
+                this.notify.success(this.l('CalibrationSuccessfullyCreated'));
+            });
+        }
+        //this._router.navigate(['/app/main/calibration/calibrationEadBehaviouralTerms/createOrEdit']);
+    }
+
+    createForAffiliate() {
         let c = new CreateOrEditCalibrationRunDto();
+        c.affiliateId = this.ouLookupTableModal.id;
         this._calibrationServiceProxy.createOrEdit(c).subscribe(result => {
             this.reloadPage();
             this.notify.success(this.l('CalibrationSuccessfullyCreated'));
         });
-        //this._router.navigate(['/app/main/calibration/calibrationEadBehaviouralTerms/createOrEdit']);
     }
 
 
@@ -119,5 +147,22 @@ export class CalibrationEadBehaviouralTermsComponent extends AppComponentBase im
                 }
             }
         );
+    }
+
+    getStatusLabelClass(uploadStatus: CalibrationStatusEnum): string {
+        switch (uploadStatus) {
+            case CalibrationStatusEnum.Draft:
+                return 'primary';
+            case CalibrationStatusEnum.Submitted:
+            case CalibrationStatusEnum.Processing:
+                return 'warning';
+            case CalibrationStatusEnum.Completed:
+            case CalibrationStatusEnum.Approved:
+                return 'success';
+            case CalibrationStatusEnum.Rejected:
+                return 'danger';
+            default:
+                return 'dark';
+        }
     }
 }

@@ -74,6 +74,7 @@ import { WorkspaceComponent } from './workspace/workspace.component';
 import { EclResultsComponent } from './eclView/_subs/ecl-results/ecl-results.component';
 import { EclAuditInfoComponent } from './eclView/_subs/ecl-audit-info/ecl-audit-info.component';
 import { ViewAssetBookDetailsComponent } from './eclShared/view-assetBookDetails/view-assetBookDetails.component';
+import { OuLookupTableModalComponent } from './eclShared/ou-lookup-modal/ou-lookup-table-modal.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -100,8 +101,9 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
-		CalibrationEadBehaviouralTermsComponent,
-		CreateOrEditCalibrationEadBehaviouralTermComponent,
+        OuLookupTableModalComponent,
+        CalibrationEadBehaviouralTermsComponent,
+        CreateOrEditCalibrationEadBehaviouralTermComponent,
         AffiliateMacroEconomicVariableOffsetsComponent,
         ViewAffiliateMacroEconomicVariableOffsetModalComponent, CreateOrEditAffiliateMacroEconomicVariableOffsetModalComponent,
         AffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableModalComponent,

@@ -25,6 +25,7 @@ using TestDemo.Dto.Approvals;
 using TestDemo.EclConfig;
 using Abp.Configuration;
 using TestDemo.EclShared.Dtos;
+using Abp.Organizations;
 
 namespace TestDemo.Calibration
 {
@@ -35,6 +36,7 @@ namespace TestDemo.Calibration
         private readonly IRepository<CalibrationEadBehaviouralTermApproval, Guid> _calibrationApprovalRepository;
         private readonly IRepository<CalibrationInputEadBehaviouralTerms> _calibrationInputRepository;
         private readonly IRepository<CalibrationResultEadBehaviouralTerms> _calibrationResultRepository;
+        private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
 
 
@@ -43,6 +45,7 @@ namespace TestDemo.Calibration
             IRepository<User, long> lookup_userRepository,
             IRepository<CalibrationEadBehaviouralTermApproval, Guid> calibrationApprovalRepository,
             IRepository<CalibrationInputEadBehaviouralTerms> calibrationInputRepository,
+            IRepository<OrganizationUnit, long> organizationUnitRepository,
             IRepository<CalibrationResultEadBehaviouralTerms> calibrationResultRepository)
         {
             _calibrationRepository = calibrationRepository;
@@ -50,6 +53,7 @@ namespace TestDemo.Calibration
             _calibrationApprovalRepository = calibrationApprovalRepository;
             _calibrationInputRepository = calibrationInputRepository;
             _calibrationResultRepository = calibrationResultRepository;
+            _organizationUnitRepository = organizationUnitRepository;
         }
 
         public async Task<PagedResultDto<GetCalibrationRunForViewDto>> GetAll(GetAllCalibrationRunInput input)
@@ -68,7 +72,7 @@ namespace TestDemo.Calibration
                         .WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false)
                         .WhereIf(input.StatusFilter.HasValue && input.StatusFilter > -1, e => e.Status == statusFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.CloseByUserFk != null && e.CloseByUserFk.Name == input.UserNameFilter);
+                        .WhereIf(input.AffiliateIdFilter.HasValue && input.AffiliateIdFilter > -1, e => e.OrganizationUnitId == input.AffiliateIdFilter);
 
             var pagedAndFilteredCalibrationEadBehaviouralTerms = filteredCalibrationEadBehaviouralTerms
                 .OrderBy(input.Sorting ?? "id asc")
@@ -77,6 +81,9 @@ namespace TestDemo.Calibration
             var calibrationEadBehaviouralTerms = from o in pagedAndFilteredCalibrationEadBehaviouralTerms
                                                  join o1 in _lookup_userRepository.GetAll() on o.CreatorUserId equals o1.Id into j1
                                                  from s1 in j1.DefaultIfEmpty()
+
+                                                 join ou in _organizationUnitRepository.GetAll() on o.OrganizationUnitId equals ou.Id into ou1
+                                                 from ou2 in ou1.DefaultIfEmpty()
 
                                                  select new GetCalibrationRunForViewDto()
                                                  {
@@ -88,7 +95,8 @@ namespace TestDemo.Calibration
                                                      },
                                                      ClosedBy = o.CloseByUserFk == null || o.CloseByUserFk.FullName == null ? "" : o.CloseByUserFk.FullName,
                                                      DateCreated = o.CreationTime,
-                                                     CreatedBy = s1 == null ? "" : s1.FullName
+                                                     CreatedBy = s1 == null ? "" : s1.FullName,
+                                                     AffiliateName = ou2 == null ? "" : ou2.DisplayName
                                                  };
 
             var totalCount = await filteredCalibrationEadBehaviouralTerms.CountAsync();
@@ -146,7 +154,12 @@ namespace TestDemo.Calibration
             }
             else
             {
-                throw new UserFriendlyException(L("UserDoesNotBelongToAnyAffiliateError"));
+                Guid id = await _calibrationRepository.InsertAndGetIdAsync(new CalibrationEadBehaviouralTerm()
+                {
+                    OrganizationUnitId = (long)input.AffiliateId,
+                    Status = CalibrationStatusEnum.Draft
+                });
+                return id;
             }
         }
 

@@ -7,6 +7,6 @@ namespace TestDemo.Calibration.Dtos
     {
         public string Filter { get; set; }
         public int? StatusFilter { get; set; }
-        public string UserNameFilter { get; set; }
+        public int? AffiliateIdFilter { get; set; }
     }
 }

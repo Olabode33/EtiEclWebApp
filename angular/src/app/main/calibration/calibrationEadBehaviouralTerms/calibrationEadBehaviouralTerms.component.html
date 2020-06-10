@@ -8,14 +8,13 @@
             </h3>
             <span class="kt-subheader__separator kt-subheader__separator--v"></span>
             <span class="kt-subheader__desc">
-                {{l("CalibrationEadBehaviouralTermsHeaderInfo")}}
+                {{l("Calibration")}}
             </span>
         </div>
         <div class="kt-subheader__toolbar">
             <div class="kt-subheader__wrapper">
-                <button *ngIf="isGranted('Pages.CalibrationEadBehaviouralTerms.Create')"
-                    (click)="create()" class="btn btn-primary blue"><i
-                        class="fa fa-plus"></i> {{l("Create")}}</button>
+                <button *ngIf="isGranted('Pages.CalibrationEadBehaviouralTerms.Create')" (click)="create()"
+                    class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("New")}}</button>
             </div>
         </div>
 
@@ -26,66 +25,47 @@
                 <form class="kt-form" autocomplete="off">
                     <div>
                         <div class="row align-items-center">
-                            <div class="col-xl-12">
+                            <div *ngIf="_affiliateId === -1" class="col-xl-2 col-sm-6">
+                                <div class="form-group m-form__group align-items-center">
+                                    <select class="form-control" name="IsApprovedFilter" id="IsApprovedFilterSelect"
+                                        [(ngModel)]="affiliateFilter">
+                                        <option value="-1">{{l("SelectOU")}}</option>
+                                        <option *ngFor="let item of ouList" [value]="item.value">{{item.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-sm-6">
+                                <div class="form-group m-form__group align-items-center">
+                                    <select class="form-control" name="IsApprovedFilter" id="IsApprovedFilterSelect"
+                                        [(ngModel)]="statusFilter">
+                                        <option value=-1>{{l("SelectStatus")}}</option>
+                                        <option [value]="generalStatusEnum.Draft">
+                                            {{l(generalStatusEnum[generalStatusEnum.Draft])}}</option>
+                                        <option [value]="generalStatusEnum.Submitted">
+                                            {{l(generalStatusEnum[generalStatusEnum.Submitted])}}</option>
+                                        <option [value]="generalStatusEnum.AwaitngAdditionApproval">
+                                            {{l(generalStatusEnum[generalStatusEnum.AwaitngAdditionApproval])}}</option>
+                                        <option [value]="generalStatusEnum.Approved">
+                                            {{l(generalStatusEnum[generalStatusEnum.Approved])}}</option>
+                                        <option [value]="generalStatusEnum.Completed">
+                                            {{l(generalStatusEnum[generalStatusEnum.Completed])}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div *ngIf="_affiliateId !== -1" class="col-xl-2"></div>
+                            <div class="col-xl-4"></div>
+                            <div class="col-xl-4">
                                 <div class="form-group m-form__group align-items-center">
                                     <div class="input-group">
                                         <input [(ngModel)]="filterText" name="filterText" autoFocus
                                             class="form-control m-input" [placeholder]="l('SearchWithThreeDot')"
                                             type="text">
                                         <span class="input-group-btn">
-                                            <button (click)="getAll()"
-                                                class="btn btn-primary" type="submit"><i
+                                            <button (click)="getAll()" class="btn btn-primary" type="submit"><i
                                                     class="flaticon-search-1"></i></button>
                                         </span>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row" [hidden]="!advancedFiltersAreShown">
-                            <div class="col-md-12">
-                                <div class="kt-separator kt-separator--border-dashed"></div>
-                            </div>
-
-
-                            <div class="col-md-3">
-                                <label for="StatusFilterSelect">{{l("Status")}}</label>
-                                <select class="form-control" name="StatusFilter" id="StatusFilterSelect"
-                                    [(ngModel)]="statusFilter">
-                                    <option value="-1">{{l("All")}}</option>
-                                    <option value="0">{{l('Draft')}}</option>
-
-                                    <option value="1">{{l('Submitted')}}</option>
-
-                                    <option value="2">{{l('Approved')}}</option>
-
-                                    <option value="3">{{l('Rejected')}}</option>
-
-                                    <option value="4">{{l('Processing')}}</option>
-
-                                    <option value="5">{{l('Completed')}}</option>
-
-                                    <option value="6">{{l('AwaitngAdditionApproval')}}</option>
-
-
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="UserNameFilter">({{l("User")}}) {{l("Name")}}</label>
-                                    <input type="text" class="form-control" id="UserNameFilter" name="userNameFilter"
-                                        [(ngModel)]="userNameFilter">
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-sm-12">
-                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown"
-                                    (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
-                                        class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
-                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown"
-                                    (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
-                                        class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
                             </div>
                         </div>
                     </div>
@@ -94,8 +74,7 @@
                 <div class="row align-items-center">
                     <!--<Primeng-Datatable-Start>-->
                     <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelper.isLoading">
-                        <p-table #dataTable (onLazyLoad)="getAll($event)"
-                            [value]="primengTableHelper.records"
+                        <p-table #dataTable (onLazyLoad)="getAll($event)" [value]="primengTableHelper.records"
                             rows="{{primengTableHelper.defaultRecordsCountPerPage}}" [paginator]="false" [lazy]="true"
                             [scrollable]="true" ScrollWidth="100%" [responsive]="primengTableHelper.isResponsive"
                             [resizableColumns]="primengTableHelper.resizableColumns">
@@ -104,6 +83,10 @@
                                     <th style="width: 130px"
                                         [hidden]="!isGrantedAny('Pages.CalibrationEadBehaviouralTerms.Edit', 'Pages.CalibrationEadBehaviouralTerms.Delete')">
                                         {{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="affiliateName">
+                                        {{l('Affiliate')}}
+                                        <p-sortIcon field="affiliateName"></p-sortIcon>
+                                    </th>
                                     <th style="width: 150px" pSortableColumn="createdBy">
                                         {{l('DateCreated')}}
                                         <p-sortIcon field="createdBy"></p-sortIcon>
@@ -149,6 +132,10 @@
                                         </div>
                                     </td>
                                     <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('Affiliate')}}</span>
+                                        {{record.affiliateName}}
+                                    </td>
+                                    <td style="width:150px">
                                         <span class="ui-column-title"> {{l('DateCreated')}}</span>
                                         <span *ngIf="record.dateCreated">
                                             {{record.dateCreated | momentFormat:'L'}}
@@ -161,7 +148,12 @@
                                     </td>
                                     <td style="width:150px">
                                         <span class="ui-column-title"> {{l('Status')}}</span>
-                                        {{l( generalStatusEnum[record.calibration.status])}}
+                                        <span
+                                            class="kt-badge kt-badge--bolder kt-badge kt-badge--inline 
+                                                     kt-badge--unified-{{ getStatusLabelClass(record.calibration.status) }}">
+                                            {{l( generalStatusEnum[record.calibration.status])}}
+                                        </span>
+
                                     </td>
 
                                 </tr>
@@ -172,8 +164,7 @@
                         </div>
                         <div class="primeng-paging-container">
                             <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage" #paginator
-                                (onPageChange)="getAll($event)"
-                                [totalRecords]="primengTableHelper.totalRecordsCount"
+                                (onPageChange)="getAll($event)" [totalRecords]="primengTableHelper.totalRecordsCount"
                                 [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
                             </p-paginator>
                             <span class="total-records-count">
@@ -189,5 +180,5 @@
 
 
     <entityTypeHistoryModal #entityTypeHistoryModal></entityTypeHistoryModal>
-
+    <ouLookupTableModal #ouLookupTableModal (modalSave)="createForAffiliate()"></ouLookupTableModal>
 </div>

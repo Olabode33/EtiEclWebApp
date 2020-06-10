@@ -8,5 +8,6 @@ namespace TestDemo.Calibration.Dtos
 		public string ClosedBy { get; set;}
         public DateTime DateCreated { get; set; }
         public string CreatedBy { get; set; }
+        public string AffiliateName { get; set; }
     }
 }

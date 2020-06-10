@@ -96,6 +96,65 @@ namespace TestDemo.Common
             return ou.DisplayName;
         }
 
+        public async Task<List<NameValueDto<long>>> GetUserAffiliates()
+        {
+            var user = await UserManager.GetUserByIdAsync((long)AbpSession.UserId);
+            var userSubsidiaries = await UserManager.GetOrganizationUnitsAsync(user);
+
+            List<NameValueDto<long>> userOus = new List<NameValueDto<long>>();
+
+            if (userSubsidiaries.Count > 0)
+            {
+                foreach (var item in userSubsidiaries)
+                {
+                    userOus.Add(new NameValueDto<long>
+                    {
+                        Name = item.DisplayName,
+                        Value = item.Id
+                    });
+                }
+            }
+            else
+            {
+                userOus.Add(new NameValueDto<long>
+                {
+                    Name = "Group",
+                    Value = -1
+                });
+            }
+
+            return userOus;
+        }
+
+        public async Task<PagedResultDto<NameValueDto<long>>> GetAllOrganizationUnitForLookupTable(GetForLookupTableInput input)
+        {
+            var query = _organizationUnitRepository.GetAll().WhereIf(
+                   !string.IsNullOrWhiteSpace(input.Filter),
+                  e => (e.DisplayName != null ? e.DisplayName.ToLower().ToString() : "").Contains(input.Filter.ToLower())
+               );
+
+            var totalCount = await query.CountAsync();
+
+            var organizationUnitList = await query
+                .PageBy(input)
+                .ToListAsync();
+
+            var lookupTableDtoList = new List<NameValueDto<long>>();
+            foreach (var organizationUnit in organizationUnitList)
+            {
+                lookupTableDtoList.Add(new NameValueDto<long>
+                {
+                    Value = organizationUnit.Id,
+                    Name = organizationUnit.DisplayName?.ToString()
+                });
+            }
+
+            return new PagedResultDto<NameValueDto<long>>(
+                totalCount,
+                lookupTableDtoList
+            );
+        }
+
         public async Task<List<NameValueDto>> GetMacroeconomicVariableList()
         {
             return await _macroeconomicVariableRepository.GetAll()

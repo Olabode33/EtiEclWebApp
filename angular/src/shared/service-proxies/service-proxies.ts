@@ -2924,20 +2924,20 @@ export class CalibrationEadBehaviouralTermsServiceProxy {
     /**
      * @param filter (optional) 
      * @param statusFilter (optional) 
-     * @param userNameFilter (optional) 
+     * @param affiliateIdFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | null | undefined, statusFilter: number | null | undefined, userNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetCalibrationRunForViewDto> {
+    getAll(filter: string | null | undefined, statusFilter: number | null | undefined, affiliateIdFilter: number | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetCalibrationRunForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/CalibrationEadBehaviouralTerms/GetAll?";
         if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
         if (statusFilter !== undefined)
             url_ += "StatusFilter=" + encodeURIComponent("" + statusFilter) + "&"; 
-        if (userNameFilter !== undefined)
-            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&"; 
+        if (affiliateIdFilter !== undefined)
+            url_ += "AffiliateIdFilter=" + encodeURIComponent("" + affiliateIdFilter) + "&"; 
         if (sorting !== undefined)
             url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (skipCount !== undefined)
@@ -3464,6 +3464,58 @@ export class CalibrationEadBehaviouralTermsServiceProxy {
         }
         return _observableOf<void>(<any>null);
     }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    closeCalibration(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/CalibrationEadBehaviouralTerms/CloseCalibration";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCloseCalibration(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCloseCalibration(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCloseCalibration(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
 }
 
 @Injectable()
@@ -3480,20 +3532,20 @@ export class CalibrationEadCcfSummaryServiceProxy {
     /**
      * @param filter (optional) 
      * @param statusFilter (optional) 
-     * @param userNameFilter (optional) 
+     * @param affiliateIdFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | null | undefined, statusFilter: number | null | undefined, userNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetCalibrationRunForViewDto> {
+    getAll(filter: string | null | undefined, statusFilter: number | null | undefined, affiliateIdFilter: number | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetCalibrationRunForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/CalibrationEadCcfSummary/GetAll?";
         if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
         if (statusFilter !== undefined)
             url_ += "StatusFilter=" + encodeURIComponent("" + statusFilter) + "&"; 
-        if (userNameFilter !== undefined)
-            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&"; 
+        if (affiliateIdFilter !== undefined)
+            url_ += "AffiliateIdFilter=" + encodeURIComponent("" + affiliateIdFilter) + "&"; 
         if (sorting !== undefined)
             url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (skipCount !== undefined)
@@ -4020,6 +4072,58 @@ export class CalibrationEadCcfSummaryServiceProxy {
         }
         return _observableOf<void>(<any>null);
     }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    closeCalibration(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/CalibrationEadCcfSummary/CloseCalibration";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCloseCalibration(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCloseCalibration(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCloseCalibration(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
 }
 
 @Injectable()
@@ -4036,20 +4140,20 @@ export class CalibrationLgdHairCutServiceProxy {
     /**
      * @param filter (optional) 
      * @param statusFilter (optional) 
-     * @param userNameFilter (optional) 
+     * @param affiliateIdFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | null | undefined, statusFilter: number | null | undefined, userNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetCalibrationRunForViewDto> {
+    getAll(filter: string | null | undefined, statusFilter: number | null | undefined, affiliateIdFilter: number | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetCalibrationRunForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/CalibrationLgdHairCut/GetAll?";
         if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
         if (statusFilter !== undefined)
             url_ += "StatusFilter=" + encodeURIComponent("" + statusFilter) + "&"; 
-        if (userNameFilter !== undefined)
-            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&"; 
+        if (affiliateIdFilter !== undefined)
+            url_ += "AffiliateIdFilter=" + encodeURIComponent("" + affiliateIdFilter) + "&"; 
         if (sorting !== undefined)
             url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (skipCount !== undefined)
@@ -4576,6 +4680,58 @@ export class CalibrationLgdHairCutServiceProxy {
         }
         return _observableOf<void>(<any>null);
     }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    closeCalibration(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/CalibrationLgdHairCut/CloseCalibration";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCloseCalibration(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCloseCalibration(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCloseCalibration(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
 }
 
 @Injectable()
@@ -4592,20 +4748,20 @@ export class CalibrationLgdRecoveryRateServiceProxy {
     /**
      * @param filter (optional) 
      * @param statusFilter (optional) 
-     * @param userNameFilter (optional) 
+     * @param affiliateIdFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | null | undefined, statusFilter: number | null | undefined, userNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetCalibrationRunForViewDto> {
+    getAll(filter: string | null | undefined, statusFilter: number | null | undefined, affiliateIdFilter: number | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetCalibrationRunForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/CalibrationLgdRecoveryRate/GetAll?";
         if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
         if (statusFilter !== undefined)
             url_ += "StatusFilter=" + encodeURIComponent("" + statusFilter) + "&"; 
-        if (userNameFilter !== undefined)
-            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&"; 
+        if (affiliateIdFilter !== undefined)
+            url_ += "AffiliateIdFilter=" + encodeURIComponent("" + affiliateIdFilter) + "&"; 
         if (sorting !== undefined)
             url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (skipCount !== undefined)
@@ -5132,6 +5288,58 @@ export class CalibrationLgdRecoveryRateServiceProxy {
         }
         return _observableOf<void>(<any>null);
     }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    closeCalibration(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/CalibrationLgdRecoveryRate/CloseCalibration";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCloseCalibration(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCloseCalibration(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCloseCalibration(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
 }
 
 @Injectable()
@@ -5148,20 +5356,20 @@ export class CalibrationPdCrDrServiceProxy {
     /**
      * @param filter (optional) 
      * @param statusFilter (optional) 
-     * @param userNameFilter (optional) 
+     * @param affiliateIdFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | null | undefined, statusFilter: number | null | undefined, userNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetCalibrationRunForViewDto> {
+    getAll(filter: string | null | undefined, statusFilter: number | null | undefined, affiliateIdFilter: number | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetCalibrationRunForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/CalibrationPdCrDr/GetAll?";
         if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
         if (statusFilter !== undefined)
             url_ += "StatusFilter=" + encodeURIComponent("" + statusFilter) + "&"; 
-        if (userNameFilter !== undefined)
-            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&"; 
+        if (affiliateIdFilter !== undefined)
+            url_ += "AffiliateIdFilter=" + encodeURIComponent("" + affiliateIdFilter) + "&"; 
         if (sorting !== undefined)
             url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (skipCount !== undefined)
@@ -5688,6 +5896,58 @@ export class CalibrationPdCrDrServiceProxy {
         }
         return _observableOf<void>(<any>null);
     }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    closeCalibration(input: EntityDtoOfGuid | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/CalibrationPdCrDr/CloseCalibration";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCloseCalibration(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCloseCalibration(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCloseCalibration(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
 }
 
 @Injectable()
@@ -6089,6 +6349,124 @@ export class CommonLookupServiceProxy {
             }));
         }
         return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getUserAffiliates(): Observable<NameValueDtoOfInt64[]> {
+        let url_ = this.baseUrl + "/api/services/app/CommonLookup/GetUserAffiliates";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetUserAffiliates(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetUserAffiliates(<any>response_);
+                } catch (e) {
+                    return <Observable<NameValueDtoOfInt64[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<NameValueDtoOfInt64[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetUserAffiliates(response: HttpResponseBase): Observable<NameValueDtoOfInt64[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(NameValueDtoOfInt64.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<NameValueDtoOfInt64[]>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllOrganizationUnitForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfNameValueDtoOfInt64> {
+        let url_ = this.baseUrl + "/api/services/app/CommonLookup/GetAllOrganizationUnitForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllOrganizationUnitForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllOrganizationUnitForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfNameValueDtoOfInt64>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfNameValueDtoOfInt64>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllOrganizationUnitForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfNameValueDtoOfInt64> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfNameValueDtoOfInt64.fromJS(resultData200) : new PagedResultDtoOfNameValueDtoOfInt64();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfNameValueDtoOfInt64>(<any>null);
     }
 
     /**
@@ -52389,6 +52767,7 @@ export class GetCalibrationRunForViewDto implements IGetCalibrationRunForViewDto
     closedBy!: string | undefined;
     dateCreated!: moment.Moment | undefined;
     createdBy!: string | undefined;
+    affiliateName!: string | undefined;
 
     constructor(data?: IGetCalibrationRunForViewDto) {
         if (data) {
@@ -52405,6 +52784,7 @@ export class GetCalibrationRunForViewDto implements IGetCalibrationRunForViewDto
             this.closedBy = data["closedBy"];
             this.dateCreated = data["dateCreated"] ? moment(data["dateCreated"].toString()) : <any>undefined;
             this.createdBy = data["createdBy"];
+            this.affiliateName = data["affiliateName"];
         }
     }
 
@@ -52421,6 +52801,7 @@ export class GetCalibrationRunForViewDto implements IGetCalibrationRunForViewDto
         data["closedBy"] = this.closedBy;
         data["dateCreated"] = this.dateCreated ? this.dateCreated.toISOString() : <any>undefined;
         data["createdBy"] = this.createdBy;
+        data["affiliateName"] = this.affiliateName;
         return data; 
     }
 }
@@ -52430,6 +52811,7 @@ export interface IGetCalibrationRunForViewDto {
     closedBy: string | undefined;
     dateCreated: moment.Moment | undefined;
     createdBy: string | undefined;
+    affiliateName: string | undefined;
 }
 
 export class CalibrationRunDto implements ICalibrationRunDto {
@@ -52536,6 +52918,7 @@ export interface IGetCalibrationRunForEditOutput {
 export class CreateOrEditCalibrationRunDto implements ICreateOrEditCalibrationRunDto {
     status!: CalibrationStatusEnum | undefined;
     closeByUserId!: number | undefined;
+    affiliateId!: number | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditCalibrationRunDto) {
@@ -52551,6 +52934,7 @@ export class CreateOrEditCalibrationRunDto implements ICreateOrEditCalibrationRu
         if (data) {
             this.status = data["status"];
             this.closeByUserId = data["closeByUserId"];
+            this.affiliateId = data["affiliateId"];
             this.id = data["id"];
         }
     }
@@ -52566,6 +52950,7 @@ export class CreateOrEditCalibrationRunDto implements ICreateOrEditCalibrationRu
         data = typeof data === 'object' ? data : {};
         data["status"] = this.status;
         data["closeByUserId"] = this.closeByUserId;
+        data["affiliateId"] = this.affiliateId;
         data["id"] = this.id;
         return data; 
     }
@@ -52574,6 +52959,7 @@ export class CreateOrEditCalibrationRunDto implements ICreateOrEditCalibrationRu
 export interface ICreateOrEditCalibrationRunDto {
     status: CalibrationStatusEnum | undefined;
     closeByUserId: number | undefined;
+    affiliateId: number | undefined;
     id: string | undefined;
 }
 
@@ -53214,6 +53600,94 @@ export class GetDefaultEditionNameOutput implements IGetDefaultEditionNameOutput
 
 export interface IGetDefaultEditionNameOutput {
     name: string | undefined;
+}
+
+export class NameValueDtoOfInt64 implements INameValueDtoOfInt64 {
+    name!: string | undefined;
+    value!: number | undefined;
+
+    constructor(data?: INameValueDtoOfInt64) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.value = data["value"];
+        }
+    }
+
+    static fromJS(data: any): NameValueDtoOfInt64 {
+        data = typeof data === 'object' ? data : {};
+        let result = new NameValueDtoOfInt64();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["value"] = this.value;
+        return data; 
+    }
+}
+
+export interface INameValueDtoOfInt64 {
+    name: string | undefined;
+    value: number | undefined;
+}
+
+export class PagedResultDtoOfNameValueDtoOfInt64 implements IPagedResultDtoOfNameValueDtoOfInt64 {
+    totalCount!: number | undefined;
+    items!: NameValueDtoOfInt64[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfNameValueDtoOfInt64) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(NameValueDtoOfInt64.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfNameValueDtoOfInt64 {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfNameValueDtoOfInt64();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfNameValueDtoOfInt64 {
+    totalCount: number | undefined;
+    items: NameValueDtoOfInt64[] | undefined;
 }
 
 export class DateToStringOutput implements IDateToStringOutput {
