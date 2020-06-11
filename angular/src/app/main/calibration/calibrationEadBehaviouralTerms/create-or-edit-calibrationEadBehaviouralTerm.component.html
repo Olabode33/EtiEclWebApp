@@ -39,11 +39,11 @@
                     <i class="fa fa-check-circle" style="font-size: 1.2rem !important;"></i>
                     {{l("ApplyToEcl")}}
                 </button>
-                <button (click)="generateReport()" class="btn btn-primary"
+                <!-- <button (click)="generateReport()" class="btn btn-primary"
                     *ngIf="calibration.status == calibrationStatusEnum.Completed || calibration.status == calibrationStatusEnum.AppliedToEcl">
                     <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
                     {{l("Generate Report")}}
-                </button>
+                </button> -->
                 <button (click)="goBack()" class="btn btn-outline-danger">
                     <i class="fa fa-reply" style="font-size: 1.2rem !important;"></i>
                     {{l("GoBack")}}
@@ -75,13 +75,13 @@
                         <tbody>
                             <tr>
                                 <td class="align-middle">{{ l('CalibrationResultNonExpired') }}</td>
-                                <td class="align-middle">{{ 'item.account_No' }}</td>
-                                <td class="align-middle">{{ 706 }}</td>
+                                <td class="align-middle">{{ result.assumption_NonExpired }}</td>
+                                <td class="align-middle">{{ result.freq_NonExpired }}</td>
                             </tr>
                             <tr>
                                 <td class="align-middle">{{ l('CalibrationResultExpired') }}</td>
-                                <td class="align-middle">{{ 'item.account_No' }}</td>
-                                <td class="align-middle">{{ 6 }}</td>
+                                <td class="align-middle">{{ result.assumption_Expired }}</td>
+                                <td class="align-middle">{{ result.freq_Expired }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -98,6 +98,10 @@
                     </h3>
                 </div>
                 <div class="kt-portlet__head-toolbar">
+                    <button *ngIf="totalUploads > 0" (click)="goBack()" class="btn btn-outline-primary mr-2">
+                        <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
+                        {{l("DownloadFullData")}}
+                    </button>
                     <div class="btn-group" dropdown>
                         <button dropdownToggle type="button" *ngIf="calibration.status == calibrationStatusEnum.Draft"
                             class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

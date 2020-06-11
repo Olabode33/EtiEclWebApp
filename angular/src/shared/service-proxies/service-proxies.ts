@@ -3099,6 +3099,60 @@ export class CalibrationEadBehaviouralTermsServiceProxy {
     }
 
     /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getResult(id: string | null | undefined): Observable<ResultBehaviouralTermsDto> {
+        let url_ = this.baseUrl + "/api/services/app/CalibrationEadBehaviouralTerms/GetResult?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetResult(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetResult(<any>response_);
+                } catch (e) {
+                    return <Observable<ResultBehaviouralTermsDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ResultBehaviouralTermsDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetResult(response: HttpResponseBase): Observable<ResultBehaviouralTermsDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ResultBehaviouralTermsDto.fromJS(resultData200) : new ResultBehaviouralTermsDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ResultBehaviouralTermsDto>(<any>null);
+    }
+
+    /**
      * @param input (optional) 
      * @return Success
      */
@@ -53307,6 +53361,66 @@ export interface IInputBehaviouralTermsDto {
     assumption_Expired: string | undefined;
     freq_Expired: string | undefined;
     comment: string | undefined;
+    id: number | undefined;
+}
+
+export class ResultBehaviouralTermsDto implements IResultBehaviouralTermsDto {
+    assumption_NonExpired!: string | undefined;
+    freq_NonExpired!: string | undefined;
+    assumption_Expired!: string | undefined;
+    freq_Expired!: string | undefined;
+    comment!: string | undefined;
+    status!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: IResultBehaviouralTermsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assumption_NonExpired = data["assumption_NonExpired"];
+            this.freq_NonExpired = data["freq_NonExpired"];
+            this.assumption_Expired = data["assumption_Expired"];
+            this.freq_Expired = data["freq_Expired"];
+            this.comment = data["comment"];
+            this.status = data["status"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): ResultBehaviouralTermsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ResultBehaviouralTermsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assumption_NonExpired"] = this.assumption_NonExpired;
+        data["freq_NonExpired"] = this.freq_NonExpired;
+        data["assumption_Expired"] = this.assumption_Expired;
+        data["freq_Expired"] = this.freq_Expired;
+        data["comment"] = this.comment;
+        data["status"] = this.status;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IResultBehaviouralTermsDto {
+    assumption_NonExpired: string | undefined;
+    freq_NonExpired: string | undefined;
+    assumption_Expired: string | undefined;
+    freq_Expired: string | undefined;
+    comment: string | undefined;
+    status: number | undefined;
     id: number | undefined;
 }
 

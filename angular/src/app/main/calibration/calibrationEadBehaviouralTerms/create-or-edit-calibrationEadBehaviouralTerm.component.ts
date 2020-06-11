@@ -1,4 +1,4 @@
-﻿import { InputBehaviouralTermsDto } from './../../../../shared/service-proxies/service-proxies';
+﻿import { InputBehaviouralTermsDto, ResultBehaviouralTermsDto } from './../../../../shared/service-proxies/service-proxies';
 import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
@@ -50,6 +50,7 @@ export class CreateOrEditCalibrationEadBehaviouralTermComponent extends AppCompo
 
     totalUploads = 0;
     uploads: InputBehaviouralTermsDto[] = new Array();
+    result: ResultBehaviouralTermsDto = new ResultBehaviouralTermsDto();
 
     autoReloadSub: Subscription;
 
@@ -104,6 +105,9 @@ export class CreateOrEditCalibrationEadBehaviouralTermComponent extends AppCompo
                 this.auditInfo = result.auditInfo;
                 this.approvalsAuditInfo = result.auditInfo.approvals;
 
+                if (result.calibration.status === CalibrationStatusEnum.Completed) {
+                    this.getResults();
+                }
                 this.active = true;
             });
         }
@@ -116,6 +120,12 @@ export class CreateOrEditCalibrationEadBehaviouralTermComponent extends AppCompo
             if (this.totalUploads > 0 && this.autoReloadSub) {
                 this.autoReloadSub.unsubscribe();
             }
+        });
+    }
+
+    getResults(): void {
+        this._calibrationServiceProxy.getResult(this._calibrationId).subscribe(result => {
+            this.result = result;
         });
     }
 

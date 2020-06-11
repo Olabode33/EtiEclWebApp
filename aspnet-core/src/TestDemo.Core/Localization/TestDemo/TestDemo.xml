@@ -2,6 +2,7 @@
 <localizationDictionary culture="en">
   <texts>
 
+    <text name="DownloadFullData">Download Uploaded Data</text>
     <text name="CalibrationResultNonExpired">NON EXPIRED</text>
     <text name="CalibrationResultExpired">EXPIRED</text>
     
