@@ -207,7 +207,6 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
     getEclUploadSummary(): void {
         if (typeof this._eclUploadServiceProxy.getEclUploads === 'function') {
             this._eclUploadServiceProxy.getEclUploads(this._eclId).subscribe(result => {
-                console.log(result);
                 this.eclUploads = result;
             });
         }

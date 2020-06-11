@@ -106,27 +106,23 @@
                                 <tr>
                                     <td style="width: 130px"
                                         [hidden]="!isGrantedAny('Pages.CalibrationEadBehaviouralTerms.Edit', 'Pages.CalibrationEadBehaviouralTerms.Delete')">
-                                        <div class="btn-group dropdown" dropdown container="body">
-                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
-                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                        <button *ngIf="record.calibration.status !== generalStatusEnum.Draft" type="button" class="btn btn-primary btn-sm"
+                                            (click)="view(record.calibration.id)">
+                                            <i class="fa fa-info-circle"></i> View
+                                        </button>
+                                        <div *ngIf="record.calibration.status === generalStatusEnum.Draft" class="btn-group m-btn-group m-btn-group--pill" dropdown container="body">
+                                            <button type="button" class="btn btn-primary btn-sm"
+                                                (click)="view(record.calibration.id)">
+                                                <i class="fa fa-info-circle"></i> View
+                                            </button>
+                                            <button class="dropdown-toggle btn btn-sm btn-primary dropdown-toggle-split" dropdownToggle>
+                                                <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu" *dropdownMenu>
-
-                                                <li>
-                                                    <a *ngIf="permission.isGranted('Pages.CalibrationEadBehaviouralTerms.Edit')"
-                                                        [routerLink]="['/app/main/calibration/calibrationEadBehaviouralTerms/createOrEdit']"
-                                                        [queryParams]="{id: record.calibration.id}">
-                                                        {{l('View')}}
-                                                    </a>
-                                                </li>
                                                 <li>
                                                     <a href="javascript:;"
                                                         *ngIf="permission.isGranted('Pages.CalibrationEadBehaviouralTerms.Delete')"
                                                         (click)="delete(record.calibration)">{{l('Delete')}}</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:;" *ngIf="entityHistoryEnabled"
-                                                        (click)="showHistory(record.calibration)">{{l('History')}}</a>
                                                 </li>
                                             </ul>
                                         </div>

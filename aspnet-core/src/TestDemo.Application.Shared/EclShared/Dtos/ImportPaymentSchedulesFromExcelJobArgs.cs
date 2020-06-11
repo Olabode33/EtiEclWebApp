@@ -13,4 +13,12 @@ namespace TestDemo.EclShared.Dtos
         public Guid UploadSummaryId { get; set; }
         public UserIdentifier User { get; set; }
     }
+
+    [Serializable]
+    public class ImportCalibrationDataFromExcelJobArgs
+    {
+        public Guid BinaryObjectId { get; set; }
+        public Guid CalibrationId { get; set; }
+        public UserIdentifier User { get; set; }
+    }
 }

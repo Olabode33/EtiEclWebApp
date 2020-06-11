@@ -157,4 +157,7 @@ body.swal2-height-auto {
 .kt-widget12__desc {
     color: #464457 !important;
 }
+.hoverable {
+    cursor: pointer;
+}
 

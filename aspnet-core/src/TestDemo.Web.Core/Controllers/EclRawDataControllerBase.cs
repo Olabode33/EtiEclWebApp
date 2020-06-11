@@ -59,7 +59,7 @@ namespace TestDemo.Web.Controllers
 
                 await BinaryObjectManager.SaveAsync(fileObject);
 
-                await BackgroundJobManager.EnqueueAsync<ImportPaymentScheduleFromExcelJob, ImportEclDataFromExcelJobArgs>(new ImportEclDataFromExcelJobArgs
+                await BackgroundJobManager.EnqueueAsync<ImportPaymentScheduleFromExcelJob , ImportEclDataFromExcelJobArgs>(new ImportEclDataFromExcelJobArgs
                 {
                     BinaryObjectId = fileObject.Id,
                     Framework = (FrameworkEnum)Convert.ToInt32(framework),

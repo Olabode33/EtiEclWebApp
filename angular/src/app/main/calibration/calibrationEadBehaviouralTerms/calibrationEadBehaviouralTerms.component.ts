@@ -17,6 +17,7 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import { OuLookupTableModalComponent } from '@app/main/eclShared/ou-lookup-modal/ou-lookup-table-modal.component';
 
+
 @Component({
     templateUrl: './calibrationEadBehaviouralTerms.component.html',
     encapsulation: ViewEncapsulation.None,
@@ -115,6 +116,10 @@ export class CalibrationEadBehaviouralTermsComponent extends AppComponentBase im
         //this._router.navigate(['/app/main/calibration/calibrationEadBehaviouralTerms/createOrEdit']);
     }
 
+    view(id: string): void {
+        this._router.navigate(['/app/main/calibration/behavioralTerms/view/', id]);
+    }
+
     createForAffiliate() {
         let c = new CreateOrEditCalibrationRunDto();
         c.affiliateId = this.ouLookupTableModal.id;
@@ -155,6 +160,7 @@ export class CalibrationEadBehaviouralTermsComponent extends AppComponentBase im
                 return 'primary';
             case CalibrationStatusEnum.Submitted:
             case CalibrationStatusEnum.Processing:
+            case CalibrationStatusEnum.AwaitngAdditionApproval:
                 return 'warning';
             case CalibrationStatusEnum.Completed:
             case CalibrationStatusEnum.Approved:

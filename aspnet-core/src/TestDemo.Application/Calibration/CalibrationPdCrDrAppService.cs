@@ -109,7 +109,7 @@ namespace TestDemo.Calibration
             if (output.Calibration.CloseByUserId != null)
             {
                 var _lookupUser = await _lookup_userRepository.FirstOrDefaultAsync((long)output.Calibration.CloseByUserId);
-                output.UserName = _lookupUser?.Name?.ToString();
+                output.ClosedByUserName = _lookupUser?.Name?.ToString();
             }
 
             return output;

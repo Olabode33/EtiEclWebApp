@@ -31,7 +31,7 @@ import { ViewAssetBookDetailsComponent } from './eclShared/view-assetBookDetails
                 path: '',
                 children: [
                     { path: 'calibration/behavioralTerms', component: CalibrationEadBehaviouralTermsComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms' }  },
-                    { path: 'calibration/calibrationEadBehaviouralTerms/createOrEdit', component: CreateOrEditCalibrationEadBehaviouralTermComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms.Create' }  },
+                    { path: 'calibration/behavioralTerms/view/:calibrationId', component: CreateOrEditCalibrationEadBehaviouralTermComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms.Create' }  },
                     { path: 'affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets', component: AffiliateMacroEconomicVariableOffsetsComponent, data: { permission: 'Pages.AffiliateMacroEconomicVariableOffsets' }  },
                     { path: 'eclConfig/eclConfigurations', component: EclSettingsComponent, data: { permission: 'Pages.EclConfigurations' }  },
                     { path: 'eclConfig/affiliates', component: AffiliateConfigurationComponent, data: { permission: 'Pages.EclConfigurations' }  },

@@ -3045,6 +3045,60 @@ export class CalibrationEadBehaviouralTermsServiceProxy {
     }
 
     /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getInputSummary(id: string | null | undefined): Observable<CalibrationInputSummaryDtoOfInputBehaviouralTermsDto> {
+        let url_ = this.baseUrl + "/api/services/app/CalibrationEadBehaviouralTerms/GetInputSummary?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetInputSummary(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetInputSummary(<any>response_);
+                } catch (e) {
+                    return <Observable<CalibrationInputSummaryDtoOfInputBehaviouralTermsDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CalibrationInputSummaryDtoOfInputBehaviouralTermsDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetInputSummary(response: HttpResponseBase): Observable<CalibrationInputSummaryDtoOfInputBehaviouralTermsDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? CalibrationInputSummaryDtoOfInputBehaviouralTermsDto.fromJS(resultData200) : new CalibrationInputSummaryDtoOfInputBehaviouralTermsDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CalibrationInputSummaryDtoOfInputBehaviouralTermsDto>(<any>null);
+    }
+
+    /**
      * @param input (optional) 
      * @return Success
      */
@@ -52873,11 +52927,14 @@ export enum CalibrationStatusEnum {
     AppliedToEcl = 7, 
     QueuedForProcessing = 8, 
     Uploading = 9, 
+    Failed = 10, 
 }
 
 export class GetCalibrationRunForEditOutput implements IGetCalibrationRunForEditOutput {
     calibration!: CreateOrEditCalibrationRunDto | undefined;
-    userName!: string | undefined;
+    closedByUserName!: string | undefined;
+    auditInfo!: EclAuditInfoDto | undefined;
+    affiliateName!: string | undefined;
 
     constructor(data?: IGetCalibrationRunForEditOutput) {
         if (data) {
@@ -52891,7 +52948,9 @@ export class GetCalibrationRunForEditOutput implements IGetCalibrationRunForEdit
     init(data?: any) {
         if (data) {
             this.calibration = data["calibration"] ? CreateOrEditCalibrationRunDto.fromJS(data["calibration"]) : <any>undefined;
-            this.userName = data["userName"];
+            this.closedByUserName = data["closedByUserName"];
+            this.auditInfo = data["auditInfo"] ? EclAuditInfoDto.fromJS(data["auditInfo"]) : <any>undefined;
+            this.affiliateName = data["affiliateName"];
         }
     }
 
@@ -52905,14 +52964,18 @@ export class GetCalibrationRunForEditOutput implements IGetCalibrationRunForEdit
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["calibration"] = this.calibration ? this.calibration.toJSON() : <any>undefined;
-        data["userName"] = this.userName;
+        data["closedByUserName"] = this.closedByUserName;
+        data["auditInfo"] = this.auditInfo ? this.auditInfo.toJSON() : <any>undefined;
+        data["affiliateName"] = this.affiliateName;
         return data; 
     }
 }
 
 export interface IGetCalibrationRunForEditOutput {
     calibration: CreateOrEditCalibrationRunDto | undefined;
-    userName: string | undefined;
+    closedByUserName: string | undefined;
+    auditInfo: EclAuditInfoDto | undefined;
+    affiliateName: string | undefined;
 }
 
 export class CreateOrEditCalibrationRunDto implements ICreateOrEditCalibrationRunDto {
@@ -52961,6 +53024,290 @@ export interface ICreateOrEditCalibrationRunDto {
     closeByUserId: number | undefined;
     affiliateId: number | undefined;
     id: string | undefined;
+}
+
+export class EclAuditInfoDto implements IEclAuditInfoDto {
+    dateCreated!: moment.Moment | undefined;
+    createdBy!: string | undefined;
+    lastUpdated!: moment.Moment | undefined;
+    updatedBy!: string | undefined;
+    approvals!: EclApprovalAuditInfoDto[] | undefined;
+
+    constructor(data?: IEclAuditInfoDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.dateCreated = data["dateCreated"] ? moment(data["dateCreated"].toString()) : <any>undefined;
+            this.createdBy = data["createdBy"];
+            this.lastUpdated = data["lastUpdated"] ? moment(data["lastUpdated"].toString()) : <any>undefined;
+            this.updatedBy = data["updatedBy"];
+            if (data["approvals"] && data["approvals"].constructor === Array) {
+                this.approvals = [] as any;
+                for (let item of data["approvals"])
+                    this.approvals!.push(EclApprovalAuditInfoDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): EclAuditInfoDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new EclAuditInfoDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["dateCreated"] = this.dateCreated ? this.dateCreated.toISOString() : <any>undefined;
+        data["createdBy"] = this.createdBy;
+        data["lastUpdated"] = this.lastUpdated ? this.lastUpdated.toISOString() : <any>undefined;
+        data["updatedBy"] = this.updatedBy;
+        if (this.approvals && this.approvals.constructor === Array) {
+            data["approvals"] = [];
+            for (let item of this.approvals)
+                data["approvals"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IEclAuditInfoDto {
+    dateCreated: moment.Moment | undefined;
+    createdBy: string | undefined;
+    lastUpdated: moment.Moment | undefined;
+    updatedBy: string | undefined;
+    approvals: EclApprovalAuditInfoDto[] | undefined;
+}
+
+export class EclApprovalAuditInfoDto implements IEclApprovalAuditInfoDto {
+    reviewedDate!: moment.Moment | undefined;
+    status!: GeneralStatusEnum | undefined;
+    reviewedBy!: string | undefined;
+    reviewComment!: string | undefined;
+    eclId!: string | undefined;
+
+    constructor(data?: IEclApprovalAuditInfoDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.reviewedDate = data["reviewedDate"] ? moment(data["reviewedDate"].toString()) : <any>undefined;
+            this.status = data["status"];
+            this.reviewedBy = data["reviewedBy"];
+            this.reviewComment = data["reviewComment"];
+            this.eclId = data["eclId"];
+        }
+    }
+
+    static fromJS(data: any): EclApprovalAuditInfoDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new EclApprovalAuditInfoDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["reviewedDate"] = this.reviewedDate ? this.reviewedDate.toISOString() : <any>undefined;
+        data["status"] = this.status;
+        data["reviewedBy"] = this.reviewedBy;
+        data["reviewComment"] = this.reviewComment;
+        data["eclId"] = this.eclId;
+        return data; 
+    }
+}
+
+export interface IEclApprovalAuditInfoDto {
+    reviewedDate: moment.Moment | undefined;
+    status: GeneralStatusEnum | undefined;
+    reviewedBy: string | undefined;
+    reviewComment: string | undefined;
+    eclId: string | undefined;
+}
+
+export class CalibrationInputSummaryDtoOfInputBehaviouralTermsDto implements ICalibrationInputSummaryDtoOfInputBehaviouralTermsDto {
+    total!: number | undefined;
+    items!: InputBehaviouralTermsDto[] | undefined;
+
+    constructor(data?: ICalibrationInputSummaryDtoOfInputBehaviouralTermsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.total = data["total"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(InputBehaviouralTermsDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): CalibrationInputSummaryDtoOfInputBehaviouralTermsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CalibrationInputSummaryDtoOfInputBehaviouralTermsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["total"] = this.total;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface ICalibrationInputSummaryDtoOfInputBehaviouralTermsDto {
+    total: number | undefined;
+    items: InputBehaviouralTermsDto[] | undefined;
+}
+
+export class InputBehaviouralTermsDto implements IInputBehaviouralTermsDto {
+    customer_No!: string | undefined;
+    account_No!: string | undefined;
+    contract_No!: string | undefined;
+    customer_Name!: string | undefined;
+    snapshot_Date!: moment.Moment | undefined;
+    classification!: string | undefined;
+    original_Balance_Lcy!: number | undefined;
+    outstanding_Balance_Lcy!: number | undefined;
+    outstanding_Balance_Acy!: number | undefined;
+    contract_Start_Date!: moment.Moment | undefined;
+    contract_End_Date!: moment.Moment | undefined;
+    restructure_Indicator!: string | undefined;
+    restructure_Type!: string | undefined;
+    restructure_Start_Date!: moment.Moment | undefined;
+    restructure_End_Date!: moment.Moment | undefined;
+    calibrationId!: string | undefined;
+    dateCreated!: moment.Moment | undefined;
+    assumption_NonExpired!: string | undefined;
+    freq_NonExpired!: string | undefined;
+    assumption_Expired!: string | undefined;
+    freq_Expired!: string | undefined;
+    comment!: string | undefined;
+    id!: number | undefined;
+
+    constructor(data?: IInputBehaviouralTermsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.customer_No = data["customer_No"];
+            this.account_No = data["account_No"];
+            this.contract_No = data["contract_No"];
+            this.customer_Name = data["customer_Name"];
+            this.snapshot_Date = data["snapshot_Date"] ? moment(data["snapshot_Date"].toString()) : <any>undefined;
+            this.classification = data["classification"];
+            this.original_Balance_Lcy = data["original_Balance_Lcy"];
+            this.outstanding_Balance_Lcy = data["outstanding_Balance_Lcy"];
+            this.outstanding_Balance_Acy = data["outstanding_Balance_Acy"];
+            this.contract_Start_Date = data["contract_Start_Date"] ? moment(data["contract_Start_Date"].toString()) : <any>undefined;
+            this.contract_End_Date = data["contract_End_Date"] ? moment(data["contract_End_Date"].toString()) : <any>undefined;
+            this.restructure_Indicator = data["restructure_Indicator"];
+            this.restructure_Type = data["restructure_Type"];
+            this.restructure_Start_Date = data["restructure_Start_Date"] ? moment(data["restructure_Start_Date"].toString()) : <any>undefined;
+            this.restructure_End_Date = data["restructure_End_Date"] ? moment(data["restructure_End_Date"].toString()) : <any>undefined;
+            this.calibrationId = data["calibrationId"];
+            this.dateCreated = data["dateCreated"] ? moment(data["dateCreated"].toString()) : <any>undefined;
+            this.assumption_NonExpired = data["assumption_NonExpired"];
+            this.freq_NonExpired = data["freq_NonExpired"];
+            this.assumption_Expired = data["assumption_Expired"];
+            this.freq_Expired = data["freq_Expired"];
+            this.comment = data["comment"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): InputBehaviouralTermsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new InputBehaviouralTermsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["customer_No"] = this.customer_No;
+        data["account_No"] = this.account_No;
+        data["contract_No"] = this.contract_No;
+        data["customer_Name"] = this.customer_Name;
+        data["snapshot_Date"] = this.snapshot_Date ? this.snapshot_Date.toISOString() : <any>undefined;
+        data["classification"] = this.classification;
+        data["original_Balance_Lcy"] = this.original_Balance_Lcy;
+        data["outstanding_Balance_Lcy"] = this.outstanding_Balance_Lcy;
+        data["outstanding_Balance_Acy"] = this.outstanding_Balance_Acy;
+        data["contract_Start_Date"] = this.contract_Start_Date ? this.contract_Start_Date.toISOString() : <any>undefined;
+        data["contract_End_Date"] = this.contract_End_Date ? this.contract_End_Date.toISOString() : <any>undefined;
+        data["restructure_Indicator"] = this.restructure_Indicator;
+        data["restructure_Type"] = this.restructure_Type;
+        data["restructure_Start_Date"] = this.restructure_Start_Date ? this.restructure_Start_Date.toISOString() : <any>undefined;
+        data["restructure_End_Date"] = this.restructure_End_Date ? this.restructure_End_Date.toISOString() : <any>undefined;
+        data["calibrationId"] = this.calibrationId;
+        data["dateCreated"] = this.dateCreated ? this.dateCreated.toISOString() : <any>undefined;
+        data["assumption_NonExpired"] = this.assumption_NonExpired;
+        data["freq_NonExpired"] = this.freq_NonExpired;
+        data["assumption_Expired"] = this.assumption_Expired;
+        data["freq_Expired"] = this.freq_Expired;
+        data["comment"] = this.comment;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IInputBehaviouralTermsDto {
+    customer_No: string | undefined;
+    account_No: string | undefined;
+    contract_No: string | undefined;
+    customer_Name: string | undefined;
+    snapshot_Date: moment.Moment | undefined;
+    classification: string | undefined;
+    original_Balance_Lcy: number | undefined;
+    outstanding_Balance_Lcy: number | undefined;
+    outstanding_Balance_Acy: number | undefined;
+    contract_Start_Date: moment.Moment | undefined;
+    contract_End_Date: moment.Moment | undefined;
+    restructure_Indicator: string | undefined;
+    restructure_Type: string | undefined;
+    restructure_Start_Date: moment.Moment | undefined;
+    restructure_End_Date: moment.Moment | undefined;
+    calibrationId: string | undefined;
+    dateCreated: moment.Moment | undefined;
+    assumption_NonExpired: string | undefined;
+    freq_NonExpired: string | undefined;
+    assumption_Expired: string | undefined;
+    freq_Expired: string | undefined;
+    comment: string | undefined;
+    id: number | undefined;
 }
 
 export class CalibrationEadBehaviouralTermUserLookupTableDto implements ICalibrationEadBehaviouralTermUserLookupTableDto {
@@ -58364,118 +58711,6 @@ export interface IInvestmentEclApprovalDto {
     reviewedByUserId: number | undefined;
     investmentEclId: string | undefined;
     id: string | undefined;
-}
-
-export class EclAuditInfoDto implements IEclAuditInfoDto {
-    dateCreated!: moment.Moment | undefined;
-    createdBy!: string | undefined;
-    lastUpdated!: moment.Moment | undefined;
-    updatedBy!: string | undefined;
-    approvals!: EclApprovalAuditInfoDto[] | undefined;
-
-    constructor(data?: IEclAuditInfoDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.dateCreated = data["dateCreated"] ? moment(data["dateCreated"].toString()) : <any>undefined;
-            this.createdBy = data["createdBy"];
-            this.lastUpdated = data["lastUpdated"] ? moment(data["lastUpdated"].toString()) : <any>undefined;
-            this.updatedBy = data["updatedBy"];
-            if (data["approvals"] && data["approvals"].constructor === Array) {
-                this.approvals = [] as any;
-                for (let item of data["approvals"])
-                    this.approvals!.push(EclApprovalAuditInfoDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): EclAuditInfoDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new EclAuditInfoDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["dateCreated"] = this.dateCreated ? this.dateCreated.toISOString() : <any>undefined;
-        data["createdBy"] = this.createdBy;
-        data["lastUpdated"] = this.lastUpdated ? this.lastUpdated.toISOString() : <any>undefined;
-        data["updatedBy"] = this.updatedBy;
-        if (this.approvals && this.approvals.constructor === Array) {
-            data["approvals"] = [];
-            for (let item of this.approvals)
-                data["approvals"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IEclAuditInfoDto {
-    dateCreated: moment.Moment | undefined;
-    createdBy: string | undefined;
-    lastUpdated: moment.Moment | undefined;
-    updatedBy: string | undefined;
-    approvals: EclApprovalAuditInfoDto[] | undefined;
-}
-
-export class EclApprovalAuditInfoDto implements IEclApprovalAuditInfoDto {
-    reviewedDate!: moment.Moment | undefined;
-    status!: GeneralStatusEnum | undefined;
-    reviewedBy!: string | undefined;
-    reviewComment!: string | undefined;
-    eclId!: string | undefined;
-
-    constructor(data?: IEclApprovalAuditInfoDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.reviewedDate = data["reviewedDate"] ? moment(data["reviewedDate"].toString()) : <any>undefined;
-            this.status = data["status"];
-            this.reviewedBy = data["reviewedBy"];
-            this.reviewComment = data["reviewComment"];
-            this.eclId = data["eclId"];
-        }
-    }
-
-    static fromJS(data: any): EclApprovalAuditInfoDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new EclApprovalAuditInfoDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["reviewedDate"] = this.reviewedDate ? this.reviewedDate.toISOString() : <any>undefined;
-        data["status"] = this.status;
-        data["reviewedBy"] = this.reviewedBy;
-        data["reviewComment"] = this.reviewComment;
-        data["eclId"] = this.eclId;
-        return data; 
-    }
-}
-
-export interface IEclApprovalAuditInfoDto {
-    reviewedDate: moment.Moment | undefined;
-    status: GeneralStatusEnum | undefined;
-    reviewedBy: string | undefined;
-    reviewComment: string | undefined;
-    eclId: string | undefined;
 }
 
 export class GetInvestmentEclApprovalForEditOutput implements IGetInvestmentEclApprovalForEditOutput {

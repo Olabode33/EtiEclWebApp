@@ -21,7 +21,7 @@ using TestDemo.WholesaleInputs;
 
 namespace TestDemo.EclShared.Importing
 {
-    public class ImportPaymentScheduleFromExcelJob: BackgroundJob<ImportEclDataFromExcelJobArgs>, ITransientDependency
+    public class ImportPaymentScheduleFromExcelJob : BackgroundJob<ImportEclDataFromExcelJobArgs>, ITransientDependency
     {
         private readonly IPaymentScheduleExcelDataReader _paymentScheduleExcelDataReader;
         private readonly IInvalidPaymentScheduleExporter _invalidPaymentScheduleExporter;
@@ -36,7 +36,7 @@ namespace TestDemo.EclShared.Importing
         private readonly ILocalizationSource _localizationSource;
         private readonly IObjectMapper _objectMapper;
 
-        public ImportPaymentScheduleFromExcelJob(
+        public ImportPaymentScheduleFromExcelJob (
             IPaymentScheduleExcelDataReader paymentScheduleExcelDataReader, 
             IInvalidPaymentScheduleExporter invalidPaymentScheduleExporter, 
             IAppNotifier appNotifier, 
