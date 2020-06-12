@@ -89,6 +89,10 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditCalibrationRunDto, CalibrationPdCrDr>().ReverseMap();
+            configuration.CreateMap<CreateOrEditCalibrationRunDto, CalibrationLgdRecoveryRate>().ReverseMap();
+            configuration.CreateMap<CreateOrEditCalibrationRunDto, CalibrationLgdHairCut>().ReverseMap();
+            configuration.CreateMap<CreateOrEditCalibrationRunDto, CalibrationEadCcfSummary>().ReverseMap();
             configuration.CreateMap<CreateOrEditCalibrationRunDto, CalibrationEadBehaviouralTerm>().ReverseMap();
             configuration.CreateMap<CalibrationRunDto, CalibrationEadBehaviouralTerm>().ReverseMap();
             configuration.CreateMap<CreateOrEditAffiliateMacroEconomicVariableOffsetDto, AffiliateMacroEconomicVariableOffset>().ReverseMap();

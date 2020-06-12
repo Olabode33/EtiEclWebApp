@@ -24,8 +24,8 @@ export class AppNavigationService {
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
             new AppMenuItem('Calibration', 'Pages.CalibrationResults', 'fa fa-bezier-curve', '', [
                 new AppMenuItem('CalibrationEadBehaviouralTerms', 'Pages.CalibrationEadBehaviouralTerms', 'flaticon-more', '/app/main/calibration/behavioralTerms'),
-                new AppMenuItem('CalibrationEadCcfSummary', 'Pages.CalibrationEadBehaviouralTerms', 'flaticon-more', '/app/main/calibration/calibrationEadBehaviouralTerms'),
-                new AppMenuItem('CalibrationLgdHairCut', 'Pages.CalibrationEadBehaviouralTerms', 'flaticon-more', '/app/main/calibration/calibrationEadBehaviouralTerms'),
+                new AppMenuItem('CalibrationEadCcfSummary', 'Pages.CalibrationEadBehaviouralTerms', 'flaticon-more', '/app/main/calibration/ccfSummary'),
+                new AppMenuItem('CalibrationLgdHairCut', 'Pages.CalibrationEadBehaviouralTerms', 'flaticon-more', '/app/main/calibration/haircut'),
                 new AppMenuItem('CalibrationLgdRecoveryRate', 'Pages.CalibrationEadBehaviouralTerms', 'flaticon-more', '/app/main/calibration/calibrationEadBehaviouralTerms'),
                 new AppMenuItem('CalibrationPdCrDr', 'Pages.CalibrationEadBehaviouralTerms', 'flaticon-more', '/app/main/calibration/calibrationEadBehaviouralTerms'),
             ]),

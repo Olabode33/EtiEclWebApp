@@ -37,29 +37,29 @@ namespace TestDemo.EclShared.Importing
             try
             {
                 data.Customer_No = GetRequiredValueFromRowOrNull(worksheet, row, 1, nameof(data.Customer_No), exceptionMessage);
-                data.Account_No = GetRequiredValueFromRowOrNull(worksheet, row, 2, nameof(data.Customer_No), exceptionMessage);
-                data.Contract_No = GetRequiredValueFromRowOrNull(worksheet, row, 3, nameof(data.Customer_No), exceptionMessage);
-                data.Snapshot_Date = GetDateTimeValueFromRowOrNull(worksheet, row, 4, nameof(data.Customer_No), exceptionMessage);
-                data.Period = GetIntegerValueFromRowOrNull(worksheet, row, 5, nameof(data.Customer_No), exceptionMessage);
-                data.Outstanding_Balance_Lcy = GetDoubleValueFromRowOrNull(worksheet, row, 6, nameof(data.Customer_No), exceptionMessage);
-                data.Debenture_OMV = GetDoubleValueFromRowOrNull(worksheet, row, 7, nameof(data.Customer_No), exceptionMessage);
-                data.Debenture_FSV = GetDoubleValueFromRowOrNull(worksheet, row, 8, nameof(data.Customer_No), exceptionMessage);
-                data.Cash_OMV = GetDoubleValueFromRowOrNull(worksheet, row, 9, nameof(data.Customer_No), exceptionMessage);
-                data.Cash_FSV = GetDoubleValueFromRowOrNull(worksheet, row, 10, nameof(data.Customer_No), exceptionMessage);
-                data.Inventory_OMV = GetDoubleValueFromRowOrNull(worksheet, row, 11, nameof(data.Customer_No), exceptionMessage);
-                data.Inventory_FSV = GetDoubleValueFromRowOrNull(worksheet, row, 12, nameof(data.Customer_No), exceptionMessage);
-                data.Plant_And_Equipment_OMV = GetDoubleValueFromRowOrNull(worksheet, row, 13, nameof(data.Customer_No), exceptionMessage);
-                data.Plant_And_Equipment_FSV = GetDoubleValueFromRowOrNull(worksheet, row, 14, nameof(data.Customer_No), exceptionMessage);
-                data.Residential_Property_OMV = GetDoubleValueFromRowOrNull(worksheet, row, 15, nameof(data.Customer_No), exceptionMessage);
-                data.Residential_Property_FSV = GetDoubleValueFromRowOrNull(worksheet, row, 16, nameof(data.Customer_No), exceptionMessage);
-                data.Commercial_Property_OMV = GetDoubleValueFromRowOrNull(worksheet, row, 17, nameof(data.Customer_No), exceptionMessage);
-                data.Commercial_Property_FSV = GetDoubleValueFromRowOrNull(worksheet, row, 18, nameof(data.Customer_No), exceptionMessage);
-                data.Receivables_OMV = GetDoubleValueFromRowOrNull(worksheet, row, 19, nameof(data.Customer_No), exceptionMessage);
-                data.Receivables_FSV = GetDoubleValueFromRowOrNull(worksheet, row, 20, nameof(data.Customer_No), exceptionMessage);
-                data.Shares_OMV = GetDoubleValueFromRowOrNull(worksheet, row, 21, nameof(data.Customer_No), exceptionMessage);
-                data.Shares_FSV = GetDoubleValueFromRowOrNull(worksheet, row, 22, nameof(data.Customer_No), exceptionMessage);
-                data.Vehicle_OMV = GetDoubleValueFromRowOrNull(worksheet, row, 23, nameof(data.Customer_No), exceptionMessage);
-                data.Vehicle_FSV = GetDoubleValueFromRowOrNull(worksheet, row, 24, nameof(data.Customer_No), exceptionMessage);
+                data.Account_No = GetRequiredValueFromRowOrNull(worksheet, row, 2, nameof(data.Account_No), exceptionMessage);
+                data.Contract_No = GetRequiredValueFromRowOrNull(worksheet, row, 3, nameof(data.Contract_No), exceptionMessage);
+                data.Snapshot_Date = GetDateTimeValueFromRowOrNull(worksheet, row, 4, nameof(data.Snapshot_Date), exceptionMessage);
+                data.Period = GetIntegerValueFromRowOrNull(worksheet, row, 5, nameof(data.Period), exceptionMessage);
+                data.Outstanding_Balance_Lcy = GetDoubleValueFromRowOrNull(worksheet, row, 6, nameof(data.Outstanding_Balance_Lcy), exceptionMessage);
+                data.Debenture_OMV = GetDoubleValueFromRowOrNull(worksheet, row, 7, nameof(data.Debenture_OMV), exceptionMessage);
+                data.Debenture_FSV = GetDoubleValueFromRowOrNull(worksheet, row, 8, nameof(data.Debenture_FSV), exceptionMessage);
+                data.Cash_OMV = GetDoubleValueFromRowOrNull(worksheet, row, 9, nameof(data.Cash_OMV), exceptionMessage);
+                data.Cash_FSV = GetDoubleValueFromRowOrNull(worksheet, row, 10, nameof(data.Cash_FSV), exceptionMessage);
+                data.Inventory_OMV = GetDoubleValueFromRowOrNull(worksheet, row, 11, nameof(data.Inventory_OMV), exceptionMessage);
+                data.Inventory_FSV = GetDoubleValueFromRowOrNull(worksheet, row, 12, nameof(data.Inventory_FSV), exceptionMessage);
+                data.Plant_And_Equipment_OMV = GetDoubleValueFromRowOrNull(worksheet, row, 13, nameof(data.Plant_And_Equipment_OMV), exceptionMessage);
+                data.Plant_And_Equipment_FSV = GetDoubleValueFromRowOrNull(worksheet, row, 14, nameof(data.Plant_And_Equipment_FSV), exceptionMessage);
+                data.Residential_Property_OMV = GetDoubleValueFromRowOrNull(worksheet, row, 15, nameof(data.Residential_Property_OMV), exceptionMessage);
+                data.Residential_Property_FSV = GetDoubleValueFromRowOrNull(worksheet, row, 16, nameof(data.Residential_Property_FSV), exceptionMessage);
+                data.Commercial_Property_OMV = GetDoubleValueFromRowOrNull(worksheet, row, 17, nameof(data.Commercial_Property_OMV), exceptionMessage);
+                data.Commercial_Property_FSV = GetDoubleValueFromRowOrNull(worksheet, row, 18, nameof(data.Commercial_Property_FSV), exceptionMessage);
+                data.Receivables_OMV = GetDoubleValueFromRowOrNull(worksheet, row, 19, nameof(data.Receivables_OMV), exceptionMessage);
+                data.Receivables_FSV = GetDoubleValueFromRowOrNull(worksheet, row, 20, nameof(data.Receivables_FSV), exceptionMessage);
+                data.Shares_OMV = GetDoubleValueFromRowOrNull(worksheet, row, 21, nameof(data.Shares_OMV), exceptionMessage);
+                data.Shares_FSV = GetDoubleValueFromRowOrNull(worksheet, row, 22, nameof(data.Shares_FSV), exceptionMessage);
+                data.Vehicle_OMV = GetDoubleValueFromRowOrNull(worksheet, row, 23, nameof(data.Vehicle_OMV), exceptionMessage);
+                data.Vehicle_FSV = GetDoubleValueFromRowOrNull(worksheet, row, 24, nameof(data.Vehicle_FSV), exceptionMessage);
             }
             catch (Exception exception)
             {

@@ -75,6 +75,10 @@ import { EclResultsComponent } from './eclView/_subs/ecl-results/ecl-results.com
 import { EclAuditInfoComponent } from './eclView/_subs/ecl-audit-info/ecl-audit-info.component';
 import { ViewAssetBookDetailsComponent } from './eclShared/view-assetBookDetails/view-assetBookDetails.component';
 import { OuLookupTableModalComponent } from './eclShared/ou-lookup-modal/ou-lookup-table-modal.component';
+import { CalibrationEadCcfSummaryComponent } from './calibration/calibrateEadCcfSummary/calibrateEadCcfSummary.component';
+import { ViewCalibrationEadCcfSummaryComponent } from './calibration/calibrateEadCcfSummary/view-calibrateEadCcfSummary.component';
+import { CalibrationLgdHaircutComponent } from './calibration/calibrateLgdHairCut/calibrateLgdHaircut.component';
+import { ViewCalibrationLgdHaircutComponent } from './calibration/calibrateLgdHairCut/view-calibrateLgdHaircut.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -101,6 +105,10 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+        ViewCalibrationLgdHaircutComponent,
+        CalibrationLgdHaircutComponent,
+        ViewCalibrationEadCcfSummaryComponent,
+        CalibrationEadCcfSummaryComponent,
         OuLookupTableModalComponent,
         CalibrationEadBehaviouralTermsComponent,
         CreateOrEditCalibrationEadBehaviouralTermComponent,

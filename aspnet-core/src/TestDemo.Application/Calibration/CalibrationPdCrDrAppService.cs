@@ -25,6 +25,9 @@ using TestDemo.Dto.Approvals;
 using TestDemo.EclConfig;
 using Abp.Configuration;
 using TestDemo.EclShared.Dtos;
+using Abp.Organizations;
+using TestDemo.Calibration.Exporting;
+using TestDemo.EclShared.Importing.Calibration.Dto;
 
 namespace TestDemo.Calibration
 {
@@ -35,7 +38,10 @@ namespace TestDemo.Calibration
         private readonly IRepository<CalibrationPdCrDrApproval, Guid> _calibrationApprovalRepository;
         private readonly IRepository<CalibrationInputPdCrDr> _calibrationInputRepository;
         private readonly IRepository<CalibrationResultPd12MonthsSummary> _calibrationResultRepository;
+        private readonly IRepository<CalibrationResultPd12Months> _pd12MonthsResultRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
+        private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
+        private readonly IInputPdCrDrExporter _inputDataExporter;
 
 
         public CalibrationPdCrDrAppService(
@@ -43,13 +49,19 @@ namespace TestDemo.Calibration
             IRepository<User, long> lookup_userRepository,
             IRepository<CalibrationPdCrDrApproval, Guid> calibrationApprovalRepository,
             IRepository<CalibrationInputPdCrDr> calibrationInputRepository,
-            IRepository<CalibrationResultPd12MonthsSummary> calibrationResultRepository)
+            IRepository<OrganizationUnit, long> organizationUnitRepository,
+            IRepository<CalibrationResultPd12MonthsSummary> calibrationResultRepository,
+            IRepository<CalibrationResultPd12Months> pd12MonthsResultRepository,
+            IInputPdCrDrExporter inputDataExporter)
         {
             _calibrationRepository = calibrationRepository;
             _lookup_userRepository = lookup_userRepository;
             _calibrationApprovalRepository = calibrationApprovalRepository;
             _calibrationInputRepository = calibrationInputRepository;
             _calibrationResultRepository = calibrationResultRepository;
+            _pd12MonthsResultRepository = pd12MonthsResultRepository;
+            _organizationUnitRepository = organizationUnitRepository;
+            _inputDataExporter = inputDataExporter;
         }
 
         public async Task<PagedResultDto<GetCalibrationRunForViewDto>> GetAll(GetAllCalibrationRunInput input)
@@ -71,12 +83,15 @@ namespace TestDemo.Calibration
                         .WhereIf(input.AffiliateIdFilter.HasValue && input.AffiliateIdFilter > -1, e => e.OrganizationUnitId == input.AffiliateIdFilter);
 
             var pagedAndFilteredCalibrationEadBehaviouralTerms = filteredCalibrationEadBehaviouralTerms
-                .OrderBy(input.Sorting ?? "id asc")
+                .OrderBy(input.Sorting ?? "creationTime desc")
                 .PageBy(input);
 
             var calibrationEadBehaviouralTerms = from o in pagedAndFilteredCalibrationEadBehaviouralTerms
                                                  join o1 in _lookup_userRepository.GetAll() on o.CreatorUserId equals o1.Id into j1
                                                  from s1 in j1.DefaultIfEmpty()
+
+                                                 join ou in _organizationUnitRepository.GetAll() on o.OrganizationUnitId equals ou.Id into ou1
+                                                 from ou2 in ou1.DefaultIfEmpty()
 
                                                  select new GetCalibrationRunForViewDto()
                                                  {
@@ -88,7 +103,8 @@ namespace TestDemo.Calibration
                                                      },
                                                      ClosedBy = o.CloseByUserFk == null || o.CloseByUserFk.FullName == null ? "" : o.CloseByUserFk.FullName,
                                                      DateCreated = o.CreationTime,
-                                                     CreatedBy = s1 == null ? "" : s1.FullName
+                                                     CreatedBy = s1 == null ? "" : s1.FullName,
+                                                     AffiliateName = ou2 == null ? "" : ou2.DisplayName
                                                  };
 
             var totalCount = await filteredCalibrationEadBehaviouralTerms.CountAsync();
@@ -99,12 +115,11 @@ namespace TestDemo.Calibration
             );
         }
 
-        [AbpAuthorize(AppPermissions.Pages_CalibrationEadBehaviouralTerms_Edit)]
         public async Task<GetCalibrationRunForEditOutput> GetCalibrationForEdit(EntityDto<Guid> input)
         {
-            var calibrationEadBehaviouralTerm = await _calibrationRepository.FirstOrDefaultAsync(input.Id);
+            var calibration = await _calibrationRepository.FirstOrDefaultAsync(input.Id);
 
-            var output = new GetCalibrationRunForEditOutput { Calibration = ObjectMapper.Map<CreateOrEditCalibrationRunDto>(calibrationEadBehaviouralTerm) };
+            var output = new GetCalibrationRunForEditOutput { Calibration = ObjectMapper.Map<CreateOrEditCalibrationRunDto>(calibration) };
 
             if (output.Calibration.CloseByUserId != null)
             {
@@ -112,7 +127,79 @@ namespace TestDemo.Calibration
                 output.ClosedByUserName = _lookupUser?.Name?.ToString();
             }
 
+            if (calibration.OrganizationUnitId != null)
+            {
+                var ou = await _organizationUnitRepository.FirstOrDefaultAsync((calibration.OrganizationUnitId));
+                output.AffiliateName = ou.DisplayName;
+            }
+
+            string createdBy = _lookup_userRepository.FirstOrDefault((long)calibration.CreatorUserId).FullName;
+            string updatedBy = "";
+            if (calibration.LastModifierUserId != null)
+            {
+                updatedBy = _lookup_userRepository.FirstOrDefault((long)calibration.LastModifierUserId).FullName;
+            }
+
+            output.AuditInfo = new EclAuditInfoDto()
+            {
+                Approvals = await GetApprovalAudit(input),
+                DateCreated = calibration.CreationTime,
+                LastUpdated = calibration.LastModificationTime,
+                CreatedBy = createdBy,
+                UpdatedBy = updatedBy
+            };
+
             return output;
+        }
+
+        protected async Task<List<EclApprovalAuditInfoDto>> GetApprovalAudit(EntityDto<Guid> input)
+        {
+
+            var filteredApprovals = _calibrationApprovalRepository.GetAll()
+                        .Include(e => e.ReviewedByUserFk)
+                        .Include(e => e.CalibrationFk)
+                        .Where(e => e.CalibrationId == input.Id);
+
+            var approvals = from o in filteredApprovals
+                            join o1 in _lookup_userRepository.GetAll() on o.CreatorUserId equals o1.Id into j1
+                            from s1 in j1.DefaultIfEmpty()
+
+                            select new EclApprovalAuditInfoDto()
+                            {
+                                EclId = (Guid)o.CalibrationId,
+                                ReviewedDate = o.CreationTime,
+                                Status = o.Status,
+                                ReviewComment = o.ReviewComment,
+                                ReviewedBy = s1 == null ? "" : s1.FullName.ToString()
+                            };
+
+            return await approvals.ToListAsync();
+        }
+
+        public async Task<CalibrationInputSummaryDto<InputPdCrDrDto>> GetInputSummary(EntityDto<Guid> input)
+        {
+            var total = await _calibrationInputRepository.CountAsync(x => x.CalibrationId == input.Id);
+            var items = await _calibrationInputRepository.GetAll().Where(x => x.CalibrationId == input.Id).Take(10)
+                                                         .Select(x => ObjectMapper.Map<InputPdCrDrDto>(x))
+                                                         .ToListAsync();
+
+            return new CalibrationInputSummaryDto<InputPdCrDrDto>
+            {
+                Total = total,
+                Items = items
+            };
+        }
+
+        public async Task<GetAllResultPdCrDrDto> GetResult(EntityDto<Guid> input)
+        {
+            var summary = await _calibrationResultRepository.FirstOrDefaultAsync(x => x.CalibrationId == input.Id);
+            var item = await _pd12MonthsResultRepository.FirstOrDefaultAsync(x => x.CalibrationId == input.Id);
+
+            return new GetAllResultPdCrDrDto
+            {
+                Pd12Months = ObjectMapper.Map<ResultPd12MonthsDto>(item),
+                Pd12MonthsSummary = ObjectMapper.Map<ResultPd12MonthsSummaryDto>(summary)
+            };
         }
 
         public async Task<Guid> CreateOrEdit(CreateOrEditCalibrationRunDto input)
@@ -128,7 +215,6 @@ namespace TestDemo.Calibration
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_CalibrationEadBehaviouralTerms_Create)]
         protected virtual async Task<Guid> Create(CreateOrEditCalibrationRunDto input)
         {
             var user = await UserManager.GetUserByIdAsync((long)AbpSession.UserId);
@@ -146,23 +232,26 @@ namespace TestDemo.Calibration
             }
             else
             {
-                throw new UserFriendlyException(L("UserDoesNotBelongToAnyAffiliateError"));
+                Guid id = await _calibrationRepository.InsertAndGetIdAsync(new CalibrationPdCrDr()
+                {
+                    OrganizationUnitId = (long)input.AffiliateId,
+                    Status = CalibrationStatusEnum.Draft
+                });
+                return id;
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_CalibrationEadBehaviouralTerms_Edit)]
         protected virtual async Task Update(CreateOrEditCalibrationRunDto input)
         {
             var calibrationEadBehaviouralTerm = await _calibrationRepository.FirstOrDefaultAsync((Guid)input.Id);
             ObjectMapper.Map(input, calibrationEadBehaviouralTerm);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_CalibrationEadBehaviouralTerms_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _calibrationRepository.DeleteAsync(input.Id);
         }
-        [AbpAuthorize(AppPermissions.Pages_CalibrationEadBehaviouralTerms)]
+
         public async Task<List<CalibrationEadBehaviouralTermUserLookupTableDto>> GetAllUserForTableDropdown()
         {
             return await _lookup_userRepository.GetAll()
@@ -228,7 +317,7 @@ namespace TestDemo.Calibration
             var calibration = await _calibrationRepository.FirstOrDefaultAsync((Guid)input.Id);
             if (calibration.Status == CalibrationStatusEnum.Approved)
             {
-                calibration.Status = CalibrationStatusEnum.Processing;
+                calibration.Status = CalibrationStatusEnum.Completed;
                 await _calibrationRepository.UpdateAsync(calibration);
                 //await _backgroundJobManager.EnqueueAsync<RunInvestmentEclJob, RunEclJobArgs>(new RunEclJobArgs
                 //{
@@ -291,7 +380,15 @@ namespace TestDemo.Calibration
             }
         }
 
+        public async Task<FileDto> ExportToExcel(EntityDto<Guid> input)
+        {
 
+            var items = await _calibrationInputRepository.GetAll().Where(x => x.CalibrationId == input.Id)
+                                                         .Select(x => ObjectMapper.Map<InputPdCrDrDto>(x))
+                                                         .ToListAsync();
+
+            return _inputDataExporter.ExportToFile(items);
+        }
 
         protected virtual async Task<ValidationMessageDto> ValidateForSubmission(Guid calibrationId)
         {

@@ -1,4 +1,6 @@
-﻿import { ViewRetailEclComponent } from './retail/view-retailEcl/view-retailEcl.component';
+﻿import { ViewCalibrationEadCcfSummaryComponent } from './calibration/calibrateEadCcfSummary/view-calibrateEadCcfSummary.component';
+import { CalibrationEadCcfSummaryComponent } from './calibration/calibrateEadCcfSummary/calibrateEadCcfSummary.component';
+import { ViewRetailEclComponent } from './retail/view-retailEcl/view-retailEcl.component';
 import { NgModule } from '@angular/core';
 import { CalibrationEadBehaviouralTermsComponent } from './calibration/calibrationEadBehaviouralTerms/calibrationEadBehaviouralTerms.component';
 import { CreateOrEditCalibrationEadBehaviouralTermComponent } from './calibration/calibrationEadBehaviouralTerms/create-or-edit-calibrationEadBehaviouralTerm.component';
@@ -23,6 +25,8 @@ import { ViewEclComponent } from './eclView/view-ecl/view-ecl.component';
 import { AffiliateConfigurationComponent } from './eclConfig/affiliate-configuration/affiliate-configuration.component';
 import { WorkspaceComponent } from './workspace/workspace.component';
 import { ViewAssetBookDetailsComponent } from './eclShared/view-assetBookDetails/view-assetBookDetails.component';
+import { CalibrationLgdHaircutComponent } from './calibration/calibrateLgdHairCut/calibrateLgdHaircut.component';
+import { ViewCalibrationLgdHaircutComponent } from './calibration/calibrateLgdHairCut/view-calibrateLgdHaircut.component';
 
 @NgModule({
     imports: [
@@ -32,6 +36,11 @@ import { ViewAssetBookDetailsComponent } from './eclShared/view-assetBookDetails
                 children: [
                     { path: 'calibration/behavioralTerms', component: CalibrationEadBehaviouralTermsComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms' }  },
                     { path: 'calibration/behavioralTerms/view/:calibrationId', component: CreateOrEditCalibrationEadBehaviouralTermComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms.Create' }  },
+                    { path: 'calibration/ccfSummary', component: CalibrationEadCcfSummaryComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms' }  },
+                    { path: 'calibration/ccfSummary/view/:calibrationId', component: ViewCalibrationEadCcfSummaryComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms.Create' }  },
+                    { path: 'calibration/haircut', component: CalibrationLgdHaircutComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms' }  },
+                    { path: 'calibration/haircut/view/:calibrationId', component: ViewCalibrationLgdHaircutComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms.Create' }  },
+
                     { path: 'affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets', component: AffiliateMacroEconomicVariableOffsetsComponent, data: { permission: 'Pages.AffiliateMacroEconomicVariableOffsets' }  },
                     { path: 'eclConfig/eclConfigurations', component: EclSettingsComponent, data: { permission: 'Pages.EclConfigurations' }  },
                     { path: 'eclConfig/affiliates', component: AffiliateConfigurationComponent, data: { permission: 'Pages.EclConfigurations' }  },

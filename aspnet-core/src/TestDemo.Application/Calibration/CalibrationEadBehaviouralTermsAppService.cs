@@ -111,7 +111,6 @@ namespace TestDemo.Calibration
             );
         }
 
-        [AbpAuthorize(AppPermissions.Pages_CalibrationEadBehaviouralTerms_Edit)]
         public async Task<GetCalibrationRunForEditOutput> GetCalibrationForEdit(EntityDto<Guid> input)
         {
             var calibration = await _calibrationRepository.FirstOrDefaultAsync(input.Id);
@@ -214,7 +213,6 @@ namespace TestDemo.Calibration
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_CalibrationEadBehaviouralTerms_Create)]
         protected virtual async Task<Guid> Create(CreateOrEditCalibrationRunDto input)
         {
             var user = await UserManager.GetUserByIdAsync((long)AbpSession.UserId);
@@ -241,19 +239,17 @@ namespace TestDemo.Calibration
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_CalibrationEadBehaviouralTerms_Edit)]
         protected virtual async Task Update(CreateOrEditCalibrationRunDto input)
         {
             var calibrationEadBehaviouralTerm = await _calibrationRepository.FirstOrDefaultAsync((Guid)input.Id);
             ObjectMapper.Map(input, calibrationEadBehaviouralTerm);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_CalibrationEadBehaviouralTerms_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _calibrationRepository.DeleteAsync(input.Id);
         }
-        [AbpAuthorize(AppPermissions.Pages_CalibrationEadBehaviouralTerms)]
+
         public async Task<List<CalibrationEadBehaviouralTermUserLookupTableDto>> GetAllUserForTableDropdown()
         {
             return await _lookup_userRepository.GetAll()
@@ -319,7 +315,7 @@ namespace TestDemo.Calibration
             var calibration = await _calibrationRepository.FirstOrDefaultAsync((Guid)input.Id);
             if (calibration.Status == CalibrationStatusEnum.Approved)
             {
-                calibration.Status = CalibrationStatusEnum.Processing;
+                calibration.Status = CalibrationStatusEnum.Completed;
                 await _calibrationRepository.UpdateAsync(calibration);
                 //await _backgroundJobManager.EnqueueAsync<RunInvestmentEclJob, RunEclJobArgs>(new RunEclJobArgs
                 //{
