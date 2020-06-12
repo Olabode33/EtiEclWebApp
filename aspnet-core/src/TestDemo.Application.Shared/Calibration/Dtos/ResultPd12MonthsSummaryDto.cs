@@ -29,7 +29,7 @@ namespace TestDemo.Calibration.Dtos
 
     public class GetAllResultPdCrDrDto
     {
-        public ResultPd12MonthsDto Pd12Months { get; set; }
+        public List<ResultPd12MonthsDto> Pd12Months { get; set; }
         public ResultPd12MonthsSummaryDto Pd12MonthsSummary { get; set; }
     }
 }

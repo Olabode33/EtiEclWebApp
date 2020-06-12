@@ -29,6 +29,8 @@ import { CalibrationLgdHaircutComponent } from './calibration/calibrateLgdHairCu
 import { ViewCalibrationLgdHaircutComponent } from './calibration/calibrateLgdHairCut/view-calibrateLgdHaircut.component';
 import { CalibrationLgdRecoveryComponent } from './calibration/calibrateLgdRecoveryRate/calibrateLgdRecovery.component';
 import { ViewCalibrationLgdRecoveryComponent } from './calibration/calibrateLgdRecoveryRate/view-calibrateLgdRecovery.component';
+import { CalibrationPdCrDrComponent } from './calibration/calibratePdCrDr/calibratePdCrDr.component';
+import { ViewCalibrationPdCrDrComponent } from './calibration/calibratePdCrDr/view-calibratePdCrDr.component';
 
 @NgModule({
     imports: [
@@ -44,6 +46,8 @@ import { ViewCalibrationLgdRecoveryComponent } from './calibration/calibrateLgdR
                     { path: 'calibration/haircut/view/:calibrationId', component: ViewCalibrationLgdHaircutComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms.Create' }  },
                     { path: 'calibration/recovery', component: CalibrationLgdRecoveryComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms' }  },
                     { path: 'calibration/recovery/view/:calibrationId', component: ViewCalibrationLgdRecoveryComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms.Create' }  },
+                    { path: 'calibration/pdcrdr', component: CalibrationPdCrDrComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms' }  },
+                    { path: 'calibration/pdcrdr/view/:calibrationId', component: ViewCalibrationPdCrDrComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms.Create' }  },
 
                     { path: 'affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets', component: AffiliateMacroEconomicVariableOffsetsComponent, data: { permission: 'Pages.AffiliateMacroEconomicVariableOffsets' }  },
                     { path: 'eclConfig/eclConfigurations', component: EclSettingsComponent, data: { permission: 'Pages.EclConfigurations' }  },

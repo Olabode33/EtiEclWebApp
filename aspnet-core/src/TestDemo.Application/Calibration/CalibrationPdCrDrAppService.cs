@@ -193,11 +193,13 @@ namespace TestDemo.Calibration
         public async Task<GetAllResultPdCrDrDto> GetResult(EntityDto<Guid> input)
         {
             var summary = await _calibrationResultRepository.FirstOrDefaultAsync(x => x.CalibrationId == input.Id);
-            var item = await _pd12MonthsResultRepository.FirstOrDefaultAsync(x => x.CalibrationId == input.Id);
+            var items = await _pd12MonthsResultRepository.GetAll().Where(x => x.CalibrationId == input.Id)
+                                                        .Select(x => ObjectMapper.Map<ResultPd12MonthsDto>(x))
+                                                        .ToListAsync();
 
             return new GetAllResultPdCrDrDto
             {
-                Pd12Months = ObjectMapper.Map<ResultPd12MonthsDto>(item),
+                Pd12Months = items,
                 Pd12MonthsSummary = ObjectMapper.Map<ResultPd12MonthsSummaryDto>(summary)
             };
         }

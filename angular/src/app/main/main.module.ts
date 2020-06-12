@@ -81,6 +81,8 @@ import { CalibrationLgdHaircutComponent } from './calibration/calibrateLgdHairCu
 import { ViewCalibrationLgdHaircutComponent } from './calibration/calibrateLgdHairCut/view-calibrateLgdHaircut.component';
 import { CalibrationLgdRecoveryComponent } from './calibration/calibrateLgdRecoveryRate/calibrateLgdRecovery.component';
 import { ViewCalibrationLgdRecoveryComponent } from './calibration/calibrateLgdRecoveryRate/view-calibrateLgdRecovery.component';
+import { CalibrationPdCrDrComponent } from './calibration/calibratePdCrDr/calibratePdCrDr.component';
+import { ViewCalibrationPdCrDrComponent } from './calibration/calibratePdCrDr/view-calibratePdCrDr.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -107,6 +109,8 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+        ViewCalibrationPdCrDrComponent,
+        CalibrationPdCrDrComponent,
         ViewCalibrationLgdRecoveryComponent,
         CalibrationLgdRecoveryComponent,
         ViewCalibrationLgdHaircutComponent,
