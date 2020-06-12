@@ -15,6 +15,7 @@ import { HttpClient } from '@angular/common/http';
 import { AppConsts } from '@shared/AppConsts';
 import { FileUpload } from 'primeng/primeng';
 import { interval, Subscription } from 'rxjs';
+import { FileDownloadService } from '@shared/utils/file-download.service';
 
 const secondsCounter = interval(5000);
 
@@ -59,7 +60,8 @@ export class CreateOrEditCalibrationEadBehaviouralTermComponent extends AppCompo
         private _activatedRoute: ActivatedRoute,
         private _calibrationServiceProxy: CalibrationEadBehaviouralTermsServiceProxy,
         private _location: Location,
-        private _httpClient: HttpClient
+        private _httpClient: HttpClient,
+        private _fileDownloadService: FileDownloadService
     ) {
         super(injector);
         this.uploadUrl = AppConsts.remoteServiceBaseUrl + '/CalibrationData/ImportBehaviouralTermFromExcel';
@@ -200,6 +202,13 @@ export class CreateOrEditCalibrationEadBehaviouralTermComponent extends AppCompo
         this._location.back();
     }
 
+    exportToExcel(): void {
+        let dto = new EntityDtoOfGuid();
+        dto.id = this._calibrationId;
+        this._calibrationServiceProxy.exportToExcel(dto).subscribe(result => {
+            this._fileDownloadService.downloadTempFile(result);
+        });
+    }
 
     uploadData(data: { files: File }): void {
         const formData: FormData = new FormData();

@@ -26,6 +26,7 @@ using TestDemo.EclConfig;
 using Abp.Configuration;
 using TestDemo.EclShared.Dtos;
 using Abp.Organizations;
+using TestDemo.Calibration.Exporting;
 
 namespace TestDemo.Calibration
 {
@@ -38,6 +39,7 @@ namespace TestDemo.Calibration
         private readonly IRepository<CalibrationResultEadBehaviouralTerms> _calibrationResultRepository;
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
+        private readonly IInputBehavioralTermExcelExporter _inputDataExporter;
 
 
         public CalibrationEadBehaviouralTermsAppService(
@@ -46,7 +48,8 @@ namespace TestDemo.Calibration
             IRepository<CalibrationEadBehaviouralTermApproval, Guid> calibrationApprovalRepository,
             IRepository<CalibrationInputEadBehaviouralTerms> calibrationInputRepository,
             IRepository<OrganizationUnit, long> organizationUnitRepository,
-            IRepository<CalibrationResultEadBehaviouralTerms> calibrationResultRepository)
+            IRepository<CalibrationResultEadBehaviouralTerms> calibrationResultRepository,
+            IInputBehavioralTermExcelExporter inputDataExporter)
         {
             _calibrationRepository = calibrationRepository;
             _lookup_userRepository = lookup_userRepository;
@@ -54,6 +57,7 @@ namespace TestDemo.Calibration
             _calibrationInputRepository = calibrationInputRepository;
             _calibrationResultRepository = calibrationResultRepository;
             _organizationUnitRepository = organizationUnitRepository;
+            _inputDataExporter = inputDataExporter;
         }
 
         public async Task<PagedResultDto<GetCalibrationRunForViewDto>> GetAll(GetAllCalibrationRunInput input)
@@ -378,6 +382,15 @@ namespace TestDemo.Calibration
             }
         }
 
+        public async Task<FileDto> ExportToExcel(EntityDto<Guid> input)
+        {
+
+            var items = await _calibrationInputRepository.GetAll().Where(x => x.CalibrationId == input.Id)
+                                                         .Select(x => ObjectMapper.Map<InputBehaviouralTermsDto>(x))
+                                                         .ToListAsync();
+
+            return _inputDataExporter.ExportToFile(items);
+        }
 
 
         protected virtual async Task<ValidationMessageDto> ValidateForSubmission(Guid calibrationId)
