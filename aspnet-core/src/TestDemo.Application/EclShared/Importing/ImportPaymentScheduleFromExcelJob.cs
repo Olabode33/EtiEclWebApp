@@ -234,7 +234,8 @@ namespace TestDemo.EclShared.Importing
             {
                 case FrameworkEnum.Retail:
                     var retailSummary = _retailUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
-                    if (retailSummary != null)
+                    var rp = _retailEclDataPaymentScheduleRepository.Count(x => x.RetailEclUploadId == retailSummary.RetailEclId);
+                    if (retailSummary != null && rp > 0)
                     {
                         _retailEclDataPaymentScheduleRepository.HardDelete(x => x.RetailEclUploadId == retailSummary.RetailEclId);
                     }
@@ -242,7 +243,8 @@ namespace TestDemo.EclShared.Importing
 
                 case FrameworkEnum.Wholesale:
                     var wholesaleSummary = _wholesaleUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
-                    if (wholesaleSummary != null)
+                    var wp = _wholesaleEclDataPaymentScheduleRepository.Count(x => x.WholesaleEclUploadId == wholesaleSummary.WholesaleEclId);
+                    if (wholesaleSummary != null && wp > 0)
                     {
                         _wholesaleEclDataPaymentScheduleRepository.HardDelete(x => x.WholesaleEclUploadId == wholesaleSummary.WholesaleEclId);
                     }
@@ -250,7 +252,8 @@ namespace TestDemo.EclShared.Importing
 
                 case FrameworkEnum.OBE:
                     var obeSummary = _obeUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
-                    if (obeSummary != null)
+                    var op = _obeEclDataPaymentScheduleRepository.Count(x => x.ObeEclUploadId == obeSummary.ObeEclId);
+                    if (obeSummary != null && op > 0)
                     {
                         _obeEclDataPaymentScheduleRepository.HardDelete(x => x.ObeEclUploadId == obeSummary.ObeEclId);
                     }

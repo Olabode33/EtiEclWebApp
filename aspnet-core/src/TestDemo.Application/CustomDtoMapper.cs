@@ -198,7 +198,9 @@ namespace TestDemo
             configuration.CreateMap<ObeEclDataLoanBookDto, ObeEclDataLoanBook>().ReverseMap();
             configuration.CreateMap<CreateOrEditObeEclUploadApprovalDto, ObeEclUploadApproval>().ReverseMap();
             configuration.CreateMap<ObeEclUploadApprovalDto, ObeEclUploadApproval>().ReverseMap();
-            configuration.CreateMap<CreateOrEditObeEclUploadDto, ObeEclUpload>().ReverseMap();
+            configuration.CreateMap<CreateOrEditObeEclUploadDto, ObeEclUpload>()
+                .ForMember(e => e.ObeEclId, options => options.MapFrom(dto => dto.EclId))
+                .ReverseMap();
             configuration.CreateMap<ObeEclUploadDto, ObeEclUpload>().ReverseMap();
             configuration.CreateMap<CreateOrEditObeEclPdSnPCummulativeDefaultRateDto, ObeEclPdSnPCummulativeDefaultRate>().ReverseMap();
             configuration.CreateMap<ObeEclPdSnPCummulativeDefaultRateDto, ObeEclPdSnPCummulativeDefaultRate>().ReverseMap();
@@ -230,7 +232,9 @@ namespace TestDemo
             configuration.CreateMap<RetailEclDataLoanBookDto, RetailEclDataLoanBook>().ReverseMap();
             configuration.CreateMap<CreateOrEditRetailEclUploadApprovalDto, RetailEclUploadApproval>().ReverseMap();
             configuration.CreateMap<RetailEclUploadApprovalDto, RetailEclUploadApproval>().ReverseMap();
-            configuration.CreateMap<CreateOrEditRetailEclUploadDto, RetailEclUpload>().ReverseMap();
+            configuration.CreateMap<CreateOrEditRetailEclUploadDto, RetailEclUpload>()
+                .ForMember(e => e.RetailEclId, options => options.MapFrom(dto => dto.EclId))
+                .ReverseMap();
             configuration.CreateMap<RetailEclUploadDto, RetailEclUpload>().ReverseMap();
             configuration.CreateMap<CreateOrEditRetailEclPdSnPCummulativeDefaultRateDto, RetailEclPdSnPCummulativeDefaultRate>().ReverseMap();
             configuration.CreateMap<RetailEclPdSnPCummulativeDefaultRateDto, RetailEclPdSnPCummulativeDefaultRate>().ReverseMap();
@@ -266,7 +270,9 @@ namespace TestDemo
             configuration.CreateMap<WholesaleEclDataLoanBookDto, WholesaleEclDataLoanBook>().ReverseMap();
             configuration.CreateMap<CreateOrEditWholesaleEclUploadApprovalDto, WholesaleEclUploadApproval>().ReverseMap();
             configuration.CreateMap<WholesaleEclUploadApprovalDto, WholesaleEclUploadApproval>().ReverseMap();
-            configuration.CreateMap<CreateOrEditWholesaleEclUploadDto, WholesaleEclUpload>().ReverseMap();
+            configuration.CreateMap<CreateOrEditWholesaleEclUploadDto, WholesaleEclUpload>()
+                .ForMember(e => e.WholesaleEclId, options => options.MapFrom(dto => dto.EclId))
+                .ReverseMap();
             configuration.CreateMap<WholesaleEclUploadDto, WholesaleEclUpload>().ReverseMap();
             configuration.CreateMap<CreateOrEditLgdAssumptionUnsecuredRecoveryDto, LgdInputAssumption>().ReverseMap();
             configuration.CreateMap<LgdAssumptionDto, LgdInputAssumption>().ReverseMap();
