@@ -66,6 +66,7 @@ namespace TestDemo.EntityFrameworkCore
         public virtual DbSet<CalibrationResultEadBehaviouralTerms> CalibrationResultEadBehaviouralTerms { get; set; }
         public virtual DbSet<CalibrationResultEadCcfSummary> CalibrationResultEadCcfSummary { get; set; }
         public virtual DbSet<CalibrationResultLgdHairCut> CalibrationResultLgdHairCut { get; set; }
+        public virtual DbSet<CalibrationResultLgdHairCutSummary> CalibrationResultLgdHairCutSummary { get; set; }
         public virtual DbSet<CalibrationResultLgdRecoveryRate> CalibrationResultLgdRecoveryRate { get; set; }
         public virtual DbSet<CalibrationResultPd12Months> CalibrationResult12MonthPd { get; set; }
         public virtual DbSet<CalibrationResultPd12MonthsSummary> CalibrationResultPd12MonthsSummary { get; set; }

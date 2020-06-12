@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestDemo.EntityFrameworkCore;
 
 namespace TestDemo.Migrations
 {
     [DbContext(typeof(TestDemoDbContext))]
-    partial class TestDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200612103748_Updated_Haircut_Input_to_int")]
+    partial class Updated_Haircut_Input_to_int
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1816,43 +1818,6 @@ namespace TestDemo.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CalibrationResult_LGD_HairCut");
-                });
-
-            modelBuilder.Entity("TestDemo.CalibrationResult.CalibrationResultLgdHairCutSummary", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<Guid?>("CalibrationId");
-
-                    b.Property<double?>("Cash");
-
-                    b.Property<string>("Comment");
-
-                    b.Property<double?>("Commercial_Property");
-
-                    b.Property<DateTime?>("DateCreated");
-
-                    b.Property<double?>("Debenture");
-
-                    b.Property<double?>("Inventory");
-
-                    b.Property<double?>("Plant_And_Equipment");
-
-                    b.Property<double?>("Receivables");
-
-                    b.Property<double?>("Residential_Property");
-
-                    b.Property<double?>("Shares");
-
-                    b.Property<int?>("Status");
-
-                    b.Property<double?>("Vehicle");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CalibrationResult_LGD_HairCut_Summary");
                 });
 
             modelBuilder.Entity("TestDemo.CalibrationResult.CalibrationResultLgdRecoveryRate", b =>

@@ -72,5 +72,181 @@ namespace TestDemo.Web.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<JsonResult> ImportCcfSummaryFromExcel()
+        {
+            try
+            {
+                var file = Request.Form.Files.First();
+                var uploadSummaryId = Request.Form["calibrationId"];
+
+                if (file == null)
+                {
+                    throw new UserFriendlyException(L("File_Empty_Error"));
+                }
+
+                if (file.Length > 1048576 * 100) //100 MB
+                {
+                    throw new UserFriendlyException(L("File_SizeLimit_Error"));
+                }
+
+                byte[] fileBytes;
+                using (var stream = file.OpenReadStream())
+                {
+                    fileBytes = stream.GetAllBytes();
+                }
+
+                var tenantId = AbpSession.TenantId;
+                var fileObject = new BinaryObject(tenantId, fileBytes);
+
+                await BinaryObjectManager.SaveAsync(fileObject);
+
+                await BackgroundJobManager.EnqueueAsync<ImportCalibrationCcfSummaryFromExcelJob, ImportCalibrationDataFromExcelJobArgs>(new ImportCalibrationDataFromExcelJobArgs
+                {
+                    BinaryObjectId = fileObject.Id,
+                    CalibrationId = Guid.Parse(uploadSummaryId.ToString()),
+                    User = AbpSession.ToUserIdentifier()
+                });
+
+                return Json(new AjaxResponse(new { }));
+            }
+            catch (UserFriendlyException ex)
+            {
+                return Json(new AjaxResponse(new ErrorInfo(ex.Message)));
+            }
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> ImportLgdHaircutFromExcel()
+        {
+            try
+            {
+                var file = Request.Form.Files.First();
+                var uploadSummaryId = Request.Form["calibrationId"];
+
+                if (file == null)
+                {
+                    throw new UserFriendlyException(L("File_Empty_Error"));
+                }
+
+                if (file.Length > 1048576 * 100) //100 MB
+                {
+                    throw new UserFriendlyException(L("File_SizeLimit_Error"));
+                }
+
+                byte[] fileBytes;
+                using (var stream = file.OpenReadStream())
+                {
+                    fileBytes = stream.GetAllBytes();
+                }
+
+                var tenantId = AbpSession.TenantId;
+                var fileObject = new BinaryObject(tenantId, fileBytes);
+
+                await BinaryObjectManager.SaveAsync(fileObject);
+
+                await BackgroundJobManager.EnqueueAsync<ImportCalibrationLgdHaircutFromExcelJob, ImportCalibrationDataFromExcelJobArgs>(new ImportCalibrationDataFromExcelJobArgs
+                {
+                    BinaryObjectId = fileObject.Id,
+                    CalibrationId = Guid.Parse(uploadSummaryId.ToString()),
+                    User = AbpSession.ToUserIdentifier()
+                });
+
+                return Json(new AjaxResponse(new { }));
+            }
+            catch (UserFriendlyException ex)
+            {
+                return Json(new AjaxResponse(new ErrorInfo(ex.Message)));
+            }
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> ImportLgdRecoveryRateFromExcel()
+        {
+            try
+            {
+                var file = Request.Form.Files.First();
+                var uploadSummaryId = Request.Form["calibrationId"];
+
+                if (file == null)
+                {
+                    throw new UserFriendlyException(L("File_Empty_Error"));
+                }
+
+                if (file.Length > 1048576 * 100) //100 MB
+                {
+                    throw new UserFriendlyException(L("File_SizeLimit_Error"));
+                }
+
+                byte[] fileBytes;
+                using (var stream = file.OpenReadStream())
+                {
+                    fileBytes = stream.GetAllBytes();
+                }
+
+                var tenantId = AbpSession.TenantId;
+                var fileObject = new BinaryObject(tenantId, fileBytes);
+
+                await BinaryObjectManager.SaveAsync(fileObject);
+
+                await BackgroundJobManager.EnqueueAsync<ImportCalibrationLgdRecoveryRateFromExcelJob, ImportCalibrationDataFromExcelJobArgs>(new ImportCalibrationDataFromExcelJobArgs
+                {
+                    BinaryObjectId = fileObject.Id,
+                    CalibrationId = Guid.Parse(uploadSummaryId.ToString()),
+                    User = AbpSession.ToUserIdentifier()
+                });
+
+                return Json(new AjaxResponse(new { }));
+            }
+            catch (UserFriendlyException ex)
+            {
+                return Json(new AjaxResponse(new ErrorInfo(ex.Message)));
+            }
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> ImportPdCrDrFromExcel()
+        {
+            try
+            {
+                var file = Request.Form.Files.First();
+                var uploadSummaryId = Request.Form["calibrationId"];
+
+                if (file == null)
+                {
+                    throw new UserFriendlyException(L("File_Empty_Error"));
+                }
+
+                if (file.Length > 1048576 * 100) //100 MB
+                {
+                    throw new UserFriendlyException(L("File_SizeLimit_Error"));
+                }
+
+                byte[] fileBytes;
+                using (var stream = file.OpenReadStream())
+                {
+                    fileBytes = stream.GetAllBytes();
+                }
+
+                var tenantId = AbpSession.TenantId;
+                var fileObject = new BinaryObject(tenantId, fileBytes);
+
+                await BinaryObjectManager.SaveAsync(fileObject);
+
+                await BackgroundJobManager.EnqueueAsync<ImportCalibrationPdCrDrFromExcelJob, ImportCalibrationDataFromExcelJobArgs>(new ImportCalibrationDataFromExcelJobArgs
+                {
+                    BinaryObjectId = fileObject.Id,
+                    CalibrationId = Guid.Parse(uploadSummaryId.ToString()),
+                    User = AbpSession.ToUserIdentifier()
+                });
+
+                return Json(new AjaxResponse(new { }));
+            }
+            catch (UserFriendlyException ex)
+            {
+                return Json(new AjaxResponse(new ErrorInfo(ex.Message)));
+            }
+        }
+
     }
 }

@@ -14,6 +14,7 @@ namespace TestDemo.CalibrationInput
         public virtual string Account_No { get; set; }
         public virtual string Contract_No { get; set; }
         public virtual DateTime? Snapshot_Date { get; set; }
+        public virtual int? Period { get; set; }
         public virtual double? Outstanding_Balance_Lcy { get; set; }
         public virtual double? Debenture_OMV { get; set; }
         public virtual double? Debenture_FSV { get; set; }
