@@ -73,6 +73,7 @@ namespace TestDemo.EclShared.Importing
                 return;
             }
 
+            DeleteExistingDataAsync(args);
             CreatePaymentSchedule(args, paymentSchedules);
             UpdateSummaryTableToCompletedAsync(args);
         }
@@ -127,6 +128,7 @@ namespace TestDemo.EclShared.Importing
             switch(args.Framework)
             {
                 case FrameworkEnum.Retail:
+                    var retailSummary = _retailUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
                     await _retailEclDataPaymentScheduleRepository.InsertAsync(new RetailEclDataPaymentSchedule()
                             {
                                 ContractRefNo = input.ContractRefNo,
@@ -134,12 +136,13 @@ namespace TestDemo.EclShared.Importing
                                 Component = input.Component,
                                 Frequency = input.Frequency,
                                 NoOfSchedules = input.NoOfSchedules,
-                                RetailEclUploadId = args.UploadSummaryId,
+                                RetailEclUploadId = retailSummary.RetailEclId,
                                 StartDate = input.StartDate
                             });
                     break;
 
                 case FrameworkEnum.Wholesale:
+                    var wholesaleSummary = _wholesaleUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
                     await _wholesaleEclDataPaymentScheduleRepository.InsertAsync(new WholesaleEclDataPaymentSchedule()
                         {
                             ContractRefNo = input.ContractRefNo,
@@ -147,12 +150,13 @@ namespace TestDemo.EclShared.Importing
                             Component = input.Component,
                             Frequency = input.Frequency,
                             NoOfSchedules = input.NoOfSchedules,
-                            WholesaleEclUploadId = args.UploadSummaryId,
+                            WholesaleEclUploadId = wholesaleSummary.WholesaleEclId,
                             StartDate = input.StartDate
                         });
                     break;
 
                 case FrameworkEnum.OBE:
+                    var obeSummary = _obeUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
                     await _obeEclDataPaymentScheduleRepository.InsertAsync(new ObeEclDataPaymentSchedule()
                     {
                         ContractRefNo = input.ContractRefNo,
@@ -160,7 +164,7 @@ namespace TestDemo.EclShared.Importing
                         Component = input.Component,
                         Frequency = input.Frequency,
                         NoOfSchedules = input.NoOfSchedules,
-                        ObeEclUploadId = args.UploadSummaryId,
+                        ObeEclUploadId = obeSummary.ObeEclId,
                         StartDate = input.StartDate
                     });
                     break;
@@ -219,6 +223,36 @@ namespace TestDemo.EclShared.Importing
                     {
                         obeSummary.Status = GeneralStatusEnum.Completed;
                         _obeUploadSummaryRepository.Update(obeSummary);
+                    }
+                    break;
+            }
+        }
+
+        private void DeleteExistingDataAsync(ImportEclDataFromExcelJobArgs args)
+        {
+            switch (args.Framework)
+            {
+                case FrameworkEnum.Retail:
+                    var retailSummary = _retailUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (retailSummary != null)
+                    {
+                        _retailEclDataPaymentScheduleRepository.HardDelete(x => x.RetailEclUploadId == retailSummary.RetailEclId);
+                    }
+                    break;
+
+                case FrameworkEnum.Wholesale:
+                    var wholesaleSummary = _wholesaleUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (wholesaleSummary != null)
+                    {
+                        _wholesaleEclDataPaymentScheduleRepository.HardDelete(x => x.WholesaleEclUploadId == wholesaleSummary.WholesaleEclId);
+                    }
+                    break;
+
+                case FrameworkEnum.OBE:
+                    var obeSummary = _obeUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (obeSummary != null)
+                    {
+                        _obeEclDataPaymentScheduleRepository.HardDelete(x => x.ObeEclUploadId == obeSummary.ObeEclId);
                     }
                     break;
             }

@@ -119,9 +119,9 @@ export class CreateOrEditCalibrationEadBehaviouralTermComponent extends AppCompo
         this._calibrationServiceProxy.getInputSummary(this._calibrationId).subscribe(result => {
             this.totalUploads = result.total;
             this.uploads = result.items;
-            if (this.totalUploads > 0 && this.autoReloadSub) {
-                this.autoReloadSub.unsubscribe();
-            }
+            // if (this.totalUploads > 0 && this.autoReloadSub) {
+            //     this.autoReloadSub.unsubscribe();
+            // }
         });
     }
 

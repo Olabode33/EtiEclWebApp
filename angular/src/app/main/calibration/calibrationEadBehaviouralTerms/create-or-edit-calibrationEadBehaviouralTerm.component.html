@@ -54,7 +54,8 @@
     </div>
     <div class="kt-content">
 
-        <div class="kt-portlet kt-portlet--height-fluid">
+        <div *ngIf="calibration.status == calibrationStatusEnum.Completed || calibration.status == calibrationStatusEnum.AppliedToEcl" 
+            class="kt-portlet kt-portlet--height-fluid">
             <div class="kt-portlet__head">
                 <div class="kt-portlet__head-label">
                     <h3 class="kt-portlet__head-title">

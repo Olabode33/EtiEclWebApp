@@ -176,7 +176,7 @@ namespace TestDemo.Calibration
         public async Task<CalibrationInputSummaryDto<InputBehaviouralTermsDto>> GetInputSummary(EntityDto<Guid> input)
         {
             var total = await _calibrationInputRepository.CountAsync(x => x.CalibrationId == input.Id);
-            var items = await _calibrationInputRepository.GetAll().Take(20).Where(x => x.CalibrationId == input.Id)
+            var items = await _calibrationInputRepository.GetAll().Where(x => x.CalibrationId == input.Id).Take(10)
                                                          .Select(x => ObjectMapper.Map<InputBehaviouralTermsDto>(x))
                                                          .ToListAsync();
 

@@ -73,6 +73,8 @@ namespace TestDemo.EclShared.Importing
                 SendInvalidExcelNotification(args);
                 return;
             }
+
+            DeleteExistingDataAsync(args);
             CreateLoanbook(args, loanbooks);
             UpdateSummaryTableToCompletedAsync(args);
         }
@@ -127,6 +129,7 @@ namespace TestDemo.EclShared.Importing
             switch (args.Framework)
             {
                 case FrameworkEnum.Retail:
+                    var retailSummary = _retailUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
                     await _retailEclDataLoanbookRepository.InsertAsync(new RetailEclDataLoanBook()
                     {
                         CustomerNo = input.CustomerNo,
@@ -198,12 +201,13 @@ namespace TestDemo.EclShared.Importing
                         GuarantorLGD = input.GuarantorLGD,
                         GuaranteeValue = input.GuaranteeValue,
                         GuaranteeLevel = input.GuaranteeLevel,
-                        RetailEclUploadId = args.UploadSummaryId
+                        RetailEclUploadId = retailSummary.RetailEclId
                        
                     });
                     break;
 
                 case FrameworkEnum.Wholesale:
+                    var wholesaleSummary = _wholesaleUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
                     await _wholesaleEclDataLoanbookRepository.InsertAsync(new WholesaleEclDataLoanBook()
                     {
                         CustomerNo = input.CustomerNo,
@@ -275,11 +279,12 @@ namespace TestDemo.EclShared.Importing
                         GuarantorLGD = input.GuarantorLGD,
                         GuaranteeValue = input.GuaranteeValue,
                         GuaranteeLevel = input.GuaranteeLevel,
-                        WholesaleEclUploadId = args.UploadSummaryId
+                        WholesaleEclUploadId = wholesaleSummary.WholesaleEclId
                     });
                     break;
 
                 case FrameworkEnum.OBE:
+                    var obeSummary = _obeUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
                     await _obeEclDataLoanbookRepository.InsertAsync(new ObeEclDataLoanBook()
                     {
                         CustomerNo = input.CustomerNo,
@@ -351,7 +356,7 @@ namespace TestDemo.EclShared.Importing
                         GuarantorLGD = input.GuarantorLGD,
                         GuaranteeValue = input.GuaranteeValue,
                         GuaranteeLevel = input.GuaranteeLevel,
-                        ObeEclUploadId = args.UploadSummaryId
+                        ObeEclUploadId = obeSummary.ObeEclId
                     });
                     break;
             }
@@ -414,5 +419,34 @@ namespace TestDemo.EclShared.Importing
             }
         }
 
+        private void DeleteExistingDataAsync(ImportEclDataFromExcelJobArgs args)
+        {
+            switch (args.Framework)
+            {
+                case FrameworkEnum.Retail:
+                    var retailSummary = _retailUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (retailSummary != null)
+                    {
+                        _retailEclDataLoanbookRepository.HardDelete(x => x.RetailEclUploadId == retailSummary.RetailEclId);
+                    }
+                    break;
+
+                case FrameworkEnum.Wholesale:
+                    var wholesaleSummary = _wholesaleUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (wholesaleSummary != null)
+                    {
+                        _wholesaleEclDataLoanbookRepository.HardDelete(x => x.WholesaleEclUploadId == wholesaleSummary.WholesaleEclId);
+                    }
+                    break;
+
+                case FrameworkEnum.OBE:
+                    var obeSummary = _obeUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (obeSummary != null)
+                    {
+                        _obeEclDataLoanbookRepository.HardDelete(x => x.ObeEclUploadId == obeSummary.ObeEclId);
+                    }
+                    break;
+            }
+        }
     }
 }
