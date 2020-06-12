@@ -15,6 +15,7 @@ namespace TestDemo.CalibrationInput
         public virtual string Account_Name { get; set; }
         public virtual string Contract_No { get; set; }
         public virtual string Segment { get; set; }
+        public virtual string Product_Type { get; set; }
         public virtual int? Days_Past_Due { get; set; }
         public virtual string Classification { get; set; }
         public virtual DateTime? Default_Date { get; set; }

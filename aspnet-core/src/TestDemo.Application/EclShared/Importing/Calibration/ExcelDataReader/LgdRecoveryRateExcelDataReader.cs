@@ -41,14 +41,15 @@ namespace TestDemo.EclShared.Importing
                 data.Contract_No = GetRequiredValueFromRowOrNull(worksheet, row, 3, nameof(data.Contract_No), exceptionMessage);
                 data.Account_Name = GetRequiredValueFromRowOrNull(worksheet, row, 4, nameof(data.Account_Name), exceptionMessage);
                 data.Segment = GetRequiredValueFromRowOrNull(worksheet, row, 5, nameof(data.Segment), exceptionMessage);
-                data.Days_Past_Due = GetIntegerValueFromRowOrNull(worksheet, row, 6, nameof(data.Days_Past_Due), exceptionMessage);
-                data.Classification = GetRequiredValueFromRowOrNull(worksheet, row, 7, nameof(data.Classification), exceptionMessage);
-                data.Default_Date = GetDateTimeValueFromRowOrNull(worksheet, row, 8, nameof(data.Default_Date), exceptionMessage);
-                data.Outstanding_Balance_Lcy = GetDoubleValueFromRowOrNull(worksheet, row, 9, nameof(data.Outstanding_Balance_Lcy), exceptionMessage);
-                data.Contractual_Interest_Rate = GetDoubleValueFromRowOrNull(worksheet, row, 10, nameof(data.Contractual_Interest_Rate), exceptionMessage);
-                data.Amount_Recovered = GetDoubleValueFromRowOrNull(worksheet, row, 11, nameof(data.Amount_Recovered), exceptionMessage);
-                data.Date_Of_Recovery = GetDateTimeValueFromRowOrNull(worksheet, row, 12, nameof(data.Date_Of_Recovery), exceptionMessage);
-                data.Type_Of_Recovery = GetRequiredValueFromRowOrNull(worksheet, row, 13, nameof(data.Type_Of_Recovery), exceptionMessage);
+                data.Product_Type = GetRequiredValueFromRowOrNull(worksheet, row, 6, nameof(data.Product_Type), exceptionMessage);
+                data.Days_Past_Due = GetIntegerValueFromRowOrNull(worksheet, row, 7, nameof(data.Days_Past_Due), exceptionMessage);
+                data.Classification = GetRequiredValueFromRowOrNull(worksheet, row, 8, nameof(data.Classification), exceptionMessage);
+                data.Default_Date = GetDateTimeValueFromRowOrNull(worksheet, row, 9, nameof(data.Default_Date), exceptionMessage);
+                data.Outstanding_Balance_Lcy = GetDoubleValueFromRowOrNull(worksheet, row, 10, nameof(data.Outstanding_Balance_Lcy), exceptionMessage);
+                data.Contractual_Interest_Rate = GetDoubleValueFromRowOrNull(worksheet, row, 11, nameof(data.Contractual_Interest_Rate), exceptionMessage);
+                data.Amount_Recovered = GetDoubleValueFromRowOrNull(worksheet, row, 12, nameof(data.Amount_Recovered), exceptionMessage);
+                data.Date_Of_Recovery = GetDateTimeValueFromRowOrNull(worksheet, row, 13, nameof(data.Date_Of_Recovery), exceptionMessage);
+                data.Type_Of_Recovery = GetRequiredValueFromRowOrNull(worksheet, row, 14, nameof(data.Type_Of_Recovery), exceptionMessage);
 
             }
             catch (Exception exception)

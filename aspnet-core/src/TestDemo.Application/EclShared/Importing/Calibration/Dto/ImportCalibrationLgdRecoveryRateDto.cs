@@ -11,6 +11,7 @@ namespace TestDemo.EclShared.Importing.Calibration.Dto
         public string Account_Name { get; set; }
         public string Contract_No { get; set; }
         public string Segment { get; set; }
+        public string Product_Type { get; set; }
         public int? Days_Past_Due { get; set; }
         public string Classification { get; set; }
         public DateTime? Default_Date { get; set; }

@@ -1557,7 +1557,7 @@ namespace TestDemo.Migrations
 
                     b.Property<string>("Settlement_Account");
 
-                    b.Property<string>("Snapshot_Date");
+                    b.Property<int?>("Snapshot_Date");
 
                     b.HasKey("Id");
 
@@ -1658,6 +1658,8 @@ namespace TestDemo.Migrations
                     b.Property<DateTime?>("Default_Date");
 
                     b.Property<double?>("Outstanding_Balance_Lcy");
+
+                    b.Property<string>("Product_Type");
 
                     b.Property<string>("Segment");
 

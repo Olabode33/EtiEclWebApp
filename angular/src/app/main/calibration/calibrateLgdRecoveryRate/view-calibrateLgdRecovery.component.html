@@ -78,31 +78,31 @@
                         <tbody>
                             <tr>
                                 <td class="align-middle">{{ l('ExposureAtDefault') }}</td>
-                                <td class="align-middle">{{ result.overall_Exposure_At_Default }}</td>
-                                <td class="align-middle">{{ result.corporate_Exposure_At_Default }}</td>
-                                <td class="align-middle">{{ result.commercial_Exposure_At_Default }}</td>
-                                <td class="align-middle">{{ result.consumer_Exposure_At_Default }}</td>
+                                <td class="align-middle">{{ result.overall_Exposure_At_Default | number: '1.2-2' }}</td>
+                                <td class="align-middle">{{ result.corporate_Exposure_At_Default | number: '1.2-2' }}</td>
+                                <td class="align-middle">{{ result.commercial_Exposure_At_Default | number: '1.2-2' }}</td>
+                                <td class="align-middle">{{ result.consumer_Exposure_At_Default | number: '1.2-2'}}</td>
                             </tr>
                             <tr>
                                 <td class="align-middle">{{ l('PvOfAmountRecovered') }}</td>
-                                <td class="align-middle">{{ result.overall_PvOfAmountReceived }}</td>
-                                <td class="align-middle">{{ result.corporate_PvOfAmountReceived }}</td>
-                                <td class="align-middle">{{ result.commercial_PvOfAmountReceived }}</td>
-                                <td class="align-middle">{{ result.consumer_PvOfAmountReceived }}</td>
+                                <td class="align-middle">{{ result.overall_PvOfAmountReceived | number: '1.2-2' }}</td>
+                                <td class="align-middle">{{ result.corporate_PvOfAmountReceived | number: '1.2-2' }}</td>
+                                <td class="align-middle">{{ result.commercial_PvOfAmountReceived | number: '1.2-2' }}</td>
+                                <td class="align-middle">{{ result.consumer_PvOfAmountReceived | number: '1.2-2' }}</td>
                             </tr>
                             <tr>
                                 <td class="align-middle">{{ l('Count') }}</td>
-                                <td class="align-middle">{{ result.overall_Count }}</td>
-                                <td class="align-middle">{{ result.corporate_Count }}</td>
-                                <td class="align-middle">{{ result.commercial_Count }}</td>
-                                <td class="align-middle">{{ result.consumer_Count }}</td>
+                                <td class="align-middle">{{ result.overall_Count | number: '1.2-2' }}</td>
+                                <td class="align-middle">{{ result.corporate_Count  | number: '1.2-2'}}</td>
+                                <td class="align-middle">{{ result.commercial_Count | number: '1.2-2' }}</td>
+                                <td class="align-middle">{{ result.consumer_Count | number: '1.2-2' }}</td>
                             </tr>
                             <tr class="bg-success text-white">
                                 <td class="align-middle">{{ l('RecoveryRate') }}</td>
-                                <td class="align-middle">{{ result.overall_RecoveryRate }}</td>
-                                <td class="align-middle">{{ result.corporate_RecoveryRate }}</td>
-                                <td class="align-middle">{{ result.commercial_RecoveryRate }}</td>
-                                <td class="align-middle">{{ result.consumer_RecoveryRate }}</td>
+                                <td class="align-middle">{{ result.overall_RecoveryRate | number: '1.2-2' }}</td>
+                                <td class="align-middle">{{ result.corporate_RecoveryRate | number: '1.2-2' }}</td>
+                                <td class="align-middle">{{ result.commercial_RecoveryRate | number: '1.2-2' }}</td>
+                                <td class="align-middle">{{ result.consumer_RecoveryRate | number: '1.2-2' }}</td>
                             </tr>
                         </tbody>
                     </table>

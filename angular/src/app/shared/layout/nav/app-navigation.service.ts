@@ -26,7 +26,7 @@ export class AppNavigationService {
                 new AppMenuItem('CalibrationEadBehaviouralTerms', 'Pages.CalibrationEadBehaviouralTerms', 'flaticon-more', '/app/main/calibration/behavioralTerms'),
                 new AppMenuItem('CalibrationEadCcfSummary', 'Pages.CalibrationEadBehaviouralTerms', 'flaticon-more', '/app/main/calibration/ccfSummary'),
                 new AppMenuItem('CalibrationLgdHairCut', 'Pages.CalibrationEadBehaviouralTerms', 'flaticon-more', '/app/main/calibration/haircut'),
-                new AppMenuItem('CalibrationLgdRecoveryRate', 'Pages.CalibrationEadBehaviouralTerms', 'flaticon-more', '/app/main/calibration/calibrationEadBehaviouralTerms'),
+                new AppMenuItem('CalibrationLgdRecoveryRate', 'Pages.CalibrationEadBehaviouralTerms', 'flaticon-more', '/app/main/calibration/recovery'),
                 new AppMenuItem('CalibrationPdCrDr', 'Pages.CalibrationEadBehaviouralTerms', 'flaticon-more', '/app/main/calibration/calibrationEadBehaviouralTerms'),
             ]),
             new AppMenuItem('Assumptions', 'Pages.Assumption.Affiliates', 'fa fa-list-ul', '/app/main/assumption/affiliates'),
