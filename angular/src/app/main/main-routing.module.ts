@@ -27,6 +27,8 @@ import { WorkspaceComponent } from './workspace/workspace.component';
 import { ViewAssetBookDetailsComponent } from './eclShared/view-assetBookDetails/view-assetBookDetails.component';
 import { CalibrationLgdHaircutComponent } from './calibration/calibrateLgdHairCut/calibrateLgdHaircut.component';
 import { ViewCalibrationLgdHaircutComponent } from './calibration/calibrateLgdHairCut/view-calibrateLgdHaircut.component';
+import { CalibrationLgdRecoveryComponent } from './calibration/calibrateLgdRecoveryRate/calibrateLgdRecovery.component';
+import { ViewCalibrationLgdRecoveryComponent } from './calibration/calibrateLgdRecoveryRate/view-calibrateLgdRecovery.component';
 
 @NgModule({
     imports: [
@@ -40,6 +42,8 @@ import { ViewCalibrationLgdHaircutComponent } from './calibration/calibrateLgdHa
                     { path: 'calibration/ccfSummary/view/:calibrationId', component: ViewCalibrationEadCcfSummaryComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms.Create' }  },
                     { path: 'calibration/haircut', component: CalibrationLgdHaircutComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms' }  },
                     { path: 'calibration/haircut/view/:calibrationId', component: ViewCalibrationLgdHaircutComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms.Create' }  },
+                    { path: 'calibration/recovery', component: CalibrationLgdRecoveryComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms' }  },
+                    { path: 'calibration/recovery/view/:calibrationId', component: ViewCalibrationLgdRecoveryComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms.Create' }  },
 
                     { path: 'affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets', component: AffiliateMacroEconomicVariableOffsetsComponent, data: { permission: 'Pages.AffiliateMacroEconomicVariableOffsets' }  },
                     { path: 'eclConfig/eclConfigurations', component: EclSettingsComponent, data: { permission: 'Pages.EclConfigurations' }  },
