@@ -37,6 +37,7 @@ namespace TestDemo.EclShared
 		public virtual GeneralStatusEnum Status { get; set; }
 
         public virtual Guid AssumptionId { get; set; }
+        public virtual Guid? ParentApprovalId { get; set; }
 
         public virtual string AssumptionEntity { get; set; }
 

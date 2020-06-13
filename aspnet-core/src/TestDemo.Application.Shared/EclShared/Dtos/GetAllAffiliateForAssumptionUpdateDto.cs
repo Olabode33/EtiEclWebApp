@@ -16,5 +16,6 @@ namespace TestDemo.EclShared.Dtos
         public DateTime LastSecuritiesReportingDate { get; set; }
         public bool RequiresAttention { get; set; }
         public bool HasSubmittedAssumptions { get; set; }
+        public virtual GeneralStatusEnum Status { get; set; }
     }
 }

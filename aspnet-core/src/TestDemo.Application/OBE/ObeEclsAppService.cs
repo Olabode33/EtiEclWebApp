@@ -45,6 +45,7 @@ namespace TestDemo.OBE
         private readonly IRepository<User, long> _lookup_userRepository;
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
         private readonly IRepository<AffiliateAssumption, Guid> _affiliateAssumptionRepository;
+        private readonly IRepository<AssumptionApproval, Guid> _assumptionsApprovalRepository;
         private readonly IRepository<ObeEclApproval, Guid> _obeApprovalsRepository;
         private readonly IRepository<ObeEclOverride, Guid> _obeOverridesRepository;
         private readonly IRepository<ObeEclUpload, Guid> _obeUploadRepository;
@@ -72,6 +73,7 @@ namespace TestDemo.OBE
             IRepository<User, long> lookup_userRepository,
             IRepository<OrganizationUnit, long> organizationUnitRepository,
             IRepository<AffiliateAssumption, Guid> affiliateAssumptionRepository,
+            IRepository<AssumptionApproval, Guid> assumptionsApprovalRepository,
             IRepository<ObeEclApproval, Guid> obeApprovalsRepository,
             IRepository<ObeEclOverride, Guid> obeOverridesRepository,
             IRepository<ObeEclUpload, Guid> obeUploadRepository,
@@ -98,6 +100,7 @@ namespace TestDemo.OBE
             _lookup_userRepository = lookup_userRepository;
             _organizationUnitRepository = organizationUnitRepository;
             _affiliateAssumptionRepository = affiliateAssumptionRepository;
+            _assumptionsApprovalRepository = assumptionsApprovalRepository;
             _obeApprovalsRepository = obeApprovalsRepository;
             _obeOverridesRepository = obeOverridesRepository;
             _obeUploadRepository = obeUploadRepository;
@@ -463,6 +466,8 @@ namespace TestDemo.OBE
 
                 if (affiliateAssumption != null)
                 {
+                    await ValidateForCreation(ouId);
+
                     Guid eclId = await CreateAndGetId(ouId);
 
                     await SaveFrameworkAssumption(ouId, eclId);
@@ -968,6 +973,15 @@ namespace TestDemo.OBE
                                                          .ToListAsync();
 
             return _paymentScheduleExporter.ExportToFile(items);
+        }
+
+        protected async Task ValidateForCreation(long ouId)
+        {
+            var submittedAssumptions = await _assumptionsApprovalRepository.CountAsync(x => x.OrganizationUnitId == ouId && (x.Status == GeneralStatusEnum.Submitted || x.Status == GeneralStatusEnum.AwaitngAdditionApproval));
+            if (submittedAssumptions > 0)
+            {
+                throw new UserFriendlyException(L("SubmittedAssumptionsYetToBeApproved"));
+            }
         }
 
         protected virtual async Task<ValidationMessageDto> ValidateForSubmission(Guid eclId)

@@ -83,6 +83,7 @@ import { CalibrationLgdRecoveryComponent } from './calibration/calibrateLgdRecov
 import { ViewCalibrationLgdRecoveryComponent } from './calibration/calibrateLgdRecoveryRate/view-calibrateLgdRecovery.component';
 import { CalibrationPdCrDrComponent } from './calibration/calibratePdCrDr/calibratePdCrDr.component';
 import { ViewCalibrationPdCrDrComponent } from './calibration/calibratePdCrDr/view-calibratePdCrDr.component';
+import { ApprovalMultipleModalComponent } from './eclShared/approve-multiple-modal/approve-multiple-modal.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -109,6 +110,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+        ApprovalMultipleModalComponent,
         ViewCalibrationPdCrDrComponent,
         CalibrationPdCrDrComponent,
         ViewCalibrationLgdRecoveryComponent,

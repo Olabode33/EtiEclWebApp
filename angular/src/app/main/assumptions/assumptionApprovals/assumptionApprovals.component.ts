@@ -1,4 +1,5 @@
-﻿import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
+﻿import { ReviewMultipleRecordsDtoOfAssumptionApprovalDto } from './../../../../shared/service-proxies/service-proxies';
+import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AssumptionApprovalsServiceProxy, AssumptionApprovalDto, FrameworkEnum, AssumptionTypeEnum, GeneralStatusEnum, CommonLookupServiceProxy } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
@@ -15,6 +16,7 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import { Location } from '@angular/common';
 import { ApprovalModalComponent } from '../../eclShared/approve-ecl-modal/approve-ecl-modal.component';
+import { ApprovalMultipleModalComponent } from '@app/main/eclShared/approve-multiple-modal/approve-multiple-modal.component';
 
 @Component({
     templateUrl: './assumptionApprovals.component.html',
@@ -28,6 +30,7 @@ export class AssumptionApprovalsComponent extends AppComponentBase implements On
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
     @ViewChild('approvalModal', {static: true}) approvalModel: ApprovalModalComponent;
+    @ViewChild('approvalMultipleModal', {static: true}) approvalMultipleModel: ApprovalMultipleModalComponent;
 
     advancedFiltersAreShown = false;
     filterText = '';
@@ -104,6 +107,7 @@ export class AssumptionApprovalsComponent extends AppComponentBase implements On
         ).subscribe(result => {
             this.primengTableHelper.totalRecordsCount = result.totalCount;
             this.primengTableHelper.records = result.items;
+            this.selectedRecords = new Array();
             this.primengTableHelper.hideLoadingIndicator();
         });
     }
@@ -151,5 +155,17 @@ export class AssumptionApprovalsComponent extends AppComponentBase implements On
             dataSource: assumption
         });
         this.approvalModel.show();
+    }
+
+    reviewMultiple(): void {
+        let d = new ReviewMultipleRecordsDtoOfAssumptionApprovalDto();
+        d.items = this.selectedRecords;
+        d.reviewComment = '';
+        this.approvalMultipleModel.configure({
+            title: this.l('ApproveAssumption'),
+            serviceProxy: this._assumptionApprovalsServiceProxy,
+            dataSource: d
+        });
+        this.approvalMultipleModel.show();
     }
 }

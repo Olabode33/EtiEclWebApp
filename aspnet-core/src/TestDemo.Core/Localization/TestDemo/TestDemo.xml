@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+    <text name="Records">Records</text>
+    <text name="SubmittedAssumptionsYetToBeApproved">Cannot create ECL because there are submitted assumptions yet to be approved.</text>
     <text name="ExistingDataWouldBeReplaced">All existing data would be replaced.</text>
     
     <text name="DownloadFullData">Download Uploaded Data</text>

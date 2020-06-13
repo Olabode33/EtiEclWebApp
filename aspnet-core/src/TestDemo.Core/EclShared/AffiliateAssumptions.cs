@@ -19,5 +19,6 @@ namespace TestDemo.EclShared
         public virtual long OrganizationUnitId { get; set; }
         [ForeignKey("OrganizationUnitId")]
         public virtual OrganizationUnit OrganizationUnitFk { get; set; }
+        public virtual GeneralStatusEnum Status { get; set; }
     }
 }

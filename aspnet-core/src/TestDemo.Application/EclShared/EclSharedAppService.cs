@@ -394,8 +394,14 @@ namespace TestDemo.EclShared
         [AbpAuthorize(AppPermissions.Pages_AssumptionsUpdate)]
         public async Task<PagedResultDto<GetAllAffiliateAssumptionDto>> GetAllAffiliateAssumption(GetAllForLookupTableInput input)
         {
-            var submittedAssumptions = await _assumptionsApprovalRepository.GetAll().Where(x => x.Status == GeneralStatusEnum.Submitted).ToListAsync();
+            var user = await _userManager.GetUserByIdAsync((long)AbpSession.UserId);
+            var userOrganizationUnit = await _userManager.GetOrganizationUnitsAsync(user);
+            //var userSubsChildren = _organizationUnitRepository.GetAll().Where(ou => userSubsidiaries.Any(uou => ou.Code.StartsWith(uou.Code)));
+            var userOrganizationUnitIds = userOrganizationUnit.Select(ou => ou.Id);
+
+            var submittedAssumptions = await _assumptionsApprovalRepository.GetAll().Where(x => x.Status == GeneralStatusEnum.Submitted || x.Status == GeneralStatusEnum.AwaitngAdditionApproval).ToListAsync();
             var affiliates = _affiliateAssumptions.GetAll().Include(x => x.OrganizationUnitFk)
+                                                  .WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
                                                     .Select(x => new GetAllAffiliateAssumptionDto
                                                     {
                                                         Id = x.Id,
@@ -407,7 +413,8 @@ namespace TestDemo.EclShared
                                                         LastObeReportingDate = x.LastObeReportingDate,
                                                         LastSecuritiesReportingDate = x.LastSecuritiesReportingDate,
                                                         RequiresAttention = (DateTime.Now.Date - x.LastAssumptionUpdate.Date).TotalDays > 30,
-                                                        HasSubmittedAssumptions = submittedAssumptions.Any(y => y.OrganizationUnitId == x.OrganizationUnitId)
+                                                        HasSubmittedAssumptions = submittedAssumptions.Any(y => y.OrganizationUnitId == x.OrganizationUnitId),
+                                                        Status = x.Status
                                                     });
 
             var pagedEcls = affiliates
@@ -734,7 +741,8 @@ namespace TestDemo.EclShared
                 LastRetailReportingDate = assumption.LastRetailReportingDate,
                 LastSecuritiesReportingDate = assumption.LastSecuritiesReportingDate,
                 LastWholesaleReportingDate = assumption.LastWholesaleReportingDate,
-                OrganizationUnitId = assumption.OrganizationUnitId
+                OrganizationUnitId = assumption.OrganizationUnitId,
+                Status = assumption.Status
             };
         }
     }

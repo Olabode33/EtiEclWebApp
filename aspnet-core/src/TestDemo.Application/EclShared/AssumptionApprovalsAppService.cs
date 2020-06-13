@@ -19,6 +19,8 @@ using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Abp.Organizations;
+using Abp.Configuration;
+using TestDemo.EclConfig;
 
 namespace TestDemo.EclShared
 {
@@ -56,10 +58,16 @@ namespace TestDemo.EclShared
             var assumptionTypeFilter = (AssumptionTypeEnum)input.AssumptionTypeFilter;
             var statusFilter = (GeneralStatusEnum)input.StatusFilter;
 
+            var user = await UserManager.GetUserByIdAsync((long)AbpSession.UserId);
+            var userOrganizationUnit = await UserManager.GetOrganizationUnitsAsync(user);
+            //var userSubsChildren = _organizationUnitRepository.GetAll().Where(ou => userSubsidiaries.Any(uou => ou.Code.StartsWith(uou.Code)));
+            var userOrganizationUnitIds = userOrganizationUnit.Select(ou => ou.Id);
+
             var filteredAssumptionApprovals = _assumptionApprovalRepository.GetAll()
                         .Include(e => e.ReviewedByUserFk)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.AssumptionGroup.Contains(input.Filter) || e.InputName.Contains(input.Filter) || e.OldValue.Contains(input.Filter) || e.NewValue.Contains(input.Filter) || e.ReviewComment.Contains(input.Filter))
-                        .WhereIf(input.OrganizationUnitIdFilter != null, e => e.OrganizationUnitId == input.OrganizationUnitIdFilter)
+                        .WhereIf(input.OrganizationUnitIdFilter != null && userOrganizationUnitIds.Count() <= 0, e => e.OrganizationUnitId == input.OrganizationUnitIdFilter)
+                        .WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
                         .WhereIf(input.FrameworkFilter > -1, e => e.Framework == frameworkFilter)
                         .WhereIf(input.AssumptionTypeFilter > -1, e => e.AssumptionType == assumptionTypeFilter)
                         .WhereIf(input.StatusFilter > -1, e => e.Status == statusFilter)
@@ -202,6 +210,27 @@ namespace TestDemo.EclShared
             );
         }
 
+        
+        public async Task ApproveMultiple(ReviewMultipleRecordsDto<AssumptionApprovalDto> input)
+        {
+            foreach (var item in input.Items)
+            {
+                item.Status = GeneralStatusEnum.Approved;
+                item.ReviewComment = input.ReviewComment;
+                await ApproveReject(item);
+            }
+        }
+
+        public async Task RejectMultiple(ReviewMultipleRecordsDto<AssumptionApprovalDto> input)
+        {
+            foreach (var item in input.Items)
+            {
+                item.Status = GeneralStatusEnum.Rejected;
+                item.ReviewComment = input.ReviewComment;
+                await ApproveReject(item);
+            }
+        }
+
         public async Task ApproveReject(AssumptionApprovalDto input)
         {
             var assumption = await _assumptionApprovalRepository.FirstOrDefaultAsync((Guid)input.Id);
@@ -209,8 +238,37 @@ namespace TestDemo.EclShared
             assumption.ReviewComment = input.ReviewComment;
             assumption.ReviewedByUserId = AbpSession.UserId;
             assumption.DateReviewed = DateTime.Now;
+            assumption.ParentApprovalId = input.Id;
+            await _assumptionApprovalRepository.UpdateAsync(assumption);
+            await CurrentUnitOfWork.SaveChangesAsync();
 
-            //await UpdateAssumptionEntity(input);
+            if (input.Status == GeneralStatusEnum.Approved)
+            {
+                var requiredApprovals = await SettingManager.GetSettingValueAsync<int>(EclSettings.RequiredNoOfApprovals);
+                var eclApprovals = await _assumptionApprovalRepository.GetAllListAsync(x => x.ParentApprovalId == input.Id && x.Status == GeneralStatusEnum.Approved);
+                if (eclApprovals.Count(x => x.Status == GeneralStatusEnum.Approved) >= requiredApprovals)
+                {
+                    assumption.Status = GeneralStatusEnum.Approved;
+                }
+                else
+                {
+                    await _assumptionApprovalRepository.InsertAsync(new AssumptionApproval
+                    {
+                        Status = input.Status,
+                        ReviewComment = input.ReviewComment,
+                        ReviewedByUserId = AbpSession.UserId,
+                        DateReviewed = DateTime.Now,
+                        ParentApprovalId = input.Id
+                    });
+
+                    assumption.Status = GeneralStatusEnum.AwaitngAdditionApproval;
+                    
+                }
+            }
+            else
+            {
+                //calibration.Status = CalibrationStatusEnum.Draft;
+            }
 
             ObjectMapper.Map(assumption, assumption);
         }

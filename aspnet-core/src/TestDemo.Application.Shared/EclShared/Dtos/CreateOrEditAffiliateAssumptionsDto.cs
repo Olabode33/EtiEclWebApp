@@ -13,5 +13,6 @@ namespace TestDemo.EclShared.Dtos
         public DateTime LastObeReportingDate { get; set; }
         public DateTime LastSecuritiesReportingDate { get; set; }
         public long OrganizationUnitId { get; set; }
+        public GeneralStatusEnum Status { get; set; }
     }
 }

@@ -48,6 +48,7 @@ namespace TestDemo.Wholesale
         private readonly IRepository<User, long> _lookup_userRepository;
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
         private readonly IRepository<AffiliateAssumption, Guid> _affiliateAssumptionRepository;
+        private readonly IRepository<AssumptionApproval, Guid> _assumptionsApprovalRepository;
         private readonly IRepository<WholesaleEclApproval, Guid> _wholesaleApprovalsRepository;
         private readonly IRepository<WholesaleEclOverride, Guid> _wholesaleOverridesRepository;
         private readonly IRepository<WholesaleEclUpload, Guid> _wholesaleUploadRepository;
@@ -75,6 +76,7 @@ namespace TestDemo.Wholesale
             IRepository<User, long> lookup_userRepository, 
             IRepository<OrganizationUnit, long> organizationUnitRepository,
             IRepository<AffiliateAssumption, Guid> affiliateAssumptionRepository,
+            IRepository<AssumptionApproval, Guid> assumptionsApprovalRepository,
             IRepository<WholesaleEclApproval, Guid> wholesaleApprovalsRepository,
             IRepository<WholesaleEclOverride, Guid> wholesaleOverridesRepository,
             IRepository<WholesaleEclUpload, Guid> wholesaleUploadRepository,
@@ -99,6 +101,7 @@ namespace TestDemo.Wholesale
             _lookup_userRepository = lookup_userRepository;
             _organizationUnitRepository = organizationUnitRepository;
             _affiliateAssumptionRepository = affiliateAssumptionRepository;
+            _assumptionsApprovalRepository = assumptionsApprovalRepository;
             _wholesaleApprovalsRepository = wholesaleApprovalsRepository;
             _wholesaleOverridesRepository = wholesaleOverridesRepository;
             _wholesaleUploadRepository = wholesaleUploadRepository;
@@ -276,6 +279,8 @@ namespace TestDemo.Wholesale
 
                 if (affiliateAssumption != null)
                 {
+                    await ValidateForCreation(ouId);
+
                     Guid eclId = await CreateAndGetId(ouId);
 
                     await SaveFrameworkAssumption(ouId, eclId);
@@ -767,6 +772,15 @@ namespace TestDemo.Wholesale
                                                          .ToListAsync();
 
             return _paymentScheduleExporter.ExportToFile(items);
+        }
+
+        protected async Task ValidateForCreation(long ouId)
+        {
+            var submittedAssumptions = await _assumptionsApprovalRepository.CountAsync(x => x.OrganizationUnitId == ouId && (x.Status == GeneralStatusEnum.Submitted || x.Status == GeneralStatusEnum.AwaitngAdditionApproval));
+            if (submittedAssumptions > 0)
+            {
+                throw new UserFriendlyException(L("SubmittedAssumptionsYetToBeApproved"));
+            }
         }
 
         protected virtual async Task<ValidationMessageDto> ValidateForSubmission(Guid eclId)

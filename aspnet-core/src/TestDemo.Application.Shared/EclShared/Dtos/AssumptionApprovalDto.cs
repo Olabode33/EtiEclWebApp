@@ -4,6 +4,7 @@ using TestDemo.EclShared;
 
 using System;
 using Abp.Application.Services.Dto;
+using System.Collections.Generic;
 
 namespace TestDemo.EclShared.Dtos
 {
@@ -34,5 +35,11 @@ namespace TestDemo.EclShared.Dtos
 
         public string AssumptionEntity { get; set; }
 
+    }
+
+    public class ReviewMultipleRecordsDto<T>
+    {
+        public string ReviewComment { get; set; }
+        public List<T> Items { get; set; }
     }
 }

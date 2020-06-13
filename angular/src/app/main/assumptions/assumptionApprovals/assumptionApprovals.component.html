@@ -17,7 +17,7 @@
                     <i class="fa fa-random" style="font-size: 1.2rem !important;"></i>
                     {{l("ChangeAffiliate")}}
                 </button> -->
-                <button *ngIf="selectedRecords.length > 0" (click)="changeAffiliate()" class="btn btn-primary">
+                <button *ngIf="selectedRecords.length > 0" (click)="reviewMultiple()" class="btn btn-primary">
                     <i class="fa fa-eye" style="font-size: 1.2rem !important;"></i>
                     {{l("Review")}}
                 </button>
@@ -40,8 +40,10 @@
                                     <select class="form-control m-input" name="StatusFilter" id="StatusFilterSelect"
                                         [(ngModel)]="statusFilter">
                                         <option value="-1">{{l("All")}}</option>
-                                        <option value="1">{{l('Submitted')}}</option>
-                                        <option value="2">{{l('Approved')}}</option>
+                                        <option [value]="generalStatusEnum.Submitted">{{l(generalStatusEnum[generalStatusEnum.Submitted])}}</option>
+                                        <option [value]="generalStatusEnum.AwaitngAdditionApproval">{{l(generalStatusEnum[generalStatusEnum.AwaitngAdditionApproval])}}</option>
+                                        <option [value]="generalStatusEnum.Approved">{{l(generalStatusEnum[generalStatusEnum.Approved])}}</option>
+                                        <option [value]="generalStatusEnum.Rejected">{{l(generalStatusEnum[generalStatusEnum.Rejected])}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -186,7 +188,7 @@
                             <ng-template pTemplate="body" let-record="$implicit">
                                 <tr [pSelectableRow]="record">
                                     <td style="width: 3em">
-                                        <p-tableCheckbox [value]="record"></p-tableCheckbox>
+                                        <p-tableCheckbox [value]="record.assumptionApproval"></p-tableCheckbox>
                                     </td>
                                     <td style="width: 130px"
                                         [hidden]="!isGrantedAny('Pages.AssumptionApprovals.Edit', 'Pages.AssumptionApprovals.Delete')">
@@ -260,4 +262,5 @@
     <viewAssumptionApprovalModal #viewAssumptionApprovalModal (modalSave)="getAssumptionApprovals()"></viewAssumptionApprovalModal>
     <entityTypeHistoryModal #entityTypeHistoryModal></entityTypeHistoryModal>
     <app-approve-ecl-modal #approvalModal (approved)="getAssumptionApprovals()"></app-approve-ecl-modal>
+    <app-approve-multiple-modal #approvalMultipleModal (approved)="getAssumptionApprovals()" ></app-approve-multiple-modal>
 </div>

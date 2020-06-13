@@ -48,6 +48,7 @@ namespace TestDemo.Investment
         private readonly IRepository<User, long> _lookup_userRepository;
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
         private readonly IRepository<AffiliateAssumption, Guid> _affiliateAssumptionRepository;
+        private readonly IRepository<AssumptionApproval, Guid> _assumptionsApprovalRepository;
         private readonly IRepository<InvestmentEclApproval, Guid> _investmentApprovalsRepository;
         private readonly IRepository<InvestmentEclOverride, Guid> _investmentOverridesRepository;
         private readonly IRepository<InvestmentEclUpload, Guid> _investmentUploadRepository;
@@ -69,6 +70,7 @@ namespace TestDemo.Investment
                                         IRepository<User, long> lookup_userRepository,
                                         IRepository<OrganizationUnit, long> organizationUnitRepository,
                                         IRepository<AffiliateAssumption, Guid> affiliateAssumptionRepository,
+            IRepository<AssumptionApproval, Guid> assumptionsApprovalRepository,
                                         IRepository<InvestmentEclApproval, Guid> investmentApprovalsRepository,
                                         IRepository<InvestmentEclOverride, Guid> investmentOverridesRepository,
                                         IRepository<InvestmentEclUpload, Guid> investmentUploadRepository,
@@ -87,6 +89,7 @@ namespace TestDemo.Investment
             _lookup_userRepository = lookup_userRepository;
             _organizationUnitRepository = organizationUnitRepository;
             _affiliateAssumptionRepository = affiliateAssumptionRepository;
+            _assumptionsApprovalRepository = assumptionsApprovalRepository;
             _investmentApprovalsRepository = investmentApprovalsRepository;
             _investmentOverridesRepository = investmentOverridesRepository;
             _investmentUploadRepository = investmentUploadRepository;
@@ -217,6 +220,8 @@ namespace TestDemo.Investment
 
                 if (affiliateAssumption != null)
                 {
+                    await ValidateForCreation(ouId);
+
                     Guid eclId = await CreateAndGetId(ouId);
 
                     await SaveEadInputAssumption(ouId, eclId);
@@ -575,6 +580,15 @@ namespace TestDemo.Investment
                                                          .ToListAsync();
 
             return _dataExporter.ExportToFile(items);
+        }
+
+        protected async Task ValidateForCreation(long ouId)
+        {
+            var submittedAssumptions = await _assumptionsApprovalRepository.CountAsync(x => x.OrganizationUnitId == ouId && (x.Status == GeneralStatusEnum.Submitted || x.Status == GeneralStatusEnum.AwaitngAdditionApproval));
+            if (submittedAssumptions > 0)
+            {
+                throw new UserFriendlyException(L("SubmittedAssumptionsYetToBeApproved"));
+            }
         }
 
         protected virtual async Task<ValidationMessageDto> ValidateForSubmission(Guid eclId)

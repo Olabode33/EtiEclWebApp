@@ -2104,6 +2104,8 @@ namespace TestDemo.Migrations
 
                     b.Property<long>("OrganizationUnitId");
 
+                    b.Property<int>("Status");
+
                     b.HasKey("Id");
 
                     b.HasIndex("OrganizationUnitId");
@@ -2195,6 +2197,8 @@ namespace TestDemo.Migrations
                     b.Property<string>("OldValue");
 
                     b.Property<long>("OrganizationUnitId");
+
+                    b.Property<Guid?>("ParentApprovalId");
 
                     b.Property<string>("ReviewComment");
 
