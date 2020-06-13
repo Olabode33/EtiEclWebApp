@@ -107,14 +107,57 @@ export class EditAssumptionModalComponent extends AppComponentBase {
     }
 
     isDropdownDataType(): boolean {
+        if (this.hasProp('key')) {
+            //console.log(this.dataSource.key);
+            switch (this.dataSource.key) {
+                case 'AbsoluteCreditQualityCriteria':
+                case 'RelativeCreditQualityCriteria':
+                case 'UseWatchlistIndicator':
+                case 'UseRestructureIndicator?':
+                    //console.log(true);
+                    return true;
+                default:
+                    return false;
+            }
+        }
         if (this.hasProp('dataType')) {
             return this.dataSource.dataType === DataTypeEnum.StringDropdown;
         }
-        if (this.hasProp('datatype')) {
-            return this.dataSource.datatype === DataTypeEnum.StringDropdown;
-        }
         return false;
     }
+
+    isNumberDataType(): boolean {
+        if (this.hasProp('dataType')) {
+            //console.log(this.dataSource.dataType);
+            switch (this.dataSource.dataType) {
+                case DataTypeEnum.Double:
+                case DataTypeEnum.DoubleDropDown:
+                case DataTypeEnum.DoubleMoney:
+                case DataTypeEnum.DoublePercentage:
+                case DataTypeEnum.Int:
+                case DataTypeEnum.IntDropdown:
+                    //console.log(true);
+                    return true;
+                default:
+                    return false;
+            }
+        }
+        if (this.hasProp('datatype')) {
+            switch (this.dataSource.datatype) {
+                case DataTypeEnum.Double:
+                case DataTypeEnum.DoubleDropDown:
+                case DataTypeEnum.DoubleMoney:
+                case DataTypeEnum.DoublePercentage:
+                case DataTypeEnum.Int:
+                case DataTypeEnum.IntDropdown:
+                    //console.log(true);
+                    return true;
+                default:
+                    return false;
+            }
+        }
+    }
+
 
     typeOfProp(): boolean {
         if (this.dataSource !== undefined) {

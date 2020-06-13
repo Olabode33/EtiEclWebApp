@@ -16,7 +16,7 @@
                 <p class="lead">{{l(assumptionTypeEnum[selectedAssumption])}} <br><b>{{assumptionGroup}}</b></p>
                 <form novalidate>
 
-                    <!-- Begin PD Assumptions -->
+                    <!-- Begin Special Assumptions -->
                     <div *ngIf="assumptionGroup === l('SnPMappingEtiCreditPolicy')"  class="mb-4">
                         <label *ngIf="hasProp('inputName')" class="control-label">{{l('Credit')}}: {{dataSource.inputName}}</label>
                         <select *ngIf="hasProp('value')" class="form-control m-input col-md-4"
@@ -39,6 +39,7 @@
                             [(ngModel)]="dataSource.value" id="AssumptionValue" name="AssumptionValue" min="-1" max="1">
                         <span *ngIf="hasProp('isComputed') && dataSource.isComputed" class="help-block"><i class="fa fa-info-circle"></i> {{l('IsComputedNote')}}</span>
                     </div>
+                    <!-- End Special Assumption -->
                     
                     <div *ngIf="assumptionGroup !== l('SnPMappingEtiCreditPolicy') && assumptionGroup !== l('PdInputSnPCummulativeDefaultRates') 
                                                                                    && assumptionGroup !== l('InvSecFitchCummulativeDefaultRate')" class=" mb-4">
@@ -48,8 +49,27 @@
                         <label *ngIf="hasProp('month')" class="control-label">{{l('Month')}}: <b>{{dataSource.month}}</b><br></label>
                         <label *ngIf="hasProp('inputName')" class="control-label">{{dataSource.inputName}}</label>
 
-                        <input *ngIf="hasProp('value') && !isDropdownDataType()"  required class="form-control m-input col-md-4" type="text"
+                        <input *ngIf="hasProp('value') && !isDropdownDataType() && !isNumberDataType()"  required class="form-control m-input col-md-4" type="text"
                             [(ngModel)]="dataSource.value" id="AssumptionValue" name="AssumptionValue">
+
+                        <input *ngIf="hasProp('value') && !isDropdownDataType() && isNumberDataType()"  required class="form-control m-input col-md-4" type="number"
+                            [(ngModel)]="dataSource.value" id="AssumptionValue" name="AssumptionValue">
+                        
+                        <select *ngIf="hasProp('value') && isDropdownDataType() && !isNumberDataType()" class="form-control m-input col-md-4"
+                                [(ngModel)]="dataSource.value" id="AssumptionValue" name="AssumptionValue">
+                            <option value="">-- {{l('Select')}} --</option>
+                            <option *ngIf="dataSource.key === 'AbsoluteCreditQualityCriteria' || dataSource.key === 'RelativeCreditQualityCriteria'"
+                                value="None">None</option>
+                            <option *ngIf="dataSource.key === 'AbsoluteCreditQualityCriteria' || dataSource.key === 'RelativeCreditQualityCriteria'"
+                                value="Lifetime PD">Lifetime PD</option>
+                            <option *ngIf="dataSource.key === 'AbsoluteCreditQualityCriteria' || dataSource.key === 'RelativeCreditQualityCriteria'"
+                                value="12-month PD">12-month PD</option>
+                            <option *ngIf="dataSource.key === 'UseWatchlistIndicator' || dataSource.key === 'UseRestructureIndicator?'" 
+                                value="Yes">Yes</option>
+                            <option *ngIf="dataSource.key === 'UseWatchlistIndicator' || dataSource.key === 'UseRestructureIndicator?'" 
+                                value="No">No</option>
+                        </select>
+                        
                             
                         <input *ngIf="hasProp('marginalDefaultRate')"  required class="form-control m-input col-md-4" type="number"
                             [(ngModel)]="dataSource.marginalDefaultRate" id="AssumptionValue" name="AssumptionValue" min="-1" max="1">
