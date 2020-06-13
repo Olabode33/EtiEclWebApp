@@ -36,6 +36,8 @@ using TestDemo.Reports;
 using Abp.Runtime.Session;
 using TestDemo.EclLibrary.Jobs;
 using TestDemo.EclLibrary.BaseEngine.Dtos;
+using TestDemo.Common.Exporting;
+using TestDemo.Dto.Inputs;
 
 namespace TestDemo.Wholesale
 {
@@ -49,6 +51,8 @@ namespace TestDemo.Wholesale
         private readonly IRepository<WholesaleEclApproval, Guid> _wholesaleApprovalsRepository;
         private readonly IRepository<WholesaleEclOverride, Guid> _wholesaleOverridesRepository;
         private readonly IRepository<WholesaleEclUpload, Guid> _wholesaleUploadRepository;
+        private readonly IRepository<WholesaleEclDataLoanBook, Guid> _loanbookRepository;
+        private readonly IRepository<WholesaleEclDataPaymentSchedule, Guid> _paymentScheduleRepository;
 
         private readonly IWholesaleEclAssumptionsAppService _wholesaleEclAssumptionAppService;
         private readonly IWholesaleEadInputAssumptionsAppService _wholesaleEclEadInputAssumptionsAppService;
@@ -62,6 +66,8 @@ namespace TestDemo.Wholesale
 
         private readonly IBackgroundJobManager _backgroundJobManager;
         private readonly IEclSharedAppService _eclSharedAppService;
+        private readonly IEclLoanbookExporter _loanbookExporter;
+        private readonly IEclDataPaymentScheduleExporter _paymentScheduleExporter;
 
 
         public WholesaleEclsAppService(
@@ -72,6 +78,8 @@ namespace TestDemo.Wholesale
             IRepository<WholesaleEclApproval, Guid> wholesaleApprovalsRepository,
             IRepository<WholesaleEclOverride, Guid> wholesaleOverridesRepository,
             IRepository<WholesaleEclUpload, Guid> wholesaleUploadRepository,
+            IRepository<WholesaleEclDataLoanBook, Guid> loanbookRepository,
+            IRepository<WholesaleEclDataPaymentSchedule, Guid> paymentScheduleRepository,
             IWholesaleEclAssumptionsAppService wholesaleEclAssumptionAppService,
             IWholesaleEadInputAssumptionsAppService wholesaleEclEadInputAssumptionsAppService,
             IWholesaleEclLgdAssumptionsAppService wholesaleEclLgdAssumptionsAppService,
@@ -82,7 +90,9 @@ namespace TestDemo.Wholesale
             IWholesaleEclPdAssumptionNplIndexesAppService wholesaleEclPdAssumptionNplAppService,
             IWholesaleEclPdSnPCummulativeDefaultRatesesAppService wholesalePdAssumptionSnpAppService,
             IBackgroundJobManager backgroundJobManager,
-            IEclSharedAppService eclSharedAppService
+            IEclSharedAppService eclSharedAppService,
+            IEclLoanbookExporter loanbookExporter,
+            IEclDataPaymentScheduleExporter paymentScheduleExporter
             )
         {
             _wholesaleEclRepository = wholesaleEclRepository;
@@ -92,6 +102,8 @@ namespace TestDemo.Wholesale
             _wholesaleApprovalsRepository = wholesaleApprovalsRepository;
             _wholesaleOverridesRepository = wholesaleOverridesRepository;
             _wholesaleUploadRepository = wholesaleUploadRepository;
+            _loanbookRepository = loanbookRepository;
+            _paymentScheduleRepository = paymentScheduleRepository;
 
             _wholesaleEclAssumptionAppService = wholesaleEclAssumptionAppService;
             _wholesaleEclEadInputAssumptionsAppService = wholesaleEclEadInputAssumptionsAppService;
@@ -105,6 +117,8 @@ namespace TestDemo.Wholesale
 
             _backgroundJobManager = backgroundJobManager;
             _eclSharedAppService = eclSharedAppService;
+            _loanbookExporter = loanbookExporter;
+            _paymentScheduleExporter = paymentScheduleExporter;
         }
 
         public async Task<PagedResultDto<GetWholesaleEclForViewDto>> GetAll(GetAllWholesaleEclsInput input)
@@ -735,6 +749,24 @@ namespace TestDemo.Wholesale
             {
                 throw new UserFriendlyException(L("ReopenEcltErrorEclNotRun"));
             }
+        }
+
+        public async Task<FileDto> ExportLoanBookToExcel(EntityDto<Guid> input)
+        {
+            var items = await _loanbookRepository.GetAll().Where(x => x.WholesaleEclUploadId == input.Id)
+                                                         .Select(x => ObjectMapper.Map<EclDataLoanBookDto>(x))
+                                                         .ToListAsync();
+
+            return _loanbookExporter.ExportToFile(items);
+        }
+
+        public async Task<FileDto> ExportPaymentScheduleToExcel(EntityDto<Guid> input)
+        {
+            var items = await _paymentScheduleRepository.GetAll().Where(x => x.WholesaleEclUploadId == input.Id)
+                                                         .Select(x => ObjectMapper.Map<EclDataPaymentScheduleDto>(x))
+                                                         .ToListAsync();
+
+            return _paymentScheduleExporter.ExportToFile(items);
         }
 
         protected virtual async Task<ValidationMessageDto> ValidateForSubmission(Guid eclId)

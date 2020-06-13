@@ -82,6 +82,7 @@ using TestDemo.MultiTenancy.Payments.Dto;
 using TestDemo.Notifications.Dto;
 using TestDemo.Organizations.Dto;
 using TestDemo.Sessions.Dto;
+using TestDemo.Dto.Inputs;
 
 namespace TestDemo
 {
@@ -89,6 +90,26 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<EclDataAssetBookDto, InvestmentAssetBook>().ReverseMap();
+            configuration.CreateMap<EclDataLoanBookDto, WholesaleEclDataLoanBook>()
+                .ForMember(e => e.WholesaleEclUploadId, options => options.MapFrom(dto => dto.EclId))
+                .ReverseMap();
+            configuration.CreateMap<EclDataLoanBookDto, RetailEclDataLoanBook>()
+                .ForMember(e => e.RetailEclUploadId, options => options.MapFrom(dto => dto.EclId))
+                .ReverseMap();
+            configuration.CreateMap<EclDataLoanBookDto, ObeEclDataLoanBook>()
+                .ForMember(e => e.ObeEclUploadId, options => options.MapFrom(dto => dto.EclId))
+                .ReverseMap();
+            configuration.CreateMap<EclDataPaymentScheduleDto, WholesaleEclDataPaymentSchedule>()
+                .ForMember(e => e.WholesaleEclUploadId, options => options.MapFrom(dto => dto.EclId))
+                .ReverseMap();
+            configuration.CreateMap<EclDataPaymentScheduleDto, RetailEclDataPaymentSchedule>()
+                .ForMember(e => e.RetailEclUploadId, options => options.MapFrom(dto => dto.EclId))
+                .ReverseMap();
+            configuration.CreateMap<EclDataPaymentScheduleDto, ObeEclDataPaymentSchedule>()
+                .ForMember(e => e.ObeEclUploadId, options => options.MapFrom(dto => dto.EclId))
+                .ReverseMap();
+
             configuration.CreateMap<CreateOrEditCalibrationRunDto, CalibrationPdCrDr>().ReverseMap();
             configuration.CreateMap<CreateOrEditCalibrationRunDto, CalibrationLgdRecoveryRate>().ReverseMap();
             configuration.CreateMap<CreateOrEditCalibrationRunDto, CalibrationLgdHairCut>().ReverseMap();

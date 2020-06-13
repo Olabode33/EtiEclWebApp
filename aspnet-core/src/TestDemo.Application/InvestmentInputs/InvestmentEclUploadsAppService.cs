@@ -27,16 +27,19 @@ namespace TestDemo.InvestmentInputs
     public class InvestmentEclUploadsAppService : TestDemoAppServiceBase, IInvestmentEclUploadsAppService
     {
         private readonly IRepository<InvestmentEclUpload, Guid> _investmentEclUploadRepository;
+        private readonly IRepository<InvestmentAssetBook, Guid> _assetBookRepository;
         private readonly IRepository<InvestmentEcl, Guid> _lookup_investmentEclRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
 
 
         public InvestmentEclUploadsAppService(
             IRepository<InvestmentEclUpload, Guid> investmentEclUploadRepository,
+            IRepository<InvestmentAssetBook, Guid> assetBookRepository,
             IRepository<InvestmentEcl, Guid> lookup_investmentEclRepository,
             IRepository<User, long> lookup_userRepository)
         {
             _investmentEclUploadRepository = investmentEclUploadRepository;
+            _assetBookRepository = assetBookRepository;
             _lookup_investmentEclRepository = lookup_investmentEclRepository;
             _lookup_userRepository = lookup_userRepository;
         }
@@ -159,6 +162,7 @@ namespace TestDemo.InvestmentInputs
         [AbpAuthorize(AppPermissions.Pages_InvestmentEclUploads_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
+            await _assetBookRepository.HardDeleteAsync(x => x.InvestmentEclUploadId == input.Id);
             await _investmentEclUploadRepository.DeleteAsync(input.Id);
         }
 

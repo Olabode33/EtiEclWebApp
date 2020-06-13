@@ -36,6 +36,8 @@ using Abp.Configuration;
 using TestDemo.EclConfig;
 using TestDemo.EclLibrary.Jobs;
 using TestDemo.EclLibrary.BaseEngine.Dtos;
+using TestDemo.Common.Exporting;
+using TestDemo.Dto.Inputs;
 
 namespace TestDemo.Retail
 {
@@ -49,6 +51,8 @@ namespace TestDemo.Retail
         private readonly IRepository<RetailEclApproval, Guid> _retailApprovalsRepository;
         private readonly IRepository<RetailEclOverride, Guid> _retailOverridesRepository;
         private readonly IRepository<RetailEclUpload, Guid> _retailUploadRepository;
+        private readonly IRepository<RetailEclDataLoanBook, Guid> _loanbookRepository;
+        private readonly IRepository<RetailEclDataPaymentSchedule, Guid> _paymentScheduleRepository;
 
         private readonly IRetailEclAssumptionsAppService _retailEclAssumptionAppService;
         private readonly IRetailEclEadInputAssumptionsAppService _retailEclEadInputAssumptionsAppService;
@@ -62,6 +66,8 @@ namespace TestDemo.Retail
 
         private readonly IBackgroundJobManager _backgroundJobManager;
         private readonly IEclSharedAppService _eclSharedAppService;
+        private readonly IEclLoanbookExporter _loanbookExporter;
+        private readonly IEclDataPaymentScheduleExporter _paymentScheduleExporter;
 
         public RetailEclsAppService(IRepository<RetailEcl, Guid> retailEclRepository,
                                     IRepository<User, long> lookup_userRepository,
@@ -70,6 +76,8 @@ namespace TestDemo.Retail
                                     IRepository<RetailEclApproval, Guid> retailApprovalsRepository,
                                     IRepository<RetailEclOverride, Guid> retailOverridesRepository,
                                     IRepository<RetailEclUpload, Guid> retailUploadRepository,
+            IRepository<RetailEclDataLoanBook, Guid> loanbookRepository,
+            IRepository<RetailEclDataPaymentSchedule, Guid> paymentScheduleRepository,
                                     IRetailEclAssumptionsAppService retailEclAssumptionAppService,
                                     IRetailEclEadInputAssumptionsAppService retailEclEadInputAssumptionsAppService,
                                     IRetailEclLgdAssumptionsAppService retailEclLgdAssumptionsAppService,
@@ -80,7 +88,9 @@ namespace TestDemo.Retail
                                     IRetailEclPdAssumptionNplIndexesAppService retailEclPdAssumptionNplAppService,
                                     IRetailEclPdSnPCummulativeDefaultRatesAppService retailPdAssumptionSnpAppService,
                                     IBackgroundJobManager backgroundJobManager,
-                                    IEclSharedAppService eclSharedAppService
+                                    IEclSharedAppService eclSharedAppService,
+            IEclLoanbookExporter loanbookExporter,
+            IEclDataPaymentScheduleExporter paymentScheduleExporter
                                     )
         {
             _retailEclRepository = retailEclRepository;
@@ -90,6 +100,8 @@ namespace TestDemo.Retail
             _retailApprovalsRepository = retailApprovalsRepository;
             _retailOverridesRepository = retailOverridesRepository;
             _retailUploadRepository = retailUploadRepository;
+            _loanbookRepository = loanbookRepository;
+            _paymentScheduleRepository = paymentScheduleRepository;
 
             _retailEclAssumptionAppService = retailEclAssumptionAppService;
             _retailEclEadInputAssumptionsAppService = retailEclEadInputAssumptionsAppService;
@@ -103,6 +115,8 @@ namespace TestDemo.Retail
 
             _backgroundJobManager = backgroundJobManager;
             _eclSharedAppService = eclSharedAppService;
+            _loanbookExporter = loanbookExporter;
+            _paymentScheduleExporter = paymentScheduleExporter;
         }
 
         public async Task<PagedResultDto<GetRetailEclForViewDto>> GetAll(GetAllRetailEclsInput input)
@@ -744,6 +758,25 @@ namespace TestDemo.Retail
                 throw new UserFriendlyException(L("ReopenEcltErrorEclNotRun"));
             }
         }
+
+        public async Task<FileDto> ExportLoanBookToExcel(EntityDto<Guid> input)
+        {
+            var items = await _loanbookRepository.GetAll().Where(x => x.RetailEclUploadId == input.Id)
+                                                         .Select(x => ObjectMapper.Map<EclDataLoanBookDto>(x))
+                                                         .ToListAsync();
+
+            return _loanbookExporter.ExportToFile(items);
+        }
+
+        public async Task<FileDto> ExportPaymentScheduleToExcel(EntityDto<Guid> input)
+        {
+            var items = await _paymentScheduleRepository.GetAll().Where(x => x.RetailEclUploadId == input.Id)
+                                                         .Select(x => ObjectMapper.Map<EclDataPaymentScheduleDto>(x))
+                                                         .ToListAsync();
+
+            return _paymentScheduleExporter.ExportToFile(items);
+        }
+
 
         protected virtual async Task<ValidationMessageDto> ValidateForSubmission(Guid eclId)
         {

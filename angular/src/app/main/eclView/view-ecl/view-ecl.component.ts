@@ -232,7 +232,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
                                     this.loadPdAssumptionComponent(result);
                                     console.log(this.showOverride());
                                     this.eclOverrideTag.display(this.showOverride());
-                                    this.eclResultTag.displayResult(this.eclDto.status);
+                                    //this.eclResultTag.displayResult(this.eclDto.status);
                                 });
         } else {
             throw Error('Function does not exist in service proxy');
@@ -369,6 +369,84 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
             this._eclServiceProxy.generateReport(dto).subscribe(() => {
                 this.message.success(this.l('EclReportGenerationStartedNotification'));
             });
+        } else {
+            this.notify.error('Error: Function not available!');
+        }
+    }
+
+    exportData(item: GetEclUploadForViewDto): void {
+        switch (item.eclUpload.docType) {
+            case UploadDocTypeEnum.LoanBook:
+                this.exportLoanBook(this._eclId);
+                break;
+
+            case UploadDocTypeEnum.PaymentSchedule:
+                this.exportPaymentSchedule(this._eclId);
+                break;
+
+            case UploadDocTypeEnum.AssetBook:
+                this.exportAssetBook(item.eclUpload.id);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    exportAssetBook(id: string): void {
+        if (typeof this._eclServiceProxy.exportAssetBookToExcel === 'function') {
+
+            let dto = new EntityDtoOfGuid();
+            dto.id = id;
+            this._eclServiceProxy.exportAssetBookToExcel(dto).subscribe(result => {
+                this._fileDownloadService.downloadTempFile(result);
+            });
+        } else {
+            this.notify.error('Error: Function not available!');
+        }
+    }
+
+    exportLoanBook(id: string): void {
+        if (typeof this._eclServiceProxy.exportLoanBookToExcel === 'function') {
+
+            let dto = new EntityDtoOfGuid();
+            dto.id = this._eclId;
+            this._eclServiceProxy.exportLoanBookToExcel(dto).subscribe(result => {
+                this._fileDownloadService.downloadTempFile(result);
+            });
+        } else {
+            this.notify.error('Error: Function not available!');
+        }
+    }
+
+    exportPaymentSchedule(id: string): void {
+        if (typeof this._eclServiceProxy.exportPaymentScheduleToExcel === 'function') {
+
+            let dto = new EntityDtoOfGuid();
+            dto.id = this._eclId;
+            this._eclServiceProxy.exportPaymentScheduleToExcel(dto).subscribe(result => {
+                this._fileDownloadService.downloadTempFile(result);
+            });
+        } else {
+            this.notify.error('Error: Function not available!');
+        }
+    }
+
+    deleteUploadSummary(id: string): void {
+        if (typeof this._eclUploadServiceProxy.delete === 'function') {
+            this.message.confirm(
+                '',
+                this.l('AreYouSure'),
+                (isConfirmed) => {
+                    if (isConfirmed) {
+                        this._eclUploadServiceProxy.delete(id)
+                            .subscribe(() => {
+                                this.getEclUploadSummary();
+                                this.notify.success(this.l('SuccessfullyDeleted'));
+                            });
+                    }
+                }
+            );
         } else {
             this.notify.error('Error: Function not available!');
         }

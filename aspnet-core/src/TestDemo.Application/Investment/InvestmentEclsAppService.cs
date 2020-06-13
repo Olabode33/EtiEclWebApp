@@ -36,6 +36,8 @@ using TestDemo.EclLibrary.Jobs;
 using TestDemo.EclInterfaces;
 using TestDemo.Dto.Ecls;
 using TestDemo.Dto.Approvals;
+using TestDemo.Common.Exporting;
+using TestDemo.Dto.Inputs;
 
 namespace TestDemo.Investment
 {
@@ -49,6 +51,7 @@ namespace TestDemo.Investment
         private readonly IRepository<InvestmentEclApproval, Guid> _investmentApprovalsRepository;
         private readonly IRepository<InvestmentEclOverride, Guid> _investmentOverridesRepository;
         private readonly IRepository<InvestmentEclUpload, Guid> _investmentUploadRepository;
+        private readonly IRepository<InvestmentAssetBook, Guid> _dataUploadRepository;
 
         private readonly IInvestmentEclEadInputAssumptionsAppService _invsecEclEadInputAssumptionsAppService;
         private readonly IInvestmentEclLgdInputAssumptionsAppService _invsecEclLgdAssumptionsAppService;
@@ -59,6 +62,7 @@ namespace TestDemo.Investment
         private readonly IBackgroundJobManager _backgroundJobManager;
         private readonly IEclSharedAppService _eclSharedAppService;
         private readonly IEclCustomRepository _investmentEclCustomRepository;
+        private readonly IEclDataAssetBookExporter _dataExporter;
 
 
         public InvestmentEclsAppService(IRepository<InvestmentEcl, Guid> investmentEclRepository, 
@@ -68,6 +72,7 @@ namespace TestDemo.Investment
                                         IRepository<InvestmentEclApproval, Guid> investmentApprovalsRepository,
                                         IRepository<InvestmentEclOverride, Guid> investmentOverridesRepository,
                                         IRepository<InvestmentEclUpload, Guid> investmentUploadRepository,
+                                        IRepository<InvestmentAssetBook, Guid> dataUploadRepository,
                                         IInvestmentEclEadInputAssumptionsAppService invsecEclEadInputAssumptionsAppService,
                                         IInvestmentEclLgdInputAssumptionsAppService invsecEclLgdAssumptionsAppService,
                                         IInvestmentEclPdInputAssumptionsAppService invsecEclPdAssumptionsAppService,
@@ -75,6 +80,7 @@ namespace TestDemo.Investment
                                         IInvestmentEclPdFitchDefaultRatesAppService invsecEclPdAssumptionFitchRatingAppService,
                                         IBackgroundJobManager backgroundJobManager,
                                         IEclCustomRepository investmentEclCustomRepository,
+                                        IEclDataAssetBookExporter dataExporter,
                                         IEclSharedAppService eclSharedAppService)
         {
             _investmentEclRepository = investmentEclRepository;
@@ -84,6 +90,7 @@ namespace TestDemo.Investment
             _investmentApprovalsRepository = investmentApprovalsRepository;
             _investmentOverridesRepository = investmentOverridesRepository;
             _investmentUploadRepository = investmentUploadRepository;
+            _dataUploadRepository = dataUploadRepository;
 
             _invsecEclEadInputAssumptionsAppService = invsecEclEadInputAssumptionsAppService;
             _invsecEclLgdAssumptionsAppService = invsecEclLgdAssumptionsAppService;
@@ -93,6 +100,7 @@ namespace TestDemo.Investment
             _backgroundJobManager = backgroundJobManager;
             _investmentEclCustomRepository = investmentEclCustomRepository;
             _eclSharedAppService = eclSharedAppService;
+            _dataExporter = dataExporter;
         }
 
         public async Task<PagedResultDto<GetInvestmentEclForViewDto>> GetAll(GetAllInvestmentEclsInput input)
@@ -557,6 +565,16 @@ namespace TestDemo.Investment
             {
                 throw new UserFriendlyException(L("ReopenEcltErrorEclNotRun"));
             }
+        }
+
+        public async Task<FileDto> ExportAssetBookToExcel(EntityDto<Guid> input)
+        {
+            //var uploadSummary = _investmentUploadRepository.FirstOrDefaultAsync(x => x.InvestmentEclId == input.Id);
+            var items = await _dataUploadRepository.GetAll().Where(x => x.InvestmentEclUploadId == input.Id)
+                                                         .Select(x => ObjectMapper.Map<EclDataAssetBookDto>(x))
+                                                         .ToListAsync();
+
+            return _dataExporter.ExportToFile(items);
         }
 
         protected virtual async Task<ValidationMessageDto> ValidateForSubmission(Guid eclId)

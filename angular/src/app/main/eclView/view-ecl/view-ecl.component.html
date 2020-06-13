@@ -210,9 +210,23 @@
                                 <tbody>
                                     <tr *ngFor="let item of eclUploads">
                                         <td>
-                                            <button type="button" class="btn btn-primary btn-sm" (click)="navigateToViewUploadDetails(item.eclUpload.eclId, item.eclUpload.docType)">
-                                                <i class="fa fa-eye"></i> {{l('View')}}
+                                            <button *ngIf="eclDto.status !== eclStatusEnum.Draft" type="button" class="btn btn-primary btn-sm"
+                                                (click)="exportData(item)">
+                                                <i class="fa fa-file-excel"></i> {{l('Export')}}
                                             </button>
+                                            <div *ngIf="eclDto.status == eclStatusEnum.Draft" class="btn-group m-btn-group m-btn-group--pill" dropdown container="body">
+                                                <button type="button" class="btn btn-primary btn-sm" (click)="exportData(item)">
+                                                    <i class="fa fa-file-excel"></i> {{l('Export')}}
+                                                </button>
+                                                <button class="dropdown-toggle btn btn-sm btn-primary dropdown-toggle-split" dropdownToggle>
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" *dropdownMenu>
+                                                    <li>
+                                                        <a href="javascript:;" (click)="deleteUploadSummary(item.eclUpload.id)">{{l('Delete')}}</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </td>
                                         <td class="align-middle">{{l(uploadDocEnum[item.eclUpload.docType])}}</td>
                                         <td class="align-middle">{{item.dateUploaded | momentFormat: 'LL'}}</td>

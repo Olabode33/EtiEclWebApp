@@ -33,6 +33,8 @@ using Abp.Configuration;
 using TestDemo.EclConfig;
 using TestDemo.EclLibrary.Jobs;
 using TestDemo.EclLibrary.BaseEngine.Dtos;
+using TestDemo.Common.Exporting;
+using TestDemo.Dto.Inputs;
 
 namespace TestDemo.OBE
 {
@@ -46,6 +48,8 @@ namespace TestDemo.OBE
         private readonly IRepository<ObeEclApproval, Guid> _obeApprovalsRepository;
         private readonly IRepository<ObeEclOverride, Guid> _obeOverridesRepository;
         private readonly IRepository<ObeEclUpload, Guid> _obeUploadRepository;
+        private readonly IRepository<ObeEclDataLoanBook, Guid> _loanbookRepository;
+        private readonly IRepository<ObeEclDataPaymentSchedule, Guid> _paymentScheduleRepository;
 
         private readonly IRepository<ObeEclAssumption, Guid> _eclAssumptionRepository;
         private readonly IRepository<ObeEclEadInputAssumption, Guid> _eclEadInputAssumptionRepository;
@@ -59,6 +63,8 @@ namespace TestDemo.OBE
 
         private readonly IBackgroundJobManager _backgroundJobManager;
         private readonly IEclSharedAppService _eclSharedAppService;
+        private readonly IEclLoanbookExporter _loanbookExporter;
+        private readonly IEclDataPaymentScheduleExporter _paymentScheduleExporter;
 
 
         public ObeEclsAppService(
@@ -69,6 +75,8 @@ namespace TestDemo.OBE
             IRepository<ObeEclApproval, Guid> obeApprovalsRepository,
             IRepository<ObeEclOverride, Guid> obeOverridesRepository,
             IRepository<ObeEclUpload, Guid> obeUploadRepository,
+            IRepository<ObeEclDataLoanBook, Guid> loanbookRepository,
+            IRepository<ObeEclDataPaymentSchedule, Guid> paymentScheduleRepository,
 
             IRepository<ObeEclAssumption, Guid> eclAssumptionRepository,
             IRepository<ObeEclEadInputAssumption, Guid> eclEadInputAssumptionRepository,
@@ -81,7 +89,9 @@ namespace TestDemo.OBE
             IRepository<ObeEclPdSnPCummulativeDefaultRate, Guid> eclPdSnPCummulativeDefaultRateRepository,
 
             IBackgroundJobManager backgroundJobManager,
-            IEclSharedAppService eclSharedAppService
+            IEclSharedAppService eclSharedAppService,
+            IEclLoanbookExporter loanbookExporter,
+            IEclDataPaymentScheduleExporter paymentScheduleExporter
             )
         {
             _obeEclRepository = obeEclRepository;
@@ -91,6 +101,8 @@ namespace TestDemo.OBE
             _obeApprovalsRepository = obeApprovalsRepository;
             _obeOverridesRepository = obeOverridesRepository;
             _obeUploadRepository = obeUploadRepository;
+            _loanbookRepository = loanbookRepository;
+            _paymentScheduleRepository = paymentScheduleRepository;
 
             _eclAssumptionRepository = eclAssumptionRepository;
             _eclEadInputAssumptionRepository = eclEadInputAssumptionRepository;
@@ -104,6 +116,8 @@ namespace TestDemo.OBE
 
             _backgroundJobManager = backgroundJobManager;
             _eclSharedAppService = eclSharedAppService;
+            _loanbookExporter = loanbookExporter;
+            _paymentScheduleExporter = paymentScheduleExporter;
         }
 
         public async Task<PagedResultDto<GetObeEclForViewDto>> GetAll(GetAllObeEclsInput input)
@@ -936,6 +950,24 @@ namespace TestDemo.OBE
             {
                 throw new UserFriendlyException(L("ReopenEcltErrorEclNotRun"));
             }
+        }
+
+        public async Task<FileDto> ExportLoanBookToExcel(EntityDto<Guid> input)
+        {
+            var items = await _loanbookRepository.GetAll().Where(x => x.ObeEclUploadId == input.Id)
+                                                         .Select(x => ObjectMapper.Map<EclDataLoanBookDto>(x))
+                                                         .ToListAsync();
+
+            return _loanbookExporter.ExportToFile(items);
+        }
+
+        public async Task<FileDto> ExportPaymentScheduleToExcel(EntityDto<Guid> input)
+        {
+            var items = await _paymentScheduleRepository.GetAll().Where(x => x.ObeEclUploadId == input.Id)
+                                                         .Select(x => ObjectMapper.Map<EclDataPaymentScheduleDto>(x))
+                                                         .ToListAsync();
+
+            return _paymentScheduleExporter.ExportToFile(items);
         }
 
         protected virtual async Task<ValidationMessageDto> ValidateForSubmission(Guid eclId)

@@ -98,7 +98,7 @@ export class EclOverrideComponent extends AppComponentBase {
 
         this.primengTableHelper.showLoadingIndicator();
 
-        this._wholesaleOverrideServiceProxy.getAll(
+        this._serviceProxy.getAll(
             this._eclId,
             this.filterText,
             this.statusFilter,
