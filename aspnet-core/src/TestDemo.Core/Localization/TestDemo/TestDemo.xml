@@ -236,6 +236,8 @@
     <text name="EclRunProcessStart">ECL computation process has begun...</text>
     <text name="StartEclRun">Start ECL Computation!</text>
     <text name="UploadInProgressError">Record upload is still in progress</text>
+    <text name="LoanBookNotUploadedForEcl">Loanbook has not been uploaded</text>
+    <text name="PaymentScheduleNotUploadedForEcl">Payment schedule has not been uploaded</text>
     <text name="ValidationError">Error validating record: </text>
     <text name="ApprovedSuccessfully">Approved successfully!</text>
     <text name="RejectedSuccessfully">Rejected successfully!</text>

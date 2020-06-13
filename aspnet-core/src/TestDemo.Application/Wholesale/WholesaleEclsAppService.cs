@@ -670,7 +670,7 @@ namespace TestDemo.Wholesale
             var ecl = await _wholesaleEclRepository.FirstOrDefaultAsync(input.Id);
             if (ecl.Status == EclStatusEnum.Approved)
             {
-                ecl.Status = EclStatusEnum.Running;
+                ecl.Status = EclStatusEnum.Approved;
                 await _wholesaleEclRepository.UpdateAsync(ecl);
             }
             else
@@ -776,9 +776,20 @@ namespace TestDemo.Wholesale
             var uploads = await _wholesaleUploadRepository.GetAllListAsync(x => x.WholesaleEclId == eclId);
             if (uploads.Count > 0)
             {
+                var hasLoanBook = uploads.Any(x => x.DocType == UploadDocTypeEnum.LoanBook);
+                var hasPaymentSchedule = uploads.Any(x => x.DocType == UploadDocTypeEnum.PaymentSchedule);
                 var notCompleted = uploads.Any(x => x.Status != GeneralStatusEnum.Completed);
-                output.Status = !notCompleted;
-                output.Message = notCompleted == true ? L("UploadInProgressError") : "";
+
+                if (!notCompleted && hasPaymentSchedule && hasLoanBook)
+                {
+                    output.Status = true;
+                    output.Message = "";
+                }
+                else
+                {
+                    output.Status = false;
+                    output.Message = (notCompleted == true ? L("UploadInProgressError") : "") + (!hasLoanBook ? L("LoanBookNotUploadedForEcl") : "") + (!hasPaymentSchedule ? L("PaymentScheduleNotUploadedForEcl") : "");
+                }
             }
             else
             {
