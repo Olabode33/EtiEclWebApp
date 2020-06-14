@@ -11,4 +11,11 @@ namespace TestDemo.Calibration.Dtos
         public CalibrationStatusEnum Status { get; set; }
         public long? CloseByUserId { get; set; }
     }
+
+    public class MacroAnalysisRunDto : EntityDto
+    {
+        public DateTime? ClosedDate { get; set; }
+        public CalibrationStatusEnum Status { get; set; }
+        public long? CloseByUserId { get; set; }
+    }
 }

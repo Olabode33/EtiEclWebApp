@@ -1,13 +1,11 @@
-﻿using Abp.Domain.Entities;
+﻿using Abp.Application.Services.Dto;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace TestDemo.CalibrationInput
+namespace TestDemo.EclShared.Importing.Calibration.Dto
 {
-    [Table("MacroenonomicData")]
-    public class MacroeconomicData: Entity
+    public class InputMacroAnalysisDataDto : EntityDto
     {
         public int? MacroeconomicId { get; set; }
         public double? Value { get; set; }
@@ -15,5 +13,6 @@ namespace TestDemo.CalibrationInput
         //public double? NPL_Percentage_Ratio { get; set; }
         public long? AffiliateId { get; set; }
         public int? MacroId { get; set; }
+        public string MacroeconomicVariableName { get; set; }
     }
 }

@@ -13,4 +13,13 @@ namespace TestDemo.Dto.Approvals
 		public long? ReviewedByUserId { get; set; }
 		public Guid EclId { get; set; }
 	}
+
+	public class CreateOrEditMacroAnalysisApprovalDto
+	{
+		public DateTime ReviewedDate { get; set; }
+		public string ReviewComment { get; set; }
+		public GeneralStatusEnum Status { get; set; }
+		public long? ReviewedByUserId { get; set; }
+		public int MacroId { get; set; }
+	}
 }
