@@ -25,7 +25,7 @@ namespace TestDemo.OBE
 		public virtual bool IsApproved { get; set; }
 		
 		public virtual EclStatusEnum Status { get; set; }
-		
+		public virtual string ExceptionComment { get; set; }
 
 		public virtual long? ClosedByUserId { get; set; }
 		

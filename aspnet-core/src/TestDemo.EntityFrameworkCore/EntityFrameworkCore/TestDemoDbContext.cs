@@ -47,22 +47,27 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+
         public virtual DbSet<CalibrationEadBehaviouralTermApproval> CalibrationEadBehaviouralTermApprovals { get; set; }
         public virtual DbSet<CalibrationEadCcfSummaryApproval> CalibrationEadCcfSummaryApproval { get; set; }
         public virtual DbSet<CalibrationLgdHairCutApproval> CalibrationLgdHairCutApproval { get; set; }
         public virtual DbSet<CalibrationLgdRecoveryRateApproval> CalibrationLgdRecoveryRateApproval { get; set; }
         public virtual DbSet<CalibrationPdCrDrApproval> CalibrationPdCrDrApproval { get; set; }
+        public virtual DbSet<MacroAnalysisApproval> MacroAnalysisApproval { get; set; }
         public virtual DbSet<CalibrationEadBehaviouralTerm> CalibrationEadBehaviouralTerms { get; set; }
         public virtual DbSet<CalibrationEadCcfSummary> CalibrationEadCcfSummary { get; set; }
         public virtual DbSet<CalibrationLgdHairCut> CalibrationLgdHairCut { get; set; }
         public virtual DbSet<CalibrationLgdRecoveryRate> CalibrationLgdRecoveryRate { get; set; }
         public virtual DbSet<CalibrationPdCrDr> CalibrationPdCrDr { get; set; }
+        public virtual DbSet<MacroAnalysis> MacroAnalysis { get; set; }
 
         public virtual DbSet<CalibrationInputEadBehaviouralTerms> CalibrationInputEadBehaviouralTerms { get; set; }
         public virtual DbSet<CalibrationInputEadCcfSummary> CalibrationInputEadCcfSummary { get; set; }
         public virtual DbSet<CalibrationInputLgdHairCut> CalibrationInputLgdHairCut { get; set; }
         public virtual DbSet<CalibrationInputLgdRecoveryRate> CalibrationInputLgdRecoveryRate { get; set; }
         public virtual DbSet<CalibrationInputPdCrDr> CalibrationInputPdCrDr { get; set; }
+        public virtual DbSet<MacroeconomicData> MacroeconomicData { get; set; }
+
         public virtual DbSet<CalibrationResultEadBehaviouralTerms> CalibrationResultEadBehaviouralTerms { get; set; }
         public virtual DbSet<CalibrationResultEadCcfSummary> CalibrationResultEadCcfSummary { get; set; }
         public virtual DbSet<CalibrationResultLgdHairCut> CalibrationResultLgdHairCut { get; set; }
@@ -70,6 +75,11 @@ namespace TestDemo.EntityFrameworkCore
         public virtual DbSet<CalibrationResultLgdRecoveryRate> CalibrationResultLgdRecoveryRate { get; set; }
         public virtual DbSet<CalibrationResultPd12Months> CalibrationResult12MonthPd { get; set; }
         public virtual DbSet<CalibrationResultPd12MonthsSummary> CalibrationResultPd12MonthsSummary { get; set; }
+        public virtual DbSet<MacroResult_PrincipalComponent> MacroResult_PrincipalComponent { get; set; }
+        public virtual DbSet<MacroResult_Statistics> MacroResult_Statistics { get; set; }
+        public virtual DbSet<MacroResult_CorMat> MacroResult_CorMat { get; set; }
+        public virtual DbSet<MacroResult_IndexData> MacroResult_IndexData { get; set; }
+        public virtual DbSet<MacroResult_PrincipalComponentSummary> MacroResult_PrincipalComponentSummary { get; set; }
         
         public virtual DbSet<WholesaleEclOverrideApproval> WholesaleEclOverrideApprovals { get; set; }
         public virtual DbSet<RetailEclOverrideApproval> RetailEclOverrideApprovals { get; set; }

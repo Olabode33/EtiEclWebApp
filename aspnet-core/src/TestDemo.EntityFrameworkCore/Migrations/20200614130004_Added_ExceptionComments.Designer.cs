@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestDemo.EntityFrameworkCore;
 
 namespace TestDemo.Migrations
 {
     [DbContext(typeof(TestDemoDbContext))]
-    partial class TestDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200614130004_Added_ExceptionComments")]
+    partial class Added_ExceptionComments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1304,46 +1306,6 @@ namespace TestDemo.Migrations
                     b.ToTable("CalibrationPdCrDrApprovals");
                 });
 
-            modelBuilder.Entity("TestDemo.Calibration.Approvals.MacroAnalysisApproval", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid?>("CalibrationId");
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<long?>("CreatorUserId");
-
-                    b.Property<long?>("DeleterUserId");
-
-                    b.Property<DateTime?>("DeletionTime");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime");
-
-                    b.Property<long?>("LastModifierUserId");
-
-                    b.Property<long>("OrganizationUnitId");
-
-                    b.Property<string>("ReviewComment");
-
-                    b.Property<long?>("ReviewedByUserId");
-
-                    b.Property<DateTime>("ReviewedDate");
-
-                    b.Property<int>("Status");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CalibrationId");
-
-                    b.HasIndex("ReviewedByUserId");
-
-                    b.ToTable("MacroAnalysisApprovals");
-                });
-
             modelBuilder.Entity("TestDemo.Calibration.CalibrationEadBehaviouralTerm", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1522,42 +1484,6 @@ namespace TestDemo.Migrations
                     b.HasIndex("CloseByUserId");
 
                     b.ToTable("CalibrationRunPdCrDrs");
-                });
-
-            modelBuilder.Entity("TestDemo.Calibration.MacroAnalysis", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<long?>("CloseByUserId");
-
-                    b.Property<DateTime?>("ClosedDate");
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<long?>("CreatorUserId");
-
-                    b.Property<long?>("DeleterUserId");
-
-                    b.Property<DateTime?>("DeletionTime");
-
-                    b.Property<string>("ExceptionComment");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime");
-
-                    b.Property<long?>("LastModifierUserId");
-
-                    b.Property<long>("OrganizationUnitId");
-
-                    b.Property<int>("Status");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CloseByUserId");
-
-                    b.ToTable("CalibrationRunMacroAnalysis");
                 });
 
             modelBuilder.Entity("TestDemo.CalibrationInput.CalibrationInputEadBehaviouralTerms", b =>
@@ -1791,29 +1717,6 @@ namespace TestDemo.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CalibrationInput_PD_CR_DR");
-                });
-
-            modelBuilder.Entity("TestDemo.CalibrationInput.MacroeconomicData", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long?>("AffiliateId");
-
-                    b.Property<int?>("MacroId");
-
-                    b.Property<int?>("MacroeconomicId");
-
-                    b.Property<double?>("NPL_Percentage_Ratio");
-
-                    b.Property<DateTime?>("Period");
-
-                    b.Property<double?>("Value");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MacroenonomicData");
                 });
 
             modelBuilder.Entity("TestDemo.CalibrationResult.CalibrationResultEadBehaviouralTerms", b =>
@@ -2089,137 +1992,6 @@ namespace TestDemo.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CalibrationResult_PD_12Months_Summary");
-                });
-
-            modelBuilder.Entity("TestDemo.CalibrationResult.MacroResult_CorMat", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateCreated");
-
-                    b.Property<int>("MacroEconomicIdA");
-
-                    b.Property<int>("MacroEconomicIdB");
-
-                    b.Property<string>("MacroEconomicLabelA");
-
-                    b.Property<string>("MacroEconomicLabelB");
-
-                    b.Property<int>("MacroId");
-
-                    b.Property<double?>("Value");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MacroResult_CorMat");
-                });
-
-            modelBuilder.Entity("TestDemo.CalibrationResult.MacroResult_IndexData", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<double?>("BfNpl");
-
-                    b.Property<DateTime>("DateCreated");
-
-                    b.Property<double?>("Index");
-
-                    b.Property<int>("MacroId");
-
-                    b.Property<string>("Period");
-
-                    b.Property<double?>("StandardIndex");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MacroResult_IndexData");
-                });
-
-            modelBuilder.Entity("TestDemo.CalibrationResult.MacroResult_PrincipalComponent", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateCreated");
-
-                    b.Property<int>("MacroId");
-
-                    b.Property<double?>("PrincipalComponent1");
-
-                    b.Property<double?>("PrincipalComponent2");
-
-                    b.Property<double?>("PrincipalComponent3");
-
-                    b.Property<double?>("PrincipalComponent4");
-
-                    b.Property<double?>("PrincipalComponent5");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MacroResult_PrincipalComponent");
-                });
-
-            modelBuilder.Entity("TestDemo.CalibrationResult.MacroResult_PrincipalComponentSummary", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateCreated");
-
-                    b.Property<int>("MacroId");
-
-                    b.Property<string>("PricipalComponentLabelA");
-
-                    b.Property<string>("PricipalComponentLabelB");
-
-                    b.Property<int>("PrincipalComponentIdA");
-
-                    b.Property<int>("PrincipalComponentIdB");
-
-                    b.Property<double?>("Value");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MacroResult_PrincipalComponentSummary");
-                });
-
-            modelBuilder.Entity("TestDemo.CalibrationResult.MacroResult_Statistics", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<double?>("Average");
-
-                    b.Property<double?>("Correlation");
-
-                    b.Property<DateTime>("DateCreated");
-
-                    b.Property<double?>("IndexWeight1");
-
-                    b.Property<double?>("IndexWeight2");
-
-                    b.Property<double?>("IndexWeight3");
-
-                    b.Property<double?>("IndexWeight4");
-
-                    b.Property<double?>("IndexWeight5");
-
-                    b.Property<int>("MacroId");
-
-                    b.Property<double?>("StandardDev");
-
-                    b.Property<double?>("TTC_PD");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MacroResult_Statistics");
                 });
 
             modelBuilder.Entity("TestDemo.Chat.ChatMessage", b =>
@@ -9954,17 +9726,6 @@ namespace TestDemo.Migrations
                         .HasForeignKey("ReviewedByUserId");
                 });
 
-            modelBuilder.Entity("TestDemo.Calibration.Approvals.MacroAnalysisApproval", b =>
-                {
-                    b.HasOne("TestDemo.Calibration.MacroAnalysis", "CalibrationFk")
-                        .WithMany()
-                        .HasForeignKey("CalibrationId");
-
-                    b.HasOne("TestDemo.Authorization.Users.User", "ReviewedByUserFk")
-                        .WithMany()
-                        .HasForeignKey("ReviewedByUserId");
-                });
-
             modelBuilder.Entity("TestDemo.Calibration.CalibrationEadBehaviouralTerm", b =>
                 {
                     b.HasOne("TestDemo.Authorization.Users.User", "CloseByUserFk")
@@ -9994,13 +9755,6 @@ namespace TestDemo.Migrations
                 });
 
             modelBuilder.Entity("TestDemo.Calibration.CalibrationPdCrDr", b =>
-                {
-                    b.HasOne("TestDemo.Authorization.Users.User", "CloseByUserFk")
-                        .WithMany()
-                        .HasForeignKey("CloseByUserId");
-                });
-
-            modelBuilder.Entity("TestDemo.Calibration.MacroAnalysis", b =>
                 {
                     b.HasOne("TestDemo.Authorization.Users.User", "CloseByUserFk")
                         .WithMany()
