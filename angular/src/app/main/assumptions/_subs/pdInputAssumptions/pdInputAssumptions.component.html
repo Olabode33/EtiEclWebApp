@@ -230,10 +230,32 @@
                 <div class="card-body">
                     <div *ngIf="!viewOnly" class="form-group kt-form__group row">
                         <div class="col-lg-12">
-                            <button (click)="uploadSnP()" class="btn btn-outline-primary pull-right">
-                                <i class="fa fa-upload" style="font-size: 1.2rem !important;"></i>
-                                {{l("Upload")}}
-                            </button>
+                            <div class="btn-group pull-right" dropdown>
+                                <button dropdownToggle type="button"
+                                    class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-upload"></i> {{"Upload" | localize}}
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-excel-operations" *dropdownMenu>
+                                    <a href="javascript:;" class="no-padding">
+                                        <span class="fileinput-button">
+                                            <p-fileUpload customUpload="true"
+                                                    name="nplExcelFileUpload"
+                                                    #nplExcelFileUpload
+                                                    maxFileSize="10000000"
+                                                    auto="auto"
+                                                    accept=".csv,.xls,.xlsx"
+                                                    (uploadHandler)="uploadNplData($event)"
+                                                    (onError)="onUploadExcelError()"
+                                                    chooseLabel="{{'PdInputNplRawData' | localize}}">
+                                            </p-fileUpload>
+                                        </span>
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <span class="dropdown-item-text text-muted pl-3" href="#">
+                                        <small [innerHTML]="l('ImportToExcelSampleFileDownloadInfo', '<a href=/assets/sampleFiles/ImportUsersSampleFile.xlsx>' + l('ClickHere') + '</a>')"></small>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="table-responsive">

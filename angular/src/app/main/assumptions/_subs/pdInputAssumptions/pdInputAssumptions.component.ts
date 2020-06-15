@@ -17,9 +17,11 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
     @ViewChild('editAssumptionModal', {static: true}) editAssumptionModal: EditAssumptionModalComponent;
     @ViewChild('snpExcelFileUpload', { static: true }) snpExcelFileUpload: FileUpload;
     @ViewChild('nimExcelFileUpload', { static: true }) nimExcelFileUpload: FileUpload;
+    @ViewChild('nplExcelFileUpload', { static: true }) nplExcelFileUpload: FileUpload;
 
     snpUploadUrl = '';
     nimUploadUrl = '';
+    nplUploadUrl = '';
 
     displayForm = false;
     loading = false;
@@ -113,6 +115,7 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
         super(injector);
         this.snpUploadUrl = AppConsts.remoteServiceBaseUrl + '/AssumptionData/ImportSnPFromExcel';
         this.nimUploadUrl = AppConsts.remoteServiceBaseUrl + '/AssumptionData/ImportNonInternalModelFromExcel';
+        this.nplUploadUrl = AppConsts.remoteServiceBaseUrl + '/AssumptionData/ImportNplModelFromExcel';
 
         _commonLookupServiceProxy.getMacroeconomicVariableList().subscribe(result => {
             this.pdMacroeconomicVariables = result;
@@ -419,6 +422,33 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
                     this._httpClient
                         .post<any>(this.nimUploadUrl, formData)
                         .pipe(finalize(() => this.nimExcelFileUpload.clear()))
+                        .subscribe(response => {
+                            if (response.success) {
+                                this.notify.success(this.l('ImportDataProcessStart'));
+                                //this.autoReloadUploadSummary();
+                            } else if (response.error != null) {
+                                this.notify.error(this.l('ImportDataUploadFailed'));
+                            }
+                        });
+                }
+            }
+        );
+    }
+
+    uploadNplData(data: { files: File }): void {
+        const formData: FormData = new FormData();
+        const file = data.files[0];
+        formData.append('file', file, file.name);
+        formData.append('framework', this.affiliateFramework.toString());
+        formData.append('affiliateId', this.affiliateId.toString());
+
+        this.message.confirm(
+            this.l('ExistingDataWouldBeReplaced'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    this._httpClient
+                        .post<any>(this.nplUploadUrl, formData)
+                        .pipe(finalize(() => this.nplExcelFileUpload.clear()))
                         .subscribe(response => {
                             if (response.success) {
                                 this.notify.success(this.l('ImportDataProcessStart'));
