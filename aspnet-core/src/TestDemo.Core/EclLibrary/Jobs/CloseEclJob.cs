@@ -24,7 +24,7 @@ namespace TestDemo.EclLibrary.Jobs
             _appNotifier = appNotifier;
         }
 
-        [UnitOfWork]
+        //[UnitOfWork]
         public override void Execute(RunEclJobArgs args)
         {
             switch (args.EclType)
