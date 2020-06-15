@@ -110,6 +110,7 @@ namespace TestDemo
                 .ForMember(e => e.ObeEclUploadId, options => options.MapFrom(dto => dto.EclId))
                 .ReverseMap();
 
+            configuration.CreateMap<CreateOrEditCalibrationRunDto, MacroAnalysis>().ReverseMap();
             configuration.CreateMap<CreateOrEditCalibrationRunDto, CalibrationPdCrDr>().ReverseMap();
             configuration.CreateMap<CreateOrEditCalibrationRunDto, CalibrationLgdRecoveryRate>().ReverseMap();
             configuration.CreateMap<CreateOrEditCalibrationRunDto, CalibrationLgdHairCut>().ReverseMap();

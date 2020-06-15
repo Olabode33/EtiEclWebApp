@@ -28,6 +28,7 @@ using TestDemo.EclShared.Dtos;
 using Abp.Organizations;
 using TestDemo.Calibration.Exporting;
 using TestDemo.EclShared.Importing.Calibration.Dto;
+using TestDemo.AffiliateMacroEconomicVariable;
 
 namespace TestDemo.Calibration
 {
@@ -43,13 +44,14 @@ namespace TestDemo.Calibration
         private readonly IRepository<MacroResult_IndexData> _indexDataResultRepository;
         private readonly IRepository<MacroResult_PrincipalComponentSummary> _principalSummayrResultRepository;
         private readonly IRepository<MacroeconomicVariable> _macroeconomicVariableRepository;
+        private readonly IRepository<AffiliateMacroEconomicVariableOffset> _affiliateMacroVariableRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
-        private readonly IInputPdCrDrExporter _inputDataExporter;
+        private readonly IMacroAnalysisDataTemplateExporter _templateExporter;
 
 
         public CalibrationMacroAnalysisAppService(
-            IRepository<MacroAnalysis> calibrationRepository, 
+            IRepository<MacroAnalysis> calibrationRepository,
             IRepository<User, long> lookup_userRepository,
             IRepository<MacroAnalysisApproval> calibrationApprovalRepository,
             IRepository<MacroeconomicData> calibrationInputRepository,
@@ -60,7 +62,8 @@ namespace TestDemo.Calibration
             IRepository<MacroResult_IndexData> indexDataResultRepository,
             IRepository<MacroResult_PrincipalComponentSummary> principalSummayrResultRepository,
             IRepository<MacroeconomicVariable> macroeconomicVariableRepository,
-        IInputPdCrDrExporter inputDataExporter)
+            IRepository<AffiliateMacroEconomicVariableOffset> affiliateMacroVariableRepository,
+        IMacroAnalysisDataTemplateExporter templateeExporter)
         {
             _calibrationRepository = calibrationRepository;
             _lookup_userRepository = lookup_userRepository;
@@ -73,7 +76,8 @@ namespace TestDemo.Calibration
             _principalSummayrResultRepository = principalSummayrResultRepository;
             _organizationUnitRepository = organizationUnitRepository;
             _macroeconomicVariableRepository = macroeconomicVariableRepository;
-            _inputDataExporter = inputDataExporter;
+            _affiliateMacroVariableRepository = affiliateMacroVariableRepository;
+            _templateExporter = templateeExporter;
         }
 
         public async Task<PagedResultDto<GetMacroAnalysisRunForViewDto>> GetAll(GetAllCalibrationRunInput input)
@@ -188,44 +192,76 @@ namespace TestDemo.Calibration
             return await approvals.ToListAsync();
         }
 
-        public async Task<CalibrationInputSummaryDto<InputMacroAnalysisDataDto>> GetInputSummary(EntityDto input)
+        public async Task<GetMacroAnalysisDataDto> GetInputSummary(EntityDto input)
         {
-            var total = await _calibrationInputRepository.CountAsync(x => x.MacroId == input.Id);
-            var filter = _calibrationInputRepository.GetAll().Where(x => x.MacroId == input.Id && x.MacroeconomicId != -1).Take(10);
-
-            var items = from f in filter
-                        join mv in _macroeconomicVariableRepository.GetAll() on f.MacroeconomicId equals mv.Id into mv1
-                        from mv2 in mv1.DefaultIfEmpty()
-
-                        select new InputMacroAnalysisDataDto
-                        {
-                            MacroeconomicId = f.MacroeconomicId,
-                            MacroeconomicVariableName = f.MacroeconomicId == -1 ? "NPL Percentage Ratio" : (mv2 == null ? "" : mv2.Name),
-                            Period = f.Period,
-                            Value = f.Value
-                        };
+            var total = await _calibrationInputRepository.CountAsync(x => x.MacroId == input.Id && x.MacroeconomicId == -1);
+            var macro = await _calibrationRepository.FirstOrDefaultAsync(input.Id);
+            var items = await _affiliateMacroVariableRepository.GetAll()
+                                                               .Include(e => e.MacroeconomicVariableFk)
+                                                               .Where(e => e.AffiliateId == macro.OrganizationUnitId)
+                                                               .Select(e => new NameValueDto<int>
+                                                               {
+                                                                   Value = e.Id,
+                                                                   Name = e.MacroeconomicVariableFk == null ? "" : e.MacroeconomicVariableFk.Name
+                                                               })
+                                                               .ToListAsync();
+            var inputs = await _calibrationInputRepository.GetAllListAsync(e => e.MacroId == input.Id);
 
 
-            return new CalibrationInputSummaryDto<InputMacroAnalysisDataDto>
+            List<string> columns = new List<string>();
+            List<List<double?>> values = new List<List<double?>>();
+
+            var npls = inputs.Where(e => e.MacroeconomicId == -1).Select(e => e.Value == null ? 0 : e.Value).ToList();
+            var periods = inputs.Where(e => e.MacroeconomicId == -1).Select(e => e.Period).ToList();
+
+            columns.Add("NPL_Percentage_Ratio");
+            values.Add(npls);
+
+            foreach (var item in items)
             {
-                Total = total,
-                Items = await items.ToListAsync()
+                var value = inputs.Where(e => e.MacroeconomicId == item.Value).Select(e => e.Value == null ? 0 : e.Value).ToList();
+
+                columns.Add(item.Name);
+                values.Add(value);
+            }
+
+
+            return new GetMacroAnalysisDataDto
+            {
+                Columns = columns, 
+                Values = values,
+                Periods = periods
             };
         }
 
-        //public async Task<GetAllResultPdCrDrDto> GetResult(EntityDto<Guid> input)
-        //{
-        //    var summary = await _calibrationResultRepository.FirstOrDefaultAsync(x => x.CalibrationId == input.Id);
-        //    var items = await _pd12MonthsResultRepository.GetAll().Where(x => x.CalibrationId == input.Id)
-        //                                                .Select(x => ObjectMapper.Map<ResultPd12MonthsDto>(x))
-        //                                                .ToListAsync();
+        public async Task<GetAllMacroResultDto> GetResult(EntityDto input)
+        {
+            var principal = await _principalComponentResultRepository.GetAll().Where(x => x.MacroId == input.Id)
+                                                        .Select(x => ObjectMapper.Map<MacroResultPrincipalComponentDto>(x))
+                                                        .ToListAsync();
+            var statistics = await _statisticsResultRepository.GetAll().Where(x => x.MacroId == input.Id)
+                                                        .Select(x => ObjectMapper.Map<MacroResultStatisticsDto>(x))
+                                                        .ToListAsync();
+            var indexData = await _indexDataResultRepository.GetAll().Where(x => x.MacroId == input.Id)
+                                                        .Select(x => ObjectMapper.Map<MacroResultIndexDataDto>(x))
+                                                        .ToListAsync();
+            var cor = await _corMatResultRepository.GetAll().Where(x => x.MacroId == input.Id)
+                                                        .Select(x => ObjectMapper.Map<MacroResultCorMatDto>(x))
+                                                        .ToListAsync();
+            var principalSummary = await _principalSummayrResultRepository.GetAll().Where(x => x.MacroId == input.Id)
+                                                        .Select(x => ObjectMapper.Map<MacroResultPrincipalComponentSummaryDto>(x))
+                                                        .ToListAsync();
 
-        //    return new GetAllResultPdCrDrDto
-        //    {
-        //        Pd12Months = items,
-        //        Pd12MonthsSummary = ObjectMapper.Map<ResultPd12MonthsSummaryDto>(summary)
-        //    };
-        //}
+
+            return new GetAllMacroResultDto
+            {
+                PrincipalComponent = principal,
+                Statistics = statistics,
+                IndexData = indexData,
+                CorMat = cor,
+                PrincipalComponentSummary = principalSummary
+            };
+        }
 
         public async Task<int> CreateOrEdit(CreateOrEditMacroAnalysisRunDto input)
         {
@@ -268,7 +304,7 @@ namespace TestDemo.Calibration
 
         protected virtual async Task Update(CreateOrEditMacroAnalysisRunDto input)
         {
-            var calibrationEadBehaviouralTerm = await _calibrationRepository.FirstOrDefaultAsync(input.Id);
+            var calibrationEadBehaviouralTerm = await _calibrationRepository.FirstOrDefaultAsync((int)input.Id);
             ObjectMapper.Map(input, calibrationEadBehaviouralTerm);
         }
 
@@ -350,7 +386,7 @@ namespace TestDemo.Calibration
         {
             var calibration = await _calibrationRepository.FirstOrDefaultAsync(input.Id);
 
-            if (calibration.Status == CalibrationStatusEnum.Completed || calibration.Status == CalibrationStatusEnum.AppliedToEcl )
+            if (calibration.Status == CalibrationStatusEnum.Completed || calibration.Status == CalibrationStatusEnum.AppliedToEcl)
             {
                 //await _backgroundJobManager.EnqueueAsync<GenerateEclReportJob, GenerateReportJobArgs>(new GenerateReportJobArgs()
                 //{
@@ -406,11 +442,49 @@ namespace TestDemo.Calibration
         public async Task<FileDto> ExportToExcel(EntityDto input)
         {
 
-            var items = await _calibrationInputRepository.GetAll().Where(x => x.MacroId == input.Id)
-                                                         .Select(x => ObjectMapper.Map<InputPdCrDrDto>(x))
-                                                         .ToListAsync();
+            var macro = await _calibrationRepository.FirstOrDefaultAsync(input.Id);
+            var items = await _affiliateMacroVariableRepository.GetAll()
+                                                               .Include(e => e.MacroeconomicVariableFk)
+                                                               .Where(e => e.AffiliateId == macro.OrganizationUnitId)
+                                                               .Select(e => new NameValueDto<int> {
+                                                                    Value = e.Id,
+                                                                    Name = e.MacroeconomicVariableFk == null ? "" : e.MacroeconomicVariableFk.Name
+                                                               })
+                                                               .ToListAsync();
+            var inputs = await _calibrationInputRepository.GetAllListAsync(e => e.MacroId == input.Id);
 
-            return _inputDataExporter.ExportToFile(items);
+            
+            List<string> columns = new List<string>();
+            List<List<double?>> values = new List<List<double?>>();
+
+            var npls = inputs.Where(e => e.MacroeconomicId == -1).Select(e => e.Value == null ? 0 : e.Value).ToList();
+            var periods = inputs.Where(e => e.MacroeconomicId == -1).Select(e => e.Period).ToList();
+
+            columns.Add("NPL_Percentage_Ratio");
+            values.Add(npls);
+
+            foreach (var item in items)
+            {
+                var value = inputs.Where(e => e.MacroeconomicId == item.Value).Select(e => e.Value == null ? 0 : e.Value).ToList();
+
+                columns.Add(item.Name);
+                values.Add(value);
+            }
+
+
+            return _templateExporter.ExportInputToFile(columns, values, periods);
+        }
+
+        public async Task<FileDto> GetInputTemplate(EntityDto input)
+        {
+            var macro = await _calibrationRepository.FirstOrDefaultAsync(input.Id);
+            var items = await _affiliateMacroVariableRepository.GetAll()
+                                                               .Include(e => e.MacroeconomicVariableFk)
+                                                               .Where(e => e.AffiliateId == macro.OrganizationUnitId)
+                                                               .Select(e => e.MacroeconomicVariableFk == null ? "" : e.MacroeconomicVariableFk.Name)
+                                                               .ToListAsync();
+
+            return _templateExporter.ExportTemplateToFile(items);
         }
 
         protected virtual async Task<ValidationMessageDto> ValidateForSubmission(int calibrationId)

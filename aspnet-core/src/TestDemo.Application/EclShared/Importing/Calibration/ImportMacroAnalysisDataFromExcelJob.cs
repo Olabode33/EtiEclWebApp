@@ -43,8 +43,8 @@ namespace TestDemo.EclShared.Importing
 
         public ImportMacroAnalysisDataFromExcelJob(
             IMacroAnalysisDataExcelDataReader excelDataReader,
-            IInvalidMacroAnalysisDataExporter invalidExporter, 
-            IAppNotifier appNotifier, 
+            IInvalidMacroAnalysisDataExporter invalidExporter,
+            IAppNotifier appNotifier,
             IBinaryObjectManager binaryObjectManager,
             ILocalizationManager localizationManager,
             IRepository<MacroeconomicData> dataRepository,
@@ -83,19 +83,18 @@ namespace TestDemo.EclShared.Importing
             {
                 var file = AsyncHelper.RunSync(() => _binaryObjectManager.GetOrNullAsync(args.BinaryObjectId));
                 var calibration = _calibrationRepository.FirstOrDefault(args.MacroId);
-                var affiliateMacroVariables = _affiliateMacroVariableRepository.GetAll()
-                                                                               .Include(x => x.MacroeconomicVariableFk)
-                                                                               .Where(x => x.AffiliateId == calibration.OrganizationUnitId)
-                                                                               .Select(x => new NameValueDto<int>
-                                                                               {
-                                                                                   Value = x.MacroeconomicVariableId,
-                                                                                   Name = x.MacroeconomicVariableFk == null ? "" : x.MacroeconomicVariableFk.Name
-                                                                               })
-                                                                               .ToList();
+                var all = _affiliateMacroVariableRepository.GetAllList(x => x.AffiliateId == calibration.OrganizationUnitId);
+                var affiliateMacroVariables = all.Where(x => x.AffiliateId == calibration.OrganizationUnitId)
+                                                    .Select(x => new NameValueDto<int>
+                                                    {
+                                                        Value = x.MacroeconomicVariableId,
+                                                        Name = x.MacroeconomicVariableFk == null ? "" : x.MacroeconomicVariableFk.Name
+                                                    }).ToList();
                 return _excelDataReader.GetImportMacroAnalysisDataFromExcel(file.Bytes, affiliateMacroVariables);
             }
-            catch(Exception)
+            catch (Exception e)
             {
+                Logger.Debug("Error imporint MacroAnalysisDataFromExcel: " + e.Message);
                 return null;
             }
         }
@@ -117,7 +116,7 @@ namespace TestDemo.EclShared.Importing
                         input.Exception = exception.Message;
                         invalids.Add(input);
                     }
-                    catch(Exception exception)
+                    catch (Exception exception)
                     {
                         input.Exception = exception.ToString();
                         invalids.Add(input);
@@ -134,13 +133,15 @@ namespace TestDemo.EclShared.Importing
 
         private async Task CreateMacroAnalysisAsync(ImportMacroAnalysisDataDto input, ImportMacroAnalysisDataFromExcelJobArgs args)
         {
+
+            var calibration = _calibrationRepository.FirstOrDefault(args.MacroId);
             await _dataRepository.InsertAsync(new MacroeconomicData()
             {
                 MacroeconomicId = input.MacroeconomicId,
                 Value = input.Value,
                 Period = input.Period,
-                AffiliateId = input.AffiliateId,
-                MacroId = input.MacroId
+                AffiliateId = calibration.OrganizationUnitId,
+                MacroId = args.MacroId
             });
         }
 

@@ -1,0 +1,384 @@
+﻿<div [@routerTransition]>
+
+    <div class="kt-subheader kt-grid__item">
+
+        <div class="kt-subheader__main">
+            <h3 class="kt-subheader__title">
+                <span>{{ affiliateName }} </span>
+            </h3>
+            <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+            <span class="kt-subheader__desc">
+                {{l("MacroAnalysis")}}
+            </span>
+            <div class="kt-subheader__breadcrumbs">
+                <span class="kt-badge kt-badge--inline kt-badge--pill kt-badge--rounded
+                            kt-badge--{{ getStatusLabelClass(calibration.status) }}">
+                    {{l(calibrationStatusEnum[calibration.status])}}
+                </span>
+            </div>
+        </div>
+        <div class="kt-subheader__toolbar">
+            <div class="kt-subheader__wrapper">
+                <button (click)="submitEcl()" class="btn btn-outline-primary"
+                    *ngIf="calibration.status == calibrationStatusEnum.Draft">
+                    <i class="fa fa-check" style="font-size: 1.2rem !important;"></i>
+                    {{l("Submit")}}
+                </button>
+                <button (click)="approveEcl()" class="btn btn-primary"
+                    *ngIf="calibration.status == calibrationStatusEnum.Submitted || calibration.status == calibrationStatusEnum.AwaitngAdditionApproval">
+                    <i class="fa fa-check-double" style="font-size: 1.2rem !important;"></i>
+                    {{l("Approve")}}
+                </button>
+                <!-- <button (click)="runCalibration()" class="btn btn-success"
+                    *ngIf="calibration.status == calibrationStatusEnum.Approved">
+                    <i class="fa fa-play-circle" style="font-size: 1.2rem !important;"></i>
+                    {{l("Run")}}
+                </button> -->
+                <button (click)="applyToEcl()" class="btn btn-primary"
+                    *ngIf="calibration.status == calibrationStatusEnum.Completed">
+                    <i class="fa fa-check-circle" style="font-size: 1.2rem !important;"></i>
+                    {{l("ApplyToEcl")}}
+                </button>
+                <!-- <button (click)="generateReport()" class="btn btn-primary"
+                    *ngIf="calibration.status == calibrationStatusEnum.Completed || calibration.status == calibrationStatusEnum.AppliedToEcl">
+                    <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
+                    {{l("Generate Report")}}
+                </button> -->
+                <button (click)="goBack()" class="btn btn-outline-danger">
+                    <i class="fa fa-reply" style="font-size: 1.2rem !important;"></i>
+                    {{l("GoBack")}}
+                </button>
+            </div>
+        </div>
+
+    </div>
+    <div class="kt-content">
+
+        <div class="row" *ngIf="calibration.status == calibrationStatusEnum.Completed || calibration.status == calibrationStatusEnum.AppliedToEcl" >
+            <div class="col-lg-12">
+                <div class="kt-portlet kt-portlet--height-fluid-">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                {{l('StatisticsResult')}}
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body kt-portlet__body--fluid">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>{{l('Average')}}</th>
+                                        <th>{{l('StandardDeviation')}}</th>
+                                        <th>{{l('Correlation')}}</th>
+                                        <th>{{l('TtcPd')}}</th>
+                                        <th>{{l('IndexWeight, 1')}}</th>
+                                        <th>{{l('IndexWeight, 2')}}</th>
+                                        <th>{{l('IndexWeight, 3')}}</th>
+                                        <th>{{l('IndexWeight, 4')}}</th>
+                                        <th>{{l('IndexWeight, 5')}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let p of resultStatistics">
+                                        <td class="align-middle">{{ p.average }}</td>
+                                        <td class="align-middle">{{ p.standardDev }}</td>
+                                        <td class="align-middle">{{ p.correlation }}</td>
+                                        <td class="align-middle">{{ p.ttC_PD }}</td>
+                                        <td class="align-middle">{{ p.indexWeight1 }}</td>
+                                        <td class="align-middle">{{ p.indexWeight2 }}</td>
+                                        <td class="align-middle">{{ p.indexWeight3 }}</td>
+                                        <td class="align-middle">{{ p.indexWeight4 }}</td>
+                                        <td class="align-middle">{{ p.indexWeight5 }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="kt-portlet kt-portlet--height-fluid-">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                {{l('PrincipalComponentSummary')}} Result
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body kt-portlet__body--fluid">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>{{l('PrincipalComponentLabelA')}}</th>
+                                        <th>{{l('PrincipalComponentLabelB')}}</th>
+                                        <th>{{l('PrincipalComponentIdA')}}</th>
+                                        <th>{{l('PrincipalComponentIdB')}}</th>
+                                        <th>{{l('Value')}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let p of resultPrincipalSummary">
+                                        <td class="align-middle">{{ p.pricipalComponentLabelA }}</td>
+                                        <td class="align-middle">{{ p.pricipalComponentLabelB }}</td>
+                                        <td class="align-middle">{{ p.principalComponentIdA }}</td>
+                                        <td class="align-middle">{{ p.principalComponentIdB }}</td>
+                                        <td class="align-middle">{{ p.value }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="kt-portlet kt-portlet--height-fluid-">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                {{l('IndexResult')}}
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body kt-portlet__body--fluid">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>{{l('Period')}}</th>
+                                        <th>{{l('Index')}}</th>
+                                        <th>{{l('StandardisedIndex')}}</th>
+                                        <th>{{l('BfNpl')}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let p of resultIndex">
+                                        <td class="align-middle">{{ p.period }}</td>
+                                        <td class="align-middle">{{ p.index }}</td>
+                                        <td class="align-middle">{{ p.standardIndex }}</td>
+                                        <td class="align-middle">{{ p.bfNpl }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="kt-portlet kt-portlet--height-fluid-">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                {{l('CorMat')}} Result
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body kt-portlet__body--fluid">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>{{l('MacroEconomicId', 'A')}}</th>
+                                        <th>{{l('MacroEconomicId', 'B')}}</th>
+                                        <th>{{l('MacroEconomicLabel', 'A')}}</th>
+                                        <th>{{l('MacroEconomicLabel', 'B')}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let p of resultCor">
+                                        <td class="align-middle">{{ p.macroEconomicIdA }}</td>
+                                        <td class="align-middle">{{ p.macroEconomicIdB }}</td>
+                                        <td class="align-middle">{{ p.macroEconomicLabelA }}</td>
+                                        <td class="align-middle">{{ p.macroEconomicLabelB }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="kt-portlet kt-portlet--height-fluid-">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                {{l('PrincipalComponent')}} Result
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body kt-portlet__body--fluid">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>{{l('Principal Component 1')}}</th>
+                                        <th>{{l('Principal Component 2')}}</th>
+                                        <th>{{l('Principal Component 3')}}</th>
+                                        <th>{{l('Principal Component 4')}}</th>
+                                        <th>{{l('Principal Component 5')}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let p of resultPrincipal">
+                                        <td class="align-middle">{{ p.principalComponent1 }}</td>
+                                        <td class="align-middle">{{ p.principalComponent2 }}</td>
+                                        <td class="align-middle">{{ p.principalComponent3 }}</td>
+                                        <td class="align-middle">{{ p.principalComponent4 }}</td>
+                                        <td class="align-middle">{{ p.principalComponent5 }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="kt-portlet kt-portlet--height-fluid">
+            <div class="kt-portlet__head ">
+                <div class="kt-portlet__head-label hoverable" (click)="showUploadCard = !showUploadCard;">
+                    <h3 class="kt-portlet__head-title">
+                        {{l('InputSummary')}}
+                    </h3>
+                </div>
+                <div class="kt-portlet__head-toolbar">
+                    <button *ngIf="totalUploads > 0" (click)="exportToExcel()" class="btn btn-outline-primary mr-2">
+                        <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
+                        {{l("DownloadFullData")}}
+                    </button>
+                    <div class="btn-group" dropdown>
+                        <button dropdownToggle type="button" *ngIf="calibration.status == calibrationStatusEnum.Draft"
+                            class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-upload"></i> {{"Upload" | localize}}
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-excel-operations" *dropdownMenu>
+                            <a href="javascript:;" class="no-padding">
+                                <span class="fileinput-button">
+                                    <p-fileUpload customUpload="true"
+                                            name="excelFileUpload"
+                                            #excelFileUpload
+                                            maxFileSize="10000000"
+                                            auto="auto"
+                                            accept=".csv,.xls,.xlsx"
+                                            (uploadHandler)="uploadData($event)"
+                                            (onError)="onUploadExcelError()"
+                                            chooseLabel="{{'CalibrationRawData' | localize}}">
+                                    </p-fileUpload>
+                                </span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <span class="dropdown-item-text text-muted pl-3" href="#">
+                                <small [innerHTML]="l('ImportToExcelSampleFileDownloadInfo')"></small>
+                                <span (click)="downloadTemplate()">{{l('ClickHere')}}</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div [hidden]="!showUploadCard" class="kt-portlet__body">
+                <div *ngIf="periods.length > 0">
+                    {{l('TotalUploadsCount')}} <b>{{totalUploads}}</b>
+                    <hr>
+                </div>
+                <div class="table-responsive">
+                    <p *ngIf="periods.length <= 0" class="">
+                        {{l('NoUploadedRecordFoundForCalibration')}}
+                    </p>
+                    <table *ngIf="periods.length > 0" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <!-- <th>{{l('Actions')}}</th> -->
+                                <th>{{l('Period')}}</th>
+                                <th *ngFor="let column of inputColumns">{{ column }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let period of periods; let r = index;">
+                                <td class="align-middle">{{ period | momentFormat: 'LL' }}</td>
+                                <td *ngFor="let column of inputColumns; let c = index;" class="align-middle">
+                                    {{ inputValues[c][r] }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="kt-portlet kt-portlet--height-fluid">
+            <div class="kt-portlet__head">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">
+                        {{l('AuditInfo')}}
+                    </h3>
+                </div>
+            </div>
+            <div class="kt-portlet__body">
+                <table class="table table-borderless">
+                    <tbody>
+                        <tr>
+                            <td>{{l('DateCreated')}}:</td>
+                            <td><span class="kt-font-bold">{{auditInfo.dateCreated | momentFormat: 'lll'}}</span></td>
+                            <td>{{l('LastUpdated')}}: </td>
+                            <td><span class="kt-font-bold">{{auditInfo.lastUpdated | momentFormat: 'lll'}}</span></td>
+                        </tr>
+                        <tr>
+                            <td>{{l('By')}}:</td>
+                            <td><span class="kt-font-bold">{{auditInfo.createdBy}}</span></td>
+                            <td>{{l('By')}}: </td>
+                            <td><span class="kt-font-bold">{{auditInfo.updatedBy}}</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <div class="kt-divider">
+                    <span></span>
+                    <span>Reviews</span>
+                    <span></span>
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <td>{{l('Date')}}</td>
+                            <td>{{l('By')}}</td>
+                            <td>{{l('Status')}}</td>
+                            <td>{{l('Comment')}}</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of approvalsAuditInfo;">
+                            <td>{{item.reviewedDate | momentFormat: 'lll'}}</td>
+                            <td>{{item.reviewedBy}}</td>
+                            <td>
+                                <span *ngIf="item.status === genStatusEnum.Approved" class="kt-badge kt-badge--bolder kt-badge kt-badge--inline 
+                                                kt-badge--unified-success">
+                                                {{l(genStatusEnum[item.status])}}
+                                </span>
+                                <span *ngIf="item.status === genStatusEnum.Rejected" class="kt-badge kt-badge--bolder kt-badge kt-badge--inline 
+                                                kt-badge--unified-danger">
+                                                {{l(genStatusEnum[item.status])}}
+                                </span>
+                                <span *ngIf="item.status === genStatusEnum.Submitted" class="kt-badge kt-badge--bolder kt-badge kt-badge--inline 
+                                                kt-badge--unified-warning">
+                                                {{l(genStatusEnum[item.status])}}
+                                </span>
+                            </td>
+                            <td>{{item.reviewComment}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <app-approve-ecl-modal #approvalModal (approved)="reloadPage()"></app-approve-ecl-modal>
+</div>

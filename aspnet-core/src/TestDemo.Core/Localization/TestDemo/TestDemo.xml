@@ -23,6 +23,7 @@
     <text name="CalibrationLgdHairCut">LGD Haircut</text>
     <text name="CalibrationLgdRecoveryRate">LGD Recovery rate</text>
     <text name="CalibrationPdCrDr">PD CR DR</text>
+    <text name="MacroAnalysis">Macro Analysis</text>
     <text name="TestDemo.Calibration.CalibrationEadBehaviouralTerm">CalibrationEadBehaviouralTerm</text>
     <text name="CalibrationEadBehaviouralTermsHeaderInfo">Calibration ead behavioural terms header info</text>
     <text name="CreateNewCalibrationEadBehaviouralTerm">Create new calibration ead behavioural term</text>

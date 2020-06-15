@@ -15,4 +15,11 @@ namespace TestDemo.EclShared.Importing.Calibration.Dto
         public int? MacroId { get; set; }
         public string MacroeconomicVariableName { get; set; }
     }
+
+    public class GetMacroAnalysisDataDto
+    {
+        public List<string> Columns { get; set; } 
+        public List<List<double?>> Values { get; set; } 
+        public List<DateTime?> Periods { get; set; }
+    }
 }

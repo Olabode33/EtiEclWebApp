@@ -1,4 +1,5 @@
-﻿import { ViewCalibrationEadCcfSummaryComponent } from './calibration/calibrateEadCcfSummary/view-calibrateEadCcfSummary.component';
+﻿import { MacroAnalysisComponent } from './calibration/calibrateMacroAnalysis/macroAnalysis.component';
+import { ViewCalibrationEadCcfSummaryComponent } from './calibration/calibrateEadCcfSummary/view-calibrateEadCcfSummary.component';
 import { CalibrationEadCcfSummaryComponent } from './calibration/calibrateEadCcfSummary/calibrateEadCcfSummary.component';
 import { ViewRetailEclComponent } from './retail/view-retailEcl/view-retailEcl.component';
 import { NgModule } from '@angular/core';
@@ -31,6 +32,7 @@ import { CalibrationLgdRecoveryComponent } from './calibration/calibrateLgdRecov
 import { ViewCalibrationLgdRecoveryComponent } from './calibration/calibrateLgdRecoveryRate/view-calibrateLgdRecovery.component';
 import { CalibrationPdCrDrComponent } from './calibration/calibratePdCrDr/calibratePdCrDr.component';
 import { ViewCalibrationPdCrDrComponent } from './calibration/calibratePdCrDr/view-calibratePdCrDr.component';
+import { ViewMacroAnalysisComponent } from './calibration/calibrateMacroAnalysis/view-macroAnalysis.component';
 
 @NgModule({
     imports: [
@@ -48,6 +50,8 @@ import { ViewCalibrationPdCrDrComponent } from './calibration/calibratePdCrDr/vi
                     { path: 'calibration/recovery/view/:calibrationId', component: ViewCalibrationLgdRecoveryComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms.Create' }  },
                     { path: 'calibration/pdcrdr', component: CalibrationPdCrDrComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms' }  },
                     { path: 'calibration/pdcrdr/view/:calibrationId', component: ViewCalibrationPdCrDrComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms.Create' }  },
+                    { path: 'calibration/macroAnalysis', component: MacroAnalysisComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms' }  },
+                    { path: 'calibration/macroAnalysis/view/:calibrationId', component: ViewMacroAnalysisComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms.Create' }  },
 
                     { path: 'affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets', component: AffiliateMacroEconomicVariableOffsetsComponent, data: { permission: 'Pages.AffiliateMacroEconomicVariableOffsets' }  },
                     { path: 'eclConfig/eclConfigurations', component: EclSettingsComponent, data: { permission: 'Pages.EclConfigurations' }  },

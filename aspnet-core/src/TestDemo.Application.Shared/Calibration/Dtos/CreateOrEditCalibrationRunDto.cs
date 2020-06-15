@@ -13,7 +13,7 @@ namespace TestDemo.Calibration.Dtos
         public long? AffiliateId { get; set; }
     }
 
-    public class CreateOrEditMacroAnalysisRunDto : EntityDto
+    public class CreateOrEditMacroAnalysisRunDto : EntityDto<int?>
     {
         public CalibrationStatusEnum Status { get; set; }
         public long? CloseByUserId { get; set; }
