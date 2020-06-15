@@ -1,5 +1,6 @@
 ﻿using Abp.BackgroundJobs;
 using Abp.Dependency;
+using Abp.Domain.Uow;
 using Abp.Threading;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace TestDemo.EclLibrary.Jobs
             _appNotifier = appNotifier;
         }
 
-        //[UnitOfWork]
+        [UnitOfWork]
         public override void Execute(RunEclJobArgs args)
         {
             switch (args.EclType)

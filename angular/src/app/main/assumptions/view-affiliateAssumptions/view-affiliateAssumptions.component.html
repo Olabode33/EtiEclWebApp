@@ -47,6 +47,9 @@
                             </button>
                         </div>
                     </div>
+                    <div *ngIf="loading" class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                    </div>
                     <div *ngIf="item.isActive" class="kt-portlet__body">
                         <div *ngIf="item.key !== frameworkEnum.Investments" class="kt-notification hoverable" (click)="selectPortfolioAssumption(item.key, assumptionTypeEnum.General)">
                             <div class="kt-notification__item">
@@ -158,6 +161,9 @@
                                 </li>
                             </ul>
                         </div>
+                    </div>
+                    <div *ngIf="loadingAssumptions" class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                     </div>
                     <div class="kt-portlet__body">
                         <app-frameworkAssumptions #frameworkAssumptionTag ></app-frameworkAssumptions>

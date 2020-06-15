@@ -29,4 +29,13 @@ namespace TestDemo.EclShared.Dtos
         public int MacroId { get; set; }
         public UserIdentifier User { get; set; }
     }
+
+    [Serializable]
+    public class ImportAssumptionDataFromExcelJobArgs
+    {
+        public Guid BinaryObjectId { get; set; }
+        public long AffiliateId { get; set; }
+        public FrameworkEnum Framework { get; set; }
+        public UserIdentifier User { get; set; }
+    }
 }

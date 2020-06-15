@@ -30,7 +30,7 @@ export class EadInputAssumptionsComponent extends AppComponentBase {
     affiliateFramework: FrameworkEnum;
 
     accordionList = [
-        {key: this.eadAssumptionGroupEnum[this.eadAssumptionGroupEnum.CreditConversionFactors], isActive: true},
+        {key: this.eadAssumptionGroupEnum[this.eadAssumptionGroupEnum.CreditConversionFactors], isActive: false},
         {key: this.eadAssumptionGroupEnum[this.eadAssumptionGroupEnum.VariableInterestRateProjections], isActive: false},
         {key: this.eadAssumptionGroupEnum[this.eadAssumptionGroupEnum.ExchangeRateProjections], isActive: false},
         {key: this.eadAssumptionGroupEnum[this.eadAssumptionGroupEnum.General], isActive: false}

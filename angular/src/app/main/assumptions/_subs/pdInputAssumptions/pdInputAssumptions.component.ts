@@ -1,8 +1,11 @@
-import { filter } from 'rxjs/operators';
+import { filter, finalize } from 'rxjs/operators';
 import { PdInputAssumptionGroupEnum, GetAllPdAssumptionsDto, PdInputAssumptionDto, PdInputAssumptionMacroeconomicInputDto, PdInputAssumptionMacroeconomicProjectionDto, PdInputAssumptionNonInternalModelDto, PdInputAssumptionNplIndexDto, PdInputSnPCummulativeDefaultRateDto, DataTypeEnum, NameValueDto, CommonLookupServiceProxy, PdInputAssumptionsServiceProxy, FrameworkEnum, AssumptionTypeEnum, PdInputSnPCummulativeDefaultRatesServiceProxy, PdInputAssumptionNonInternalModelsServiceProxy, PdInputAssumptionNplIndexesServiceProxy, PdInputAssumptionStatisticalsServiceProxy, PdInputAssumptionMacroeconomicProjectionsServiceProxy, InvestmentPdInputMacroEconomicAssumptionDto, InvestmentEclPdFitchDefaultRateDto, GetAllInvSecPdAssumptionsDto, InvSecMacroEconomicAssumptionDto, InvSecFitchCummulativeDefaultRateDto, InvSecMacroEconomicAssumptionsServiceProxy, InvSecFitchCummulativeDefaultRatesServiceProxy } from './../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, Injector, ViewChild } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { EditAssumptionModalComponent } from '../edit-assumption-modal/edit-assumption-modal.component';
+import { FileUpload } from 'primeng/primeng';
+import { AppConsts } from '@shared/AppConsts';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-pdInputAssumptions',
@@ -12,6 +15,9 @@ import { EditAssumptionModalComponent } from '../edit-assumption-modal/edit-assu
 export class PdInputAssumptionsComponent extends AppComponentBase {
 
     @ViewChild('editAssumptionModal', {static: true}) editAssumptionModal: EditAssumptionModalComponent;
+    @ViewChild('snpExcelFileUpload', { static: true }) snpExcelFileUpload: FileUpload;
+
+    snpUploadUrl = '';
 
     displayForm = false;
     loading = false;
@@ -74,6 +80,7 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
 
     affiliateName = '';
     affiliateFramework: FrameworkEnum;
+    affiliateId = -1;
 
     accordionList = [
         {key: 'Pd12Months', isActive: false},
@@ -90,6 +97,7 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
 
     constructor(
         injector: Injector,
+        private _httpClient: HttpClient,
         private _commonLookupServiceProxy: CommonLookupServiceProxy,
         private _pdInputAssumptionServiceProxy: PdInputAssumptionsServiceProxy,
         private _pdSnpAssumptionServiceProxy: PdInputSnPCummulativeDefaultRatesServiceProxy,
@@ -101,6 +109,8 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
         private _invPdFitchRatingServiceProxy: InvSecFitchCummulativeDefaultRatesServiceProxy
     ) {
         super(injector);
+        this.snpUploadUrl = AppConsts.remoteServiceBaseUrl + '/AssumptionData/ImportSnPFromExcel';
+
         _commonLookupServiceProxy.getMacroeconomicVariableList().subscribe(result => {
             this.pdMacroeconomicVariables = result;
         });
@@ -114,13 +124,14 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
         this.accordionList[index].isActive = !state;
     }
 
-    load(assumptions: any, affiliateName?: string, framework?: FrameworkEnum, viewOnly = false): void {
+    load(assumptions: any, affiliateName?: string, framework?: FrameworkEnum, viewOnly = false, affiliateId = -1): void {
         this.loading = true;
         this.displayForm = true;
         this.affiliateName = affiliateName;
         this.affiliateFramework = framework;
         this.loading = false;
         this.viewOnly = viewOnly;
+        this.affiliateId = affiliateId;
 
         if ( framework !== null && framework === FrameworkEnum.Investments) {
             this.pdInvestmentAssumption = assumptions;
@@ -363,6 +374,38 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
             assumption: AssumptionTypeEnum.PdInputAssumption
         });
         this.editAssumptionModal.show();
+    }
+
+
+    uploadSnpData(data: { files: File }): void {
+        const formData: FormData = new FormData();
+        const file = data.files[0];
+        formData.append('file', file, file.name);
+        formData.append('framework', this.affiliateFramework.toString());
+        formData.append('affiliateId', this.affiliateId.toString());
+
+        this.message.confirm(
+            this.l('ExistingDataWouldBeReplaced'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    this._httpClient
+                        .post<any>(this.snpUploadUrl, formData)
+                        .pipe(finalize(() => this.snpExcelFileUpload.clear()))
+                        .subscribe(response => {
+                            if (response.success) {
+                                this.notify.success(this.l('ImportDataProcessStart'));
+                                //this.autoReloadUploadSummary();
+                            } else if (response.error != null) {
+                                this.notify.error(this.l('ImportDataUploadFailed'));
+                            }
+                        });
+                }
+            }
+        );
+    }
+
+    onUploadExcelError(): void {
+        this.notify.error(this.l('ImportDataUploadFailed'));
     }
 
 }

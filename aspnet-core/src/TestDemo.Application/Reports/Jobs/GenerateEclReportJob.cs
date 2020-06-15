@@ -18,6 +18,7 @@ using OfficeOpenXml;
 using TestDemo.Dto;
 using Abp.AspNetZeroCore.Net;
 using Abp.Threading;
+using Abp.Domain.Uow;
 
 namespace TestDemo.Reports.Jobs
 {
@@ -40,6 +41,7 @@ namespace TestDemo.Reports.Jobs
             _appNotifier = appNotifier;
         }
 
+        [UnitOfWork]
         public override void Execute(GenerateReportJobArgs args)
         {
             ResultDetail rd = new ResultDetail();

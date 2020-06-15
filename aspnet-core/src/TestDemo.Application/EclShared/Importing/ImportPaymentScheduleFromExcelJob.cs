@@ -1,6 +1,7 @@
 ﻿using Abp.BackgroundJobs;
 using Abp.Dependency;
 using Abp.Domain.Repositories;
+using Abp.Domain.Uow;
 using Abp.Localization;
 using Abp.Localization.Sources;
 using Abp.ObjectMapping;
@@ -64,6 +65,7 @@ namespace TestDemo.EclShared.Importing
             _localizationSource = localizationManager.GetSource(TestDemoConsts.LocalizationSourceName);
         }
 
+        [UnitOfWork]
         public override void Execute(ImportEclDataFromExcelJobArgs args)
         {
             var paymentSchedules = GetPaymentScheduleListFromExcelOrNull(args);

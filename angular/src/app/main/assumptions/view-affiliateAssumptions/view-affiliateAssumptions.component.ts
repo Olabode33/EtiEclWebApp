@@ -36,6 +36,9 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
     @ViewChild('pdInputAssumptionTag', {static: true}) pdInputAssumptionTag: PdInputAssumptionsComponent;
     @ViewChild('editReportDateModal', {static: true}) editReportDateModal: EditPortfolioReportDateComponent;
 
+    loadingAssumptions = false;
+    loading = false;
+
     _affiliateId = -1;
 
     frameworkEnum = FrameworkEnum;
@@ -131,64 +134,75 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
     }
 
     getAffiliateAssumptionSummary(): void {
+        this.loading = true;
         this._eclSharedServiceProxy.getAffiliateAssumptionForEdit(this._affiliateId).subscribe(result => {
             this.affiliateAssumption = result;
             this.portfolioList.find(x => x.key === FrameworkEnum.Wholesale).reportDate = result.lastWholesaleReportingDate;
             this.portfolioList.find(x => x.key === FrameworkEnum.Retail).reportDate = result.lastRetailReportingDate;
             this.portfolioList.find(x => x.key === FrameworkEnum.OBE).reportDate = result.lastObeReportingDate;
             this.portfolioList.find(x => x.key === FrameworkEnum.Investments).reportDate = result.lastSecuritiesReportingDate;
+            this.loading = false;
         });
     }
 
     getAffiliateFrameworkAssumption(framework: FrameworkEnum): void {
+        this.loadingAssumptions = true;
         this._eclSharedServiceProxy.getAffiliateFrameworkAssumption(this._affiliateId, framework).subscribe(result => {
             this.frameworkAssumptionTag.load(result, this.selectedAffiliate, framework);
             //hide others
             this.eadInputAssumptionTag.hide();
             this.lgdInputAssumptionTag.hide();
             this.pdInputAssumptionTag.hide();
+            this.loadingAssumptions = false;
         });
     }
 
     getAffiliateEadAssumption(framework: FrameworkEnum): void {
+        this.loadingAssumptions = true;
         this._eclSharedServiceProxy.getAffiliateEadAssumption(this._affiliateId, framework).subscribe(result => {
             this.eadInputAssumptionTag.load(result, this.selectedAffiliate, framework);
             //hide others
             this.frameworkAssumptionTag.hide();
             this.lgdInputAssumptionTag.hide();
             this.pdInputAssumptionTag.hide();
+            this.loadingAssumptions = false;
         });
     }
 
     getAffiliateLgdAssumption(framework: FrameworkEnum): void {
+        this.loadingAssumptions = true;
         this._eclSharedServiceProxy.getAffiliateLgdAssumption(this._affiliateId, framework).subscribe(result => {
             this.lgdInputAssumptionTag.load(result, this.selectedAffiliate, framework);
             //hide others
             this.frameworkAssumptionTag.hide();
             this.eadInputAssumptionTag.hide();
             this.pdInputAssumptionTag.hide();
+            this.loadingAssumptions = false;
         });
     }
 
     getAffiliatePdAssumption(framework: FrameworkEnum): void {
+        this.loadingAssumptions = true;
         this._eclSharedServiceProxy.getAllPdAssumptionsForAffiliate(this._affiliateId, framework).subscribe(result => {
-            this.pdInputAssumptionTag.load(result, this.selectedAffiliate, framework);
+            this.pdInputAssumptionTag.load(result, this.selectedAffiliate, framework, false, this._affiliateId);
             //hide others
             this.frameworkAssumptionTag.hide();
             this.eadInputAssumptionTag.hide();
             this.lgdInputAssumptionTag.hide();
+            this.loadingAssumptions = false;
 
         });
     }
 
     getAffiliateInvestmentPdAssumption(framework = FrameworkEnum.Investments): void {
+        this.loadingAssumptions = true;
         this._eclSharedServiceProxy.getAllInvSecPdAssumptionsForAffiliate(this._affiliateId, framework).subscribe(result => {
             this.pdInputAssumptionTag.load(result, this.selectedAffiliate, framework);
             //hide others
             this.frameworkAssumptionTag.hide();
             this.eadInputAssumptionTag.hide();
             this.lgdInputAssumptionTag.hide();
-
+            this.loadingAssumptions = false;
         });
     }
 

@@ -349,7 +349,15 @@ namespace TestDemo.Calibration
             if (calibration.Status == CalibrationStatusEnum.Completed)
             {
                 //Call apply to ecl job
-                
+                var old = await _calibrationRepository.FirstOrDefaultAsync(x => x.Status == CalibrationStatusEnum.AppliedToEcl);
+                if (old != null)
+                {
+                    old.Status = CalibrationStatusEnum.Completed;
+                    await _calibrationRepository.UpdateAsync(old);
+                }
+
+                calibration.Status = CalibrationStatusEnum.AppliedToEcl;
+                await _calibrationRepository.UpdateAsync(calibration);
             }
             else
             {

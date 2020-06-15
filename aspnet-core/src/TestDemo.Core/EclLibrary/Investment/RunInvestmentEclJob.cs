@@ -23,7 +23,7 @@ namespace TestDemo.EclLibrary.Investment
             _appNotifier = appNotifier;
         }
 
-        //[UnitOfWork]
+        [UnitOfWork]
         public override void Execute(RunEclJobArgs args)
         {
             _investmentEclRepository.RunInvestmentPreOverrideEclStoredProcedure(args.EclId);

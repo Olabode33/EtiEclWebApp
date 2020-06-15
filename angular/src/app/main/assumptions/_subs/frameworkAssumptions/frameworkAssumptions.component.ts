@@ -22,6 +22,7 @@ export class FrameworkAssumptionsComponent extends AppComponentBase {
     relativeCreditQualityAssumptionGroup: AssumptionDto[] = new Array();
     forwardTransitionsAssumptionGroup: AssumptionDto[] = new Array();
     backwardTransitionAssumptionGroup: AssumptionDto[] = new Array();
+    creditRatingRankAssumptionGroup: AssumptionDto[] = new Array();
 
     assumptionGroupEnum = AssumptionGroupEnum;
     dataTypeEnum = DataTypeEnum;
@@ -34,7 +35,8 @@ export class FrameworkAssumptionsComponent extends AppComponentBase {
         {key: this.assumptionGroupEnum[this.assumptionGroupEnum.AbsoluteCreditQuality], isActive: false},
         {key: this.assumptionGroupEnum[this.assumptionGroupEnum.RelativeCreditQuality], isActive: false},
         {key: this.assumptionGroupEnum[this.assumptionGroupEnum.ForwardTransitions], isActive: false},
-        {key: this.assumptionGroupEnum[this.assumptionGroupEnum.BackwardTransitions], isActive: false}
+        {key: this.assumptionGroupEnum[this.assumptionGroupEnum.BackwardTransitions], isActive: false},
+        {key: this.assumptionGroupEnum[this.assumptionGroupEnum.CreditRatingRank], isActive: false}
     ];
 
     constructor(
@@ -69,6 +71,8 @@ export class FrameworkAssumptionsComponent extends AppComponentBase {
         this.relativeCreditQualityAssumptionGroup = this.frameworkAssumptions.filter(x => x.assumptionGroup === AssumptionGroupEnum.RelativeCreditQuality);
         this.forwardTransitionsAssumptionGroup = this.frameworkAssumptions.filter(x => x.assumptionGroup === AssumptionGroupEnum.ForwardTransitions);
         this.backwardTransitionAssumptionGroup = this.frameworkAssumptions.filter(x => x.assumptionGroup === AssumptionGroupEnum.BackwardTransitions);
+        this.creditRatingRankAssumptionGroup = this.frameworkAssumptions.filter(x => x.assumptionGroup === AssumptionGroupEnum.CreditRatingRank);
+
     }
 
     hide(): void {

@@ -727,6 +727,9 @@ namespace TestDemo.EclShared
         public async Task UpdateAffiliateAssumption(CreateOrEditAffiliateAssumptionsDto input)
         {
             var assumption = await _affiliateAssumptions.FirstOrDefaultAsync((Guid)input.Id);
+
+            await SumbitForApproval(input, assumption);
+
             ObjectMapper.Map(input, assumption);
         }
 
@@ -744,6 +747,23 @@ namespace TestDemo.EclShared
                 OrganizationUnitId = assumption.OrganizationUnitId,
                 Status = assumption.Status
             };
+        }
+
+        private async Task SumbitForApproval(CreateOrEditAffiliateAssumptionsDto newValue, AffiliateAssumption oldValue)
+        {
+            await _assumptionsApprovalRepository.InsertAsync(new AssumptionApproval()
+            {
+                OrganizationUnitId = oldValue.OrganizationUnitId,
+                Framework = !newValue.LastObeReportingDate.Date.Equals(oldValue.LastObeReportingDate.Date) ? FrameworkEnum.OBE : (!newValue.LastRetailReportingDate.Date.Equals(oldValue.LastRetailReportingDate.Date) ? FrameworkEnum.Retail : (!newValue.LastWholesaleReportingDate.Date.Equals(oldValue.LastWholesaleReportingDate.Date) ? FrameworkEnum.Wholesale : FrameworkEnum.Investments)),
+                AssumptionType = AssumptionTypeEnum.ReportingDate,
+                AssumptionGroup = "Reporting Date",
+                InputName = "Reporting Date",
+                OldValue = !newValue.LastObeReportingDate.Date.Equals(oldValue.LastObeReportingDate.Date) ? oldValue.LastObeReportingDate.ToShortDateString() : (!newValue.LastRetailReportingDate.Date.Equals(oldValue.LastRetailReportingDate.Date) ? oldValue.LastRetailReportingDate.ToShortDateString() : (!newValue.LastWholesaleReportingDate.Date.Equals(oldValue.LastWholesaleReportingDate.Date) ? oldValue.LastWholesaleReportingDate.ToShortDateString() : oldValue.LastSecuritiesReportingDate.ToShortDateString())),
+                NewValue = !newValue.LastObeReportingDate.Date.Equals(oldValue.LastObeReportingDate.Date) ? newValue.LastObeReportingDate.ToShortDateString() : ((!newValue.LastRetailReportingDate.Date.Equals(oldValue.LastRetailReportingDate.Date)) ? newValue.LastRetailReportingDate.ToShortDateString() : (!newValue.LastWholesaleReportingDate.Date.Equals(oldValue.LastWholesaleReportingDate.Date) ? newValue.LastWholesaleReportingDate.ToShortDateString() : newValue.LastSecuritiesReportingDate.ToShortDateString())),
+                AssumptionId = oldValue.Id,
+                AssumptionEntity = EclEnums.Assumption,
+                Status = GeneralStatusEnum.Submitted
+            });
         }
     }
 }
