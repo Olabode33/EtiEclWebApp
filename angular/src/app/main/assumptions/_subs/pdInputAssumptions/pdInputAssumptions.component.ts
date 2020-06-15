@@ -189,6 +189,8 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
     extractNonInternalModel(): void {
         this.pdGroups = Array.from(new Set(this.pdNonInternalModelAssumptions.map((i) => i.pdGroup)));
         this.pdMonths = Array.from(new Set(this.pdNonInternalModelAssumptions.map((i) => i.month)));
+        this.pdGroups = this.pdGroups.sort();
+        this.pdMonths = this.pdMonths.sort();
         this.selectedNonInternalModelAssumptions = this.pdNonInternalModelAssumptions;
     }
 
