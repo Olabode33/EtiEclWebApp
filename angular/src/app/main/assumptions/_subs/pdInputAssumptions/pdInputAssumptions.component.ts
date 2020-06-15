@@ -16,8 +16,10 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
 
     @ViewChild('editAssumptionModal', {static: true}) editAssumptionModal: EditAssumptionModalComponent;
     @ViewChild('snpExcelFileUpload', { static: true }) snpExcelFileUpload: FileUpload;
+    @ViewChild('nimExcelFileUpload', { static: true }) nimExcelFileUpload: FileUpload;
 
     snpUploadUrl = '';
+    nimUploadUrl = '';
 
     displayForm = false;
     loading = false;
@@ -110,6 +112,7 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
     ) {
         super(injector);
         this.snpUploadUrl = AppConsts.remoteServiceBaseUrl + '/AssumptionData/ImportSnPFromExcel';
+        this.nimUploadUrl = AppConsts.remoteServiceBaseUrl + '/AssumptionData/ImportNonInternalModelFromExcel';
 
         _commonLookupServiceProxy.getMacroeconomicVariableList().subscribe(result => {
             this.pdMacroeconomicVariables = result;
@@ -288,10 +291,6 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
         this.editAssumptionModal.show();
     }
 
-    uploadSnP(): void {
-        this.notify.error('Yet to be implemented!');
-    }
-
     editSnPAssumption(pdInput: PdInputSnPCummulativeDefaultRateDto): void {
         this.editAssumptionModal.configure({
             framework: this.affiliateFramework,
@@ -391,6 +390,33 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
                     this._httpClient
                         .post<any>(this.snpUploadUrl, formData)
                         .pipe(finalize(() => this.snpExcelFileUpload.clear()))
+                        .subscribe(response => {
+                            if (response.success) {
+                                this.notify.success(this.l('ImportDataProcessStart'));
+                                //this.autoReloadUploadSummary();
+                            } else if (response.error != null) {
+                                this.notify.error(this.l('ImportDataUploadFailed'));
+                            }
+                        });
+                }
+            }
+        );
+    }
+
+    uploadNimData(data: { files: File }): void {
+        const formData: FormData = new FormData();
+        const file = data.files[0];
+        formData.append('file', file, file.name);
+        formData.append('framework', this.affiliateFramework.toString());
+        formData.append('affiliateId', this.affiliateId.toString());
+
+        this.message.confirm(
+            this.l('ExistingDataWouldBeReplaced'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    this._httpClient
+                        .post<any>(this.nimUploadUrl, formData)
+                        .pipe(finalize(() => this.nimExcelFileUpload.clear()))
                         .subscribe(response => {
                             if (response.success) {
                                 this.notify.success(this.l('ImportDataProcessStart'));

@@ -182,9 +182,9 @@ namespace TestDemo.EclShared.Importing
             {
                 OrganizationUnitId = args.AffiliateId,
                 Framework = args.Framework,
-                AssumptionType = AssumptionTypeEnum.PdSnPAssumption,
-                AssumptionGroup = "SnP Cummulative Default Rate",
-                InputName = "SnP Cummulative Default Rate",
+                AssumptionType = AssumptionTypeEnum.PdNonInternalModel,
+                AssumptionGroup = "Non Internal Model",
+                InputName = "Marginal Default Rate",
                 OldValue = "-",
                 NewValue = _localizationSource.GetString("CheckAssumptionsPage"),
                 AssumptionId = assumption.Id,
