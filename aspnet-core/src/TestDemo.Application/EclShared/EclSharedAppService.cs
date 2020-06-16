@@ -18,6 +18,10 @@ using Abp.Authorization;
 using TestDemo.Authorization;
 using TestDemo.Investment;
 using TestDemo.InvestmentComputation;
+using Abp.UI;
+using TestDemo.AffiliateMacroEconomicVariable;
+using Abp.BackgroundJobs;
+using Abp.Runtime.Session;
 
 namespace TestDemo.EclShared
 {
@@ -43,9 +47,11 @@ namespace TestDemo.EclShared
         private readonly IRepository<InvSecFitchCummulativeDefaultRate, Guid> _invsecFitchCummulativeAssumptionRepository;
         private readonly IRepository<InvSecMacroEconomicAssumption, Guid> _invsecMacroEcoAssumptionRepository;
         private readonly IRepository<InvestmentEclOverrideApproval, Guid> _investmentOverrideApprovalRepository;
+        private readonly IRepository<AffiliateMacroEconomicVariableOffset> _affiliateMacroVariableRepository;
         //Final Result Tables
         private readonly IRepository<InvestmentEclFinalResult, Guid> _investmentFinalEclResult;
         private readonly UserManager _userManager;
+        private readonly IBackgroundJobManager _backgroundJobManager;
 
         public EclSharedAppService(
             IRepository<WholesaleEcl, Guid> wholesaleEclRepository, 
@@ -68,7 +74,9 @@ namespace TestDemo.EclShared
             IRepository<InvSecFitchCummulativeDefaultRate, Guid> invsecFitchCummulativeAssumptionRepository,
             IRepository<InvSecMacroEconomicAssumption, Guid> invsecMacroEcoAssumptionRepository,
             IRepository<InvestmentEclOverrideApproval, Guid> investmentOverrideApprovalRepository,
+            IRepository<AffiliateMacroEconomicVariableOffset> affiliateMacroVariableRepository,
             IRepository<InvestmentEclFinalResult, Guid> investmentFinalEclResult,
+            IBackgroundJobManager backgroundJobManager,
         UserManager userManager)
         {
             _wholesaleEclRepository = wholesaleEclRepository;
@@ -92,7 +100,9 @@ namespace TestDemo.EclShared
             _invsecMacroEcoAssumptionRepository = invsecMacroEcoAssumptionRepository;
             _invsecFitchCummulativeAssumptionRepository = invsecFitchCummulativeAssumptionRepository;
             _investmentOverrideApprovalRepository = investmentOverrideApprovalRepository;
+            _affiliateMacroVariableRepository = affiliateMacroVariableRepository; 
             _investmentFinalEclResult = investmentFinalEclResult;
+            _backgroundJobManager = backgroundJobManager;
         }
 
         public async Task<GetWorkspaceSummaryDataOutput> GetWorkspaceSummaryData()
@@ -765,5 +775,18 @@ namespace TestDemo.EclShared
                 Status = GeneralStatusEnum.Submitted
             });
         }
+
+
+        public async Task CopyAffiliateAssumptions(CopyAffiliateDto input)
+        {
+            await _backgroundJobManager.EnqueueAsync<Importing.CopyAffiliateAssumptionJob, CopyAffiliateAssumptionJobArgs>(new CopyAffiliateAssumptionJobArgs()
+            {
+                FromAffiliateId = input.FromAffiliateId,
+                ToAffiliateId = input.ToAffiliateId,
+                User = AbpSession.ToUserIdentifier()
+            });
+        }
+
+        
     }
 }

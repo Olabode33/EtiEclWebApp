@@ -38,4 +38,12 @@ namespace TestDemo.EclShared.Dtos
         public FrameworkEnum Framework { get; set; }
         public UserIdentifier User { get; set; }
     }
+
+    [Serializable]
+    public class CopyAffiliateAssumptionJobArgs
+    {
+        public long FromAffiliateId { get; set; }
+        public long ToAffiliateId { get; set; }
+        public UserIdentifier User { get; set; }
+    }
 }

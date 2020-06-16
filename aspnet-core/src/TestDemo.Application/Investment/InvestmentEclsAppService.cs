@@ -54,11 +54,11 @@ namespace TestDemo.Investment
         private readonly IRepository<InvestmentEclUpload, Guid> _investmentUploadRepository;
         private readonly IRepository<InvestmentAssetBook, Guid> _dataUploadRepository;
 
-        private readonly IInvestmentEclEadInputAssumptionsAppService _invsecEclEadInputAssumptionsAppService;
-        private readonly IInvestmentEclLgdInputAssumptionsAppService _invsecEclLgdAssumptionsAppService;
-        private readonly IInvestmentEclPdInputAssumptionsAppService _invsecEclPdAssumptionsAppService;
-        private readonly IInvestmentPdInputMacroEconomicAssumptionsAppService _invsecPdAssumptionMacroAsusmptionAppService;
-        private readonly IInvestmentEclPdFitchDefaultRatesAppService _invsecEclPdAssumptionFitchRatingAppService;
+        private readonly IRepository<InvestmentEclEadInputAssumption, Guid> _eclEadInputAssumptionRepository;
+        private readonly IRepository<InvestmentEclLgdInputAssumption, Guid> _eclLgdAssumptionRepository;
+        private readonly IRepository<InvestmentEclPdInputAssumption, Guid> _eclPdAssumptionRepository;
+        private readonly IRepository<InvestmentPdInputMacroEconomicAssumption, Guid> _eclPdAssumptionMacroeconomicInputsRepository;
+        private readonly IRepository<InvestmentEclPdFitchDefaultRate, Guid> _eclPdSnPCummulativeDefaultRateRepository;
 
         private readonly IBackgroundJobManager _backgroundJobManager;
         private readonly IEclSharedAppService _eclSharedAppService;
@@ -70,16 +70,16 @@ namespace TestDemo.Investment
                                         IRepository<User, long> lookup_userRepository,
                                         IRepository<OrganizationUnit, long> organizationUnitRepository,
                                         IRepository<AffiliateAssumption, Guid> affiliateAssumptionRepository,
-            IRepository<AssumptionApproval, Guid> assumptionsApprovalRepository,
+                                        IRepository<AssumptionApproval, Guid> assumptionsApprovalRepository,
                                         IRepository<InvestmentEclApproval, Guid> investmentApprovalsRepository,
                                         IRepository<InvestmentEclOverride, Guid> investmentOverridesRepository,
                                         IRepository<InvestmentEclUpload, Guid> investmentUploadRepository,
                                         IRepository<InvestmentAssetBook, Guid> dataUploadRepository,
-                                        IInvestmentEclEadInputAssumptionsAppService invsecEclEadInputAssumptionsAppService,
-                                        IInvestmentEclLgdInputAssumptionsAppService invsecEclLgdAssumptionsAppService,
-                                        IInvestmentEclPdInputAssumptionsAppService invsecEclPdAssumptionsAppService,
-                                        IInvestmentPdInputMacroEconomicAssumptionsAppService invsecPdAssumptionMacroAssumptionAppService,
-                                        IInvestmentEclPdFitchDefaultRatesAppService invsecEclPdAssumptionFitchRatingAppService,
+                                        IRepository<InvestmentEclEadInputAssumption, Guid> eclEadInputAssumptionRepository,
+                                        IRepository<InvestmentEclLgdInputAssumption, Guid> eclLgdAssumptionRepository,
+                                        IRepository<InvestmentEclPdInputAssumption, Guid> eclPdAssumptionRepository,
+                                        IRepository<InvestmentPdInputMacroEconomicAssumption, Guid> eclPdAssumptionMacroeconomicInputsRepository,
+                                        IRepository<InvestmentEclPdFitchDefaultRate, Guid> eclPdSnPCummulativeDefaultRateRepository,
                                         IBackgroundJobManager backgroundJobManager,
                                         IEclCustomRepository investmentEclCustomRepository,
                                         IEclDataAssetBookExporter dataExporter,
@@ -95,11 +95,12 @@ namespace TestDemo.Investment
             _investmentUploadRepository = investmentUploadRepository;
             _dataUploadRepository = dataUploadRepository;
 
-            _invsecEclEadInputAssumptionsAppService = invsecEclEadInputAssumptionsAppService;
-            _invsecEclLgdAssumptionsAppService = invsecEclLgdAssumptionsAppService;
-            _invsecEclPdAssumptionsAppService = invsecEclPdAssumptionsAppService;
-            _invsecEclPdAssumptionFitchRatingAppService = invsecEclPdAssumptionFitchRatingAppService;
-            _invsecPdAssumptionMacroAsusmptionAppService = invsecPdAssumptionMacroAssumptionAppService;
+            _eclEadInputAssumptionRepository = eclEadInputAssumptionRepository;
+            _eclLgdAssumptionRepository = eclLgdAssumptionRepository;
+            _eclPdAssumptionRepository = eclPdAssumptionRepository;
+            _eclPdAssumptionMacroeconomicInputsRepository = eclPdAssumptionMacroeconomicInputsRepository;
+            _eclPdSnPCummulativeDefaultRateRepository = eclPdSnPCummulativeDefaultRateRepository;
+
             _backgroundJobManager = backgroundJobManager;
             _investmentEclCustomRepository = investmentEclCustomRepository;
             _eclSharedAppService = eclSharedAppService;
@@ -170,14 +171,112 @@ namespace TestDemo.Investment
                 output.ClosedByUserName = _lookupUser.FullName.ToString();
             }
 
-            output.EadInputAssumptions = await _invsecEclEadInputAssumptionsAppService.GetListForEclView(input);
-            output.LgdInputAssumptions = await _invsecEclLgdAssumptionsAppService.GetListForEclView(input);
-            output.PdInputAssumption = await _invsecEclPdAssumptionsAppService.GetListForEclView(input);
-            output.PdInputAssumptionMacroeconomic = await _invsecPdAssumptionMacroAsusmptionAppService.GetListForEclView(input);
-            output.PdInputFitchCummulativeDefaultRate = await _invsecEclPdAssumptionFitchRatingAppService.GetListForEclView(input);
+            output.EadInputAssumptions = await GetEadInputAssumption(input.Id);
+            output.LgdInputAssumptions = await GetLgdInputAssumption(input.Id);
+            output.PdInputAssumption = await GetPdInputAssumption(input.Id);
+            output.PdInputAssumptionMacroeconomic = await GetPdMacroInputAssumption(input.Id);
+            output.PdInputFitchCummulativeDefaultRate = await GetPdFitchAssumption(input.Id);
 
             return output;
         }
+
+        protected virtual async Task<List<EadInputAssumptionDto>> GetEadInputAssumption(Guid eclId)
+        {
+            var assumptions = _eclEadInputAssumptionRepository.GetAll().Where(x => x.InvestmentEclId == eclId)
+                                                              .Select(x => new EadInputAssumptionDto()
+                                                              {
+                                                                  AssumptionGroup = x.EadGroup,
+                                                                  Key = x.Key,
+                                                                  InputName = x.InputName,
+                                                                  Value = x.Value,
+                                                                  DataType = x.DataType,
+                                                                  IsComputed = x.IsComputed,
+                                                                  RequiresGroupApproval = x.RequiresGroupApproval,
+                                                                  CanAffiliateEdit = x.CanAffiliateEdit,
+                                                                  //Status = x.st,
+                                                                  Id = x.Id
+                                                              });
+
+            return await assumptions.ToListAsync();
+
+        }
+        protected virtual async Task<List<LgdAssumptionDto>> GetLgdInputAssumption(Guid eclId)
+        {
+            var assumptions = _eclLgdAssumptionRepository.GetAll().Where(x => x.InvestmentEclId == eclId)
+                                                              .Select(x => new LgdAssumptionDto()
+                                                              {
+                                                                  AssumptionGroup = x.LgdGroup,
+                                                                  Key = x.Key,
+                                                                  InputName = x.InputName,
+                                                                  Value = x.Value,
+                                                                  DataType = x.DataType,
+                                                                  IsComputed = x.IsComputed,
+                                                                  RequiresGroupApproval = x.RequiresGroupApproval,
+                                                                  CanAffiliateEdit = x.CanAffiliateEdit,
+                                                                  //Status = x.s,
+                                                                  Id = x.Id
+                                                              });
+
+            return await assumptions.ToListAsync();
+
+        }
+        protected virtual async Task<List<PdInputAssumptionDto>> GetPdInputAssumption(Guid eclId)
+        {
+            var assumptions = _eclPdAssumptionRepository.GetAll().Where(x => x.InvestmentEclId == eclId)
+                                                              .Select(x => new PdInputAssumptionDto()
+                                                              {
+                                                                  AssumptionGroup = x.PdGroup,
+                                                                  Key = x.Key,
+                                                                  InputName = x.InputName,
+                                                                  Value = x.Value,
+                                                                  DataType = x.DataType,
+                                                                  IsComputed = x.IsComputed,
+                                                                  RequiresGroupApproval = x.RequiresGroupApproval,
+                                                                  CanAffiliateEdit = x.CanAffiliateEdit,
+                                                                  Status = x.Status,
+                                                                  Id = x.Id
+                                                              });
+
+            return await assumptions.ToListAsync();
+
+        }
+        protected virtual async Task<List<InvSecMacroEconomicAssumptionDto>> GetPdMacroInputAssumption(Guid eclId)
+        {
+            var assumptions = _eclPdAssumptionMacroeconomicInputsRepository.GetAll().Where(x => x.InvestmentEclId == eclId)
+                                                              .Select(x => new InvSecMacroEconomicAssumptionDto()
+                                                              {
+                                                                  Key = x.Key,
+                                                                  Month = x.Month,
+                                                                  BestValue = x.BestValue,
+                                                                  OptimisticValue = x.OptimisticValue,
+                                                                  DownturnValue = x.DownturnValue,
+                                                                  RequiresGroupApproval = x.RequiresGroupApproval,
+                                                                  CanAffiliateEdit = x.CanAffiliateEdit,
+                                                                  Status = x.Status,
+                                                                  Id = x.Id
+                                                              });
+
+            return await assumptions.ToListAsync();
+
+
+        }
+        protected virtual async Task<List<InvSecFitchCummulativeDefaultRateDto>> GetPdFitchAssumption(Guid eclId)
+        {
+            var assumptions = _eclPdSnPCummulativeDefaultRateRepository.GetAll().Where(x => x.InvestmentEclId == eclId)
+                                                              .Select(x => new InvSecFitchCummulativeDefaultRateDto()
+                                                              {
+                                                                  Key = x.Key,
+                                                                  Rating = x.Rating,
+                                                                  Years = x.Year,
+                                                                  Value = x.Value,
+                                                                  RequiresGroupApproval = x.RequiresGroupApproval,
+                                                                  Status = x.Status,
+                                                                  Id = x.Id
+                                                              });
+
+            return await assumptions.ToListAsync();
+        }
+
 
         public async Task CreateOrEdit(CreateOrEditEclDto input)
         {
@@ -277,7 +376,7 @@ namespace TestDemo.Investment
             {
                 foreach (var assumption in assumptions)
                 {
-                    await _invsecEclEadInputAssumptionsAppService.CreateOrEdit(new CreateOrEditInvestmentEclEadInputAssumptionDto()
+                    await _eclEadInputAssumptionRepository.InsertAsync(new InvestmentEclEadInputAssumption()
                     {
                         InvestmentEclId = eclId,
                         EadGroup = assumption.AssumptionGroup,
@@ -286,8 +385,8 @@ namespace TestDemo.Investment
                         Value = assumption.Value,
                         DataType = assumption.DataType,
                         IsComputed = assumption.IsComputed,
-                        RequiresGroupApproval = assumption.RequiresGroupApproval,
-                        CanAffiliateEdit = assumption.CanAffiliateEdit
+                        CanAffiliateEdit = assumption.CanAffiliateEdit,
+                        RequiresGroupApproval = assumption.RequiresGroupApproval
                     });
                 }
             }
@@ -296,7 +395,6 @@ namespace TestDemo.Investment
                 throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
             }
         }
-
         protected virtual async Task SaveLgdInputAssumption(long ouId, Guid eclId)
         {
             List<LgdAssumptionDto> assumptions = await _eclSharedAppService.GetAffiliateLgdAssumption(new GetAffiliateAssumptionInputDto()
@@ -309,7 +407,7 @@ namespace TestDemo.Investment
             {
                 foreach (var assumption in assumptions)
                 {
-                    await _invsecEclLgdAssumptionsAppService.CreateOrEdit(new CreateOrEditInvestmentEclLgdInputAssumptionDto()
+                    await _eclLgdAssumptionRepository.InsertAsync(new InvestmentEclLgdInputAssumption()
                     {
                         InvestmentEclId = eclId,
                         LgdGroup = assumption.AssumptionGroup,
@@ -329,7 +427,6 @@ namespace TestDemo.Investment
             }
 
         }
-
         protected virtual async Task SavePdInputAssumption(long ouId, Guid eclId)
         {
             List<PdInputAssumptionDto> assumptions = await _eclSharedAppService.GetAffiliatePdAssumption(new GetAffiliateAssumptionInputDto()
@@ -342,7 +439,7 @@ namespace TestDemo.Investment
             {
                 foreach (var assumption in assumptions)
                 {
-                    await _invsecEclPdAssumptionsAppService.CreateOrEdit(new CreateOrEditInvestmentEclPdInputAssumptionDto()
+                    await _eclPdAssumptionRepository.InsertAsync(new InvestmentEclPdInputAssumption()
                     {
                         InvestmentEclId = eclId,
                         PdGroup = assumption.AssumptionGroup,
@@ -352,7 +449,8 @@ namespace TestDemo.Investment
                         DataType = assumption.DataType,
                         IsComputed = assumption.IsComputed,
                         RequiresGroupApproval = assumption.RequiresGroupApproval,
-                        CanAffiliateEdit = assumption.CanAffiliateEdit
+                        CanAffiliateEdit = assumption.CanAffiliateEdit,
+                        Status = assumption.Status
                     });
                 }
             }
@@ -362,7 +460,6 @@ namespace TestDemo.Investment
             }
 
         }
-
         protected virtual async Task SavePdMacroAssumption(long ouId, Guid eclId)
         {
             List<InvSecMacroEconomicAssumptionDto> assumptions = await _eclSharedAppService.GetAffiliateInvSecPdMacroEcoAssumption(new GetAffiliateAssumptionInputDto()
@@ -375,7 +472,7 @@ namespace TestDemo.Investment
             {
                 foreach (var assumption in assumptions)
                 {
-                    await _invsecPdAssumptionMacroAsusmptionAppService.CreateOrEdit(new CreateOrEditInvestmentPdInputMacroEconomicAssumptionDto()
+                    await _eclPdAssumptionMacroeconomicInputsRepository.InsertAsync(new InvestmentPdInputMacroEconomicAssumption()
                     {
                         InvestmentEclId = eclId,
                         Key = assumption.Key,
@@ -384,7 +481,8 @@ namespace TestDemo.Investment
                         OptimisticValue = assumption.OptimisticValue,
                         DownturnValue = assumption.DownturnValue,
                         RequiresGroupApproval = assumption.RequiresGroupApproval,
-                        CanAffiliateEdit = assumption.CanAffiliateEdit
+                        CanAffiliateEdit = assumption.CanAffiliateEdit,
+                        Status = assumption.Status
                     });
                 }
             }
@@ -394,7 +492,6 @@ namespace TestDemo.Investment
             }
 
         }
-
         protected virtual async Task SavePdFitchAssumption(long ouId, Guid eclId)
         {
             List<InvSecFitchCummulativeDefaultRateDto> assumptions = await _eclSharedAppService.GetAffiliateInvSecPdFitchCummulativeAssumption(new GetAffiliateAssumptionInputDto()
@@ -407,14 +504,15 @@ namespace TestDemo.Investment
             {
                 foreach (var assumption in assumptions)
                 {
-                    await _invsecEclPdAssumptionFitchRatingAppService.CreateOrEdit(new CreateOrEditInvestmentEclPdFitchDefaultRateDto()
+                    await _eclPdSnPCummulativeDefaultRateRepository.InsertAsync(new InvestmentEclPdFitchDefaultRate()
                     {
                         InvestmentEclId = eclId,
                         Key = assumption.Key,
                         Rating = assumption.Rating,
                         Year = assumption.Years,
                         Value = assumption.Value,
-                        RequiresGroupApproval = assumption.RequiresGroupApproval
+                        RequiresGroupApproval = assumption.RequiresGroupApproval,
+                        Status = assumption.Status
                     });
                 }
             }

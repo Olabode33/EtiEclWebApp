@@ -2,7 +2,7 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { NotifyService } from '@abp/notify/notify.service';
-import { TokenAuthServiceProxy, EclSharedServiceProxy } from '@shared/service-proxies/service-proxies';
+import { TokenAuthServiceProxy, EclSharedServiceProxy, CopyAffiliateDto } from '@shared/service-proxies/service-proxies';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { Table } from 'primeng/components/table/table';
 import { Paginator } from 'primeng/components/paginator/paginator';
@@ -12,6 +12,7 @@ import { EntityTypeHistoryModalComponent } from '@app/shared/common/entityHistor
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { Location } from '@angular/common';
+import { OuLookupTableModalComponent } from '@app/main/eclShared/ou-lookup-modal/ou-lookup-table-modal.component';
 
 @Component({
     selector: 'app-affiliateAssumption',
@@ -24,9 +25,13 @@ export class AffiliateAssumptionComponent extends AppComponentBase implements On
 
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
+    @ViewChild('ouLookupTableModal', { static: true }) ouLookupTableModal: OuLookupTableModalComponent;
 
     filterText = '';
     availableForReviewOnly = false;
+    copying = false;
+    copyFromOuId = -1;
+    copyFromOuName = '';
 
     constructor(
         injector: Injector,
@@ -87,6 +92,30 @@ export class AffiliateAssumptionComponent extends AppComponentBase implements On
 
     goBack(): void {
         this._location.back();
+    }
+
+    selectAffiliateToCopyTo(ouId: number, ouName: string): void {
+        this.copyFromOuId = ouId;
+        this.copyFromOuName = ouName;
+        this.ouLookupTableModal.show();
+    }
+
+    copyTo() {
+        this.message.confirm(
+            this.l('CopyFromAffiliateToAffiliate', this.copyFromOuName, this.ouLookupTableModal.displayName) + '?',
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    if (this.copyFromOuId !== -1) {
+                        let c = new CopyAffiliateDto();
+                        c.fromAffiliateId = this.copyFromOuId;
+                        c.toAffiliateId = this.ouLookupTableModal.id;
+                        this._eclSharedServiceProxy.copyAffiliateAssumptions(c).subscribe(() => {
+                            this.notify.info(this.l('CopyAffiliateProcessStarted'));
+                        });
+                    }
+                }
+            }
+        );
     }
 
 }

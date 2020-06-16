@@ -55,15 +55,15 @@ namespace TestDemo.Retail
         private readonly IRepository<RetailEclDataLoanBook, Guid> _loanbookRepository;
         private readonly IRepository<RetailEclDataPaymentSchedule, Guid> _paymentScheduleRepository;
 
-        private readonly IRetailEclAssumptionsAppService _retailEclAssumptionAppService;
-        private readonly IRetailEclEadInputAssumptionsAppService _retailEclEadInputAssumptionsAppService;
-        private readonly IRetailEclLgdAssumptionsAppService _retailEclLgdAssumptionsAppService;
-        private readonly IRetailEclPdAssumptionsAppService _retailEclPdAssumptionsAppService;
-        private readonly IRetailEclPdAssumptionMacroeconomicInputsAppService _retailPdAssumptionMacroInputAppService;
-        private readonly IRetailEclPdAssumptionMacroeconomicProjectionsAppService _retailEclPdAssumptionMacroProjectionAppService;
-        private readonly IRetailEclPdAssumptionNonInteralModelsAppService _retailEclPdAssumptionNonInteralAppService;
-        private readonly IRetailEclPdAssumptionNplIndexesAppService _retailEclPdAssumptionNplAppService;
-        private readonly IRetailEclPdSnPCummulativeDefaultRatesAppService _retailPdAssumptionSnpAppService;
+        private readonly IRepository<RetailEclAssumption, Guid> _eclAssumptionRepository;
+        private readonly IRepository<RetailEclEadInputAssumption, Guid> _eclEadInputAssumptionRepository;
+        private readonly IRepository<RetailEclLgdAssumption, Guid> _eclLgdAssumptionRepository;
+        private readonly IRepository<RetailEclPdAssumption, Guid> _eclPdAssumptionRepository;
+        private readonly IRepository<RetailEclPdAssumptionMacroeconomicInput, Guid> _eclPdAssumptionMacroeconomicInputsRepository;
+        private readonly IRepository<RetailEclPdAssumptionMacroeconomicProjection, Guid> _eclPdAssumptionMacroeconomicProjectionRepository;
+        private readonly IRepository<RetailEclPdAssumptionNonInteralModel, Guid> _eclPdAssumptionNonInternalModelRepository;
+        private readonly IRepository<RetailEclPdAssumptionNplIndex, Guid> _eclPdAssumptionNplIndexRepository;
+        private readonly IRepository<RetailEclPdSnPCummulativeDefaultRate, Guid> _eclPdSnPCummulativeDefaultRateRepository;
 
         private readonly IBackgroundJobManager _backgroundJobManager;
         private readonly IEclSharedAppService _eclSharedAppService;
@@ -74,25 +74,25 @@ namespace TestDemo.Retail
                                     IRepository<User, long> lookup_userRepository,
                                     IRepository<OrganizationUnit, long> organizationUnitRepository,
                                     IRepository<AffiliateAssumption, Guid> affiliateAssumptionRepository,
-            IRepository<AssumptionApproval, Guid> assumptionsApprovalRepository,
+                                    IRepository<AssumptionApproval, Guid> assumptionsApprovalRepository,
                                     IRepository<RetailEclApproval, Guid> retailApprovalsRepository,
                                     IRepository<RetailEclOverride, Guid> retailOverridesRepository,
                                     IRepository<RetailEclUpload, Guid> retailUploadRepository,
-            IRepository<RetailEclDataLoanBook, Guid> loanbookRepository,
-            IRepository<RetailEclDataPaymentSchedule, Guid> paymentScheduleRepository,
-                                    IRetailEclAssumptionsAppService retailEclAssumptionAppService,
-                                    IRetailEclEadInputAssumptionsAppService retailEclEadInputAssumptionsAppService,
-                                    IRetailEclLgdAssumptionsAppService retailEclLgdAssumptionsAppService,
-                                    IRetailEclPdAssumptionsAppService retailEclPdAssumptionsAppService,
-                                    IRetailEclPdAssumptionMacroeconomicInputsAppService retailPdAssumptionMacroInputAppService,
-                                    IRetailEclPdAssumptionMacroeconomicProjectionsAppService retailEclPdAssumptionMacroProjectionAppService,
-                                    IRetailEclPdAssumptionNonInteralModelsAppService retailEclPdAssumptionNonInteralAppService,
-                                    IRetailEclPdAssumptionNplIndexesAppService retailEclPdAssumptionNplAppService,
-                                    IRetailEclPdSnPCummulativeDefaultRatesAppService retailPdAssumptionSnpAppService,
+                                    IRepository<RetailEclDataLoanBook, Guid> loanbookRepository,
+                                    IRepository<RetailEclDataPaymentSchedule, Guid> paymentScheduleRepository,
+                                    IRepository<RetailEclAssumption, Guid> eclAssumptionRepository,
+                                    IRepository<RetailEclEadInputAssumption, Guid> eclEadInputAssumptionRepository,
+                                    IRepository<RetailEclLgdAssumption, Guid> eclLgdAssumptionRepository,
+                                    IRepository<RetailEclPdAssumption, Guid> eclPdAssumptionRepository,
+                                    IRepository<RetailEclPdAssumptionMacroeconomicInput, Guid> eclPdAssumptionMacroeconomicInputsRepository,
+                                    IRepository<RetailEclPdAssumptionMacroeconomicProjection, Guid> eclPdAssumptionMacroeconomicProjectionRepository,
+                                    IRepository<RetailEclPdAssumptionNonInteralModel, Guid> eclPdAssumptionNonInternalModelRepository,
+                                    IRepository<RetailEclPdAssumptionNplIndex, Guid> eclPdAssumptionNplIndexRepository,
+                                    IRepository<RetailEclPdSnPCummulativeDefaultRate, Guid> eclPdSnPCummulativeDefaultRateRepository,
                                     IBackgroundJobManager backgroundJobManager,
                                     IEclSharedAppService eclSharedAppService,
-            IEclLoanbookExporter loanbookExporter,
-            IEclDataPaymentScheduleExporter paymentScheduleExporter
+                                    IEclLoanbookExporter loanbookExporter,
+                                    IEclDataPaymentScheduleExporter paymentScheduleExporter
                                     )
         {
             _retailEclRepository = retailEclRepository;
@@ -106,15 +106,15 @@ namespace TestDemo.Retail
             _loanbookRepository = loanbookRepository;
             _paymentScheduleRepository = paymentScheduleRepository;
 
-            _retailEclAssumptionAppService = retailEclAssumptionAppService;
-            _retailEclEadInputAssumptionsAppService = retailEclEadInputAssumptionsAppService;
-            _retailEclLgdAssumptionsAppService = retailEclLgdAssumptionsAppService;
-            _retailEclPdAssumptionsAppService = retailEclPdAssumptionsAppService;
-            _retailPdAssumptionMacroInputAppService = retailPdAssumptionMacroInputAppService;
-            _retailEclPdAssumptionMacroProjectionAppService = retailEclPdAssumptionMacroProjectionAppService;
-            _retailEclPdAssumptionNonInteralAppService = retailEclPdAssumptionNonInteralAppService;
-            _retailEclPdAssumptionNplAppService = retailEclPdAssumptionNplAppService;
-            _retailPdAssumptionSnpAppService = retailPdAssumptionSnpAppService;
+            _eclAssumptionRepository = eclAssumptionRepository;
+            _eclEadInputAssumptionRepository = eclEadInputAssumptionRepository;
+            _eclLgdAssumptionRepository = eclLgdAssumptionRepository;
+            _eclPdAssumptionRepository = eclPdAssumptionRepository;
+            _eclPdAssumptionMacroeconomicInputsRepository = eclPdAssumptionMacroeconomicInputsRepository;
+            _eclPdAssumptionMacroeconomicProjectionRepository = eclPdAssumptionMacroeconomicProjectionRepository;
+            _eclPdAssumptionNonInternalModelRepository = eclPdAssumptionNonInternalModelRepository;
+            _eclPdAssumptionNplIndexRepository = eclPdAssumptionNplIndexRepository;
+            _eclPdSnPCummulativeDefaultRateRepository = eclPdSnPCummulativeDefaultRateRepository;
 
             _backgroundJobManager = backgroundJobManager;
             _eclSharedAppService = eclSharedAppService;
@@ -206,17 +206,211 @@ namespace TestDemo.Retail
                 output.ClosedByUserName = _lookupUser.FullName.ToString();
             }
 
-            output.FrameworkAssumption = await _retailEclAssumptionAppService.GetListForEclView(input);
-            output.EadInputAssumptions = await _retailEclEadInputAssumptionsAppService.GetListForEclView(input);
-            output.LgdInputAssumptions = await _retailEclLgdAssumptionsAppService.GetListForEclView(input);
-            output.PdInputAssumption = await _retailEclPdAssumptionsAppService.GetListForEclView(input);
-            output.PdInputAssumptionMacroeconomicInput = await _retailPdAssumptionMacroInputAppService.GetListForEclView(input);
-            output.PdInputAssumptionMacroeconomicProjections = await _retailEclPdAssumptionMacroProjectionAppService.GetListForEclView(input);
-            output.PdInputAssumptionNonInternalModels = await _retailEclPdAssumptionNonInteralAppService.GetListForEclView(input);
-            output.PdInputAssumptionNplIndex = await _retailEclPdAssumptionNplAppService.GetListForEclView(input);
-            output.PdInputSnPCummulativeDefaultRate = await _retailPdAssumptionSnpAppService.GetListForEclView(input);
+            output.FrameworkAssumption = await GetFrameworkAssumption(input.Id);
+            output.EadInputAssumptions = await GetEadInputAssumption(input.Id);
+            output.LgdInputAssumptions = await GetLgdInputAssumption(input.Id);
+            output.PdInputAssumption = await GetPdInputAssumption(input.Id);
+            output.PdInputAssumptionMacroeconomicInput = await GetPdMacroInputAssumption(input.Id);
+            output.PdInputAssumptionMacroeconomicProjections = await GetPdMacroProjectAssumption(input.Id);
+            output.PdInputAssumptionNonInternalModels = await GetPdNonInternalModelAssumption(input.Id);
+            output.PdInputAssumptionNplIndex = await GetPdNplAssumption(input.Id);
+            output.PdInputSnPCummulativeDefaultRate = await GetPdSnpAssumption(input.Id);
 
             return output;
+        }
+
+        protected virtual async Task<List<AssumptionDto>> GetFrameworkAssumption(Guid eclId)
+        {
+            var assumptions = _eclAssumptionRepository.GetAll().Where(x => x.RetailEclId == eclId)
+                                                              .Select(x => new AssumptionDto()
+                                                              {
+                                                                  AssumptionGroup = x.AssumptionGroup,
+                                                                  Key = x.Key,
+                                                                  InputName = x.InputName,
+                                                                  Value = x.Value,
+                                                                  DataType = x.DataType,
+                                                                  IsComputed = x.IsComputed,
+                                                                  RequiresGroupApproval = x.RequiresGroupApproval,
+                                                                  CanAffiliateEdit = x.CanAffiliateEdit,
+                                                                  OrganizationUnitId = x.OrganizationUnitId,
+                                                                  Status = x.Status,
+                                                                  Id = x.Id
+                                                              });
+
+            return await assumptions.ToListAsync();
+        }
+        protected virtual async Task<List<EadInputAssumptionDto>> GetEadInputAssumption(Guid eclId)
+        {
+            var assumptions = _eclEadInputAssumptionRepository.GetAll().Where(x => x.RetailEclId == eclId)
+                                                              .Select(x => new EadInputAssumptionDto()
+                                                              {
+                                                                  AssumptionGroup = x.EadGroup,
+                                                                  Key = x.Key,
+                                                                  InputName = x.InputName,
+                                                                  Value = x.Value,
+                                                                  DataType = x.DataType,
+                                                                  IsComputed = x.IsComputed,
+                                                                  RequiresGroupApproval = x.RequiresGroupApproval,
+                                                                  CanAffiliateEdit = x.CanAffiliateEdit,
+                                                                  OrganizationUnitId = x.OrganizationUnitId,
+                                                                  Status = x.Status,
+                                                                  Id = x.Id
+                                                              });
+
+            return await assumptions.ToListAsync();
+
+        }
+        protected virtual async Task<List<LgdAssumptionDto>> GetLgdInputAssumption(Guid eclId)
+        {
+            var assumptions = _eclLgdAssumptionRepository.GetAll().Where(x => x.RetailEclId == eclId)
+                                                              .Select(x => new LgdAssumptionDto()
+                                                              {
+                                                                  AssumptionGroup = x.LgdGroup,
+                                                                  Key = x.Key,
+                                                                  InputName = x.InputName,
+                                                                  Value = x.Value,
+                                                                  DataType = x.DataType,
+                                                                  IsComputed = x.IsComputed,
+                                                                  RequiresGroupApproval = x.RequiresGroupApproval,
+                                                                  CanAffiliateEdit = x.CanAffiliateEdit,
+                                                                  OrganizationUnitId = x.OrganizationUnitId,
+                                                                  Status = x.Status,
+                                                                  Id = x.Id
+                                                              });
+
+            return await assumptions.ToListAsync();
+
+        }
+        protected virtual async Task<List<PdInputAssumptionDto>> GetPdInputAssumption(Guid eclId)
+        {
+            var assumptions = _eclPdAssumptionRepository.GetAll().Where(x => x.RetailEclId == eclId)
+                                                              .Select(x => new PdInputAssumptionDto()
+                                                              {
+                                                                  AssumptionGroup = x.PdGroup,
+                                                                  Key = x.Key,
+                                                                  InputName = x.InputName,
+                                                                  Value = x.Value,
+                                                                  DataType = x.DataType,
+                                                                  IsComputed = x.IsComputed,
+                                                                  RequiresGroupApproval = x.RequiresGroupApproval,
+                                                                  CanAffiliateEdit = x.CanAffiliateEdit,
+                                                                  OrganizationUnitId = x.OrganizationUnitId,
+                                                                  Status = x.Status,
+                                                                  Id = x.Id
+                                                              });
+
+            return await assumptions.ToListAsync();
+
+        }
+        protected virtual async Task<List<PdInputAssumptionMacroeconomicInputDto>> GetPdMacroInputAssumption(Guid eclId)
+        {
+            var assumptions = _eclPdAssumptionMacroeconomicInputsRepository.GetAll()
+                                                              .Include(x => x.MacroeconomicVariable)
+                                                              .Where(x => x.RetailEclId == eclId)
+                                                              .Select(x => new PdInputAssumptionMacroeconomicInputDto()
+                                                              {
+                                                                  AssumptionGroup = x.MacroeconomicVariableId,
+                                                                  Key = x.Key,
+                                                                  InputName = x.InputName,
+                                                                  MacroeconomicVariable = x.MacroeconomicVariable == null ? "" : x.MacroeconomicVariable.Name,
+                                                                  Value = x.Value,
+                                                                  IsComputed = x.IsComputed,
+                                                                  RequiresGroupApproval = x.RequiresGroupApproval,
+                                                                  CanAffiliateEdit = x.CanAffiliateEdit,
+                                                                  OrganizationUnitId = x.OrganizationUnitId,
+                                                                  Status = x.Status,
+                                                                  Id = x.Id
+                                                              });
+
+            return await assumptions.ToListAsync();
+
+
+        }
+        protected virtual async Task<List<PdInputAssumptionMacroeconomicProjectionDto>> GetPdMacroProjectAssumption(Guid eclId)
+        {
+            var assumptions = _eclPdAssumptionMacroeconomicProjectionRepository.GetAll()
+                                                              .Include(x => x.MacroeconomicVariable)
+                                                              .Where(x => x.RetailEclId == eclId)
+                                                              .Select(x => new PdInputAssumptionMacroeconomicProjectionDto()
+                                                              {
+                                                                  AssumptionGroup = x.MacroeconomicVariableId,
+                                                                  Key = x.Key,
+                                                                  Date = x.Date,
+                                                                  InputName = x.MacroeconomicVariable != null ? x.MacroeconomicVariable.Name : "",
+                                                                  BestValue = x.BestValue,
+                                                                  OptimisticValue = x.OptimisticValue,
+                                                                  DownturnValue = x.DownturnValue,
+                                                                  IsComputed = x.IsComputed,
+                                                                  CanAffiliateEdit = x.CanAffiliateEdit,
+                                                                  OrganizationUnitId = x.OrganizationUnitId,
+                                                                  Status = x.Status,
+                                                                  Id = x.Id
+                                                              });
+
+            return await assumptions.ToListAsync();
+
+        }
+        protected virtual async Task<List<PdInputAssumptionNonInternalModelDto>> GetPdNonInternalModelAssumption(Guid eclId)
+        {
+            var assumptions = _eclPdAssumptionNonInternalModelRepository.GetAll()
+                                                              .Where(x => x.RetailEclId == eclId)
+                                                              .Select(x => new PdInputAssumptionNonInternalModelDto()
+                                                              {
+                                                                  Key = x.Key,
+                                                                  PdGroup = x.PdGroup,
+                                                                  Month = x.Month,
+                                                                  MarginalDefaultRate = x.MarginalDefaultRate,
+                                                                  CummulativeSurvival = x.CummulativeSurvival,
+                                                                  IsComputed = x.IsComputed,
+                                                                  RequiresGroupApproval = x.RequiresGroupApproval,
+                                                                  CanAffiliateEdit = x.CanAffiliateEdit,
+                                                                  OrganizationUnitId = x.OrganizationUnitId,
+                                                                  Status = x.Status,
+                                                                  Id = x.Id
+                                                              });
+
+            return await assumptions.ToListAsync();
+        }
+        protected virtual async Task<List<PdInputAssumptionNplIndexDto>> GetPdNplAssumption(Guid eclId)
+        {
+            var assumptions = _eclPdAssumptionNplIndexRepository.GetAll()
+                                                              .Where(x => x.RetailEclId == eclId)
+                                                              .Select(x => new PdInputAssumptionNplIndexDto()
+                                                              {
+                                                                  Key = x.Key,
+                                                                  Date = x.Date,
+                                                                  Actual = x.Actual,
+                                                                  Standardised = x.Standardised,
+                                                                  EtiNplSeries = x.EtiNplSeries,
+                                                                  IsComputed = x.IsComputed,
+                                                                  RequiresGroupApproval = x.RequiresGroupApproval,
+                                                                  CanAffiliateEdit = x.CanAffiliateEdit,
+                                                                  OrganizationUnitId = x.OrganizationUnitId,
+                                                                  Status = x.Status,
+                                                                  Id = x.Id
+                                                              });
+
+            return await assumptions.ToListAsync();
+
+        }
+        protected virtual async Task<List<PdInputSnPCummulativeDefaultRateDto>> GetPdSnpAssumption(Guid eclId)
+        {
+            var assumptions = _eclPdSnPCummulativeDefaultRateRepository.GetAll().Where(x => x.RetailEclId == eclId)
+                                                              .Select(x => new PdInputSnPCummulativeDefaultRateDto()
+                                                              {
+                                                                  Key = x.Key,
+                                                                  Rating = x.Rating,
+                                                                  Years = x.Years,
+                                                                  Value = x.Value,
+                                                                  RequiresGroupApproval = x.RequiresGroupApproval,
+                                                                  OrganizationUnitId = x.OrganizationUnitId,
+                                                                  Id = x.Id,
+                                                                  Status = x.Status,
+                                                                  CanAffiliateEdit = x.CanAffiliateEdit,
+                                                                  IsComputed = x.IsComputed
+                                                              });
+
+            return await assumptions.ToListAsync();
         }
 
         public async Task CreateOrEdit(CreateOrEditEclDto input)
@@ -292,6 +486,13 @@ namespace TestDemo.Retail
             await _retailEclRepository.InsertAsync(retailEcl);
         }
 
+        [AbpAuthorize(AppPermissions.Pages_RetailEcls_Edit)]
+        protected virtual async Task Update(CreateOrEditEclDto input)
+        {
+            var retailEcl = await _retailEclRepository.FirstOrDefaultAsync((Guid)input.Id);
+            ObjectMapper.Map(input, retailEcl);
+        }
+
         protected virtual async Task<Guid> CreateAndGetId(long ouId)
         {
             var affiliateAssumption = await _affiliateAssumptionRepository.FirstOrDefaultAsync(x => x.OrganizationUnitId == ouId);
@@ -313,27 +514,19 @@ namespace TestDemo.Retail
             }
 
         }
-
-        [AbpAuthorize(AppPermissions.Pages_RetailEcls_Edit)]
-        protected virtual async Task Update(CreateOrEditEclDto input)
-        {
-            var retailEcl = await _retailEclRepository.FirstOrDefaultAsync((Guid)input.Id);
-            ObjectMapper.Map(input, retailEcl);
-        }
-
         protected virtual async Task SaveFrameworkAssumption(long ouId, Guid eclId)
         {
             List<AssumptionDto> assumptions = await _eclSharedAppService.GetAffiliateFrameworkAssumption(new GetAffiliateAssumptionInputDto()
-                                                                        {
-                                                                            AffiliateOuId = ouId,
-                                                                            Framework = FrameworkEnum.Retail
-                                                                        });
+            {
+                AffiliateOuId = ouId,
+                Framework = FrameworkEnum.Retail
+            });
 
             if (assumptions.Count > 0)
             {
                 foreach (var assumption in assumptions)
                 {
-                    await _retailEclAssumptionAppService.CreateOrEdit(new CreateOrEditRetailEclAssumptionDto()
+                    await _eclAssumptionRepository.InsertAsync(new RetailEclAssumption()
                     {
                         RetailEclId = eclId,
                         AssumptionGroup = assumption.AssumptionGroup,
@@ -343,16 +536,17 @@ namespace TestDemo.Retail
                         DataType = assumption.DataType,
                         IsComputed = assumption.IsComputed,
                         RequiresGroupApproval = assumption.RequiresGroupApproval,
-                        CanAffiliateEdit = assumption.CanAffiliateEdit
+                        CanAffiliateEdit = assumption.CanAffiliateEdit,
+                        OrganizationUnitId = assumption.OrganizationUnitId,
+                        Status = assumption.Status
                     });
                 }
-            } 
+            }
             else
             {
                 throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
             }
         }
-
         protected virtual async Task SaveEadInputAssumption(long ouId, Guid eclId)
         {
             List<EadInputAssumptionDto> assumptions = await _eclSharedAppService.GetAffiliateEadAssumption(new GetAffiliateAssumptionInputDto()
@@ -365,7 +559,7 @@ namespace TestDemo.Retail
             {
                 foreach (var assumption in assumptions)
                 {
-                    await _retailEclEadInputAssumptionsAppService.CreateOrEdit(new CreateOrEditRetailEclEadInputAssumptionDto()
+                    await _eclEadInputAssumptionRepository.InsertAsync(new RetailEclEadInputAssumption()
                     {
                         RetailEclId = eclId,
                         EadGroup = assumption.AssumptionGroup,
@@ -375,7 +569,9 @@ namespace TestDemo.Retail
                         DataType = assumption.DataType,
                         IsComputed = assumption.IsComputed,
                         CanAffiliateEdit = assumption.CanAffiliateEdit,
-                        RequiresGroupApproval = assumption.RequiresGroupApproval
+                        RequiresGroupApproval = assumption.RequiresGroupApproval,
+                        Status = assumption.Status,
+                        OrganizationUnitId = assumption.OrganizationUnitId
                     });
                 }
             }
@@ -384,7 +580,6 @@ namespace TestDemo.Retail
                 throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
             }
         }
-
         protected virtual async Task SaveLgdInputAssumption(long ouId, Guid eclId)
         {
             List<LgdAssumptionDto> assumptions = await _eclSharedAppService.GetAffiliateLgdAssumption(new GetAffiliateAssumptionInputDto()
@@ -397,7 +592,7 @@ namespace TestDemo.Retail
             {
                 foreach (var assumption in assumptions)
                 {
-                    await _retailEclLgdAssumptionsAppService.CreateOrEdit(new CreateOrEditRetailEclLgdAssumptionDto()
+                    await _eclLgdAssumptionRepository.InsertAsync(new RetailEclLgdAssumption()
                     {
                         RetailEclId = eclId,
                         LgdGroup = assumption.AssumptionGroup,
@@ -407,7 +602,9 @@ namespace TestDemo.Retail
                         DataType = assumption.DataType,
                         IsComputed = assumption.IsComputed,
                         RequiresGroupApproval = assumption.RequiresGroupApproval,
-                        CanAffiliateEdit = assumption.CanAffiliateEdit
+                        CanAffiliateEdit = assumption.CanAffiliateEdit,
+                        OrganizationUnitId = assumption.OrganizationUnitId,
+                        Status = assumption.Status
                     });
                 }
             }
@@ -415,9 +612,8 @@ namespace TestDemo.Retail
             {
                 throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
             }
-            
-        }
 
+        }
         protected virtual async Task SavePdInputAssumption(long ouId, Guid eclId)
         {
             List<PdInputAssumptionDto> assumptions = await _eclSharedAppService.GetAffiliatePdAssumption(new GetAffiliateAssumptionInputDto()
@@ -430,7 +626,7 @@ namespace TestDemo.Retail
             {
                 foreach (var assumption in assumptions)
                 {
-                    await _retailEclPdAssumptionsAppService.CreateOrEdit(new CreateOrEditRetailEclPdAssumptionDto()
+                    await _eclPdAssumptionRepository.InsertAsync(new RetailEclPdAssumption()
                     {
                         RetailEclId = eclId,
                         PdGroup = assumption.AssumptionGroup,
@@ -440,7 +636,9 @@ namespace TestDemo.Retail
                         DataType = assumption.DataType,
                         IsComputed = assumption.IsComputed,
                         RequiresGroupApproval = assumption.RequiresGroupApproval,
-                        CanAffiliateEdit = assumption.CanAffiliateEdit
+                        CanAffiliateEdit = assumption.CanAffiliateEdit,
+                        Status = assumption.Status,
+                        OrganizationUnitId = assumption.OrganizationUnitId
                     });
                 }
             }
@@ -450,7 +648,6 @@ namespace TestDemo.Retail
             }
 
         }
-
         protected virtual async Task SavePdMacroInputAssumption(long ouId, Guid eclId)
         {
             List<PdInputAssumptionMacroeconomicInputDto> assumptions = await _eclSharedAppService.GetAffiliatePdMacroeconomicInputAssumption(new GetAffiliateAssumptionInputDto()
@@ -463,7 +660,7 @@ namespace TestDemo.Retail
             {
                 foreach (var assumption in assumptions)
                 {
-                    await _retailPdAssumptionMacroInputAppService.CreateOrEdit(new CreateOrEditRetailEclPdAssumptionMacroeconomicInputDto()
+                    await _eclPdAssumptionMacroeconomicInputsRepository.InsertAsync(new RetailEclPdAssumptionMacroeconomicInput()
                     {
                         RetailEclId = eclId,
                         MacroeconomicVariableId = assumption.AssumptionGroup,
@@ -484,7 +681,6 @@ namespace TestDemo.Retail
             }
 
         }
-
         protected virtual async Task SavePdMacroProjectAssumption(long ouId, Guid eclId)
         {
             List<PdInputAssumptionMacroeconomicProjectionDto> assumptions = await _eclSharedAppService.GetAffiliatePdMacroeconomicProjectionAssumption(new GetAffiliateAssumptionInputDto()
@@ -497,7 +693,7 @@ namespace TestDemo.Retail
             {
                 foreach (var assumption in assumptions)
                 {
-                    await _retailEclPdAssumptionMacroProjectionAppService.CreateOrEdit(new CreateOrEditRetailEclPdAssumptionMacroeconomicProjectionDto()
+                    await _eclPdAssumptionMacroeconomicProjectionRepository.InsertAsync(new RetailEclPdAssumptionMacroeconomicProjection()
                     {
                         RetailEclId = eclId,
                         MacroeconomicVariableId = assumption.AssumptionGroup,
@@ -510,7 +706,8 @@ namespace TestDemo.Retail
                         IsComputed = assumption.IsComputed,
                         CanAffiliateEdit = assumption.CanAffiliateEdit,
                         OrganizationUnitId = assumption.OrganizationUnitId,
-                        Status = assumption.Status
+                        Status = assumption.Status,
+                        RequiresGroupApproval = assumption.RequiresGroupApproval
                     });
                 }
             }
@@ -520,7 +717,6 @@ namespace TestDemo.Retail
             }
 
         }
-
         protected virtual async Task SavePdNonInternalModelAssumption(long ouId, Guid eclId)
         {
             List<PdInputAssumptionNonInternalModelDto> assumptions = await _eclSharedAppService.GetAffiliatePdNonInternalModelAssumption(new GetAffiliateAssumptionInputDto()
@@ -533,7 +729,7 @@ namespace TestDemo.Retail
             {
                 foreach (var assumption in assumptions)
                 {
-                    await _retailEclPdAssumptionNonInteralAppService.CreateOrEdit(new CreateOrEditRetailEclPdAssumptionNonInteralModelDto()
+                    await _eclPdAssumptionNonInternalModelRepository.InsertAsync(new RetailEclPdAssumptionNonInteralModel()
                     {
                         RetailEclId = eclId,
                         PdGroup = assumption.PdGroup,
@@ -555,7 +751,6 @@ namespace TestDemo.Retail
             }
 
         }
-
         protected virtual async Task SavePdNplAssumption(long ouId, Guid eclId)
         {
             List<PdInputAssumptionNplIndexDto> assumptions = await _eclSharedAppService.GetAffiliatePdNplIndexAssumption(new GetAffiliateAssumptionInputDto()
@@ -568,7 +763,7 @@ namespace TestDemo.Retail
             {
                 foreach (var assumption in assumptions)
                 {
-                    await _retailEclPdAssumptionNplAppService.CreateOrEdit(new CreateOrEditRetailEclPdAssumptionNplIndexDto()
+                    await _eclPdAssumptionNplIndexRepository.InsertAsync(new RetailEclPdAssumptionNplIndex()
                     {
                         RetailEclId = eclId,
                         Date = assumption.Date,
@@ -590,7 +785,6 @@ namespace TestDemo.Retail
             }
 
         }
-
         protected virtual async Task SavePdSnpAssumption(long ouId, Guid eclId)
         {
             List<PdInputSnPCummulativeDefaultRateDto> assumptions = await _eclSharedAppService.GetAffiliatePdSnpCummulativeAssumption(new GetAffiliateAssumptionInputDto()
@@ -603,14 +797,18 @@ namespace TestDemo.Retail
             {
                 foreach (var assumption in assumptions)
                 {
-                    await _retailPdAssumptionSnpAppService.CreateOrEdit(new CreateOrEditRetailEclPdSnPCummulativeDefaultRateDto()
+                    await _eclPdSnPCummulativeDefaultRateRepository.InsertAsync(new RetailEclPdSnPCummulativeDefaultRate()
                     {
                         RetailEclId = eclId,
                         Rating = assumption.Rating,
                         Key = assumption.Key,
                         Years = assumption.Years,
                         Value = assumption.Value,
-                        RequiresGroupApproval = assumption.RequiresGroupApproval
+                        RequiresGroupApproval = assumption.RequiresGroupApproval,
+                        Status = assumption.Status,
+                        CanAffiliateEdit = assumption.CanAffiliateEdit,
+                        OrganizationUnitId = assumption.OrganizationUnitId,
+                        IsComputed = assumption.IsComputed
                     });
                 }
             }
@@ -620,6 +818,7 @@ namespace TestDemo.Retail
             }
 
         }
+
 
         public virtual async Task SubmitForApproval(EntityDto<Guid> input)
         {
@@ -730,7 +929,7 @@ namespace TestDemo.Retail
         {
             var ecl = await _retailEclRepository.FirstOrDefaultAsync(input.Id);
 
-            if (ecl.Status == EclStatusEnum.PreOverrideComplete || ecl.Status == EclStatusEnum.PostOverrideComplete || ecl.Status == EclStatusEnum.Completed )
+            if (ecl.Status == EclStatusEnum.PreOverrideComplete || ecl.Status == EclStatusEnum.PostOverrideComplete || ecl.Status == EclStatusEnum.Completed)
             {
                 await _backgroundJobManager.EnqueueAsync<CloseEclJob, RunEclJobArgs>(new RunEclJobArgs()
                 {

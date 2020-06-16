@@ -23,6 +23,7 @@
     <div class="kt-content">
         <div class="kt-portlet kt-portlet--mobile">
             <div class="kt-portlet__body">
+
                 <form class="kt-form" autocomplete="off">
                     <div>
                         <div class="row align-items-center">
@@ -100,6 +101,11 @@
                                                         {{l('Review')}}
                                                     </a>
                                                 </li>
+                                                <li>
+                                                    <a href="javascript:;" (click)="selectAffiliateToCopyTo(record.organizationUnitId, record.affiliateName)">
+                                                        {{l('CopyTo')}}
+                                                    </a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </td>
@@ -153,5 +159,7 @@
                 </div>
             </div>
         </div>
+        
+    <ouLookupTableModal #ouLookupTableModal (modalSave)="copyTo()"></ouLookupTableModal>
     </div>
 </div>
