@@ -1,6 +1,6 @@
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { WholesaleEclsServiceProxy, WholesaleEclDto, EclStatusEnum, EclSharedServiceProxy, FrameworkEnum, RetailEclsServiceProxy, InvestmentEclsServiceProxy, EntityDtoOfGuid, ObeEclsServiceProxy } from '@shared/service-proxies/service-proxies';
+import { WholesaleEclsServiceProxy, WholesaleEclDto, EclStatusEnum, EclSharedServiceProxy, FrameworkEnum, RetailEclsServiceProxy, InvestmentEclsServiceProxy, EntityDtoOfGuid, ObeEclsServiceProxy, NameValueDtoOfInt64, CommonLookupServiceProxy } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -35,6 +35,9 @@ export class EclListComponent extends AppComponentBase implements OnInit {
     ouFilter = -1;
     statusFilter = -1;
     frameworkFilter = -1;
+    _affiliateId = -1;
+
+    ouList: NameValueDtoOfInt64[] = new Array();
 
     constructor(
         injector: Injector,
@@ -43,6 +46,7 @@ export class EclListComponent extends AppComponentBase implements OnInit {
         private _investmentEclServiceProxy: InvestmentEclsServiceProxy,
         private _wholesaleEclServiceProxy: WholesaleEclsServiceProxy,
         private _obeEclServiceProxy: ObeEclsServiceProxy,
+        private _commonServiceProxy: CommonLookupServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
@@ -51,6 +55,14 @@ export class EclListComponent extends AppComponentBase implements OnInit {
         private _location: Location
     ) {
         super(injector);
+        _commonServiceProxy.getUserAffiliates().subscribe(result => {
+            if (result.length > 0) {
+                this._affiliateId = result[0].value;
+            }
+        });
+        _commonServiceProxy.getAllOrganizationUnitForLookupTable('', '', 0, 100).subscribe(result => {
+            this.ouList = result.items;
+        });
     }
 
     ngOnInit() {

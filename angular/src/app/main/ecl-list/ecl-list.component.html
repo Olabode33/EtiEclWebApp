@@ -77,17 +77,21 @@
     </div>
     <div class="kt-content">
         <div class="kt-portlet kt-portlet--mobile">
+            <div *ngIf="loadingEclAssumption" class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                    {{l('LoadingAssumptionsForNewEcl')}}
+                </div>
+            </div>
             <div class="kt-portlet__body">
                 <form class="kt-form" autocomplete="off">
                     <div>
                         <div class="row align-items-center">
-                            <div class="col-xl-2 col-sm-6">                                
-                                    <div class="form-group m-form__group align-items-center">
-                                <select class="form-control" name="IsApprovedFilter" id="IsApprovedFilterSelect" [(ngModel)]="ouFilter">
-                                    <option value="-1">{{l("SelectOU")}}</option>
-                                    <option value="0">{{l("Nigeria")}}</option>
-                                    <option value="1">{{l("Ghana")}}</option>
-                                </select>
+                            <div *ngIf="_affiliateId === -1" class="col-xl-2 col-sm-6">                                
+                                <div class="form-group m-form__group align-items-center">
+                                    <select class="form-control" name="IsApprovedFilter" id="IsApprovedFilterSelect" [(ngModel)]="ouFilter">
+                                        <option value="-1">{{l("SelectOU")}}</option>
+                                        <option *ngFor="let item of ouList" [value]="item.value">{{item.name}}</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-xl-2 col-sm-6">

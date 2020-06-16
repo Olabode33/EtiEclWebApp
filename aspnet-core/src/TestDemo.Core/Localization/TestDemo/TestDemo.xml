@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+    <text name="LoadingAssumptionsForNewEcl">Loading assumptions for new ECL</text>
     <text name="CopyTo">Copy to</text>
     <text name="CopyAffiliateProcessCompleted">Copy affiliate assumptions process has been completed successfully.</text>
     <text name="CopyAffiliateProcessStarted">Copy affiliate assumptions process started</text>

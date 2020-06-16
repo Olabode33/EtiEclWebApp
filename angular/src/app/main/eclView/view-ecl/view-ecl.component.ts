@@ -101,7 +101,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
     }
 
     ngOnInit() {
-        this.isLoading = true;
+        //this.isLoading = true;
         this._activatedRoute.paramMap.subscribe(params => {
             this._eclId = params.get('eclId');
             this._eclFramework = +params.get('framework');
@@ -113,8 +113,6 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
             this.configureEclAuditInfoSubComponent();
             this.getEclDetails();
             this.getEclUploadSummary();
-
-            this.isLoading = false;
         });
     }
 
@@ -206,14 +204,17 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
 
     getEclUploadSummary(): void {
         if (typeof this._eclUploadServiceProxy.getEclUploads === 'function') {
+            this.isLoadingUploads = true;
             this._eclUploadServiceProxy.getEclUploads(this._eclId).subscribe(result => {
                 this.eclUploads = result;
+                this.isLoadingUploads = false;
             });
         }
     }
 
     getEclDetails() {
         if (typeof this._eclServiceProxy.getEclDetailsForEdit === 'function') {
+            this.isLoading = true;
             this._eclServiceProxy.getEclDetailsForEdit(this._eclId)
                                  .subscribe(result => {
                                     this.eclDetails = result;
@@ -230,9 +231,10 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
                                         this.loadLgdAssumptionComponent(result.lgdInputAssumptions);
                                     }
                                     this.loadPdAssumptionComponent(result);
-                                    console.log(this.showOverride());
+                                    //console.log(this.showOverride());
                                     this.eclOverrideTag.display(this.showOverride());
                                     //this.eclResultTag.displayResult(this.eclDto.status);
+                                    this.isLoading = false;
                                 });
         } else {
             throw Error('Function does not exist in service proxy');
@@ -599,7 +601,6 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
     }
 
     //#region Navigation
-    //TODO: Add view assetbook details
     navigateToViewUploadDetails(uploadId: string, docType: UploadDocTypeEnum): void {
         switch (docType) {
             case UploadDocTypeEnum.LoanBook:
