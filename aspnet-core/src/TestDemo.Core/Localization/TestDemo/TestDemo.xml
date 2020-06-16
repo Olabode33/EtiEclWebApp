@@ -1077,6 +1077,9 @@
     <text name="ExcelOperations">Excel operations</text>
     <text name="ImportFromExcel">Import from excel</text>
     <text name="ImportToExcelSampleFileDownloadInfo">{0} to download sample import file.</text>
+    <text name="ImportToExcelSampleLoanbookFileDownloadInfo">{0} to download sample loanbook import file.</text>
+    <text name="ImportToExcelSamplePaymentScheduleFileDownloadInfo">{0} to download sample payment schdeule import file.</text>
+    <text name="ImportToExcelSampleAssetbookFileDownloadInfo">{0} to download sample assetbook import file.</text>
     <text name="ImportUsersProcessStart">User import process has begun.</text>
     <text name="ImportUsersUploadFailed">User import process has failed.</text>
     <text name="AllUsersSuccessfullyImportedFromExcel">User import process has been completed successfully. All users in file are imported.</text>

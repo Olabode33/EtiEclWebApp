@@ -102,7 +102,7 @@
                                     </a>
                                     <div class="dropdown-divider"></div>
                                     <span class="dropdown-item-text text-muted pl-3" href="#">
-                                        <small [innerHTML]="l('ImportToExcelSampleFileDownloadInfo', '<a href=/assets/sampleFiles/ImportUsersSampleFile.xlsx>' + l('ClickHere') + '</a>')"></small>
+                                        <small [innerHTML]="l('ImportToExcelSampleFileDownloadInfo', '<a href=/assets/sampleFiles/Assumption/SnP_Data_Template.xlsx>' + l('ClickHere') + '</a>')"></small>
                                     </span>
                                 </div>
                             </div>
@@ -182,7 +182,7 @@
                                     </a>
                                     <div class="dropdown-divider"></div>
                                     <span class="dropdown-item-text text-muted pl-3" href="#">
-                                        <small [innerHTML]="l('ImportToExcelSampleFileDownloadInfo', '<a href=/assets/sampleFiles/ImportUsersSampleFile.xlsx>' + l('ClickHere') + '</a>')"></small>
+                                        <small [innerHTML]="l('ImportToExcelSampleFileDownloadInfo', '<a href=/assets/sampleFiles/Assumption/NonInternalModel_Data_Template.xlsx>' + l('ClickHere') + '</a>')"></small>
                                     </span>
                                 </div>
                             </div>
@@ -252,7 +252,7 @@
                                     </a>
                                     <div class="dropdown-divider"></div>
                                     <span class="dropdown-item-text text-muted pl-3" href="#">
-                                        <small [innerHTML]="l('ImportToExcelSampleFileDownloadInfo', '<a href=/assets/sampleFiles/ImportUsersSampleFile.xlsx>' + l('ClickHere') + '</a>')"></small>
+                                        <small [innerHTML]="l('ImportToExcelSampleFileDownloadInfo', '<a href=/assets/sampleFiles/Assumption/Npl_Data_Template.xlsx>' + l('ClickHere') + '</a>')"></small>
                                     </span>
                                 </div>
                             </div>
@@ -312,10 +312,10 @@
                             <option *ngFor="let item of pdMacroeconomicVariables" [value]="item.value">{{item.name}}</option>
                         </select>
                         <div *ngIf="!viewOnly" class="col-lg-4 col-xl-5">
-                            <button (click)="uploadSnP()" class="btn btn-outline-primary pull-right">
+                            <!-- <button (click)="uploadSnP()" class="btn btn-outline-primary pull-right">
                                 <i class="fa fa-upload" style="font-size: 1.2rem !important;"></i>
                                 {{l("Upload")}}
-                            </button>
+                            </button> -->
                         </div>
                     </div>
                     <div class="row">
@@ -369,10 +369,10 @@
                             <option *ngFor="let item of pdMacroeconomicVariables" [value]="item.value">{{item.name}}</option>
                         </select>
                         <div *ngIf="!viewOnly" class="col-lg-4 col-xl-5">
-                            <button (click)="uploadSnP()" class="btn btn-outline-primary pull-right">
+                            <!-- <button (click)="uploadSnP()" class="btn btn-outline-primary pull-right">
                                 <i class="fa fa-upload" style="font-size: 1.2rem !important;"></i>
                                 {{l("Upload")}}
-                            </button>
+                            </button> -->
                         </div>
                     </div>
                     <div class="row">
