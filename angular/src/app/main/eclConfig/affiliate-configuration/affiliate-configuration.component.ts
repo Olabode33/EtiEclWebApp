@@ -1,3 +1,4 @@
+import { CreateOrEditAffiliateDto } from './../../../../shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
@@ -43,8 +44,20 @@ export class AffiliateConfigurationComponent extends AppComponentBase implements
     ngOnInit() {
     }
 
-    applyOverride(){
-        
+    applyOverride() {
+        if (this.selectedAffiliate) {
+            if (this.selectedAffiliate.affiliateConfiguration) {
+                let c = new CreateOrEditAffiliateDto();
+                c.currency = this.selectedAffiliate.affiliateConfiguration.currency;
+                c.overrideThreshold = this.selectedAffiliate.affiliateConfiguration.overrideThreshold;
+                c.displayName = this.selectedAffiliate.affiliateConfiguration.affiliateName;
+                c.id = this.selectedAffiliate.affiliateConfiguration.id;
+
+                this._affiliateConfigServiceProxy.createOrEdit(c).subscribe(() => {
+                    this.notify.success(this.l('SavedSuccessfully'));
+                });
+            }
+        }
     }
 
     getAffiliates(event?: LazyLoadEvent) {

@@ -84,7 +84,7 @@ namespace TestDemo.EclShared.Importing
             _localizationSource = localizationManager.GetSource(TestDemoConsts.LocalizationSourceName);
         }
 
-        //[UnitOfWork]
+        [UnitOfWork]
         public override void Execute(CopyAffiliateAssumptionJobArgs args)
         {
             var input = new CopyAffiliateDto
@@ -92,29 +92,41 @@ namespace TestDemo.EclShared.Importing
                 FromAffiliateId = args.FromAffiliateId,
                 ToAffiliateId = args.ToAffiliateId
             };
-
-            CopyAffiliateAssumptions(input);
+            CopyAffiliateAssumptions(args);
             SendCopyCompleteNotification(args);
         }
 
-        private void CopyAffiliateAssumptions(CopyAffiliateDto input)
+        private void CopyAffiliateAssumptions(CopyAffiliateAssumptionJobArgs input)
         {
              CopyReportingDate(input);
+                CurrentUnitOfWork.SaveChanges();
              CopyFrameworkAssumption(input);
-             CopyEadInputAssumption(input);
-             CopyLgdInputAssumption(input);
-             CopyPdInputAssumption(input);
-             CopyPdMacroInputAssumption(input);
-             CopyPdMacroProjectAssumption(input);
-             CopyPdNonInternalModelAssumption(input);
-             CopyPdNplAssumption(input);
-             CopyPdSnpAssumption(input);
-             CopyInvesPdMacroAssumption(input);
-             CopyPdFitchAssumption(input);
-             CopyMacroVariables(input);
+            CurrentUnitOfWork.SaveChanges();
+            CopyEadInputAssumption(input);
+            CurrentUnitOfWork.SaveChanges();
+            CopyLgdInputAssumption(input);
+            CurrentUnitOfWork.SaveChanges();
+            CopyPdInputAssumption(input);
+            CurrentUnitOfWork.SaveChanges();
+            CopyPdMacroInputAssumption(input);
+            CurrentUnitOfWork.SaveChanges();
+            CopyPdMacroProjectAssumption(input);
+            CurrentUnitOfWork.SaveChanges();
+            CopyPdNonInternalModelAssumption(input);
+            CurrentUnitOfWork.SaveChanges();
+            CopyPdNplAssumption(input);
+            CurrentUnitOfWork.SaveChanges();
+            CopyPdSnpAssumption(input);
+            CurrentUnitOfWork.SaveChanges();
+            CopyInvesPdMacroAssumption(input);
+            CurrentUnitOfWork.SaveChanges();
+            CopyPdFitchAssumption(input);
+            CurrentUnitOfWork.SaveChanges();
+            CopyMacroVariables(input);
+            CurrentUnitOfWork.SaveChanges();
         }
 
-        private void CopyReportingDate(CopyAffiliateDto input)
+        private void CopyReportingDate(CopyAffiliateAssumptionJobArgs input)
         {
             var from =  _affiliateAssumptions.FirstOrDefault(e => e.OrganizationUnitId == input.FromAffiliateId);
             var to =  _affiliateAssumptions.FirstOrDefault(e => e.OrganizationUnitId == input.ToAffiliateId);
@@ -144,7 +156,7 @@ namespace TestDemo.EclShared.Importing
                  _affiliateAssumptions.Update(to);
             }
         }
-        private void CopyFrameworkAssumption(CopyAffiliateDto input)
+        private void CopyFrameworkAssumption(CopyAffiliateAssumptionJobArgs input)
         {
             var assumptions =  _frameworkAssumptionRepository.GetAll()
                                     .Where(x => x.OrganizationUnitId == input.FromAffiliateId)
@@ -168,7 +180,10 @@ namespace TestDemo.EclShared.Importing
                         CanAffiliateEdit = assumption.CanAffiliateEdit,
                         OrganizationUnitId = input.ToAffiliateId,
                         Status = assumption.Status,
-                        Framework = assumption.Framework
+                        Framework = assumption.Framework,
+                        LastModificationTime = DateTime.Now,
+                        LastModifierUserId = input.User.UserId,
+                        CreatorUserId = input.User.UserId
                     });
                 }
             }
@@ -177,7 +192,7 @@ namespace TestDemo.EclShared.Importing
                 throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
             }
         }
-        private void CopyEadInputAssumption(CopyAffiliateDto input)
+        private void CopyEadInputAssumption(CopyAffiliateAssumptionJobArgs input)
         {
             var assumptions =  _eadAssumptionRepository.GetAll()
                                     .Where(x => x.OrganizationUnitId == input.FromAffiliateId)
@@ -201,8 +216,11 @@ namespace TestDemo.EclShared.Importing
                         RequiresGroupApproval = assumption.RequiresGroupApproval,
                         Status = assumption.Status,
                         OrganizationUnitId = input.ToAffiliateId,
-                        Framework = assumption.Framework
-                    });
+                        Framework = assumption.Framework,
+                         LastModificationTime = DateTime.Now,
+                         LastModifierUserId = input.User.UserId,
+                         CreatorUserId = input.User.UserId
+                     });
                 }
             }
             else
@@ -210,7 +228,7 @@ namespace TestDemo.EclShared.Importing
                 throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
             }
         }
-        private void CopyLgdInputAssumption(CopyAffiliateDto input)
+        private void CopyLgdInputAssumption(CopyAffiliateAssumptionJobArgs input)
         {
             var assumptions =  _lgdAssumptionRepository.GetAll()
                                     .Where(x => x.OrganizationUnitId == input.FromAffiliateId)
@@ -234,8 +252,11 @@ namespace TestDemo.EclShared.Importing
                         CanAffiliateEdit = assumption.CanAffiliateEdit,
                         OrganizationUnitId = input.ToAffiliateId,
                         Status = assumption.Status,
-                        Framework = assumption.Framework
-                    });
+                        Framework = assumption.Framework,
+                         LastModificationTime = DateTime.Now,
+                         LastModifierUserId = input.User.UserId,
+                         CreatorUserId = input.User.UserId
+                     });
                 }
             }
             else
@@ -244,7 +265,7 @@ namespace TestDemo.EclShared.Importing
             }
 
         }
-        private void CopyPdInputAssumption(CopyAffiliateDto input)
+        private void CopyPdInputAssumption(CopyAffiliateAssumptionJobArgs input)
         {
             var assumptions =  _pdAssumptionRepository.GetAll()
                                     .Where(x => x.OrganizationUnitId == input.FromAffiliateId)
@@ -268,8 +289,11 @@ namespace TestDemo.EclShared.Importing
                         CanAffiliateEdit = assumption.CanAffiliateEdit,
                         OrganizationUnitId = input.ToAffiliateId,
                         Status = assumption.Status,
-                        Framework = assumption.Framework
-                    });
+                        Framework = assumption.Framework,
+                         LastModificationTime = DateTime.Now,
+                         LastModifierUserId = input.User.UserId,
+                         CreatorUserId = input.User.UserId
+                     });
                 }
             }
             else
@@ -278,7 +302,7 @@ namespace TestDemo.EclShared.Importing
             }
 
         }
-        private void CopyPdMacroInputAssumption(CopyAffiliateDto input)
+        private void CopyPdMacroInputAssumption(CopyAffiliateAssumptionJobArgs input)
         {
             var assumptions =  _pdAssumptionMacroEcoInputRepository.GetAll()
                                     .Where(x => x.OrganizationUnitId == input.FromAffiliateId)
@@ -301,8 +325,11 @@ namespace TestDemo.EclShared.Importing
                         CanAffiliateEdit = assumption.CanAffiliateEdit,
                         OrganizationUnitId = input.ToAffiliateId,
                         Status = assumption.Status,
-                        Framework = assumption.Framework
-                    });
+                        Framework = assumption.Framework,
+                         LastModificationTime = DateTime.Now,
+                         LastModifierUserId = input.User.UserId,
+                         CreatorUserId = input.User.UserId
+                     });
                 }
             }
             else
@@ -311,7 +338,7 @@ namespace TestDemo.EclShared.Importing
             }
 
         }
-        private void CopyPdMacroProjectAssumption(CopyAffiliateDto input)
+        private void CopyPdMacroProjectAssumption(CopyAffiliateAssumptionJobArgs input)
         {
             var assumptions =  _pdAssumptionMacroecoProjectionRepository.GetAll()
                                     .Where(x => x.OrganizationUnitId == input.FromAffiliateId)
@@ -337,8 +364,11 @@ namespace TestDemo.EclShared.Importing
                         OrganizationUnitId = input.ToAffiliateId,
                         Status = assumption.Status,
                         Framework = assumption.Framework,
-                        RequiresGroupApproval = assumption.RequiresGroupApproval
-                    });
+                        RequiresGroupApproval = assumption.RequiresGroupApproval,
+                         LastModificationTime = DateTime.Now,
+                         LastModifierUserId = input.User.UserId,
+                         CreatorUserId = input.User.UserId
+                     });
                 }
             }
             else
@@ -347,7 +377,7 @@ namespace TestDemo.EclShared.Importing
             }
 
         }
-        private void CopyPdNonInternalModelAssumption(CopyAffiliateDto input)
+        private void CopyPdNonInternalModelAssumption(CopyAffiliateAssumptionJobArgs input)
         {
             var assumptions =  _pdAssumptionNonInternalModelRepository.GetAll()
                                     .Where(x => x.OrganizationUnitId == input.FromAffiliateId)
@@ -371,8 +401,11 @@ namespace TestDemo.EclShared.Importing
                         CanAffiliateEdit = assumption.CanAffiliateEdit,
                         OrganizationUnitId = input.ToAffiliateId,
                         Status = assumption.Status,
-                        Framework = assumption.Framework
-                    });
+                        Framework = assumption.Framework,
+                         LastModificationTime = DateTime.Now,
+                         LastModifierUserId = input.User.UserId,
+                         CreatorUserId = input.User.UserId
+                     });
                 }
             }
             else
@@ -381,7 +414,7 @@ namespace TestDemo.EclShared.Importing
             }
 
         }
-        private void CopyPdNplAssumption(CopyAffiliateDto input)
+        private void CopyPdNplAssumption(CopyAffiliateAssumptionJobArgs input)
         {
             var assumptions =  _pdAssumptionNplIndexRepository.GetAll()
                                     .Where(x => x.OrganizationUnitId == input.FromAffiliateId)
@@ -405,8 +438,11 @@ namespace TestDemo.EclShared.Importing
                         CanAffiliateEdit = assumption.CanAffiliateEdit,
                         OrganizationUnitId = input.ToAffiliateId,
                         Status = assumption.Status,
-                        Framework = assumption.Framework
-                    });
+                        Framework = assumption.Framework,
+                         LastModificationTime = DateTime.Now,
+                         LastModifierUserId = input.User.UserId,
+                         CreatorUserId = input.User.UserId
+                     });
                 }
             }
             else
@@ -415,7 +451,7 @@ namespace TestDemo.EclShared.Importing
             }
 
         }
-        private void CopyPdSnpAssumption(CopyAffiliateDto input)
+        private void CopyPdSnpAssumption(CopyAffiliateAssumptionJobArgs input)
         {
             var assumptions =  _pdSnPCummulativeAssumptionRepository.GetAll()
                                     .Where(x => x.OrganizationUnitId == input.FromAffiliateId)
@@ -436,8 +472,11 @@ namespace TestDemo.EclShared.Importing
                         RequiresGroupApproval = assumption.RequiresGroupApproval,
                         Status = assumption.Status,
                         OrganizationUnitId = input.ToAffiliateId,
-                        Framework = assumption.Framework
-                    });
+                        Framework = assumption.Framework,
+                         LastModificationTime = DateTime.Now,
+                         LastModifierUserId = input.User.UserId,
+                         CreatorUserId = input.User.UserId
+                     });
                 }
             }
             else
@@ -446,7 +485,7 @@ namespace TestDemo.EclShared.Importing
             }
 
         }
-        private void CopyInvesPdMacroAssumption(CopyAffiliateDto input)
+        private void CopyInvesPdMacroAssumption(CopyAffiliateAssumptionJobArgs input)
         {
             var assumptions =  _invsecMacroEcoAssumptionRepository.GetAll()
                                     .Where(x => x.OrganizationUnitId == input.FromAffiliateId)
@@ -468,8 +507,11 @@ namespace TestDemo.EclShared.Importing
                         RequiresGroupApproval = assumption.RequiresGroupApproval,
                         CanAffiliateEdit = assumption.CanAffiliateEdit,
                         Status = assumption.Status,
-                        OrganizationUnitId = input.ToAffiliateId
-                    });
+                        OrganizationUnitId = input.ToAffiliateId,
+                         LastModificationTime = DateTime.Now,
+                         LastModifierUserId = input.User.UserId,
+                         CreatorUserId = input.User.UserId
+                     });
                 }
             }
             else
@@ -478,7 +520,7 @@ namespace TestDemo.EclShared.Importing
             }
 
         }
-        private void CopyPdFitchAssumption(CopyAffiliateDto input)
+        private void CopyPdFitchAssumption(CopyAffiliateAssumptionJobArgs input)
         {
             var assumptions =  _invsecFitchCummulativeAssumptionRepository.GetAll()
                                     .Where(x => x.OrganizationUnitId == input.FromAffiliateId)
@@ -498,8 +540,11 @@ namespace TestDemo.EclShared.Importing
                         Value = assumption.Value,
                         RequiresGroupApproval = assumption.RequiresGroupApproval,
                         Status = assumption.Status,
-                        OrganizationUnitId = input.ToAffiliateId
-                    });
+                        OrganizationUnitId = input.ToAffiliateId,
+                         LastModificationTime = DateTime.Now,
+                         LastModifierUserId = input.User.UserId,
+                         CreatorUserId = input.User.UserId
+                     });
                 }
             }
             else
@@ -507,7 +552,7 @@ namespace TestDemo.EclShared.Importing
                 throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
             }
         }
-        private void CopyMacroVariables(CopyAffiliateDto input)
+        private void CopyMacroVariables(CopyAffiliateAssumptionJobArgs input)
         {
             var from =  _affiliateMacroVariableRepository.GetAll()
                                     .Where(x => x.AffiliateId == input.FromAffiliateId)
@@ -524,7 +569,7 @@ namespace TestDemo.EclShared.Importing
                         AffiliateId = input.ToAffiliateId,
                         BackwardOffset = item.BackwardOffset,
                         MacroeconomicVariableId = item.MacroeconomicVariableId
-                    });
+                     });
                 }
             }
         }

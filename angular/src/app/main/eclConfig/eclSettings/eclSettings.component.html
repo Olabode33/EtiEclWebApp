@@ -55,7 +55,7 @@
                             </div>
                         </div>
                     </tab>
-                    <tab heading="{{'InputMethod' | localize}}">
+                    <tab *ngIf="false" heading="{{'InputMethod' | localize}}">
                         <div class="">
                             <div class="kt-portlet__body">
                                 <div class="kt-callout__body">
@@ -239,11 +239,11 @@
                             </div>
                         </div>
                     </tab>
-                    <tab *ngIf="true" heading="{{'Report Settings' | localize}}">
+                    <tab *ngIf="true" heading="{{'Dashboard' | localize}}">
                         <div class="form-group">
                             <label for="ReportURL"> Power BI Report URL </label>
-                            <!-- <input id="ReportUrl" type="text" name="reportUrl" class="form-control"
-                                [(ngModel)]="eclSettings.powerBiReportUrl" > -->
+                            <input id="ReportUrl" type="text" name="reportUrl" class="form-control"
+                                [(ngModel)]="eclSettings.powerBiReportUrl" >
                         </div>
                     </tab>
                 </tabset>

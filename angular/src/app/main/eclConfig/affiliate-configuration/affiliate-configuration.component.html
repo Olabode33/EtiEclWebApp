@@ -56,10 +56,10 @@
                                                 {{l('Affiliate')}}
                                                 <p-sortIcon field="displayName"></p-sortIcon>
                                             </th>
-                                            <th style="width: 150px" pSortableColumn="displayName">
+                                            <!-- <th style="width: 150px" pSortableColumn="displayName">
                                                 {{l('Currency')}}
                                                 <p-sortIcon field="displayName"></p-sortIcon>
-                                            </th>
+                                            </th> -->
                                         </tr>
                                     </ng-template>
                                     <ng-template pTemplate="body" let-record="$implicit">
@@ -68,10 +68,10 @@
                                                 <span class="ui-column-title"> {{l('InputName')}}</span>
                                                 {{record.affiliateConfiguration.affiliateName}}
                                             </td>
-                                            <td style="width:150px">
+                                            <!-- <td style="width:150px">
                                                 <span class="ui-column-title"> {{l('InputName')}}</span>
                                                 {{record.affiliateConfiguration.currency}}
-                                            </td>
+                                            </td> -->
                                         </tr>
                                     </ng-template>
                                 </p-table>
@@ -133,8 +133,26 @@
                                     </div>
                                 </div>
                             </tab>
-                            <tab heading="{{'MacroeconomicVariables' | localize}}">
-                                
+                            <tab heading="{{'Currency' | localize}}">
+                                <div class="">
+                                    <div class="kt-portlet__body">
+                                        <div class="kt-callout__body">
+                                            <div class="kt-callout__content">
+                                                <h3 class="kt-callout__title">
+                                                    {{l('Currency')}}
+                                                </h3>
+                                                <p class="kt-callout__desc">
+                                                    {{l('CurrencyInfo')}}
+                                                </p>
+                                            </div>
+                                            <div class="kt-callout__action">
+                                                <div class="form-group">
+                                                    <input class="form-control col-lg-5" type="text" [(ngModel)]="selectedAffiliate.affiliateConfiguration.currency" >
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </tab>
                         </tabset>
                     </div>

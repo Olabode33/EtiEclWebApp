@@ -1,11 +1,12 @@
 import { AfterViewInit, Component, Injector, ViewEncapsulation } from '@angular/core';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { TenantDashboardServiceProxy, SalesSummaryDatePeriod } from '@shared/service-proxies/service-proxies';
+import { TenantDashboardServiceProxy } from '@shared/service-proxies/service-proxies';
 import { curveBasis } from 'd3-shape';
 
 import * as _ from 'lodash';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
+import { finalize } from 'rxjs/operators';
 
 
 @Component({
@@ -33,11 +34,11 @@ export class DashboardComponent extends AppComponentBase implements AfterViewIni
 
     getDashboardUrl(): void {
         this.loading = true;
-        // this._dashboardService.getPowerBiDashboardUrl()
-        //     .pipe(finalize(() => { this.loading = false; }))
-        //     .subscribe(result => {
-        //         this.getSafeResourceUrl(result);
-        //     });
+        this._dashboardService.getPowerBiDashboardUrl()
+            .pipe(finalize(() => { this.loading = false; }))
+            .subscribe(result => {
+                this.getSafeResourceUrl(result);
+            });
     }
 
     getSafeResourceUrl(urlString: any)  {
