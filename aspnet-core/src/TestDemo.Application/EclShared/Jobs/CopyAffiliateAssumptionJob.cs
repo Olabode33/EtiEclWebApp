@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using TestDemo.AffiliateMacroEconomicVariable;
 using TestDemo.Calibration;
 using TestDemo.CalibrationInput;
@@ -94,35 +93,35 @@ namespace TestDemo.EclShared.Importing
                 ToAffiliateId = args.ToAffiliateId
             };
 
-            AsyncHelper.RunSync(() => CopyAffiliateAssumptions(input));
+            CopyAffiliateAssumptions(input);
             SendCopyCompleteNotification(args);
         }
 
-        private async Task CopyAffiliateAssumptions(CopyAffiliateDto input)
+        private void CopyAffiliateAssumptions(CopyAffiliateDto input)
         {
-            await CopyReportingDate(input);
-            await CopyFrameworkAssumption(input);
-            await CopyEadInputAssumption(input);
-            await CopyLgdInputAssumption(input);
-            await CopyPdInputAssumption(input);
-            await CopyPdMacroInputAssumption(input);
-            await CopyPdMacroProjectAssumption(input);
-            await CopyPdNonInternalModelAssumption(input);
-            await CopyPdNplAssumption(input);
-            await CopyPdSnpAssumption(input);
-            await CopyInvesPdMacroAssumption(input);
-            await CopyPdFitchAssumption(input);
-            await CopyMacroVariables(input);
+             CopyReportingDate(input);
+             CopyFrameworkAssumption(input);
+             CopyEadInputAssumption(input);
+             CopyLgdInputAssumption(input);
+             CopyPdInputAssumption(input);
+             CopyPdMacroInputAssumption(input);
+             CopyPdMacroProjectAssumption(input);
+             CopyPdNonInternalModelAssumption(input);
+             CopyPdNplAssumption(input);
+             CopyPdSnpAssumption(input);
+             CopyInvesPdMacroAssumption(input);
+             CopyPdFitchAssumption(input);
+             CopyMacroVariables(input);
         }
 
-        private async Task CopyReportingDate(CopyAffiliateDto input)
+        private void CopyReportingDate(CopyAffiliateDto input)
         {
-            var from = await _affiliateAssumptions.FirstOrDefaultAsync(e => e.OrganizationUnitId == input.FromAffiliateId);
-            var to = await _affiliateAssumptions.FirstOrDefaultAsync(e => e.OrganizationUnitId == input.ToAffiliateId);
+            var from =  _affiliateAssumptions.FirstOrDefault(e => e.OrganizationUnitId == input.FromAffiliateId);
+            var to =  _affiliateAssumptions.FirstOrDefault(e => e.OrganizationUnitId == input.ToAffiliateId);
 
             if (to == null)
             {
-                await _affiliateAssumptions.InsertAsync(new AffiliateAssumption
+                 _affiliateAssumptions.Insert(new AffiliateAssumption
                 {
                     OrganizationUnitId = input.ToAffiliateId,
                     LastAssumptionUpdate = from.LastAssumptionUpdate,
@@ -142,22 +141,22 @@ namespace TestDemo.EclShared.Importing
                 to.LastSecuritiesReportingDate = from.LastSecuritiesReportingDate;
                 to.Status = from.Status;
 
-                await _affiliateAssumptions.UpdateAsync(to);
+                 _affiliateAssumptions.Update(to);
             }
         }
-        private async Task CopyFrameworkAssumption(CopyAffiliateDto input)
+        private void CopyFrameworkAssumption(CopyAffiliateDto input)
         {
-            var assumptions = await _frameworkAssumptionRepository.GetAll()
+            var assumptions =  _frameworkAssumptionRepository.GetAll()
                                     .Where(x => x.OrganizationUnitId == input.FromAffiliateId)
-                                    .ToListAsync();
+                                    .ToList();
 
             if (assumptions.Count > 0)
             {
-                await _frameworkAssumptionRepository.HardDeleteAsync(x => x.OrganizationUnitId == input.ToAffiliateId);
+                 _frameworkAssumptionRepository.HardDelete(x => x.OrganizationUnitId == input.ToAffiliateId);
 
                 foreach (var assumption in assumptions)
                 {
-                    await _frameworkAssumptionRepository.InsertAsync(new Assumption()
+                     _frameworkAssumptionRepository.Insert(new Assumption()
                     {
                         AssumptionGroup = assumption.AssumptionGroup,
                         Key = assumption.Key,
@@ -178,19 +177,19 @@ namespace TestDemo.EclShared.Importing
                 throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
             }
         }
-        private async Task CopyEadInputAssumption(CopyAffiliateDto input)
+        private void CopyEadInputAssumption(CopyAffiliateDto input)
         {
-            var assumptions = await _eadAssumptionRepository.GetAll()
+            var assumptions =  _eadAssumptionRepository.GetAll()
                                     .Where(x => x.OrganizationUnitId == input.FromAffiliateId)
-                                    .ToListAsync();
+                                    .ToList();
 
             if (assumptions.Count > 0)
             {
-                await _eadAssumptionRepository.HardDeleteAsync(x => x.OrganizationUnitId == input.ToAffiliateId);
+                 _eadAssumptionRepository.HardDelete(x => x.OrganizationUnitId == input.ToAffiliateId);
 
                 foreach (var assumption in assumptions)
                 {
-                    await _eadAssumptionRepository.InsertAsync(new EadInputAssumption()
+                     _eadAssumptionRepository.Insert(new EadInputAssumption()
                     {
                         EadGroup = assumption.EadGroup,
                         Key = assumption.Key,
@@ -211,19 +210,19 @@ namespace TestDemo.EclShared.Importing
                 throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
             }
         }
-        private async Task CopyLgdInputAssumption(CopyAffiliateDto input)
+        private void CopyLgdInputAssumption(CopyAffiliateDto input)
         {
-            var assumptions = await _lgdAssumptionRepository.GetAll()
+            var assumptions =  _lgdAssumptionRepository.GetAll()
                                     .Where(x => x.OrganizationUnitId == input.FromAffiliateId)
-                                    .ToListAsync();
+                                    .ToList();
 
             if (assumptions.Count > 0)
             {
-                await _lgdAssumptionRepository.HardDeleteAsync(x => x.OrganizationUnitId == input.ToAffiliateId);
+                 _lgdAssumptionRepository.HardDelete(x => x.OrganizationUnitId == input.ToAffiliateId);
 
                 foreach (var assumption in assumptions)
                 {
-                    await _lgdAssumptionRepository.InsertAsync(new LgdInputAssumption()
+                     _lgdAssumptionRepository.Insert(new LgdInputAssumption()
                     {
                         LgdGroup = assumption.LgdGroup,
                         Key = assumption.Key,
@@ -245,19 +244,19 @@ namespace TestDemo.EclShared.Importing
             }
 
         }
-        private async Task CopyPdInputAssumption(CopyAffiliateDto input)
+        private void CopyPdInputAssumption(CopyAffiliateDto input)
         {
-            var assumptions = await _pdAssumptionRepository.GetAll()
+            var assumptions =  _pdAssumptionRepository.GetAll()
                                     .Where(x => x.OrganizationUnitId == input.FromAffiliateId)
-                                    .ToListAsync();
+                                    .ToList();
 
             if (assumptions.Count > 0)
             {
-                await _pdAssumptionRepository.HardDeleteAsync(x => x.OrganizationUnitId == input.ToAffiliateId);
+                 _pdAssumptionRepository.HardDelete(x => x.OrganizationUnitId == input.ToAffiliateId);
 
                 foreach (var assumption in assumptions)
                 {
-                    await _pdAssumptionRepository.InsertAsync(new PdInputAssumption()
+                     _pdAssumptionRepository.Insert(new PdInputAssumption()
                     {
                         PdGroup = assumption.PdGroup,
                         Key = assumption.Key,
@@ -279,19 +278,19 @@ namespace TestDemo.EclShared.Importing
             }
 
         }
-        private async Task CopyPdMacroInputAssumption(CopyAffiliateDto input)
+        private void CopyPdMacroInputAssumption(CopyAffiliateDto input)
         {
-            var assumptions = await _pdAssumptionMacroEcoInputRepository.GetAll()
+            var assumptions =  _pdAssumptionMacroEcoInputRepository.GetAll()
                                     .Where(x => x.OrganizationUnitId == input.FromAffiliateId)
-                                    .ToListAsync();
+                                    .ToList();
 
             if (assumptions.Count > 0)
             {
-                await _pdAssumptionMacroEcoInputRepository.HardDeleteAsync(x => x.OrganizationUnitId == input.ToAffiliateId);
+                 _pdAssumptionMacroEcoInputRepository.HardDelete(x => x.OrganizationUnitId == input.ToAffiliateId);
 
                 foreach (var assumption in assumptions)
                 {
-                    await _pdAssumptionMacroEcoInputRepository.InsertAsync(new PdInputAssumptionMacroeconomicInput()
+                     _pdAssumptionMacroEcoInputRepository.Insert(new PdInputAssumptionMacroeconomicInput()
                     {
                         MacroeconomicVariableId = assumption.MacroeconomicVariableId,
                         Key = assumption.Key,
@@ -312,19 +311,19 @@ namespace TestDemo.EclShared.Importing
             }
 
         }
-        private async Task CopyPdMacroProjectAssumption(CopyAffiliateDto input)
+        private void CopyPdMacroProjectAssumption(CopyAffiliateDto input)
         {
-            var assumptions = await _pdAssumptionMacroecoProjectionRepository.GetAll()
+            var assumptions =  _pdAssumptionMacroecoProjectionRepository.GetAll()
                                     .Where(x => x.OrganizationUnitId == input.FromAffiliateId)
-                                    .ToListAsync();
+                                    .ToList();
 
             if (assumptions.Count > 0)
             {
-                await _pdAssumptionMacroecoProjectionRepository.HardDeleteAsync(x => x.OrganizationUnitId == input.ToAffiliateId);
+                 _pdAssumptionMacroecoProjectionRepository.HardDelete(x => x.OrganizationUnitId == input.ToAffiliateId);
 
                 foreach (var assumption in assumptions)
                 {
-                    await _pdAssumptionMacroecoProjectionRepository.InsertAsync(new PdInputAssumptionMacroeconomicProjection()
+                     _pdAssumptionMacroecoProjectionRepository.Insert(new PdInputAssumptionMacroeconomicProjection()
                     {
                         MacroeconomicVariableId = assumption.MacroeconomicVariableId,
                         Key = assumption.Key,
@@ -348,19 +347,19 @@ namespace TestDemo.EclShared.Importing
             }
 
         }
-        private async Task CopyPdNonInternalModelAssumption(CopyAffiliateDto input)
+        private void CopyPdNonInternalModelAssumption(CopyAffiliateDto input)
         {
-            var assumptions = await _pdAssumptionNonInternalModelRepository.GetAll()
+            var assumptions =  _pdAssumptionNonInternalModelRepository.GetAll()
                                     .Where(x => x.OrganizationUnitId == input.FromAffiliateId)
-                                    .ToListAsync();
+                                    .ToList();
 
             if (assumptions.Count > 0)
             {
-                await _pdAssumptionNonInternalModelRepository.HardDeleteAsync(x => x.OrganizationUnitId == input.ToAffiliateId);
+                 _pdAssumptionNonInternalModelRepository.HardDelete(x => x.OrganizationUnitId == input.ToAffiliateId);
 
                 foreach (var assumption in assumptions)
                 {
-                    await _pdAssumptionNonInternalModelRepository.InsertAsync(new PdInputAssumptionNonInternalModel()
+                     _pdAssumptionNonInternalModelRepository.Insert(new PdInputAssumptionNonInternalModel()
                     {
                         PdGroup = assumption.PdGroup,
                         Key = assumption.Key,
@@ -382,19 +381,19 @@ namespace TestDemo.EclShared.Importing
             }
 
         }
-        private async Task CopyPdNplAssumption(CopyAffiliateDto input)
+        private void CopyPdNplAssumption(CopyAffiliateDto input)
         {
-            var assumptions = await _pdAssumptionNplIndexRepository.GetAll()
+            var assumptions =  _pdAssumptionNplIndexRepository.GetAll()
                                     .Where(x => x.OrganizationUnitId == input.FromAffiliateId)
-                                    .ToListAsync();
+                                    .ToList();
 
             if (assumptions.Count > 0)
             {
-                await _pdAssumptionNplIndexRepository.HardDeleteAsync(x => x.OrganizationUnitId == input.ToAffiliateId);
+                 _pdAssumptionNplIndexRepository.HardDelete(x => x.OrganizationUnitId == input.ToAffiliateId);
 
                 foreach (var assumption in assumptions)
                 {
-                    await _pdAssumptionNplIndexRepository.InsertAsync(new PdInputAssumptionNplIndex()
+                     _pdAssumptionNplIndexRepository.Insert(new PdInputAssumptionNplIndex()
                     {
                         Date = assumption.Date,
                         Key = assumption.Key,
@@ -416,19 +415,19 @@ namespace TestDemo.EclShared.Importing
             }
 
         }
-        private async Task CopyPdSnpAssumption(CopyAffiliateDto input)
+        private void CopyPdSnpAssumption(CopyAffiliateDto input)
         {
-            var assumptions = await _pdSnPCummulativeAssumptionRepository.GetAll()
+            var assumptions =  _pdSnPCummulativeAssumptionRepository.GetAll()
                                     .Where(x => x.OrganizationUnitId == input.FromAffiliateId)
-                                    .ToListAsync();
+                                    .ToList();
 
             if (assumptions.Count > 0)
             {
-                await _pdSnPCummulativeAssumptionRepository.HardDeleteAsync(x => x.OrganizationUnitId == input.ToAffiliateId);
+                 _pdSnPCummulativeAssumptionRepository.HardDelete(x => x.OrganizationUnitId == input.ToAffiliateId);
 
                 foreach (var assumption in assumptions)
                 {
-                    await _pdSnPCummulativeAssumptionRepository.InsertAsync(new PdInputAssumptionSnPCummulativeDefaultRate()
+                     _pdSnPCummulativeAssumptionRepository.Insert(new PdInputAssumptionSnPCummulativeDefaultRate()
                     {
                         Rating = assumption.Rating,
                         Key = assumption.Key,
@@ -447,19 +446,19 @@ namespace TestDemo.EclShared.Importing
             }
 
         }
-        private async Task CopyInvesPdMacroAssumption(CopyAffiliateDto input)
+        private void CopyInvesPdMacroAssumption(CopyAffiliateDto input)
         {
-            var assumptions = await _invsecMacroEcoAssumptionRepository.GetAll()
+            var assumptions =  _invsecMacroEcoAssumptionRepository.GetAll()
                                     .Where(x => x.OrganizationUnitId == input.FromAffiliateId)
-                                    .ToListAsync();
+                                    .ToList();
 
             if (assumptions.Count > 0)
             {
-                await _invsecMacroEcoAssumptionRepository.HardDeleteAsync(x => x.OrganizationUnitId == input.ToAffiliateId);
+                 _invsecMacroEcoAssumptionRepository.HardDelete(x => x.OrganizationUnitId == input.ToAffiliateId);
 
                 foreach (var assumption in assumptions)
                 {
-                    await _invsecMacroEcoAssumptionRepository.InsertAsync(new InvSecMacroEconomicAssumption()
+                     _invsecMacroEcoAssumptionRepository.Insert(new InvSecMacroEconomicAssumption()
                     {
                         Key = assumption.Key,
                         Month = assumption.Month,
@@ -479,19 +478,19 @@ namespace TestDemo.EclShared.Importing
             }
 
         }
-        private async Task CopyPdFitchAssumption(CopyAffiliateDto input)
+        private void CopyPdFitchAssumption(CopyAffiliateDto input)
         {
-            var assumptions = await _invsecFitchCummulativeAssumptionRepository.GetAll()
+            var assumptions =  _invsecFitchCummulativeAssumptionRepository.GetAll()
                                     .Where(x => x.OrganizationUnitId == input.FromAffiliateId)
-                                    .ToListAsync();
+                                    .ToList();
 
             if (assumptions.Count > 0)
             {
-                await _invsecFitchCummulativeAssumptionRepository.HardDeleteAsync(x => x.OrganizationUnitId == input.ToAffiliateId);
+                 _invsecFitchCummulativeAssumptionRepository.HardDelete(x => x.OrganizationUnitId == input.ToAffiliateId);
 
                 foreach (var assumption in assumptions)
                 {
-                    await _invsecFitchCummulativeAssumptionRepository.InsertAsync(new InvSecFitchCummulativeDefaultRate()
+                     _invsecFitchCummulativeAssumptionRepository.Insert(new InvSecFitchCummulativeDefaultRate()
                     {
                         Key = assumption.Key,
                         Rating = assumption.Rating,
@@ -508,19 +507,19 @@ namespace TestDemo.EclShared.Importing
                 throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
             }
         }
-        private async Task CopyMacroVariables(CopyAffiliateDto input)
+        private void CopyMacroVariables(CopyAffiliateDto input)
         {
-            var from = await _affiliateMacroVariableRepository.GetAll()
+            var from =  _affiliateMacroVariableRepository.GetAll()
                                     .Where(x => x.AffiliateId == input.FromAffiliateId)
-                                    .ToListAsync();
+                                    .ToList();
 
             if (from.Count > 0)
             {
-                await _affiliateMacroVariableRepository.DeleteAsync(x => x.AffiliateId == input.ToAffiliateId);
+                 _affiliateMacroVariableRepository.Delete(x => x.AffiliateId == input.ToAffiliateId);
 
                 foreach (var item in from)
                 {
-                    await _affiliateMacroVariableRepository.InsertAsync(new AffiliateMacroEconomicVariableOffset()
+                     _affiliateMacroVariableRepository.Insert(new AffiliateMacroEconomicVariableOffset()
                     {
                         AffiliateId = input.ToAffiliateId,
                         BackwardOffset = item.BackwardOffset,
