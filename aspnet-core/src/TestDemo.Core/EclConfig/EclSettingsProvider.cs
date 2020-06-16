@@ -20,7 +20,8 @@ namespace TestDemo.EclConfig
                 new SettingDefinition(EclSettings.InputSourceUpload.PaymentSchedule.Retail, "false", scopes: SettingScopes.Tenant, isVisibleToClients: true),
                 new SettingDefinition(EclSettings.InputSourceUpload.PaymentSchedule.Obe, "false", scopes: SettingScopes.Tenant, isVisibleToClients: true),
                 new SettingDefinition(EclSettings.InputSourceUpload.AssetBook.Investment, "false", scopes: SettingScopes.Tenant, isVisibleToClients: true),
-                new SettingDefinition(EclSettings.RequiredNoOfApprovals, "2", scopes: SettingScopes.Tenant, isVisibleToClients: true)
+                new SettingDefinition(EclSettings.RequiredNoOfApprovals, "2", scopes: SettingScopes.Tenant, isVisibleToClients: true),
+                new SettingDefinition(EclSettings.PowerBiReportUrl, "", scopes: SettingScopes.Tenant, isVisibleToClients: true)
             };
         }
     }

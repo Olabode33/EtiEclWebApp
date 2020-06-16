@@ -18,6 +18,7 @@ namespace TestDemo.EclConfig
             {
                 OverrideCutOffTime = await SettingManager.GetSettingValueAsync<DateTime>(EclSettings.OverrideCutOffDate),
                 RequiredNumberOfApprovals = await SettingManager.GetSettingValueAsync<int>(EclSettings.RequiredNoOfApprovals),
+                PowerBiReportUrl = await SettingManager.GetSettingValueAsync(EclSettings.PowerBiReportUrl),
                 LoanBookSnapshot = await GetLoanBookSnapshotSettingsAsync(),
                 PaymentSchedule = await GetPaymentScheduleSettingsAsync(),
                 AssetBook = await GetAssetBookSettingsAsync()
@@ -58,6 +59,7 @@ namespace TestDemo.EclConfig
         {
             await SettingManager.ChangeSettingForTenantAsync(AbpSession.GetTenantId(), EclSettings.OverrideCutOffDate, input.OverrideCutOffTime.ToString());
             await SettingManager.ChangeSettingForTenantAsync(AbpSession.GetTenantId(), EclSettings.RequiredNoOfApprovals, input.RequiredNumberOfApprovals.ToString());
+            await SettingManager.ChangeSettingForTenantAsync(AbpSession.GetTenantId(), EclSettings.PowerBiReportUrl, input.PowerBiReportUrl.ToString());
             await UpdateLoanBookSnapshotSettingAsync(input.LoanBookSnapshot);
             await UpdatePaymentScheduleSettingAsync(input.PaymentSchedule);
             await UpdateAssetBookSettingAsync(input.AssetBook);

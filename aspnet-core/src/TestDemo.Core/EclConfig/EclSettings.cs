@@ -8,6 +8,7 @@ namespace TestDemo.EclConfig
     {
         public const string OverrideCutOffDate = "Ecl.OverrideCutOffDate";
         public const string RequiredNoOfApprovals = "Ecl.RequiredNoOfApprovals";
+        public const string PowerBiReportUrl = "Ecl.PowerBiReportUrl";
         public static class InputSourceUpload
         {
             public static class LoanBookSnapshot

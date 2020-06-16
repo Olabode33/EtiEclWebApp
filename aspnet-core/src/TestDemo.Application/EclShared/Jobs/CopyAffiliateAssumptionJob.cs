@@ -84,7 +84,7 @@ namespace TestDemo.EclShared.Importing
             _localizationSource = localizationManager.GetSource(TestDemoConsts.LocalizationSourceName);
         }
 
-        [UnitOfWork]
+        //[UnitOfWork]
         public override void Execute(CopyAffiliateAssumptionJobArgs args)
         {
             var input = new CopyAffiliateDto

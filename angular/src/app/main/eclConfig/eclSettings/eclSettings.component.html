@@ -239,6 +239,13 @@
                             </div>
                         </div>
                     </tab>
+                    <tab *ngIf="true" heading="{{'Report Settings' | localize}}">
+                        <div class="form-group">
+                            <label for="ReportURL"> Power BI Report URL </label>
+                            <!-- <input id="ReportUrl" type="text" name="reportUrl" class="form-control"
+                                [(ngModel)]="eclSettings.powerBiReportUrl" > -->
+                        </div>
+                    </tab>
                 </tabset>
             </div>
         </div>

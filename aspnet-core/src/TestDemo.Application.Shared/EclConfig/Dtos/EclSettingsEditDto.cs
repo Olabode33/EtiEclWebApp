@@ -9,6 +9,7 @@ namespace TestDemo.EclConfig.Dtos
     {
         public DateTime OverrideCutOffTime { get; set; }
         public int RequiredNumberOfApprovals { get; set; }
+        public string PowerBiReportUrl { get; set; }
         public LoanBookSnapshotEditDto LoanBookSnapshot { get; set; }
         public PaymentScheduleEditDto PaymentSchedule { get; set; }
         public AssetBookSettingsEditDto AssetBook { get; set; }
