@@ -38,6 +38,10 @@ using TestDemo.Dto.Ecls;
 using TestDemo.Dto.Approvals;
 using TestDemo.Common.Exporting;
 using TestDemo.Dto.Inputs;
+using TestDemo.EclShared.Emailer;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting;
+using TestDemo.Configuration;
 
 namespace TestDemo.Investment
 {
@@ -64,6 +68,8 @@ namespace TestDemo.Investment
         private readonly IEclSharedAppService _eclSharedAppService;
         private readonly IEclCustomRepository _investmentEclCustomRepository;
         private readonly IEclDataAssetBookExporter _dataExporter;
+        private readonly IEclEngineEmailer _emailer;
+        private readonly IConfigurationRoot _appConfiguration;
 
 
         public InvestmentEclsAppService(IRepository<InvestmentEcl, Guid> investmentEclRepository, 
@@ -83,6 +89,8 @@ namespace TestDemo.Investment
                                         IBackgroundJobManager backgroundJobManager,
                                         IEclCustomRepository investmentEclCustomRepository,
                                         IEclDataAssetBookExporter dataExporter,
+                                        IEclEngineEmailer emailer,
+                                        IHostingEnvironment env,
                                         IEclSharedAppService eclSharedAppService)
         {
             _investmentEclRepository = investmentEclRepository;
@@ -105,6 +113,8 @@ namespace TestDemo.Investment
             _investmentEclCustomRepository = investmentEclCustomRepository;
             _eclSharedAppService = eclSharedAppService;
             _dataExporter = dataExporter;
+            _emailer = emailer;
+            _appConfiguration = env.GetAppConfiguration();
         }
 
         public async Task<PagedResultDto<GetInvestmentEclForViewDto>> GetAll(GetAllInvestmentEclsInput input)
@@ -537,6 +547,7 @@ namespace TestDemo.Investment
                 var ecl = await _investmentEclRepository.FirstOrDefaultAsync((Guid)input.Id);
                 ecl.Status = EclStatusEnum.Submitted;
                 ObjectMapper.Map(ecl, ecl);
+                await SendSubmittedEmail(input.Id);
             }
             else
             {
@@ -565,10 +576,12 @@ namespace TestDemo.Investment
                 if (eclApprovals.Count(x => x.Status == GeneralStatusEnum.Approved) >= requiredApprovals)
                 {
                     ecl.Status = EclStatusEnum.Approved;
+                    await SendApprovedEmail(ecl.Id);
                 }
                 else
                 {
                     ecl.Status = EclStatusEnum.AwaitngAdditionApproval;
+                    await SendAdditionalApprovalEmail(ecl.Id);
                 }
             }
             else
@@ -757,6 +770,54 @@ namespace TestDemo.Investment
                 totalCount,
                 lookupTableDtoList
             );
+        }
+
+        public async Task SendSubmittedEmail(Guid eclId)
+        {
+            var users = await UserManager.GetUsersInRoleAsync("Affiliate Reviewer");
+            if (users.Count > 0)
+            {
+                foreach (var user in users)
+                {
+                    int frameworkId = (int)FrameworkEnum.Investments;
+                    var baseUrl = _appConfiguration["App:ClientRootAddress"];
+                    var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+                    var type = "Investment ECL";
+                    var ecl = _investmentEclRepository.FirstOrDefault((Guid)eclId);
+                    var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
+                    await _emailer.SendEmailSubmittedForApprovalAsync(user, type, ou.DisplayName, link);
+                }
+            }
+        }
+
+        public async Task SendAdditionalApprovalEmail(Guid eclId)
+        {
+            var users = await UserManager.GetUsersInRoleAsync("Affiliate Reviewer");
+            if (users.Count > 0)
+            {
+                foreach (var user in users)
+                {
+                    int frameworkId = (int)FrameworkEnum.Investments;
+                    var baseUrl = _appConfiguration["App:ClientRootAddress"];
+                    var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+                    var type = "Investment ECL";
+                    var ecl = _investmentEclRepository.FirstOrDefault((Guid)eclId);
+                    var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
+                    await _emailer.SendEmailSubmittedForAdditionalApprovalAsync(user, type, ou.DisplayName, link);
+                }
+            }
+        }
+
+        public async Task SendApprovedEmail(Guid eclId)
+        {
+            int frameworkId = (int)FrameworkEnum.Investments;
+            var baseUrl = _appConfiguration["App:ClientRootAddress"];
+            var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+            var type = "Investment ECL";
+            var ecl = _investmentEclRepository.FirstOrDefault((Guid)eclId);
+            var user = _lookup_userRepository.FirstOrDefault(ecl.CreatorUserId == null ? (long)AbpSession.UserId : (long)ecl.CreatorUserId);
+            var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
+            await _emailer.SendEmailApprovedAsync(user, type, ou.DisplayName, link);
         }
     }
 }

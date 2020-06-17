@@ -38,6 +38,10 @@ using TestDemo.EclLibrary.Jobs;
 using TestDemo.EclLibrary.BaseEngine.Dtos;
 using TestDemo.Common.Exporting;
 using TestDemo.Dto.Inputs;
+using TestDemo.EclShared.Emailer;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting;
+using TestDemo.Configuration;
 
 namespace TestDemo.Wholesale
 {
@@ -69,6 +73,8 @@ namespace TestDemo.Wholesale
         private readonly IEclSharedAppService _eclSharedAppService;
         private readonly IEclLoanbookExporter _loanbookExporter;
         private readonly IEclDataPaymentScheduleExporter _paymentScheduleExporter;
+        private readonly IEclEngineEmailer _emailer;
+        private readonly IConfigurationRoot _appConfiguration;
 
 
         public WholesaleEclsAppService(
@@ -94,6 +100,8 @@ namespace TestDemo.Wholesale
             IBackgroundJobManager backgroundJobManager,
             IEclSharedAppService eclSharedAppService,
             IEclLoanbookExporter loanbookExporter,
+            IEclEngineEmailer emailer,
+            IHostingEnvironment env,
             IEclDataPaymentScheduleExporter paymentScheduleExporter
             )
         {
@@ -122,6 +130,8 @@ namespace TestDemo.Wholesale
             _eclSharedAppService = eclSharedAppService;
             _loanbookExporter = loanbookExporter;
             _paymentScheduleExporter = paymentScheduleExporter;
+            _emailer = emailer;
+            _appConfiguration = env.GetAppConfiguration();
         }
 
         public async Task<PagedResultDto<GetWholesaleEclForViewDto>> GetAll(GetAllWholesaleEclsInput input)
@@ -835,6 +845,7 @@ namespace TestDemo.Wholesale
                 var ecl = await _wholesaleEclRepository.FirstOrDefaultAsync((Guid)input.Id);
                 ecl.Status = EclStatusEnum.Submitted;
                 ObjectMapper.Map(ecl, ecl);
+                await SendSubmittedEmail(input.Id);
             }
             else
             {
@@ -864,10 +875,12 @@ namespace TestDemo.Wholesale
                 if (eclApprovals.Count(x => x.Status == GeneralStatusEnum.Approved) >= requiredApprovals)
                 {
                     ecl.Status = EclStatusEnum.Approved;
+                    await SendApprovedEmail(ecl.Id);
                 }
                 else
                 {
                     ecl.Status = EclStatusEnum.AwaitngAdditionApproval;
+                    await SendAdditionalApprovalEmail(ecl.Id);
                 }
             }
             else
@@ -1042,5 +1055,52 @@ namespace TestDemo.Wholesale
             return output;
         }
 
+        public async Task SendSubmittedEmail(Guid eclId)
+        {
+            var users = await UserManager.GetUsersInRoleAsync("Affiliate Reviewer");
+            if (users.Count > 0)
+            {
+                foreach (var user in users)
+                {
+                    int frameworkId = (int)FrameworkEnum.Wholesale;
+                    var baseUrl = _appConfiguration["App:ClientRootAddress"];
+                    var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+                    var type = "Wholesale ECL";
+                    var ecl = _wholesaleEclRepository.FirstOrDefault((Guid)eclId);
+                    var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
+                    await _emailer.SendEmailSubmittedForApprovalAsync(user, type, ou.DisplayName, link);
+                }
+            }
+        }
+
+        public async Task SendAdditionalApprovalEmail(Guid eclId)
+        {
+            var users = await UserManager.GetUsersInRoleAsync("Affiliate Reviewer");
+            if (users.Count > 0)
+            {
+                foreach (var user in users)
+                {
+                    int frameworkId = (int)FrameworkEnum.Wholesale;
+                    var baseUrl = _appConfiguration["App:ClientRootAddress"];
+                    var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+                    var type = "Wholesale ECL";
+                    var ecl = _wholesaleEclRepository.FirstOrDefault((Guid)eclId);
+                    var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
+                    await _emailer.SendEmailSubmittedForAdditionalApprovalAsync(user, type, ou.DisplayName, link);
+                }
+            }
+        }
+
+        public async Task SendApprovedEmail(Guid eclId)
+        {
+            int frameworkId = (int)FrameworkEnum.Wholesale;
+            var baseUrl = _appConfiguration["App:ClientRootAddress"];
+            var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+            var type = "Wholesale ECL";
+            var ecl = _wholesaleEclRepository.FirstOrDefault((Guid)eclId);
+            var user = _lookup_userRepository.FirstOrDefault(ecl.CreatorUserId == null ? (long)AbpSession.UserId : (long)ecl.CreatorUserId);
+            var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
+            await _emailer.SendEmailApprovedAsync(user, type, ou.DisplayName, link);
+        }
     }
 }

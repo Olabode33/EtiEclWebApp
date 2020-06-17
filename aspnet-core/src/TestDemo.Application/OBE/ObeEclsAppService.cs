@@ -35,6 +35,10 @@ using TestDemo.EclLibrary.Jobs;
 using TestDemo.EclLibrary.BaseEngine.Dtos;
 using TestDemo.Common.Exporting;
 using TestDemo.Dto.Inputs;
+using TestDemo.EclShared.Emailer;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting;
+using TestDemo.Configuration;
 
 namespace TestDemo.OBE
 {
@@ -66,6 +70,8 @@ namespace TestDemo.OBE
         private readonly IEclSharedAppService _eclSharedAppService;
         private readonly IEclLoanbookExporter _loanbookExporter;
         private readonly IEclDataPaymentScheduleExporter _paymentScheduleExporter;
+        private readonly IEclEngineEmailer _emailer;
+        private readonly IConfigurationRoot _appConfiguration;
 
 
         public ObeEclsAppService(
@@ -93,7 +99,9 @@ namespace TestDemo.OBE
             IBackgroundJobManager backgroundJobManager,
             IEclSharedAppService eclSharedAppService,
             IEclLoanbookExporter loanbookExporter,
-            IEclDataPaymentScheduleExporter paymentScheduleExporter
+            IEclDataPaymentScheduleExporter paymentScheduleExporter,
+            IEclEngineEmailer emailer,
+            IHostingEnvironment env
             )
         {
             _obeEclRepository = obeEclRepository;
@@ -121,6 +129,8 @@ namespace TestDemo.OBE
             _eclSharedAppService = eclSharedAppService;
             _loanbookExporter = loanbookExporter;
             _paymentScheduleExporter = paymentScheduleExporter;
+            _emailer = emailer;
+            _appConfiguration = env.GetAppConfiguration();
         }
 
         public async Task<PagedResultDto<GetObeEclForViewDto>> GetAll(GetAllObeEclsInput input)
@@ -828,6 +838,7 @@ namespace TestDemo.OBE
                 var ecl = await _obeEclRepository.FirstOrDefaultAsync((Guid)input.Id);
                 ecl.Status = EclStatusEnum.Submitted;
                 ObjectMapper.Map(ecl, ecl);
+                await SendSubmittedEmail(input.Id);
             }
             else
             {
@@ -857,10 +868,12 @@ namespace TestDemo.OBE
                 if (eclApprovals.Count(x => x.Status == GeneralStatusEnum.Approved) >= requiredApprovals)
                 {
                     ecl.Status = EclStatusEnum.Approved;
+                    await SendApprovedEmail(ecl.Id);
                 }
                 else
                 {
                     ecl.Status = EclStatusEnum.AwaitngAdditionApproval;
+                    await SendAdditionalApprovalEmail(ecl.Id);
                 }
             }
             else
@@ -1032,6 +1045,54 @@ namespace TestDemo.OBE
             }
 
             return output;
+        }
+
+        public async Task SendSubmittedEmail(Guid eclId)
+        {
+            var users = await UserManager.GetUsersInRoleAsync("Affiliate Reviewer");
+            if (users.Count > 0)
+            {
+                foreach (var user in users)
+                {
+                    int frameworkId = (int)FrameworkEnum.OBE;
+                    var baseUrl = _appConfiguration["App:ClientRootAddress"];
+                    var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+                    var type = "OBE ECL";
+                    var ecl = _obeEclRepository.FirstOrDefault((Guid)eclId);
+                    var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
+                    await _emailer.SendEmailSubmittedForApprovalAsync(user, type, ou.DisplayName, link);
+                }
+            }
+        }
+
+        public async Task SendAdditionalApprovalEmail(Guid eclId)
+        {
+            var users = await UserManager.GetUsersInRoleAsync("Affiliate Reviewer");
+            if (users.Count > 0)
+            {
+                foreach (var user in users)
+                {
+                    int frameworkId = (int)FrameworkEnum.OBE;
+                    var baseUrl = _appConfiguration["App:ClientRootAddress"];
+                    var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+                    var type = "OBE ECL";
+                    var ecl = _obeEclRepository.FirstOrDefault((Guid)eclId);
+                    var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
+                    await _emailer.SendEmailSubmittedForAdditionalApprovalAsync(user, type, ou.DisplayName, link);
+                }
+            }
+        }
+
+        public async Task SendApprovedEmail(Guid eclId)
+        {
+            int frameworkId = (int)FrameworkEnum.OBE;
+            var baseUrl = _appConfiguration["App:ClientRootAddress"];
+            var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+            var type = "OBE ECL";
+            var ecl = _obeEclRepository.FirstOrDefault((Guid)eclId);
+            var user = _lookup_userRepository.FirstOrDefault(ecl.CreatorUserId == null ? (long)AbpSession.UserId : (long)ecl.CreatorUserId);
+            var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
+            await _emailer.SendEmailApprovedAsync(user, type, ou.DisplayName, link);
         }
 
     }
