@@ -5,19 +5,28 @@ using Abp.Domain.Uow;
 using Abp.Localization;
 using Abp.Localization.Sources;
 using Abp.ObjectMapping;
+using Abp.Organizations;
 using Abp.Threading;
 using Abp.UI;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestDemo.Authorization.Users;
+using TestDemo.Configuration;
 using TestDemo.EclShared.Dtos;
+using TestDemo.EclShared.Emailer;
 using TestDemo.EclShared.Importing.Dto;
 using TestDemo.Notifications;
+using TestDemo.OBE;
 using TestDemo.ObeInputs;
+using TestDemo.Retail;
 using TestDemo.RetailInputs;
 using TestDemo.Storage;
+using TestDemo.Wholesale;
 using TestDemo.WholesaleInputs;
 
 namespace TestDemo.EclShared.Importing
@@ -36,6 +45,13 @@ namespace TestDemo.EclShared.Importing
         private readonly IBinaryObjectManager _binaryObjectManager;
         private readonly ILocalizationSource _localizationSource;
         private readonly IObjectMapper _objectMapper;
+        private readonly IEclEngineEmailer _emailer;
+        private readonly IConfigurationRoot _appConfiguration;
+        private readonly IRepository<User, long> _userRepository;
+        private readonly IRepository<OrganizationUnit, long> _ouRepository;
+        private readonly IRepository<RetailEcl, Guid> _retailEclRepository;
+        private readonly IRepository<ObeEcl, Guid> _obeEclRepository;
+        private readonly IRepository<WholesaleEcl, Guid> _wholesaleEclRepository;
 
         public ImportPaymentScheduleFromExcelJob (
             IPaymentScheduleExcelDataReader paymentScheduleExcelDataReader, 
@@ -49,6 +65,13 @@ namespace TestDemo.EclShared.Importing
             IRepository<RetailEclUpload, Guid> retailUploadSummaryRepository,
             IRepository<WholesaleEclUpload, Guid> wholesaleUploadSummaryRepository,
             IRepository<ObeEclUpload, Guid> obeUploadSummaryRepository,
+            IEclEngineEmailer emailer,
+            IHostingEnvironment env,
+            IRepository<User, long> userRepository,
+            IRepository<OrganizationUnit, long> ouRepository,
+            IRepository<RetailEcl, Guid> retailEclRepository,
+            IRepository<ObeEcl, Guid> obeEclRepository,
+            IRepository<WholesaleEcl, Guid> wholesaleEclRepository,
             IObjectMapper objectMapper)
         {
             _paymentScheduleExcelDataReader = paymentScheduleExcelDataReader;
@@ -63,6 +86,13 @@ namespace TestDemo.EclShared.Importing
             _binaryObjectManager = binaryObjectManager;
             _objectMapper = objectMapper;
             _localizationSource = localizationManager.GetSource(TestDemoConsts.LocalizationSourceName);
+            _emailer = emailer;
+            _appConfiguration = env.GetAppConfiguration();
+            _userRepository = userRepository;
+            _ouRepository = ouRepository;
+            _retailEclRepository = retailEclRepository;
+            _obeEclRepository = obeEclRepository;
+            _wholesaleEclRepository = wholesaleEclRepository;
         }
 
         [UnitOfWork]
@@ -78,6 +108,7 @@ namespace TestDemo.EclShared.Importing
             DeleteExistingDataAsync(args);
             CreatePaymentSchedule(args, paymentSchedules);
             UpdateSummaryTableToCompletedAsync(args);
+            SendEmailAlert(args);
         }
 
         private List<ImportPaymentScheduleDto> GetPaymentScheduleListFromExcelOrNull(ImportEclDataFromExcelJobArgs args)
@@ -261,6 +292,43 @@ namespace TestDemo.EclShared.Importing
                     }
                     break;
             }
+        }
+
+        private void SendEmailAlert(ImportEclDataFromExcelJobArgs args)
+        {
+            var user = _userRepository.FirstOrDefault(args.User.UserId);
+            var baseUrl = _appConfiguration["App:ClientRootAddress"];
+            var frameworkId = (int)args.Framework;
+            string link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/";
+            long ouId = 0;
+
+            switch (args.Framework)
+            {
+                case FrameworkEnum.Retail:
+                    var retailSummary = _retailUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    var retailEcl = _retailEclRepository.FirstOrDefault(retailSummary.RetailEclId);
+                    link += retailEcl.Id;
+                    ouId = retailEcl.OrganizationUnitId;
+                    break;
+
+                case FrameworkEnum.Wholesale:
+                    var wholesaleSummary = _wholesaleUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    var wEcl = _wholesaleEclRepository.FirstOrDefault(wholesaleSummary.WholesaleEclId);
+                    link += wEcl.Id;
+                    ouId = wEcl.OrganizationUnitId;
+                    break;
+
+                case FrameworkEnum.OBE:
+                    var obeSummary = _obeUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    var oEcl = _obeEclRepository.FirstOrDefault((Guid)obeSummary.ObeEclId);
+                    link += oEcl.Id;
+                    ouId = oEcl.OrganizationUnitId;
+                    break;
+            }
+
+            var ou = _ouRepository.FirstOrDefault(ouId);
+            var type = args.Framework.ToString() + " Payment schedule";
+            _emailer.SendEmailDataUploadCompleteAsync(user, type, ou.DisplayName, link);
         }
 
     }

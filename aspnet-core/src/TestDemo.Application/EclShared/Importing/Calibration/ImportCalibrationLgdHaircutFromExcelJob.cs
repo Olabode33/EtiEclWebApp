@@ -5,16 +5,22 @@ using Abp.Domain.Uow;
 using Abp.Localization;
 using Abp.Localization.Sources;
 using Abp.ObjectMapping;
+using Abp.Organizations;
 using Abp.Threading;
 using Abp.UI;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestDemo.Authorization.Users;
 using TestDemo.Calibration;
 using TestDemo.CalibrationInput;
+using TestDemo.Configuration;
 using TestDemo.EclShared.Dtos;
+using TestDemo.EclShared.Emailer;
 using TestDemo.EclShared.Importing.Calibration;
 using TestDemo.EclShared.Importing.Calibration.Dto;
 using TestDemo.EclShared.Importing.Dto;
@@ -36,6 +42,10 @@ namespace TestDemo.EclShared.Importing
         private readonly IBinaryObjectManager _binaryObjectManager;
         private readonly ILocalizationSource _localizationSource;
         private readonly IObjectMapper _objectMapper;
+        private readonly IEclEngineEmailer _emailer;
+        private readonly IConfigurationRoot _appConfiguration;
+        private readonly IRepository<User, long> _userRepository;
+        private readonly IRepository<OrganizationUnit, long> _ouRepository;
 
         public ImportCalibrationLgdHaircutFromExcelJob(
             ILgdHaircutExcelDataReader lgdHaircutExcelDataReader,
@@ -45,6 +55,10 @@ namespace TestDemo.EclShared.Importing
             ILocalizationManager localizationManager,
             IRepository<CalibrationInputLgdHairCut> haircutRepository,
             IRepository<CalibrationLgdHairCut, Guid> calibrationRepository,
+            IEclEngineEmailer emailer,
+            IHostingEnvironment env,
+            IRepository<User, long> userRepository,
+            IRepository<OrganizationUnit, long> ouRepository,
             IObjectMapper objectMapper)
         {
             _lgdHaircutExcelDataReader = lgdHaircutExcelDataReader;
@@ -55,6 +69,10 @@ namespace TestDemo.EclShared.Importing
             _binaryObjectManager = binaryObjectManager;
             _objectMapper = objectMapper;
             _localizationSource = localizationManager.GetSource(TestDemoConsts.LocalizationSourceName);
+            _emailer = emailer;
+            _appConfiguration = env.GetAppConfiguration();
+            _userRepository = userRepository;
+            _ouRepository = ouRepository;
         }
 
         [UnitOfWork]
@@ -70,6 +88,7 @@ namespace TestDemo.EclShared.Importing
             DeleteExistingDataAsync(args);
             CreateHaircut(args, ccfSummary);
             UpdateCalibrationTableToDraftAsync(args);
+            SendEmailAlert(args);
         }
 
         private List<ImportCalibrationLgdHaircutDto> GetHaircutListFromExcelOrNull(ImportCalibrationDataFromExcelJobArgs args)
@@ -187,6 +206,17 @@ namespace TestDemo.EclShared.Importing
                 calibration.Status = CalibrationStatusEnum.Draft;
                 _calibrationRepository.Update(calibration);
             }
+        }
+
+        private void SendEmailAlert(ImportCalibrationDataFromExcelJobArgs args)
+        {
+            var user = _userRepository.FirstOrDefault(args.User.UserId);
+            var baseUrl = _appConfiguration["App:ClientRootAddress"];
+            var link = baseUrl + "/app/main/calibration/haircut/view/" + args.CalibrationId;
+            var type = "LGD haircut calibration";
+            var calibration = _calibrationRepository.FirstOrDefault((Guid)args.CalibrationId);
+            var ou = _ouRepository.FirstOrDefault(calibration.OrganizationUnitId);
+            _emailer.SendEmailDataUploadCompleteAsync(user, type, ou.DisplayName, link);
         }
 
     }

@@ -65,12 +65,11 @@ namespace TestDemo.EclShared.Emailer
         public virtual async Task SendEmailDataUploadCompleteAsync(User user, string uploadType, string affiliateName, string link)
         {
 
-            var emailTemplate = GetTitleAndSubTitle(user.TenantId, L("EmailDataUploadComplete_Title"), L("EmailActivation_SubTitle", uploadType, affiliateName));
+            var emailTemplate = GetTitleAndSubTitle(user.TenantId, L("EmailDataUploadComplete_Title"), L("EmailDataUploadComplete_SubTitle", uploadType, affiliateName));
             var mailMessage = new StringBuilder();
 
             mailMessage.AppendLine("<b>Dear " + user.Name + " " + user.Surname + ",<br />");
 
-            mailMessage.AppendLine("<br />");
             mailMessage.AppendLine(L("EmailDataUploadComplete_Body", uploadType, affiliateName) + "<br /><br />");
             mailMessage.AppendLine(L("Email_ClickTheLinkBelowToView") + "<br /><br />");
             mailMessage.AppendLine("<a style=\"" + _emailButtonStyle + "\" bg-color=\"" + _emailButtonColor + "\" href=\"" + link + "\">" + L("View") + "</a>");
@@ -81,6 +80,7 @@ namespace TestDemo.EclShared.Emailer
             await ReplaceBodyAndSend(user.EmailAddress, L("EmailDataUploadComplete_Subject", uploadType), emailTemplate, mailMessage);
         }
 
+        [UnitOfWork]
         public virtual async Task SendEmailSubmittedForApprovalAsync(User user, string type, string affiliateName, string link)
         {
 
@@ -89,7 +89,6 @@ namespace TestDemo.EclShared.Emailer
 
             mailMessage.AppendLine("<b>Dear " + user.Name + " " + user.Surname + ",<br />");
 
-            mailMessage.AppendLine("<br />");
             mailMessage.AppendLine(L("EmailRecordSubmitted_Body", type, affiliateName) + "<br /><br />");
             mailMessage.AppendLine(L("Email_ClickTheLinkBelowToView") + "<br /><br />");
             mailMessage.AppendLine("<a style=\"" + _emailButtonStyle + "\" bg-color=\"" + _emailButtonColor + "\" href=\"" + link + "\">" + L("View") + "</a>");
@@ -100,6 +99,7 @@ namespace TestDemo.EclShared.Emailer
             await ReplaceBodyAndSend(user.EmailAddress, L("EmailRecordSubmitted_Subject", type), emailTemplate, mailMessage);
         }
 
+        [UnitOfWork]
         public virtual async Task SendEmailSubmittedForAdditionalApprovalAsync(User user, string type, string affiliateName, string link)
         {
 
@@ -108,7 +108,6 @@ namespace TestDemo.EclShared.Emailer
 
             mailMessage.AppendLine("<b>Dear " + user.Name + " " + user.Surname + ",<br />");
 
-            mailMessage.AppendLine("<br />");
             mailMessage.AppendLine(L("EmailRecordAwaitingAdditional_Body", type, affiliateName) + "<br /><br />");
             mailMessage.AppendLine(L("Email_ClickTheLinkBelowToView") + "<br /><br />");
             mailMessage.AppendLine("<a style=\"" + _emailButtonStyle + "\" bg-color=\"" + _emailButtonColor + "\" href=\"" + link + "\">" + L("View") + "</a>");
@@ -119,6 +118,7 @@ namespace TestDemo.EclShared.Emailer
             await ReplaceBodyAndSend(user.EmailAddress, L("EmailRecordAwaitingAdditional_Subject", type), emailTemplate, mailMessage);
         }
 
+        [UnitOfWork]
         public virtual async Task SendEmailApprovedAsync(User user, string type, string affiliateName, string link)
         {
 
@@ -127,7 +127,6 @@ namespace TestDemo.EclShared.Emailer
 
             mailMessage.AppendLine("<b>Dear " + user.Name + " " + user.Surname + ",<br />");
 
-            mailMessage.AppendLine("<br />");
             mailMessage.AppendLine(L("EmailRecordApproved_Body", type, affiliateName) + "<br /><br />");
             mailMessage.AppendLine(L("Email_ClickTheLinkBelowToView") + "<br /><br />");
             mailMessage.AppendLine("<a style=\"" + _emailButtonStyle + "\" bg-color=\"" + _emailButtonColor + "\" href=\"" + link + "\">" + L("View") + "</a>");
@@ -138,6 +137,7 @@ namespace TestDemo.EclShared.Emailer
             await ReplaceBodyAndSend(user.EmailAddress, L("EmailRecordApproved_Subject", type), emailTemplate, mailMessage);
         }
 
+        [UnitOfWork]
         public virtual async Task SendEmailRunCompletedAsync(User user, string type, string affiliateName, string link)
         {
 
@@ -146,7 +146,6 @@ namespace TestDemo.EclShared.Emailer
 
             mailMessage.AppendLine("<b>Dear " + user.Name + " " + user.Surname + ",<br />");
 
-            mailMessage.AppendLine("<br />");
             mailMessage.AppendLine(L("EmailComputationCompleted_Body", type, affiliateName) + "<br /><br />");
             mailMessage.AppendLine(L("Email_ClickTheLinkBelowToView") + "<br /><br />");
             mailMessage.AppendLine("<a style=\"" + _emailButtonStyle + "\" bg-color=\"" + _emailButtonColor + "\" href=\"" + link + "\">" + L("View") + "</a>");
@@ -157,6 +156,7 @@ namespace TestDemo.EclShared.Emailer
             await ReplaceBodyAndSend(user.EmailAddress, L("EmailComputationCompleted_Subject", type), emailTemplate, mailMessage);
         }
 
+        [UnitOfWork]
         public virtual async Task SendEmailReportGeneratedAsync(User user, string type, string affiliateName, string link)
         {
 
@@ -165,7 +165,6 @@ namespace TestDemo.EclShared.Emailer
 
             mailMessage.AppendLine("<b>Dear " + user.Name + " " + user.Surname + ",<br />");
 
-            mailMessage.AppendLine("<br />");
             mailMessage.AppendLine(L("EmailReportGenerated_Body", type, affiliateName) + "<br /><br />");
             mailMessage.AppendLine(L("Email_ClickTheLinkBelowToDownload") + "<br /><br />");
             mailMessage.AppendLine("<a style=\"" + _emailButtonStyle + "\" bg-color=\"" + _emailButtonColor + "\" href=\"" + link + "\">" + L("View") + "</a>");
@@ -176,6 +175,7 @@ namespace TestDemo.EclShared.Emailer
             await ReplaceBodyAndSend(user.EmailAddress, L("EmailReportGenerated_Subject", type), emailTemplate, mailMessage);
         }
 
+        [UnitOfWork]
         public virtual async Task SendEmailClosedAsync(User user, string type, string affiliateName, string link)
         {
 
@@ -184,7 +184,6 @@ namespace TestDemo.EclShared.Emailer
 
             mailMessage.AppendLine("<b>Dear " + user.Name + " " + user.Surname + ",<br />");
 
-            mailMessage.AppendLine("<br />");
             mailMessage.AppendLine(L("EmailClosed_Body", type, affiliateName) + "<br /><br />");
             mailMessage.AppendLine(L("Email_ClickTheLinkBelowToView") + "<br /><br />");
             mailMessage.AppendLine("<a style=\"" + _emailButtonStyle + "\" bg-color=\"" + _emailButtonColor + "\" href=\"" + link + "\">" + L("View") + "</a>");
@@ -195,6 +194,7 @@ namespace TestDemo.EclShared.Emailer
             await ReplaceBodyAndSend(user.EmailAddress, L("EmailClosed_Subject", type), emailTemplate, mailMessage);
         }
 
+        [UnitOfWork]
         public virtual async Task SendEmailReopenedAsync(User user, string type, string affiliateName, string link)
         {
 
@@ -203,7 +203,6 @@ namespace TestDemo.EclShared.Emailer
 
             mailMessage.AppendLine("<b>Dear " + user.Name + " " + user.Surname + ",<br />");
 
-            mailMessage.AppendLine("<br />");
             mailMessage.AppendLine(L("EmailReopened_Body", type, affiliateName) + "<br /><br />");
             mailMessage.AppendLine(L("Email_ClickTheLinkBelowToView") + "<br /><br />");
             mailMessage.AppendLine("<a style=\"" + _emailButtonStyle + "\" bg-color=\"" + _emailButtonColor + "\" href=\"" + link + "\">" + L("View") + "</a>");
@@ -214,6 +213,7 @@ namespace TestDemo.EclShared.Emailer
             await ReplaceBodyAndSend(user.EmailAddress, L("EmailReopened_Subject", type), emailTemplate, mailMessage);
         }
 
+        [UnitOfWork]
         public virtual async Task SendEmailAffiliateCopiedAsync(User user, string fromAffiliate, string toAffiliate, string link)
         {
 
@@ -222,7 +222,6 @@ namespace TestDemo.EclShared.Emailer
 
             mailMessage.AppendLine("<b>Dear " + user.Name + " " + user.Surname + ",<br />");
 
-            mailMessage.AppendLine("<br />");
             mailMessage.AppendLine(L("EmailAffiliateCopied_Body", fromAffiliate, toAffiliate) + "<br /><br />");
             mailMessage.AppendLine(L("Email_ClickTheLinkBelowToView") + "<br /><br />");
             mailMessage.AppendLine("<a style=\"" + _emailButtonStyle + "\" bg-color=\"" + _emailButtonColor + "\" href=\"" + link + "\">" + L("View") + "</a>");
@@ -267,6 +266,7 @@ namespace TestDemo.EclShared.Emailer
                 Body = emailTemplate.ToString(),
                 IsBodyHtml = true
             });
+            Logger.Debug("Testing Email: Email Sent; EmailHtmlContent: " + emailTemplate.ToString());
         }
 
         /// <summary>

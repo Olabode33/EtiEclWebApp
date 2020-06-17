@@ -5,15 +5,22 @@ using Abp.Domain.Uow;
 using Abp.Localization;
 using Abp.Localization.Sources;
 using Abp.ObjectMapping;
+using Abp.Organizations;
 using Abp.Threading;
 using Abp.UI;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestDemo.Authorization.Users;
+using TestDemo.Configuration;
 using TestDemo.EclShared.Dtos;
+using TestDemo.EclShared.Emailer;
 using TestDemo.EclShared.Importing.Dto;
+using TestDemo.Investment;
 using TestDemo.InvestmentInputs;
 using TestDemo.Notifications;
 using TestDemo.Storage;
@@ -30,6 +37,11 @@ namespace TestDemo.EclShared.Importing
         private readonly IBinaryObjectManager _binaryObjectManager;
         private readonly ILocalizationSource _localizationSource;
         private readonly IObjectMapper _objectMapper;
+        private readonly IEclEngineEmailer _emailer;
+        private readonly IConfigurationRoot _appConfiguration;
+        private readonly IRepository<User, long> _userRepository;
+        private readonly IRepository<OrganizationUnit, long> _ouRepository;
+        private readonly IRepository<InvestmentEcl, Guid> _eclRepository;
 
         public ImportAssetBookFromExcelJob(
             IAssetBookExcelDataReader assetBookExcelDataReader,
@@ -39,6 +51,11 @@ namespace TestDemo.EclShared.Importing
             IAppNotifier appNotifier,
             IBinaryObjectManager binaryObjectManager,
             ILocalizationManager localizationManager,
+            IEclEngineEmailer emailer,
+            IHostingEnvironment env,
+            IRepository<User, long> userRepository,
+            IRepository<OrganizationUnit, long> ouRepository,
+            IRepository<InvestmentEcl, Guid> eclRepository,
             IObjectMapper objectMapper)
         {
             _assetBookExcelDataReader = assetBookExcelDataReader;
@@ -49,6 +66,11 @@ namespace TestDemo.EclShared.Importing
             _binaryObjectManager = binaryObjectManager;
             _localizationSource = localizationManager.GetSource(TestDemoConsts.LocalizationSourceName);
             _objectMapper = objectMapper;
+            _emailer = emailer;
+            _appConfiguration = env.GetAppConfiguration();
+            _userRepository = userRepository;
+            _ouRepository = ouRepository;
+            _eclRepository = eclRepository;
         }
 
         [UnitOfWork]
@@ -61,6 +83,7 @@ namespace TestDemo.EclShared.Importing
             }
             CreateAssetbook(args, assetBooks);
             UpdateSummaryTableToCompletedAsync(args);
+            SendEmailAlert(args);
         }
 
         private List<ImportAssetBookDto> GetAssetListFromExcelOrNull(ImportEclDataFromExcelJobArgs args)
@@ -168,6 +191,21 @@ namespace TestDemo.EclShared.Importing
             var investmentSummary = _investmentEclUploadRepository.FirstOrDefault((Guid)args.UploadSummaryId);
             investmentSummary.Status = GeneralStatusEnum.Completed;
             _investmentEclUploadRepository.Update(investmentSummary);
+        }
+
+        private void SendEmailAlert(ImportEclDataFromExcelJobArgs args)
+        {
+            var user = _userRepository.FirstOrDefault(args.User.UserId);
+            var summary = _investmentEclUploadRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+            var ecl = _eclRepository.FirstOrDefault((Guid)summary.InvestmentEclId);
+
+            var baseUrl = _appConfiguration["App:ClientRootAddress"];
+            var frameworkId = (int)args.Framework;
+            string link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + ecl.Id;
+
+            var ou = _ouRepository.FirstOrDefault(ecl.OrganizationUnitId);
+            var type = args.Framework.ToString() + " Assetbook";
+            _emailer.SendEmailDataUploadCompleteAsync(user, type, ou.DisplayName, link);
         }
 
     }
