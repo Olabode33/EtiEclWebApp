@@ -28,6 +28,10 @@ using TestDemo.EclShared.Dtos;
 using Abp.Organizations;
 using TestDemo.Calibration.Exporting;
 using TestDemo.EclShared.Importing.Calibration.Dto;
+using TestDemo.EclShared.Emailer;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using TestDemo.Configuration;
 
 namespace TestDemo.Calibration
 {
@@ -41,6 +45,8 @@ namespace TestDemo.Calibration
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
         private readonly IInputEadCcfSummaryExporter _inputDataExporter;
+        private readonly IEclEngineEmailer _emailer;
+        private readonly IConfigurationRoot _appConfiguration;
 
 
         public CalibrationEadCcfSummaryAppService(
@@ -50,6 +56,8 @@ namespace TestDemo.Calibration
             IRepository<CalibrationInputEadCcfSummary> calibrationInputRepository,
             IRepository<OrganizationUnit, long> organizationUnitRepository,
             IRepository<CalibrationResultEadCcfSummary> calibrationResultRepository,
+            IEclEngineEmailer emailer,
+            IHostingEnvironment env,
             IInputEadCcfSummaryExporter inputDataExporter)
         {
             _calibrationRepository = calibrationRepository;
@@ -59,6 +67,8 @@ namespace TestDemo.Calibration
             _calibrationResultRepository = calibrationResultRepository;
             _organizationUnitRepository = organizationUnitRepository;
             _inputDataExporter = inputDataExporter;
+            _emailer = emailer;
+            _appConfiguration = env.GetAppConfiguration();
         }
 
         public async Task<PagedResultDto<GetCalibrationRunForViewDto>> GetAll(GetAllCalibrationRunInput input)
@@ -263,6 +273,7 @@ namespace TestDemo.Calibration
                 var calibration = await _calibrationRepository.FirstOrDefaultAsync((Guid)input.Id);
                 calibration.Status = CalibrationStatusEnum.Submitted;
                 ObjectMapper.Map(calibration, calibration);
+                await SendSubmittedEmail(input.Id);
             }
             else
             {
@@ -291,10 +302,12 @@ namespace TestDemo.Calibration
                 if (eclApprovals.Count(x => x.Status == GeneralStatusEnum.Approved) >= requiredApprovals)
                 {
                     calibration.Status = CalibrationStatusEnum.Approved;
+                    await SendApprovedEmail(calibration.Id);
                 }
                 else
                 {
                     calibration.Status = CalibrationStatusEnum.AwaitngAdditionApproval;
+                    await SendAdditionalApprovalEmail(calibration.Id);
                 }
             }
             else
@@ -412,6 +425,51 @@ namespace TestDemo.Calibration
 
             return output;
         }
+        public async Task SendSubmittedEmail(Guid calibrationId)
+        {
+            var users = await UserManager.GetUsersInRoleAsync("Group Reviewer");
+            if (users.Count > 0)
+            {
+                foreach (var user in users)
+                {
+                    //var user = await _lookup_userRepository.FirstOrDefaultAsync((long)AbpSession.UserId);
+                    var baseUrl = _appConfiguration["App:ClientRootAddress"];
+                    var link = baseUrl + "/app/main/calibration/ccfSummary/view/" + calibrationId;
+                    var type = "CCF summary calibration";
+                    var calibration = _calibrationRepository.FirstOrDefault((Guid)calibrationId);
+                    var ou = _organizationUnitRepository.FirstOrDefault(calibration.OrganizationUnitId);
+                    await _emailer.SendEmailSubmittedForApprovalAsync(user, type, ou.DisplayName, link);
+                }
+            }
+        }
 
+        public async Task SendAdditionalApprovalEmail(Guid calibrationId)
+        {
+            var users = await UserManager.GetUsersInRoleAsync("Group Reviewer");
+            if (users.Count > 0)
+            {
+                foreach (var user in users)
+                {
+                    //var user = await _lookup_userRepository.FirstOrDefaultAsync((long)AbpSession.UserId);
+                    var baseUrl = _appConfiguration["App:ClientRootAddress"];
+                    var link = baseUrl + "/app/main/calibration/ccfSummary/view/" + calibrationId;
+                    var type = "CCF summary calibration";
+                    var calibration = _calibrationRepository.FirstOrDefault((Guid)calibrationId);
+                    var ou = _organizationUnitRepository.FirstOrDefault(calibration.OrganizationUnitId);
+                    await _emailer.SendEmailSubmittedForAdditionalApprovalAsync(user, type, ou.DisplayName, link);
+                }
+            }
+        }
+
+        public async Task SendApprovedEmail(Guid calibrationId)
+        {
+            var calibration = _calibrationRepository.FirstOrDefault((Guid)calibrationId);
+            var user = _lookup_userRepository.FirstOrDefault(calibration.CreatorUserId == null ? (long)AbpSession.UserId : (long)calibration.CreatorUserId);
+            var baseUrl = _appConfiguration["App:ClientRootAddress"];
+            var link = baseUrl + "/app/main/calibration/ccfSummary/view/" + calibrationId;
+            var type = "CCF summary calibration";
+            var ou = _organizationUnitRepository.FirstOrDefault(calibration.OrganizationUnitId);
+            await _emailer.SendEmailApprovedAsync(user, type, ou.DisplayName, link);
+        }
     }
 }

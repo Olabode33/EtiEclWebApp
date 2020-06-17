@@ -13,9 +13,9 @@
         </div>
         <div class="kt-subheader__toolbar">
             <div class="kt-subheader__wrapper">
-				<button (click)="exportToExcel()" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button>
+				<!-- <button (click)="exportToExcel()" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button> -->
                 <button *ngIf="isGranted('Pages.AffiliateMacroEconomicVariableOffsets.Create')" (click)="createAffiliateMacroEconomicVariableOffset()" 
-			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewAffiliateMacroEconomicVariableOffset")}}</button>
+			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("New")}}</button>
             </div>
         </div>
       
@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                         </div>
-						 <div class="row" [hidden]="!advancedFiltersAreShown">
+						 <!-- <div class="row" [hidden]="!advancedFiltersAreShown">
 						 	<div class="col-md-12">
 						         <div class="kt-separator kt-separator--border-dashed"></div>
 						     </div>
@@ -71,7 +71,7 @@
                                 <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
                                 <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </form>
 
@@ -100,10 +100,10 @@
                                         {{l('Name')}}
                                         <p-sortIcon field="macroeconomicVariableName"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="backwardOffset">
+                                    <!-- <th style="width: 150px" pSortableColumn="backwardOffset">
                                         {{l('BackwardOffset')}}
                                         <p-sortIcon field="affiliateMacroEconomicVariableOffset.backwardOffset"></p-sortIcon>
-                                    </th>
+                                    </th> -->
 
                                 </tr>
                             </ng-template>                           
@@ -139,10 +139,10 @@
 												<span class="ui-column-title"> {{l('Name')}}</span>
 												{{record.macroeconomicVariableName}}
 											</td>
-                                    <td style="width:150px">
+                                    <!-- <td style="width:150px">
 											<span class="ui-column-title"> {{l('BackwardOffset')}}</span>
 											{{record.affiliateMacroEconomicVariableOffset.backwardOffset}}
-										</td>
+										</td> -->
 
                                 </tr>
                             </ng-template>

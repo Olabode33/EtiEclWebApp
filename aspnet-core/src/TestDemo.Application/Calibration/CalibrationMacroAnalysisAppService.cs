@@ -29,6 +29,10 @@ using Abp.Organizations;
 using TestDemo.Calibration.Exporting;
 using TestDemo.EclShared.Importing.Calibration.Dto;
 using TestDemo.AffiliateMacroEconomicVariable;
+using TestDemo.EclShared.Emailer;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting;
+using TestDemo.Configuration;
 
 namespace TestDemo.Calibration
 {
@@ -48,6 +52,8 @@ namespace TestDemo.Calibration
         private readonly IRepository<User, long> _lookup_userRepository;
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
         private readonly IMacroAnalysisDataTemplateExporter _templateExporter;
+        private readonly IEclEngineEmailer _emailer;
+        private readonly IConfigurationRoot _appConfiguration;
 
 
         public CalibrationMacroAnalysisAppService(
@@ -63,6 +69,8 @@ namespace TestDemo.Calibration
             IRepository<MacroResult_PrincipalComponentSummary> principalSummayrResultRepository,
             IRepository<MacroeconomicVariable> macroeconomicVariableRepository,
             IRepository<AffiliateMacroEconomicVariableOffset> affiliateMacroVariableRepository,
+            IEclEngineEmailer emailer,
+            IHostingEnvironment env,
         IMacroAnalysisDataTemplateExporter templateeExporter)
         {
             _calibrationRepository = calibrationRepository;
@@ -78,6 +86,8 @@ namespace TestDemo.Calibration
             _macroeconomicVariableRepository = macroeconomicVariableRepository;
             _affiliateMacroVariableRepository = affiliateMacroVariableRepository;
             _templateExporter = templateeExporter;
+            _emailer = emailer;
+            _appConfiguration = env.GetAppConfiguration();
         }
 
         public async Task<PagedResultDto<GetMacroAnalysisRunForViewDto>> GetAll(GetAllCalibrationRunInput input)
@@ -321,6 +331,7 @@ namespace TestDemo.Calibration
                 var calibration = await _calibrationRepository.FirstOrDefaultAsync(input.Id);
                 calibration.Status = CalibrationStatusEnum.Submitted;
                 ObjectMapper.Map(calibration, calibration);
+                await SendSubmittedEmail(input.Id);
             }
             else
             {
@@ -349,10 +360,12 @@ namespace TestDemo.Calibration
                 if (eclApprovals.Count(x => x.Status == GeneralStatusEnum.Approved) >= requiredApprovals)
                 {
                     calibration.Status = CalibrationStatusEnum.Approved;
+                    await SendApprovedEmail(calibration.Id);
                 }
                 else
                 {
                     calibration.Status = CalibrationStatusEnum.AwaitngAdditionApproval;
+                    await SendAdditionalApprovalEmail(calibration.Id);
                 }
             }
             else
@@ -506,6 +519,53 @@ namespace TestDemo.Calibration
             }
 
             return output;
+        }
+
+        public async Task SendSubmittedEmail(int calibrationId)
+        {
+            var users = await UserManager.GetUsersInRoleAsync("Group Reviewer");
+            if (users.Count > 0)
+            {
+                foreach (var user in users)
+                {
+                    //var user = await _lookup_userRepository.FirstOrDefaultAsync((long)AbpSession.UserId);
+                    var baseUrl = _appConfiguration["App:ClientRootAddress"];
+                    var link = baseUrl + "/app/main/calibration/macroAnalysis/view/" + calibrationId;
+                    var type = "Macro analysis";
+                    var calibration = _calibrationRepository.FirstOrDefault(calibrationId);
+                    var ou = _organizationUnitRepository.FirstOrDefault(calibration.OrganizationUnitId);
+                    await _emailer.SendEmailSubmittedForApprovalAsync(user, type, ou.DisplayName, link);
+                }
+            }
+        }
+
+        public async Task SendAdditionalApprovalEmail(int calibrationId)
+        {
+            var users = await UserManager.GetUsersInRoleAsync("Group Reviewer");
+            if (users.Count > 0)
+            {
+                foreach (var user in users)
+                {
+                    //var user = await _lookup_userRepository.FirstOrDefaultAsync((long)AbpSession.UserId);
+                    var baseUrl = _appConfiguration["App:ClientRootAddress"];
+                    var link = baseUrl + "/app/main/calibration/macroAnalysis/view/" + calibrationId;
+                    var type = "Macro analysis";
+                    var calibration = _calibrationRepository.FirstOrDefault(calibrationId);
+                    var ou = _organizationUnitRepository.FirstOrDefault(calibration.OrganizationUnitId);
+                    await _emailer.SendEmailSubmittedForAdditionalApprovalAsync(user, type, ou.DisplayName, link);
+                }
+            }
+        }
+
+        public async Task SendApprovedEmail(int calibrationId)
+        {
+            var calibration = _calibrationRepository.FirstOrDefault(calibrationId);
+            var user = _lookup_userRepository.FirstOrDefault(calibration.CreatorUserId == null ? (long)AbpSession.UserId : (long)calibration.CreatorUserId);
+            var baseUrl = _appConfiguration["App:ClientRootAddress"];
+            var link = baseUrl + "/app/main/calibration/macroAnalysis/view/" + calibrationId;
+            var type = "Macro analysis";
+            var ou = _organizationUnitRepository.FirstOrDefault(calibration.OrganizationUnitId);
+            await _emailer.SendEmailApprovedAsync(user, type, ou.DisplayName, link);
         }
 
     }
