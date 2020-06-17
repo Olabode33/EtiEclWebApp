@@ -21,6 +21,13 @@ using TestDemo.InvestmentComputation.Dtos;
 using Abp.UI;
 using TestDemo.EclConfig;
 using Abp.Configuration;
+using TestDemo.Wholesale;
+using TestDemo.Authorization.Users;
+using Abp.Organizations;
+using TestDemo.EclShared.Emailer;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting;
+using TestDemo.Configuration;
 
 namespace TestDemo.WholesaleComputation
 {
@@ -31,18 +38,33 @@ namespace TestDemo.WholesaleComputation
         private readonly IRepository<WholesaleEclDataLoanBook, Guid> _lookup_wholesaleEclDataLoanBookRepository;
         private readonly IRepository<WholesaleEclOverrideApproval, Guid> _lookup_wholesaleEclOverrideApprovalRepository;
         private readonly IRepository<WholesaleEclFrameworkFinal, Guid> _lookup_wholesaleEclFrameworkRepository;
+        private readonly IRepository<WholesaleEcl, Guid> _wholesaleEclRepository;
+        private readonly IRepository<User, long> _lookup_userRepository;
+        private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
+        private readonly IEclEngineEmailer _emailer;
+        private readonly IConfigurationRoot _appConfiguration;
 
 
         public WholesaleEclOverridesAppService(
             IRepository<WholesaleEclOverride, Guid> wholesaleEclOverrideRepository, 
             IRepository<WholesaleEclDataLoanBook, Guid> lookup_wholesaleEclDataLoanBookRepository,
             IRepository<WholesaleEclFrameworkFinal, Guid> lookup_wholesaleEclFrameworkRepository,
-            IRepository<WholesaleEclOverrideApproval, Guid> lookup_wholesaleEclOverrideApprovalRepository)
+            IRepository<WholesaleEclOverrideApproval, Guid> lookup_wholesaleEclOverrideApprovalRepository,
+            IRepository<WholesaleEcl, Guid> wholesaleEclRepository,
+            IRepository<User, long> lookup_userRepository,
+            IRepository<OrganizationUnit, long> organizationUnitRepository,
+            IEclEngineEmailer emailer,
+            IHostingEnvironment env)
         {
             _wholesaleEclOverrideRepository = wholesaleEclOverrideRepository;
             _lookup_wholesaleEclDataLoanBookRepository = lookup_wholesaleEclDataLoanBookRepository;
             _lookup_wholesaleEclOverrideApprovalRepository = lookup_wholesaleEclOverrideApprovalRepository;
             _lookup_wholesaleEclFrameworkRepository = lookup_wholesaleEclFrameworkRepository;
+            _wholesaleEclRepository = wholesaleEclRepository;
+            _lookup_userRepository = lookup_userRepository;
+            _organizationUnitRepository = organizationUnitRepository;
+            _emailer = emailer;
+            _appConfiguration = env.GetAppConfiguration();
         }
 
         public async Task<PagedResultDto<GetEclOverrideForViewDto>> GetAll(GetAllEclOverrideInput input)
@@ -191,6 +213,8 @@ namespace TestDemo.WholesaleComputation
                 ImpairmentOverride = input.ImpairmentOverride,
                 Status = GeneralStatusEnum.Submitted
             });
+
+            await SendSubmittedEmail(input.EclId);
         }
 
         protected virtual async Task Update(CreateOrEditEclOverrideDto input)
@@ -205,6 +229,7 @@ namespace TestDemo.WholesaleComputation
             eclOverride.Status = GeneralStatusEnum.Submitted;
 
             await _wholesaleEclOverrideRepository.UpdateAsync(eclOverride);
+            await SendSubmittedEmail((Guid)eclOverride.WholesaleEclId);
         }
 
         public async Task Delete(EntityDto<Guid> input)
@@ -234,10 +259,12 @@ namespace TestDemo.WholesaleComputation
                 if (eclApprovals.Count(x => x.Status == GeneralStatusEnum.Approved) >= requiredApprovals)
                 {
                     ecl.Status = GeneralStatusEnum.Approved;
+                    await SendApprovedEmail((Guid)ecl.WholesaleEclId);
                 }
                 else
                 {
                     ecl.Status = GeneralStatusEnum.AwaitngAdditionApproval;
+                    await SendAdditionalApprovalEmail((Guid)ecl.WholesaleEclId);
                 }
             }
             else
@@ -266,6 +293,54 @@ namespace TestDemo.WholesaleComputation
             }
 
             return output;
+        }
+
+        public async Task SendSubmittedEmail(Guid eclId)
+        {
+            var users = await UserManager.GetUsersInRoleAsync("Affiliate Reviewer");
+            if (users.Count > 0)
+            {
+                foreach (var user in users)
+                {
+                    int frameworkId = (int)FrameworkEnum.Wholesale;
+                    var baseUrl = _appConfiguration["App:ClientRootAddress"];
+                    var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+                    var type = "Wholesale ECL Override";
+                    var ecl = _wholesaleEclRepository.FirstOrDefault((Guid)eclId);
+                    var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
+                    await _emailer.SendEmailSubmittedForApprovalAsync(user, type, ou.DisplayName, link);
+                }
+            }
+        }
+
+        public async Task SendAdditionalApprovalEmail(Guid eclId)
+        {
+            var users = await UserManager.GetUsersInRoleAsync("Affiliate Reviewer");
+            if (users.Count > 0)
+            {
+                foreach (var user in users)
+                {
+                    int frameworkId = (int)FrameworkEnum.Wholesale;
+                    var baseUrl = _appConfiguration["App:ClientRootAddress"];
+                    var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+                    var type = "Wholesale ECL Override";
+                    var ecl = _wholesaleEclRepository.FirstOrDefault((Guid)eclId);
+                    var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
+                    await _emailer.SendEmailSubmittedForAdditionalApprovalAsync(user, type, ou.DisplayName, link);
+                }
+            }
+        }
+
+        public async Task SendApprovedEmail(Guid eclId)
+        {
+            int frameworkId = (int)FrameworkEnum.Wholesale;
+            var baseUrl = _appConfiguration["App:ClientRootAddress"];
+            var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+            var type = "Wholesale ECL Override";
+            var ecl = _wholesaleEclRepository.FirstOrDefault((Guid)eclId);
+            var user = _lookup_userRepository.FirstOrDefault(ecl.CreatorUserId == null ? (long)AbpSession.UserId : (long)ecl.CreatorUserId);
+            var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
+            await _emailer.SendEmailApprovedAsync(user, type, ou.DisplayName, link);
         }
 
     }

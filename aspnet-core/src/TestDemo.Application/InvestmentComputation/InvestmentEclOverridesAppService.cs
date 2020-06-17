@@ -21,6 +21,13 @@ using Abp.UI;
 using TestDemo.EclConfig;
 using Abp.Configuration;
 using TestDemo.Dto.Overrides;
+using TestDemo.Investment;
+using TestDemo.EclShared.Emailer;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting;
+using TestDemo.Configuration;
+using TestDemo.Authorization.Users;
+using Abp.Organizations;
 
 namespace TestDemo.InvestmentComputation
 {
@@ -32,13 +39,23 @@ namespace TestDemo.InvestmentComputation
         private readonly IRepository<InvestmentAssetBook, Guid> _lookup_investmentAssetbookRepository;
         private readonly IRepository<InvestmentEclFinalResult, Guid> _lookup_investmentEclFinalResultRepository;
         private readonly IRepository<InvestmentEclOverrideApproval, Guid> _lookup_investmentEclOverrideApprovalRepository;
+        private readonly IRepository<InvestmentEcl, Guid> _lookup_eclRepository;
+        private readonly IRepository<User, long> _lookup_userRepository;
+        private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
+        private readonly IEclEngineEmailer _emailer;
+        private readonly IConfigurationRoot _appConfiguration;
 
         public InvestmentEclOverridesAppService(
             IRepository<InvestmentEclOverride, Guid> investmentEclOverrideRepository,
             IRepository<InvestmentEclSicr, Guid> lookup_investmentEclSicrRepository,
             IRepository<InvestmentAssetBook, Guid> lookup_investmentAssetbookRepository,
             IRepository<InvestmentEclFinalResult, Guid> lookup_investmentEclFinalResultRepository,
-            IRepository<InvestmentEclOverrideApproval, Guid> lookup_investmentEclOverrideRepository
+            IRepository<InvestmentEclOverrideApproval, Guid> lookup_investmentEclOverrideRepository,
+            IRepository<InvestmentEcl, Guid> lookup_eclRepository,
+            IRepository<User, long> lookup_userRepository,
+            IRepository<OrganizationUnit, long> organizationUnitRepository,
+            IEclEngineEmailer emailer,
+            IHostingEnvironment env
             )
         {
             _investmentEclOverrideRepository = investmentEclOverrideRepository;
@@ -46,6 +63,11 @@ namespace TestDemo.InvestmentComputation
             _lookup_investmentAssetbookRepository = lookup_investmentAssetbookRepository;
             _lookup_investmentEclFinalResultRepository = lookup_investmentEclFinalResultRepository;
             _lookup_investmentEclOverrideApprovalRepository = lookup_investmentEclOverrideRepository;
+            _lookup_eclRepository = lookup_eclRepository;
+            _lookup_userRepository = lookup_userRepository;
+            _organizationUnitRepository = organizationUnitRepository;
+            _emailer = emailer;
+            _appConfiguration = env.GetAppConfiguration();
         }
 
         public async Task<PagedResultDto<GetEclOverrideForViewDto>> GetAll(GetAllEclOverrideInput input)
@@ -185,6 +207,7 @@ namespace TestDemo.InvestmentComputation
                 ImpairmentOverride = input.ImpairmentOverride,
                 Status = GeneralStatusEnum.Submitted
             });
+            await SendSubmittedEmail(input.EclId);
         }
 
         [AbpAuthorize(AppPermissions.Pages_InvestmentEclOverrides_Edit)]
@@ -198,6 +221,10 @@ namespace TestDemo.InvestmentComputation
             investmentEclOverride.Status = input.Status;
 
             await _investmentEclOverrideRepository.UpdateAsync(investmentEclOverride);
+            if (input.Status == GeneralStatusEnum.Submitted)
+            {
+                await SendSubmittedEmail(investmentEclOverride.EclId);
+            }
         }
 
         [AbpAuthorize(AppPermissions.Pages_InvestmentEclOverrides_Delete)]
@@ -227,10 +254,12 @@ namespace TestDemo.InvestmentComputation
                 if (eclApprovals.Count(x => x.Status == GeneralStatusEnum.Approved) >= requiredApprovals)
                 {
                     ecl.Status = GeneralStatusEnum.Approved;
+                    await SendApprovedEmail(ecl.EclId);
                 }
                 else
                 {
                     ecl.Status = GeneralStatusEnum.AwaitngAdditionApproval;
+                    await SendAdditionalApprovalEmail(ecl.EclId);
                 }
             }
             else
@@ -289,6 +318,54 @@ namespace TestDemo.InvestmentComputation
             }
 
             return output;
+        }
+
+        public async Task SendSubmittedEmail(Guid eclId)
+        {
+            var users = await UserManager.GetUsersInRoleAsync("Affiliate Reviewer");
+            if (users.Count > 0)
+            {
+                foreach (var user in users)
+                {
+                    int frameworkId = (int)FrameworkEnum.Investments;
+                    var baseUrl = _appConfiguration["App:ClientRootAddress"];
+                    var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+                    var type = "Investment ECL Override";
+                    var ecl = _lookup_eclRepository.FirstOrDefault((Guid)eclId);
+                    var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
+                    await _emailer.SendEmailSubmittedForApprovalAsync(user, type, ou.DisplayName, link);
+                }
+            }
+        }
+
+        public async Task SendAdditionalApprovalEmail(Guid eclId)
+        {
+            var users = await UserManager.GetUsersInRoleAsync("Affiliate Reviewer");
+            if (users.Count > 0)
+            {
+                foreach (var user in users)
+                {
+                    int frameworkId = (int)FrameworkEnum.Investments;
+                    var baseUrl = _appConfiguration["App:ClientRootAddress"];
+                    var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+                    var type = "Investment ECL Override";
+                    var ecl = _lookup_eclRepository.FirstOrDefault((Guid)eclId);
+                    var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
+                    await _emailer.SendEmailSubmittedForAdditionalApprovalAsync(user, type, ou.DisplayName, link);
+                }
+            }
+        }
+
+        public async Task SendApprovedEmail(Guid eclId)
+        {
+            int frameworkId = (int)FrameworkEnum.Investments;
+            var baseUrl = _appConfiguration["App:ClientRootAddress"];
+            var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+            var type = "Investment ECL Override";
+            var ecl = _lookup_eclRepository.FirstOrDefault((Guid)eclId);
+            var user = _lookup_userRepository.FirstOrDefault(ecl.CreatorUserId == null ? (long)AbpSession.UserId : (long)ecl.CreatorUserId);
+            var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
+            await _emailer.SendEmailApprovedAsync(user, type, ou.DisplayName, link);
         }
     }
 }

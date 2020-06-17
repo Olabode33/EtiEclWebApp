@@ -21,6 +21,13 @@ using TestDemo.InvestmentComputation.Dtos;
 using TestDemo.EclShared;
 using Abp.Configuration;
 using TestDemo.EclConfig;
+using TestDemo.OBE;
+using TestDemo.Authorization.Users;
+using Abp.Organizations;
+using TestDemo.EclShared.Emailer;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting;
+using TestDemo.Configuration;
 
 namespace TestDemo.ObeComputation
 {
@@ -31,18 +38,33 @@ namespace TestDemo.ObeComputation
         private readonly IRepository<ObeEclDataLoanBook, Guid> _lookup_obeEclDataLoanBookRepository;
         private readonly IRepository<ObeEclOverrideApproval, Guid> _lookup_obeEclOverrideApprovalRepository;
         private readonly IRepository<ObeEclFrameworkFinal, Guid> _lookup_obeEclFrameworkRepository;
+        private readonly IRepository<ObeEcl, Guid> _obeEclRepository;
+        private readonly IRepository<User, long> _lookup_userRepository;
+        private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
+        private readonly IEclEngineEmailer _emailer;
+        private readonly IConfigurationRoot _appConfiguration;
 
 
         public ObeEclOverridesAppService(
             IRepository<ObeEclOverride, Guid> obeEclOverrideRepository,
             IRepository<ObeEclDataLoanBook, Guid> lookup_obeEclDataLoanBookRepository,
             IRepository<ObeEclFrameworkFinal, Guid> lookup_obeEclFrameworkRepository,
-            IRepository<ObeEclOverrideApproval, Guid> lookup_obeEclOverrideApprovalRepository)
+            IRepository<ObeEclOverrideApproval, Guid> lookup_obeEclOverrideApprovalRepository,
+            IRepository<ObeEcl, Guid> obeEclRepository,
+            IRepository<User, long> lookup_userRepository,
+            IRepository<OrganizationUnit, long> organizationUnitRepository,
+            IEclEngineEmailer emailer,
+            IHostingEnvironment env)
         {
             _obeEclOverrideRepository = obeEclOverrideRepository;
             _lookup_obeEclDataLoanBookRepository = lookup_obeEclDataLoanBookRepository;
             _lookup_obeEclOverrideApprovalRepository = lookup_obeEclOverrideApprovalRepository;
             _lookup_obeEclFrameworkRepository = lookup_obeEclFrameworkRepository;
+            _obeEclRepository = obeEclRepository;
+            _lookup_userRepository = lookup_userRepository;
+            _organizationUnitRepository = organizationUnitRepository;
+            _emailer = emailer;
+            _appConfiguration = env.GetAppConfiguration();
 
         }
 
@@ -195,6 +217,7 @@ namespace TestDemo.ObeComputation
                 ImpairmentOverride = input.ImpairmentOverride,
                 Status = GeneralStatusEnum.Submitted
             });
+            await SendSubmittedEmail((Guid)input.EclId);
         }
 
         protected virtual async Task Update(CreateOrEditEclOverrideDto input)
@@ -209,6 +232,7 @@ namespace TestDemo.ObeComputation
             eclOverride.Status = GeneralStatusEnum.Submitted;
 
             await _obeEclOverrideRepository.UpdateAsync(eclOverride);
+            await SendSubmittedEmail((Guid)eclOverride.ObeEclId);
         }
 
         [AbpAuthorize(AppPermissions.Pages_ObeEclOverrides_Delete)]
@@ -239,10 +263,12 @@ namespace TestDemo.ObeComputation
                 if (eclApprovals.Count(x => x.Status == GeneralStatusEnum.Approved) >= requiredApprovals)
                 {
                     ecl.Status = GeneralStatusEnum.Approved;
+                    await SendApprovedEmail((Guid)ecl.ObeEclId);
                 }
                 else
                 {
                     ecl.Status = GeneralStatusEnum.AwaitngAdditionApproval;
+                    await SendAdditionalApprovalEmail((Guid)ecl.ObeEclId);
                 }
             }
             else
@@ -271,6 +297,54 @@ namespace TestDemo.ObeComputation
             }
 
             return output;
+        }
+
+        public async Task SendSubmittedEmail(Guid eclId)
+        {
+            var users = await UserManager.GetUsersInRoleAsync("Affiliate Reviewer");
+            if (users.Count > 0)
+            {
+                foreach (var user in users)
+                {
+                    int frameworkId = (int)FrameworkEnum.OBE;
+                    var baseUrl = _appConfiguration["App:ClientRootAddress"];
+                    var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+                    var type = "OBE ECL Override";
+                    var ecl = _obeEclRepository.FirstOrDefault((Guid)eclId);
+                    var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
+                    await _emailer.SendEmailSubmittedForApprovalAsync(user, type, ou.DisplayName, link);
+                }
+            }
+        }
+
+        public async Task SendAdditionalApprovalEmail(Guid eclId)
+        {
+            var users = await UserManager.GetUsersInRoleAsync("Affiliate Reviewer");
+            if (users.Count > 0)
+            {
+                foreach (var user in users)
+                {
+                    int frameworkId = (int)FrameworkEnum.OBE;
+                    var baseUrl = _appConfiguration["App:ClientRootAddress"];
+                    var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+                    var type = "OBE ECL Override";
+                    var ecl = _obeEclRepository.FirstOrDefault((Guid)eclId);
+                    var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
+                    await _emailer.SendEmailSubmittedForAdditionalApprovalAsync(user, type, ou.DisplayName, link);
+                }
+            }
+        }
+
+        public async Task SendApprovedEmail(Guid eclId)
+        {
+            int frameworkId = (int)FrameworkEnum.OBE;
+            var baseUrl = _appConfiguration["App:ClientRootAddress"];
+            var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+            var type = "OBE ECL Override";
+            var ecl = _obeEclRepository.FirstOrDefault((Guid)eclId);
+            var user = _lookup_userRepository.FirstOrDefault(ecl.CreatorUserId == null ? (long)AbpSession.UserId : (long)ecl.CreatorUserId);
+            var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
+            await _emailer.SendEmailApprovedAsync(user, type, ou.DisplayName, link);
         }
     }
 }
