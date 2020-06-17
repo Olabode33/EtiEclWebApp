@@ -62,11 +62,11 @@ namespace TestDemo.EclLibrary.Investment
             var user = _userRepository.FirstOrDefault(args.UserIdentifier.UserId);
             var baseUrl = _appConfiguration["App:ClientRootAddress"];
             var frameworkId = (int)FrameworkEnum.Investments;
-            string link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/";
+            string link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + args.EclId;
             var type = "Investment ECL Post-override";
             var ecl = _eclRepository.FirstOrDefault(args.EclId);
             var ou = _ouRepository.FirstOrDefault(ecl.OrganizationUnitId);
-            _emailer.SendEmailDataUploadCompleteAsync(user, type, ou.DisplayName, link);
+            _emailer.SendEmailRunCompletedAsync(user, type, ou.DisplayName, link);
         }
     }
 }

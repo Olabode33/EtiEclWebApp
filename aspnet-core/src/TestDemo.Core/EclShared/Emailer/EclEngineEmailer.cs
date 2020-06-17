@@ -185,8 +185,6 @@ namespace TestDemo.EclShared.Emailer
             mailMessage.AppendLine("<b>Dear " + user.Name + " " + user.Surname + ",<br />");
 
             mailMessage.AppendLine(L("EmailClosed_Body", type, affiliateName) + "<br /><br />");
-            mailMessage.AppendLine(L("Email_ClickTheLinkBelowToView") + "<br /><br />");
-            mailMessage.AppendLine("<a style=\"" + _emailButtonStyle + "\" bg-color=\"" + _emailButtonColor + "\" href=\"" + link + "\">" + L("View") + "</a>");
             mailMessage.AppendLine("<br />");
             mailMessage.AppendLine("<br />");
             mailMessage.AppendLine("<br />");
