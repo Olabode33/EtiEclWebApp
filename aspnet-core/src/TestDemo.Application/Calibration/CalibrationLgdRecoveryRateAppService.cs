@@ -35,7 +35,7 @@ using TestDemo.Configuration;
 
 namespace TestDemo.Calibration
 {
-    [AbpAuthorize(AppPermissions.Pages_CalibrationEadBehaviouralTerms)]
+    [AbpAuthorize(AppPermissions.Pages_Calibration)]
     public class CalibrationLgdRecoveryRateAppService : TestDemoAppServiceBase, ICalibrationsAppService
     {
         private readonly IRepository<CalibrationLgdRecoveryRate, Guid> _calibrationRepository;

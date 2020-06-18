@@ -35,7 +35,7 @@ using TestDemo.Configuration;
 
 namespace TestDemo.Calibration
 {
-    [AbpAuthorize(AppPermissions.Pages_CalibrationEadBehaviouralTerms)]
+    [AbpAuthorize(AppPermissions.Pages_Calibration)]
     public class CalibrationLgdHairCutAppService : TestDemoAppServiceBase, ICalibrationsAppService
     {
         private readonly IRepository<CalibrationLgdHairCut, Guid> _calibrationRepository;
