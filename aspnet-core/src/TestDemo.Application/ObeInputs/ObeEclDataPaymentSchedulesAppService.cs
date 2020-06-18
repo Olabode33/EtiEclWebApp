@@ -18,7 +18,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.ObeInputs
 {
-	[AbpAuthorize(AppPermissions.Pages_ObeEclDataPaymentSchedules)]
     public class ObeEclDataPaymentSchedulesAppService : TestDemoAppServiceBase, IObeEclDataPaymentSchedulesAppService
     {
 		 private readonly IRepository<ObeEclDataPaymentSchedule, Guid> _obeEclDataPaymentScheduleRepository;
@@ -78,7 +77,6 @@ namespace TestDemo.ObeInputs
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclDataPaymentSchedules_Edit)]
 		 public async Task<GetObeEclDataPaymentScheduleForEditOutput> GetObeEclDataPaymentScheduleForEdit(EntityDto<Guid> input)
          {
             var obeEclDataPaymentSchedule = await _obeEclDataPaymentScheduleRepository.FirstOrDefaultAsync(input.Id);
@@ -104,7 +102,6 @@ namespace TestDemo.ObeInputs
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclDataPaymentSchedules_Create)]
 		 protected virtual async Task Create(CreateOrEditObeEclDataPaymentScheduleDto input)
          {
             var obeEclDataPaymentSchedule = ObjectMapper.Map<ObeEclDataPaymentSchedule>(input);
@@ -119,20 +116,17 @@ namespace TestDemo.ObeInputs
             await _obeEclDataPaymentScheduleRepository.InsertAsync(obeEclDataPaymentSchedule);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclDataPaymentSchedules_Edit)]
 		 protected virtual async Task Update(CreateOrEditObeEclDataPaymentScheduleDto input)
          {
             var obeEclDataPaymentSchedule = await _obeEclDataPaymentScheduleRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, obeEclDataPaymentSchedule);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclDataPaymentSchedules_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _obeEclDataPaymentScheduleRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_ObeEclDataPaymentSchedules)]
          public async Task<PagedResultDto<ObeEclDataPaymentScheduleObeEclUploadLookupTableDto>> GetAllObeEclUploadForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_obeEclUploadRepository.GetAll().WhereIf(

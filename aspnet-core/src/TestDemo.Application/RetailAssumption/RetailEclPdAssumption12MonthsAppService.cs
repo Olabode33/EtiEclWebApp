@@ -18,7 +18,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.RetailAssumption
 {
-	[AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumption12Months)]
     public class RetailEclPdAssumption12MonthsAppService : TestDemoAppServiceBase, IRetailEclPdAssumption12MonthsAppService
     {
 		 private readonly IRepository<RetailEclPdAssumption12Month, Guid> _retailEclPdAssumption12MonthRepository;
@@ -75,7 +74,6 @@ namespace TestDemo.RetailAssumption
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumption12Months_Edit)]
 		 public async Task<GetRetailEclPdAssumption12MonthForEditOutput> GetRetailEclPdAssumption12MonthForEdit(EntityDto<Guid> input)
          {
             var retailEclPdAssumption12Month = await _retailEclPdAssumption12MonthRepository.FirstOrDefaultAsync(input.Id);
@@ -101,7 +99,6 @@ namespace TestDemo.RetailAssumption
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumption12Months_Create)]
 		 protected virtual async Task Create(CreateOrEditRetailEclPdAssumption12MonthDto input)
          {
             var retailEclPdAssumption12Month = ObjectMapper.Map<RetailEclPdAssumption12Month>(input);
@@ -109,20 +106,17 @@ namespace TestDemo.RetailAssumption
             await _retailEclPdAssumption12MonthRepository.InsertAsync(retailEclPdAssumption12Month);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumption12Months_Edit)]
 		 protected virtual async Task Update(CreateOrEditRetailEclPdAssumption12MonthDto input)
          {
             var retailEclPdAssumption12Month = await _retailEclPdAssumption12MonthRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, retailEclPdAssumption12Month);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumption12Months_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _retailEclPdAssumption12MonthRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumption12Months)]
          public async Task<PagedResultDto<RetailEclPdAssumption12MonthRetailEclLookupTableDto>> GetAllRetailEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_retailEclRepository.GetAll().WhereIf(

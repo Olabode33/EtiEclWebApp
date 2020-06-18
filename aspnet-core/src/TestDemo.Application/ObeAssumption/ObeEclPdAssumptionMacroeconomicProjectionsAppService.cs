@@ -19,7 +19,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.ObeAssumption
 {
-	[AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptionMacroeconomicProjections)]
     public class ObeEclPdAssumptionMacroeconomicProjectionsAppService : TestDemoAppServiceBase, IObeEclPdAssumptionMacroeconomicProjectionsAppService
     {
 		 private readonly IRepository<ObeEclPdAssumptionMacroeconomicProjection, Guid> _obeEclPdAssumptionMacroeconomicProjectionRepository;
@@ -64,7 +63,6 @@ namespace TestDemo.ObeAssumption
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptionMacroeconomicProjections_Edit)]
 		 public async Task<GetObeEclPdAssumptionMacroeconomicProjectionForEditOutput> GetObeEclPdAssumptionMacroeconomicProjectionForEdit(EntityDto<Guid> input)
          {
             var obeEclPdAssumptionMacroeconomicProjection = await _obeEclPdAssumptionMacroeconomicProjectionRepository.FirstOrDefaultAsync(input.Id);
@@ -90,7 +88,6 @@ namespace TestDemo.ObeAssumption
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptionMacroeconomicProjections_Create)]
 		 protected virtual async Task Create(CreateOrEditObeEclPdAssumptionMacroeconomicProjectionDto input)
          {
             var obeEclPdAssumptionMacroeconomicProjection = ObjectMapper.Map<ObeEclPdAssumptionMacroeconomicProjection>(input);
@@ -100,20 +97,17 @@ namespace TestDemo.ObeAssumption
             await _obeEclPdAssumptionMacroeconomicProjectionRepository.InsertAsync(obeEclPdAssumptionMacroeconomicProjection);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptionMacroeconomicProjections_Edit)]
 		 protected virtual async Task Update(CreateOrEditObeEclPdAssumptionMacroeconomicProjectionDto input)
          {
             var obeEclPdAssumptionMacroeconomicProjection = await _obeEclPdAssumptionMacroeconomicProjectionRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, obeEclPdAssumptionMacroeconomicProjection);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptionMacroeconomicProjections_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _obeEclPdAssumptionMacroeconomicProjectionRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptionMacroeconomicProjections)]
          public async Task<PagedResultDto<ObeEclPdAssumptionMacroeconomicProjectionObeEclLookupTableDto>> GetAllObeEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_obeEclRepository.GetAll().WhereIf(

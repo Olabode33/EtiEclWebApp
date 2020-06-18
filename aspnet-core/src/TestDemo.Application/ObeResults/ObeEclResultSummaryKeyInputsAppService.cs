@@ -18,7 +18,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.ObeResults
 {
-	[AbpAuthorize(AppPermissions.Pages_ObeEclResultSummaryKeyInputs)]
     public class ObeEclResultSummaryKeyInputsAppService : TestDemoAppServiceBase, IObeEclResultSummaryKeyInputsAppService
     {
 		 private readonly IRepository<ObeEclResultSummaryKeyInput, Guid> _obeEclResultSummaryKeyInputRepository;
@@ -86,7 +85,6 @@ namespace TestDemo.ObeResults
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclResultSummaryKeyInputs_Edit)]
 		 public async Task<GetObeEclResultSummaryKeyInputForEditOutput> GetObeEclResultSummaryKeyInputForEdit(EntityDto<Guid> input)
          {
             var obeEclResultSummaryKeyInput = await _obeEclResultSummaryKeyInputRepository.FirstOrDefaultAsync(input.Id);
@@ -112,7 +110,6 @@ namespace TestDemo.ObeResults
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclResultSummaryKeyInputs_Create)]
 		 protected virtual async Task Create(CreateOrEditObeEclResultSummaryKeyInputDto input)
          {
             var obeEclResultSummaryKeyInput = ObjectMapper.Map<ObeEclResultSummaryKeyInput>(input);
@@ -127,20 +124,17 @@ namespace TestDemo.ObeResults
             await _obeEclResultSummaryKeyInputRepository.InsertAsync(obeEclResultSummaryKeyInput);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclResultSummaryKeyInputs_Edit)]
 		 protected virtual async Task Update(CreateOrEditObeEclResultSummaryKeyInputDto input)
          {
             var obeEclResultSummaryKeyInput = await _obeEclResultSummaryKeyInputRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, obeEclResultSummaryKeyInput);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclResultSummaryKeyInputs_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _obeEclResultSummaryKeyInputRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_ObeEclResultSummaryKeyInputs)]
          public async Task<PagedResultDto<ObeEclResultSummaryKeyInputObeEclLookupTableDto>> GetAllObeEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_obeEclRepository.GetAll().WhereIf(

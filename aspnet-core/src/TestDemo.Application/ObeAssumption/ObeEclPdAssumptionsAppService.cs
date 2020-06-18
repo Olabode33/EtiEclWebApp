@@ -20,7 +20,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.ObeAssumption
 {
-	[AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptions)]
     public class ObeEclPdAssumptionsAppService : TestDemoAppServiceBase, IObeEclPdAssumptionsAppService
     {
 		 private readonly IRepository<ObeEclPdAssumption, Guid> _obeEclPdAssumptionRepository;
@@ -65,7 +64,6 @@ namespace TestDemo.ObeAssumption
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptions_Edit)]
 		 public async Task<GetObeEclPdAssumptionForEditOutput> GetObeEclPdAssumptionForEdit(EntityDto<Guid> input)
          {
             var obeEclPdAssumption = await _obeEclPdAssumptionRepository.FirstOrDefaultAsync(input.Id);
@@ -91,7 +89,6 @@ namespace TestDemo.ObeAssumption
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptions_Create)]
 		 protected virtual async Task Create(CreateOrEditObeEclPdAssumptionDto input)
          {
             var obeEclPdAssumption = ObjectMapper.Map<ObeEclPdAssumption>(input);
@@ -101,20 +98,17 @@ namespace TestDemo.ObeAssumption
             await _obeEclPdAssumptionRepository.InsertAsync(obeEclPdAssumption);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptions_Edit)]
 		 protected virtual async Task Update(CreateOrEditObeEclPdAssumptionDto input)
          {
             var obeEclPdAssumption = await _obeEclPdAssumptionRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, obeEclPdAssumption);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptions_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _obeEclPdAssumptionRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptions)]
          public async Task<PagedResultDto<ObeEclPdAssumptionObeEclLookupTableDto>> GetAllObeEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_obeEclRepository.GetAll().WhereIf(

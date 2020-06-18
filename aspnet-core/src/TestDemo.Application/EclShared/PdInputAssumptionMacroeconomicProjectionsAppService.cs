@@ -20,7 +20,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.EclShared
 {
-    [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionMacroeconomicProjections)]
     public class PdInputAssumptionMacroeconomicProjectionsAppService : TestDemoAppServiceBase, IPdInputAssumptionMacroeconomicProjectionsAppService
     {
         private readonly IRepository<PdInputAssumptionMacroeconomicProjection, Guid> _pdInputAssumptionMacroeconomicProjectionRepository;
@@ -61,7 +60,6 @@ namespace TestDemo.EclShared
             );
         }
 
-        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionMacroeconomicProjections_Edit)]
         public async Task<GetPdInputAssumptionMacroeconomicProjectionForEditOutput> GetPdInputAssumptionMacroeconomicProjectionForEdit(EntityDto<Guid> input)
         {
             var pdInputAssumptionMacroeconomicProjection = await _pdInputAssumptionMacroeconomicProjectionRepository.FirstOrDefaultAsync(input.Id);
@@ -83,7 +81,6 @@ namespace TestDemo.EclShared
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionMacroeconomicProjections_Create)]
         protected virtual async Task Create(CreateOrEditPdInputAssumptionMacroeconomicProjectionDto input)
         {
             var pdInputAssumptionMacroeconomicProjection = ObjectMapper.Map<PdInputAssumptionMacroeconomicProjection>(input);
@@ -93,7 +90,6 @@ namespace TestDemo.EclShared
             await _pdInputAssumptionMacroeconomicProjectionRepository.InsertAsync(pdInputAssumptionMacroeconomicProjection);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionMacroeconomicProjections_Edit)]
         protected virtual async Task Update(CreateOrEditPdInputAssumptionMacroeconomicProjectionDto input)
         {
             var pdInputAssumptionMacroeconomicProjection = await _pdInputAssumptionMacroeconomicProjectionRepository.FirstOrDefaultAsync((Guid)input.Id);
@@ -120,7 +116,6 @@ namespace TestDemo.EclShared
             });
         }
 
-        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionMacroeconomicProjections_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _pdInputAssumptionMacroeconomicProjectionRepository.DeleteAsync(input.Id);

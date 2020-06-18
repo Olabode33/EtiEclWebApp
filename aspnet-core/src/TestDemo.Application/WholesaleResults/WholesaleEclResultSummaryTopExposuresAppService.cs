@@ -19,7 +19,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.WholesaleResults
 {
-	[AbpAuthorize(AppPermissions.Pages_WholesaleEclResultSummaryTopExposures)]
     public class WholesaleEclResultSummaryTopExposuresAppService : TestDemoAppServiceBase, IWholesaleEclResultSummaryTopExposuresAppService
     {
 		 private readonly IRepository<WholesaleEclResultSummaryTopExposure, Guid> _wholesaleEclResultSummaryTopExposureRepository;
@@ -92,7 +91,6 @@ namespace TestDemo.WholesaleResults
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclResultSummaryTopExposures_Edit)]
 		 public async Task<GetWholesaleEclResultSummaryTopExposureForEditOutput> GetWholesaleEclResultSummaryTopExposureForEdit(EntityDto<Guid> input)
          {
             var wholesaleEclResultSummaryTopExposure = await _wholesaleEclResultSummaryTopExposureRepository.FirstOrDefaultAsync(input.Id);
@@ -124,7 +122,6 @@ namespace TestDemo.WholesaleResults
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclResultSummaryTopExposures_Create)]
 		 protected virtual async Task Create(CreateOrEditWholesaleEclResultSummaryTopExposureDto input)
          {
             var wholesaleEclResultSummaryTopExposure = ObjectMapper.Map<WholesaleEclResultSummaryTopExposure>(input);
@@ -139,20 +136,17 @@ namespace TestDemo.WholesaleResults
             await _wholesaleEclResultSummaryTopExposureRepository.InsertAsync(wholesaleEclResultSummaryTopExposure);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclResultSummaryTopExposures_Edit)]
 		 protected virtual async Task Update(CreateOrEditWholesaleEclResultSummaryTopExposureDto input)
          {
             var wholesaleEclResultSummaryTopExposure = await _wholesaleEclResultSummaryTopExposureRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, wholesaleEclResultSummaryTopExposure);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclResultSummaryTopExposures_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _wholesaleEclResultSummaryTopExposureRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_WholesaleEclResultSummaryTopExposures)]
          public async Task<PagedResultDto<WholesaleEclResultSummaryTopExposureWholesaleEclLookupTableDto>> GetAllWholesaleEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_wholesaleEclRepository.GetAll().WhereIf(
@@ -181,7 +175,6 @@ namespace TestDemo.WholesaleResults
             );
          }
 
-		[AbpAuthorize(AppPermissions.Pages_WholesaleEclResultSummaryTopExposures)]
          public async Task<PagedResultDto<WholesaleEclResultSummaryTopExposureWholesaleEclDataLoanBookLookupTableDto>> GetAllWholesaleEclDataLoanBookForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_wholesaleEclDataLoanBookRepository.GetAll().WhereIf(

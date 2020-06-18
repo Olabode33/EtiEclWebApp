@@ -21,7 +21,6 @@ using TestDemo.EclShared.Dtos;
 
 namespace TestDemo.WholesaleAssumption
 {
-	[AbpAuthorize(AppPermissions.Pages_WholesaleEadInputAssumptions)]
     public class WholesaleEadInputAssumptionsAppService : TestDemoAppServiceBase, IWholesaleEadInputAssumptionsAppService
     {
 		 private readonly IRepository<WholesaleEclEadInputAssumption, Guid> _wholesaleEadInputAssumptionRepository;
@@ -92,7 +91,6 @@ namespace TestDemo.WholesaleAssumption
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEadInputAssumptions_Edit)]
 		 public async Task<GetWholesaleEadInputAssumptionForEditOutput> GetWholesaleEadInputAssumptionForEdit(EntityDto<Guid> input)
          {
             var wholesaleEadInputAssumption = await _wholesaleEadInputAssumptionRepository.FirstOrDefaultAsync(input.Id);
@@ -118,7 +116,6 @@ namespace TestDemo.WholesaleAssumption
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEadInputAssumptions_Create)]
 		 protected virtual async Task Create(CreateOrEditWholesaleEadInputAssumptionDto input)
          {
             var wholesaleEadInputAssumption = ObjectMapper.Map<WholesaleEclEadInputAssumption>(input);
@@ -126,14 +123,12 @@ namespace TestDemo.WholesaleAssumption
             await _wholesaleEadInputAssumptionRepository.InsertAsync(wholesaleEadInputAssumption);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEadInputAssumptions_Edit)]
 		 protected virtual async Task Update(CreateOrEditWholesaleEadInputAssumptionDto input)
          {
             var wholesaleEadInputAssumption = await _wholesaleEadInputAssumptionRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, wholesaleEadInputAssumption);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEadInputAssumptions_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _wholesaleEadInputAssumptionRepository.DeleteAsync(input.Id);

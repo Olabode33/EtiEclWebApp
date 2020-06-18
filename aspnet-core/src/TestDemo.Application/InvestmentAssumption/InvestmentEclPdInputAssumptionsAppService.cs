@@ -23,7 +23,6 @@ using GetAllForLookupTableInput = TestDemo.InvestmentAssumption.Dtos.GetAllForLo
 
 namespace TestDemo.InvestmentAssumption
 {
-	[AbpAuthorize(AppPermissions.Pages_InvestmentEclPdInputAssumptions)]
     public class InvestmentEclPdInputAssumptionsAppService : TestDemoAppServiceBase, IInvestmentEclPdInputAssumptionsAppService
     {
 		 private readonly IRepository<InvestmentEclPdInputAssumption, Guid> _investmentEclPdInputAssumptionRepository;
@@ -92,7 +91,6 @@ namespace TestDemo.InvestmentAssumption
 
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEclPdInputAssumptions_Edit)]
 		 public async Task<GetInvestmentEclPdInputAssumptionForEditOutput> GetInvestmentEclPdInputAssumptionForEdit(EntityDto<Guid> input)
          {
             var investmentEclPdInputAssumption = await _investmentEclPdInputAssumptionRepository.FirstOrDefaultAsync(input.Id);
@@ -118,7 +116,6 @@ namespace TestDemo.InvestmentAssumption
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_InvestmentEclPdInputAssumptions_Create)]
 		 protected virtual async Task Create(CreateOrEditInvestmentEclPdInputAssumptionDto input)
          {
             var investmentEclPdInputAssumption = ObjectMapper.Map<InvestmentEclPdInputAssumption>(input);
@@ -128,20 +125,17 @@ namespace TestDemo.InvestmentAssumption
             await _investmentEclPdInputAssumptionRepository.InsertAsync(investmentEclPdInputAssumption);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_InvestmentEclPdInputAssumptions_Edit)]
 		 protected virtual async Task Update(CreateOrEditInvestmentEclPdInputAssumptionDto input)
          {
             var investmentEclPdInputAssumption = await _investmentEclPdInputAssumptionRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, investmentEclPdInputAssumption);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_InvestmentEclPdInputAssumptions_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _investmentEclPdInputAssumptionRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_InvestmentEclPdInputAssumptions)]
          public async Task<PagedResultDto<InvestmentEclPdInputAssumptionInvestmentEclLookupTableDto>> GetAllInvestmentEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_investmentEclRepository.GetAll().WhereIf(

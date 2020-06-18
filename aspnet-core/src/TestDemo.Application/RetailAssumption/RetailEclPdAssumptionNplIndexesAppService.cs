@@ -21,7 +21,6 @@ using GetAllForLookupTableInput = TestDemo.RetailAssumption.Dtos.GetAllForLookup
 
 namespace TestDemo.RetailAssumption
 {
-    [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumptionNplIndexes)]
     public class RetailEclPdAssumptionNplIndexesAppService : TestDemoAppServiceBase, IRetailEclPdAssumptionNplIndexesAppService
     {
         private readonly IRepository<RetailEclPdAssumptionNplIndex, Guid> _retailEclPdAssumptionNplIndexRepository;
@@ -90,7 +89,6 @@ namespace TestDemo.RetailAssumption
         }
 
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumptionNplIndexes_Edit)]
         public async Task<GetRetailEclPdAssumptionNplIndexForEditOutput> GetRetailEclPdAssumptionNplIndexForEdit(EntityDto<Guid> input)
         {
             var retailEclPdAssumptionNplIndex = await _retailEclPdAssumptionNplIndexRepository.FirstOrDefaultAsync(input.Id);
@@ -118,7 +116,6 @@ namespace TestDemo.RetailAssumption
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumptionNplIndexes_Create)]
         protected virtual async Task Create(CreateOrEditRetailEclPdAssumptionNplIndexDto input)
         {
             var retailEclPdAssumptionNplIndex = ObjectMapper.Map<RetailEclPdAssumptionNplIndex>(input);
@@ -128,20 +125,17 @@ namespace TestDemo.RetailAssumption
             await _retailEclPdAssumptionNplIndexRepository.InsertAsync(retailEclPdAssumptionNplIndex);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumptionNplIndexes_Edit)]
         protected virtual async Task Update(CreateOrEditRetailEclPdAssumptionNplIndexDto input)
         {
             var retailEclPdAssumptionNplIndex = await _retailEclPdAssumptionNplIndexRepository.FirstOrDefaultAsync((Guid)input.Id);
             ObjectMapper.Map(input, retailEclPdAssumptionNplIndex);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumptionNplIndexes_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _retailEclPdAssumptionNplIndexRepository.DeleteAsync(input.Id);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumptionNplIndexes)]
         public async Task<PagedResultDto<RetailEclPdAssumptionNplIndexRetailEclLookupTableDto>> GetAllRetailEclForLookupTable(GetAllForLookupTableInput input)
         {
             var query = _lookup_retailEclRepository.GetAll().WhereIf(

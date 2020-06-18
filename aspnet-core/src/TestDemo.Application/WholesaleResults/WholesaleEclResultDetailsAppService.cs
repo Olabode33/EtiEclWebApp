@@ -19,7 +19,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.WholesaleResults
 {
-	[AbpAuthorize(AppPermissions.Pages_WholesaleEclResultDetails)]
     public class WholesaleEclResultDetailsAppService : TestDemoAppServiceBase, IWholesaleEclResultDetailsAppService
     {
 		 private readonly IRepository<WholesaleEclResultDetail, Guid> _wholesaleEclResultDetailRepository;
@@ -126,7 +125,6 @@ namespace TestDemo.WholesaleResults
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclResultDetails_Edit)]
 		 public async Task<GetWholesaleEclResultDetailForEditOutput> GetWholesaleEclResultDetailForEdit(EntityDto<Guid> input)
          {
             var wholesaleEclResultDetail = await _wholesaleEclResultDetailRepository.FirstOrDefaultAsync(input.Id);
@@ -158,7 +156,6 @@ namespace TestDemo.WholesaleResults
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclResultDetails_Create)]
 		 protected virtual async Task Create(CreateOrEditWholesaleEclResultDetailDto input)
          {
             var wholesaleEclResultDetail = ObjectMapper.Map<WholesaleEclResultDetail>(input);
@@ -173,20 +170,17 @@ namespace TestDemo.WholesaleResults
             await _wholesaleEclResultDetailRepository.InsertAsync(wholesaleEclResultDetail);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclResultDetails_Edit)]
 		 protected virtual async Task Update(CreateOrEditWholesaleEclResultDetailDto input)
          {
             var wholesaleEclResultDetail = await _wholesaleEclResultDetailRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, wholesaleEclResultDetail);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclResultDetails_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _wholesaleEclResultDetailRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_WholesaleEclResultDetails)]
          public async Task<PagedResultDto<WholesaleEclResultDetailWholesaleEclLookupTableDto>> GetAllWholesaleEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_wholesaleEclRepository.GetAll().WhereIf(
@@ -215,7 +209,6 @@ namespace TestDemo.WholesaleResults
             );
          }
 
-		[AbpAuthorize(AppPermissions.Pages_WholesaleEclResultDetails)]
          public async Task<PagedResultDto<WholesaleEclResultDetailWholesaleEclDataLoanBookLookupTableDto>> GetAllWholesaleEclDataLoanBookForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_wholesaleEclDataLoanBookRepository.GetAll().WhereIf(

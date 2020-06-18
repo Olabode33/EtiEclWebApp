@@ -18,7 +18,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.WholesaleInputs
 {
-	[AbpAuthorize(AppPermissions.Pages_WholesaleEclDataLoanBooks)]
     public class WholesaleEclDataLoanBooksAppService : TestDemoAppServiceBase, IWholesaleEclDataLoanBooksAppService
     {
 		 private readonly IRepository<WholesaleEclDataLoanBook, Guid> _wholesaleEclDataLoanBookRepository;
@@ -240,7 +239,6 @@ namespace TestDemo.WholesaleInputs
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclDataLoanBooks_Edit)]
 		 public async Task<GetWholesaleEclDataLoanBookForEditOutput> GetWholesaleEclDataLoanBookForEdit(EntityDto<Guid> input)
          {
             var wholesaleEclDataLoanBook = await _wholesaleEclDataLoanBookRepository.FirstOrDefaultAsync(input.Id);
@@ -266,7 +264,6 @@ namespace TestDemo.WholesaleInputs
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclDataLoanBooks_Create)]
 		 protected virtual async Task Create(CreateOrEditWholesaleEclDataLoanBookDto input)
          {
             var wholesaleEclDataLoanBook = ObjectMapper.Map<WholesaleEclDataLoanBook>(input);
@@ -281,20 +278,17 @@ namespace TestDemo.WholesaleInputs
             await _wholesaleEclDataLoanBookRepository.InsertAsync(wholesaleEclDataLoanBook);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclDataLoanBooks_Edit)]
 		 protected virtual async Task Update(CreateOrEditWholesaleEclDataLoanBookDto input)
          {
             var wholesaleEclDataLoanBook = await _wholesaleEclDataLoanBookRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, wholesaleEclDataLoanBook);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclDataLoanBooks_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _wholesaleEclDataLoanBookRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_WholesaleEclDataLoanBooks)]
          public async Task<PagedResultDto<WholesaleEclDataLoanBookWholesaleEclUploadLookupTableDto>> GetAllWholesaleEclUploadForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_wholesaleEclUploadRepository.GetAll().WhereIf(

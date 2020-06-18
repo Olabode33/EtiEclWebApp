@@ -31,7 +31,6 @@ using Abp.Organizations;
 
 namespace TestDemo.InvestmentComputation
 {
-    [AbpAuthorize(AppPermissions.Pages_InvestmentEclOverrides)]
     public class InvestmentEclOverridesAppService : TestDemoAppServiceBase, IInvestmentEclOverridesAppService
     {
         private readonly IRepository<InvestmentEclOverride, Guid> _investmentEclOverrideRepository;
@@ -159,7 +158,6 @@ namespace TestDemo.InvestmentComputation
             };
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEclOverrides_Edit)]
         public async Task<GetInvestmentEclOverrideForEditOutput> GetInvestmentEclOverrideForEdit(EntityDto<Guid> input)
         {
             var investmentEclOverride = await _investmentEclOverrideRepository.FirstOrDefaultAsync(input.Id);
@@ -194,7 +192,7 @@ namespace TestDemo.InvestmentComputation
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEclOverrides_Create)]
+        [AbpAuthorize(AppPermissions.Pages_EclView_Override)]
         protected virtual async Task Create(CreateOrEditEclOverrideDto input)
         {
             await _investmentEclOverrideRepository.InsertAsync(new InvestmentEclOverride
@@ -210,7 +208,7 @@ namespace TestDemo.InvestmentComputation
             await SendSubmittedEmail(input.EclId);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEclOverrides_Edit)]
+        [AbpAuthorize(AppPermissions.Pages_EclView_Override)]
         protected virtual async Task Update(CreateOrEditEclOverrideDto input)
         {
             var investmentEclOverride = await _investmentEclOverrideRepository.FirstOrDefaultAsync((Guid)input.Id);
@@ -227,12 +225,13 @@ namespace TestDemo.InvestmentComputation
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEclOverrides_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _investmentEclOverrideRepository.DeleteAsync(input.Id);
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Override_Review)]
         public virtual async Task ApproveReject(EclShared.Dtos.ReviewEclOverrideInputDto input)
         {
             var ecl = await _investmentEclOverrideRepository.FirstOrDefaultAsync((Guid)input.OverrideRecordId);
@@ -270,7 +269,6 @@ namespace TestDemo.InvestmentComputation
             ObjectMapper.Map(ecl, ecl);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEclOverrides)]
         public async Task<PagedResultDto<InvestmentEclOverrideInvestmentEclSicrLookupTableDto>> GetAllInvestmentEclSicrForLookupTable(GetAllForLookupTableInput input)
         {
             var query = _lookup_investmentEclSicrRepository.GetAll().WhereIf(

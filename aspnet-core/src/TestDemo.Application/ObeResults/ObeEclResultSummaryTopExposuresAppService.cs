@@ -19,7 +19,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.ObeResults
 {
-	[AbpAuthorize(AppPermissions.Pages_ObeEclResultSummaryTopExposures)]
     public class ObeEclResultSummaryTopExposuresAppService : TestDemoAppServiceBase, IObeEclResultSummaryTopExposuresAppService
     {
 		 private readonly IRepository<ObeEclResultSummaryTopExposure, Guid> _obeEclResultSummaryTopExposureRepository;
@@ -90,7 +89,6 @@ namespace TestDemo.ObeResults
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclResultSummaryTopExposures_Edit)]
 		 public async Task<GetObeEclResultSummaryTopExposureForEditOutput> GetObeEclResultSummaryTopExposureForEdit(EntityDto<Guid> input)
          {
             var obeEclResultSummaryTopExposure = await _obeEclResultSummaryTopExposureRepository.FirstOrDefaultAsync(input.Id);
@@ -122,7 +120,6 @@ namespace TestDemo.ObeResults
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclResultSummaryTopExposures_Create)]
 		 protected virtual async Task Create(CreateOrEditObeEclResultSummaryTopExposureDto input)
          {
             var obeEclResultSummaryTopExposure = ObjectMapper.Map<ObeEclResultSummaryTopExposure>(input);
@@ -137,20 +134,17 @@ namespace TestDemo.ObeResults
             await _obeEclResultSummaryTopExposureRepository.InsertAsync(obeEclResultSummaryTopExposure);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclResultSummaryTopExposures_Edit)]
 		 protected virtual async Task Update(CreateOrEditObeEclResultSummaryTopExposureDto input)
          {
             var obeEclResultSummaryTopExposure = await _obeEclResultSummaryTopExposureRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, obeEclResultSummaryTopExposure);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclResultSummaryTopExposures_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _obeEclResultSummaryTopExposureRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_ObeEclResultSummaryTopExposures)]
          public async Task<PagedResultDto<ObeEclResultSummaryTopExposureObeEclLookupTableDto>> GetAllObeEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_obeEclRepository.GetAll().WhereIf(
@@ -179,7 +173,6 @@ namespace TestDemo.ObeResults
             );
          }
 
-		[AbpAuthorize(AppPermissions.Pages_ObeEclResultSummaryTopExposures)]
          public async Task<PagedResultDto<ObeEclResultSummaryTopExposureObeEclDataLoanBookLookupTableDto>> GetAllObeEclDataLoanBookForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_obeEclDataLoanBookRepository.GetAll().WhereIf(

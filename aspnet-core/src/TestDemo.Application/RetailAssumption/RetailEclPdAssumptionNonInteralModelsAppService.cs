@@ -20,7 +20,6 @@ using GetAllForLookupTableInput = TestDemo.RetailAssumption.Dtos.GetAllForLookup
 
 namespace TestDemo.RetailAssumption
 {
-    [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumptionNonInteralModels)]
     public class RetailEclPdAssumptionNonInteralModelsAppService : TestDemoAppServiceBase, IRetailEclPdAssumptionNonInteralModelsAppService
     {
         private readonly IRepository<RetailEclPdAssumptionNonInteralModel, Guid> _retailEclPdAssumptionNonInteralModelRepository;
@@ -89,7 +88,6 @@ namespace TestDemo.RetailAssumption
 
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumptionNonInteralModels_Edit)]
         public async Task<GetRetailEclPdAssumptionNonInteralModelForEditOutput> GetRetailEclPdAssumptionNonInteralModelForEdit(EntityDto<Guid> input)
         {
             var retailEclPdAssumptionNonInteralModel = await _retailEclPdAssumptionNonInteralModelRepository.FirstOrDefaultAsync(input.Id);
@@ -117,7 +115,6 @@ namespace TestDemo.RetailAssumption
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumptionNonInteralModels_Create)]
         protected virtual async Task Create(CreateOrEditRetailEclPdAssumptionNonInteralModelDto input)
         {
             var retailEclPdAssumptionNonInteralModel = ObjectMapper.Map<RetailEclPdAssumptionNonInteralModel>(input);
@@ -127,20 +124,17 @@ namespace TestDemo.RetailAssumption
             await _retailEclPdAssumptionNonInteralModelRepository.InsertAsync(retailEclPdAssumptionNonInteralModel);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumptionNonInteralModels_Edit)]
         protected virtual async Task Update(CreateOrEditRetailEclPdAssumptionNonInteralModelDto input)
         {
             var retailEclPdAssumptionNonInteralModel = await _retailEclPdAssumptionNonInteralModelRepository.FirstOrDefaultAsync((Guid)input.Id);
             ObjectMapper.Map(input, retailEclPdAssumptionNonInteralModel);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumptionNonInteralModels_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _retailEclPdAssumptionNonInteralModelRepository.DeleteAsync(input.Id);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumptionNonInteralModels)]
         public async Task<PagedResultDto<RetailEclPdAssumptionNonInteralModelRetailEclLookupTableDto>> GetAllRetailEclForLookupTable(GetAllForLookupTableInput input)
         {
             var query = _lookup_retailEclRepository.GetAll().WhereIf(

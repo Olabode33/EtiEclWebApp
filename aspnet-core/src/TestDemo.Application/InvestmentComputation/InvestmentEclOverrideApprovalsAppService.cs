@@ -20,7 +20,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.InvestmentComputation
 {
-    [AbpAuthorize(AppPermissions.Pages_InvestmentEclOverrideApprovals)]
     public class InvestmentEclOverrideApprovalsAppService : TestDemoAppServiceBase, IInvestmentEclOverrideApprovalsAppService
     {
         private readonly IRepository<InvestmentEclOverrideApproval, Guid> _investmentEclOverrideApprovalRepository;
@@ -122,7 +121,6 @@ namespace TestDemo.InvestmentComputation
         }
 
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEclOverrideApprovals_Edit)]
         public async Task<GetInvestmentEclOverrideApprovalForEditOutput> GetInvestmentEclOverrideApprovalForEdit(EntityDto<Guid> input)
         {
             var investmentEclOverrideApproval = await _investmentEclOverrideApprovalRepository.FirstOrDefaultAsync(input.Id);
@@ -156,7 +154,6 @@ namespace TestDemo.InvestmentComputation
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEclOverrideApprovals_Create)]
         protected virtual async Task Create(CreateOrEditInvestmentEclOverrideApprovalDto input)
         {
             var investmentEclOverrideApproval = ObjectMapper.Map<InvestmentEclOverrideApproval>(input);
@@ -166,20 +163,16 @@ namespace TestDemo.InvestmentComputation
             await _investmentEclOverrideApprovalRepository.InsertAsync(investmentEclOverrideApproval);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEclOverrideApprovals_Edit)]
         protected virtual async Task Update(CreateOrEditInvestmentEclOverrideApprovalDto input)
         {
             var investmentEclOverrideApproval = await _investmentEclOverrideApprovalRepository.FirstOrDefaultAsync((Guid)input.Id);
             ObjectMapper.Map(input, investmentEclOverrideApproval);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEclOverrideApprovals_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _investmentEclOverrideApprovalRepository.DeleteAsync(input.Id);
         }
-
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEclOverrideApprovals)]
         public async Task<PagedResultDto<InvestmentEclOverrideApprovalUserLookupTableDto>> GetAllUserForLookupTable(GetAllForLookupTableInput input)
         {
             var query = _lookup_userRepository.GetAll().WhereIf(
@@ -209,7 +202,6 @@ namespace TestDemo.InvestmentComputation
             );
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEclOverrideApprovals)]
         public async Task<PagedResultDto<InvestmentEclOverrideApprovalInvestmentEclOverrideLookupTableDto>> GetAllInvestmentEclOverrideForLookupTable(GetAllForLookupTableInput input)
         {
             var query = _lookup_investmentEclOverrideRepository.GetAll().WhereIf(

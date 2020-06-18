@@ -18,7 +18,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.ObeAssumption
 {
-	[AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumption12Months)]
     public class ObeEclPdAssumption12MonthsAppService : TestDemoAppServiceBase, IObeEclPdAssumption12MonthsAppService
     {
 		 private readonly IRepository<ObeEclPdAssumption12Month, Guid> _obeEclPdAssumption12MonthRepository;
@@ -75,7 +74,6 @@ namespace TestDemo.ObeAssumption
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumption12Months_Edit)]
 		 public async Task<GetObeEclPdAssumption12MonthForEditOutput> GetObeEclPdAssumption12MonthForEdit(EntityDto<Guid> input)
          {
             var obeEclPdAssumption12Month = await _obeEclPdAssumption12MonthRepository.FirstOrDefaultAsync(input.Id);
@@ -101,7 +99,6 @@ namespace TestDemo.ObeAssumption
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumption12Months_Create)]
 		 protected virtual async Task Create(CreateOrEditObeEclPdAssumption12MonthDto input)
          {
             var obeEclPdAssumption12Month = ObjectMapper.Map<ObeEclPdAssumption12Month>(input);
@@ -109,20 +106,17 @@ namespace TestDemo.ObeAssumption
             await _obeEclPdAssumption12MonthRepository.InsertAsync(obeEclPdAssumption12Month);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumption12Months_Edit)]
 		 protected virtual async Task Update(CreateOrEditObeEclPdAssumption12MonthDto input)
          {
             var obeEclPdAssumption12Month = await _obeEclPdAssumption12MonthRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, obeEclPdAssumption12Month);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumption12Months_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _obeEclPdAssumption12MonthRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumption12Months)]
          public async Task<PagedResultDto<ObeEclPdAssumption12MonthObeEclLookupTableDto>> GetAllObeEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_obeEclRepository.GetAll().WhereIf(

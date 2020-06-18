@@ -22,7 +22,6 @@ using GetAllForLookupTableInput = TestDemo.RetailAssumption.Dtos.GetAllForLookup
 
 namespace TestDemo.RetailAssumption
 {
-    [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumptionMacroeconomicProjections)]
     public class RetailEclPdAssumptionMacroeconomicProjectionsAppService : TestDemoAppServiceBase, IRetailEclPdAssumptionMacroeconomicProjectionsAppService
     {
         private readonly IRepository<RetailEclPdAssumptionMacroeconomicProjection, Guid> _retailEclPdAssumptionMacroeconomicProjectionRepository;
@@ -93,7 +92,7 @@ namespace TestDemo.RetailAssumption
 
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumptionMacroeconomicProjections_Edit)]
+
         public async Task<GetRetailEclPdAssumptionMacroeconomicProjectionForEditOutput> GetRetailEclPdAssumptionMacroeconomicProjectionForEdit(EntityDto<Guid> input)
         {
             var retailEclPdAssumptionMacroeconomicProjection = await _retailEclPdAssumptionMacroeconomicProjectionRepository.FirstOrDefaultAsync(input.Id);
@@ -121,7 +120,6 @@ namespace TestDemo.RetailAssumption
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumptionMacroeconomicProjections_Create)]
         protected virtual async Task Create(CreateOrEditRetailEclPdAssumptionMacroeconomicProjectionDto input)
         {
             var retailEclPdAssumptionMacroeconomicProjection = ObjectMapper.Map<RetailEclPdAssumptionMacroeconomicProjection>(input);
@@ -131,20 +129,17 @@ namespace TestDemo.RetailAssumption
             await _retailEclPdAssumptionMacroeconomicProjectionRepository.InsertAsync(retailEclPdAssumptionMacroeconomicProjection);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumptionMacroeconomicProjections_Edit)]
         protected virtual async Task Update(CreateOrEditRetailEclPdAssumptionMacroeconomicProjectionDto input)
         {
             var retailEclPdAssumptionMacroeconomicProjection = await _retailEclPdAssumptionMacroeconomicProjectionRepository.FirstOrDefaultAsync((Guid)input.Id);
             ObjectMapper.Map(input, retailEclPdAssumptionMacroeconomicProjection);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumptionMacroeconomicProjections_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _retailEclPdAssumptionMacroeconomicProjectionRepository.DeleteAsync(input.Id);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumptionMacroeconomicProjections)]
         public async Task<PagedResultDto<RetailEclPdAssumptionMacroeconomicProjectionRetailEclLookupTableDto>> GetAllRetailEclForLookupTable(GetAllForLookupTableInput input)
         {
             var query = _lookup_retailEclRepository.GetAll().WhereIf(

@@ -19,7 +19,6 @@ using TestDemo.WholesaleResults.Dtos;
 
 namespace TestDemo.WholesaleResults
 {
-	[AbpAuthorize(AppPermissions.Pages_WholesaleEclResultSummaries)]
     public class WholesaleEclResultSummariesAppService : TestDemoAppServiceBase, IWholesaleEclResultSummariesAppService
     {
 		 private readonly IRepository<WholesaleEclResultSummary, Guid> _wholesaleEclResultSummaryRepository;
@@ -75,7 +74,6 @@ namespace TestDemo.WholesaleResults
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclResultSummaries_Edit)]
 		 public async Task<GetWholesaleEclResultSummaryForEditOutput> GetWholesaleEclResultSummaryForEdit(EntityDto<Guid> input)
          {
             var wholesaleEclResultSummary = await _wholesaleEclResultSummaryRepository.FirstOrDefaultAsync(input.Id);
@@ -101,7 +99,6 @@ namespace TestDemo.WholesaleResults
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclResultSummaries_Create)]
 		 protected virtual async Task Create(CreateOrEditWholesaleEclResultSummaryDto input)
          {
             var wholesaleEclResultSummary = ObjectMapper.Map<WholesaleEclResultSummary>(input);
@@ -116,20 +113,17 @@ namespace TestDemo.WholesaleResults
             await _wholesaleEclResultSummaryRepository.InsertAsync(wholesaleEclResultSummary);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclResultSummaries_Edit)]
 		 protected virtual async Task Update(CreateOrEditWholesaleEclResultSummaryDto input)
          {
             var wholesaleEclResultSummary = await _wholesaleEclResultSummaryRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, wholesaleEclResultSummary);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclResultSummaries_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _wholesaleEclResultSummaryRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_WholesaleEclResultSummaries)]
          public async Task<PagedResultDto<WholesaleEclResultSummaryWholesaleEclLookupTableDto>> GetAllWholesaleEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_wholesaleEclRepository.GetAll().WhereIf(

@@ -19,7 +19,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.EclShared
 {
-    [AbpAuthorize(AppPermissions.Pages_LgdAssumptionUnsecuredRecoveries)]
     public class LgdAssumptionUnsecuredRecoveriesAppService : TestDemoAppServiceBase, ILgdAssumptionUnsecuredRecoveriesAppService
     {
         private readonly IRepository<LgdInputAssumption, Guid> _lgdAssumptionUnsecuredRecoveryRepository;
@@ -63,7 +62,6 @@ namespace TestDemo.EclShared
             );
         }
 
-        [AbpAuthorize(AppPermissions.Pages_LgdAssumptionUnsecuredRecoveries_Edit)]
         public async Task<GetLgdAssumptionUnsecuredRecoveryForEditOutput> GetLgdAssumptionUnsecuredRecoveryForEdit(EntityDto<Guid> input)
         {
             var lgdAssumptionUnsecuredRecovery = await _lgdAssumptionUnsecuredRecoveryRepository.FirstOrDefaultAsync(input.Id);
@@ -85,7 +83,6 @@ namespace TestDemo.EclShared
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_LgdAssumptionUnsecuredRecoveries_Create)]
         protected virtual async Task Create(CreateOrEditLgdAssumptionUnsecuredRecoveryDto input)
         {
             var lgdAssumptionUnsecuredRecovery = ObjectMapper.Map<LgdInputAssumption>(input);
@@ -95,7 +92,6 @@ namespace TestDemo.EclShared
             await _lgdAssumptionUnsecuredRecoveryRepository.InsertAsync(lgdAssumptionUnsecuredRecovery);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_LgdAssumptionUnsecuredRecoveries_Edit)]
         protected virtual async Task Update(CreateOrEditLgdAssumptionUnsecuredRecoveryDto input)
         {
             var lgdAssumptionUnsecuredRecovery = await _lgdAssumptionUnsecuredRecoveryRepository.FirstOrDefaultAsync((Guid)input.Id);
@@ -122,7 +118,6 @@ namespace TestDemo.EclShared
             });
         }
 
-        [AbpAuthorize(AppPermissions.Pages_LgdAssumptionUnsecuredRecoveries_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _lgdAssumptionUnsecuredRecoveryRepository.DeleteAsync(input.Id);

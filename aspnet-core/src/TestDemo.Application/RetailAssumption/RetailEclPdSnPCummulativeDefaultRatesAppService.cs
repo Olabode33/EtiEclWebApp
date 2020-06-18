@@ -20,7 +20,6 @@ using GetAllForLookupTableInput = TestDemo.RetailAssumption.Dtos.GetAllForLookup
 
 namespace TestDemo.RetailAssumption
 {
-    [AbpAuthorize(AppPermissions.Pages_RetailEclPdSnPCummulativeDefaultRates)]
     public class RetailEclPdSnPCummulativeDefaultRatesAppService : TestDemoAppServiceBase, IRetailEclPdSnPCummulativeDefaultRatesAppService
     {
         private readonly IRepository<RetailEclPdSnPCummulativeDefaultRate, Guid> _retailEclPdSnPCummulativeDefaultRateRepository;
@@ -96,7 +95,6 @@ namespace TestDemo.RetailAssumption
 
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclPdSnPCummulativeDefaultRates_Edit)]
         public async Task<GetRetailEclPdSnPCummulativeDefaultRateForEditOutput> GetRetailEclPdSnPCummulativeDefaultRateForEdit(EntityDto<Guid> input)
         {
             var retailEclPdSnPCummulativeDefaultRate = await _retailEclPdSnPCummulativeDefaultRateRepository.FirstOrDefaultAsync(input.Id);
@@ -124,7 +122,6 @@ namespace TestDemo.RetailAssumption
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclPdSnPCummulativeDefaultRates_Create)]
         protected virtual async Task Create(CreateOrEditRetailEclPdSnPCummulativeDefaultRateDto input)
         {
             var retailEclPdSnPCummulativeDefaultRate = ObjectMapper.Map<RetailEclPdSnPCummulativeDefaultRate>(input);
@@ -132,20 +129,17 @@ namespace TestDemo.RetailAssumption
             await _retailEclPdSnPCummulativeDefaultRateRepository.InsertAsync(retailEclPdSnPCummulativeDefaultRate);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclPdSnPCummulativeDefaultRates_Edit)]
         protected virtual async Task Update(CreateOrEditRetailEclPdSnPCummulativeDefaultRateDto input)
         {
             var retailEclPdSnPCummulativeDefaultRate = await _retailEclPdSnPCummulativeDefaultRateRepository.FirstOrDefaultAsync((Guid)input.Id);
             ObjectMapper.Map(input, retailEclPdSnPCummulativeDefaultRate);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclPdSnPCummulativeDefaultRates_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _retailEclPdSnPCummulativeDefaultRateRepository.DeleteAsync(input.Id);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclPdSnPCummulativeDefaultRates)]
         public async Task<PagedResultDto<RetailEclPdSnPCummulativeDefaultRateRetailEclLookupTableDto>> GetAllRetailEclForLookupTable(GetAllForLookupTableInput input)
         {
             var query = _lookup_retailEclRepository.GetAll().WhereIf(

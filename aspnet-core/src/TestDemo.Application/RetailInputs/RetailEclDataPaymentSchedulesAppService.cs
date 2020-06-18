@@ -18,7 +18,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.RetailInputs
 {
-	[AbpAuthorize(AppPermissions.Pages_RetailEclDataPaymentSchedules)]
     public class RetailEclDataPaymentSchedulesAppService : TestDemoAppServiceBase, IRetailEclDataPaymentSchedulesAppService
     {
 		 private readonly IRepository<RetailEclDataPaymentSchedule, Guid> _retailEclDataPaymentScheduleRepository;
@@ -70,7 +69,6 @@ namespace TestDemo.RetailInputs
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclDataPaymentSchedules_Edit)]
 		 public async Task<GetRetailEclDataPaymentScheduleForEditOutput> GetRetailEclDataPaymentScheduleForEdit(EntityDto<Guid> input)
          {
             var retailEclDataPaymentSchedule = await _retailEclDataPaymentScheduleRepository.FirstOrDefaultAsync(input.Id);
@@ -96,7 +94,6 @@ namespace TestDemo.RetailInputs
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclDataPaymentSchedules_Create)]
 		 protected virtual async Task Create(CreateOrEditRetailEclDataPaymentScheduleDto input)
          {
             var retailEclDataPaymentSchedule = ObjectMapper.Map<RetailEclDataPaymentSchedule>(input);
@@ -111,20 +108,17 @@ namespace TestDemo.RetailInputs
             await _retailEclDataPaymentScheduleRepository.InsertAsync(retailEclDataPaymentSchedule);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclDataPaymentSchedules_Edit)]
 		 protected virtual async Task Update(CreateOrEditRetailEclDataPaymentScheduleDto input)
          {
             var retailEclDataPaymentSchedule = await _retailEclDataPaymentScheduleRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, retailEclDataPaymentSchedule);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclDataPaymentSchedules_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _retailEclDataPaymentScheduleRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_RetailEclDataPaymentSchedules)]
          public async Task<PagedResultDto<RetailEclDataPaymentScheduleRetailEclUploadLookupTableDto>> GetAllRetailEclUploadForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_retailEclUploadRepository.GetAll().WhereIf(

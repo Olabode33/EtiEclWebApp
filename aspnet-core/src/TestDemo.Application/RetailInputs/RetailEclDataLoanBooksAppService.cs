@@ -18,7 +18,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.RetailInputs
 {
-	[AbpAuthorize(AppPermissions.Pages_RetailEclDataLoanBooks)]
     public class RetailEclDataLoanBooksAppService : TestDemoAppServiceBase, IRetailEclDataLoanBooksAppService
     {
 		 private readonly IRepository<RetailEclDataLoanBook, Guid> _retailEclDataLoanBookRepository;
@@ -137,7 +136,6 @@ namespace TestDemo.RetailInputs
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclDataLoanBooks_Edit)]
 		 public async Task<GetRetailEclDataLoanBookForEditOutput> GetRetailEclDataLoanBookForEdit(EntityDto<Guid> input)
          {
             var retailEclDataLoanBook = await _retailEclDataLoanBookRepository.FirstOrDefaultAsync(input.Id);
@@ -163,7 +161,6 @@ namespace TestDemo.RetailInputs
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclDataLoanBooks_Create)]
 		 protected virtual async Task Create(CreateOrEditRetailEclDataLoanBookDto input)
          {
             var retailEclDataLoanBook = ObjectMapper.Map<RetailEclDataLoanBook>(input);
@@ -178,20 +175,17 @@ namespace TestDemo.RetailInputs
             await _retailEclDataLoanBookRepository.InsertAsync(retailEclDataLoanBook);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclDataLoanBooks_Edit)]
 		 protected virtual async Task Update(CreateOrEditRetailEclDataLoanBookDto input)
          {
             var retailEclDataLoanBook = await _retailEclDataLoanBookRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, retailEclDataLoanBook);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclDataLoanBooks_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _retailEclDataLoanBookRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_RetailEclDataLoanBooks)]
          public async Task<PagedResultDto<RetailEclDataLoanBookRetailEclUploadLookupTableDto>> GetAllRetailEclUploadForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_retailEclUploadRepository.GetAll().WhereIf(

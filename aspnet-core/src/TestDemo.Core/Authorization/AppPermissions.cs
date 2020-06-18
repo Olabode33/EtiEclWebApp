@@ -18,6 +18,7 @@
         //Final 
         //Assumptions
         public const string Pages_AssumptionsUpdate = "Pages.Assumption.Affiliates";
+        public const string Pages_AssumptionsEdit = "Pages.Assumption.Affiliates.Edit";
         public const string Pages_AssumptionsUpdate_Review = "Pages.Assumption.Affiliates.Review";
         public const string Pages_AssumptionsUpdate_Copy = "Pages.Assumption.Affiliates.Copy";
 
@@ -40,6 +41,8 @@
 
         //Configuration
         public const string Pages_Configuration = "Pages.Configurations";
+        public const string Pages_Configuration_View = "Pages.Configurations.View";
+        public const string Pages_Configuration_Update = "Pages.Configurations.Update";
 
 
         //COMMON PERMISSIONS (FOR BOTH OF TENANTS AND HOST)

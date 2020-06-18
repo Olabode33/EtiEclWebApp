@@ -19,7 +19,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.ObeAssumption
 {
-	[AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptionNplIndexes)]
     public class ObeEclPdAssumptionNplIndexesAppService : TestDemoAppServiceBase, IObeEclPdAssumptionNplIndexesAppService
     {
 		 private readonly IRepository<ObeEclPdAssumptionNplIndex, Guid> _obeEclPdAssumptionNplIndexRepository;
@@ -64,7 +63,6 @@ namespace TestDemo.ObeAssumption
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptionNplIndexes_Edit)]
 		 public async Task<GetObeEclPdAssumptionNplIndexForEditOutput> GetObeEclPdAssumptionNplIndexForEdit(EntityDto<Guid> input)
          {
             var obeEclPdAssumptionNplIndex = await _obeEclPdAssumptionNplIndexRepository.FirstOrDefaultAsync(input.Id);
@@ -90,7 +88,6 @@ namespace TestDemo.ObeAssumption
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptionNplIndexes_Create)]
 		 protected virtual async Task Create(CreateOrEditObeEclPdAssumptionNplIndexDto input)
          {
             var obeEclPdAssumptionNplIndex = ObjectMapper.Map<ObeEclPdAssumptionNplIndex>(input);
@@ -100,20 +97,17 @@ namespace TestDemo.ObeAssumption
             await _obeEclPdAssumptionNplIndexRepository.InsertAsync(obeEclPdAssumptionNplIndex);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptionNplIndexes_Edit)]
 		 protected virtual async Task Update(CreateOrEditObeEclPdAssumptionNplIndexDto input)
          {
             var obeEclPdAssumptionNplIndex = await _obeEclPdAssumptionNplIndexRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, obeEclPdAssumptionNplIndex);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptionNplIndexes_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _obeEclPdAssumptionNplIndexRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptionNplIndexes)]
          public async Task<PagedResultDto<ObeEclPdAssumptionNplIndexObeEclLookupTableDto>> GetAllObeEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_obeEclRepository.GetAll().WhereIf(

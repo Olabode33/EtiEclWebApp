@@ -21,7 +21,6 @@ using GetAllForLookupTableInput = TestDemo.InvestmentAssumption.Dtos.GetAllForLo
 
 namespace TestDemo.InvestmentAssumption
 {
-	[AbpAuthorize(AppPermissions.Pages_InvestmentPdInputMacroEconomicAssumptions)]
     public class InvestmentPdInputMacroEconomicAssumptionsAppService : TestDemoAppServiceBase, IInvestmentPdInputMacroEconomicAssumptionsAppService
     {
 		 private readonly IRepository<InvestmentPdInputMacroEconomicAssumption, Guid> _investmentPdInputMacroEconomicAssumptionRepository;
@@ -91,7 +90,6 @@ namespace TestDemo.InvestmentAssumption
 
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentPdInputMacroEconomicAssumptions_Edit)]
 		 public async Task<GetInvestmentPdInputMacroEconomicAssumptionForEditOutput> GetInvestmentPdInputMacroEconomicAssumptionForEdit(EntityDto<Guid> input)
          {
             var investmentPdInputMacroEconomicAssumption = await _investmentPdInputMacroEconomicAssumptionRepository.FirstOrDefaultAsync(input.Id);
@@ -117,7 +115,6 @@ namespace TestDemo.InvestmentAssumption
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_InvestmentPdInputMacroEconomicAssumptions_Create)]
 		 protected virtual async Task Create(CreateOrEditInvestmentPdInputMacroEconomicAssumptionDto input)
          {
             var investmentPdInputMacroEconomicAssumption = ObjectMapper.Map<InvestmentPdInputMacroEconomicAssumption>(input);
@@ -127,20 +124,17 @@ namespace TestDemo.InvestmentAssumption
             await _investmentPdInputMacroEconomicAssumptionRepository.InsertAsync(investmentPdInputMacroEconomicAssumption);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_InvestmentPdInputMacroEconomicAssumptions_Edit)]
 		 protected virtual async Task Update(CreateOrEditInvestmentPdInputMacroEconomicAssumptionDto input)
          {
             var investmentPdInputMacroEconomicAssumption = await _investmentPdInputMacroEconomicAssumptionRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, investmentPdInputMacroEconomicAssumption);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_InvestmentPdInputMacroEconomicAssumptions_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _investmentPdInputMacroEconomicAssumptionRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_InvestmentPdInputMacroEconomicAssumptions)]
          public async Task<PagedResultDto<InvestmentPdInputMacroEconomicAssumptionInvestmentEclLookupTableDto>> GetAllInvestmentEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_investmentEclRepository.GetAll().WhereIf(

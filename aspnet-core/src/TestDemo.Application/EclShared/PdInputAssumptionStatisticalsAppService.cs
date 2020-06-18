@@ -20,7 +20,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.EclShared
 {
-    [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionStatisticals)]
     public class PdInputAssumptionStatisticalsAppService : TestDemoAppServiceBase, IPdInputAssumptionStatisticalsAppService
     {
         private readonly IRepository<PdInputAssumptionMacroeconomicInput, Guid> _pdInputAssumptionStatisticalRepository;
@@ -63,7 +62,6 @@ namespace TestDemo.EclShared
             );
         }
 
-        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionStatisticals_Edit)]
         public async Task<GetPdInputAssumptionStatisticalForEditOutput> GetPdInputAssumptionStatisticalForEdit(EntityDto<Guid> input)
         {
             var pdInputAssumptionStatistical = await _pdInputAssumptionStatisticalRepository.FirstOrDefaultAsync(input.Id);
@@ -85,7 +83,6 @@ namespace TestDemo.EclShared
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionStatisticals_Create)]
         protected virtual async Task Create(CreateOrEditPdInputAssumptionStatisticalDto input)
         {
             var pdInputAssumptionStatistical = ObjectMapper.Map<PdInputAssumptionMacroeconomicInput>(input);
@@ -95,7 +92,6 @@ namespace TestDemo.EclShared
             await _pdInputAssumptionStatisticalRepository.InsertAsync(pdInputAssumptionStatistical);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionStatisticals_Edit)]
         protected virtual async Task Update(CreateOrEditPdInputAssumptionStatisticalDto input)
         {
             var pdInputAssumptionStatistical = await _pdInputAssumptionStatisticalRepository.GetAll()
@@ -124,7 +120,6 @@ namespace TestDemo.EclShared
             });
         }
 
-        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionStatisticals_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _pdInputAssumptionStatisticalRepository.DeleteAsync(input.Id);

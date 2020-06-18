@@ -18,7 +18,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.WholesaleResults
 {
-	[AbpAuthorize(AppPermissions.Pages_WholesaleEclResultSummaryKeyInputs)]
     public class WholesaleEclResultSummaryKeyInputsAppService : TestDemoAppServiceBase, IWholesaleEclResultSummaryKeyInputsAppService
     {
 		 private readonly IRepository<WholesaleEclResultSummaryKeyInput, Guid> _wholesaleEclResultSummaryKeyInputRepository;
@@ -86,7 +85,6 @@ namespace TestDemo.WholesaleResults
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclResultSummaryKeyInputs_Edit)]
 		 public async Task<GetWholesaleEclResultSummaryKeyInputForEditOutput> GetWholesaleEclResultSummaryKeyInputForEdit(EntityDto<Guid> input)
          {
             var wholesaleEclResultSummaryKeyInput = await _wholesaleEclResultSummaryKeyInputRepository.FirstOrDefaultAsync(input.Id);
@@ -112,7 +110,6 @@ namespace TestDemo.WholesaleResults
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclResultSummaryKeyInputs_Create)]
 		 protected virtual async Task Create(CreateOrEditWholesaleEclResultSummaryKeyInputDto input)
          {
             var wholesaleEclResultSummaryKeyInput = ObjectMapper.Map<WholesaleEclResultSummaryKeyInput>(input);
@@ -127,20 +124,17 @@ namespace TestDemo.WholesaleResults
             await _wholesaleEclResultSummaryKeyInputRepository.InsertAsync(wholesaleEclResultSummaryKeyInput);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclResultSummaryKeyInputs_Edit)]
 		 protected virtual async Task Update(CreateOrEditWholesaleEclResultSummaryKeyInputDto input)
          {
             var wholesaleEclResultSummaryKeyInput = await _wholesaleEclResultSummaryKeyInputRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, wholesaleEclResultSummaryKeyInput);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclResultSummaryKeyInputs_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _wholesaleEclResultSummaryKeyInputRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_WholesaleEclResultSummaryKeyInputs)]
          public async Task<PagedResultDto<WholesaleEclResultSummaryKeyInputWholesaleEclLookupTableDto>> GetAllWholesaleEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_wholesaleEclRepository.GetAll().WhereIf(

@@ -45,7 +45,7 @@ using TestDemo.Configuration;
 
 namespace TestDemo.Wholesale
 {
-    [AbpAuthorize(AppPermissions.Pages_WholesaleEcls)]
+    [AbpAuthorize(AppPermissions.Pages_EclView)]
     public class WholesaleEclsAppService : TestDemoAppServiceBase, IEclsAppService
     {
         private readonly IRepository<WholesaleEcl, Guid> _wholesaleEclRepository;
@@ -178,7 +178,6 @@ namespace TestDemo.Wholesale
             );
         }
 
-        [AbpAuthorize(AppPermissions.Pages_WholesaleEcls_Edit)]
         public async Task<GetWholesaleEclForEditOutput> GetWholesaleEclForEdit(EntityDto<Guid> input)
         {
             var wholesaleEcl = await _wholesaleEclRepository.FirstOrDefaultAsync(input.Id);
@@ -206,7 +205,6 @@ namespace TestDemo.Wholesale
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_WholesaleEcls_Create)]
         protected virtual async Task Create(CreateOrEditEclDto input)
         {
             var wholesaleEcl = ObjectMapper.Map<WholesaleEcl>(input);
@@ -227,14 +225,12 @@ namespace TestDemo.Wholesale
             await _wholesaleEclRepository.InsertAsync(wholesaleEcl);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_WholesaleEcls_Edit)]
         protected virtual async Task Update(CreateOrEditEclDto input)
         {
             var wholesaleEcl = await _wholesaleEclRepository.FirstOrDefaultAsync((Guid)input.Id);
             ObjectMapper.Map(input, wholesaleEcl);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_WholesaleEcls_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _wholesaleEclRepository.DeleteAsync(input.Id);
@@ -472,6 +468,7 @@ namespace TestDemo.Wholesale
         }
 
 
+        [AbpAuthorize(AppPermissions.Pages_Workspace_CreateEcl)]
         public async Task<Guid> CreateEclAndAssumption()
         {
             var user = await UserManager.GetUserByIdAsync((long)AbpSession.UserId);
@@ -837,6 +834,8 @@ namespace TestDemo.Wholesale
 
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Submit)]
         public async Task SubmitForApproval(EntityDto<Guid> input)
         {
             var validation = await ValidateForSubmission(input.Id);
@@ -853,6 +852,8 @@ namespace TestDemo.Wholesale
             }
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Review)]
         public async Task ApproveReject(CreateOrEditEclApprovalDto input)
         {
             var ecl = await _wholesaleEclRepository.FirstOrDefaultAsync((Guid)input.EclId);
@@ -891,6 +892,8 @@ namespace TestDemo.Wholesale
             ObjectMapper.Map(ecl, ecl);
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Run)]
         public async Task RunEcl(EntityDto<Guid> input)
         {
             var ecl = await _wholesaleEclRepository.FirstOrDefaultAsync(input.Id);
@@ -905,6 +908,8 @@ namespace TestDemo.Wholesale
             }
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Run)]
         public async Task RunPostEcl(EntityDto<Guid> input)
         {
             var validation = await ValidateForPostRun(input.Id);
@@ -939,6 +944,8 @@ namespace TestDemo.Wholesale
             }
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Close)]
         public async Task CloseEcl(EntityDto<Guid> input)
         {
             var ecl = await _wholesaleEclRepository.FirstOrDefaultAsync(input.Id);
@@ -958,6 +965,8 @@ namespace TestDemo.Wholesale
             }
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Reopen)]
         public async Task ReopenEcl(EntityDto<Guid> input)
         {
             var ecl = await _wholesaleEclRepository.FirstOrDefaultAsync(input.Id);

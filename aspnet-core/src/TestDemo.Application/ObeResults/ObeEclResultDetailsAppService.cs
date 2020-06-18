@@ -19,7 +19,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.ObeResults
 {
-	[AbpAuthorize(AppPermissions.Pages_ObeEclResultDetails)]
     public class ObeEclResultDetailsAppService : TestDemoAppServiceBase, IObeEclResultDetailsAppService
     {
 		 private readonly IRepository<ObeEclResultDetail, Guid> _obeEclResultDetailRepository;
@@ -126,7 +125,6 @@ namespace TestDemo.ObeResults
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclResultDetails_Edit)]
 		 public async Task<GetObeEclResultDetailForEditOutput> GetObeEclResultDetailForEdit(EntityDto<Guid> input)
          {
             var obeEclResultDetail = await _obeEclResultDetailRepository.FirstOrDefaultAsync(input.Id);
@@ -158,7 +156,6 @@ namespace TestDemo.ObeResults
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclResultDetails_Create)]
 		 protected virtual async Task Create(CreateOrEditObeEclResultDetailDto input)
          {
             var obeEclResultDetail = ObjectMapper.Map<ObeEclResultDetail>(input);
@@ -173,20 +170,17 @@ namespace TestDemo.ObeResults
             await _obeEclResultDetailRepository.InsertAsync(obeEclResultDetail);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclResultDetails_Edit)]
 		 protected virtual async Task Update(CreateOrEditObeEclResultDetailDto input)
          {
             var obeEclResultDetail = await _obeEclResultDetailRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, obeEclResultDetail);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclResultDetails_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _obeEclResultDetailRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_ObeEclResultDetails)]
          public async Task<PagedResultDto<ObeEclResultDetailObeEclLookupTableDto>> GetAllObeEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_obeEclRepository.GetAll().WhereIf(
@@ -215,7 +209,6 @@ namespace TestDemo.ObeResults
             );
          }
 
-		[AbpAuthorize(AppPermissions.Pages_ObeEclResultDetails)]
          public async Task<PagedResultDto<ObeEclResultDetailObeEclDataLoanBookLookupTableDto>> GetAllObeEclDataLoanBookForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_obeEclDataLoanBookRepository.GetAll().WhereIf(

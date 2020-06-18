@@ -19,7 +19,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.EclShared
 {
-	[AbpAuthorize(AppPermissions.Pages_InvSecMacroEconomicAssumptions)]
     public class InvSecMacroEconomicAssumptionsAppService : TestDemoAppServiceBase, IInvSecMacroEconomicAssumptionsAppService
     {
 		 private readonly IRepository<InvSecMacroEconomicAssumption, Guid> _invSecMacroEconomicAssumptionRepository;
@@ -65,7 +64,6 @@ namespace TestDemo.EclShared
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_InvSecMacroEconomicAssumptions_Edit)]
 		 public async Task<GetInvSecMacroEconomicAssumptionForEditOutput> GetInvSecMacroEconomicAssumptionForEdit(EntityDto<Guid> input)
          {
             var invSecMacroEconomicAssumption = await _invSecMacroEconomicAssumptionRepository.FirstOrDefaultAsync(input.Id);
@@ -85,7 +83,6 @@ namespace TestDemo.EclShared
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_InvSecMacroEconomicAssumptions_Create)]
 		 protected virtual async Task Create(CreateOrEditInvSecMacroEconomicAssumptionDto input)
          {
             var invSecMacroEconomicAssumption = ObjectMapper.Map<InvSecMacroEconomicAssumption>(input);
@@ -95,14 +92,12 @@ namespace TestDemo.EclShared
             await _invSecMacroEconomicAssumptionRepository.InsertAsync(invSecMacroEconomicAssumption);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_InvSecMacroEconomicAssumptions_Edit)]
 		 protected virtual async Task Update(CreateOrEditInvSecMacroEconomicAssumptionDto input)
          {
             var invSecMacroEconomicAssumption = await _invSecMacroEconomicAssumptionRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, invSecMacroEconomicAssumption);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_InvSecMacroEconomicAssumptions_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _invSecMacroEconomicAssumptionRepository.DeleteAsync(input.Id);

@@ -42,7 +42,7 @@ using TestDemo.Configuration;
 
 namespace TestDemo.OBE
 {
-    [AbpAuthorize(AppPermissions.Pages_ObeEcls)]
+    [AbpAuthorize(AppPermissions.Pages_EclView)]
     public class ObeEclsAppService : TestDemoAppServiceBase, IEclsAppService
     {
         private readonly IRepository<ObeEcl, Guid> _obeEclRepository;
@@ -177,7 +177,6 @@ namespace TestDemo.OBE
             );
         }
 
-        [AbpAuthorize(AppPermissions.Pages_ObeEcls_Edit)]
         public async Task<GetObeEclForEditOutput> GetObeEclForEdit(EntityDto<Guid> input)
         {
             var obeEcl = await _obeEclRepository.FirstOrDefaultAsync(input.Id);
@@ -205,7 +204,6 @@ namespace TestDemo.OBE
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_ObeEcls_Create)]
         protected virtual async Task Create(CreateOrEditEclDto input)
         {
             var obeEcl = ObjectMapper.Map<ObeEcl>(input);
@@ -220,14 +218,12 @@ namespace TestDemo.OBE
             await _obeEclRepository.InsertAsync(obeEcl);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_ObeEcls_Edit)]
         protected virtual async Task Update(CreateOrEditEclDto input)
         {
             var obeEcl = await _obeEclRepository.FirstOrDefaultAsync((Guid)input.Id);
             ObjectMapper.Map(input, obeEcl);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_ObeEcls_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _obeEclRepository.DeleteAsync(input.Id);
@@ -464,6 +460,7 @@ namespace TestDemo.OBE
         }
 
 
+        [AbpAuthorize(AppPermissions.Pages_Workspace_CreateEcl)]
         public async Task<Guid> CreateEclAndAssumption()
         {
             var user = await UserManager.GetUserByIdAsync((long)AbpSession.UserId);
@@ -830,6 +827,7 @@ namespace TestDemo.OBE
         }
 
 
+        [AbpAuthorize(AppPermissions.Pages_EclView_Submit)]
         public async Task SubmitForApproval(EntityDto<Guid> input)
         {
             var validation = await ValidateForSubmission(input.Id);
@@ -846,6 +844,8 @@ namespace TestDemo.OBE
             }
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Review)]
         public async Task ApproveReject(CreateOrEditEclApprovalDto input)
         {
             var ecl = await _obeEclRepository.FirstOrDefaultAsync((Guid)input.EclId);
@@ -884,6 +884,8 @@ namespace TestDemo.OBE
             ObjectMapper.Map(ecl, ecl);
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Run)]
         public async Task RunEcl(EntityDto<Guid> input)
         {
             var ecl = await _obeEclRepository.FirstOrDefaultAsync(input.Id);
@@ -898,6 +900,8 @@ namespace TestDemo.OBE
             }
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Run)]
         public async Task RunPostEcl(EntityDto<Guid> input)
         {
             var validation = await ValidateForPostRun(input.Id);
@@ -932,6 +936,8 @@ namespace TestDemo.OBE
             }
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Close)]
         public async Task CloseEcl(EntityDto<Guid> input)
         {
             var ecl = await _obeEclRepository.FirstOrDefaultAsync(input.Id);
@@ -951,6 +957,8 @@ namespace TestDemo.OBE
             }
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Reopen)]
         public async Task ReopenEcl(EntityDto<Guid> input)
         {
             var ecl = await _obeEclRepository.FirstOrDefaultAsync(input.Id);

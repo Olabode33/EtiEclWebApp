@@ -19,7 +19,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.EclShared
 {
-    [AbpAuthorize(AppPermissions.Pages_Assumptions)]
     public class AssumptionsAppService : TestDemoAppServiceBase, IAssumptionsAppService
     {
         private readonly IRepository<Assumption, Guid> _assumptionRepository;
@@ -64,7 +63,6 @@ namespace TestDemo.EclShared
             );
         }
 
-        [AbpAuthorize(AppPermissions.Pages_Assumptions_Edit)]
         public async Task<GetAssumptionForEditOutput> GetAssumptionForEdit(EntityDto<Guid> input)
         {
             var assumption = await _assumptionRepository.FirstOrDefaultAsync(input.Id);
@@ -86,7 +84,6 @@ namespace TestDemo.EclShared
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_Assumptions_Create)]
         protected virtual async Task Create(CreateOrEditAssumptionDto input)
         {
             var assumption = ObjectMapper.Map<Assumption>(input);
@@ -96,7 +93,6 @@ namespace TestDemo.EclShared
             await _assumptionRepository.InsertAsync(assumption);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_Assumptions_Edit)]
         protected virtual async Task Update(CreateOrEditAssumptionDto input)
         {
             var assumption = await _assumptionRepository.FirstOrDefaultAsync((Guid)input.Id);
@@ -123,7 +119,6 @@ namespace TestDemo.EclShared
             });
         }
 
-        [AbpAuthorize(AppPermissions.Pages_Assumptions_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _assumptionRepository.DeleteAsync(input.Id);

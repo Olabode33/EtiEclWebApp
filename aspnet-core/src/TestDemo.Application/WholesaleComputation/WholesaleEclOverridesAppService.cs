@@ -31,7 +31,6 @@ using TestDemo.Configuration;
 
 namespace TestDemo.WholesaleComputation
 {
-    [AbpAuthorize(AppPermissions.Pages_WholesaleEclOverrides)]
     public class WholesaleEclOverridesAppService : TestDemoAppServiceBase, IWholesaleEclOverridesAppService
     {
         private readonly IRepository<WholesaleEclOverride, Guid> _wholesaleEclOverrideRepository;
@@ -110,7 +109,6 @@ namespace TestDemo.WholesaleComputation
             );
         }
 
-        [AbpAuthorize(AppPermissions.Pages_WholesaleEclOverrides_Edit)]
         public async Task<GetWholesaleEclOverrideForEditOutput> GetWholesaleEclOverrideForEdit(EntityDto<Guid> input)
         {
             var wholesaleEclOverride = await _wholesaleEclOverrideRepository.FirstOrDefaultAsync(input.Id);
@@ -201,6 +199,8 @@ namespace TestDemo.WholesaleComputation
             }
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Override)]
         protected virtual async Task Create(CreateOrEditEclOverrideDto input)
         {
             await _wholesaleEclOverrideRepository.InsertAsync(new WholesaleEclOverride
@@ -217,6 +217,8 @@ namespace TestDemo.WholesaleComputation
             await SendSubmittedEmail(input.EclId);
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Override)]
         protected virtual async Task Update(CreateOrEditEclOverrideDto input)
         {
             var eclOverride = await _wholesaleEclOverrideRepository.FirstOrDefaultAsync((Guid)input.Id);
@@ -237,6 +239,8 @@ namespace TestDemo.WholesaleComputation
             await _wholesaleEclOverrideRepository.DeleteAsync(input.Id);
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Override_Review)]
         public virtual async Task ApproveReject(EclShared.Dtos.ReviewEclOverrideInputDto input)
         {
             var ecl = await _wholesaleEclOverrideRepository.FirstOrDefaultAsync((Guid)input.OverrideRecordId);

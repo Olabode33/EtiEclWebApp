@@ -21,7 +21,6 @@ using TestDemo.EclShared.Dtos;
 
 namespace TestDemo.WholesaleAssumption
 {
-	[AbpAuthorize(AppPermissions.Pages_WholesaleEclPdAssumptionMacroeconomicInputs)]
     public class WholesaleEclPdAssumptionMacroeconomicInputsAppService : TestDemoAppServiceBase, IWholesaleEclPdAssumptionMacroeconomicInputsAppService
     {
 		 private readonly IRepository<WholesaleEclPdAssumptionMacroeconomicInput, Guid> _wholesaleEclPdAssumptionMacroeconomicInputRepository;
@@ -89,7 +88,6 @@ namespace TestDemo.WholesaleAssumption
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclPdAssumptionMacroeconomicInputs_Edit)]
 		 public async Task<GetWholesaleEclPdAssumptionMacroeconomicInputForEditOutput> GetWholesaleEclPdAssumptionMacroeconomicInputForEdit(EntityDto<Guid> input)
          {
             var wholesaleEclPdAssumptionMacroeconomicInput = await _wholesaleEclPdAssumptionMacroeconomicInputRepository.FirstOrDefaultAsync(input.Id);
@@ -115,7 +113,6 @@ namespace TestDemo.WholesaleAssumption
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclPdAssumptionMacroeconomicInputs_Create)]
 		 protected virtual async Task Create(CreateOrEditWholesaleEclPdAssumptionMacroeconomicInputDto input)
          {
             var wholesaleEclPdAssumptionMacroeconomicInput = ObjectMapper.Map<WholesaleEclPdAssumptionMacroeconomicInput>(input);
@@ -125,14 +122,12 @@ namespace TestDemo.WholesaleAssumption
             await _wholesaleEclPdAssumptionMacroeconomicInputRepository.InsertAsync(wholesaleEclPdAssumptionMacroeconomicInput);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclPdAssumptionMacroeconomicInputs_Edit)]
 		 protected virtual async Task Update(CreateOrEditWholesaleEclPdAssumptionMacroeconomicInputDto input)
          {
             var wholesaleEclPdAssumptionMacroeconomicInput = await _wholesaleEclPdAssumptionMacroeconomicInputRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, wholesaleEclPdAssumptionMacroeconomicInput);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclPdAssumptionMacroeconomicInputs_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _wholesaleEclPdAssumptionMacroeconomicInputRepository.DeleteAsync(input.Id);

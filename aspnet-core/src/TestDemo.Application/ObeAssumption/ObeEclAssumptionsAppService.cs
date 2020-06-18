@@ -20,7 +20,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.ObeAssumption
 {
-	[AbpAuthorize(AppPermissions.Pages_ObeEclAssumptions)]
     public class ObeEclAssumptionsAppService : TestDemoAppServiceBase, IObeEclAssumptionsAppService
     {
 		 private readonly IRepository<ObeEclAssumption, Guid> _obeEclAssumptionRepository;
@@ -81,7 +80,6 @@ namespace TestDemo.ObeAssumption
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclAssumptions_Edit)]
 		 public async Task<GetObeEclAssumptionForEditOutput> GetObeEclAssumptionForEdit(EntityDto<Guid> input)
          {
             var obeEclAssumption = await _obeEclAssumptionRepository.FirstOrDefaultAsync(input.Id);
@@ -107,7 +105,6 @@ namespace TestDemo.ObeAssumption
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclAssumptions_Create)]
 		 protected virtual async Task Create(CreateOrEditObeEclAssumptionDto input)
          {
             var obeEclAssumption = ObjectMapper.Map<ObeEclAssumption>(input);
@@ -115,20 +112,17 @@ namespace TestDemo.ObeAssumption
             await _obeEclAssumptionRepository.InsertAsync(obeEclAssumption);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclAssumptions_Edit)]
 		 protected virtual async Task Update(CreateOrEditObeEclAssumptionDto input)
          {
             var obeEclAssumption = await _obeEclAssumptionRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, obeEclAssumption);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclAssumptions_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _obeEclAssumptionRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_ObeEclAssumptions)]
          public async Task<PagedResultDto<ObeEclAssumptionObeEclLookupTableDto>> GetAllObeEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_obeEclRepository.GetAll().WhereIf(

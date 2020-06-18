@@ -20,7 +20,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.WholesaleInputs
 {
-	[AbpAuthorize(AppPermissions.Pages_WholesaleEclUploadApprovals)]
     public class WholesaleEclUploadApprovalsAppService : TestDemoAppServiceBase, IWholesaleEclUploadApprovalsAppService
     {
 		 private readonly IRepository<WholesaleEclUploadApproval, Guid> _wholesaleEclUploadApprovalRepository;
@@ -82,7 +81,6 @@ namespace TestDemo.WholesaleInputs
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclUploadApprovals_Edit)]
 		 public async Task<GetWholesaleEclUploadApprovalForEditOutput> GetWholesaleEclUploadApprovalForEdit(EntityDto<Guid> input)
          {
             var wholesaleEclUploadApproval = await _wholesaleEclUploadApprovalRepository.FirstOrDefaultAsync(input.Id);
@@ -114,7 +112,6 @@ namespace TestDemo.WholesaleInputs
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclUploadApprovals_Create)]
 		 protected virtual async Task Create(CreateOrEditWholesaleEclUploadApprovalDto input)
          {
             var wholesaleEclUploadApproval = ObjectMapper.Map<WholesaleEclUploadApproval>(input);
@@ -129,20 +126,17 @@ namespace TestDemo.WholesaleInputs
             await _wholesaleEclUploadApprovalRepository.InsertAsync(wholesaleEclUploadApproval);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclUploadApprovals_Edit)]
 		 protected virtual async Task Update(CreateOrEditWholesaleEclUploadApprovalDto input)
          {
             var wholesaleEclUploadApproval = await _wholesaleEclUploadApprovalRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, wholesaleEclUploadApproval);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclUploadApprovals_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _wholesaleEclUploadApprovalRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_WholesaleEclUploadApprovals)]
          public async Task<PagedResultDto<WholesaleEclUploadApprovalWholesaleEclUploadLookupTableDto>> GetAllWholesaleEclUploadForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_wholesaleEclUploadRepository.GetAll().WhereIf(
@@ -171,7 +165,6 @@ namespace TestDemo.WholesaleInputs
             );
          }
 
-		[AbpAuthorize(AppPermissions.Pages_WholesaleEclUploadApprovals)]
          public async Task<PagedResultDto<WholesaleEclUploadApprovalUserLookupTableDto>> GetAllUserForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_userRepository.GetAll().WhereIf(

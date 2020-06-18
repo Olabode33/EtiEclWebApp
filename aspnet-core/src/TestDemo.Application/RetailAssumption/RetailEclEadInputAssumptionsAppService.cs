@@ -22,7 +22,6 @@ using GetAllForLookupTableInput = TestDemo.RetailAssumption.Dtos.GetAllForLookup
 
 namespace TestDemo.RetailAssumption
 {
-	[AbpAuthorize(AppPermissions.Pages_RetailEclEadInputAssumptions)]
     public class RetailEclEadInputAssumptionsAppService : TestDemoAppServiceBase, IRetailEclEadInputAssumptionsAppService
     {
 		 private readonly IRepository<RetailEclEadInputAssumption, Guid> _retailEclEadInputAssumptionRepository;
@@ -83,7 +82,6 @@ namespace TestDemo.RetailAssumption
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclEadInputAssumptions_Edit)]
 		 public async Task<GetRetailEclEadInputAssumptionForEditOutput> GetRetailEclEadInputAssumptionForEdit(EntityDto<Guid> input)
          {
             var retailEclEadInputAssumption = await _retailEclEadInputAssumptionRepository.FirstOrDefaultAsync(input.Id);
@@ -131,7 +129,6 @@ namespace TestDemo.RetailAssumption
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclEadInputAssumptions_Create)]
 		 protected virtual async Task Create(CreateOrEditRetailEclEadInputAssumptionDto input)
          {
             var retailEclEadInputAssumption = ObjectMapper.Map<RetailEclEadInputAssumption>(input);
@@ -139,20 +136,17 @@ namespace TestDemo.RetailAssumption
             await _retailEclEadInputAssumptionRepository.InsertAsync(retailEclEadInputAssumption);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclEadInputAssumptions_Edit)]
 		 protected virtual async Task Update(CreateOrEditRetailEclEadInputAssumptionDto input)
          {
             var retailEclEadInputAssumption = await _retailEclEadInputAssumptionRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, retailEclEadInputAssumption);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclEadInputAssumptions_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _retailEclEadInputAssumptionRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_RetailEclEadInputAssumptions)]
          public async Task<PagedResultDto<RetailEclEadInputAssumptionRetailEclLookupTableDto>> GetAllRetailEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_retailEclRepository.GetAll().WhereIf(

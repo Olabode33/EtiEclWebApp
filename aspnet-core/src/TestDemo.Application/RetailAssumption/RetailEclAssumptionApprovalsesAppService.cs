@@ -21,7 +21,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.RetailAssumption
 {
-	[AbpAuthorize(AppPermissions.Pages_RetailEclAssumptionApprovalses)]
     public class RetailEclAssumptionApprovalsesAppService : TestDemoAppServiceBase, IRetailEclAssumptionApprovalsesAppService
     {
 		 private readonly IRepository<RetailEclAssumptionApproval, Guid> _retailEclAssumptionApprovalsRepository;
@@ -91,7 +90,6 @@ namespace TestDemo.RetailAssumption
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclAssumptionApprovalses_Edit)]
 		 public async Task<GetRetailEclAssumptionApprovalsForEditOutput> GetRetailEclAssumptionApprovalsForEdit(EntityDto<Guid> input)
          {
             var retailEclAssumptionApprovals = await _retailEclAssumptionApprovalsRepository.FirstOrDefaultAsync(input.Id);
@@ -123,7 +121,6 @@ namespace TestDemo.RetailAssumption
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclAssumptionApprovalses_Create)]
 		 protected virtual async Task Create(CreateOrEditRetailEclAssumptionApprovalsDto input)
          {
             var retailEclAssumptionApprovals = ObjectMapper.Map<RetailEclAssumptionApproval>(input);
@@ -138,20 +135,17 @@ namespace TestDemo.RetailAssumption
             await _retailEclAssumptionApprovalsRepository.InsertAsync(retailEclAssumptionApprovals);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclAssumptionApprovalses_Edit)]
 		 protected virtual async Task Update(CreateOrEditRetailEclAssumptionApprovalsDto input)
          {
             var retailEclAssumptionApprovals = await _retailEclAssumptionApprovalsRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, retailEclAssumptionApprovals);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclAssumptionApprovalses_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _retailEclAssumptionApprovalsRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_RetailEclAssumptionApprovalses)]
          public async Task<PagedResultDto<RetailEclAssumptionApprovalsUserLookupTableDto>> GetAllUserForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_userRepository.GetAll().WhereIf(
@@ -180,7 +174,6 @@ namespace TestDemo.RetailAssumption
             );
          }
 
-		[AbpAuthorize(AppPermissions.Pages_RetailEclAssumptionApprovalses)]
          public async Task<PagedResultDto<RetailEclAssumptionApprovalsRetailEclLookupTableDto>> GetAllRetailEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_retailEclRepository.GetAll().WhereIf(

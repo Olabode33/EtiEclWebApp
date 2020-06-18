@@ -20,7 +20,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.ObeAssumption
 {
-	[AbpAuthorize(AppPermissions.Pages_ObeEclEadInputAssumptions)]
     public class ObeEclEadInputAssumptionsAppService : TestDemoAppServiceBase, IObeEclEadInputAssumptionsAppService
     {
 		 private readonly IRepository<ObeEclEadInputAssumption, Guid> _obeEclEadInputAssumptionRepository;
@@ -81,7 +80,6 @@ namespace TestDemo.ObeAssumption
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclEadInputAssumptions_Edit)]
 		 public async Task<GetObeEclEadInputAssumptionForEditOutput> GetObeEclEadInputAssumptionForEdit(EntityDto<Guid> input)
          {
             var obeEclEadInputAssumption = await _obeEclEadInputAssumptionRepository.FirstOrDefaultAsync(input.Id);
@@ -107,7 +105,6 @@ namespace TestDemo.ObeAssumption
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclEadInputAssumptions_Create)]
 		 protected virtual async Task Create(CreateOrEditObeEclEadInputAssumptionDto input)
          {
             var obeEclEadInputAssumption = ObjectMapper.Map<ObeEclEadInputAssumption>(input);
@@ -115,20 +112,17 @@ namespace TestDemo.ObeAssumption
             await _obeEclEadInputAssumptionRepository.InsertAsync(obeEclEadInputAssumption);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclEadInputAssumptions_Edit)]
 		 protected virtual async Task Update(CreateOrEditObeEclEadInputAssumptionDto input)
          {
             var obeEclEadInputAssumption = await _obeEclEadInputAssumptionRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, obeEclEadInputAssumption);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclEadInputAssumptions_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _obeEclEadInputAssumptionRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_ObeEclEadInputAssumptions)]
          public async Task<PagedResultDto<ObeEclEadInputAssumptionObeEclLookupTableDto>> GetAllObeEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_obeEclRepository.GetAll().WhereIf(

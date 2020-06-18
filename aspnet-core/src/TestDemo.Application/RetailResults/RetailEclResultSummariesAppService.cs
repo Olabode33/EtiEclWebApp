@@ -19,7 +19,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.RetailResults
 {
-	[AbpAuthorize(AppPermissions.Pages_RetailEclResultSummaries)]
     public class RetailEclResultSummariesAppService : TestDemoAppServiceBase, IRetailEclResultSummariesAppService
     {
 		 private readonly IRepository<RetailEclResultSummary, Guid> _retailEclResultSummaryRepository;
@@ -87,7 +86,6 @@ namespace TestDemo.RetailResults
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclResultSummaries_Edit)]
 		 public async Task<GetRetailEclResultSummaryForEditOutput> GetRetailEclResultSummaryForEdit(EntityDto<Guid> input)
          {
             var retailEclResultSummary = await _retailEclResultSummaryRepository.FirstOrDefaultAsync(input.Id);
@@ -113,7 +111,6 @@ namespace TestDemo.RetailResults
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclResultSummaries_Create)]
 		 protected virtual async Task Create(CreateOrEditRetailEclResultSummaryDto input)
          {
             var retailEclResultSummary = ObjectMapper.Map<RetailEclResultSummary>(input);
@@ -128,20 +125,17 @@ namespace TestDemo.RetailResults
             await _retailEclResultSummaryRepository.InsertAsync(retailEclResultSummary);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclResultSummaries_Edit)]
 		 protected virtual async Task Update(CreateOrEditRetailEclResultSummaryDto input)
          {
             var retailEclResultSummary = await _retailEclResultSummaryRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, retailEclResultSummary);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclResultSummaries_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _retailEclResultSummaryRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_RetailEclResultSummaries)]
          public async Task<PagedResultDto<RetailEclResultSummaryRetailEclLookupTableDto>> GetAllRetailEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_retailEclRepository.GetAll().WhereIf(

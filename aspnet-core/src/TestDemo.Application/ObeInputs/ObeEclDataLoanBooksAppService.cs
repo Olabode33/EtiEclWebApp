@@ -18,7 +18,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.ObeInputs
 {
-	[AbpAuthorize(AppPermissions.Pages_ObeEclDataLoanBooks)]
     public class ObeEclDataLoanBooksAppService : TestDemoAppServiceBase, IObeEclDataLoanBooksAppService
     {
 		 private readonly IRepository<ObeEclDataLoanBook, Guid> _obeEclDataLoanBookRepository;
@@ -246,7 +245,6 @@ namespace TestDemo.ObeInputs
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclDataLoanBooks_Edit)]
 		 public async Task<GetObeEclDataLoanBookForEditOutput> GetObeEclDataLoanBookForEdit(EntityDto<Guid> input)
          {
             var obeEclDataLoanBook = await _obeEclDataLoanBookRepository.FirstOrDefaultAsync(input.Id);
@@ -272,7 +270,6 @@ namespace TestDemo.ObeInputs
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclDataLoanBooks_Create)]
 		 protected virtual async Task Create(CreateOrEditObeEclDataLoanBookDto input)
          {
             var obeEclDataLoanBook = ObjectMapper.Map<ObeEclDataLoanBook>(input);
@@ -287,20 +284,17 @@ namespace TestDemo.ObeInputs
             await _obeEclDataLoanBookRepository.InsertAsync(obeEclDataLoanBook);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclDataLoanBooks_Edit)]
 		 protected virtual async Task Update(CreateOrEditObeEclDataLoanBookDto input)
          {
             var obeEclDataLoanBook = await _obeEclDataLoanBookRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, obeEclDataLoanBook);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclDataLoanBooks_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _obeEclDataLoanBookRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_ObeEclDataLoanBooks)]
          public async Task<PagedResultDto<ObeEclDataLoanBookObeEclUploadLookupTableDto>> GetAllObeEclUploadForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_obeEclUploadRepository.GetAll().WhereIf(

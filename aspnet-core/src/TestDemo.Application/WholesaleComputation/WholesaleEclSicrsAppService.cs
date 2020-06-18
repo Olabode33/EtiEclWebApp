@@ -19,7 +19,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.WholesaleComputation
 {
-	[AbpAuthorize(AppPermissions.Pages_WholesaleEclSicrs)]
     public class WholesaleEclSicrsAppService : TestDemoAppServiceBase, IWholesaleEclSicrsAppService
     {
 		 private readonly IRepository<WholesaleEclSicr, Guid> _wholesaleEclSicrRepository;
@@ -75,7 +74,6 @@ namespace TestDemo.WholesaleComputation
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclSicrs_Edit)]
 		 public async Task<GetWholesaleEclSicrForEditOutput> GetWholesaleEclSicrForEdit(EntityDto<Guid> input)
          {
             var wholesaleEclSicr = await _wholesaleEclSicrRepository.FirstOrDefaultAsync(input.Id);
@@ -101,7 +99,6 @@ namespace TestDemo.WholesaleComputation
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclSicrs_Create)]
 		 protected virtual async Task Create(CreateOrEditWholesaleEclSicrDto input)
          {
             var wholesaleEclSicr = ObjectMapper.Map<WholesaleEclSicr>(input);
@@ -116,20 +113,17 @@ namespace TestDemo.WholesaleComputation
             await _wholesaleEclSicrRepository.InsertAsync(wholesaleEclSicr);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclSicrs_Edit)]
 		 protected virtual async Task Update(CreateOrEditWholesaleEclSicrDto input)
          {
             var wholesaleEclSicr = await _wholesaleEclSicrRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, wholesaleEclSicr);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclSicrs_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _wholesaleEclSicrRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_WholesaleEclSicrs)]
          public async Task<PagedResultDto<WholesaleEclSicrWholesaleEclDataLoanBookLookupTableDto>> GetAllWholesaleEclDataLoanBookForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_wholesaleEclDataLoanBookRepository.GetAll().WhereIf(

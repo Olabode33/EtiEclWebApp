@@ -23,7 +23,6 @@ using Abp.UI;
 
 namespace TestDemo.ObeInputs
 {
-    [AbpAuthorize(AppPermissions.Pages_ObeEclUploads)]
     public class ObeEclUploadsAppService : TestDemoAppServiceBase, IObeEclUploadsAppService
     {
         private readonly IRepository<ObeEclUpload, Guid> _obeEclUploadRepository;
@@ -108,7 +107,6 @@ namespace TestDemo.ObeInputs
         }
 
 
-        [AbpAuthorize(AppPermissions.Pages_ObeEclUploads_Edit)]
         public async Task<GetObeEclUploadForEditOutput> GetObeEclUploadForEdit(EntityDto<Guid> input)
         {
             var obeEclUpload = await _obeEclUploadRepository.FirstOrDefaultAsync(input.Id);
@@ -138,7 +136,6 @@ namespace TestDemo.ObeInputs
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_ObeEclUploads_Create)]
         protected virtual async Task<Guid> Create(CreateOrEditObeEclUploadDto input)
         {
             var eclUploadExist = await _obeEclUploadRepository.FirstOrDefaultAsync(x => x.DocType == input.DocType && x.ObeEclId == input.EclId);
@@ -156,20 +153,17 @@ namespace TestDemo.ObeInputs
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_ObeEclUploads_Edit)]
         protected virtual async Task Update(CreateOrEditObeEclUploadDto input)
         {
             var obeEclUpload = await _obeEclUploadRepository.FirstOrDefaultAsync((Guid)input.Id);
             ObjectMapper.Map(input, obeEclUpload);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_ObeEclUploads_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _obeEclUploadRepository.DeleteAsync(input.Id);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_ObeEclUploads)]
         public async Task<PagedResultDto<ObeEclUploadObeEclLookupTableDto>> GetAllObeEclForLookupTable(GetAllForLookupTableInput input)
         {
             var query = _lookup_obeEclRepository.GetAll().WhereIf(

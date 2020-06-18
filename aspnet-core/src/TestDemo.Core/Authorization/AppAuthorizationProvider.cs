@@ -41,6 +41,7 @@ namespace TestDemo.Authorization
 
             //Final Permissions List
             var assumptionsUpdate = pages.CreateChildPermission(AppPermissions.Pages_AssumptionsUpdate, L("Assumptions"));
+            assumptionsUpdate.CreateChildPermission(AppPermissions.Pages_AssumptionsEdit, L("UpdatedAssumption"));
             assumptionsUpdate.CreateChildPermission(AppPermissions.Pages_AssumptionsUpdate_Review, L("ReviewUpdatedAssumption"));
             assumptionsUpdate.CreateChildPermission(AppPermissions.Pages_AssumptionsUpdate_Copy, L("CopyAssumption"));
 
@@ -60,6 +61,8 @@ namespace TestDemo.Authorization
             eclView.CreateChildPermission(AppPermissions.Pages_EclView_Reopen, L("ReopenEcl"));
 
             var configuration = pages.CreateChildPermission(AppPermissions.Pages_Configuration, L("EditEclConfiguration"));
+            configuration.CreateChildPermission(AppPermissions.Pages_Configuration_View, L("View"));
+            configuration.CreateChildPermission(AppPermissions.Pages_Configuration_Update, L("Update"));
 
             //pages.CreateChildPermission(AppPermissions.Pages_DemoUiComponents, L("DemoUiComponents"));
 

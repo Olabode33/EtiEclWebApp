@@ -21,7 +21,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.ObeAssumption
 {
-	[AbpAuthorize(AppPermissions.Pages_ObeEclAssumptionApprovals)]
     public class ObeEclAssumptionApprovalsAppService : TestDemoAppServiceBase, IObeEclAssumptionApprovalsAppService
     {
 		 private readonly IRepository<ObeEclAssumptionApproval, Guid> _obeEclAssumptionApprovalRepository;
@@ -91,7 +90,6 @@ namespace TestDemo.ObeAssumption
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclAssumptionApprovals_Edit)]
 		 public async Task<GetObeEclAssumptionApprovalForEditOutput> GetObeEclAssumptionApprovalForEdit(EntityDto<Guid> input)
          {
             var obeEclAssumptionApproval = await _obeEclAssumptionApprovalRepository.FirstOrDefaultAsync(input.Id);
@@ -123,7 +121,6 @@ namespace TestDemo.ObeAssumption
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclAssumptionApprovals_Create)]
 		 protected virtual async Task Create(CreateOrEditObeEclAssumptionApprovalDto input)
          {
             var obeEclAssumptionApproval = ObjectMapper.Map<ObeEclAssumptionApproval>(input);
@@ -138,20 +135,17 @@ namespace TestDemo.ObeAssumption
             await _obeEclAssumptionApprovalRepository.InsertAsync(obeEclAssumptionApproval);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclAssumptionApprovals_Edit)]
 		 protected virtual async Task Update(CreateOrEditObeEclAssumptionApprovalDto input)
          {
             var obeEclAssumptionApproval = await _obeEclAssumptionApprovalRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, obeEclAssumptionApproval);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclAssumptionApprovals_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _obeEclAssumptionApprovalRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_ObeEclAssumptionApprovals)]
          public async Task<PagedResultDto<ObeEclAssumptionApprovalObeEclLookupTableDto>> GetAllObeEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_obeEclRepository.GetAll().WhereIf(
@@ -180,7 +174,6 @@ namespace TestDemo.ObeAssumption
             );
          }
 
-		[AbpAuthorize(AppPermissions.Pages_ObeEclAssumptionApprovals)]
          public async Task<PagedResultDto<ObeEclAssumptionApprovalUserLookupTableDto>> GetAllUserForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_userRepository.GetAll().WhereIf(

@@ -19,7 +19,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.RetailResults
 {
-	[AbpAuthorize(AppPermissions.Pages_RetailEclResultDetails)]
     public class RetailEclResultDetailsAppService : TestDemoAppServiceBase, IRetailEclResultDetailsAppService
     {
 		 private readonly IRepository<RetailEclResultDetail, Guid> _retailEclResultDetailRepository;
@@ -126,7 +125,6 @@ namespace TestDemo.RetailResults
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclResultDetails_Edit)]
 		 public async Task<GetRetailEclResultDetailForEditOutput> GetRetailEclResultDetailForEdit(EntityDto<Guid> input)
          {
             var retailEclResultDetail = await _retailEclResultDetailRepository.FirstOrDefaultAsync(input.Id);
@@ -158,7 +156,6 @@ namespace TestDemo.RetailResults
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclResultDetails_Create)]
 		 protected virtual async Task Create(CreateOrEditRetailEclResultDetailDto input)
          {
             var retailEclResultDetail = ObjectMapper.Map<RetailEclResultDetail>(input);
@@ -173,20 +170,17 @@ namespace TestDemo.RetailResults
             await _retailEclResultDetailRepository.InsertAsync(retailEclResultDetail);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclResultDetails_Edit)]
 		 protected virtual async Task Update(CreateOrEditRetailEclResultDetailDto input)
          {
             var retailEclResultDetail = await _retailEclResultDetailRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, retailEclResultDetail);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclResultDetails_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _retailEclResultDetailRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_RetailEclResultDetails)]
          public async Task<PagedResultDto<RetailEclResultDetailRetailEclLookupTableDto>> GetAllRetailEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_retailEclRepository.GetAll().WhereIf(
@@ -215,7 +209,6 @@ namespace TestDemo.RetailResults
             );
          }
 
-		[AbpAuthorize(AppPermissions.Pages_RetailEclResultDetails)]
          public async Task<PagedResultDto<RetailEclResultDetailRetailEclDataLoanBookLookupTableDto>> GetAllRetailEclDataLoanBookForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_retailEclDataLoanBookRepository.GetAll().WhereIf(

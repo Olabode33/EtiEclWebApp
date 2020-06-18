@@ -19,7 +19,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.RetailResults
 {
-	[AbpAuthorize(AppPermissions.Pages_RetailEclResultSummaryTopExposures)]
     public class RetailEclResultSummaryTopExposuresAppService : TestDemoAppServiceBase, IRetailEclResultSummaryTopExposuresAppService
     {
 		 private readonly IRepository<RetailEclResultSummaryTopExposure, Guid> _retailEclResultSummaryTopExposureRepository;
@@ -90,7 +89,6 @@ namespace TestDemo.RetailResults
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclResultSummaryTopExposures_Edit)]
 		 public async Task<GetRetailEclResultSummaryTopExposureForEditOutput> GetRetailEclResultSummaryTopExposureForEdit(EntityDto<Guid> input)
          {
             var retailEclResultSummaryTopExposure = await _retailEclResultSummaryTopExposureRepository.FirstOrDefaultAsync(input.Id);
@@ -122,7 +120,6 @@ namespace TestDemo.RetailResults
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclResultSummaryTopExposures_Create)]
 		 protected virtual async Task Create(CreateOrEditRetailEclResultSummaryTopExposureDto input)
          {
             var retailEclResultSummaryTopExposure = ObjectMapper.Map<RetailEclResultSummaryTopExposure>(input);
@@ -137,20 +134,17 @@ namespace TestDemo.RetailResults
             await _retailEclResultSummaryTopExposureRepository.InsertAsync(retailEclResultSummaryTopExposure);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclResultSummaryTopExposures_Edit)]
 		 protected virtual async Task Update(CreateOrEditRetailEclResultSummaryTopExposureDto input)
          {
             var retailEclResultSummaryTopExposure = await _retailEclResultSummaryTopExposureRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, retailEclResultSummaryTopExposure);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclResultSummaryTopExposures_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _retailEclResultSummaryTopExposureRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_RetailEclResultSummaryTopExposures)]
          public async Task<PagedResultDto<RetailEclResultSummaryTopExposureRetailEclLookupTableDto>> GetAllRetailEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_retailEclRepository.GetAll().WhereIf(
@@ -179,7 +173,6 @@ namespace TestDemo.RetailResults
             );
          }
 
-		[AbpAuthorize(AppPermissions.Pages_RetailEclResultSummaryTopExposures)]
          public async Task<PagedResultDto<RetailEclResultSummaryTopExposureRetailEclDataLoanBookLookupTableDto>> GetAllRetailEclDataLoanBookForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_retailEclDataLoanBookRepository.GetAll().WhereIf(

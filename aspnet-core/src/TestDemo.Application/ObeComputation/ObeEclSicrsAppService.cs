@@ -19,7 +19,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.ObeComputation
 {
-	[AbpAuthorize(AppPermissions.Pages_ObeEclSicrs)]
     public class ObeEclSicrsAppService : TestDemoAppServiceBase, IObeEclSicrsAppService
     {
 		 private readonly IRepository<ObeEclSicr, Guid> _obeEclSicrRepository;
@@ -75,7 +74,6 @@ namespace TestDemo.ObeComputation
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclSicrs_Edit)]
 		 public async Task<GetObeEclSicrForEditOutput> GetObeEclSicrForEdit(EntityDto<Guid> input)
          {
             var obeEclSicr = await _obeEclSicrRepository.FirstOrDefaultAsync(input.Id);
@@ -101,7 +99,6 @@ namespace TestDemo.ObeComputation
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclSicrs_Create)]
 		 protected virtual async Task Create(CreateOrEditObeEclSicrDto input)
          {
             var obeEclSicr = ObjectMapper.Map<ObeEclSicr>(input);
@@ -116,20 +113,17 @@ namespace TestDemo.ObeComputation
             await _obeEclSicrRepository.InsertAsync(obeEclSicr);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclSicrs_Edit)]
 		 protected virtual async Task Update(CreateOrEditObeEclSicrDto input)
          {
             var obeEclSicr = await _obeEclSicrRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, obeEclSicr);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclSicrs_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _obeEclSicrRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_ObeEclSicrs)]
          public async Task<PagedResultDto<ObeEclSicrObeEclDataLoanBookLookupTableDto>> GetAllObeEclDataLoanBookForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_obeEclDataLoanBookRepository.GetAll().WhereIf(

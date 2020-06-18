@@ -31,7 +31,6 @@ using TestDemo.Configuration;
 
 namespace TestDemo.RetailComputation
 {
-    [AbpAuthorize(AppPermissions.Pages_RetailEclOverrides)]
     public class RetailEclOverridesAppService : TestDemoAppServiceBase, IRetailEclOverridesAppService
     {
         private readonly IRepository<RetailEclOverride, Guid> _retailEclOverrideRepository;
@@ -200,6 +199,8 @@ namespace TestDemo.RetailComputation
             }
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Override)]
         protected virtual async Task Create(CreateOrEditEclOverrideDto input)
         {
             await _retailEclOverrideRepository.InsertAsync(new RetailEclOverride
@@ -215,6 +216,7 @@ namespace TestDemo.RetailComputation
             await SendSubmittedEmail((Guid)input.EclId);
         }
 
+        [AbpAuthorize(AppPermissions.Pages_EclView_Override)]
         protected virtual async Task Update(CreateOrEditEclOverrideDto input)
         {
             var eclOverride = await _retailEclOverrideRepository.FirstOrDefaultAsync((Guid)input.Id);
@@ -235,6 +237,8 @@ namespace TestDemo.RetailComputation
             await _retailEclOverrideRepository.DeleteAsync(input.Id);
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Override_Review)]
         public virtual async Task ApproveReject(EclShared.Dtos.ReviewEclOverrideInputDto input)
         {
             var ecl = await _retailEclOverrideRepository.FirstOrDefaultAsync((Guid)input.OverrideRecordId);

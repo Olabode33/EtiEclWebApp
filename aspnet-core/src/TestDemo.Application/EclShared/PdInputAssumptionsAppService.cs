@@ -21,7 +21,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.EclShared
 {
-    [AbpAuthorize(AppPermissions.Pages_PdInputAssumptions)]
     public class PdInputAssumptionsAppService : TestDemoAppServiceBase, IPdInputAssumptionsAppService
     {
         private readonly IRepository<PdInputAssumption, Guid> _pdInputAssumptionRepository;
@@ -62,7 +61,6 @@ namespace TestDemo.EclShared
             );
         }
 
-        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptions_Edit)]
         public async Task<GetPdInputAssumptionForEditOutput> GetPdInputAssumptionForEdit(EntityDto<Guid> input)
         {
             var pdInputAssumption = await _pdInputAssumptionRepository.FirstOrDefaultAsync(input.Id);
@@ -84,7 +82,6 @@ namespace TestDemo.EclShared
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptions_Create)]
         protected virtual async Task Create(CreateOrEditPdInputAssumptionDto input)
         {
             var pdInputAssumption = ObjectMapper.Map<PdInputAssumption>(input);
@@ -94,7 +91,6 @@ namespace TestDemo.EclShared
             await _pdInputAssumptionRepository.InsertAsync(pdInputAssumption);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptions_Edit)]
         protected virtual async Task Update(CreateOrEditPdInputAssumptionDto input)
         {
             var pdInputAssumption = await _pdInputAssumptionRepository.FirstOrDefaultAsync((Guid)input.Id);
@@ -121,7 +117,6 @@ namespace TestDemo.EclShared
             });
         }
 
-        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptions_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _pdInputAssumptionRepository.DeleteAsync(input.Id);

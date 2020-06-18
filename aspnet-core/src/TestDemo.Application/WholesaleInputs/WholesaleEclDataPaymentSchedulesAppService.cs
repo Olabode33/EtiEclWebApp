@@ -18,7 +18,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.WholesaleInputs
 {
-	[AbpAuthorize(AppPermissions.Pages_WholesaleEclDataPaymentSchedules)]
     public class WholesaleEclDataPaymentSchedulesAppService : TestDemoAppServiceBase, IWholesaleEclDataPaymentSchedulesAppService
     {
 		 private readonly IRepository<WholesaleEclDataPaymentSchedule, Guid> _wholesaleEclDataPaymentScheduleRepository;
@@ -79,7 +78,6 @@ namespace TestDemo.WholesaleInputs
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclDataPaymentSchedules_Edit)]
 		 public async Task<GetWholesaleEclDataPaymentScheduleForEditOutput> GetWholesaleEclDataPaymentScheduleForEdit(EntityDto<Guid> input)
          {
             var wholesaleEclDataPaymentSchedule = await _wholesaleEclDataPaymentScheduleRepository.FirstOrDefaultAsync(input.Id);
@@ -105,7 +103,6 @@ namespace TestDemo.WholesaleInputs
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclDataPaymentSchedules_Create)]
 		 protected virtual async Task Create(CreateOrEditWholesaleEclDataPaymentScheduleDto input)
          {
             var wholesaleEclDataPaymentSchedule = ObjectMapper.Map<WholesaleEclDataPaymentSchedule>(input);
@@ -120,20 +117,17 @@ namespace TestDemo.WholesaleInputs
             await _wholesaleEclDataPaymentScheduleRepository.InsertAsync(wholesaleEclDataPaymentSchedule);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclDataPaymentSchedules_Edit)]
 		 protected virtual async Task Update(CreateOrEditWholesaleEclDataPaymentScheduleDto input)
          {
             var wholesaleEclDataPaymentSchedule = await _wholesaleEclDataPaymentScheduleRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, wholesaleEclDataPaymentSchedule);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclDataPaymentSchedules_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _wholesaleEclDataPaymentScheduleRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_WholesaleEclDataPaymentSchedules)]
          public async Task<PagedResultDto<WholesaleEclDataPaymentScheduleWholesaleEclUploadLookupTableDto>> GetAllWholesaleEclUploadForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_wholesaleEclUploadRepository.GetAll().WhereIf(

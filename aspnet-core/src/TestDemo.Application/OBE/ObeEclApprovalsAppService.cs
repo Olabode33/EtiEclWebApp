@@ -20,7 +20,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.OBE
 {
-    [AbpAuthorize(AppPermissions.Pages_ObeEclApprovals)]
     public class ObeEclApprovalsAppService : TestDemoAppServiceBase, IObeEclApprovalsAppService
     {
         private readonly IRepository<ObeEclApproval, Guid> _obeEclApprovalRepository;
@@ -124,7 +123,6 @@ namespace TestDemo.OBE
             );
         }
 
-        [AbpAuthorize(AppPermissions.Pages_ObeEclApprovals_Edit)]
         public async Task<GetObeEclApprovalForEditOutput> GetObeEclApprovalForEdit(EntityDto<Guid> input)
         {
             var obeEclApproval = await _obeEclApprovalRepository.FirstOrDefaultAsync(input.Id);
@@ -158,7 +156,6 @@ namespace TestDemo.OBE
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_ObeEclApprovals_Create)]
         protected virtual async Task Create(CreateOrEditObeEclApprovalDto input)
         {
             var obeEclApproval = ObjectMapper.Map<ObeEclApproval>(input);
@@ -173,20 +170,17 @@ namespace TestDemo.OBE
             await _obeEclApprovalRepository.InsertAsync(obeEclApproval);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_ObeEclApprovals_Edit)]
         protected virtual async Task Update(CreateOrEditObeEclApprovalDto input)
         {
             var obeEclApproval = await _obeEclApprovalRepository.FirstOrDefaultAsync((Guid)input.Id);
             ObjectMapper.Map(input, obeEclApproval);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_ObeEclApprovals_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _obeEclApprovalRepository.DeleteAsync(input.Id);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_ObeEclApprovals)]
         public async Task<PagedResultDto<ObeEclApprovalObeEclLookupTableDto>> GetAllObeEclForLookupTable(GetAllForLookupTableInput input)
         {
             var query = _lookup_obeEclRepository.GetAll().WhereIf(
@@ -216,7 +210,6 @@ namespace TestDemo.OBE
             );
         }
 
-        [AbpAuthorize(AppPermissions.Pages_ObeEclApprovals)]
         public async Task<PagedResultDto<ObeEclApprovalUserLookupTableDto>> GetAllUserForLookupTable(GetAllForLookupTableInput input)
         {
             var query = _lookup_userRepository.GetAll().WhereIf(

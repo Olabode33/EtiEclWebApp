@@ -18,7 +18,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.RetailResults
 {
-	[AbpAuthorize(AppPermissions.Pages_RetailEclResultSummaryKeyInputs)]
     public class RetailEclResultSummaryKeyInputsAppService : TestDemoAppServiceBase, IRetailEclResultSummaryKeyInputsAppService
     {
 		 private readonly IRepository<RetailEclResultSummaryKeyInput, Guid> _retailEclResultSummaryKeyInputRepository;
@@ -86,7 +85,6 @@ namespace TestDemo.RetailResults
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclResultSummaryKeyInputs_Edit)]
 		 public async Task<GetRetailEclResultSummaryKeyInputForEditOutput> GetRetailEclResultSummaryKeyInputForEdit(EntityDto<Guid> input)
          {
             var retailEclResultSummaryKeyInput = await _retailEclResultSummaryKeyInputRepository.FirstOrDefaultAsync(input.Id);
@@ -112,7 +110,6 @@ namespace TestDemo.RetailResults
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclResultSummaryKeyInputs_Create)]
 		 protected virtual async Task Create(CreateOrEditRetailEclResultSummaryKeyInputDto input)
          {
             var retailEclResultSummaryKeyInput = ObjectMapper.Map<RetailEclResultSummaryKeyInput>(input);
@@ -127,20 +124,17 @@ namespace TestDemo.RetailResults
             await _retailEclResultSummaryKeyInputRepository.InsertAsync(retailEclResultSummaryKeyInput);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclResultSummaryKeyInputs_Edit)]
 		 protected virtual async Task Update(CreateOrEditRetailEclResultSummaryKeyInputDto input)
          {
             var retailEclResultSummaryKeyInput = await _retailEclResultSummaryKeyInputRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, retailEclResultSummaryKeyInput);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclResultSummaryKeyInputs_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _retailEclResultSummaryKeyInputRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_RetailEclResultSummaryKeyInputs)]
          public async Task<PagedResultDto<RetailEclResultSummaryKeyInputRetailEclLookupTableDto>> GetAllRetailEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_retailEclRepository.GetAll().WhereIf(

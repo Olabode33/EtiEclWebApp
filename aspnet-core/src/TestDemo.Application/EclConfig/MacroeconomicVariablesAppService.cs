@@ -17,7 +17,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.EclShared
 {
-	[AbpAuthorize(AppPermissions.Pages_MacroeconomicVariables)]
+	[AbpAuthorize(AppPermissions.Pages_Configuration)]
     public class MacroeconomicVariablesAppService : TestDemoAppServiceBase, IMacroeconomicVariablesAppService
     {
 		 private readonly IRepository<MacroeconomicVariable> _macroeconomicVariableRepository;
@@ -56,7 +56,6 @@ namespace TestDemo.EclShared
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_MacroeconomicVariables_Edit)]
 		 public async Task<GetMacroeconomicVariableForEditOutput> GetMacroeconomicVariableForEdit(EntityDto input)
          {
             var macroeconomicVariable = await _macroeconomicVariableRepository.FirstOrDefaultAsync(input.Id);
@@ -76,7 +75,7 @@ namespace TestDemo.EclShared
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_MacroeconomicVariables_Create)]
+		 [AbpAuthorize(AppPermissions.Pages_Configuration_Update)]
 		 protected virtual async Task Create(CreateOrEditMacroeconomicVariableDto input)
          {
             var macroeconomicVariable = ObjectMapper.Map<MacroeconomicVariable>(input);
@@ -86,14 +85,14 @@ namespace TestDemo.EclShared
             await _macroeconomicVariableRepository.InsertAsync(macroeconomicVariable);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_MacroeconomicVariables_Edit)]
+		 [AbpAuthorize(AppPermissions.Pages_Configuration_Update)]
 		 protected virtual async Task Update(CreateOrEditMacroeconomicVariableDto input)
          {
             var macroeconomicVariable = await _macroeconomicVariableRepository.FirstOrDefaultAsync((int)input.Id);
              ObjectMapper.Map(input, macroeconomicVariable);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_MacroeconomicVariables_Delete)]
+		 [AbpAuthorize(AppPermissions.Pages_Configuration_Update)]
          public async Task Delete(EntityDto input)
          {
             await _macroeconomicVariableRepository.DeleteAsync(input.Id);

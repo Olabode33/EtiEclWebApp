@@ -17,7 +17,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.EclShared
 {
-    [AbpAuthorize(AppPermissions.Pages_PdInputSnPCummulativeDefaultRates)]
     public class PdInputSnPCummulativeDefaultRatesAppService : TestDemoAppServiceBase, IPdInputSnPCummulativeDefaultRatesAppService
     {
         private readonly IRepository<PdInputAssumptionSnPCummulativeDefaultRate, Guid> _pdInputSnPCummulativeDefaultRateRepository;
@@ -62,7 +61,6 @@ namespace TestDemo.EclShared
             );
         }
 
-        [AbpAuthorize(AppPermissions.Pages_PdInputSnPCummulativeDefaultRates_Edit)]
         public async Task<GetPdInputSnPCummulativeDefaultRateForEditOutput> GetPdInputSnPCummulativeDefaultRateForEdit(EntityDto<Guid> input)
         {
             var pdInputSnPCummulativeDefaultRate = await _pdInputSnPCummulativeDefaultRateRepository.FirstOrDefaultAsync(input.Id);
@@ -84,7 +82,6 @@ namespace TestDemo.EclShared
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_PdInputSnPCummulativeDefaultRates_Create)]
         protected virtual async Task Create(CreateOrEditPdInputSnPCummulativeDefaultRateDto input)
         {
             var pdInputSnPCummulativeDefaultRate = ObjectMapper.Map<PdInputAssumptionSnPCummulativeDefaultRate>(input);
@@ -94,7 +91,6 @@ namespace TestDemo.EclShared
             await _pdInputSnPCummulativeDefaultRateRepository.InsertAsync(pdInputSnPCummulativeDefaultRate);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_PdInputSnPCummulativeDefaultRates_Edit)]
         protected virtual async Task Update(CreateOrEditPdInputSnPCummulativeDefaultRateDto input)
         {
             var pdInputSnPCummulativeDefaultRate = await _pdInputSnPCummulativeDefaultRateRepository.FirstOrDefaultAsync((Guid)input.Id);
@@ -121,7 +117,6 @@ namespace TestDemo.EclShared
             });
         }
 
-        [AbpAuthorize(AppPermissions.Pages_PdInputSnPCummulativeDefaultRates_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _pdInputSnPCummulativeDefaultRateRepository.DeleteAsync(input.Id);

@@ -20,7 +20,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.Retail
 {
-    [AbpAuthorize(AppPermissions.Pages_RetailEclApprovals)]
     public class RetailEclApprovalsAppService : TestDemoAppServiceBase, IRetailEclApprovalsAppService
     {
         private readonly IRepository<RetailEclApproval, Guid> _retailEclApprovalRepository;
@@ -124,7 +123,6 @@ namespace TestDemo.Retail
             );
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclApprovals_Edit)]
         public async Task<GetRetailEclApprovalForEditOutput> GetRetailEclApprovalForEdit(EntityDto<Guid> input)
         {
             var retailEclApproval = await _retailEclApprovalRepository.FirstOrDefaultAsync(input.Id);
@@ -158,7 +156,6 @@ namespace TestDemo.Retail
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclApprovals_Create)]
         protected virtual async Task Create(CreateOrEditRetailEclApprovalDto input)
         {
             var retailEclApproval = ObjectMapper.Map<RetailEclApproval>(input);
@@ -173,20 +170,17 @@ namespace TestDemo.Retail
             await _retailEclApprovalRepository.InsertAsync(retailEclApproval);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclApprovals_Edit)]
         protected virtual async Task Update(CreateOrEditRetailEclApprovalDto input)
         {
             var retailEclApproval = await _retailEclApprovalRepository.FirstOrDefaultAsync((Guid)input.Id);
             ObjectMapper.Map(input, retailEclApproval);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclApprovals_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _retailEclApprovalRepository.DeleteAsync(input.Id);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclApprovals)]
         public async Task<PagedResultDto<RetailEclApprovalUserLookupTableDto>> GetAllUserForLookupTable(GetAllForLookupTableInput input)
         {
             var query = _lookup_userRepository.GetAll().WhereIf(
@@ -216,7 +210,6 @@ namespace TestDemo.Retail
             );
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclApprovals)]
         public async Task<PagedResultDto<RetailEclApprovalRetailEclLookupTableDto>> GetAllRetailEclForLookupTable(GetAllForLookupTableInput input)
         {
             var query = _lookup_retailEclRepository.GetAll().WhereIf(

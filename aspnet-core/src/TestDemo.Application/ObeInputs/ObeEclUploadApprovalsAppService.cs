@@ -20,7 +20,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.ObeInputs
 {
-	[AbpAuthorize(AppPermissions.Pages_ObeEclUploadApprovals)]
     public class ObeEclUploadApprovalsAppService : TestDemoAppServiceBase, IObeEclUploadApprovalsAppService
     {
 		 private readonly IRepository<ObeEclUploadApproval, Guid> _obeEclUploadApprovalRepository;
@@ -81,7 +80,6 @@ namespace TestDemo.ObeInputs
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclUploadApprovals_Edit)]
 		 public async Task<GetObeEclUploadApprovalForEditOutput> GetObeEclUploadApprovalForEdit(EntityDto<Guid> input)
          {
             var obeEclUploadApproval = await _obeEclUploadApprovalRepository.FirstOrDefaultAsync(input.Id);
@@ -113,7 +111,6 @@ namespace TestDemo.ObeInputs
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclUploadApprovals_Create)]
 		 protected virtual async Task Create(CreateOrEditObeEclUploadApprovalDto input)
          {
             var obeEclUploadApproval = ObjectMapper.Map<ObeEclUploadApproval>(input);
@@ -128,20 +125,17 @@ namespace TestDemo.ObeInputs
             await _obeEclUploadApprovalRepository.InsertAsync(obeEclUploadApproval);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclUploadApprovals_Edit)]
 		 protected virtual async Task Update(CreateOrEditObeEclUploadApprovalDto input)
          {
             var obeEclUploadApproval = await _obeEclUploadApprovalRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, obeEclUploadApproval);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclUploadApprovals_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _obeEclUploadApprovalRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_ObeEclUploadApprovals)]
          public async Task<PagedResultDto<ObeEclUploadApprovalObeEclUploadLookupTableDto>> GetAllObeEclUploadForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_obeEclUploadRepository.GetAll().WhereIf(
@@ -170,7 +164,6 @@ namespace TestDemo.ObeInputs
             );
          }
 
-		[AbpAuthorize(AppPermissions.Pages_ObeEclUploadApprovals)]
          public async Task<PagedResultDto<ObeEclUploadApprovalUserLookupTableDto>> GetAllUserForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_userRepository.GetAll().WhereIf(

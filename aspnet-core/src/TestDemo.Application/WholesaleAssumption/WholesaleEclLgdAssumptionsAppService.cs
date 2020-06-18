@@ -21,7 +21,6 @@ using TestDemo.EclShared.Dtos;
 
 namespace TestDemo.WholesaleAssumption
 {
-	[AbpAuthorize(AppPermissions.Pages_WholesaleEclLgdAssumptions)]
     public class WholesaleEclLgdAssumptionsAppService : TestDemoAppServiceBase, IWholesaleEclLgdAssumptionsAppService
     {
 		 private readonly IRepository<WholesaleEclLgdAssumption, Guid> _wholesaleEclLgdAssumptionRepository;
@@ -91,7 +90,6 @@ namespace TestDemo.WholesaleAssumption
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclLgdAssumptions_Edit)]
 		 public async Task<GetWholesaleEclLgdAssumptionForEditOutput> GetWholesaleEclLgdAssumptionForEdit(EntityDto<Guid> input)
          {
             var wholesaleEclLgdAssumption = await _wholesaleEclLgdAssumptionRepository.FirstOrDefaultAsync(input.Id);
@@ -107,17 +105,18 @@ namespace TestDemo.WholesaleAssumption
             return output;
          }
 
-		 public async Task CreateOrEdit(CreateOrEditWholesaleEclLgdAssumptionDto input)
-         {
-            if(input.Id == null){
-				await Create(input);
-			}
-			else{
-				await Update(input);
-			}
-         }
-
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclLgdAssumptions_Create)]
+        public async Task CreateOrEdit(CreateOrEditWholesaleEclLgdAssumptionDto input)
+        {
+            if (input.Id == null)
+            {
+                await Create(input);
+            }
+            else
+            {
+                await Update(input);
+            }
+        }
+         
 		 protected virtual async Task Create(CreateOrEditWholesaleEclLgdAssumptionDto input)
          {
             var wholesaleEclLgdAssumption = ObjectMapper.Map<WholesaleEclLgdAssumption>(input);
@@ -125,14 +124,12 @@ namespace TestDemo.WholesaleAssumption
             await _wholesaleEclLgdAssumptionRepository.InsertAsync(wholesaleEclLgdAssumption);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclLgdAssumptions_Edit)]
 		 protected virtual async Task Update(CreateOrEditWholesaleEclLgdAssumptionDto input)
          {
             var wholesaleEclLgdAssumption = await _wholesaleEclLgdAssumptionRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, wholesaleEclLgdAssumption);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclLgdAssumptions_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _wholesaleEclLgdAssumptionRepository.DeleteAsync(input.Id);

@@ -45,7 +45,7 @@ using TestDemo.Configuration;
 
 namespace TestDemo.Retail
 {
-    [AbpAuthorize(AppPermissions.Pages_RetailEcls)]
+    [AbpAuthorize(AppPermissions.Pages_EclView)]
     public class RetailEclsAppService : TestDemoAppServiceBase, IEclsAppService
     {
         private readonly IRepository<RetailEcl, Guid> _retailEclRepository;
@@ -176,7 +176,6 @@ namespace TestDemo.Retail
             );
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEcls_Edit)]
         public async Task<GetRetailEclForEditOutput> GetRetailEclForEdit(EntityDto<Guid> input)
         {
             var retailEcl = await _retailEclRepository.FirstOrDefaultAsync(input.Id);
@@ -192,7 +191,6 @@ namespace TestDemo.Retail
             return output;
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEcls_Edit)]
         public async Task<GetEclForEditOutput> GetEclDetailsForEdit(EntityDto<Guid> input)
         {
             var retailEcl = await _retailEclRepository.FirstOrDefaultAsync(input.Id);
@@ -435,6 +433,8 @@ namespace TestDemo.Retail
             }
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_Workspace_CreateEcl)]
         public async Task<Guid> CreateEclAndAssumption()
         {
             var user = await UserManager.GetUserByIdAsync((long)AbpSession.UserId);
@@ -474,7 +474,6 @@ namespace TestDemo.Retail
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEcls_Create)]
         protected virtual async Task Create(CreateOrEditEclDto input)
         {
             var retailEcl = ObjectMapper.Map<RetailEcl>(input);
@@ -496,7 +495,6 @@ namespace TestDemo.Retail
             await _retailEclRepository.InsertAsync(retailEcl);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEcls_Edit)]
         protected virtual async Task Update(CreateOrEditEclDto input)
         {
             var retailEcl = await _retailEclRepository.FirstOrDefaultAsync((Guid)input.Id);
@@ -830,6 +828,7 @@ namespace TestDemo.Retail
         }
 
 
+        [AbpAuthorize(AppPermissions.Pages_EclView_Submit)]
         public virtual async Task SubmitForApproval(EntityDto<Guid> input)
         {
             var validation = await ValidateForSubmission(input.Id);
@@ -846,6 +845,8 @@ namespace TestDemo.Retail
             }
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Review)]
         public virtual async Task ApproveReject(CreateOrEditEclApprovalDto input)
         {
             var ecl = await _retailEclRepository.FirstOrDefaultAsync((Guid)input.EclId);
@@ -884,12 +885,13 @@ namespace TestDemo.Retail
             ObjectMapper.Map(ecl, ecl);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEcls_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _retailEclRepository.DeleteAsync(input.Id);
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Run)]
         public async Task RunEcl(EntityDto<Guid> input)
         {
             var ecl = await _retailEclRepository.FirstOrDefaultAsync(input.Id);
@@ -904,6 +906,8 @@ namespace TestDemo.Retail
             }
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Run)]
         public async Task RunPostEcl(EntityDto<Guid> input)
         {
             var validation = await ValidateForPostRun(input.Id);
@@ -938,6 +942,8 @@ namespace TestDemo.Retail
             }
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Close)]
         public async Task CloseEcl(EntityDto<Guid> input)
         {
             var ecl = await _retailEclRepository.FirstOrDefaultAsync(input.Id);
@@ -957,6 +963,8 @@ namespace TestDemo.Retail
             }
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Reopen)]
         public async Task ReopenEcl(EntityDto<Guid> input)
         {
             var ecl = await _retailEclRepository.FirstOrDefaultAsync(input.Id);

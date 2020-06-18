@@ -20,7 +20,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.WholesaleComputation
 {
-	[AbpAuthorize(AppPermissions.Pages_WholesaleEclSicrApprovals)]
     public class WholesaleEclSicrApprovalsAppService : TestDemoAppServiceBase, IWholesaleEclSicrApprovalsAppService
     {
 		 private readonly IRepository<WholesaleEclSicrApproval, Guid> _wholesaleEclSicrApprovalRepository;
@@ -82,7 +81,6 @@ namespace TestDemo.WholesaleComputation
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclSicrApprovals_Edit)]
 		 public async Task<GetWholesaleEclSicrApprovalForEditOutput> GetWholesaleEclSicrApprovalForEdit(EntityDto<Guid> input)
          {
             var wholesaleEclSicrApproval = await _wholesaleEclSicrApprovalRepository.FirstOrDefaultAsync(input.Id);
@@ -114,7 +112,6 @@ namespace TestDemo.WholesaleComputation
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclSicrApprovals_Create)]
 		 protected virtual async Task Create(CreateOrEditWholesaleEclSicrApprovalDto input)
          {
             var wholesaleEclSicrApproval = ObjectMapper.Map<WholesaleEclSicrApproval>(input);
@@ -129,20 +126,17 @@ namespace TestDemo.WholesaleComputation
             await _wholesaleEclSicrApprovalRepository.InsertAsync(wholesaleEclSicrApproval);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclSicrApprovals_Edit)]
 		 protected virtual async Task Update(CreateOrEditWholesaleEclSicrApprovalDto input)
          {
             var wholesaleEclSicrApproval = await _wholesaleEclSicrApprovalRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, wholesaleEclSicrApproval);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclSicrApprovals_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _wholesaleEclSicrApprovalRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_WholesaleEclSicrApprovals)]
          public async Task<PagedResultDto<WholesaleEclSicrApprovalUserLookupTableDto>> GetAllUserForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_userRepository.GetAll().WhereIf(
@@ -171,7 +165,6 @@ namespace TestDemo.WholesaleComputation
             );
          }
 
-		[AbpAuthorize(AppPermissions.Pages_WholesaleEclSicrApprovals)]
          public async Task<PagedResultDto<WholesaleEclSicrApprovalWholesaleEclSicrLookupTableDto>> GetAllWholesaleEclSicrForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_wholesaleEclSicrRepository.GetAll().WhereIf(

@@ -21,7 +21,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.WholesaleAssumption
 {
-	[AbpAuthorize(AppPermissions.Pages_WholesaleEclAssumptionApprovals)]
     public class WholesaleEclAssumptionApprovalsAppService : TestDemoAppServiceBase, IWholesaleEclAssumptionApprovalsAppService
     {
 		 private readonly IRepository<WholesaleEclAssumptionApproval, Guid> _wholesaleEclAssumptionApprovalRepository;
@@ -77,7 +76,6 @@ namespace TestDemo.WholesaleAssumption
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclAssumptionApprovals_Edit)]
 		 public async Task<GetWholesaleEclAssumptionApprovalForEditOutput> GetWholesaleEclAssumptionApprovalForEdit(EntityDto<Guid> input)
          {
             var wholesaleEclAssumptionApproval = await _wholesaleEclAssumptionApprovalRepository.FirstOrDefaultAsync(input.Id);
@@ -109,7 +107,6 @@ namespace TestDemo.WholesaleAssumption
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclAssumptionApprovals_Create)]
 		 protected virtual async Task Create(CreateOrEditWholesaleEclAssumptionApprovalDto input)
          {
             var wholesaleEclAssumptionApproval = ObjectMapper.Map<WholesaleEclAssumptionApproval>(input);
@@ -119,20 +116,17 @@ namespace TestDemo.WholesaleAssumption
             await _wholesaleEclAssumptionApprovalRepository.InsertAsync(wholesaleEclAssumptionApproval);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclAssumptionApprovals_Edit)]
 		 protected virtual async Task Update(CreateOrEditWholesaleEclAssumptionApprovalDto input)
          {
             var wholesaleEclAssumptionApproval = await _wholesaleEclAssumptionApprovalRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, wholesaleEclAssumptionApproval);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclAssumptionApprovals_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _wholesaleEclAssumptionApprovalRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_WholesaleEclAssumptionApprovals)]
          public async Task<PagedResultDto<WholesaleEclAssumptionApprovalWholesaleEclLookupTableDto>> GetAllWholesaleEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_wholesaleEclRepository.GetAll().WhereIf(
@@ -161,7 +155,6 @@ namespace TestDemo.WholesaleAssumption
             );
          }
 
-		[AbpAuthorize(AppPermissions.Pages_WholesaleEclAssumptionApprovals)]
          public async Task<PagedResultDto<WholesaleEclAssumptionApprovalUserLookupTableDto>> GetAllUserForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_userRepository.GetAll().WhereIf(

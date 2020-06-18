@@ -18,7 +18,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.WholesaleAssumption
 {
-	[AbpAuthorize(AppPermissions.Pages_WholesaleEclPdAssumption12Monthses)]
     public class WholesaleEclPdAssumption12MonthsesAppService : TestDemoAppServiceBase, IWholesaleEclPdAssumption12MonthsesAppService
     {
 		 private readonly IRepository<WholesaleEclPdAssumption12Month, Guid> _wholesaleEclPdAssumption12MonthsRepository;
@@ -73,7 +72,6 @@ namespace TestDemo.WholesaleAssumption
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclPdAssumption12Monthses_Edit)]
 		 public async Task<GetWholesaleEclPdAssumption12MonthsForEditOutput> GetWholesaleEclPdAssumption12MonthsForEdit(EntityDto<Guid> input)
          {
             var wholesaleEclPdAssumption12Months = await _wholesaleEclPdAssumption12MonthsRepository.FirstOrDefaultAsync(input.Id);
@@ -99,7 +97,6 @@ namespace TestDemo.WholesaleAssumption
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclPdAssumption12Monthses_Create)]
 		 protected virtual async Task Create(CreateOrEditWholesaleEclPdAssumption12MonthsDto input)
          {
             var wholesaleEclPdAssumption12Months = ObjectMapper.Map<WholesaleEclPdAssumption12Month>(input);
@@ -107,20 +104,17 @@ namespace TestDemo.WholesaleAssumption
             await _wholesaleEclPdAssumption12MonthsRepository.InsertAsync(wholesaleEclPdAssumption12Months);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclPdAssumption12Monthses_Edit)]
 		 protected virtual async Task Update(CreateOrEditWholesaleEclPdAssumption12MonthsDto input)
          {
             var wholesaleEclPdAssumption12Months = await _wholesaleEclPdAssumption12MonthsRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, wholesaleEclPdAssumption12Months);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclPdAssumption12Monthses_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _wholesaleEclPdAssumption12MonthsRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_WholesaleEclPdAssumption12Monthses)]
          public async Task<PagedResultDto<WholesaleEclPdAssumption12MonthsWholesaleEclLookupTableDto>> GetAllWholesaleEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_wholesaleEclRepository.GetAll().WhereIf(

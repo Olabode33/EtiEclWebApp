@@ -19,7 +19,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.ObeResults
 {
-	[AbpAuthorize(AppPermissions.Pages_ObesaleEclResultSummaries)]
     public class ObesaleEclResultSummariesAppService : TestDemoAppServiceBase, IObesaleEclResultSummariesAppService
     {
 		 private readonly IRepository<ObesaleEclResultSummary, Guid> _obesaleEclResultSummaryRepository;
@@ -87,7 +86,6 @@ namespace TestDemo.ObeResults
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_ObesaleEclResultSummaries_Edit)]
 		 public async Task<GetObesaleEclResultSummaryForEditOutput> GetObesaleEclResultSummaryForEdit(EntityDto<Guid> input)
          {
             var obesaleEclResultSummary = await _obesaleEclResultSummaryRepository.FirstOrDefaultAsync(input.Id);
@@ -113,7 +111,6 @@ namespace TestDemo.ObeResults
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObesaleEclResultSummaries_Create)]
 		 protected virtual async Task Create(CreateOrEditObesaleEclResultSummaryDto input)
          {
             var obesaleEclResultSummary = ObjectMapper.Map<ObesaleEclResultSummary>(input);
@@ -128,20 +125,17 @@ namespace TestDemo.ObeResults
             await _obesaleEclResultSummaryRepository.InsertAsync(obesaleEclResultSummary);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObesaleEclResultSummaries_Edit)]
 		 protected virtual async Task Update(CreateOrEditObesaleEclResultSummaryDto input)
          {
             var obesaleEclResultSummary = await _obesaleEclResultSummaryRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, obesaleEclResultSummary);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObesaleEclResultSummaries_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _obesaleEclResultSummaryRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_ObesaleEclResultSummaries)]
          public async Task<PagedResultDto<ObesaleEclResultSummaryObeEclLookupTableDto>> GetAllObeEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_obeEclRepository.GetAll().WhereIf(

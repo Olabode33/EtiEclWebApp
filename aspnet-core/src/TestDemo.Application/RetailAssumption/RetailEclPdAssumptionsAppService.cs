@@ -23,7 +23,6 @@ using GetAllForLookupTableInput = TestDemo.RetailAssumption.Dtos.GetAllForLookup
 
 namespace TestDemo.RetailAssumption
 {
-    [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumptions)]
     public class RetailEclPdAssumptionsAppService : TestDemoAppServiceBase, IRetailEclPdAssumptionsAppService
     {
         private readonly IRepository<RetailEclPdAssumption, Guid> _retailEclPdAssumptionRepository;
@@ -91,7 +90,6 @@ namespace TestDemo.RetailAssumption
                     
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumptions_Edit)]
         public async Task<GetRetailEclPdAssumptionForEditOutput> GetRetailEclPdAssumptionForEdit(EntityDto<Guid> input)
         {
             var retailEclPdAssumption = await _retailEclPdAssumptionRepository.FirstOrDefaultAsync(input.Id);
@@ -119,7 +117,6 @@ namespace TestDemo.RetailAssumption
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumptions_Create)]
         protected virtual async Task Create(CreateOrEditRetailEclPdAssumptionDto input)
         {
             var retailEclPdAssumption = ObjectMapper.Map<RetailEclPdAssumption>(input);
@@ -129,20 +126,17 @@ namespace TestDemo.RetailAssumption
             await _retailEclPdAssumptionRepository.InsertAsync(retailEclPdAssumption);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumptions_Edit)]
         protected virtual async Task Update(CreateOrEditRetailEclPdAssumptionDto input)
         {
             var retailEclPdAssumption = await _retailEclPdAssumptionRepository.FirstOrDefaultAsync((Guid)input.Id);
             ObjectMapper.Map(input, retailEclPdAssumption);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumptions_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _retailEclPdAssumptionRepository.DeleteAsync(input.Id);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclPdAssumptions)]
         public async Task<PagedResultDto<RetailEclPdAssumptionRetailEclLookupTableDto>> GetAllRetailEclForLookupTable(GetAllForLookupTableInput input)
         {
             var query = _lookup_retailEclRepository.GetAll().WhereIf(

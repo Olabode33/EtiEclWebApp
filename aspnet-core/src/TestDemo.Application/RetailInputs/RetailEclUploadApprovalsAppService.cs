@@ -20,7 +20,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.RetailInputs
 {
-	[AbpAuthorize(AppPermissions.Pages_RetailEclUploadApprovals)]
     public class RetailEclUploadApprovalsAppService : TestDemoAppServiceBase, IRetailEclUploadApprovalsAppService
     {
 		 private readonly IRepository<RetailEclUploadApproval, Guid> _retailEclUploadApprovalRepository;
@@ -81,7 +80,6 @@ namespace TestDemo.RetailInputs
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclUploadApprovals_Edit)]
 		 public async Task<GetRetailEclUploadApprovalForEditOutput> GetRetailEclUploadApprovalForEdit(EntityDto<Guid> input)
          {
             var retailEclUploadApproval = await _retailEclUploadApprovalRepository.FirstOrDefaultAsync(input.Id);
@@ -113,7 +111,6 @@ namespace TestDemo.RetailInputs
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclUploadApprovals_Create)]
 		 protected virtual async Task Create(CreateOrEditRetailEclUploadApprovalDto input)
          {
             var retailEclUploadApproval = ObjectMapper.Map<RetailEclUploadApproval>(input);
@@ -128,20 +125,17 @@ namespace TestDemo.RetailInputs
             await _retailEclUploadApprovalRepository.InsertAsync(retailEclUploadApproval);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclUploadApprovals_Edit)]
 		 protected virtual async Task Update(CreateOrEditRetailEclUploadApprovalDto input)
          {
             var retailEclUploadApproval = await _retailEclUploadApprovalRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, retailEclUploadApproval);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_RetailEclUploadApprovals_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _retailEclUploadApprovalRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_RetailEclUploadApprovals)]
          public async Task<PagedResultDto<RetailEclUploadApprovalRetailEclUploadLookupTableDto>> GetAllRetailEclUploadForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_retailEclUploadRepository.GetAll().WhereIf(
@@ -170,7 +164,6 @@ namespace TestDemo.RetailInputs
             );
          }
 
-		[AbpAuthorize(AppPermissions.Pages_RetailEclUploadApprovals)]
          public async Task<PagedResultDto<RetailEclUploadApprovalUserLookupTableDto>> GetAllUserForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_userRepository.GetAll().WhereIf(

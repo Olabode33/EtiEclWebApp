@@ -45,7 +45,7 @@ using TestDemo.Configuration;
 
 namespace TestDemo.Investment
 {
-    [AbpAuthorize(AppPermissions.Pages_InvestmentEcls)]
+    [AbpAuthorize(AppPermissions.Pages_EclView)]
     public class InvestmentEclsAppService : TestDemoAppServiceBase, IEclsAppService
     {
         private readonly IRepository<InvestmentEcl, Guid> _investmentEclRepository;
@@ -156,7 +156,7 @@ namespace TestDemo.Investment
             );
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEcls_Edit)]
+        [AbpAuthorize(AppPermissions.Pages_EclView)]
         public async Task<GetEclForEditOutput> GetEclDetailsForEdit(EntityDto<Guid> input)
         {
             var investmentEcl = await _investmentEclRepository.FirstOrDefaultAsync(input.Id);
@@ -300,7 +300,6 @@ namespace TestDemo.Investment
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEcls_Create)]
         protected virtual async Task Create(CreateOrEditEclDto input)
         {
             var investmentEcl = ObjectMapper.Map<InvestmentEcl>(input);
@@ -310,13 +309,14 @@ namespace TestDemo.Investment
             await _investmentEclRepository.InsertAsync(investmentEcl);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEcls_Edit)]
         protected virtual async Task Update(CreateOrEditEclDto input)
         {
             var investmentEcl = await _investmentEclRepository.FirstOrDefaultAsync((Guid)input.Id);
             ObjectMapper.Map(input, investmentEcl);
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_Workspace_CreateEcl)]
         public async Task<Guid> CreateEclAndAssumption()
         {
             var user = await UserManager.GetUserByIdAsync((long)AbpSession.UserId);
@@ -532,13 +532,13 @@ namespace TestDemo.Investment
             }
         }
 
-
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEcls_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _investmentEclRepository.DeleteAsync(input.Id);
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Submit)]
         public virtual async Task SubmitForApproval(EntityDto<Guid> input)
         {
             var validation = await ValidateForSubmission(input.Id);
@@ -555,6 +555,8 @@ namespace TestDemo.Investment
             }
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Review)]
         public virtual async Task ApproveReject(CreateOrEditEclApprovalDto input)
         {
             var ecl = await _investmentEclRepository.FirstOrDefaultAsync((Guid)input.EclId);
@@ -592,6 +594,8 @@ namespace TestDemo.Investment
             ObjectMapper.Map(ecl, ecl);
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Run)]
         public async Task RunEcl(EntityDto<Guid> input)
         {
             var ecl = await _investmentEclRepository.FirstOrDefaultAsync((Guid)input.Id);
@@ -609,6 +613,8 @@ namespace TestDemo.Investment
             }
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Run)]
         public async Task RunPostEcl(EntityDto<Guid> input)
         {
             var validation = await ValidateForPostRun(input.Id);
@@ -643,6 +649,8 @@ namespace TestDemo.Investment
             }
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Close)]
         public async Task CloseEcl(EntityDto<Guid> input)
         {
             var ecl = await _investmentEclRepository.FirstOrDefaultAsync(input.Id);
@@ -663,6 +671,8 @@ namespace TestDemo.Investment
             }
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Reopen)]
         public async Task ReopenEcl(EntityDto<Guid> input)
         {
             var ecl = await _investmentEclRepository.FirstOrDefaultAsync(input.Id);
@@ -742,7 +752,6 @@ namespace TestDemo.Investment
             return output;
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEcls)]
         public async Task<PagedResultDto<InvestmentEclUserLookupTableDto>> GetAllUserForLookupTable(GetAllForLookupTableInput input)
         {
             var query = _lookup_userRepository.GetAll().WhereIf(

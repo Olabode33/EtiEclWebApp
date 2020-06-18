@@ -23,7 +23,6 @@ using Abp.UI;
 
 namespace TestDemo.WholesaleInputs
 {
-    [AbpAuthorize(AppPermissions.Pages_WholesaleEclUploads)]
     public class WholesaleEclUploadsAppService : TestDemoAppServiceBase, IWholesaleEclUploadsAppService
     {
         private readonly IRepository<WholesaleEclUpload, Guid> _wholesaleEclUploadRepository;
@@ -107,7 +106,6 @@ namespace TestDemo.WholesaleInputs
             return await eclUploads.ToListAsync();
         }
 
-        [AbpAuthorize(AppPermissions.Pages_WholesaleEclUploads_Edit)]
         public async Task<GetWholesaleEclUploadForEditOutput> GetWholesaleEclUploadForEdit(EntityDto<Guid> input)
         {
             var wholesaleEclUpload = await _wholesaleEclUploadRepository.FirstOrDefaultAsync(input.Id);
@@ -137,7 +135,6 @@ namespace TestDemo.WholesaleInputs
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_WholesaleEclUploads_Create)]
         protected virtual async Task<Guid> Create(CreateOrEditWholesaleEclUploadDto input)
         {
             var eclUploadExist = await _wholesaleEclUploadRepository.FirstOrDefaultAsync(x => x.DocType == input.DocType && x.WholesaleEclId == input.EclId);
@@ -162,20 +159,17 @@ namespace TestDemo.WholesaleInputs
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_WholesaleEclUploads_Edit)]
         protected virtual async Task Update(CreateOrEditWholesaleEclUploadDto input)
         {
             var wholesaleEclUpload = await _wholesaleEclUploadRepository.FirstOrDefaultAsync((Guid)input.Id);
             ObjectMapper.Map(input, wholesaleEclUpload);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_WholesaleEclUploads_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _wholesaleEclUploadRepository.DeleteAsync(input.Id);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_WholesaleEclUploads)]
         public async Task<PagedResultDto<WholesaleEclUploadWholesaleEclLookupTableDto>> GetAllWholesaleEclForLookupTable(GetAllForLookupTableInput input)
         {
             var query = _lookup_wholesaleEclRepository.GetAll().WhereIf(

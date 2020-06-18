@@ -20,7 +20,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.EclShared
 {
-    [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionNplIndexes)]
     public class PdInputAssumptionNplIndexesAppService : TestDemoAppServiceBase, IPdInputAssumptionNplIndexesAppService
     {
         private readonly IRepository<PdInputAssumptionNplIndex, Guid> _pdInputAssumptionNplIndexRepository;
@@ -61,7 +60,6 @@ namespace TestDemo.EclShared
             );
         }
 
-        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionNplIndexes_Edit)]
         public async Task<GetPdInputAssumptionNplIndexForEditOutput> GetPdInputAssumptionNplIndexForEdit(EntityDto<Guid> input)
         {
             var pdInputAssumptionNplIndex = await _pdInputAssumptionNplIndexRepository.FirstOrDefaultAsync(input.Id);
@@ -83,7 +81,6 @@ namespace TestDemo.EclShared
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionNplIndexes_Create)]
         protected virtual async Task Create(CreateOrEditPdInputAssumptionNplIndexDto input)
         {
             var pdInputAssumptionNplIndex = ObjectMapper.Map<PdInputAssumptionNplIndex>(input);
@@ -93,7 +90,6 @@ namespace TestDemo.EclShared
             await _pdInputAssumptionNplIndexRepository.InsertAsync(pdInputAssumptionNplIndex);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionNplIndexes_Edit)]
         protected virtual async Task Update(CreateOrEditPdInputAssumptionNplIndexDto input)
         {
             var pdInputAssumptionNplIndex = await _pdInputAssumptionNplIndexRepository.FirstOrDefaultAsync((Guid)input.Id);
@@ -120,7 +116,6 @@ namespace TestDemo.EclShared
             });
         }
 
-        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionNplIndexes_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _pdInputAssumptionNplIndexRepository.DeleteAsync(input.Id);

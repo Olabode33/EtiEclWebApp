@@ -20,7 +20,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.Investment
 {
-    [AbpAuthorize(AppPermissions.Pages_InvestmentEclApprovals)]
     public class InvestmentEclApprovalsAppService : TestDemoAppServiceBase, IInvestmentEclApprovalsAppService
     {
         private readonly IRepository<InvestmentEclApproval, Guid> _investmentEclApprovalRepository;
@@ -80,7 +79,7 @@ namespace TestDemo.Investment
 
         public async Task<EclAuditInfoDto> GetEclAudit(EntityDto<Guid> input)
         {
-            
+
             var filteredInvestmentEclApprovals = _investmentEclApprovalRepository.GetAll()
                         .Include(e => e.ReviewedByUserFk)
                         .Include(e => e.InvestmentEclFk)
@@ -120,7 +119,6 @@ namespace TestDemo.Investment
             };
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEclApprovals_Edit)]
         public async Task<GetInvestmentEclApprovalForEditOutput> GetInvestmentEclApprovalForEdit(EntityDto<Guid> input)
         {
             var investmentEclApproval = await _investmentEclApprovalRepository.FirstOrDefaultAsync(input.Id);
@@ -154,7 +152,6 @@ namespace TestDemo.Investment
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEclApprovals_Create)]
         protected virtual async Task Create(CreateOrEditInvestmentEclApprovalDto input)
         {
             var investmentEclApproval = ObjectMapper.Map<InvestmentEclApproval>(input);
@@ -164,20 +161,17 @@ namespace TestDemo.Investment
             await _investmentEclApprovalRepository.InsertAsync(investmentEclApproval);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEclApprovals_Edit)]
         protected virtual async Task Update(CreateOrEditInvestmentEclApprovalDto input)
         {
             var investmentEclApproval = await _investmentEclApprovalRepository.FirstOrDefaultAsync((Guid)input.Id);
             ObjectMapper.Map(input, investmentEclApproval);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEclApprovals_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _investmentEclApprovalRepository.DeleteAsync(input.Id);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEclApprovals)]
         public async Task<PagedResultDto<InvestmentEclApprovalUserLookupTableDto>> GetAllUserForLookupTable(GetAllForLookupTableInput input)
         {
             var query = _lookup_userRepository.GetAll().WhereIf(
@@ -207,7 +201,6 @@ namespace TestDemo.Investment
             );
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEclApprovals)]
         public async Task<PagedResultDto<InvestmentEclApprovalInvestmentEclLookupTableDto>> GetAllInvestmentEclForLookupTable(GetAllForLookupTableInput input)
         {
             var query = _lookup_investmentEclRepository.GetAll().WhereIf(

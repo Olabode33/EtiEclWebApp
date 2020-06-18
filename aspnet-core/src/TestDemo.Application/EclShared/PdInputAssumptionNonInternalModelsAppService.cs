@@ -18,7 +18,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.EclShared
 {
-    [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionNonInternalModels)]
     public class PdInputAssumptionNonInternalModelsAppService : TestDemoAppServiceBase, IPdInputAssumptionNonInternalModelsAppService
     {
         private readonly IRepository<PdInputAssumptionNonInternalModel, Guid> _pdInputAssumptionNonInternalModelRepository;
@@ -59,7 +58,6 @@ namespace TestDemo.EclShared
             );
         }
 
-        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionNonInternalModels_Edit)]
         public async Task<GetPdInputAssumptionNonInternalModelForEditOutput> GetPdInputAssumptionNonInternalModelForEdit(EntityDto<Guid> input)
         {
             var pdInputAssumptionNonInternalModel = await _pdInputAssumptionNonInternalModelRepository.FirstOrDefaultAsync(input.Id);
@@ -80,8 +78,7 @@ namespace TestDemo.EclShared
                 await Update(input);
             }
         }
-
-        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionNonInternalModels_Create)]
+        
         protected virtual async Task Create(CreateOrEditPdInputAssumptionNonInternalModelDto input)
         {
             var pdInputAssumptionNonInternalModel = ObjectMapper.Map<PdInputAssumptionNonInternalModel>(input);
@@ -91,7 +88,6 @@ namespace TestDemo.EclShared
             await _pdInputAssumptionNonInternalModelRepository.InsertAsync(pdInputAssumptionNonInternalModel);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionNonInternalModels_Edit)]
         protected virtual async Task Update(CreateOrEditPdInputAssumptionNonInternalModelDto input)
         {
             var pdInputAssumptionNonInternalModel = await _pdInputAssumptionNonInternalModelRepository.FirstOrDefaultAsync((Guid)input.Id);
@@ -118,7 +114,6 @@ namespace TestDemo.EclShared
             });
         }
 
-        [AbpAuthorize(AppPermissions.Pages_PdInputAssumptionNonInternalModels_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _pdInputAssumptionNonInternalModelRepository.DeleteAsync(input.Id);

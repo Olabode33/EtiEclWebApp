@@ -20,7 +20,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.ObeAssumption
 {
-	[AbpAuthorize(AppPermissions.Pages_ObeEclLgdAssumptions)]
     public class ObeEclLgdAssumptionsAppService : TestDemoAppServiceBase, IObeEclLgdAssumptionsAppService
     {
 		 private readonly IRepository<ObeEclLgdAssumption, Guid> _obeEclLgdAssumptionRepository;
@@ -81,7 +80,6 @@ namespace TestDemo.ObeAssumption
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclLgdAssumptions_Edit)]
 		 public async Task<GetObeEclLgdAssumptionForEditOutput> GetObeEclLgdAssumptionForEdit(EntityDto<Guid> input)
          {
             var obeEclLgdAssumption = await _obeEclLgdAssumptionRepository.FirstOrDefaultAsync(input.Id);
@@ -107,7 +105,6 @@ namespace TestDemo.ObeAssumption
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclLgdAssumptions_Create)]
 		 protected virtual async Task Create(CreateOrEditObeEclLgdAssumptionDto input)
          {
             var obeEclLgdAssumption = ObjectMapper.Map<ObeEclLgdAssumption>(input);
@@ -115,20 +112,17 @@ namespace TestDemo.ObeAssumption
             await _obeEclLgdAssumptionRepository.InsertAsync(obeEclLgdAssumption);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclLgdAssumptions_Edit)]
 		 protected virtual async Task Update(CreateOrEditObeEclLgdAssumptionDto input)
          {
             var obeEclLgdAssumption = await _obeEclLgdAssumptionRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, obeEclLgdAssumption);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclLgdAssumptions_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _obeEclLgdAssumptionRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_ObeEclLgdAssumptions)]
          public async Task<PagedResultDto<ObeEclLgdAssumptionObeEclLookupTableDto>> GetAllObeEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_obeEclRepository.GetAll().WhereIf(

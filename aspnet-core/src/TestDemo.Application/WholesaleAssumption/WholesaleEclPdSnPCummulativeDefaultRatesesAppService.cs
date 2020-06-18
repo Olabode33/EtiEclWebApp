@@ -19,7 +19,6 @@ using TestDemo.EclShared.Dtos;
 
 namespace TestDemo.WholesaleAssumption
 {
-	[AbpAuthorize(AppPermissions.Pages_WholesaleEclPdSnPCummulativeDefaultRateses)]
     public class WholesaleEclPdSnPCummulativeDefaultRatesesAppService : TestDemoAppServiceBase, IWholesaleEclPdSnPCummulativeDefaultRatesesAppService
     {
 		 private readonly IRepository<WholesaleEclPdSnPCummulativeDefaultRate, Guid> _wholesaleEclPdSnPCummulativeDefaultRatesRepository;
@@ -93,7 +92,6 @@ namespace TestDemo.WholesaleAssumption
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclPdSnPCummulativeDefaultRateses_Edit)]
 		 public async Task<GetWholesaleEclPdSnPCummulativeDefaultRatesForEditOutput> GetWholesaleEclPdSnPCummulativeDefaultRatesForEdit(EntityDto<Guid> input)
          {
             var wholesaleEclPdSnPCummulativeDefaultRates = await _wholesaleEclPdSnPCummulativeDefaultRatesRepository.FirstOrDefaultAsync(input.Id);
@@ -119,7 +117,6 @@ namespace TestDemo.WholesaleAssumption
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclPdSnPCummulativeDefaultRateses_Create)]
 		 protected virtual async Task Create(CreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesDto input)
          {
             var wholesaleEclPdSnPCummulativeDefaultRates = ObjectMapper.Map<WholesaleEclPdSnPCummulativeDefaultRate>(input);
@@ -127,14 +124,12 @@ namespace TestDemo.WholesaleAssumption
             await _wholesaleEclPdSnPCummulativeDefaultRatesRepository.InsertAsync(wholesaleEclPdSnPCummulativeDefaultRates);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclPdSnPCummulativeDefaultRateses_Edit)]
 		 protected virtual async Task Update(CreateOrEditWholesaleEclPdSnPCummulativeDefaultRatesDto input)
          {
             var wholesaleEclPdSnPCummulativeDefaultRates = await _wholesaleEclPdSnPCummulativeDefaultRatesRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, wholesaleEclPdSnPCummulativeDefaultRates);
          }
 
-        [AbpAuthorize(AppPermissions.Pages_WholesaleEclPdSnPCummulativeDefaultRateses_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _wholesaleEclPdSnPCummulativeDefaultRatesRepository.DeleteAsync(input.Id);

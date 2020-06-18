@@ -8,7 +8,7 @@ using Abp.Runtime.Session;
 
 namespace TestDemo.EclConfig
 {
-    [AbpAuthorize(AppPermissions.Pages_EclConfigurations)]
+    [AbpAuthorize(AppPermissions.Pages_Configuration)]
     public class EclSettingsAppService : TestDemoAppServiceBase, IEclSettingsAppService
     {
         #region Get Settings

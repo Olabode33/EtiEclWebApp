@@ -20,7 +20,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.ObeAssumption
 {
-	[AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptionMacroeconomicInputses)]
     public class ObeEclPdAssumptionMacroeconomicInputsesAppService : TestDemoAppServiceBase, IObeEclPdAssumptionMacroeconomicInputsesAppService
     {
 		 private readonly IRepository<ObeEclPdAssumptionMacroeconomicInputs, Guid> _obeEclPdAssumptionMacroeconomicInputsRepository;
@@ -65,7 +64,6 @@ namespace TestDemo.ObeAssumption
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptionMacroeconomicInputses_Edit)]
 		 public async Task<GetObeEclPdAssumptionMacroeconomicInputsForEditOutput> GetObeEclPdAssumptionMacroeconomicInputsForEdit(EntityDto<Guid> input)
          {
             var obeEclPdAssumptionMacroeconomicInputs = await _obeEclPdAssumptionMacroeconomicInputsRepository.FirstOrDefaultAsync(input.Id);
@@ -91,7 +89,6 @@ namespace TestDemo.ObeAssumption
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptionMacroeconomicInputses_Create)]
 		 protected virtual async Task Create(CreateOrEditObeEclPdAssumptionMacroeconomicInputsDto input)
          {
             var obeEclPdAssumptionMacroeconomicInputs = ObjectMapper.Map<ObeEclPdAssumptionMacroeconomicInputs>(input);
@@ -101,20 +98,17 @@ namespace TestDemo.ObeAssumption
             await _obeEclPdAssumptionMacroeconomicInputsRepository.InsertAsync(obeEclPdAssumptionMacroeconomicInputs);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptionMacroeconomicInputses_Edit)]
 		 protected virtual async Task Update(CreateOrEditObeEclPdAssumptionMacroeconomicInputsDto input)
          {
             var obeEclPdAssumptionMacroeconomicInputs = await _obeEclPdAssumptionMacroeconomicInputsRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, obeEclPdAssumptionMacroeconomicInputs);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptionMacroeconomicInputses_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _obeEclPdAssumptionMacroeconomicInputsRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptionMacroeconomicInputses)]
          public async Task<PagedResultDto<ObeEclPdAssumptionMacroeconomicInputsObeEclLookupTableDto>> GetAllObeEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_obeEclRepository.GetAll().WhereIf(

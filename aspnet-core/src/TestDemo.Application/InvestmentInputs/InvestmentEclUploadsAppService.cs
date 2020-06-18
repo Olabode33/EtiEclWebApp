@@ -23,7 +23,6 @@ using TestDemo.Dto.Inputs;
 
 namespace TestDemo.InvestmentInputs
 {
-    [AbpAuthorize(AppPermissions.Pages_InvestmentEclUploads)]
     public class InvestmentEclUploadsAppService : TestDemoAppServiceBase, IInvestmentEclUploadsAppService
     {
         private readonly IRepository<InvestmentEclUpload, Guid> _investmentEclUploadRepository;
@@ -104,7 +103,6 @@ namespace TestDemo.InvestmentInputs
             return await retailEclUploads.ToListAsync();
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEclUploads_Edit)]
         public async Task<GetInvestmentEclUploadForEditOutput> GetInvestmentEclUploadForEdit(EntityDto<Guid> input)
         {
             var investmentEclUpload = await _investmentEclUploadRepository.FirstOrDefaultAsync(input.Id);
@@ -133,7 +131,6 @@ namespace TestDemo.InvestmentInputs
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEclUploads_Create)]
         protected virtual async Task<Guid> Create(CreateOrEditInvestmentEclUploadDto input)
         {
             var eclUploadExist = await _investmentEclUploadRepository.FirstOrDefaultAsync(x => x.DocType == input.DocType && x.InvestmentEclId == input.EclId);
@@ -152,21 +149,18 @@ namespace TestDemo.InvestmentInputs
 
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEclUploads_Edit)]
         protected virtual async Task Update(CreateOrEditInvestmentEclUploadDto input)
         {
             var investmentEclUpload = await _investmentEclUploadRepository.FirstOrDefaultAsync((Guid)input.Id);
             ObjectMapper.Map(input, investmentEclUpload);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEclUploads_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _assetBookRepository.HardDeleteAsync(x => x.InvestmentEclUploadId == input.Id);
             await _investmentEclUploadRepository.DeleteAsync(input.Id);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentEclUploads)]
         public async Task<PagedResultDto<InvestmentEclUploadInvestmentEclLookupTableDto>> GetAllInvestmentEclForLookupTable(GetAllForLookupTableInput input)
         {
             var query = _lookup_investmentEclRepository.GetAll().WhereIf(

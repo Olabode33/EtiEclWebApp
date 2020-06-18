@@ -19,7 +19,6 @@ using TestDemo.Dto.Inputs;
 
 namespace TestDemo.InvestmentInputs
 {
-    [AbpAuthorize(AppPermissions.Pages_InvestmentAssetBooks)]
     public class InvestmentAssetBooksAppService : TestDemoAppServiceBase, IInvestmentAssetBooksAppService
     {
         private readonly IRepository<InvestmentAssetBook, Guid> _investmentAssetBookRepository;
@@ -144,7 +143,6 @@ namespace TestDemo.InvestmentInputs
         }
 
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentAssetBooks_Edit)]
         public async Task<GetInvestmentAssetBookForEditOutput> GetInvestmentAssetBookForEdit(EntityDto<Guid> input)
         {
             var investmentAssetBook = await _investmentAssetBookRepository.FirstOrDefaultAsync(input.Id);
@@ -172,7 +170,6 @@ namespace TestDemo.InvestmentInputs
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentAssetBooks_Create)]
         protected virtual async Task Create(CreateOrEditInvestmentAssetBookDto input)
         {
             var investmentAssetBook = ObjectMapper.Map<InvestmentAssetBook>(input);
@@ -182,20 +179,17 @@ namespace TestDemo.InvestmentInputs
             await _investmentAssetBookRepository.InsertAsync(investmentAssetBook);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentAssetBooks_Edit)]
         protected virtual async Task Update(CreateOrEditInvestmentAssetBookDto input)
         {
             var investmentAssetBook = await _investmentAssetBookRepository.FirstOrDefaultAsync((Guid)input.Id);
             ObjectMapper.Map(input, investmentAssetBook);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentAssetBooks_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _investmentAssetBookRepository.DeleteAsync(input.Id);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_InvestmentAssetBooks)]
         public async Task<PagedResultDto<InvestmentAssetBookInvestmentEclUploadLookupTableDto>> GetAllInvestmentEclUploadForLookupTable(GetAllForLookupTableInput input)
         {
             var query = _lookup_investmentEclUploadRepository.GetAll().WhereIf(

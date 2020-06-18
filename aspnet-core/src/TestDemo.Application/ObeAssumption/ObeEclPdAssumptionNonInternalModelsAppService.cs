@@ -18,7 +18,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.ObeAssumption
 {
-	[AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptionNonInternalModels)]
     public class ObeEclPdAssumptionNonInternalModelsAppService : TestDemoAppServiceBase, IObeEclPdAssumptionNonInternalModelsAppService
     {
 		 private readonly IRepository<ObeEclPdAssumptionNonInternalModel, Guid> _obeEclPdAssumptionNonInternalModelRepository;
@@ -63,7 +62,6 @@ namespace TestDemo.ObeAssumption
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptionNonInternalModels_Edit)]
 		 public async Task<GetObeEclPdAssumptionNonInternalModelForEditOutput> GetObeEclPdAssumptionNonInternalModelForEdit(EntityDto<Guid> input)
          {
             var obeEclPdAssumptionNonInternalModel = await _obeEclPdAssumptionNonInternalModelRepository.FirstOrDefaultAsync(input.Id);
@@ -89,7 +87,6 @@ namespace TestDemo.ObeAssumption
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptionNonInternalModels_Create)]
 		 protected virtual async Task Create(CreateOrEditObeEclPdAssumptionNonInternalModelDto input)
          {
             var obeEclPdAssumptionNonInternalModel = ObjectMapper.Map<ObeEclPdAssumptionNonInternalModel>(input);
@@ -99,20 +96,17 @@ namespace TestDemo.ObeAssumption
             await _obeEclPdAssumptionNonInternalModelRepository.InsertAsync(obeEclPdAssumptionNonInternalModel);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptionNonInternalModels_Edit)]
 		 protected virtual async Task Update(CreateOrEditObeEclPdAssumptionNonInternalModelDto input)
          {
             var obeEclPdAssumptionNonInternalModel = await _obeEclPdAssumptionNonInternalModelRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, obeEclPdAssumptionNonInternalModel);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptionNonInternalModels_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _obeEclPdAssumptionNonInternalModelRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_ObeEclPdAssumptionNonInternalModels)]
          public async Task<PagedResultDto<ObeEclPdAssumptionNonInternalModelObeEclLookupTableDto>> GetAllObeEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_obeEclRepository.GetAll().WhereIf(

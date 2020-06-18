@@ -18,7 +18,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.ObeAssumption
 {
-	[AbpAuthorize(AppPermissions.Pages_ObeEclPdSnPCummulativeDefaultRates)]
     public class ObeEclPdSnPCummulativeDefaultRatesAppService : TestDemoAppServiceBase, IObeEclPdSnPCummulativeDefaultRatesAppService
     {
 		 private readonly IRepository<ObeEclPdSnPCummulativeDefaultRate, Guid> _obeEclPdSnPCummulativeDefaultRateRepository;
@@ -75,7 +74,6 @@ namespace TestDemo.ObeAssumption
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdSnPCummulativeDefaultRates_Edit)]
 		 public async Task<GetObeEclPdSnPCummulativeDefaultRateForEditOutput> GetObeEclPdSnPCummulativeDefaultRateForEdit(EntityDto<Guid> input)
          {
             var obeEclPdSnPCummulativeDefaultRate = await _obeEclPdSnPCummulativeDefaultRateRepository.FirstOrDefaultAsync(input.Id);
@@ -101,7 +99,6 @@ namespace TestDemo.ObeAssumption
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdSnPCummulativeDefaultRates_Create)]
 		 protected virtual async Task Create(CreateOrEditObeEclPdSnPCummulativeDefaultRateDto input)
          {
             var obeEclPdSnPCummulativeDefaultRate = ObjectMapper.Map<ObeEclPdSnPCummulativeDefaultRate>(input);
@@ -109,20 +106,17 @@ namespace TestDemo.ObeAssumption
             await _obeEclPdSnPCummulativeDefaultRateRepository.InsertAsync(obeEclPdSnPCummulativeDefaultRate);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdSnPCummulativeDefaultRates_Edit)]
 		 protected virtual async Task Update(CreateOrEditObeEclPdSnPCummulativeDefaultRateDto input)
          {
             var obeEclPdSnPCummulativeDefaultRate = await _obeEclPdSnPCummulativeDefaultRateRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, obeEclPdSnPCummulativeDefaultRate);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ObeEclPdSnPCummulativeDefaultRates_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _obeEclPdSnPCummulativeDefaultRateRepository.DeleteAsync(input.Id);
          } 
 
-		[AbpAuthorize(AppPermissions.Pages_ObeEclPdSnPCummulativeDefaultRates)]
          public async Task<PagedResultDto<ObeEclPdSnPCummulativeDefaultRateObeEclLookupTableDto>> GetAllObeEclForLookupTable(GetAllForLookupTableInput input)
          {
              var query = _lookup_obeEclRepository.GetAll().WhereIf(

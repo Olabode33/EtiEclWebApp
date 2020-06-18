@@ -23,7 +23,6 @@ using TestDemo.Dto.Inputs;
 
 namespace TestDemo.RetailInputs
 {
-    [AbpAuthorize(AppPermissions.Pages_RetailEclUploads)]
     public class RetailEclUploadsAppService : TestDemoAppServiceBase, IRetailEclUploadsAppService
     {
         private readonly IRepository<RetailEclUpload, Guid> _retailEclUploadRepository;
@@ -107,7 +106,6 @@ namespace TestDemo.RetailInputs
             return await retailEclUploads.ToListAsync();
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclUploads_Edit)]
         public async Task<GetRetailEclUploadForEditOutput> GetRetailEclUploadForEdit(EntityDto<Guid> input)
         {
             var retailEclUpload = await _retailEclUploadRepository.FirstOrDefaultAsync(input.Id);
@@ -138,8 +136,6 @@ namespace TestDemo.RetailInputs
         }
 
 
-
-        [AbpAuthorize(AppPermissions.Pages_RetailEclUploads_Create)]
         protected virtual async Task<Guid> Create(CreateOrEditRetailEclUploadDto input)
         {
             var retailEclUploadExist = await _retailEclUploadRepository.FirstOrDefaultAsync(x => x.DocType == input.DocType && x.RetailEclId == input.EclId);
@@ -165,21 +161,17 @@ namespace TestDemo.RetailInputs
         }
 
 
-
-        [AbpAuthorize(AppPermissions.Pages_RetailEclUploads_Edit)]
         protected virtual async Task Update(CreateOrEditRetailEclUploadDto input)
         {
             var retailEclUpload = await _retailEclUploadRepository.FirstOrDefaultAsync((Guid)input.Id);
             ObjectMapper.Map(input, retailEclUpload);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclUploads_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _retailEclUploadRepository.DeleteAsync(input.Id);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_RetailEclUploads)]
         public async Task<PagedResultDto<RetailEclUploadRetailEclLookupTableDto>> GetAllRetailEclForLookupTable(GetAllForLookupTableInput input)
         {
             var query = _lookup_retailEclRepository.GetAll().WhereIf(

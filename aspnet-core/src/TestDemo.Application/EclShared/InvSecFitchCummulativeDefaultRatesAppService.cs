@@ -18,7 +18,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.EclShared
 {
-	[AbpAuthorize(AppPermissions.Pages_InvSecFitchCummulativeDefaultRates)]
     public class InvSecFitchCummulativeDefaultRatesAppService : TestDemoAppServiceBase, IInvSecFitchCummulativeDefaultRatesAppService
     {
 		 private readonly IRepository<InvSecFitchCummulativeDefaultRate, Guid> _invSecFitchCummulativeDefaultRateRepository;
@@ -62,7 +61,6 @@ namespace TestDemo.EclShared
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_InvSecFitchCummulativeDefaultRates_Edit)]
 		 public async Task<GetInvSecFitchCummulativeDefaultRateForEditOutput> GetInvSecFitchCummulativeDefaultRateForEdit(EntityDto<Guid> input)
          {
             var invSecFitchCummulativeDefaultRate = await _invSecFitchCummulativeDefaultRateRepository.FirstOrDefaultAsync(input.Id);
@@ -82,7 +80,6 @@ namespace TestDemo.EclShared
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_InvSecFitchCummulativeDefaultRates_Create)]
 		 protected virtual async Task Create(CreateOrEditInvSecFitchCummulativeDefaultRateDto input)
          {
             var invSecFitchCummulativeDefaultRate = ObjectMapper.Map<InvSecFitchCummulativeDefaultRate>(input);
@@ -92,14 +89,12 @@ namespace TestDemo.EclShared
             await _invSecFitchCummulativeDefaultRateRepository.InsertAsync(invSecFitchCummulativeDefaultRate);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_InvSecFitchCummulativeDefaultRates_Edit)]
 		 protected virtual async Task Update(CreateOrEditInvSecFitchCummulativeDefaultRateDto input)
          {
             var invSecFitchCummulativeDefaultRate = await _invSecFitchCummulativeDefaultRateRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, invSecFitchCummulativeDefaultRate);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_InvSecFitchCummulativeDefaultRates_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _invSecFitchCummulativeDefaultRateRepository.DeleteAsync(input.Id);

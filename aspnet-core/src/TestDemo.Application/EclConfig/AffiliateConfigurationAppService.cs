@@ -82,7 +82,6 @@ namespace TestDemo.EclConfig
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_AffiliateOverrideThresholds_Create)]
         protected virtual async Task Create(CreateOrEditAffiliateDto input)
         {
             var affiliate = new Affiliate
@@ -97,7 +96,6 @@ namespace TestDemo.EclConfig
             await CurrentUnitOfWork.SaveChangesAsync();
         }
 
-        [AbpAuthorize(AppPermissions.Pages_AffiliateOverrideThresholds_Edit)]
         protected virtual async Task Update(CreateOrEditAffiliateDto input)
         {
             var affiliate = await _affiliateRepository.FirstOrDefaultAsync((int)input.Id);

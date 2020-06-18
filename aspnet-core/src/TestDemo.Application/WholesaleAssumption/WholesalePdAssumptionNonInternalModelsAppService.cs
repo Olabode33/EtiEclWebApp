@@ -19,7 +19,6 @@ using TestDemo.EclShared.Dtos;
 
 namespace TestDemo.WholesaleAssumption
 {
-	[AbpAuthorize(AppPermissions.Pages_WholesalePdAssumptionNonInternalModels)]
     public class WholesalePdAssumptionNonInternalModelsAppService : TestDemoAppServiceBase, IWholesalePdAssumptionNonInternalModelsAppService
     {
 		 private readonly IRepository<WholesaleEclPdAssumptionNonInternalModel, Guid> _wholesalePdAssumptionNonInternalModelRepository;
@@ -87,7 +86,6 @@ namespace TestDemo.WholesaleAssumption
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_WholesalePdAssumptionNonInternalModels_Edit)]
 		 public async Task<GetWholesalePdAssumptionNonInternalModelForEditOutput> GetWholesalePdAssumptionNonInternalModelForEdit(EntityDto<Guid> input)
          {
             var wholesalePdAssumptionNonInternalModel = await _wholesalePdAssumptionNonInternalModelRepository.FirstOrDefaultAsync(input.Id);
@@ -113,7 +111,6 @@ namespace TestDemo.WholesaleAssumption
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesalePdAssumptionNonInternalModels_Create)]
 		 protected virtual async Task Create(CreateOrEditWholesalePdAssumptionNonInternalModelDto input)
          {
             var wholesalePdAssumptionNonInternalModel = ObjectMapper.Map<WholesaleEclPdAssumptionNonInternalModel>(input);
@@ -123,14 +120,12 @@ namespace TestDemo.WholesaleAssumption
             await _wholesalePdAssumptionNonInternalModelRepository.InsertAsync(wholesalePdAssumptionNonInternalModel);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesalePdAssumptionNonInternalModels_Edit)]
 		 protected virtual async Task Update(CreateOrEditWholesalePdAssumptionNonInternalModelDto input)
          {
             var wholesalePdAssumptionNonInternalModel = await _wholesalePdAssumptionNonInternalModelRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, wholesalePdAssumptionNonInternalModel);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesalePdAssumptionNonInternalModels_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _wholesalePdAssumptionNonInternalModelRepository.DeleteAsync(input.Id);

@@ -24,7 +24,6 @@ using TestDemo.EclConfig;
 
 namespace TestDemo.EclShared
 {
-    [AbpAuthorize(AppPermissions.Pages_AssumptionApprovals)]
     public class AssumptionApprovalsAppService : TestDemoAppServiceBase, IAssumptionApprovalsAppService
     {
         private readonly IRepository<AssumptionApproval, Guid> _assumptionApprovalRepository;
@@ -129,7 +128,6 @@ namespace TestDemo.EclShared
             return output;
         }
 
-        [AbpAuthorize(AppPermissions.Pages_AssumptionApprovals_Edit)]
         public async Task<GetAssumptionApprovalForEditOutput> GetAssumptionApprovalForEdit(EntityDto<Guid> input)
         {
             var assumptionApproval = await _assumptionApprovalRepository.FirstOrDefaultAsync(input.Id);
@@ -157,7 +155,6 @@ namespace TestDemo.EclShared
             }
         }
 
-        [AbpAuthorize(AppPermissions.Pages_AssumptionApprovals_Create)]
         protected virtual async Task Create(CreateOrEditAssumptionApprovalDto input)
         {
             var assumptionApproval = ObjectMapper.Map<AssumptionApproval>(input);
@@ -167,20 +164,17 @@ namespace TestDemo.EclShared
             await _assumptionApprovalRepository.InsertAsync(assumptionApproval);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_AssumptionApprovals_Edit)]
         protected virtual async Task Update(CreateOrEditAssumptionApprovalDto input)
         {
             var assumptionApproval = await _assumptionApprovalRepository.FirstOrDefaultAsync((Guid)input.Id);
             ObjectMapper.Map(input, assumptionApproval);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_AssumptionApprovals_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _assumptionApprovalRepository.DeleteAsync(input.Id);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_AssumptionApprovals)]
         public async Task<PagedResultDto<AssumptionApprovalUserLookupTableDto>> GetAllUserForLookupTable(GetAllForLookupTableInput input)
         {
             var query = _lookup_userRepository.GetAll().WhereIf(
@@ -210,7 +204,8 @@ namespace TestDemo.EclShared
             );
         }
 
-        
+
+        [AbpAuthorize(AppPermissions.Pages_AssumptionsUpdate_Review)]
         public async Task ApproveMultiple(ReviewMultipleRecordsDto<AssumptionApprovalDto> input)
         {
             foreach (var item in input.Items)
@@ -221,6 +216,7 @@ namespace TestDemo.EclShared
             }
         }
 
+        [AbpAuthorize(AppPermissions.Pages_AssumptionsUpdate_Review)]
         public async Task RejectMultiple(ReviewMultipleRecordsDto<AssumptionApprovalDto> input)
         {
             foreach (var item in input.Items)
@@ -231,6 +227,7 @@ namespace TestDemo.EclShared
             }
         }
 
+        [AbpAuthorize(AppPermissions.Pages_AssumptionsUpdate_Review)]
         public async Task ApproveReject(AssumptionApprovalDto input)
         {
             var assumption = await _assumptionApprovalRepository.FirstOrDefaultAsync((Guid)input.Id);

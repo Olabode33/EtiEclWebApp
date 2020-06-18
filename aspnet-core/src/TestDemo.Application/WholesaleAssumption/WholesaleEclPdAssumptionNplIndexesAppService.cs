@@ -20,7 +20,6 @@ using TestDemo.EclShared.Dtos;
 
 namespace TestDemo.WholesaleAssumption
 {
-	[AbpAuthorize(AppPermissions.Pages_WholesaleEclPdAssumptionNplIndexes)]
     public class WholesaleEclPdAssumptionNplIndexesAppService : TestDemoAppServiceBase, IWholesaleEclPdAssumptionNplIndexesAppService
     {
 		 private readonly IRepository<WholesaleEclPdAssumptionNplIndex, Guid> _wholesaleEclPdAssumptionNplIndexRepository;
@@ -87,7 +86,6 @@ namespace TestDemo.WholesaleAssumption
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclPdAssumptionNplIndexes_Edit)]
 		 public async Task<GetWholesaleEclPdAssumptionNplIndexForEditOutput> GetWholesaleEclPdAssumptionNplIndexForEdit(EntityDto<Guid> input)
          {
             var wholesaleEclPdAssumptionNplIndex = await _wholesaleEclPdAssumptionNplIndexRepository.FirstOrDefaultAsync(input.Id);
@@ -113,7 +111,6 @@ namespace TestDemo.WholesaleAssumption
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclPdAssumptionNplIndexes_Create)]
 		 protected virtual async Task Create(CreateOrEditWholesaleEclPdAssumptionNplIndexDto input)
          {
             var wholesaleEclPdAssumptionNplIndex = ObjectMapper.Map<WholesaleEclPdAssumptionNplIndex>(input);
@@ -123,14 +120,12 @@ namespace TestDemo.WholesaleAssumption
             await _wholesaleEclPdAssumptionNplIndexRepository.InsertAsync(wholesaleEclPdAssumptionNplIndex);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclPdAssumptionNplIndexes_Edit)]
 		 protected virtual async Task Update(CreateOrEditWholesaleEclPdAssumptionNplIndexDto input)
          {
             var wholesaleEclPdAssumptionNplIndex = await _wholesaleEclPdAssumptionNplIndexRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, wholesaleEclPdAssumptionNplIndex);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_WholesaleEclPdAssumptionNplIndexes_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _wholesaleEclPdAssumptionNplIndexRepository.DeleteAsync(input.Id);

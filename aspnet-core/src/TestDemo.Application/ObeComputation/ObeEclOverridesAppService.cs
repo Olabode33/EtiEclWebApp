@@ -31,7 +31,6 @@ using TestDemo.Configuration;
 
 namespace TestDemo.ObeComputation
 {
-    [AbpAuthorize(AppPermissions.Pages_ObeEclOverrides)]
     public class ObeEclOverridesAppService : TestDemoAppServiceBase, IObeEclOverridesAppService
     {
         private readonly IRepository<ObeEclOverride, Guid> _obeEclOverrideRepository;
@@ -165,11 +164,6 @@ namespace TestDemo.ObeComputation
             };
         }
 
-
-
-
-
-        [AbpAuthorize(AppPermissions.Pages_ObeEclOverrides_Edit)]
         public async Task<GetObeEclOverrideForEditOutput> GetObeEclOverrideForEdit(EntityDto<Guid> input)
         {
             var obeEclOverride = await _obeEclOverrideRepository.FirstOrDefaultAsync(input.Id);
@@ -184,6 +178,7 @@ namespace TestDemo.ObeComputation
 
             return output;
         }
+
 
         public async Task CreateOrEdit(CreateOrEditEclOverrideDto input)
         {
@@ -205,6 +200,8 @@ namespace TestDemo.ObeComputation
             }
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Override)]
         protected virtual async Task Create(CreateOrEditEclOverrideDto input)
         {
             await _obeEclOverrideRepository.InsertAsync(new ObeEclOverride
@@ -220,6 +217,8 @@ namespace TestDemo.ObeComputation
             await SendSubmittedEmail((Guid)input.EclId);
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Override)]
         protected virtual async Task Update(CreateOrEditEclOverrideDto input)
         {
             var eclOverride = await _obeEclOverrideRepository.FirstOrDefaultAsync((Guid)input.Id);
@@ -235,12 +234,13 @@ namespace TestDemo.ObeComputation
             await SendSubmittedEmail((Guid)eclOverride.ObeEclId);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_ObeEclOverrides_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _obeEclOverrideRepository.DeleteAsync(input.Id);
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Override_Review)]
         public virtual async Task ApproveReject(EclShared.Dtos.ReviewEclOverrideInputDto input)
         {
             var ecl = await _obeEclOverrideRepository.FirstOrDefaultAsync((Guid)input.OverrideRecordId);
