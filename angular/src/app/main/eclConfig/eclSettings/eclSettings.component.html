@@ -13,7 +13,7 @@
         </div>
         <div class="kt-subheader__toolbar">
             <div class="kt-subheader__wrapper">
-                <button (click)="saveAllEclSettings()" class="btn btn-primary">
+                <button *ngIf="isGranted('Pages.Configurations.Update')" (click)="saveAllEclSettings()" class="btn btn-primary">
                     <i class="fa fa-save" style="font-size: 1.2rem !important;"></i>
                     {{l("Save")}}
                 </button>

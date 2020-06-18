@@ -134,7 +134,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" (click)="save()">
+                <button *ngIf="isGranted('Pages.Assumption.Affiliates.Edit')" type="button" class="btn btn-success" (click)="save()">
                     <i class="fa fa-check"></i>
                     {{"SubmitForApproval" | localize}}
                 </button>

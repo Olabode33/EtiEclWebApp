@@ -19,24 +19,24 @@ export class AppNavigationService {
         return new AppMenu('MainMenu', 'MainMenu', [
             new AppMenuItem('Home', 'Pages.Tenant.Dashboard', 'fa fa-home', '/app/main/home'),
             new AppMenuItem('Dashboard', 'Pages.Administration.Host.Dashboard', 'flaticon-line-graph', '/app/admin/hostDashboard'),
-            //new AppMenuItem('Dashboard', 'Pages.Tenant.Dashboard', 'flaticon-line-graph', '/app/main/dashboard'),
+            new AppMenuItem('Dashboard', 'Pages.Tenant.Dashboard', 'flaticon-line-graph', '/app/main/dashboard'),
             new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants'),
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
-            new AppMenuItem('Calibration', 'Pages.CalibrationResults', 'fa fa-bezier-curve', '', [
-                new AppMenuItem('CalibrationEadBehaviouralTerms', 'Pages.CalibrationEadBehaviouralTerms', 'flaticon-more', '/app/main/calibration/behavioralTerms'),
-                new AppMenuItem('CalibrationEadCcfSummary', 'Pages.CalibrationEadBehaviouralTerms', 'flaticon-more', '/app/main/calibration/ccfSummary'),
-                new AppMenuItem('CalibrationLgdHairCut', 'Pages.CalibrationEadBehaviouralTerms', 'flaticon-more', '/app/main/calibration/haircut'),
-                new AppMenuItem('CalibrationLgdRecoveryRate', 'Pages.CalibrationEadBehaviouralTerms', 'flaticon-more', '/app/main/calibration/recovery'),
-                new AppMenuItem('CalibrationPdCrDr', 'Pages.CalibrationEadBehaviouralTerms', 'flaticon-more', '/app/main/calibration/pdcrdr'),
-                new AppMenuItem('MacroAnalysis', 'Pages.CalibrationEadBehaviouralTerms', 'flaticon-more', '/app/main/calibration/macroAnalysis'),
+            new AppMenuItem('Calibration', 'Pages.Calibration', 'fa fa-bezier-curve', '', [
+                new AppMenuItem('CalibrationEadBehaviouralTerms', 'Pages.Calibration', 'flaticon-more', '/app/main/calibration/behavioralTerms'),
+                new AppMenuItem('CalibrationEadCcfSummary', 'Pages.Calibration', 'flaticon-more', '/app/main/calibration/ccfSummary'),
+                new AppMenuItem('CalibrationLgdHairCut', 'Pages.Calibration', 'flaticon-more', '/app/main/calibration/haircut'),
+                new AppMenuItem('CalibrationLgdRecoveryRate', 'Pages.Calibration', 'flaticon-more', '/app/main/calibration/recovery'),
+                new AppMenuItem('CalibrationPdCrDr', 'Pages.Calibration', 'flaticon-more', '/app/main/calibration/pdcrdr'),
+                new AppMenuItem('MacroAnalysis', 'Pages.Calibration', 'flaticon-more', '/app/main/calibration/macroAnalysis'),
             ]),
             new AppMenuItem('Assumptions', 'Pages.Assumption.Affiliates', 'fa fa-list-ul', '/app/main/assumption/affiliates'),
-            new AppMenuItem('ECL', 'Pages.Assumption.Affiliates', 'fa fa-suitcase', '/app/main/ecl'),
-            new AppMenuItem('Configuration', 'Pages.EclConfigurations', 'fa fa-wrench', '', [
-                new AppMenuItem('EclConfigurations', 'Pages.EclConfigurations', 'flaticon-more', '/app/main/eclConfig/eclConfigurations'),
-                new AppMenuItem('Affiliates', 'Pages.AffiliateOverrideThresholds', 'flaticon-more', '/app/main/eclConfig/affiliates'),
-                new AppMenuItem('MacroeconomicVariables', 'Pages.MacroeconomicVariables', 'flaticon-more', '/app/main/config/macroeconomicVariables'),
-                new AppMenuItem('AffiliateMacroEconomicVariableOffsets', 'Pages.AffiliateMacroEconomicVariableOffsets', 'flaticon-more', '/app/main/affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets'),
+            new AppMenuItem('ECL', 'Pages.EclView', 'fa fa-suitcase', '/app/main/ecl'),
+            new AppMenuItem('Configuration', 'Pages.Configurations', 'fa fa-wrench', '', [
+                new AppMenuItem('EclConfigurations', 'Pages.Configurations', 'flaticon-more', '/app/main/eclConfig/eclConfigurations'),
+                new AppMenuItem('Affiliates', 'Pages.Configurations', 'flaticon-more', '/app/main/eclConfig/affiliates'),
+                new AppMenuItem('MacroeconomicVariables', 'Pages.Configurations', 'flaticon-more', '/app/main/config/macroeconomicVariables'),
+                new AppMenuItem('AffiliateMacroEconomicVariableOffsets', 'Pages.Configurations', 'flaticon-more', '/app/main/affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets'),
             ]),
             new AppMenuItem('Administration', '', 'fa fa-cogs', '', [
                 new AppMenuItem('OrganizationUnits', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),

@@ -34,7 +34,7 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <span *ngIf="!viewOnly" class="hoverable pull-right" (click)="editPdAssumption(etiPolicy[i])">
+                                        <span *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')" class="hoverable pull-right" (click)="editPdAssumption(etiPolicy[i])">
                                             <i class="fa fa-edit"></i>
                                         </span>
                                         <span class="kt-widget1__number kt-font-brand">
@@ -79,7 +79,7 @@
                             <option value="-1">All</option>
                             <option *ngFor="let item of snpYears" [value]="item">{{item}}</option>
                         </select>
-                        <div *ngIf="!viewOnly" class="col-lg-4">
+                        <div *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')" class="col-lg-4">
                             <div class="btn-group pull-right" dropdown>
                                 <button dropdownToggle type="button"
                                     class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -122,7 +122,7 @@
                                     <td>{{item.rating}}</td>
                                     <td><span class="text-right">{{item.years}}</span></td>
                                     <td>
-                                        <span *ngIf="!viewOnly" class="hoverable pull-right" (click)="editSnPAssumption(item)">
+                                        <span *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')" class="hoverable pull-right" (click)="editSnPAssumption(item)">
                                             <i class="fa fa-edit"></i>
                                         </span>
                                         <span class="kt-widget1__number kt-font-brand">
@@ -159,7 +159,7 @@
                             <option value="-1">All</option>
                             <option *ngFor="let item of pdMonths" [value]="item">{{item}}</option>
                         </select>
-                        <div *ngIf="!viewOnly" class="col-lg-4">
+                        <div *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')" class="col-lg-4">
                             <div class="btn-group pull-right" dropdown>
                                 <button dropdownToggle type="button"
                                     class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -202,7 +202,7 @@
                                     <td>{{item.pdGroup}}</td>
                                     <td><span class="text-right">{{item.month}}</span></td>
                                     <td>
-                                        <span *ngIf="!viewOnly" class="hoverable pull-right" (click)="editNonInternalAssumption(item)">
+                                        <span *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')" class="hoverable pull-right" (click)="editNonInternalAssumption(item)">
                                             <i class="fa fa-edit"></i>
                                         </span>
                                         <span class="kt-widget1__number kt-font-brand">
@@ -228,7 +228,7 @@
             </div>
             <div id="collapse4" class="collapse" [ngClass]="{show: accordionList[3].isActive}">
                 <div class="card-body">
-                    <div *ngIf="!viewOnly" class="form-group kt-form__group row">
+                    <div *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')" class="form-group kt-form__group row">
                         <div class="col-lg-12">
                             <div class="btn-group pull-right" dropdown>
                                 <button dropdownToggle type="button"
@@ -274,7 +274,7 @@
                                     <td><span class="text-right kt-font-brand">{{item.actual | number: '1.2-2'}}</span></td>
                                     <td><span class="text-right kt-font-brand">{{item.standardised | number: '1.2-2'}}</span></td>
                                     <td>
-                                        <span *ngIf="!viewOnly" class="hoverable pull-right" (click)="editNplAssumption(item)">
+                                        <span *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')" class="hoverable pull-right" (click)="editNplAssumption(item)">
                                             <i class="fa fa-edit"></i>
                                         </span>
                                         <span class="kt-widget1__number kt-font-brand">
@@ -311,7 +311,7 @@
                             <option value="">All</option>
                             <option *ngFor="let item of pdMacroeconomicVariables" [value]="item.value">{{item.name}}</option>
                         </select>
-                        <div *ngIf="!viewOnly" class="col-lg-4 col-xl-5">
+                        <div *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')" class="col-lg-4 col-xl-5">
                             <!-- <button (click)="uploadSnP()" class="btn btn-outline-primary pull-right">
                                 <i class="fa fa-upload" style="font-size: 1.2rem !important;"></i>
                                 {{l("Upload")}}
@@ -334,7 +334,7 @@
                                             <td>{{item.inputName}}</td>
                                             <td><span class="text-right">{{item.macroeconomicVariable}}</span></td>
                                             <td>
-                                                <span *ngIf="!viewOnly" class="hoverable pull-right" (click)="editMacroInputAssumption(item)">
+                                                <span *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')" class="hoverable pull-right" (click)="editMacroInputAssumption(item)">
                                                     <i class="fa fa-edit"></i>
                                                 </span>
                                                 <span class="kt-widget1__number kt-font-brand">
@@ -368,7 +368,7 @@
                             <option value="">All</option>
                             <option *ngFor="let item of pdMacroeconomicVariables" [value]="item.value">{{item.name}}</option>
                         </select>
-                        <div *ngIf="!viewOnly" class="col-lg-4 col-xl-5">
+                        <div *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')" class="col-lg-4 col-xl-5">
                             <!-- <button (click)="uploadSnP()" class="btn btn-outline-primary pull-right">
                                 <i class="fa fa-upload" style="font-size: 1.2rem !important;"></i>
                                 {{l("Upload")}}
@@ -395,7 +395,7 @@
                                             <td><span class="text-right kt-font-brand">{{item.bestValue | number: '1.2-2'}}</span></td>
                                             <td><span class="text-right kt-font-brand">{{item.optimisticValue | number: '1.2-2'}}</span></td>
                                             <td>
-                                                <span *ngIf="!viewOnly" class="hoverable pull-right" (click)="editMacroProjectionAssumption(item)">
+                                                <span *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')" class="hoverable pull-right" (click)="editMacroProjectionAssumption(item)">
                                                     <i class="fa fa-edit"></i>
                                                 </span>
                                                 <span class="kt-widget1__number kt-font-brand">
@@ -444,7 +444,7 @@
                                         <tr *ngFor="let item of selectedInvPdAssumption">
                                             <td><span class="text-right">{{item.inputName}}</span></td>
                                             <td>
-                                                <span *ngIf="!viewOnly" class="hoverable pull-right" (click)="editPdAssumption(item, accordionList[6].key)">
+                                                <span *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')" class="hoverable pull-right" (click)="editPdAssumption(item, accordionList[6].key)">
                                                     <i class="fa fa-edit"></i>
                                                 </span>
                                                 <span class="kt-widget1__number kt-font-brand">
@@ -486,7 +486,7 @@
                                         <tr *ngFor="let item of invsecMacroEcoScenario">
                                             <td><span class="text-right">{{item.inputName}}</span></td>
                                             <td>
-                                                <span *ngIf="!viewOnly" class="hoverable pull-right" (click)="editPdAssumption(item, accordionList[7].key)">
+                                                <span *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')" class="hoverable pull-right" (click)="editPdAssumption(item, accordionList[7].key)">
                                                     <i class="fa fa-edit"></i>
                                                 </span>
                                                 <span class="kt-widget1__number kt-font-brand">
@@ -532,7 +532,7 @@
                                             <td><span class="text-right kt-widget1__number kt-font-brand">{{item.bestValue}}</span></td>
                                             <td><span class="text-right kt-widget1__number kt-font-brand">{{item.optimisticValue}}</span></td>
                                             <td>
-                                                <span *ngIf="!viewOnly" class="hoverable pull-right" (click)="editInvSecMacroAssumption(item)">
+                                                <span *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')" class="hoverable pull-right" (click)="editInvSecMacroAssumption(item)">
                                                     <i class="fa fa-edit"></i>
                                                 </span>
                                                 <span class="kt-widget1__number kt-font-brand">
@@ -584,7 +584,7 @@
                                             <td><span class="text-right">{{item.rating}}</span></td>
                                             <td><span class="text-right">{{item.years}}</span></td>
                                             <td>
-                                                <span *ngIf="!viewOnly" class="hoverable pull-right" (click)="editInvSecFitchAssumption(item)">
+                                                <span *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')" class="hoverable pull-right" (click)="editInvSecFitchAssumption(item)">
                                                     <i class="fa fa-edit"></i>
                                                 </span>
                                                 <span class="kt-widget1__number kt-font-brand">

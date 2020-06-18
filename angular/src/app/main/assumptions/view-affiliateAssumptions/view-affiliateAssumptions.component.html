@@ -17,7 +17,7 @@
                     <i class="fa fa-random" style="font-size: 1.2rem !important;"></i>
                     {{l("ChangeAffiliate")}}
                 </button> -->
-                <button (click)="navigateToApproveAssumptions()" class="btn btn-primary">
+                <button *ngIf="isGranted('Pages.Assumption.Affiliates.Review')" (click)="navigateToApproveAssumptions()" class="btn btn-primary">
                     <i class="fa fa-eye" style="font-size: 1.2rem !important;"></i>
                     {{l("ReviewSubmitted")}}
                 </button>
@@ -41,7 +41,7 @@
                             </h3>
                         </div>
                         <div class="kt-portlet__head-toolbar">
-                            <button class="btn btn-outline-primary btn-sm btn-pill" (click)="editReportDate(item.key)">
+                            <button *ngIf="isGranted('Pages.Assumption.Affiliates.Edit')" class="btn btn-outline-primary btn-sm btn-pill" (click)="editReportDate(item.key)">
                                 {{l('ReportingDate')}}: {{item.reportDate | momentFormat: 'll'}}
                                 <i class="fa fa-edit hoverable"></i>
                             </button>

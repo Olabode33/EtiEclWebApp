@@ -104,7 +104,7 @@
                             </h3>
                         </div>
                         <div class="kt-portlet__head-toolbar">
-                            <button (click)="applyOverride()" class="btn btn-outline-success">
+                            <button *ngIf="isGranted('Pages.Configurations.Update')" (click)="applyOverride()" class="btn btn-outline-success">
                                 <i class="fa fa-save" style="font-size: 1.2rem !important;"></i>
                                 {{l("Save")}}
                             </button>                    

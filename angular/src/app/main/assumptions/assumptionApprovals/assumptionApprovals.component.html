@@ -17,7 +17,7 @@
                     <i class="fa fa-random" style="font-size: 1.2rem !important;"></i>
                     {{l("ChangeAffiliate")}}
                 </button> -->
-                <button *ngIf="selectedRecords.length > 0" (click)="reviewMultiple()" class="btn btn-primary">
+                <button *ngIf="selectedRecords.length > 0  && isGranted('Pages.Assumption.Affiliates.Review')" (click)="reviewMultiple()" class="btn btn-primary">
                     <i class="fa fa-eye" style="font-size: 1.2rem !important;"></i>
                     {{l("Review")}}
                 </button>
@@ -152,7 +152,7 @@
                                         <!-- <p-tableHeaderCheckbox></p-tableHeaderCheckbox> -->
                                     </th>
                                     <th style="width: 130px"
-                                        [hidden]="!isGrantedAny('Pages.AssumptionApprovals.Edit', 'Pages.AssumptionApprovals.Delete')">
+                                        [hidden]="!isGranted('Pages.Assumption.Affiliates.Review')">
                                         {{l('Actions')}}</th>
                                     <th style="width: 150px" pSortableColumn="organizationUnitName">
                                         {{l('Affiliate')}}
@@ -191,7 +191,7 @@
                                         <p-tableCheckbox [value]="record.assumptionApproval"></p-tableCheckbox>
                                     </td>
                                     <td style="width: 130px"
-                                        [hidden]="!isGrantedAny('Pages.AssumptionApprovals.Edit', 'Pages.AssumptionApprovals.Delete')">
+                                        [hidden]="!isGranted('Pages.Assumption.Affiliates.Review')">
                                         <div class="btn-group dropdown" dropdown container="body">
                                             <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
                                                 <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}

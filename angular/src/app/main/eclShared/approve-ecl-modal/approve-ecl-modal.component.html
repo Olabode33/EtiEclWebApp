@@ -15,7 +15,7 @@
                 <form novalidate (ngSubmit)="approve()">
                     <div *ngIf="hasProp('reviewComment')" class=" mb-4">
                         <p class="lead">{{l('ReviewComment')}}</p>
-                        <textarea autoFocus [(ngModel)]="dataSource.reviewComment" rows="7"
+                        <textarea autoFocus [(ngModel)]="dataSource.reviewComment" rows="7" required
                                name="ReviewComment" class="form-control" placeholder="{{'ReviewComment' | localize}}"></textarea>
                     </div>
                 </form>

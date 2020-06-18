@@ -20,12 +20,12 @@
         <div class="kt-subheader__toolbar">
             <div class="kt-subheader__wrapper">
                 <button (click)="submitEcl()" class="btn btn-outline-primary"
-                    *ngIf="calibration.status == calibrationStatusEnum.Draft">
+                    *ngIf="calibration.status == calibrationStatusEnum.Draft && isGranted('Pages.Calibration.Submit')">
                     <i class="fa fa-check" style="font-size: 1.2rem !important;"></i>
                     {{l("Submit")}}
                 </button>
                 <button (click)="approveEcl()" class="btn btn-primary"
-                    *ngIf="calibration.status == calibrationStatusEnum.Submitted || calibration.status == calibrationStatusEnum.AwaitngAdditionApproval">
+                    *ngIf="(calibration.status == calibrationStatusEnum.Submitted || calibration.status == calibrationStatusEnum.AwaitngAdditionApproval) && isGranted('Pages.Calibration.Review')">
                     <i class="fa fa-check-double" style="font-size: 1.2rem !important;"></i>
                     {{l("Approve")}}
                 </button>
@@ -35,7 +35,7 @@
                     {{l("Run")}}
                 </button> -->
                 <button (click)="applyToEcl()" class="btn btn-primary"
-                    *ngIf="calibration.status == calibrationStatusEnum.Completed">
+                    *ngIf="calibration.status == calibrationStatusEnum.Completed && isGranted('Pages.Calibration.Apply')">
                     <i class="fa fa-check-circle" style="font-size: 1.2rem !important;"></i>
                     {{l("ApplyToEcl")}}
                 </button>
@@ -103,7 +103,7 @@
                         <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
                         {{l("DownloadFullData")}}
                     </button>
-                    <div class="btn-group" dropdown>
+                    <div *ngIf="isGranted('Pages.Calibration.Upload')" class="btn-group" dropdown>
                         <button dropdownToggle type="button" *ngIf="calibration.status == calibrationStatusEnum.Draft"
                             class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-upload"></i> {{"Upload" | localize}}

@@ -13,7 +13,7 @@
         </div>
         <div class="kt-subheader__toolbar">
             <div class="kt-subheader__wrapper">
-                <div class="btn-group" dropdown>
+                <div *ngIf="isGranted('Pages.Workspace.CreateEcl')" class="btn-group" dropdown>
                     <button dropdownToggle type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-plus"></i> {{"NewEcl" | localize}}
@@ -64,7 +64,7 @@
                         </a>
                     </div>
                 </div>
-				<button (click)="navigateToDashboard()" class="btn btn-info"><i class="fa fa-chart-bar"></i>
+				<button *ngIf="isGranted('Pages.Workspace.Dashboard')" (click)="navigateToDashboard()" class="btn btn-info"><i class="fa fa-chart-bar"></i>
                     {{l("Dashboard")}}
                 </button>
                 <button (click)="goBack()" class="btn btn-outline-danger">
@@ -120,7 +120,8 @@
                                 </div>
                             </div>
                             <div class="col-xl-2"></div>
-                            <div class="col-xl-4">
+                            <div *ngIf="_affiliateId !== -1" class="col-xl-2"></div>
+                            <div class="col-xl-4 col-sm-6">
                                 <div class="form-group m-form__group align-items-center">
                                     <div class="input-group">
                                         <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
@@ -150,7 +151,7 @@
                                      [resizableColumns]="primengTableHelper.resizableColumns">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.WholesaleEcls.Edit', 'Pages.WholesaleEcls.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.EclView')">{{l('Actions')}}</th>
                                     <th style="width: 150px" pSortableColumn="organisationUnitName">
                                         {{l('Affiliate')}}
                                         <p-sortIcon field="organisationUnitName"></p-sortIcon>
@@ -177,7 +178,7 @@
 							<ng-template pTemplate="body" let-record="$implicit">
                                 <tr>
                                     <td style="width: 130px"
-                                        [hidden]="!isGrantedAny('Pages.WholesaleEcls.Edit', 'Pages.WholesaleEcls.Delete')">
+                                        [hidden]="!isGrantedAny('Pages.EclView')">
                                         <button *ngIf="record.status !== eclStatusEnum.Closed" type="button" class="btn btn-primary btn-sm"
                                             (click)="viewEcl(record.framework, record.id)">
                                             <i class="fa fa-info-circle"></i> View
@@ -191,7 +192,7 @@
                                                 <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu" *dropdownMenu>
-                                                <li *ngIf="record.status === eclStatusEnum.Closed">
+                                                <li *ngIf="record.status === eclStatusEnum.Closed && isGranted('Pages.EclView.Reopen')">
                                                     <a href="javascript:;" (click)="reOpenEcl(record.framework, record.id)">
                                                         {{l('ReOpenEcl')}}
                                                     </a>

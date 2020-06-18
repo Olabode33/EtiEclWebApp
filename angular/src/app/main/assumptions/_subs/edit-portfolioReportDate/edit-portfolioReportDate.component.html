@@ -39,7 +39,7 @@
                     <i class="fa fa-times"></i>
                     {{"Reject" | localize}}
                 </button> -->
-                <button type="button" class="btn btn-success" (click)="save()">
+                <button  *ngIf="isGranted('Pages.Assumption.Affiliates.Edit')" type="button" class="btn btn-success" (click)="save()">
                     <i class="fa fa-check"></i>
                     {{"Submit" | localize}}
                 </button>

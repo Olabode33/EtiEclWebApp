@@ -13,7 +13,7 @@
         </div>
         <div class="kt-subheader__toolbar">
             <div class="kt-subheader__wrapper">
-                <button *ngIf="isGranted('Pages.CalibrationEadBehaviouralTerms.Create')" (click)="create()"
+                <button *ngIf="isGranted('Pages.Calibration.Create')" (click)="create()"
                     class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("New")}}</button>
             </div>
         </div>
@@ -81,7 +81,7 @@
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th style="width: 130px"
-                                        [hidden]="!isGrantedAny('Pages.CalibrationEadBehaviouralTerms.Edit', 'Pages.CalibrationEadBehaviouralTerms.Delete')">
+                                        [hidden]="!isGrantedAny('Pages.Calibration', 'Pages.Calibration')">
                                         {{l('Actions')}}</th>
                                     <th style="width: 150px" pSortableColumn="affiliateName">
                                         {{l('Affiliate')}}
@@ -105,7 +105,7 @@
                             <ng-template pTemplate="body" let-record="$implicit">
                                 <tr>
                                     <td style="width: 130px"
-                                        [hidden]="!isGrantedAny('Pages.CalibrationEadBehaviouralTerms.Edit', 'Pages.CalibrationEadBehaviouralTerms.Delete')">
+                                        [hidden]="!isGrantedAny('Pages.Calibration', 'Pages.Calibration')">
                                         <button *ngIf="record.calibration.status !== generalStatusEnum.Draft" type="button" class="btn btn-primary btn-sm"
                                             (click)="view(record.calibration.id)">
                                             <i class="fa fa-info-circle"></i> View
@@ -121,7 +121,7 @@
                                             <ul class="dropdown-menu" *dropdownMenu>
                                                 <li>
                                                     <a href="javascript:;"
-                                                        *ngIf="permission.isGranted('Pages.CalibrationEadBehaviouralTerms.Delete')"
+                                                        *ngIf="permission.isGranted('Pages.Calibration.Delete')"
                                                         (click)="delete(record.calibration)">{{l('Delete')}}</a>
                                                 </li>
                                             </ul>

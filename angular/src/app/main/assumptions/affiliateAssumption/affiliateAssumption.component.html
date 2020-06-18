@@ -96,12 +96,12 @@
                                                 <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu" *dropdownMenu>
-                                                <li>
+                                                <li *ngIf="isGranted('Pages.Assumption.Affiliates.Review')">
                                                     <a href="javascript:;" (click)="navigateToApproveAssumptions(record.organizationUnitId)">
                                                         {{l('Review')}}
                                                     </a>
                                                 </li>
-                                                <li>
+                                                <li *ngIf="isGranted('Pages.Assumption.Affiliates.Copy')">
                                                     <a href="javascript:;" (click)="selectAffiliateToCopyTo(record.organizationUnitId, record.affiliateName)">
                                                         {{l('CopyTo')}}
                                                     </a>

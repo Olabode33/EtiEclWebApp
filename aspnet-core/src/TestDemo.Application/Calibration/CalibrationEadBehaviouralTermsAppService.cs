@@ -223,6 +223,7 @@ namespace TestDemo.Calibration
             }
         }
 
+        [AbpAuthorize(AppPermissions.Pages_Calibration_Create)]
         protected virtual async Task<Guid> Create(CreateOrEditCalibrationRunDto input)
         {
             var user = await UserManager.GetUserByIdAsync((long)AbpSession.UserId);
@@ -249,12 +250,14 @@ namespace TestDemo.Calibration
             }
         }
 
+        [AbpAuthorize(AppPermissions.Pages_Calibration_Edit)]
         protected virtual async Task Update(CreateOrEditCalibrationRunDto input)
         {
             var calibrationEadBehaviouralTerm = await _calibrationRepository.FirstOrDefaultAsync((Guid)input.Id);
             ObjectMapper.Map(input, calibrationEadBehaviouralTerm);
         }
 
+        [AbpAuthorize(AppPermissions.Pages_Calibration_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
             await _calibrationRepository.DeleteAsync(input.Id);
@@ -270,6 +273,7 @@ namespace TestDemo.Calibration
                 }).ToListAsync();
         }
 
+        [AbpAuthorize(AppPermissions.Pages_Calibration_Submit)]
         public virtual async Task SubmitForApproval(EntityDto<Guid> input)
         {
             var validation = await ValidateForSubmission(input.Id);
@@ -286,6 +290,7 @@ namespace TestDemo.Calibration
             }
         }
 
+        [AbpAuthorize(AppPermissions.Pages_Calibration_Review)]
         public virtual async Task ApproveReject(CreateOrEditEclApprovalDto input)
         {
             var calibration = await _calibrationRepository.FirstOrDefaultAsync((Guid)input.EclId);
@@ -361,6 +366,7 @@ namespace TestDemo.Calibration
             }
         }
 
+        [AbpAuthorize(AppPermissions.Pages_Calibration_Apply)]
         public async Task ApplyToEcl(EntityDto<Guid> input)
         {
             var calibration = await _calibrationRepository.FirstOrDefaultAsync(input.Id);

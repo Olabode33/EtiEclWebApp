@@ -6,7 +6,7 @@
             </h3>
         </div>
         <div class="kt-portlet__head-toolbar">
-            <button *ngIf="canApplyOverride" (click)="applyOverride()" class="btn btn-outline-success">
+            <button *ngIf="canApplyOverride && isGranted('Pages.EclView.Override')" (click)="applyOverride()" class="btn btn-outline-success">
                 <i class="fa fa-pen-nib" style="font-size: 1.2rem !important;"></i>
                 {{l("ApplyOverride")}}
             </button>                    
@@ -21,9 +21,10 @@
                         <select class="custom-select" name="StatusFilter" id="StatusFilterSelect" 
                                 [(ngModel)]="statusFilter" (change)="getEclOverrides()">
                             <option value="-1">{{l("All")}}</option>
-                            <option value="1">{{l('Submitted')}}</option>
-                            <option value="2">{{l('Approved')}}</option>
-                            <option value="3">{{l('Rejected')}}</option>
+                            <option [value]="generalStatusEnum.Submitted">{{l('Submitted')}}</option>
+                            <option [value]="generalStatusEnum.AwaitngAdditionApproval">{{l('AwaitingAdditionApproval')}}</option>
+                            <option [value]="generalStatusEnum.Approved">{{l('Approved')}}</option>
+                            <option [value]="generalStatusEnum.Rejected">{{l('Rejected')}}</option>
                         </select>
                         </div>
                     </div>
@@ -54,8 +55,7 @@
                     [resizableColumns]="primengTableHelper.resizableColumns">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th style="width: 130px"
-                                [hidden]="!isGrantedAny('Pages.InvestmentEclOverrides.Edit', 'Pages.InvestmentEclOverrides.Delete')">
+                            <th style="width: 130px">
                                 {{l('Actions')}}</th>
                             <th style="width: 150px" pSortableColumn="contractId">
                                 {{ _eclFramework == frameworkEnum.Investments ?  l('AssetDescription') : l('ContractId')  }}
@@ -78,14 +78,13 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-record="$implicit">
                         <tr>
-                            <td style="width: 130px"
-                                [hidden]="!isGrantedAny('Pages.InvestmentEclOverrides.Edit', 'Pages.InvestmentEclOverrides.Delete')">
-                                <button *ngIf="record.eclOverride.status != generalStatusEnum.Approved" type="button" class="btn btn-primary" 
+                            <td style="width: 130px">
+                                <button *ngIf="record.eclOverride.status != generalStatusEnum.Approved && isGranted('Pages.EclView.Override.Review')" type="button" class="btn btn-primary" 
                                         (click)="reviewOverride(record.eclOverride.recordId)">
                                     <i class="fa fa-eye"></i> 
                                     {{l('Review')}}
                                 </button>
-                                <button *ngIf="record.eclOverride.status == generalStatusEnum.Approved"  type="button" class="btn btn-primary" 
+                                <button *ngIf="record.eclOverride.status == generalStatusEnum.Approved || !isGranted('Pages.EclView.Override.Review')"  type="button" class="btn btn-primary" 
                                         (click)="viewOverride(record.eclOverride.recordId)">
                                     <i class="fa fa-eye"></i> 
                                     {{l('View')}}

@@ -13,23 +13,26 @@
         </div>
         <div class="kt-subheader__toolbar">
             <div class="kt-subheader__wrapper">
-                <button (click)="submitEcl()" class="btn btn-outline-primary" *ngIf="eclDto.status == eclStatusEnum.Draft">
+                <button (click)="submitEcl()" class="btn btn-outline-primary" *ngIf="eclDto.status == eclStatusEnum.Draft && isGranted('Pages.EclView.Submit')">
                     <i class="fa fa-check" style="font-size: 1.2rem !important;"></i>
                     {{l("Submit")}}
                 </button>
-                <button (click)="approveEcl()" class="btn btn-primary" *ngIf="eclDto.status == eclStatusEnum.Submitted || eclDto.status == eclStatusEnum.AwaitngAdditionApproval">
+                <button (click)="approveEcl()" class="btn btn-primary" 
+                    *ngIf="(eclDto.status == eclStatusEnum.Submitted || eclDto.status == eclStatusEnum.AwaitngAdditionApproval) && isGranted('Pages.EclView.Review')">
                     <i class="fa fa-check-double" style="font-size: 1.2rem !important;"></i>
                     {{l("Approve")}}
                 </button>
-                <button (click)="runEclComputation()" class="btn btn-success" *ngIf="eclDto.status == eclStatusEnum.Approved">
+                <button (click)="runEclComputation()" class="btn btn-success" 
+                    *ngIf="eclDto.status == eclStatusEnum.Approved && isGranted('Pages.EclView.Run')">
                     <i class="fa fa-play-circle" style="font-size: 1.2rem !important;"></i>
                     {{l("Run")}}
                 </button>
-                <button (click)="runEclPostComputation()" class="btn btn-success" *ngIf="eclDto.status == eclStatusEnum.PreOverrideComplete || eclDto.status == eclStatusEnum.PostOverrideComplete || eclDto.status == eclStatusEnum.Completed ">
+                <button (click)="runEclPostComputation()" class="btn btn-success" 
+                    *ngIf="(eclDto.status == eclStatusEnum.PreOverrideComplete || eclDto.status == eclStatusEnum.PostOverrideComplete || eclDto.status == eclStatusEnum.Completed) && isGranted('Pages.EclView.Run') ">
                     <i class="fa fa-forward" style="font-size: 1.2rem !important;"></i>
                     {{l("PostRun")}}
                 </button>
-                <button (click)="closeEcl()" class="btn btn-primary" *ngIf="eclDto.status == eclStatusEnum.Completed">
+                <button (click)="closeEcl()" class="btn btn-primary" *ngIf="eclDto.status == eclStatusEnum.Completed && isGranted('Pages.EclView.Close')">
                     <i class="fa fa-check-circle" style="font-size: 1.2rem !important;"></i>
                     {{l("Close")}}
                 </button>
@@ -139,7 +142,7 @@
                             </h3>
                         </div>
                         <div class="kt-portlet__head-toolbar">
-                            <div class="btn-group" dropdown>
+                            <div *ngIf="isGranted('Pages.EclView.Upload')" class="btn-group" dropdown>
                                 <button dropdownToggle type="button" *ngIf="eclDto.status == eclStatusEnum.Draft"
                                     class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fa fa-upload"></i> {{"Upload" | localize}}

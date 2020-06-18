@@ -156,11 +156,11 @@
             </div>
 
             <div class="modal-footer">
-                <button *ngIf="reviewMode" type="button" class="btn btn-success" (click)="reviewOverride()">
+                <button *ngIf="reviewMode && isGranted('Pages.EclView.Override.Review')" type="button" class="btn btn-success" (click)="reviewOverride()">
                     <i class="fa fa-eye"></i>
                     {{"Review" | localize}}
                 </button>
-                <button *ngIf="!reviewMode && !viewOnlyMode" type="button" class="btn btn-success" (click)="apply()">
+                <button *ngIf="!reviewMode && !viewOnlyMode && isGranted('Pages.EclView.Override')" type="button" class="btn btn-success" (click)="apply()">
                     <i class="fa fa-pen-nib"></i>
                     {{"ApplyOverride" | localize}}
                 </button>

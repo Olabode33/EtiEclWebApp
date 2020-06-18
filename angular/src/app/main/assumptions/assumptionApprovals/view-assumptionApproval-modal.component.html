@@ -65,7 +65,7 @@
 
             </div>
             <div class="modal-footer">
-                <button [buttonBusy]="saving" [busyText]="l('ReviewingWithThreeDot')" type="button" class="btn btn-primary blue" (click)="reviewAssumption()">{{l("Review")}}</button>
+                <button *ngIf="isGranted('Pages.Assumption.Affiliates.Review')" [buttonBusy]="saving" [busyText]="l('ReviewingWithThreeDot')" type="button" class="btn btn-primary blue" (click)="reviewAssumption()">{{l("Review")}}</button>
             </div>
         </div>
     </div>
