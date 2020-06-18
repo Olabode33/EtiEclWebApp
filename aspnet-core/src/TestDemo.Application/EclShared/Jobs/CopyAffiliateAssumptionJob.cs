@@ -5,17 +5,23 @@ using Abp.Domain.Uow;
 using Abp.Localization;
 using Abp.Localization.Sources;
 using Abp.ObjectMapping;
+using Abp.Organizations;
 using Abp.Threading;
 using Abp.UI;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TestDemo.AffiliateMacroEconomicVariable;
+using TestDemo.Authorization.Users;
 using TestDemo.Calibration;
 using TestDemo.CalibrationInput;
+using TestDemo.Configuration;
 using TestDemo.EclShared.Dtos;
+using TestDemo.EclShared.Emailer;
 using TestDemo.EclShared.Importing.Calibration;
 using TestDemo.EclShared.Importing.Calibration.Dto;
 using TestDemo.EclShared.Importing.Dto;
@@ -46,6 +52,10 @@ namespace TestDemo.EclShared.Importing
 
         private readonly IAppNotifier _appNotifier;
         private readonly ILocalizationSource _localizationSource;
+        private readonly IEclEngineEmailer _emailer;
+        private readonly IConfigurationRoot _appConfiguration;
+        private readonly IRepository<User, long> _userRepository;
+        private readonly IRepository<OrganizationUnit, long> _ouRepository;
 
         public CopyAffiliateAssumptionJob(
             IRepository<Assumption, Guid> frameworkAssumptionRepository,
@@ -64,6 +74,10 @@ namespace TestDemo.EclShared.Importing
             IAppNotifier appNotifier, 
             IBinaryObjectManager binaryObjectManager,
             ILocalizationManager localizationManager,
+            IEclEngineEmailer emailer,
+            IHostingEnvironment env,
+            IRepository<User, long> userRepository,
+            IRepository<OrganizationUnit, long> ouRepository,
             IObjectMapper objectMapper)
         {
             _affiliateAssumptions = affiliateAssumptions;
@@ -82,6 +96,10 @@ namespace TestDemo.EclShared.Importing
 
             _appNotifier = appNotifier;
             _localizationSource = localizationManager.GetSource(TestDemoConsts.LocalizationSourceName);
+            _emailer = emailer;
+            _appConfiguration = env.GetAppConfiguration();
+            _userRepository = userRepository;
+            _ouRepository = ouRepository;
         }
 
         [UnitOfWork]
@@ -94,6 +112,7 @@ namespace TestDemo.EclShared.Importing
             };
             CopyAffiliateAssumptions(args);
             SendCopyCompleteNotification(args);
+            SendEmailAlert(args);
         }
 
         private void CopyAffiliateAssumptions(CopyAffiliateAssumptionJobArgs input)
@@ -581,6 +600,16 @@ namespace TestDemo.EclShared.Importing
                 args.User,
                 _localizationSource.GetString("CopyAffiliateProcessCompleted"),
                 Abp.Notifications.NotificationSeverity.Success);
+        }
+
+        private void SendEmailAlert(CopyAffiliateAssumptionJobArgs args)
+        {
+            var user = _userRepository.FirstOrDefault(args.User.UserId);
+            var baseUrl = _appConfiguration["App:ClientRootAddress"];
+            var link = baseUrl + "/app/main/assumption/affiliates/view/" + args.ToAffiliateId;
+            var from = _ouRepository.FirstOrDefault(args.FromAffiliateId);
+            var to = _ouRepository.FirstOrDefault(args.ToAffiliateId);
+            _emailer.SendEmailAffiliateCopiedAsync(user, from.DisplayName, to.DisplayName, link);
         }
     }
 }

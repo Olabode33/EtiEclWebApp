@@ -125,6 +125,10 @@ export class EclOverrideComponent extends AppComponentBase {
         this.applyOverrideModal.showInReviewMode(sicrId);
     }
 
+    viewOverride(sicrId: string): void {
+        this.applyOverrideModal.showInViewOnlyMode(sicrId);
+    }
+
     getStatusLabelClass(uploadStatus: GeneralStatusEnum): string {
         switch (uploadStatus) {
             case GeneralStatusEnum.Submitted:

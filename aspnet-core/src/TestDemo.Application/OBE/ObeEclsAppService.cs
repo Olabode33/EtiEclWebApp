@@ -1052,15 +1052,20 @@ namespace TestDemo.OBE
             var users = await UserManager.GetUsersInRoleAsync("Affiliate Reviewer");
             if (users.Count > 0)
             {
+
+                var ecl = _obeEclRepository.FirstOrDefault((Guid)eclId);
+                var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
+
                 foreach (var user in users)
                 {
-                    int frameworkId = (int)FrameworkEnum.OBE;
-                    var baseUrl = _appConfiguration["App:ClientRootAddress"];
-                    var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
-                    var type = "OBE ECL";
-                    var ecl = _obeEclRepository.FirstOrDefault((Guid)eclId);
-                    var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
-                    await _emailer.SendEmailSubmittedForApprovalAsync(user, type, ou.DisplayName, link);
+                    if (await UserManager.IsInOrganizationUnitAsync(user.Id, ecl.OrganizationUnitId))
+                    {
+                        int frameworkId = (int)FrameworkEnum.OBE;
+                        var baseUrl = _appConfiguration["App:ClientRootAddress"];
+                        var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+                        var type = "OBE ECL";
+                        await _emailer.SendEmailSubmittedForApprovalAsync(user, type, ou.DisplayName, link);
+                    }
                 }
             }
         }
@@ -1070,15 +1075,18 @@ namespace TestDemo.OBE
             var users = await UserManager.GetUsersInRoleAsync("Affiliate Reviewer");
             if (users.Count > 0)
             {
+                var ecl = _obeEclRepository.FirstOrDefault((Guid)eclId);
+                var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
                 foreach (var user in users)
                 {
-                    int frameworkId = (int)FrameworkEnum.OBE;
-                    var baseUrl = _appConfiguration["App:ClientRootAddress"];
-                    var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
-                    var type = "OBE ECL";
-                    var ecl = _obeEclRepository.FirstOrDefault((Guid)eclId);
-                    var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
-                    await _emailer.SendEmailSubmittedForAdditionalApprovalAsync(user, type, ou.DisplayName, link);
+                    if (await UserManager.IsInOrganizationUnitAsync(user.Id, ecl.OrganizationUnitId))
+                    {
+                        int frameworkId = (int)FrameworkEnum.OBE;
+                        var baseUrl = _appConfiguration["App:ClientRootAddress"];
+                        var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+                        var type = "OBE ECL";
+                        await _emailer.SendEmailSubmittedForAdditionalApprovalAsync(user, type, ou.DisplayName, link);
+                    }
                 }
             }
         }

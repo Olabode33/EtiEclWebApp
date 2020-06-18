@@ -167,7 +167,7 @@ namespace TestDemo.EclShared.Emailer
 
             mailMessage.AppendLine(L("EmailReportGenerated_Body", type, affiliateName) + "<br /><br />");
             mailMessage.AppendLine(L("Email_ClickTheLinkBelowToDownload") + "<br /><br />");
-            mailMessage.AppendLine("<a style=\"" + _emailButtonStyle + "\" bg-color=\"" + _emailButtonColor + "\" href=\"" + link + "\">" + L("View") + "</a>");
+            mailMessage.AppendLine("<a style=\"" + _emailButtonStyle + "\" bg-color=\"" + _emailButtonColor + "\" href=\"" + link + "\">" + L("Download") + "</a>");
             mailMessage.AppendLine("<br />");
             mailMessage.AppendLine("<br />");
             mailMessage.AppendLine("<br />");

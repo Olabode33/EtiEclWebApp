@@ -298,15 +298,19 @@ namespace TestDemo.RetailComputation
             var users = await UserManager.GetUsersInRoleAsync("Affiliate Reviewer");
             if (users.Count > 0)
             {
+                var ecl = _retailEclRepository.FirstOrDefault((Guid)eclId);
+                var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
+
                 foreach (var user in users)
                 {
-                    int frameworkId = (int)FrameworkEnum.Retail;
-                    var baseUrl = _appConfiguration["App:ClientRootAddress"];
-                    var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
-                    var type = "Retail ECL Override";
-                    var ecl = _retailEclRepository.FirstOrDefault((Guid)eclId);
-                    var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
-                    await _emailer.SendEmailSubmittedForApprovalAsync(user, type, ou.DisplayName, link);
+                    if (await UserManager.IsInOrganizationUnitAsync(user.Id, ecl.OrganizationUnitId))
+                    {
+                        int frameworkId = (int)FrameworkEnum.Retail;
+                        var baseUrl = _appConfiguration["App:ClientRootAddress"];
+                        var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+                        var type = "Retail ECL Override";
+                        await _emailer.SendEmailSubmittedForApprovalAsync(user, type, ou.DisplayName, link);
+                    }
                 }
             }
         }
@@ -316,15 +320,18 @@ namespace TestDemo.RetailComputation
             var users = await UserManager.GetUsersInRoleAsync("Affiliate Reviewer");
             if (users.Count > 0)
             {
+                var ecl = _retailEclRepository.FirstOrDefault((Guid)eclId);
+                var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
                 foreach (var user in users)
                 {
-                    int frameworkId = (int)FrameworkEnum.Retail;
-                    var baseUrl = _appConfiguration["App:ClientRootAddress"];
-                    var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
-                    var type = "Retail ECL Override";
-                    var ecl = _retailEclRepository.FirstOrDefault((Guid)eclId);
-                    var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
-                    await _emailer.SendEmailSubmittedForAdditionalApprovalAsync(user, type, ou.DisplayName, link);
+                    if (await UserManager.IsInOrganizationUnitAsync(user.Id, ecl.OrganizationUnitId))
+                    {
+                        int frameworkId = (int)FrameworkEnum.Retail;
+                        var baseUrl = _appConfiguration["App:ClientRootAddress"];
+                        var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+                        var type = "Retail ECL Override";
+                        await _emailer.SendEmailSubmittedForAdditionalApprovalAsync(user, type, ou.DisplayName, link);
+                    }
                 }
             }
         }

@@ -80,10 +80,15 @@
                         <tr>
                             <td style="width: 130px"
                                 [hidden]="!isGrantedAny('Pages.InvestmentEclOverrides.Edit', 'Pages.InvestmentEclOverrides.Delete')">
-                                <button type="button" class="btn btn-primary" 
+                                <button *ngIf="record.eclOverride.status != generalStatusEnum.Approved" type="button" class="btn btn-primary" 
                                         (click)="reviewOverride(record.eclOverride.recordId)">
                                     <i class="fa fa-eye"></i> 
                                     {{l('Review')}}
+                                </button>
+                                <button *ngIf="record.eclOverride.status == generalStatusEnum.Approved"  type="button" class="btn btn-primary" 
+                                        (click)="viewOverride(record.eclOverride.recordId)">
+                                    <i class="fa fa-eye"></i> 
+                                    {{l('View')}}
                                 </button>
                             </td>
                             <td style="width:150px">

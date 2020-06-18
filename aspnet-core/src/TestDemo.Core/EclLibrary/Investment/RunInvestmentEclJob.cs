@@ -47,7 +47,7 @@ namespace TestDemo.EclLibrary.Investment
             _eclRepository = eclRepository;
         }
 
-        //[UnitOfWork]
+        [UnitOfWork]
         public override void Execute(RunEclJobArgs args)
         {
             _investmentEclRepository.RunInvestmentPreOverrideEclStoredProcedure(args.EclId);

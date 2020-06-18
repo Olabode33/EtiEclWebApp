@@ -12,7 +12,7 @@
             </div>
             <div class="modal-body">
                 <form novalidate>
-                    <div [hidden]="reviewMode" class="row">
+                    <div [hidden]="reviewMode || viewOnlyMode" class="row">
                         <div class="form-group  col-md-6">
                             <label>{{l('SelectAccount')}}</label>
                             <div></div>
@@ -33,7 +33,7 @@
                         </div>
                     </div>
 
-                    <div [hidden]="reviewMode" class="kt-separator kt-separator--border-dashed"></div>
+                    <div [hidden]="reviewMode || viewOnlyMode" class="kt-separator kt-separator--border-dashed"></div>
 
                     <h5>{{l('ContractDetails')}}</h5>
                     <p *ngIf="dataSource === undefined">{{l('NoContractSelected')}}</p>
@@ -160,7 +160,7 @@
                     <i class="fa fa-eye"></i>
                     {{"Review" | localize}}
                 </button>
-                <button *ngIf="!reviewMode" type="button" class="btn btn-success" (click)="apply()">
+                <button *ngIf="!reviewMode && !viewOnlyMode" type="button" class="btn btn-success" (click)="apply()">
                     <i class="fa fa-pen-nib"></i>
                     {{"ApplyOverride" | localize}}
                 </button>

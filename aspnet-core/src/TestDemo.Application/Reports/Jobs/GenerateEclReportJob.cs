@@ -83,14 +83,14 @@ namespace TestDemo.Reports.Jobs
             var rc = new ReportComputation();
             var excelPackage = rc.GenerateEclReport(args.eclType, args.eclId, rd);
 
-            var file = Save(excelPackage, args.eclType.ToString() + "-ECL-Report.xlsx");
+            //var file = Save(excelPackage, args.eclType.ToString() + "-ECL-Report.xlsx");
             var binaryObjectId = SaveAsBinary(excelPackage);
 
             SendEmailAlert(args, binaryObjectId);
             // Save zip file to object manager.
             //AsyncHelper.RunSync(() => _binaryObjectManager.SaveAsync(file));
             // Send notification to user.
-            AsyncHelper.RunSync(() => _appNotifier.EclReportGenerated(args.userIdentifier, file.FileToken, file.FileType, file.FileName));
+            //AsyncHelper.RunSync(() => _appNotifier.EclReportGenerated(args.userIdentifier, file.FileToken, file.FileType, file.FileName));
         }
 
 
