@@ -22,23 +22,28 @@ namespace TestDemo.Calibration.Exporting
                 "MacroProjection_Template.xlsx",
                 excelPackage =>
                 {
-                    var bestSheet = excelPackage.Workbook.Worksheets.Add(L("Best"));
-                    bestSheet.OutLineApplyStyle = true;
-                    var o_Sheet = excelPackage.Workbook.Worksheets.Add(L("Optimistic"));
-                    o_Sheet.OutLineApplyStyle = true;
-                    var d_sheet = excelPackage.Workbook.Worksheets.Add(L("Downturn"));
-                    d_sheet.OutLineApplyStyle = true;
+                    var bestSheet = excelPackage.Workbook.Worksheets.Add(L("Data"));
 
-                    string[] header = new string[inputDtos.Count + 2];
+                    string[] header = new string[1 + (inputDtos.Count * 3)];
                     header[0] = "Date";
+
+                    int column = 1;
+
                     for (int i = 0; i < inputDtos.Count; i++)
                     {
-                        header[i + 1] = inputDtos[i];
+                        header[column] = inputDtos[i] + "(Best)";
+                        header[column + 1] = inputDtos[i] + "(Optimistic)";
+                        header[column + 2] = inputDtos[i] + "(Downturn)";
+
+                        column += 3;
                     }
 
                     AddHeader(bestSheet, header);
-                    AddHeader(o_Sheet, header);
-                    AddHeader(d_sheet, header);
+
+                    for (var i = 1; i <= 1 + (inputDtos.Count * 3); i++)
+                    {
+                        bestSheet.Column(i).AutoFit();
+                    }
                 });
         }
 

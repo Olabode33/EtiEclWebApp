@@ -19,10 +19,12 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
     @ViewChild('snpExcelFileUpload', { static: true }) snpExcelFileUpload: FileUpload;
     @ViewChild('nimExcelFileUpload', { static: true }) nimExcelFileUpload: FileUpload;
     @ViewChild('nplExcelFileUpload', { static: true }) nplExcelFileUpload: FileUpload;
+    @ViewChild('macroProjectionExcelFileUpload', { static: true }) macroProjectionExcelFileUpload: FileUpload;
 
     snpUploadUrl = '';
     nimUploadUrl = '';
     nplUploadUrl = '';
+    macroProjectionUploadUrl = '';
 
     displayForm = false;
     loading = false;
@@ -118,6 +120,7 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
         this.snpUploadUrl = AppConsts.remoteServiceBaseUrl + '/AssumptionData/ImportSnPFromExcel';
         this.nimUploadUrl = AppConsts.remoteServiceBaseUrl + '/AssumptionData/ImportNonInternalModelFromExcel';
         this.nplUploadUrl = AppConsts.remoteServiceBaseUrl + '/AssumptionData/ImportNplModelFromExcel';
+        this.macroProjectionUploadUrl = AppConsts.remoteServiceBaseUrl + '/AssumptionData/ImporMacroProjectionFromExcel';
 
         _commonLookupServiceProxy.getMacroeconomicVariableList().subscribe(result => {
             this.pdMacroeconomicVariables = result;
@@ -451,6 +454,33 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
                     this._httpClient
                         .post<any>(this.nplUploadUrl, formData)
                         .pipe(finalize(() => this.nplExcelFileUpload.clear()))
+                        .subscribe(response => {
+                            if (response.success) {
+                                this.notify.success(this.l('ImportDataProcessStart'));
+                                //this.autoReloadUploadSummary();
+                            } else if (response.error != null) {
+                                this.notify.error(this.l('ImportDataUploadFailed'));
+                            }
+                        });
+                }
+            }
+        );
+    }
+
+    uploadMacroProjectionData(data: { files: File }): void {
+        const formData: FormData = new FormData();
+        const file = data.files[0];
+        formData.append('file', file, file.name);
+        formData.append('framework', this.affiliateFramework.toString());
+        formData.append('affiliateId', this.affiliateId.toString());
+
+        this.message.confirm(
+            this.l('ExistingDataWouldBeReplaced'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    this._httpClient
+                        .post<any>(this.macroProjectionUploadUrl, formData)
+                        .pipe(finalize(() => this.macroProjectionExcelFileUpload.clear()))
                         .subscribe(response => {
                             if (response.success) {
                                 this.notify.success(this.l('ImportDataProcessStart'));

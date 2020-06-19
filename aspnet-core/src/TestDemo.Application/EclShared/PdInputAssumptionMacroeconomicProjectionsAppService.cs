@@ -141,7 +141,7 @@ namespace TestDemo.EclShared
                         from m2 in m1.DefaultIfEmpty()
                         select m2 == null ? "" : m2.Name;
 
-            var items = await query.ToListAsync();
+            var items = await query.OrderBy(e => e).ToListAsync();
 
             return _templateExporter.ExportProjectionTemplateToFile(items);
         }
