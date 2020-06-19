@@ -48,6 +48,12 @@ namespace TestDemo.EntityFrameworkCore
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
 
+        public virtual DbSet<RetailEclFramworkReportDetail> RetailEclFramworkReportDetail { get; set; }
+        public virtual DbSet<WholesaleEclFramworkReportDetail> WholesaleEclFramworkReportDetail { get; set; }
+        public virtual DbSet<ObeEclFramworkReportDetail> ObeEclFramworkReportDetail { get; set; }
+
+
+
         public virtual DbSet<CalibrationEadBehaviouralTermApproval> CalibrationEadBehaviouralTermApprovals { get; set; }
         public virtual DbSet<CalibrationEadCcfSummaryApproval> CalibrationEadCcfSummaryApproval { get; set; }
         public virtual DbSet<CalibrationLgdHairCutApproval> CalibrationLgdHairCutApproval { get; set; }
@@ -447,6 +453,7 @@ namespace TestDemo.EntityFrameworkCore
             modelBuilder.Entity<WholesaleEclLgdCollateral>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<WholesaleEclLgdCollateralProjection>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<WholesaleEcIPdCreditIndex>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<WholesaleEclFramworkReportDetail>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
 
             //Retail
             modelBuilder.Entity<RetailPdLifetimeBest>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
@@ -467,6 +474,7 @@ namespace TestDemo.EntityFrameworkCore
             modelBuilder.Entity<RetailEclLgdCollateral>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<RetailEclLgdCollateralProjection>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<RetailEclPdCreditIndex>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<RetailEclFramworkReportDetail>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
 
             //OBE
             modelBuilder.Entity<ObePdLifetimeBest>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
@@ -487,6 +495,7 @@ namespace TestDemo.EntityFrameworkCore
             modelBuilder.Entity<ObeEclLgdCollateral>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<ObeEclLgdCollateralProjection>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<ObeEclPdCreditIndex>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<ObeEclFramworkReportDetail>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
 
             modelBuilder.Entity<ObeEclResultSummaryTopExposure>(o =>
             {
