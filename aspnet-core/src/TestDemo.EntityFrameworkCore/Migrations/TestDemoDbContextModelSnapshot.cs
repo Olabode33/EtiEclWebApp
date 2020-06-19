@@ -2189,6 +2189,23 @@ namespace TestDemo.Migrations
                     b.ToTable("MacroResult_PrincipalComponentSummary");
                 });
 
+            modelBuilder.Entity("TestDemo.CalibrationResult.MacroResult_SelectedMacroEconomicVariables", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("AffiliateId");
+
+                    b.Property<int>("BackwardOffset");
+
+                    b.Property<int>("MacroeconomicVariableId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MacroResult_SelectedMacroEconomicVariables");
+                });
+
             modelBuilder.Entity("TestDemo.CalibrationResult.MacroResult_Statistics", b =>
                 {
                     b.Property<int>("Id")

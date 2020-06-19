@@ -6,6 +6,7 @@ import { EditAssumptionModalComponent } from '../edit-assumption-modal/edit-assu
 import { FileUpload } from 'primeng/primeng';
 import { AppConsts } from '@shared/AppConsts';
 import { HttpClient } from '@angular/common/http';
+import { FileDownloadService } from '@shared/utils/file-download.service';
 
 @Component({
   selector: 'app-pdInputAssumptions',
@@ -110,7 +111,8 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
         private _pdMacroeconomicInputServiceProxy: PdInputAssumptionStatisticalsServiceProxy,
         private _pdMacroeconomicProjectionServiceProxy: PdInputAssumptionMacroeconomicProjectionsServiceProxy,
         private _invPdMacroeconomicAssumptionServiceProxy: InvSecMacroEconomicAssumptionsServiceProxy,
-        private _invPdFitchRatingServiceProxy: InvSecFitchCummulativeDefaultRatesServiceProxy
+        private _invPdFitchRatingServiceProxy: InvSecFitchCummulativeDefaultRatesServiceProxy,
+        private _fileDownloadService: FileDownloadService
     ) {
         super(injector);
         this.snpUploadUrl = AppConsts.remoteServiceBaseUrl + '/AssumptionData/ImportSnPFromExcel';
@@ -464,6 +466,13 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
 
     onUploadExcelError(): void {
         this.notify.error(this.l('ImportDataUploadFailed'));
+    }
+
+
+    downloadMacroProjectionTemplate(): void {
+        this._pdMacroeconomicProjectionServiceProxy.getProjectionTemplate(this.affiliateId).subscribe(result => {
+            this._fileDownloadService.downloadTempFile(result);
+        });
     }
 
 }

@@ -17,20 +17,32 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.CalibrationResult;
+using TestDemo.Calibration.Exporting;
 
 namespace TestDemo.EclShared
 {
     public class PdInputAssumptionMacroeconomicProjectionsAppService : TestDemoAppServiceBase, IPdInputAssumptionMacroeconomicProjectionsAppService
     {
         private readonly IRepository<PdInputAssumptionMacroeconomicProjection, Guid> _pdInputAssumptionMacroeconomicProjectionRepository;
+        private readonly IRepository<MacroResult_SelectedMacroEconomicVariables> _selectedMacroVariablesRepository;
+        private readonly IRepository<MacroeconomicVariable> _macroVariablesRepository;
         private readonly IAssumptionApprovalsAppService _assumptionApprovalsAppService;
+        private readonly IMacroProjectionDataTemplateExporter _templateExporter;
 
 
-        public PdInputAssumptionMacroeconomicProjectionsAppService(IRepository<PdInputAssumptionMacroeconomicProjection, Guid> pdInputAssumptionMacroeconomicProjectionRepository,
+        public PdInputAssumptionMacroeconomicProjectionsAppService(
+            IRepository<PdInputAssumptionMacroeconomicProjection, Guid> pdInputAssumptionMacroeconomicProjectionRepository,
+            IRepository<MacroResult_SelectedMacroEconomicVariables> selectedMacroVariablesRepository,
+            IRepository<MacroeconomicVariable> macroVariablesRepository,
+            IMacroProjectionDataTemplateExporter templateeExporter,
             IAssumptionApprovalsAppService assumptionApprovalsAppService)
         {
             _pdInputAssumptionMacroeconomicProjectionRepository = pdInputAssumptionMacroeconomicProjectionRepository;
             _assumptionApprovalsAppService = assumptionApprovalsAppService;
+            _selectedMacroVariablesRepository = selectedMacroVariablesRepository;
+            _macroVariablesRepository = macroVariablesRepository;
+            _templateExporter = templateeExporter;
         }
 
         public async Task<PagedResultDto<GetPdInputAssumptionMacroeconomicProjectionForViewDto>> GetAll(GetAllPdInputAssumptionMacroeconomicProjectionsInput input)
@@ -119,6 +131,19 @@ namespace TestDemo.EclShared
         public async Task Delete(EntityDto<Guid> input)
         {
             await _pdInputAssumptionMacroeconomicProjectionRepository.DeleteAsync(input.Id);
+        }
+
+        public async Task<FileDto> GetProjectionTemplate(EntityDto input)
+        {
+            var filter = _selectedMacroVariablesRepository.GetAll().Where(e => e.AffiliateId == input.Id);
+            var query = from s in filter
+                        join m in _macroVariablesRepository.GetAll() on s.MacroeconomicVariableId equals m.Id into m1
+                        from m2 in m1.DefaultIfEmpty()
+                        select m2 == null ? "" : m2.Name;
+
+            var items = await query.ToListAsync();
+
+            return _templateExporter.ExportProjectionTemplateToFile(items);
         }
     }
 }

@@ -12,5 +12,6 @@ namespace TestDemo.WholesaleComputation
     public class WholesaleEclOverride : EclOverrideBase
 	{
 		public virtual Guid? WholesaleEclId { get; set; }
+		public virtual Guid? WholesaleEclDataLoanBookId { get; set; }
     }
 }

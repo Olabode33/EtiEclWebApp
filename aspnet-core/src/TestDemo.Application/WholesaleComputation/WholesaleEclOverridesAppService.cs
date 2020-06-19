@@ -88,9 +88,9 @@ namespace TestDemo.WholesaleComputation
                                      {
                                          EclOverride = new EclOverrideDto
                                          {
-                                             StageOverride = o.StageOverride,
-                                             ImpairmentOverride = o.ImpairmentOverride,
-                                             OverrideComment = o.OverrideComment,
+                                             StageOverride = o.Stage,
+                                             ImpairmentOverride = o.TtrYears,
+                                             OverrideComment = o.Reason,
                                              Status = o.Status,
                                              Id = o.Id,
                                              EclId = (Guid)o.WholesaleEclId,
@@ -162,8 +162,8 @@ namespace TestDemo.WholesaleComputation
             {
                 dto.EclId = (Guid)overrideRecord.WholesaleEclId;
                 dto.Id = overrideRecord.Id;
-                dto.OverrideComment = overrideRecord.OverrideComment;
-                dto.Stage = overrideRecord.StageOverride;
+                dto.OverrideComment = overrideRecord.Reason;
+                dto.Stage = overrideRecord.Stage;
                 dto.Status = overrideRecord.Status;
             }
 
@@ -208,9 +208,9 @@ namespace TestDemo.WholesaleComputation
                 Id = new Guid(),
                 WholesaleEclId = input.EclId,
                 ContractId = input.ContractId,
-                OverrideComment = input.OverrideComment,
-                StageOverride = input.Stage,
-                ImpairmentOverride = input.ImpairmentOverride,
+                Reason = input.OverrideComment,
+                Stage = input.Stage,
+                TtrYears = input.ImpairmentOverride,
                 Status = GeneralStatusEnum.Submitted
             });
 
@@ -225,9 +225,9 @@ namespace TestDemo.WholesaleComputation
 
             eclOverride.WholesaleEclId = input.EclId;
             eclOverride.ContractId = input.ContractId;
-            eclOverride.OverrideComment = input.OverrideComment;
-            eclOverride.StageOverride = input.Stage;
-            eclOverride.ImpairmentOverride = input.ImpairmentOverride;
+            eclOverride.Reason = input.OverrideComment;
+            eclOverride.Stage = input.Stage;
+            eclOverride.TtrYears = input.ImpairmentOverride;
             eclOverride.Status = GeneralStatusEnum.Submitted;
 
             await _wholesaleEclOverrideRepository.UpdateAsync(eclOverride);

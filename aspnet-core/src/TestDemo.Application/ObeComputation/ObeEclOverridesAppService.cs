@@ -89,9 +89,9 @@ namespace TestDemo.ObeComputation
                                      {
                                          EclOverride = new EclOverrideDto
                                          {
-                                             StageOverride = o.StageOverride,
-                                             ImpairmentOverride = o.ImpairmentOverride,
-                                             OverrideComment = o.OverrideComment,
+                                             StageOverride = o.Stage,
+                                             ImpairmentOverride = o.TtrYears,
+                                             OverrideComment = o.Reason,
                                              Status = o.Status,
                                              Id = o.Id,
                                              EclId = (Guid)o.ObeEclId,
@@ -148,8 +148,8 @@ namespace TestDemo.ObeComputation
             {
                 dto.EclId = (Guid)overrideRecord.ObeEclId;
                 dto.Id = overrideRecord.Id;
-                dto.OverrideComment = overrideRecord.OverrideComment;
-                dto.Stage = overrideRecord.StageOverride;
+                dto.OverrideComment = overrideRecord.Reason;
+                dto.Stage = overrideRecord.Stage;
                 dto.Status = overrideRecord.Status;
             }
 
@@ -209,9 +209,9 @@ namespace TestDemo.ObeComputation
                 Id = new Guid(),
                 ObeEclId = input.EclId,
                 ContractId = input.ContractId,
-                OverrideComment = input.OverrideComment,
-                StageOverride = input.Stage,
-                ImpairmentOverride = input.ImpairmentOverride,
+                Reason = input.OverrideComment,
+                Stage = input.Stage,
+                TtrYears = input.ImpairmentOverride,
                 Status = GeneralStatusEnum.Submitted
             });
             await SendSubmittedEmail((Guid)input.EclId);
@@ -225,9 +225,9 @@ namespace TestDemo.ObeComputation
 
             eclOverride.ObeEclId = input.EclId;
             eclOverride.ContractId = input.ContractId;
-            eclOverride.OverrideComment = input.OverrideComment;
-            eclOverride.StageOverride = input.Stage;
-            eclOverride.ImpairmentOverride = input.ImpairmentOverride;
+            eclOverride.Reason = input.OverrideComment;
+            eclOverride.Stage = input.Stage;
+            eclOverride.TtrYears = input.ImpairmentOverride;
             eclOverride.Status = GeneralStatusEnum.Submitted;
 
             await _obeEclOverrideRepository.UpdateAsync(eclOverride);

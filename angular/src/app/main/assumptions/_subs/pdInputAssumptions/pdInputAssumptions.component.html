@@ -369,10 +369,32 @@
                             <option *ngFor="let item of pdMacroeconomicVariables" [value]="item.value">{{item.name}}</option>
                         </select>
                         <div *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')" class="col-lg-4 col-xl-5">
-                            <!-- <button (click)="uploadSnP()" class="btn btn-outline-primary pull-right">
-                                <i class="fa fa-upload" style="font-size: 1.2rem !important;"></i>
-                                {{l("Upload")}}
-                            </button> -->
+                            <div class="btn-group" dropdown>
+                                <button dropdownToggle type="button"
+                                    class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-upload"></i> {{"Upload" | localize}}
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-excel-operations" *dropdownMenu>
+                                    <a href="javascript:;" class="no-padding">
+                                        <span class="fileinput-button">
+                                            <p-fileUpload customUpload="true"
+                                                    name="excelFileUpload"
+                                                    #excelFileUpload
+                                                    maxFileSize="10000000"
+                                                    auto="auto"
+                                                    accept=".csv,.xls,.xlsx"
+                                                    (uploadHandler)="uploadSnpData($event)"
+                                                    (onError)="onUploadExcelError()"
+                                                    chooseLabel="{{'MacroProjectionData' | localize}}">
+                                            </p-fileUpload>
+                                        </span>
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <span class="dropdown-item-text text-muted pl-3" href="#">
+                                        <small (click)="downloadMacroProjectionTemplate()" [innerHTML]="l('ImportToExcelSampleFileDownloadInfo', '<a href=javascript:;>' + l('ClickHere') + '</a>')"></small>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row">

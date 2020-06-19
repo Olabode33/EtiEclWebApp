@@ -90,6 +90,7 @@
     <text name="AffiliateMacroEconomicVariableOffsets">Affiliate macro economic variable offsets</text>
     <text name="MacroeconomicVariableName">Macroeconomic variable name</text>
     <text name="PickMacroeconomicVariable">Pick macroeconomic variable</text>
+    <text name="MacroProjectionData">Macroeconomic projection data</text>
 
 
     <text name="Update">Update!</text>

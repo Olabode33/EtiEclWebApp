@@ -12,5 +12,6 @@ namespace TestDemo.RetailComputation
     public class RetailEclOverride : EclOverrideBase
 	{
 		public virtual Guid? RetailEclId { get; set; }
+		public virtual Guid? RetailEclDataLoanBookId { get; set; }
     }
 }

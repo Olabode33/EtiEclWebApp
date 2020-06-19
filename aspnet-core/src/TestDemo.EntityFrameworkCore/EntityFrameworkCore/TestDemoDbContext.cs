@@ -80,6 +80,7 @@ namespace TestDemo.EntityFrameworkCore
         public virtual DbSet<MacroResult_CorMat> MacroResult_CorMat { get; set; }
         public virtual DbSet<MacroResult_IndexData> MacroResult_IndexData { get; set; }
         public virtual DbSet<MacroResult_PrincipalComponentSummary> MacroResult_PrincipalComponentSummary { get; set; }
+        public virtual DbSet<MacroResult_SelectedMacroEconomicVariables> MacroResult_SelectedMacroEconomicVariables { get; set; }
         
         public virtual DbSet<WholesaleEclOverrideApproval> WholesaleEclOverrideApprovals { get; set; }
         public virtual DbSet<RetailEclOverrideApproval> RetailEclOverrideApprovals { get; set; }

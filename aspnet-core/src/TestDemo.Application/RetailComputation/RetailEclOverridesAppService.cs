@@ -88,9 +88,9 @@ namespace TestDemo.RetailComputation
                                      {
                                          EclOverride = new EclOverrideDto
                                          {
-                                             StageOverride = o.StageOverride,
-                                             ImpairmentOverride = o.ImpairmentOverride,
-                                             OverrideComment = o.OverrideComment,
+                                             StageOverride = o.Stage,
+                                             ImpairmentOverride = o.TtrYears,
+                                             OverrideComment = o.Reason,
                                              Status = o.Status,
                                              Id = o.Id,
                                              EclId = (Guid)o.RetailEclId,
@@ -147,8 +147,8 @@ namespace TestDemo.RetailComputation
             {
                 dto.EclId = (Guid)overrideRecord.RetailEclId;
                 dto.Id = overrideRecord.Id;
-                dto.OverrideComment = overrideRecord.OverrideComment;
-                dto.Stage = overrideRecord.StageOverride;
+                dto.OverrideComment = overrideRecord.Reason;
+                dto.Stage = overrideRecord.Stage;
                 dto.Status = overrideRecord.Status;
             }
 
@@ -208,9 +208,9 @@ namespace TestDemo.RetailComputation
                 Id = new Guid(),
                 RetailEclId = input.EclId,
                 ContractId = input.ContractId,
-                OverrideComment = input.OverrideComment,
-                StageOverride = input.Stage,
-                ImpairmentOverride = input.ImpairmentOverride,
+                Reason = input.OverrideComment,
+                Stage = input.Stage,
+                TtrYears = input.ImpairmentOverride,
                 Status = GeneralStatusEnum.Submitted
             });
             await SendSubmittedEmail((Guid)input.EclId);
@@ -223,9 +223,9 @@ namespace TestDemo.RetailComputation
 
             eclOverride.RetailEclId = input.EclId;
             eclOverride.ContractId = input.ContractId;
-            eclOverride.OverrideComment = input.OverrideComment;
-            eclOverride.StageOverride = input.Stage;
-            eclOverride.ImpairmentOverride = input.ImpairmentOverride;
+            eclOverride.Reason = input.OverrideComment;
+            eclOverride.Stage = input.Stage;
+            eclOverride.TtrYears = input.ImpairmentOverride;
             eclOverride.Status = GeneralStatusEnum.Submitted;
 
             await _retailEclOverrideRepository.UpdateAsync(eclOverride);
