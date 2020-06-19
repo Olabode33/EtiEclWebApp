@@ -281,6 +281,20 @@ namespace TestDemo.RetailComputation
         {
             var output = new EclShared.Dtos.ValidationMessageDto();
 
+            //Validate cutoff date
+            var cutOffDate = await SettingManager.GetSettingValueAsync<DateTime>(EclSettings.OverrideCutOffDate);
+            if (cutOffDate.Date <= DateTime.Now.Date)
+            {
+                output.Status = true;
+                output.Message = "";
+            }
+            else
+            {
+                output.Status = false;
+                output.Message = L("ApplyOverrideErrorCutoffDatePast");
+                return output;
+            }
+
             var reviewedOverride = await _retailEclOverrideRepository.FirstOrDefaultAsync(x => x.ContractId == input.ContractId && x.Status != GeneralStatusEnum.Submitted);
 
             if (reviewedOverride != null)

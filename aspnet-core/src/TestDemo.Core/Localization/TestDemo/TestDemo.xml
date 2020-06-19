@@ -93,6 +93,8 @@
 
 
     <text name="Update">Update!</text>
+    <text name="ApplyOverrideErrorThresholdLimit">Cannot apply override because the outstanding balance is above the Affiliate's threshold limit</text>
+    <text name="ApplyOverrideErrorCutoffDatePast">Cannot apply override after the override cutoff date is past</text>
     <text name="ApplyOverrideErrorRecordReviewed">Cannot apply override to reviewed facility!</text>
     <text name="EclClosedSuccessfully">ECL successfully closed!</text>
     <text name="CloseEcl">Close ECL</text>

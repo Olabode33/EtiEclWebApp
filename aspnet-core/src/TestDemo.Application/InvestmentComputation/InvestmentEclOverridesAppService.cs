@@ -41,6 +41,7 @@ namespace TestDemo.InvestmentComputation
         private readonly IRepository<InvestmentEcl, Guid> _lookup_eclRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
+        private readonly IRepository<Affiliate, long> _affiliateRepository;
         private readonly IEclEngineEmailer _emailer;
         private readonly IConfigurationRoot _appConfiguration;
 
@@ -53,6 +54,7 @@ namespace TestDemo.InvestmentComputation
             IRepository<InvestmentEcl, Guid> lookup_eclRepository,
             IRepository<User, long> lookup_userRepository,
             IRepository<OrganizationUnit, long> organizationUnitRepository,
+            IRepository<Affiliate, long> affiliateRepository,
             IEclEngineEmailer emailer,
             IHostingEnvironment env
             )
@@ -65,6 +67,7 @@ namespace TestDemo.InvestmentComputation
             _lookup_eclRepository = lookup_eclRepository;
             _lookup_userRepository = lookup_userRepository;
             _organizationUnitRepository = organizationUnitRepository;
+            _affiliateRepository = affiliateRepository;
             _emailer = emailer;
             _appConfiguration = env.GetAppConfiguration();
         }
@@ -302,6 +305,46 @@ namespace TestDemo.InvestmentComputation
         protected async Task<EclShared.Dtos.ValidationMessageDto> ValidateForOverride(CreateOrEditEclOverrideDto input)
         {
             var output = new EclShared.Dtos.ValidationMessageDto();
+
+            //Validate Override threshold
+            var ecl = await _lookup_eclRepository.FirstOrDefaultAsync(input.EclId);
+            if (ecl != null)
+            {
+                var affiliate = await _affiliateRepository.FirstOrDefaultAsync(ecl.OrganizationUnitId);
+                if (affiliate.OverrideThreshold != null)
+                {
+                    var selectedRecord = await _lookup_investmentEclSicrRepository.FirstOrDefaultAsync(input.EclSicrId);
+                    if (selectedRecord != null)
+                    {
+                        var asset = await _lookup_investmentAssetbookRepository.FirstOrDefaultAsync(selectedRecord.RecordId);
+                        if (asset != null)
+                        {
+                            if (asset.CarryingAmountIFRS > affiliate.OverrideThreshold)
+                            {
+                                output.Status = false;
+                                output.Message = L("ApplyOverrideErrorThresholdLimit");
+                                return output;
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            //Validate cutoff date
+            var cutOffDate = await SettingManager.GetSettingValueAsync<DateTime>(EclSettings.OverrideCutOffDate);
+            if (cutOffDate.Date <= DateTime.Now.Date)
+            {
+                output.Status = true;
+                output.Message = "";
+            }
+            else
+            {
+                output.Status = false;
+                output.Message = L("ApplyOverrideErrorCutoffDatePast");
+                return output;
+            }
+
 
             var reviewedOverride = await _investmentEclOverrideRepository.FirstOrDefaultAsync(x => x.InvestmentEclSicrId == input.EclSicrId && x.Status != GeneralStatusEnum.Submitted);
 
