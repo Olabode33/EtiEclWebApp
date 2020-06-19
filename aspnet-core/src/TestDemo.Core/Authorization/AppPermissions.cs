@@ -38,6 +38,7 @@
         public const string Pages_EclView_Override_Review = "Pages.EclView.Override.Review";
         public const string Pages_EclView_Close = "Pages.EclView.Close";
         public const string Pages_EclView_Reopen = "Pages.EclView.Reopen";
+        public const string Pages_EclView_Delete = "Pages.EclView.Delete";
 
         //Configuration
         public const string Pages_Configuration = "Pages.Configurations";

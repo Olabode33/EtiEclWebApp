@@ -59,6 +59,7 @@ namespace TestDemo.Authorization
             eclView.CreateChildPermission(AppPermissions.Pages_EclView_Override_Review, L("ReviewAppliedOverrides"));
             eclView.CreateChildPermission(AppPermissions.Pages_EclView_Close, L("CloseEcl"));
             eclView.CreateChildPermission(AppPermissions.Pages_EclView_Reopen, L("ReopenEcl"));
+            //eclView.CreateChildPermission(AppPermissions.Pages_EclView_Delete, L("DeleteEcl"));
 
             var configuration = pages.CreateChildPermission(AppPermissions.Pages_Configuration, L("EditEclConfiguration"));
             configuration.CreateChildPermission(AppPermissions.Pages_Configuration_View, L("View"));

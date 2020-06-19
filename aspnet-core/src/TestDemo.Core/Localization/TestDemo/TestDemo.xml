@@ -255,6 +255,7 @@
     <text name="EclConfigurations">General</text>
     <text name="EclConfig">Ecl config</text>
     <text name="Threshold">Threshold</text>
+    <text name="DeleteEcl">Delete ECL</text>
     <text name="AffiliateOverrideThresholdsHeaderInfo">Affiliate override thresholds header info</text>
     <text name="CreateNewAffiliateOverrideThreshold">Create new affiliate override threshold</text>
     <text name="EditAffiliateOverrideThreshold">Edit affiliate override threshold</text>

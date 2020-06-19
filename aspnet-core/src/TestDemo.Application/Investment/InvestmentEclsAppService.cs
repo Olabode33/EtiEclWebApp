@@ -532,9 +532,26 @@ namespace TestDemo.Investment
             }
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {
+            //TODO: Update to job
             await _investmentEclRepository.DeleteAsync(input.Id);
+            await _eclEadInputAssumptionRepository.HardDeleteAsync(e => e.InvestmentEclId == input.Id);
+            await _eclLgdAssumptionRepository.HardDeleteAsync(e => e.InvestmentEclId == input.Id);
+            await _eclPdAssumptionRepository.HardDeleteAsync(e => e.InvestmentEclId == input.Id);
+            await _eclPdAssumptionMacroeconomicInputsRepository.HardDeleteAsync(e => e.InvestmentEclId == input.Id);
+            await _eclPdSnPCummulativeDefaultRateRepository.HardDeleteAsync(e => e.InvestmentEclId == input.Id);
+            await DeleteAssetBook(input.Id);
+            
+        }
+
+        private async Task DeleteAssetBook(Guid eclId)
+        {
+            var summary = await _investmentUploadRepository.FirstOrDefaultAsync(x => x.InvestmentEclId == eclId);
+            await _dataUploadRepository.HardDeleteAsync(x => x.InvestmentEclUploadId == summary.Id);
+            await _investmentUploadRepository.DeleteAsync(x => x.InvestmentEclId == eclId);
         }
 
 
