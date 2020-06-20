@@ -251,133 +251,149 @@ namespace TestDemo.Reports.Jobs
                 }
             }
 
-            qry = $"select " +
-                $" NumberOfContracts=0, " +
-                $"  SumOutStandingBalance=0," +
-                $"   Pre_EclBestEstimate=0," +
-                $"   Pre_Optimistic=0," +
-                $"   Pre_Downturn=0," +
+            //qry = $"select " +
+            //    $" NumberOfContracts=0, " +
+            //    $"  SumOutStandingBalance=0," +
+            //    $"   Pre_EclBestEstimate=0," +
+            //    $"   Pre_Optimistic=0," +
+            //    $"   Pre_Downturn=0," +
 
-                $"   Post_EclBestEstimate=0," +
-                $"   Post_Optimistic=0," +
-                $"   Post_Downturn=0," +
+            //    $"   Post_EclBestEstimate=0," +
+            //    $"   Post_Optimistic=0," +
+            //    $"   Post_Downturn=0," +
 
-                $"   try_convert(float, isnull((select Value UserInputValue from {_eclType}EclAssumptions where {_eclType}EclId = '{_eclId}' and [Key] = 'BestEstimateScenarioLikelihood'), 0)) UserInput_EclBE," +
-                $"   try_convert(float, isnull((select Value UserInputValue from {_eclType}EclAssumptions where {_eclType}EclId = '{_eclId}' and [Key] = 'OptimisticScenarioLikelihood'), 0)) UserInput_EclO," +
-                $"   try_convert(float, isnull((select Value UserInputValue from {_eclType}EclAssumptions where {_eclType}EclId = '{_eclId}' and [Key] = 'DownturnScenarioLikelihood'), 0)) UserInput_EclD";
+            //    $"   try_convert(float, isnull((select Value UserInputValue from {_eclType}EclAssumptions where {_eclType}EclId = '{_eclId}' and [Key] = 'BestEstimateScenarioLikelihood'), 0)) UserInput_EclBE," +
+            //    $"   try_convert(float, isnull((select Value UserInputValue from {_eclType}EclAssumptions where {_eclType}EclId = '{_eclId}' and [Key] = 'OptimisticScenarioLikelihood'), 0)) UserInput_EclO," +
+            //    $"   try_convert(float, isnull((select Value UserInputValue from {_eclType}EclAssumptions where {_eclType}EclId = '{_eclId}' and [Key] = 'DownturnScenarioLikelihood'), 0)) UserInput_EclD";
 
-            dt = GetData(qry);
+            //dt = GetData(qry);
 
-            var rde = new ReportDetailExtractor();
-            var temp_header = ParseDataToObject(rde, dt.Rows[0]);
+            //var rde = new ReportDetailExtractor();
+            //var temp_header = ParseDataToObject(rde, dt.Rows[0]);
 
-            var overrides_overlay = 0;
+            //var overrides_overlay = 0;
 
-            qry = $"select f.Stage, f.FinalEclValue, f.Scenario, f.ContractId, fo.Stage StageOverride, fo.FinalEclValue FinalEclValueOverride, fo.Scenario ScenarioOverride, fo.ContractId ContractIOverride from {_eclTypeTable}ECLFrameworkFinal f left join {_eclTypeTable}ECLFrameworkFinalOverride fo on (f.contractId=fo.contractId and f.EclMonth=fo.EclMonth and f.Scenario=fo.Scenario) where f.{_eclType}EclId = '{_eclId}' and f.EclMonth=1";
-            dt = GetData(qry);
+            //qry = $"select f.Stage, f.FinalEclValue, f.Scenario, f.ContractId, fo.Stage StageOverride, fo.FinalEclValue FinalEclValueOverride, fo.Scenario ScenarioOverride, fo.ContractId ContractIOverride from {_eclTypeTable}ECLFrameworkFinal f left join {_eclTypeTable}ECLFrameworkFinalOverride fo on (f.contractId=fo.contractId and f.EclMonth=fo.EclMonth and f.Scenario=fo.Scenario) where f.{_eclType}EclId = '{_eclId}' and f.EclMonth=1";
+            //dt = GetData(qry);
 
-            var lstTfer = new List<TempFinalEclResult>();
+            //var lstTfer = new List<TempFinalEclResult>();
 
-            foreach (DataRow dr in dt.Rows)
-            {
-                var tfer = new TempFinalEclResult();
-                lstTfer.Add(ParseDataToObject(tfer, dr));
-            }
+            //foreach (DataRow dr in dt.Rows)
+            //{
+            //    var tfer = new TempFinalEclResult();
+            //    lstTfer.Add(ParseDataToObject(tfer, dr));
+            //}
 
 
-            qry = $"select ContractId, [Value] from {_eclTypeTable}EadInputs where {_eclType}EclId='{_eclId}' and Months=1";
-            dt = GetData(qry);
+            //qry = $"select ContractId, [Value] from {_eclTypeTable}EadInputs where {_eclType}EclId='{_eclId}' and Months=1";
+            //dt = GetData(qry);
 
-            var lstTWEI = new List<TempEadInput>();
+            //var lstTWEI = new List<TempEadInput>();
 
-            foreach (DataRow dr in dt.Rows)
-            {
-                var twei = new TempEadInput();
-                lstTWEI.Add(ParseDataToObject(twei, dr));
-            }
+            //foreach (DataRow dr in dt.Rows)
+            //{
+            //    var twei = new TempEadInput();
+            //    lstTWEI.Add(ParseDataToObject(twei, dr));
+            //}
 
             rd.ResultDetailDataMore = new List<ResultDetailDataMore>();
 
-            qry = $"select distinct ContractNo, AccountNo, CustomerNo, Segment, ProductType, Sector from {_eclTypeTable}EclDataLoanBooks where {_eclType}EclUploadId='{_eclId}'";
+            //qry = $"select distinct ContractNo, AccountNo, CustomerNo, Segment, ProductType, Sector from {_eclTypeTable}EclDataLoanBooks where {_eclType}EclUploadId='{_eclId}'";
+            //dt = GetData(qry);
+
+            qry = $"Select ContractNo, AccountNo,CustomerNo, Segment, ProductType, Sector, " +
+                  $"Stage, Outstanding_Balance, ECL_Best_Estimate, ECL_Optimistic, ECL_Downturn, Impairment_ModelOutput, " +
+                  $"Overrides_Stage, Overrides_ECL_Best_Estimate, Overrides_ECL_Optimistic, Overrides_ECL_Downturn,Overrides_Impairment_Manual " +
+                  $"from {_eclTypeTable}EclFramworkReportDetail " +
+                  $"where {_eclType}EclId = '{_eclId}'";
+
             dt = GetData(qry);
-
-
             foreach (DataRow dr in dt.Rows)
             {
-                var rdd = new ResultDetailData();
-                var itm = ParseDataToObject(rdd, dr);
-
-                var _lstTfer = lstTfer.Where(o => o.ContractId == itm.ContractNo).ToList();
-
-                var stage = 1;
-                try { stage = _lstTfer.FirstOrDefault(o => o.Scenario == 1).Stage; } catch { }
-
-                var BE_Value = 0.0;
-                try { BE_Value = _lstTfer.FirstOrDefault(o => o.Scenario == 1).FinalEclValue; } catch { }
-
-                var O_Value = 0.0;
-                try { O_Value = _lstTfer.FirstOrDefault(o => o.Scenario == 2).FinalEclValue; } catch { }
-
-                var D_Value = 0.0;
-                try { D_Value = _lstTfer.FirstOrDefault(o => o.Scenario == 3).FinalEclValue; } catch { }
-
-                var stage_Override = 1;
-                try { stage_Override = _lstTfer.FirstOrDefault(o => o.ScenarioOverride == 1).StageOverride; } catch { }
-
-                var BE_Value_Override = 0.0;
-                try { BE_Value_Override = _lstTfer.FirstOrDefault(o => o.ScenarioOverride == 1).FinalEclValueOverride; } catch { BE_Value_Override = BE_Value; }
-
-                var O_Value_Override = 0.0;
-                try { O_Value_Override = _lstTfer.FirstOrDefault(o => o.ScenarioOverride == 2).FinalEclValueOverride; } catch { O_Value_Override = O_Value; }
-
-                var D_Value_Override = 0.0;
-                try { D_Value_Override = _lstTfer.FirstOrDefault(o => o.ScenarioOverride == 3).FinalEclValueOverride; } catch { D_Value_Override = D_Value; }
-
-                var outStandingBal = 0.0;
-                try { outStandingBal = lstTWEI.FirstOrDefault(o => o.ContractId == itm.ContractNo).Value; } catch { }
-
-                var rddm = new ResultDetailDataMore
-                {
-                    AccountNo = itm.AccountNo,
-                    ContractNo = itm.ContractNo,
-                    CustomerNo = itm.CustomerNo,
-                    ProductType = itm.ProductType,
-                    Sector = itm.Sector,
-                    Stage = stage,
-                    Overrides_Stage = stage_Override,
-                    ECL_Best_Estimate = BE_Value,
-                    ECL_Downturn = D_Value,
-                    ECL_Optimistic = O_Value,
-                    Overrides_ECL_Best_Estimate = BE_Value_Override * (1 + overrides_overlay),
-                    Overrides_ECL_Downturn = D_Value_Override * (1 + overrides_overlay),
-                    Overrides_ECL_Optimistic = O_Value_Override * (1 + overrides_overlay),
-                    Segment = itm.Segment,
-                    Overrides_FSV = 0,
-                    Outstanding_Balance = outStandingBal,
-                    Overrides_TTR_Years = 0,
-                    Overrides_Overlay = 0,
-                    Impairment_ModelOutput = 0,
-                    Overrides_Impairment_Manual = 0
-                };
-
-                rddm.Impairment_ModelOutput = (rddm.ECL_Best_Estimate * temp_header.UserInput_EclBE) + (rddm.ECL_Optimistic + temp_header.UserInput_EclO) + (rddm.ECL_Downturn * temp_header.UserInput_EclD);
-                rddm.Overrides_Impairment_Manual = (rddm.Overrides_ECL_Best_Estimate * temp_header.UserInput_EclBE) + (rddm.Overrides_ECL_Optimistic + temp_header.UserInput_EclO) + (rddm.Overrides_ECL_Downturn * temp_header.UserInput_EclD);
-
-                rd.ResultDetailDataMore.Add(rddm);
+                var rddm = new ResultDetailDataMore();
+                var itm = ParseDataToObject(rddm, dr);
+                rd.ResultDetailDataMore.Add(itm);
             }
+
+
+            //foreach (DataRow dr in dt.Rows)
+            //{
+            //    var rdd = new ResultDetailData();
+            //    var itm = ParseDataToObject(rdd, dr);
+
+            //    var _lstTfer = lstTfer.Where(o => o.ContractId == itm.ContractNo).ToList();
+
+            //    var stage = 1;
+            //    try { stage = _lstTfer.FirstOrDefault(o => o.Scenario == 1).Stage; } catch { }
+
+            //    var BE_Value = 0.0;
+            //    try { BE_Value = _lstTfer.FirstOrDefault(o => o.Scenario == 1).FinalEclValue; } catch { }
+
+            //    var O_Value = 0.0;
+            //    try { O_Value = _lstTfer.FirstOrDefault(o => o.Scenario == 2).FinalEclValue; } catch { }
+
+            //    var D_Value = 0.0;
+            //    try { D_Value = _lstTfer.FirstOrDefault(o => o.Scenario == 3).FinalEclValue; } catch { }
+
+            //    var stage_Override = 1;
+            //    try { stage_Override = _lstTfer.FirstOrDefault(o => o.ScenarioOverride == 1).StageOverride; } catch { }
+
+            //    var BE_Value_Override = 0.0;
+            //    try { BE_Value_Override = _lstTfer.FirstOrDefault(o => o.ScenarioOverride == 1).FinalEclValueOverride; } catch { BE_Value_Override = BE_Value; }
+
+            //    var O_Value_Override = 0.0;
+            //    try { O_Value_Override = _lstTfer.FirstOrDefault(o => o.ScenarioOverride == 2).FinalEclValueOverride; } catch { O_Value_Override = O_Value; }
+
+            //    var D_Value_Override = 0.0;
+            //    try { D_Value_Override = _lstTfer.FirstOrDefault(o => o.ScenarioOverride == 3).FinalEclValueOverride; } catch { D_Value_Override = D_Value; }
+
+            //    var outStandingBal = 0.0;
+            //    try { outStandingBal = lstTWEI.FirstOrDefault(o => o.ContractId == itm.ContractNo).Value; } catch { }
+
+            //    var rddm = new ResultDetailDataMore
+            //    {
+            //        AccountNo = itm.AccountNo,
+            //        ContractNo = itm.ContractNo,
+            //        CustomerNo = itm.CustomerNo,
+            //        ProductType = itm.ProductType,
+            //        Sector = itm.Sector,
+            //        Stage = stage,
+            //        Overrides_Stage = stage_Override,
+            //        ECL_Best_Estimate = BE_Value,
+            //        ECL_Downturn = D_Value,
+            //        ECL_Optimistic = O_Value,
+            //        Overrides_ECL_Best_Estimate = BE_Value_Override * (1 + overrides_overlay),
+            //        Overrides_ECL_Downturn = D_Value_Override * (1 + overrides_overlay),
+            //        Overrides_ECL_Optimistic = O_Value_Override * (1 + overrides_overlay),
+            //        Segment = itm.Segment,
+            //        Overrides_FSV = 0,
+            //        Outstanding_Balance = outStandingBal,
+            //        Overrides_TTR_Years = 0,
+            //        Overrides_Overlay = 0,
+            //        Impairment_ModelOutput = 0,
+            //        Overrides_Impairment_Manual = 0
+            //    };
+
+            //    rddm.Impairment_ModelOutput = (rddm.ECL_Best_Estimate * temp_header.UserInput_EclBE) + (rddm.ECL_Optimistic + temp_header.UserInput_EclO) + (rddm.ECL_Downturn * temp_header.UserInput_EclD);
+            //    rddm.Overrides_Impairment_Manual = (rddm.Overrides_ECL_Best_Estimate * temp_header.UserInput_EclBE) + (rddm.Overrides_ECL_Optimistic + temp_header.UserInput_EclO) + (rddm.Overrides_ECL_Downturn * temp_header.UserInput_EclD);
+
+            //    rd.ResultDetailDataMore.Add(rddm);
+            //}
 
             rd.NumberOfContracts = rd.ResultDetailDataMore.Count();
             rd.OutStandingBalance = rd.ResultDetailDataMore.Sum(o => o.Outstanding_Balance);
             rd.Pre_ECL_Best_Estimate = rd.ResultDetailDataMore.Sum(o => o.ECL_Best_Estimate);
             rd.Pre_ECL_Optimistic = rd.ResultDetailDataMore.Sum(o => o.ECL_Optimistic);
             rd.Pre_ECL_Downturn = rd.ResultDetailDataMore.Sum(o => o.ECL_Downturn);
-            rd.Pre_Impairment_ModelOutput = (rd.Pre_ECL_Best_Estimate * temp_header.UserInput_EclBE) + (rd.Pre_ECL_Optimistic + temp_header.UserInput_EclO) + (rd.Pre_ECL_Downturn * temp_header.UserInput_EclD);
+            rd.Pre_Impairment_ModelOutput = rd.ResultDetailDataMore.Sum(o => o.Impairment_ModelOutput);
+            //rd.Pre_Impairment_ModelOutput = (rd.Pre_ECL_Best_Estimate * temp_header.UserInput_EclBE) + (rd.Pre_ECL_Optimistic + temp_header.UserInput_EclO) + (rd.Pre_ECL_Downturn * temp_header.UserInput_EclD);
 
             rd.Post_ECL_Best_Estimate = rd.ResultDetailDataMore.Sum(o => o.Overrides_ECL_Best_Estimate);
             rd.Post_ECL_Optimistic = rd.ResultDetailDataMore.Sum(o => o.Overrides_ECL_Optimistic);
             rd.Post_ECL_Downturn = rd.ResultDetailDataMore.Sum(o => o.Overrides_ECL_Downturn);
 
-            rd.Post_Impairment_ModelOutput = (rd.Pre_ECL_Best_Estimate * temp_header.UserInput_EclBE) + (rd.Pre_ECL_Optimistic + temp_header.UserInput_EclO) + (rd.Pre_ECL_Downturn * temp_header.UserInput_EclD);
+            rd.Post_Impairment_ModelOutput = rd.ResultDetailDataMore.Sum(o => o.Overrides_Impairment_Manual);
+            //rd.Post_Impairment_ModelOutput = (rd.Pre_ECL_Best_Estimate * temp_header.UserInput_EclBE) + (rd.Pre_ECL_Optimistic + temp_header.UserInput_EclO) + (rd.Pre_ECL_Downturn * temp_header.UserInput_EclD);
 
             return rd;
         }
@@ -429,7 +445,7 @@ namespace TestDemo.Reports.Jobs
             rd.Pre_ECL_Best_Estimate = rd.ResultDetailDataMore.Sum(o => o.ECL_Best_Estimate);
             rd.Pre_ECL_Optimistic = rd.ResultDetailDataMore.Sum(o => o.ECL_Optimistic);
             rd.Pre_ECL_Downturn = rd.ResultDetailDataMore.Sum(o => o.ECL_Downturn);
-            rd.Pre_Impairment_ModelOutput = rd.ResultDetailDataMore.Sum(o => o.Impairment_ModelOutput); ;
+            rd.Pre_Impairment_ModelOutput = rd.ResultDetailDataMore.Sum(o => o.Impairment_ModelOutput); 
 
             rd.Post_ECL_Best_Estimate = rd.ResultDetailDataMore.Sum(o => o.Overrides_ECL_Best_Estimate);
             rd.Post_ECL_Optimistic = rd.ResultDetailDataMore.Sum(o => o.Overrides_ECL_Optimistic);

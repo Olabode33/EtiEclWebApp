@@ -60,7 +60,6 @@
                                 <thead>
                                     <tr>
                                         <th *ngIf="_eclFramework !== frameworkEnum.Investments" >{{l('ContractId')}}</th>
-                                        <th *ngIf="_eclFramework !== frameworkEnum.Investments">{{l('CustomerName')}}</th>
                                         <th *ngIf="_eclFramework !== frameworkEnum.Investments">{{l('CustomerNo')}}</th>
                                         <th>{{ _eclFramework === frameworkEnum.Investments ? l('AssetBooks') : l('AccountNo')}}</th>
                                         <th>{{l('Exposure')}}</th>
@@ -76,7 +75,6 @@
                                     <tr *ngFor="let item of top20Exposures" 
                                         [ngClass]="{'table-info': item.preOverrideResult.impairment !== item.postOverrideResult.impairment ||  item.preOverrideResult.stage !== item.postOverrideResult.stage}">
                                         <td *ngIf="_eclFramework !== frameworkEnum.Investments" >{{item.contractId}}</td>
-                                        <td *ngIf="_eclFramework !== frameworkEnum.Investments" >{{item.customerName}}</td>
                                         <td *ngIf="_eclFramework !== frameworkEnum.Investments" >{{item.customerNumber}}</td>
                                         <td>{{item.accountNumber}}</td>
                                         <td>{{item.exposure | number : '1.2-2'}}</td>
