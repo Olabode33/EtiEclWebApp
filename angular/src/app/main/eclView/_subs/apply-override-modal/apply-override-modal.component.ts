@@ -65,7 +65,7 @@ export class ApplyOverrideModalComponent extends AppComponentBase {
         this.serviceProxy = options.serviceProxy;
         this._eclId = options.selectedEclId;
         this.title = options.title;
-        console.log(options);
+        //console.log(options);
     }
 
     show(): void {
@@ -129,11 +129,13 @@ export class ApplyOverrideModalComponent extends AppComponentBase {
 
     getRecordDetails(selectedAccountId?: string): void {
         //console.log(this.selectedAccount);
+        //console.log(selectedAccountId);
         if (!selectedAccountId) {
             this.serviceProxy.getEclRecordDetails(this.selectedAccount.value).subscribe(result => {
+                //console.log(result);
                 this.dataSource = result;
                 this.eclOverride = result.eclOverrides;
-                if (this.eclOverrideHasProp('id') && this.eclOverride.id) {
+                if (this.eclOverrideHasProp('id') && this.eclOverride.id && this.eclOverride.id !== '00000000-0000-0000-0000-000000000000') {
                     this.getOverrideAuditTrail();
                 }
             });
@@ -153,6 +155,7 @@ export class ApplyOverrideModalComponent extends AppComponentBase {
         approvalDto.overrideRecordId = this.eclOverride.id;
         approvalDto.reviewComment = '';
         approvalDto.status = GeneralStatusEnum.Submitted;
+        approvalDto.eclId = this._eclId;
 
         this.approvalModal.configure({
             title: title,
@@ -185,7 +188,7 @@ export class ApplyOverrideModalComponent extends AppComponentBase {
     }
 
     apply(): void {
-        console.log(this.eclOverride);
+        //console.log(this.eclOverride);
         this.message.confirm(
             this.l('SubmitForApproval'),
             (isConfirmed) => {

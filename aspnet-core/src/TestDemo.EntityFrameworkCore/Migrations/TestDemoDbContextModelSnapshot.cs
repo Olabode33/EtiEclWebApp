@@ -5614,7 +5614,7 @@ namespace TestDemo.Migrations
 
                     b.Property<double?>("Overrides_Overlay");
 
-                    b.Property<double?>("Overrides_Stage");
+                    b.Property<int?>("Overrides_Stage");
 
                     b.Property<double?>("Overrides_TTR_Years");
 
@@ -7717,7 +7717,7 @@ namespace TestDemo.Migrations
 
                     b.Property<double?>("Overrides_Overlay");
 
-                    b.Property<double?>("Overrides_Stage");
+                    b.Property<int?>("Overrides_Stage");
 
                     b.Property<double?>("Overrides_TTR_Years");
 
@@ -9679,7 +9679,7 @@ namespace TestDemo.Migrations
 
                     b.Property<double?>("Overrides_Overlay");
 
-                    b.Property<double?>("Overrides_Stage");
+                    b.Property<int?>("Overrides_Stage");
 
                     b.Property<double?>("Overrides_TTR_Years");
 

@@ -46,7 +46,7 @@
         
         <div class="kt-separator kt-separator--border-dashed"></div>
 
-        <div [hidden]="_eclFramework !== frameworkEnum.Investments" class="row align-items-center">
+        <div class="row align-items-center">
             <!--<Primeng-Datatable-Start>-->
             <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelper.isLoading">
                 <p-table #dataTable (onLazyLoad)="getEclOverrides($event)" [value]="primengTableHelper.records"
@@ -65,10 +65,10 @@
                                 {{l('StageOverride')}}
                                 <p-sortIcon field="eclOverride.stageOverride"></p-sortIcon>
                             </th>
-                            <th style="width: 150px" pSortableColumn="stageOverride">
+                            <!-- <th style="width: 150px" pSortableColumn="stageOverride">
                                 {{l('ImpairmentOverride')}}
                                 <p-sortIcon field="eclOverride.impairmentOverride"></p-sortIcon>
-                            </th>
+                            </th> -->
                             <th style="width: 150px" pSortableColumn="status">
                                 {{l('Status')}}
                                 <p-sortIcon field="eclOverride.status"></p-sortIcon>
@@ -98,10 +98,10 @@
                                 <span class="ui-column-title"> {{l('StageOverride')}}</span>
                                 {{record.eclOverride.stageOverride}}
                             </td>
-                            <td style="width:150px">
+                            <!-- <td style="width:150px">
                                 <span class="ui-column-title"> {{l('Impairment')}}</span>
                                 {{record.eclOverride.impairmentOverride | number:'1.2-2'}}
-                            </td>
+                            </td> -->
                             <td style="width:150px">
                                 <span class="ui-column-title"> {{l('Status')}}</span>
                                 <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline 

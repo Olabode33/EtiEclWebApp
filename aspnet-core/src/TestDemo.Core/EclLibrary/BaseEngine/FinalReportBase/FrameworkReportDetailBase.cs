@@ -19,7 +19,7 @@ namespace TestDemo.EclLibrary.BaseEngine.FinalReportBase
         public double? ECL_Optimistic { get; set; }
         public double? ECL_Downturn { get; set; }
         public double? Impairment_ModelOutput { get; set; }
-        public double? Overrides_Stage { get; set; }
+        public int? Overrides_Stage { get; set; }
         public double? Overrides_TTR_Years { get; set; }
         public double? Overrides_FSV { get; set; }
         public double? Overrides_Overlay { get; set; }

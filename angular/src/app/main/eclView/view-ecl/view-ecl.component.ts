@@ -233,7 +233,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
                                     this.loadPdAssumptionComponent(result);
                                     //console.log(this.showOverride());
                                     this.eclOverrideTag.display(this.showOverride());
-                                    //this.eclResultTag.displayResult(this.eclDto.status);
+                                    this.eclResultTag.displayResult(this.eclDto.status);
                                     this.isLoading = false;
                                 });
         } else {

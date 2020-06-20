@@ -339,7 +339,7 @@ namespace TestDemo.RetailComputation
             if (input.Status == GeneralStatusEnum.Approved)
             {
                 var requiredApprovals = await SettingManager.GetSettingValueAsync<int>(EclSettings.RequiredNoOfApprovals);
-                var eclApprovals = await _lookup_retailEclOverrideApprovalRepository.GetAllListAsync(x => x.RetailEclId == input.OverrideRecordId && x.Status == GeneralStatusEnum.Approved);
+                var eclApprovals = await _lookup_retailEclOverrideApprovalRepository.GetAllListAsync(x => x.EclOverrideId == input.OverrideRecordId && x.Status == GeneralStatusEnum.Approved);
                 if (eclApprovals.Count(x => x.Status == GeneralStatusEnum.Approved) >= requiredApprovals)
                 {
                     ecl.Status = GeneralStatusEnum.Approved;

@@ -13,7 +13,7 @@ namespace TestDemo.InvestmentComputation.Dtos
         public string ContractId { get; set; }
     }
 
-    public class CreateOrEditEclOverrideNewDto: EntityDto<Guid>
+    public class CreateOrEditEclOverrideNewDto: EntityDto<Guid?>
     {
 		public virtual string ContractId { get; set; }
 		public virtual int? Stage { get; set; }
