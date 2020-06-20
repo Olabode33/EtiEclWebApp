@@ -1048,7 +1048,7 @@ namespace TestDemo.Wholesale
         {
             ValidationMessageDto output = new ValidationMessageDto();
             //Check if Ecl has overrides
-            var overrides = await _wholesaleOverridesRepository.GetAllListAsync(x => x.WholesaleEclId == eclId);
+            var overrides = await _wholesaleOverridesRepository.GetAllListAsync(x => x.WholesaleEclDataLoanBookId == eclId);
             if (overrides.Count > 0)
             {
                 var submitted = overrides.Any(x => x.Status == GeneralStatusEnum.Submitted || x.Status == GeneralStatusEnum.AwaitngAdditionApproval);

@@ -1,4 +1,4 @@
-import { GetRecordForOverrideInputDto, ReviewEclOverrideInputDto, InvestmentEclOverrideApprovalsServiceProxy, EclAuditInfoDto, EclApprovalAuditInfoDto } from './../../../../../shared/service-proxies/service-proxies';
+import { GetRecordForOverrideInputDto, ReviewEclOverrideInputDto, InvestmentEclOverrideApprovalsServiceProxy, EclAuditInfoDto, EclApprovalAuditInfoDto, ObeEclOverridesServiceProxy, GetPreResultForOverrideNewOutput, CreateOrEditEclOverrideNewDto } from './../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, ViewEncapsulation, ViewChild, Output, EventEmitter, Injector } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ModalDirective } from 'ngx-bootstrap';
@@ -54,7 +54,8 @@ export class ApplyOverrideModalComponent extends AppComponentBase {
     constructor(
         injector: Injector,
         private _invSecOverrideServiceProxy: InvestmentEclOverridesServiceProxy,
-        private _invSecOverrideApprovalServiceProxy: InvestmentEclOverrideApprovalsServiceProxy
+        private _invSecOverrideApprovalServiceProxy: InvestmentEclOverrideApprovalsServiceProxy,
+        private _obeOverrideServiceProxy: ObeEclOverridesServiceProxy,
     ) {
         super(injector);
     }
@@ -121,7 +122,7 @@ export class ApplyOverrideModalComponent extends AppComponentBase {
         let input = new GetRecordForOverrideInputDto();
         input.eclId = this._eclId;
         input.searchTerm = event.query;
-        this._invSecOverrideServiceProxy.searchResult(input).subscribe(result => {
+        this.serviceProxy.searchResult(input).subscribe(result => {
             this.filteredAccounts = result;
         });
     }
@@ -207,7 +208,7 @@ export class ApplyOverrideModalComponent extends AppComponentBase {
     }
 
     getOverrideAuditTrail(): void {
-        this._invSecOverrideApprovalServiceProxy.getEclAudit(this.eclOverride.id).subscribe(result => {
+        this.serviceProxy.getEclAudit(this.eclOverride.id).subscribe(result => {
             this.auditInfo = result;
             //console.log(this.auditInfo);
             this.approvalsAuditInfo = result.approvals;

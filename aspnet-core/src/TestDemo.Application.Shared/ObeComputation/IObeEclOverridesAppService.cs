@@ -15,7 +15,7 @@ namespace TestDemo.ObeComputation
 
 		Task<GetObeEclOverrideForEditOutput> GetObeEclOverrideForEdit(EntityDto<Guid> input);
 
-		Task CreateOrEdit(CreateOrEditEclOverrideDto input);
+		Task CreateOrEdit(CreateOrEditEclOverrideNewDto input);
 
 		Task Delete(EntityDto<Guid> input);
     }

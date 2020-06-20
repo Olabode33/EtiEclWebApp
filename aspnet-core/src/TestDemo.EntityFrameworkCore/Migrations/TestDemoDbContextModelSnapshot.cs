@@ -4869,8 +4869,6 @@ namespace TestDemo.Migrations
 
                     b.Property<Guid?>("ObeEclDataLoanBookId");
 
-                    b.Property<Guid?>("ObeEclId");
-
                     b.Property<double?>("OverlaysPercentage");
 
                     b.Property<string>("Reason");
@@ -7066,8 +7064,6 @@ namespace TestDemo.Migrations
 
                     b.Property<Guid?>("RetailEclDataLoanBookId");
 
-                    b.Property<Guid?>("RetailEclId");
-
                     b.Property<int?>("Stage");
 
                     b.Property<int>("Status");
@@ -8972,8 +8968,6 @@ namespace TestDemo.Migrations
                     b.Property<double?>("TtrYears");
 
                     b.Property<Guid?>("WholesaleEclDataLoanBookId");
-
-                    b.Property<Guid?>("WholesaleEclId");
 
                     b.HasKey("Id");
 

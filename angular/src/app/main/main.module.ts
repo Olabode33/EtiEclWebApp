@@ -5,11 +5,11 @@ import { CommonModule } from '@angular/common';
 import { CalibrationEadBehaviouralTermsComponent } from './calibration/calibrationEadBehaviouralTerms/calibrationEadBehaviouralTerms.component';
 import { CreateOrEditCalibrationEadBehaviouralTermComponent } from './calibration/calibrationEadBehaviouralTerms/create-or-edit-calibrationEadBehaviouralTerm.component';
 
-import { AffiliateMacroEconomicVariableOffsetsComponent } from './affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets/affiliateMacroEconomicVariableOffsets.component';
-import { ViewAffiliateMacroEconomicVariableOffsetModalComponent } from './affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets/view-affiliateMacroEconomicVariableOffset-modal.component';
-import { CreateOrEditAffiliateMacroEconomicVariableOffsetModalComponent } from './affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets/create-or-edit-affiliateMacroEconomicVariableOffset-modal.component';
-import { AffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableModalComponent } from './affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets/affiliateMacroEconomicVariableOffset-organizationUnit-lookup-table-modal.component';
-import { AffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableModalComponent } from './affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets/affiliateMacroEconomicVariableOffset-macroeconomicVariable-lookup-table-modal.component';
+import { AffiliateMacroEconomicVariableOffsetsComponent } from './affiliateMacroeconomicVariable/affiliateMacroVariable/affiliateMacroEconomicVariableOffsets.component';
+import { ViewAffiliateMacroEconomicVariableOffsetModalComponent } from './affiliateMacroeconomicVariable/affiliateMacroVariable/view-affiliateMacroEconomicVariableOffset-modal.component';
+import { CreateOrEditAffiliateMacroEconomicVariableOffsetModalComponent } from './affiliateMacroeconomicVariable/affiliateMacroVariable/create-or-edit-affiliateMacroEconomicVariableOffset-modal.component';
+import { AffiliateMacroEconomicVariableOffsetOrganizationUnitLookupTableModalComponent } from './affiliateMacroeconomicVariable/affiliateMacroVariable/affiliateMacroEconomicVariableOffset-organizationUnit-lookup-table-modal.component';
+import { AffiliateMacroEconomicVariableOffsetMacroeconomicVariableLookupTableModalComponent } from './affiliateMacroeconomicVariable/affiliateMacroVariable/affiliateMacroEconomicVariableOffset-macroeconomicVariable-lookup-table-modal.component';
 
 import { NgModule } from '@angular/core';
 import { EclSettingsComponent } from './eclConfig/eclSettings/eclSettings.component';

@@ -12,5 +12,6 @@ namespace TestDemo.InvestmentComputation.Dtos
         public string CurrentRating { get; set; }
         public int Stage { get; set; }
         public double? Impairment { get; set; }
+        public double? Outstanding_Balance { get; set; }
     }
 }

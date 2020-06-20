@@ -5,7 +5,7 @@ import { ViewRetailEclComponent } from './retail/view-retailEcl/view-retailEcl.c
 import { NgModule } from '@angular/core';
 import { CalibrationEadBehaviouralTermsComponent } from './calibration/calibrationEadBehaviouralTerms/calibrationEadBehaviouralTerms.component';
 import { CreateOrEditCalibrationEadBehaviouralTermComponent } from './calibration/calibrationEadBehaviouralTerms/create-or-edit-calibrationEadBehaviouralTerm.component';
-import { AffiliateMacroEconomicVariableOffsetsComponent } from './affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets/affiliateMacroEconomicVariableOffsets.component';
+import { AffiliateMacroEconomicVariableOffsetsComponent } from './affiliateMacroeconomicVariable/affiliateMacroVariable/affiliateMacroEconomicVariableOffsets.component';
 import { EclSettingsComponent } from './eclConfig/eclSettings/eclSettings.component';
 import { AssumptionApprovalsComponent } from './assumptions/assumptionApprovals/assumptionApprovals.component';
 import { MacroeconomicVariablesComponent } from './eclShared/macroeconomicVariables/macroeconomicVariables.component';
@@ -40,23 +40,23 @@ import { ViewMacroAnalysisComponent } from './calibration/calibrateMacroAnalysis
             {
                 path: '',
                 children: [
-                    { path: 'calibration/behavioralTerms', component: CalibrationEadBehaviouralTermsComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms' }  },
-                    { path: 'calibration/behavioralTerms/view/:calibrationId', component: CreateOrEditCalibrationEadBehaviouralTermComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms.Create' }  },
-                    { path: 'calibration/ccfSummary', component: CalibrationEadCcfSummaryComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms' }  },
-                    { path: 'calibration/ccfSummary/view/:calibrationId', component: ViewCalibrationEadCcfSummaryComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms.Create' }  },
-                    { path: 'calibration/haircut', component: CalibrationLgdHaircutComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms' }  },
-                    { path: 'calibration/haircut/view/:calibrationId', component: ViewCalibrationLgdHaircutComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms.Create' }  },
-                    { path: 'calibration/recovery', component: CalibrationLgdRecoveryComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms' }  },
-                    { path: 'calibration/recovery/view/:calibrationId', component: ViewCalibrationLgdRecoveryComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms.Create' }  },
-                    { path: 'calibration/pdcrdr', component: CalibrationPdCrDrComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms' }  },
-                    { path: 'calibration/pdcrdr/view/:calibrationId', component: ViewCalibrationPdCrDrComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms.Create' }  },
-                    { path: 'calibration/macroAnalysis', component: MacroAnalysisComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms' }  },
-                    { path: 'calibration/macroAnalysis/view/:calibrationId', component: ViewMacroAnalysisComponent, data: { permission: 'Pages.CalibrationEadBehaviouralTerms.Create' }  },
+                    { path: 'calibration/behavioralTerms', component: CalibrationEadBehaviouralTermsComponent, data: { permission: 'Pages.Calibration' }  },
+                    { path: 'calibration/behavioralTerms/view/:calibrationId', component: CreateOrEditCalibrationEadBehaviouralTermComponent, data: { permission: 'Pages.Calibration' }  },
+                    { path: 'calibration/ccfSummary', component: CalibrationEadCcfSummaryComponent, data: { permission: 'Pages.Calibration' }  },
+                    { path: 'calibration/ccfSummary/view/:calibrationId', component: ViewCalibrationEadCcfSummaryComponent, data: { permission: 'Pages.Calibration' }  },
+                    { path: 'calibration/haircut', component: CalibrationLgdHaircutComponent, data: { permission: 'Pages.Calibration' }  },
+                    { path: 'calibration/haircut/view/:calibrationId', component: ViewCalibrationLgdHaircutComponent, data: { permission: 'Pages.Calibration' }  },
+                    { path: 'calibration/recovery', component: CalibrationLgdRecoveryComponent, data: { permission: 'Pages.Calibration' }  },
+                    { path: 'calibration/recovery/view/:calibrationId', component: ViewCalibrationLgdRecoveryComponent, data: { permission: 'Pages.Calibration' }  },
+                    { path: 'calibration/pdcrdr', component: CalibrationPdCrDrComponent, data: { permission: 'Pages.Calibration' }  },
+                    { path: 'calibration/pdcrdr/view/:calibrationId', component: ViewCalibrationPdCrDrComponent, data: { permission: 'Pages.Calibration' }  },
+                    { path: 'calibration/macroAnalysis', component: MacroAnalysisComponent, data: { permission: 'Pages.Calibration' }  },
+                    { path: 'calibration/macroAnalysis/view/:calibrationId', component: ViewMacroAnalysisComponent, data: { permission: 'Pages.Calibration' }  },
 
-                    { path: 'affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets', component: AffiliateMacroEconomicVariableOffsetsComponent, data: { permission: 'Pages.AffiliateMacroEconomicVariableOffsets' }  },
-                    { path: 'eclConfig/eclConfigurations', component: EclSettingsComponent, data: { permission: 'Pages.EclConfigurations' }  },
-                    { path: 'eclConfig/affiliates', component: AffiliateConfigurationComponent, data: { permission: 'Pages.EclConfigurations' }  },
-                    { path: 'config/macroeconomicVariables', component: MacroeconomicVariablesComponent, data: { permission: 'Pages.MacroeconomicVariables' }  },
+                    { path: 'affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets', component: AffiliateMacroEconomicVariableOffsetsComponent, data: { permission: 'Pages.Configurations' }  },
+                    { path: 'eclConfig/eclConfigurations', component: EclSettingsComponent, data: { permission: 'Pages.Configurations' }  },
+                    { path: 'eclConfig/affiliates', component: AffiliateConfigurationComponent, data: { permission: 'Pages.Configurations' }  },
+                    { path: 'config/macroeconomicVariables', component: MacroeconomicVariablesComponent, data: { permission: 'Pages.Configurations' }  },
                     { path: 'wholesaleInputs/wholesaleEclDataPaymentSchedules', component: WholesaleEclDataPaymentSchedulesComponent, data: { permission: 'Pages.WholesaleEclDataPaymentSchedules' }  },
                     { path: 'wholesaleInputs/wholesaleEclDataLoanBooks', component: WholesaleEclDataLoanBooksComponent, data: { permission: 'Pages.WholesaleEclDataLoanBooks' }  },
                     { path: 'wholesaleInputs/wholesaleEclUploads', component: WholesaleEclUploadsComponent, data: { permission: 'Pages.WholesaleEclUploads' }  },
@@ -68,11 +68,11 @@ import { ViewMacroAnalysisComponent } from './calibration/calibrateMacroAnalysis
                     { path: 'dashboard', component: DashboardComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
                     { path: 'workspace', component: EclListComponent },
                     { path: 'home', component: WorkspaceComponent },
-                    { path: 'ecl', component: EclListComponent },
+                    { path: 'ecl', component: EclListComponent,  data: { permission: 'Pages.EclView' }  },
                     { path: 'ecl/:filter', component: EclListComponent },
                     { path: 'retail/ecl/create', component: CreateEditRetailEclComponent},
                     { path: 'retail/ecl/view/:eclId', component: ViewRetailEclComponent},
-                    { path: 'ecl/view/:framework/:eclId', component: ViewEclComponent},
+                    { path: 'ecl/view/:framework/:eclId', component: ViewEclComponent,  data: { permission: 'Pages.EclView' } },
                     { path: 'ecl/view/upload/loanbook/:framework/:uploadId', component: ViewLoanbookDetailsComponent},
                     { path: 'ecl/view/upload/payment/:framework/:uploadId', component: ViewPaymentScheduleComponent},
                     { path: 'ecl/view/upload/assetbook/:framework/:uploadId', component: ViewAssetBookDetailsComponent}

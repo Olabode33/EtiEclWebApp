@@ -1039,7 +1039,7 @@ namespace TestDemo.OBE
         {
             ValidationMessageDto output = new ValidationMessageDto();
             //Check if Ecl has overrides
-            var overrides = await _obeOverridesRepository.GetAllListAsync(x => x.ObeEclId == eclId);
+            var overrides = await _obeOverridesRepository.GetAllListAsync(x => x.ObeEclDataLoanBookId == eclId);
             if (overrides.Count > 0)
             {
                 var submitted = overrides.Any(x => x.Status == GeneralStatusEnum.Submitted || x.Status == GeneralStatusEnum.AwaitngAdditionApproval);

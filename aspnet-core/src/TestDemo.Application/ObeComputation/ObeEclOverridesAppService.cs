@@ -28,6 +28,7 @@ using TestDemo.EclShared.Emailer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using TestDemo.Configuration;
+using TestDemo.ObeResults;
 
 namespace TestDemo.ObeComputation
 {
@@ -36,10 +37,11 @@ namespace TestDemo.ObeComputation
         private readonly IRepository<ObeEclOverride, Guid> _obeEclOverrideRepository;
         private readonly IRepository<ObeEclDataLoanBook, Guid> _lookup_obeEclDataLoanBookRepository;
         private readonly IRepository<ObeEclOverrideApproval, Guid> _lookup_obeEclOverrideApprovalRepository;
-        private readonly IRepository<ObeEclFrameworkFinal, Guid> _lookup_obeEclFrameworkRepository;
+        private readonly IRepository<ObeEclFramworkReportDetail, Guid> _lookup_obeEclFrameworkRepository;
         private readonly IRepository<ObeEcl, Guid> _obeEclRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
+        private readonly IRepository<Affiliate, long> _affiliateRepository;
         private readonly IEclEngineEmailer _emailer;
         private readonly IConfigurationRoot _appConfiguration;
 
@@ -47,11 +49,12 @@ namespace TestDemo.ObeComputation
         public ObeEclOverridesAppService(
             IRepository<ObeEclOverride, Guid> obeEclOverrideRepository,
             IRepository<ObeEclDataLoanBook, Guid> lookup_obeEclDataLoanBookRepository,
-            IRepository<ObeEclFrameworkFinal, Guid> lookup_obeEclFrameworkRepository,
+            IRepository<ObeEclFramworkReportDetail, Guid> lookup_obeEclFrameworkRepository,
             IRepository<ObeEclOverrideApproval, Guid> lookup_obeEclOverrideApprovalRepository,
             IRepository<ObeEcl, Guid> obeEclRepository,
             IRepository<User, long> lookup_userRepository,
             IRepository<OrganizationUnit, long> organizationUnitRepository,
+            IRepository<Affiliate, long> affiliateRepository,
             IEclEngineEmailer emailer,
             IHostingEnvironment env)
         {
@@ -62,6 +65,7 @@ namespace TestDemo.ObeComputation
             _obeEclRepository = obeEclRepository;
             _lookup_userRepository = lookup_userRepository;
             _organizationUnitRepository = organizationUnitRepository;
+            _affiliateRepository = affiliateRepository;
             _emailer = emailer;
             _appConfiguration = env.GetAppConfiguration();
 
@@ -71,7 +75,7 @@ namespace TestDemo.ObeComputation
         {
 
             var filteredRetailEclOverrides = _obeEclOverrideRepository.GetAll()
-                        .Where(x => x.ObeEclId == input.EclId)
+                        .Where(x => x.ObeEclDataLoanBookId == input.EclId)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.ContractId.Contains(input.Filter));
 
             var filteredFrameworkResult = _lookup_obeEclFrameworkRepository.GetAll()
@@ -82,7 +86,7 @@ namespace TestDemo.ObeComputation
                 .PageBy(input);
 
             var retailEclOverrides = from o in pagedAndFilteredRetailEclOverrides
-                                     join o1 in filteredFrameworkResult on o.ContractId equals o1.ContractId into j1
+                                     join o1 in filteredFrameworkResult on o.ContractId equals o1.ContractNo into j1
                                      from s1 in j1.DefaultIfEmpty()
 
                                      select new GetEclOverrideForViewDto()
@@ -90,16 +94,30 @@ namespace TestDemo.ObeComputation
                                          EclOverride = new EclOverrideDto
                                          {
                                              StageOverride = o.Stage,
-                                             ImpairmentOverride = o.TtrYears,
+                                             TtrYears = o.TtrYears,
                                              OverrideComment = o.Reason,
                                              Status = o.Status,
                                              Id = o.Id,
-                                             EclId = (Guid)o.ObeEclId,
-                                             RecordId = s1 == null ? o.Id : s1.Id
+                                             EclId = (Guid)o.ObeEclDataLoanBookId,
+                                             RecordId = s1 == null ? o.Id : s1.Id,
+                                             FSV_Cash = o.FSV_Cash,
+                                             FSV_CommercialProperty = o.FSV_CommercialProperty,
+                                             FSV_Debenture = o.FSV_Debenture,
+                                             FSV_Inventory = o.FSV_Inventory,
+                                             FSV_PlantAndEquipment = o.FSV_PlantAndEquipment,
+                                             FSV_Receivables = o.FSV_Receivables,
+                                             FSV_ResidentialProperty = o.FSV_ResidentialProperty,
+                                             FSV_Shares = o.FSV_Shares,
+                                             FSV_Vehicle = o.FSV_Vehicle,
+                                             OverlaysPercentage = o.OverlaysPercentage
                                          },
                                          ContractId = o.ContractId,
-                                         //AccountNumber = s1 == null ? "" : s1.AssetDescription,
-                                         //CustomerName = s1 == null ? "" : s1.AssetDescription
+                                         ContractNo = s1 == null ? "" : s1.ContractNo,
+                                         AccountNo = s1 == null ? "" : s1.AccountNo,
+                                         CustomerNo = s1 == null ? "" : s1.CustomerNo,
+                                         Segment = s1 == null ? "" : s1.Segment,
+                                         ProductType = s1 == null ? "" : s1.ProductType,
+                                         Sector = s1 == null ? "" : s1.Sector
                                      };
 
             var totalCount = await filteredRetailEclOverrides.CountAsync();
@@ -114,52 +132,56 @@ namespace TestDemo.ObeComputation
         {
             var filteredRecords = _lookup_obeEclFrameworkRepository.GetAll().Where(x => x.ObeEclId == input.EclId);
 
-            var query = from o in filteredRecords
-                        join o1 in _lookup_obeEclDataLoanBookRepository.GetAll() on o.ContractId equals o1.ContractId into j1
-                        from s1 in j1.DefaultIfEmpty()
-
-                        select new GetObeEclOverrideForViewDto()
-                        {
-                            ObeEclOverride = new ObeEclOverrideDto
-                            {
-                                ContractId = o.ContractId,
-                                Id = o.Id
-                            },
-                            ObeEclDataLoanBookCustomerName = s1 == null ? "" : s1.CustomerName.ToString()
-                        };
-
-            return await query.Where(x => x.ObeEclDataLoanBookCustomerName.ToLower().Contains(input.searchTerm.ToLower()))
+            return await filteredRecords.Where(x => x.ContractNo.ToLower().Contains(input.searchTerm.ToLower()))
                                             .Select(x => new NameValueDto
                                             {
-                                                Value = x.ObeEclOverride.Id.ToString(),
-                                                Name = x.ObeEclDataLoanBookCustomerName
+                                                Value = x.Id.ToString(),
+                                                Name = x.ContractNo
                                             }).ToListAsync();
         }
 
-        public async Task<GetPreResultForOverrideOutput> GetEclRecordDetails(EntityDto<Guid> input)
+        public async Task<GetPreResultForOverrideNewOutput> GetEclRecordDetails(EntityDto<Guid> input)
         {
             var selectedRecord = await _lookup_obeEclFrameworkRepository.FirstOrDefaultAsync(input.Id);
-            var overrideRecord = await _obeEclOverrideRepository.FirstOrDefaultAsync(x => x.ObeEclId == selectedRecord.ObeEclId && x.ContractId == selectedRecord.ContractId);
-            var contract = await _lookup_obeEclDataLoanBookRepository.FirstOrDefaultAsync(x => x.ObeEclUploadId == selectedRecord.ObeEclId && x.ContractId == selectedRecord.ContractId);
-
-            var dto = new InvestmentComputation.Dtos.CreateOrEditEclOverrideDto() { ContractId = selectedRecord.ContractId, EclSicrId = selectedRecord.Id, EclId = selectedRecord.ObeEclId };
+            var overrideRecord = await _obeEclOverrideRepository.FirstOrDefaultAsync(x => x.ObeEclDataLoanBookId == selectedRecord.ObeEclId && x.ContractId == selectedRecord.ContractNo);
+            
+            var dto = new CreateOrEditEclOverrideNewDto() {
+                ContractId = selectedRecord.ContractNo,
+                EclId = (Guid)selectedRecord.ObeEclId
+            };
 
             if (overrideRecord != null)
             {
-                dto.EclId = (Guid)overrideRecord.ObeEclId;
+                dto.EclId = (Guid)overrideRecord.ObeEclDataLoanBookId;
+                dto.ContractId = overrideRecord.ContractId;
                 dto.Id = overrideRecord.Id;
                 dto.OverrideComment = overrideRecord.Reason;
                 dto.Stage = overrideRecord.Stage;
                 dto.Status = overrideRecord.Status;
+                dto.TtrYears = overrideRecord.TtrYears;
+                dto.FSV_Cash = overrideRecord.FSV_Cash;
+                dto.FSV_CommercialProperty = overrideRecord.FSV_CommercialProperty;
+                dto.FSV_Debenture = overrideRecord.FSV_Debenture;
+                dto.FSV_Inventory = overrideRecord.FSV_Inventory;
+                dto.FSV_PlantAndEquipment = overrideRecord.FSV_PlantAndEquipment;
+                dto.FSV_Receivables = overrideRecord.FSV_Receivables;
+                dto.FSV_ResidentialProperty = overrideRecord.FSV_ResidentialProperty;
+                dto.FSV_Shares = overrideRecord.FSV_Shares;
+                dto.FSV_Vehicle = overrideRecord.FSV_Vehicle;
+                dto.OverlaysPercentage = overrideRecord.OverlaysPercentage;
             }
 
-            return new GetPreResultForOverrideOutput
+            return new GetPreResultForOverrideNewOutput()
             {
-                ContractId = selectedRecord.ContractId,
-                AccountNumber = contract.AccountNo,
-                AccountName = contract.CustomerName,
+                ContractNo = selectedRecord.ContractNo,
+                AccountNo = selectedRecord.AccountNo,
+                CustomerNo = selectedRecord.CustomerNo,
+                ProductType = selectedRecord.ProductType,
+                Sector = selectedRecord.Sector,
+                Segment = selectedRecord.Segment,
+                Outstanding_Balance = selectedRecord.Outstanding_Balance,
                 Stage = selectedRecord.Stage,
-                Impairment = selectedRecord.FinalEclValue,
+                Impairment = selectedRecord.Impairment_ModelOutput,
                 EclOverrides = dto
             };
         }
@@ -179,8 +201,45 @@ namespace TestDemo.ObeComputation
             return output;
         }
 
+        public async Task<EclAuditInfoDto> GetEclAudit(EntityDto<Guid> input)
+        {
 
-        public async Task CreateOrEdit(CreateOrEditEclOverrideDto input)
+            var filteredOverrideApprovals = _lookup_obeEclOverrideApprovalRepository.GetAll()
+                        .Include(e => e.ReviewedByUserFk)
+                        .Where(e => e.EclOverrideId == input.Id);
+
+            var overridesApprovals = from o in filteredOverrideApprovals
+                                         join o1 in _lookup_userRepository.GetAll() on o.CreatorUserId equals o1.Id into j1
+                                         from s1 in j1.DefaultIfEmpty()
+
+                                         select new EclApprovalAuditInfoDto()
+                                         {
+                                             EclId = (Guid)o.EclOverrideId,
+                                             ReviewedDate = o.CreationTime,
+                                             Status = o.Status,
+                                             ReviewComment = o.ReviewComment,
+                                             ReviewedBy = s1 == null ? "" : s1.FullName.ToString()
+                                         };
+
+            var eclOverride = await _obeEclOverrideRepository.FirstOrDefaultAsync(input.Id);
+            string createdBy = _lookup_userRepository.FirstOrDefault((long)eclOverride.CreatorUserId).FullName;
+            string updatedBy = "";
+            if (eclOverride.LastModifierUserId != null)
+            {
+                updatedBy = _lookup_userRepository.FirstOrDefault((long)eclOverride.LastModifierUserId).FullName;
+            }
+
+            return new EclAuditInfoDto()
+            {
+                Approvals = await overridesApprovals.ToListAsync(),
+                DateCreated = eclOverride.CreationTime,
+                LastUpdated = eclOverride.LastModificationTime,
+                CreatedBy = createdBy,
+                UpdatedBy = updatedBy
+            };
+        }
+
+        public async Task CreateOrEdit(CreateOrEditEclOverrideNewDto input)
         {
             var validation = await ValidateForOverride(input);
             if (validation.Status)
@@ -202,16 +261,26 @@ namespace TestDemo.ObeComputation
 
 
         [AbpAuthorize(AppPermissions.Pages_EclView_Override)]
-        protected virtual async Task Create(CreateOrEditEclOverrideDto input)
+        protected virtual async Task Create(CreateOrEditEclOverrideNewDto input)
         {
             await _obeEclOverrideRepository.InsertAsync(new ObeEclOverride
             {
                 Id = new Guid(),
-                ObeEclId = input.EclId,
+                ObeEclDataLoanBookId = input.EclId,
                 ContractId = input.ContractId,
                 Reason = input.OverrideComment,
                 Stage = input.Stage,
-                TtrYears = input.ImpairmentOverride,
+                TtrYears = input.TtrYears,
+                FSV_Cash = input.FSV_Cash,
+                FSV_CommercialProperty = input.FSV_CommercialProperty,
+                FSV_Debenture = input.FSV_Debenture,
+                FSV_Inventory = input.FSV_Inventory,
+                FSV_PlantAndEquipment = input.FSV_PlantAndEquipment,
+                FSV_Receivables = input.FSV_Receivables,
+                FSV_ResidentialProperty = input.FSV_ResidentialProperty,
+                FSV_Shares = input.FSV_Shares,
+                FSV_Vehicle = input.FSV_Vehicle,
+                OverlaysPercentage = input.OverlaysPercentage,
                 Status = GeneralStatusEnum.Submitted
             });
             await SendSubmittedEmail((Guid)input.EclId);
@@ -219,19 +288,29 @@ namespace TestDemo.ObeComputation
 
 
         [AbpAuthorize(AppPermissions.Pages_EclView_Override)]
-        protected virtual async Task Update(CreateOrEditEclOverrideDto input)
+        protected virtual async Task Update(CreateOrEditEclOverrideNewDto input)
         {
             var eclOverride = await _obeEclOverrideRepository.FirstOrDefaultAsync((Guid)input.Id);
 
-            eclOverride.ObeEclId = input.EclId;
+            eclOverride.ObeEclDataLoanBookId = input.EclId;
             eclOverride.ContractId = input.ContractId;
             eclOverride.Reason = input.OverrideComment;
             eclOverride.Stage = input.Stage;
-            eclOverride.TtrYears = input.ImpairmentOverride;
+            eclOverride.TtrYears = input.TtrYears;
+            eclOverride.FSV_Cash = input.FSV_Cash;
+            eclOverride.FSV_CommercialProperty = input.FSV_CommercialProperty;
+            eclOverride.FSV_Debenture = input.FSV_Debenture;
+            eclOverride.FSV_Inventory = input.FSV_Inventory;
+            eclOverride.FSV_PlantAndEquipment = input.FSV_PlantAndEquipment;
+            eclOverride.FSV_Receivables = input.FSV_Receivables;
+            eclOverride.FSV_ResidentialProperty = input.FSV_ResidentialProperty;
+            eclOverride.FSV_Shares = input.FSV_Shares;
+            eclOverride.FSV_Vehicle = input.FSV_Vehicle;
+            eclOverride.OverlaysPercentage = input.OverlaysPercentage;
             eclOverride.Status = GeneralStatusEnum.Submitted;
 
             await _obeEclOverrideRepository.UpdateAsync(eclOverride);
-            await SendSubmittedEmail((Guid)eclOverride.ObeEclId);
+            await SendSubmittedEmail((Guid)eclOverride.ObeEclDataLoanBookId);
         }
 
         public async Task Delete(EntityDto<Guid> input)
@@ -263,12 +342,12 @@ namespace TestDemo.ObeComputation
                 if (eclApprovals.Count(x => x.Status == GeneralStatusEnum.Approved) >= requiredApprovals)
                 {
                     ecl.Status = GeneralStatusEnum.Approved;
-                    await SendApprovedEmail((Guid)ecl.ObeEclId);
+                    await SendApprovedEmail((Guid)ecl.ObeEclDataLoanBookId);
                 }
                 else
                 {
                     ecl.Status = GeneralStatusEnum.AwaitngAdditionApproval;
-                    await SendAdditionalApprovalEmail((Guid)ecl.ObeEclId);
+                    await SendAdditionalApprovalEmail((Guid)ecl.ObeEclDataLoanBookId);
                 }
             }
             else
@@ -279,9 +358,30 @@ namespace TestDemo.ObeComputation
             ObjectMapper.Map(ecl, ecl);
         }
 
-        protected async Task<EclShared.Dtos.ValidationMessageDto> ValidateForOverride(CreateOrEditEclOverrideDto input)
+        protected async Task<EclShared.Dtos.ValidationMessageDto> ValidateForOverride(CreateOrEditEclOverrideNewDto input)
         {
             var output = new EclShared.Dtos.ValidationMessageDto();
+
+            //Validate Override threshold
+            var ecl = await _obeEclRepository.FirstOrDefaultAsync(input.EclId);
+            if (ecl != null)
+            {
+                var affiliate = await _affiliateRepository.FirstOrDefaultAsync(ecl.OrganizationUnitId);
+                if (affiliate.OverrideThreshold != null)
+                {
+                    var selectedRecord = await _lookup_obeEclFrameworkRepository.FirstOrDefaultAsync(e => e.ObeEclId == input.EclId && e.ContractNo == input.ContractId);
+                    if (selectedRecord != null)
+                    {
+                        if (selectedRecord.Outstanding_Balance > affiliate.OverrideThreshold)
+                        {
+                            output.Status = false;
+                            output.Message = L("ApplyOverrideErrorThresholdLimit");
+                            return output;
+                        }
+                    }
+
+                }
+            }
 
 
             //Validate cutoff date

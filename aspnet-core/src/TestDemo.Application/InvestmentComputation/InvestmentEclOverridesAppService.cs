@@ -117,6 +117,46 @@ namespace TestDemo.InvestmentComputation
             );
         }
 
+        public async Task<EclAuditInfoDto> GetEclAudit(EntityDto<Guid> input)
+        {
+
+            var filteredInvestmentEclApprovals = _lookup_investmentEclOverrideApprovalRepository.GetAll()
+                        .Include(e => e.ReviewedByUserFk)
+                        .Where(e => e.InvestmentEclOverrideId == input.Id);
+
+            var investmentEclApprovals = from o in filteredInvestmentEclApprovals
+                                         join o1 in _lookup_userRepository.GetAll() on o.CreatorUserId equals o1.Id into j1
+                                         from s1 in j1.DefaultIfEmpty()
+
+                                         select new EclApprovalAuditInfoDto()
+                                         {
+                                             EclId = (Guid)o.InvestmentEclOverrideId,
+                                             ReviewedDate = o.CreationTime,
+                                             Status = o.Status,
+                                             ReviewComment = o.ReviewComment,
+                                             ReviewedBy = s1 == null ? "" : s1.FullName.ToString()
+                                         };
+
+            var eclOverride = await _investmentEclOverrideRepository.FirstOrDefaultAsync(input.Id);
+            string createdBy = _lookup_userRepository.FirstOrDefault((long)eclOverride.CreatorUserId).FullName;
+            string updatedBy = "";
+            if (eclOverride.LastModifierUserId != null)
+            {
+                updatedBy = _lookup_userRepository.FirstOrDefault((long)eclOverride.LastModifierUserId).FullName;
+            }
+
+            return new EclAuditInfoDto()
+            {
+                Approvals = await investmentEclApprovals.ToListAsync(),
+                DateCreated = eclOverride.CreationTime,
+                LastUpdated = eclOverride.LastModificationTime,
+                CreatedBy = createdBy,
+                UpdatedBy = updatedBy
+            };
+        }
+
+
+
         public async Task<List<NameValueDto>> SearchResult(EclShared.Dtos.GetRecordForOverrideInputDto input)
         {
             var filteredInvestmentEclSicr = _lookup_investmentEclSicrRepository.GetAll().Where(x => x.EclId == input.EclId);
@@ -157,6 +197,7 @@ namespace TestDemo.InvestmentComputation
                 CurrentRating = selectedRecord.CurrentCreditRating,
                 Stage = selectedRecord.FinalStage,
                 Impairment = preResult.Impairment,
+                Outstanding_Balance = preResult.Exposure,
                 EclOverrides = dto
             };
         }

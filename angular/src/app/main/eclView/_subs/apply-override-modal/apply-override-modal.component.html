@@ -50,6 +50,38 @@
                             <label class="control-label">{{l('CurrentRating')}}</label>
                             <p class="kt-font-boldest">{{dataSource.currentRating}}</p>
                         </div>
+                        
+                        <div *ngIf="hasProp('contractNo')" class="col-md-4">
+                            <label class="control-label">{{l('ContractNo')}}</label>
+                            <p class="kt-font-boldest">{{dataSource.contractNo}}</p>
+                        </div>
+                        <div *ngIf="hasProp('accountNo')" class="col-md-4">
+                            <label class="control-label">{{l('AccountNo')}}</label>
+                            <p class="kt-font-boldest">{{dataSource.accountNo}}</p>
+                        </div>
+                        <div *ngIf="hasProp('customerNo')" class="col-md-4">
+                            <label class="control-label">{{l('CustomerNo')}}</label>
+                            <p class="kt-font-boldest">{{dataSource.customerNo}}</p>
+                        </div>
+
+                        
+                        <div *ngIf="hasProp('productType')" class="col-md-4">
+                            <label class="control-label">{{l('ProductType')}}</label>
+                            <p class="kt-font-boldest">{{dataSource.productType}}</p>
+                        </div>
+                        <div *ngIf="hasProp('sector')" class="col-md-4">
+                            <label class="control-label">{{l('Sector')}}</label>
+                            <p class="kt-font-boldest">{{dataSource.sector}}</p>
+                        </div>
+                        <div *ngIf="hasProp('segment')" class="col-md-4">
+                            <label class="control-label">{{l('Segment')}}</label>
+                            <p class="kt-font-boldest">{{dataSource.segment}}</p>
+                        </div>
+                        
+                        <div *ngIf="hasProp('outstanding_Balance')" class="col-md-4">
+                            <label class="control-label">{{l('OutstandingBalance')}}</label>
+                            <p class="kt-font-boldest">{{dataSource.outstanding_Balance}}</p>
+                        </div>
                         <div *ngIf="hasProp('stage')" class="col-md-4">
                             <label class="control-label">{{l('Stage')}}</label>
                             <p class="kt-font-boldest">{{dataSource.stage}}</p>
@@ -77,7 +109,63 @@
                         </div>
                         <div *ngIf="eclOverrideHasProp('impairmentOverride')" class="col-md-4">
                             <label class="control-label">{{l('Impairment')}}</label>
-                            <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" [(ngModel)]="eclOverride.impairmentOverride" id="ImpairmentOverride" name="ImpairmentOverride" min="0" />
+                            <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" 
+                            [(ngModel)]="eclOverride.impairmentOverride" id="ImpairmentOverride" name="ImpairmentOverride" min="0" />
+                        </div>
+                        <div *ngIf="eclOverrideHasProp('ttrYears')" class="col-md-4">
+                            <label class="control-label">{{l('TTR Years')}}</label>
+                            <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" 
+                            [(ngModel)]="eclOverride.ttrYears" id="ttrYears" name="ttrYears" min="0" />
+                        </div>
+                        <div *ngIf="eclOverrideHasProp('overlaysPercentage')" class="col-md-4">
+                            <label class="control-label">{{l('Overlays Percentage')}}</label>
+                            <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" 
+                            [(ngModel)]="eclOverride.overlaysPercentage" id="overlaysPercentage" name="overlaysPercentage" min="0" />
+                        </div>
+                        <div *ngIf="eclOverrideHasProp('fsV_Cash')" class="col-md-4">
+                            <label class="control-label">{{l('FSV Cash')}}</label>
+                            <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" 
+                            [(ngModel)]="eclOverride.fsV_Cash" id="fsV_Cash" name="fsV_Cash" min="0" />
+                        </div>
+                        <div *ngIf="eclOverrideHasProp('fsV_CommercialProperty')" class="col-md-4">
+                            <label class="control-label">{{l('FSV Commercial Property')}}</label>
+                            <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" 
+                            [(ngModel)]="eclOverride.fsV_CommercialProperty" id="fsV_CommercialProperty" name="fsV_CommercialProperty" min="0" />
+                        </div>
+                        <div *ngIf="eclOverrideHasProp('fsV_Debenture')" class="col-md-4">
+                            <label class="control-label">{{l('FSV Debenture')}}</label>
+                            <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" 
+                            [(ngModel)]="eclOverride.fsV_Debenture" id="fsV_Debenture" name="fsV_Debenture" min="0" />
+                        </div>
+                        <div *ngIf="eclOverrideHasProp('fsV_Inventory')" class="col-md-4">
+                            <label class="control-label">{{l('FSV Inventory')}}</label>
+                            <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" 
+                            [(ngModel)]="eclOverride.fsV_Inventory" id="fsV_Inventory" name="fsV_Inventory" min="0" />
+                        </div>
+                        <div *ngIf="eclOverrideHasProp('fsV_PlantAndEquipment')" class="col-md-4">
+                            <label class="control-label">{{l('FSV Plant & Equipment')}}</label>
+                            <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" 
+                            [(ngModel)]="eclOverride.fsV_PlantAndEquipment" id="fsV_PlantAndEquipment" name="fsV_PlantAndEquipment" min="0" />
+                        </div>
+                        <div *ngIf="eclOverrideHasProp('fsV_Receivables')" class="col-md-4">
+                            <label class="control-label">{{l('FSV Receivables')}}</label>
+                            <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" 
+                            [(ngModel)]="eclOverride.fsV_Receivables" id="fsV_Receivables" name="fsV_Receivables" min="0" />
+                        </div>
+                        <div *ngIf="eclOverrideHasProp('fsV_ResidentialProperty')" class="col-md-4">
+                            <label class="control-label">{{l('FSV Residential Property')}}</label>
+                            <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" 
+                            [(ngModel)]="eclOverride.fsV_ResidentialProperty" id="fsV_ResidentialProperty" name="fsV_ResidentialProperty" min="0" />
+                        </div>
+                        <div *ngIf="eclOverrideHasProp('fsV_Shares')" class="col-md-4">
+                            <label class="control-label">{{l('FSV Shares')}}</label>
+                            <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" 
+                            [(ngModel)]="eclOverride.fsV_Shares" id="fsV_Shares" name="fsV_Shares" min="0" />
+                        </div>
+                        <div *ngIf="eclOverrideHasProp('fsV_Vehicle')" class="col-md-4">
+                            <label class="control-label">{{l('FSV Vehicle')}}</label>
+                            <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" 
+                            [(ngModel)]="eclOverride.fsV_Vehicle" id="fsV_Vehicle" name="fsV_Vehicle" min="0" />
                         </div>
                         <div *ngIf="eclOverrideHasProp('overrideComment')" class="col-md-12">
                             <label class="control-label mt-3">{{l('Comment')}}</label>
