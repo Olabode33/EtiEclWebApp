@@ -13,6 +13,7 @@ import { EntityTypeHistoryModalComponent } from '@app/shared/common/entityHistor
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { Location } from '@angular/common';
+import { finalize } from 'rxjs/operators';
 
 @Component({
     selector: 'app-workspace',
@@ -111,17 +112,19 @@ export class EclListComponent extends AppComponentBase implements OnInit {
 
     createRetailEcl(): void {
         this.loadingEclAssumption = true;
-        this._retailEclServiceProxy.createEclAndAssumption().subscribe(result => {
-            this.loadingEclAssumption = false;
-            this.notify.success('EclSuccessfullyCreated');
-            this.viewEcl(FrameworkEnum.Retail, result);
-        });
+        this._retailEclServiceProxy.createEclAndAssumption()
+            .pipe(finalize(() => this.loadingEclAssumption = false))
+            .subscribe(result => {
+                this.notify.success('EclSuccessfullyCreated');
+                this.viewEcl(FrameworkEnum.Retail, result);
+            });
     }
 
     createWholesaleEcl(): void {
         this.loadingEclAssumption = true;
-        this._wholesaleEclServiceProxy.createEclAndAssumption().subscribe(result => {
-            this.loadingEclAssumption = false;
+        this._wholesaleEclServiceProxy.createEclAndAssumption()
+        .pipe(finalize(() => this.loadingEclAssumption = false))
+        .subscribe(result => {
             this.notify.success('EclSuccessfullyCreated');
             this.viewEcl(FrameworkEnum.Wholesale, result);
         });
@@ -129,8 +132,9 @@ export class EclListComponent extends AppComponentBase implements OnInit {
 
     createObeEcl(): void {
         this.loadingEclAssumption = true;
-        this._obeEclServiceProxy.createEclAndAssumption().subscribe(result => {
-            this.loadingEclAssumption = false;
+        this._obeEclServiceProxy.createEclAndAssumption()
+        .pipe(finalize(() => this.loadingEclAssumption = false))
+        .subscribe(result => {
             this.notify.success('EclSuccessfullyCreated');
             this.viewEcl(FrameworkEnum.OBE, result);
         });
@@ -138,8 +142,9 @@ export class EclListComponent extends AppComponentBase implements OnInit {
 
     createInvestmentEcl(): void {
         this.loadingEclAssumption = true;
-        this._investmentEclServiceProxy.createEclAndAssumption().subscribe(result => {
-            this.loadingEclAssumption = false;
+        this._investmentEclServiceProxy.createEclAndAssumption()
+        .pipe(finalize(() => this.loadingEclAssumption = false))
+        .subscribe(result => {
             this.notify.success('EclSuccessfullyCreated');
             this.viewEcl(FrameworkEnum.Investments, result);
         });

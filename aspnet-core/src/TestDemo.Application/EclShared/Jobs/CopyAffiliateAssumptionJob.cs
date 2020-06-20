@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using TestDemo.AffiliateMacroEconomicVariable;
 using TestDemo.Authorization.Users;
 using TestDemo.Calibration;
@@ -112,39 +113,41 @@ namespace TestDemo.EclShared.Importing
             };
             CopyAffiliateAssumptions(args);
             SendCopyCompleteNotification(args);
-            SendEmailAlert(args);
+           // AsyncHelper.RunSync(() => SendEmailAlert(args));
         }
 
+        [UnitOfWork]
         private void CopyAffiliateAssumptions(CopyAffiliateAssumptionJobArgs input)
         {
-             CopyReportingDate(input);
-                CurrentUnitOfWork.SaveChanges();
-             CopyFrameworkAssumption(input);
-            CurrentUnitOfWork.SaveChanges();
+            CopyReportingDate(input);
+            //CurrentUnitOfWork.SaveChanges();
+            CopyFrameworkAssumption(input);
+            //CurrentUnitOfWork.SaveChanges();
             CopyEadInputAssumption(input);
-            CurrentUnitOfWork.SaveChanges();
+            //CurrentUnitOfWork.SaveChanges();
             CopyLgdInputAssumption(input);
-            CurrentUnitOfWork.SaveChanges();
+            //CurrentUnitOfWork.SaveChanges();
             CopyPdInputAssumption(input);
-            CurrentUnitOfWork.SaveChanges();
+            //CurrentUnitOfWork.SaveChanges();
             CopyPdMacroInputAssumption(input);
-            CurrentUnitOfWork.SaveChanges();
+            //CurrentUnitOfWork.SaveChanges();
             CopyPdMacroProjectAssumption(input);
-            CurrentUnitOfWork.SaveChanges();
+            //CurrentUnitOfWork.SaveChanges();
             CopyPdNonInternalModelAssumption(input);
-            CurrentUnitOfWork.SaveChanges();
+            //CurrentUnitOfWork.SaveChanges();
             CopyPdNplAssumption(input);
-            CurrentUnitOfWork.SaveChanges();
+            //CurrentUnitOfWork.SaveChanges();
             CopyPdSnpAssumption(input);
-            CurrentUnitOfWork.SaveChanges();
+            //CurrentUnitOfWork.SaveChanges();
             CopyInvesPdMacroAssumption(input);
-            CurrentUnitOfWork.SaveChanges();
+            //CurrentUnitOfWork.SaveChanges();
             CopyPdFitchAssumption(input);
-            CurrentUnitOfWork.SaveChanges();
+            //CurrentUnitOfWork.SaveChanges();
             CopyMacroVariables(input);
-            CurrentUnitOfWork.SaveChanges();
+            //CurrentUnitOfWork.SaveChanges();
         }
 
+        [UnitOfWork]
         private void CopyReportingDate(CopyAffiliateAssumptionJobArgs input)
         {
             var from =  _affiliateAssumptions.FirstOrDefault(e => e.OrganizationUnitId == input.FromAffiliateId);
@@ -162,6 +165,7 @@ namespace TestDemo.EclShared.Importing
                     LastSecuritiesReportingDate = from.LastSecuritiesReportingDate,
                     Status = from.Status
                 });
+                CurrentUnitOfWork.SaveChanges();
             }
             else
             {
@@ -173,8 +177,10 @@ namespace TestDemo.EclShared.Importing
                 to.Status = from.Status;
 
                  _affiliateAssumptions.Update(to);
+                CurrentUnitOfWork.SaveChanges();
             }
         }
+        [UnitOfWork]
         private void CopyFrameworkAssumption(CopyAffiliateAssumptionJobArgs input)
         {
             var assumptions =  _frameworkAssumptionRepository.GetAll()
@@ -184,6 +190,7 @@ namespace TestDemo.EclShared.Importing
             if (assumptions.Count > 0)
             {
                  _frameworkAssumptionRepository.HardDelete(x => x.OrganizationUnitId == input.ToAffiliateId);
+                CurrentUnitOfWork.SaveChanges();
 
                 foreach (var assumption in assumptions)
                 {
@@ -205,12 +212,14 @@ namespace TestDemo.EclShared.Importing
                         CreatorUserId = input.User.UserId
                     });
                 }
+                CurrentUnitOfWork.SaveChanges();
             }
             else
             {
                 throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
             }
         }
+        [UnitOfWork]
         private void CopyEadInputAssumption(CopyAffiliateAssumptionJobArgs input)
         {
             var assumptions =  _eadAssumptionRepository.GetAll()
@@ -220,6 +229,7 @@ namespace TestDemo.EclShared.Importing
             if (assumptions.Count > 0)
             {
                  _eadAssumptionRepository.HardDelete(x => x.OrganizationUnitId == input.ToAffiliateId);
+                CurrentUnitOfWork.SaveChanges();
 
                 foreach (var assumption in assumptions)
                 {
@@ -241,12 +251,15 @@ namespace TestDemo.EclShared.Importing
                          CreatorUserId = input.User.UserId
                      });
                 }
+                CurrentUnitOfWork.SaveChanges();
             }
             else
             {
                 throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
             }
         }
+
+        [UnitOfWork]
         private void CopyLgdInputAssumption(CopyAffiliateAssumptionJobArgs input)
         {
             var assumptions =  _lgdAssumptionRepository.GetAll()
@@ -256,6 +269,7 @@ namespace TestDemo.EclShared.Importing
             if (assumptions.Count > 0)
             {
                  _lgdAssumptionRepository.HardDelete(x => x.OrganizationUnitId == input.ToAffiliateId);
+                CurrentUnitOfWork.SaveChanges();
 
                 foreach (var assumption in assumptions)
                 {
@@ -277,6 +291,7 @@ namespace TestDemo.EclShared.Importing
                          CreatorUserId = input.User.UserId
                      });
                 }
+                CurrentUnitOfWork.SaveChanges();
             }
             else
             {
@@ -284,6 +299,7 @@ namespace TestDemo.EclShared.Importing
             }
 
         }
+        [UnitOfWork]
         private void CopyPdInputAssumption(CopyAffiliateAssumptionJobArgs input)
         {
             var assumptions =  _pdAssumptionRepository.GetAll()
@@ -293,6 +309,7 @@ namespace TestDemo.EclShared.Importing
             if (assumptions.Count > 0)
             {
                  _pdAssumptionRepository.HardDelete(x => x.OrganizationUnitId == input.ToAffiliateId);
+                CurrentUnitOfWork.SaveChanges();
 
                 foreach (var assumption in assumptions)
                 {
@@ -314,6 +331,7 @@ namespace TestDemo.EclShared.Importing
                          CreatorUserId = input.User.UserId
                      });
                 }
+                CurrentUnitOfWork.SaveChanges();
             }
             else
             {
@@ -321,6 +339,7 @@ namespace TestDemo.EclShared.Importing
             }
 
         }
+        [UnitOfWork]
         private void CopyPdMacroInputAssumption(CopyAffiliateAssumptionJobArgs input)
         {
             var assumptions =  _pdAssumptionMacroEcoInputRepository.GetAll()
@@ -330,6 +349,7 @@ namespace TestDemo.EclShared.Importing
             if (assumptions.Count > 0)
             {
                  _pdAssumptionMacroEcoInputRepository.HardDelete(x => x.OrganizationUnitId == input.ToAffiliateId);
+                CurrentUnitOfWork.SaveChanges();
 
                 foreach (var assumption in assumptions)
                 {
@@ -350,6 +370,7 @@ namespace TestDemo.EclShared.Importing
                          CreatorUserId = input.User.UserId
                      });
                 }
+                CurrentUnitOfWork.SaveChanges();
             }
             else
             {
@@ -357,6 +378,7 @@ namespace TestDemo.EclShared.Importing
             }
 
         }
+        [UnitOfWork]
         private void CopyPdMacroProjectAssumption(CopyAffiliateAssumptionJobArgs input)
         {
             var assumptions =  _pdAssumptionMacroecoProjectionRepository.GetAll()
@@ -366,6 +388,7 @@ namespace TestDemo.EclShared.Importing
             if (assumptions.Count > 0)
             {
                  _pdAssumptionMacroecoProjectionRepository.HardDelete(x => x.OrganizationUnitId == input.ToAffiliateId);
+                CurrentUnitOfWork.SaveChanges();
 
                 foreach (var assumption in assumptions)
                 {
@@ -389,6 +412,7 @@ namespace TestDemo.EclShared.Importing
                          CreatorUserId = input.User.UserId
                      });
                 }
+                CurrentUnitOfWork.SaveChanges();
             }
             else
             {
@@ -396,6 +420,7 @@ namespace TestDemo.EclShared.Importing
             }
 
         }
+        [UnitOfWork]
         private void CopyPdNonInternalModelAssumption(CopyAffiliateAssumptionJobArgs input)
         {
             var assumptions =  _pdAssumptionNonInternalModelRepository.GetAll()
@@ -405,6 +430,7 @@ namespace TestDemo.EclShared.Importing
             if (assumptions.Count > 0)
             {
                  _pdAssumptionNonInternalModelRepository.HardDelete(x => x.OrganizationUnitId == input.ToAffiliateId);
+                CurrentUnitOfWork.SaveChanges();
 
                 foreach (var assumption in assumptions)
                 {
@@ -426,6 +452,7 @@ namespace TestDemo.EclShared.Importing
                          CreatorUserId = input.User.UserId
                      });
                 }
+                CurrentUnitOfWork.SaveChanges();
             }
             else
             {
@@ -433,6 +460,7 @@ namespace TestDemo.EclShared.Importing
             }
 
         }
+        [UnitOfWork]
         private void CopyPdNplAssumption(CopyAffiliateAssumptionJobArgs input)
         {
             var assumptions =  _pdAssumptionNplIndexRepository.GetAll()
@@ -442,6 +470,7 @@ namespace TestDemo.EclShared.Importing
             if (assumptions.Count > 0)
             {
                  _pdAssumptionNplIndexRepository.HardDelete(x => x.OrganizationUnitId == input.ToAffiliateId);
+                CurrentUnitOfWork.SaveChanges();
 
                 foreach (var assumption in assumptions)
                 {
@@ -463,6 +492,7 @@ namespace TestDemo.EclShared.Importing
                          CreatorUserId = input.User.UserId
                      });
                 }
+                CurrentUnitOfWork.SaveChanges();
             }
             else
             {
@@ -470,6 +500,7 @@ namespace TestDemo.EclShared.Importing
             }
 
         }
+        [UnitOfWork]
         private void CopyPdSnpAssumption(CopyAffiliateAssumptionJobArgs input)
         {
             var assumptions =  _pdSnPCummulativeAssumptionRepository.GetAll()
@@ -479,6 +510,7 @@ namespace TestDemo.EclShared.Importing
             if (assumptions.Count > 0)
             {
                  _pdSnPCummulativeAssumptionRepository.HardDelete(x => x.OrganizationUnitId == input.ToAffiliateId);
+                CurrentUnitOfWork.SaveChanges();
 
                 foreach (var assumption in assumptions)
                 {
@@ -497,6 +529,7 @@ namespace TestDemo.EclShared.Importing
                          CreatorUserId = input.User.UserId
                      });
                 }
+                CurrentUnitOfWork.SaveChanges();
             }
             else
             {
@@ -504,6 +537,7 @@ namespace TestDemo.EclShared.Importing
             }
 
         }
+        [UnitOfWork]
         private void CopyInvesPdMacroAssumption(CopyAffiliateAssumptionJobArgs input)
         {
             var assumptions =  _invsecMacroEcoAssumptionRepository.GetAll()
@@ -513,6 +547,7 @@ namespace TestDemo.EclShared.Importing
             if (assumptions.Count > 0)
             {
                  _invsecMacroEcoAssumptionRepository.HardDelete(x => x.OrganizationUnitId == input.ToAffiliateId);
+                CurrentUnitOfWork.SaveChanges();
 
                 foreach (var assumption in assumptions)
                 {
@@ -532,6 +567,7 @@ namespace TestDemo.EclShared.Importing
                          CreatorUserId = input.User.UserId
                      });
                 }
+                CurrentUnitOfWork.SaveChanges();
             }
             else
             {
@@ -539,6 +575,7 @@ namespace TestDemo.EclShared.Importing
             }
 
         }
+        [UnitOfWork]
         private void CopyPdFitchAssumption(CopyAffiliateAssumptionJobArgs input)
         {
             var assumptions =  _invsecFitchCummulativeAssumptionRepository.GetAll()
@@ -548,6 +585,7 @@ namespace TestDemo.EclShared.Importing
             if (assumptions.Count > 0)
             {
                  _invsecFitchCummulativeAssumptionRepository.HardDelete(x => x.OrganizationUnitId == input.ToAffiliateId);
+                CurrentUnitOfWork.SaveChanges();
 
                 foreach (var assumption in assumptions)
                 {
@@ -565,12 +603,14 @@ namespace TestDemo.EclShared.Importing
                          CreatorUserId = input.User.UserId
                      });
                 }
+                CurrentUnitOfWork.SaveChanges();
             }
             else
             {
                 throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
             }
         }
+        [UnitOfWork]
         private void CopyMacroVariables(CopyAffiliateAssumptionJobArgs input)
         {
             var from =  _affiliateMacroVariableRepository.GetAll()
@@ -580,6 +620,7 @@ namespace TestDemo.EclShared.Importing
             if (from.Count > 0)
             {
                  _affiliateMacroVariableRepository.Delete(x => x.AffiliateId == input.ToAffiliateId);
+                CurrentUnitOfWork.SaveChanges();
 
                 foreach (var item in from)
                 {
@@ -590,6 +631,7 @@ namespace TestDemo.EclShared.Importing
                         MacroeconomicVariableId = item.MacroeconomicVariableId
                      });
                 }
+                CurrentUnitOfWork.SaveChanges();
             }
         }
 
@@ -602,14 +644,14 @@ namespace TestDemo.EclShared.Importing
                 Abp.Notifications.NotificationSeverity.Success);
         }
 
-        private void SendEmailAlert(CopyAffiliateAssumptionJobArgs args)
+        private async Task SendEmailAlert(CopyAffiliateAssumptionJobArgs args)
         {
             var user = _userRepository.FirstOrDefault(args.User.UserId);
             var baseUrl = _appConfiguration["App:ClientRootAddress"];
             var link = baseUrl + "/app/main/assumption/affiliates/view/" + args.ToAffiliateId;
             var from = _ouRepository.FirstOrDefault(args.FromAffiliateId);
             var to = _ouRepository.FirstOrDefault(args.ToAffiliateId);
-            _emailer.SendEmailAffiliateCopiedAsync(user, from.DisplayName, to.DisplayName, link);
+            await _emailer.SendEmailAffiliateCopiedAsync(user, from.DisplayName, to.DisplayName, link);
         }
     }
 }
