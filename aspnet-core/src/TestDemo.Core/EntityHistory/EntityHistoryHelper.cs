@@ -27,6 +27,8 @@ using System.Linq;
 using Abp.Organizations;
 using TestDemo.Authorization.Roles;
 using TestDemo.MultiTenancy;
+using TestDemo.AffiliateMacroEconomicVariable;
+using TestDemo.CalibrationInput;
 
 namespace TestDemo.EntityHistory
 {
@@ -36,83 +38,79 @@ namespace TestDemo.EntityHistory
 
         public static readonly Type[] HostSideTrackedTypes =
         {
-            typeof(ObeEclSicrApproval),
-            typeof(ObeEclSicr),
-            typeof(ObeEclUploadApproval),
-            typeof(ObeEclUpload),
-            typeof(ObeEclPdSnPCummulativeDefaultRate),
-            typeof(ObeEclPdAssumption12Month),
-            typeof(ObeEclLgdAssumption),
-            typeof(ObeEclEadInputAssumption),
-            typeof(ObeEclAssumptionApproval),
-            typeof(ObeEclAssumption),
-            typeof(ObeEclApproval),
-            typeof(RetailEclOverrideApproval),
-            typeof(RetailEclOverride),
-            typeof(RetailEclUploadApproval),
-            typeof(RetailEclUpload),
-            typeof(RetailEclPdSnPCummulativeDefaultRate),
-            typeof(RetailEclPdAssumption12Month),
-            typeof(RetailEclLgdAssumption),
-            typeof(RetailEclEadInputAssumption),
-            typeof(RetailEclAssumptionApproval),
-            typeof(RetailEclAssumption),
-            typeof(RetailEclApproval),
-            typeof(RetailEcl),
-            typeof(WholesaleEclSicrApproval),
-            typeof(WholesaleEclSicr),
-            typeof(WholesaleEclUploadApproval),
-            typeof(WholesaleEclUpload),
-            typeof(WholesaleEclEadInputAssumption),
-            typeof(WholesaleEclApproval),
-            typeof(WholesaleEclPdSnPCummulativeDefaultRate),
-            typeof(WholesaleEclPdAssumption12Month),
-            typeof(WholesaleEclLgdAssumption),
-            typeof(WholesaleEclEadInputAssumption),
-            typeof(WholesaleEclAssumption),
-            typeof(WholesaleEcl),
-            typeof(EadInputAssumption),
             typeof(OrganizationUnit), typeof(Role), typeof(Tenant)
         };
 
         public static readonly Type[] TenantSideTrackedTypes =
         {
-            typeof(ObeEclSicrApproval),
-            typeof(ObeEclSicr),
-            typeof(ObeEclUploadApproval),
-            typeof(ObeEclUpload),
-            typeof(ObeEclPdSnPCummulativeDefaultRate),
-            typeof(ObeEclPdAssumption12Month),
-            typeof(ObeEclLgdAssumption),
-            typeof(ObeEclEadInputAssumption),
-            typeof(ObeEclAssumptionApproval),
-            typeof(ObeEclAssumption),
-            typeof(ObeEclApproval),
+            typeof(WholesaleEclOverrideApproval),
             typeof(RetailEclOverrideApproval),
+            typeof(ObeEclOverrideApproval),
+            typeof(InvestmentEclOverrideApproval),
+
+            typeof(WholesaleEclOverride),
             typeof(RetailEclOverride),
-            typeof(RetailEclUploadApproval),
+            typeof(ObeEclOverride),
+            typeof(InvestmentEclOverride),
+
+            //typeof(WholesaleEclDataLoanBook),
+            //typeof(RetailEclDataLoanBook),
+            //typeof(ObeEclDataLoanBook),
+            //typeof(WholesaleEclDataPaymentSchedule),
+            //typeof(RetailEclDataPaymentSchedule),
+            //typeof(ObeEclDataPaymentSchedule),
+            //typeof(InvestmentAssetBook),
+
             typeof(RetailEclUpload),
-            typeof(RetailEclPdSnPCummulativeDefaultRate),
-            typeof(RetailEclPdAssumption12Month),
-            typeof(RetailEclLgdAssumption),
-            typeof(RetailEclEadInputAssumption),
-            typeof(RetailEclAssumptionApproval),
-            typeof(RetailEclAssumption),
-            typeof(RetailEclApproval),
-            typeof(RetailEcl),
-            typeof(WholesaleEclSicrApproval),
-            typeof(WholesaleEclSicr),
-            typeof(WholesaleEclUploadApproval),
+            typeof(ObeEclUpload),
             typeof(WholesaleEclUpload),
-            typeof(WholesaleEclEadInputAssumption),
+            typeof(InvestmentEclUpload),
+
             typeof(WholesaleEclApproval),
-            typeof(WholesaleEclPdSnPCummulativeDefaultRate),
-            typeof(WholesaleEclPdAssumption12Month),
-            typeof(WholesaleEclLgdAssumption),
-            typeof(WholesaleEclEadInputAssumption),
-            typeof(WholesaleEclAssumption),
+            typeof(ObeEclApproval),
+            typeof(RetailEclApproval),
+            typeof(InvestmentEclApproval),
+
             typeof(WholesaleEcl),
+            typeof(RetailEcl),
+            typeof(ObeEcl),
+            typeof(InvestmentEcl),
+
+            typeof(CalibrationInputEadBehaviouralTerms),
+            typeof(CalibrationInputEadCcfSummary),
+            typeof(CalibrationInputLgdHairCut),
+            typeof(CalibrationInputLgdRecoveryRate),
+            typeof(CalibrationInputPdCrDr),
+            typeof(MacroeconomicData),
+
+            typeof(CalibrationEadBehaviouralTerm),
+            typeof(CalibrationEadCcfSummary),
+            typeof(CalibrationLgdHairCut),
+            typeof(CalibrationLgdRecoveryRate),
+            typeof(CalibrationPdCrDr),
+            typeof(MacroAnalysis),
+
+            typeof(AssumptionApproval),
+
+            typeof(InvSecFitchCummulativeDefaultRate),
+            typeof(InvSecMacroEconomicAssumption),
+            typeof(PdInputAssumptionMacroeconomicInput),
+            typeof(PdInputAssumptionMacroeconomicProjection),
+            typeof(PdInputAssumptionNonInternalModel),
+            typeof(PdInputAssumptionNplIndex),
+            typeof(PdInputAssumptionSnPCummulativeDefaultRate),
+            typeof(PdInputAssumption),
+            typeof(LgdInputAssumption),
             typeof(EadInputAssumption),
+            typeof(Assumption),
+
+            typeof(AffiliateOverrideThreshold),
+            typeof(MacroeconomicVariable),
+            typeof(AffiliateMacroEconomicVariableOffset),
+            typeof(EclConfiguration),
+
+            typeof(Affiliate),
+            typeof(AffiliateAssumption),
             typeof(OrganizationUnit), typeof(Role)
         };
 

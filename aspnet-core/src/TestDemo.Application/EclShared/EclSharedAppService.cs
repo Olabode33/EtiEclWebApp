@@ -22,6 +22,9 @@ using Abp.UI;
 using TestDemo.AffiliateMacroEconomicVariable;
 using Abp.BackgroundJobs;
 using Abp.Runtime.Session;
+using TestDemo.RetailComputation;
+using TestDemo.WholesaleComputation;
+using TestDemo.ObeComputation;
 
 namespace TestDemo.EclShared
 {
@@ -47,6 +50,9 @@ namespace TestDemo.EclShared
         private readonly IRepository<InvSecFitchCummulativeDefaultRate, Guid> _invsecFitchCummulativeAssumptionRepository;
         private readonly IRepository<InvSecMacroEconomicAssumption, Guid> _invsecMacroEcoAssumptionRepository;
         private readonly IRepository<InvestmentEclOverrideApproval, Guid> _investmentOverrideApprovalRepository;
+        private readonly IRepository<RetailEclOverrideApproval, Guid> _retailOverrideApprovalRepository;
+        private readonly IRepository<WholesaleEclOverrideApproval, Guid> _wholesaleOverrideApprovalRepository;
+        private readonly IRepository<ObeEclOverrideApproval, Guid> _obeOverrideApprovalRepository;
         private readonly IRepository<AffiliateMacroEconomicVariableOffset> _affiliateMacroVariableRepository;
         //Final Result Tables
         private readonly IRepository<InvestmentEclFinalResult, Guid> _investmentFinalEclResult;
@@ -74,6 +80,9 @@ namespace TestDemo.EclShared
             IRepository<InvSecFitchCummulativeDefaultRate, Guid> invsecFitchCummulativeAssumptionRepository,
             IRepository<InvSecMacroEconomicAssumption, Guid> invsecMacroEcoAssumptionRepository,
             IRepository<InvestmentEclOverrideApproval, Guid> investmentOverrideApprovalRepository,
+            IRepository<RetailEclOverrideApproval, Guid> retailOverrideApprovalRepository,
+            IRepository<WholesaleEclOverrideApproval, Guid> wholesaleOverrideApprovalRepository,
+            IRepository<ObeEclOverrideApproval, Guid> obeOverrideApprovalRepository,
             IRepository<AffiliateMacroEconomicVariableOffset> affiliateMacroVariableRepository,
             IRepository<InvestmentEclFinalResult, Guid> investmentFinalEclResult,
             IBackgroundJobManager backgroundJobManager,
@@ -100,6 +109,9 @@ namespace TestDemo.EclShared
             _invsecMacroEcoAssumptionRepository = invsecMacroEcoAssumptionRepository;
             _invsecFitchCummulativeAssumptionRepository = invsecFitchCummulativeAssumptionRepository;
             _investmentOverrideApprovalRepository = investmentOverrideApprovalRepository;
+            _retailOverrideApprovalRepository = retailOverrideApprovalRepository;
+            _wholesaleOverrideApprovalRepository = wholesaleOverrideApprovalRepository;
+            _obeOverrideApprovalRepository = obeOverrideApprovalRepository;
             _affiliateMacroVariableRepository = affiliateMacroVariableRepository; 
             _investmentFinalEclResult = investmentFinalEclResult;
             _backgroundJobManager = backgroundJobManager;
@@ -108,9 +120,36 @@ namespace TestDemo.EclShared
         public async Task<GetWorkspaceSummaryDataOutput> GetWorkspaceSummaryData()
         {
             GetWorkspaceSummaryDataOutput output = new GetWorkspaceSummaryDataOutput();
-            output.AffiliateAssumptionNotUpdatedCount = await _affiliateAssumptions.CountAsync(x => (DateTime.Now.Date - x.LastAssumptionUpdate.Date).TotalDays > 30);
-            output.AffiliateAssumptionYetToBeApprovedCount = await _assumptionsApprovalRepository.CountAsync(x => x.Status == GeneralStatusEnum.Submitted);
-            output.InvestmentSubmittedOverrideCount = await _investmentOverrideApprovalRepository.CountAsync(x => x.Status == GeneralStatusEnum.Submitted);
+
+            var user = await _userManager.GetUserByIdAsync((long)AbpSession.UserId);
+            var userOrganizationUnit = await _userManager.GetOrganizationUnitsAsync(user);
+            //var userSubsChildren = _organizationUnitRepository.GetAll().Where(ou => userSubsidiaries.Any(uou => ou.Code.StartsWith(uou.Code)));
+            var userOrganizationUnitIds = userOrganizationUnit.Select(ou => ou.Id);
+
+            if (userOrganizationUnitIds.Count() > 0)
+            {
+
+                output.AffiliateAssumptionNotUpdatedCount = await _affiliateAssumptions.GetAll().Where(e => userOrganizationUnitIds.Contains(e.OrganizationUnitId)).CountAsync(x => (DateTime.Now.Date - x.LastAssumptionUpdate.Date).TotalDays > 30);
+                output.AffiliateAssumptionYetToBeApprovedCount = await _assumptionsApprovalRepository.GetAll().Where(e => userOrganizationUnitIds.Contains(e.OrganizationUnitId)).CountAsync(x => x.Status == GeneralStatusEnum.Submitted);
+                var iEcls = await _investmentclRepository.GetAll().Where(e => userOrganizationUnitIds.Contains(e.OrganizationUnitId)).Select(e => e.Id).ToListAsync();
+                var wEcls = await _wholesaleEclRepository.GetAll().Where(e => userOrganizationUnitIds.Contains(e.OrganizationUnitId)).Select(e => e.Id).ToListAsync();
+                var rEcls = await _retailEclRepository.GetAll().Where(e => userOrganizationUnitIds.Contains(e.OrganizationUnitId)).Select(e => e.Id).ToListAsync();
+                var oEcls = await _obeEclRepository.GetAll().Where(e => userOrganizationUnitIds.Contains(e.OrganizationUnitId)).Select(e => e.Id).ToListAsync();
+
+                output.InvestmentSubmittedOverrideCount = await _investmentOverrideApprovalRepository.GetAll().Where(e => e.InvestmentEclOverrideId != null && iEcls.Contains((Guid)e.InvestmentEclOverrideId)).CountAsync(x => x.Status == GeneralStatusEnum.Submitted);
+                output.WholesaleSubmittedOverrideCount = await _wholesaleOverrideApprovalRepository.GetAll().Where(e => wEcls.Contains(e.WholesaleEclId)).CountAsync(x => x.Status == GeneralStatusEnum.Submitted);
+                output.RetailSubmittedOverrideCount = await _retailOverrideApprovalRepository.GetAll().Where(e => rEcls.Contains(e.RetailEclId)).CountAsync(x => x.Status == GeneralStatusEnum.Submitted);
+                output.ObeSubmittedOverrideCount = await _obeOverrideApprovalRepository.GetAll().Where(e => oEcls.Contains(e.ObeEclId)).CountAsync(x => x.Status == GeneralStatusEnum.Submitted);
+            }
+            else
+            {
+                output.AffiliateAssumptionNotUpdatedCount = await _affiliateAssumptions.CountAsync(x => (DateTime.Now.Date - x.LastAssumptionUpdate.Date).TotalDays > 30);
+                output.AffiliateAssumptionYetToBeApprovedCount = await _assumptionsApprovalRepository.CountAsync(x => x.Status == GeneralStatusEnum.Submitted);
+                output.InvestmentSubmittedOverrideCount = await _investmentOverrideApprovalRepository.CountAsync(x => x.Status == GeneralStatusEnum.Submitted);
+                output.WholesaleSubmittedOverrideCount = await _wholesaleOverrideApprovalRepository.CountAsync(x => x.Status == GeneralStatusEnum.Submitted);
+                output.RetailSubmittedOverrideCount = await _retailOverrideApprovalRepository.CountAsync(x => x.Status == GeneralStatusEnum.Submitted);
+                output.ObeSubmittedOverrideCount = await _obeOverrideApprovalRepository.CountAsync(x => x.Status == GeneralStatusEnum.Submitted);
+            }
 
             var draftEcls = await GetAllEclForWorkspace(new GetAllEclForWorkspaceInput { AffiliateId = 0, Portfolio = -1, Status = (int)EclStatusEnum.Draft });
             var submittedEcls = await GetAllEclForWorkspace(new GetAllEclForWorkspaceInput { AffiliateId = 0, Portfolio = -1, Status = (int)EclStatusEnum.Submitted });

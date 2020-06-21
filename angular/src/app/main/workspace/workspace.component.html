@@ -142,7 +142,7 @@
                         <div class="kt-callout__body">
                             <div class="kt-callout__content">
                                 <h3 class="kt-callout__title">{{l('ApproveOverride')}}</h3>
-                                <p class="kt-callout__desc" [innerHTML]="l('ApproveOverrideInfo', workspaceSummaryData.submittedEclCount)"></p>
+                                <p class="kt-callout__desc" [innerHTML]="l('ApproveOverrideInfo', workspaceSummaryData.wholesaleSubmittedOverrideCount + workspaceSummaryData.retailSubmittedOverrideCount + workspaceSummaryData.investmentSubmittedOverrideCount + workspaceSummaryData.obeSubmittedOverrideCount)"></p>
                             </div>
                             <div class="kt-callout__action">
                                 <button (click)="navigateToEclWorkspace(eclStatusEnum.PreOverrideComplete)" class="btn btn-custom btn-bold btn-upper btn-font-sm  btn-danger">
