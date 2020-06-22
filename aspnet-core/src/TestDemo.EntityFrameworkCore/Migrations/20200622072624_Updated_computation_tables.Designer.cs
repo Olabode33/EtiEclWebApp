@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestDemo.EntityFrameworkCore;
 
 namespace TestDemo.Migrations
 {
     [DbContext(typeof(TestDemoDbContext))]
-    partial class TestDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200622072624_Updated_computation_tables")]
+    partial class Updated_computation_tables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -4343,7 +4345,7 @@ namespace TestDemo.Migrations
 
                     b.HasIndex("ObeEclId");
 
-                    b.ToTable("ObeEclPdAssumptionMacroeconomicInputs");
+                    b.ToTable("ObeEclPdAssumptionMacroeconomicInputses");
                 });
 
             modelBuilder.Entity("TestDemo.ObeAssumption.ObeEclPdAssumptionMacroeconomicProjection", b =>
@@ -6640,7 +6642,7 @@ namespace TestDemo.Migrations
 
                     b.HasIndex("RetailEclId");
 
-                    b.ToTable("RetailEclPdAssumptionNonInternalModels");
+                    b.ToTable("RetailEclPdAssumptionNonInteralModels");
                 });
 
             modelBuilder.Entity("TestDemo.RetailAssumption.RetailEclPdAssumptionNplIndex", b =>

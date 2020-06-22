@@ -11,7 +11,7 @@ using TestDemo.EclLibrary.BaseEngine.AssumptionBase;
 
 namespace TestDemo.RetailAssumption
 {
-	[Table("RetailEclPdAssumptionNonInteralModels")]
+	[Table("RetailEclPdAssumptionNonInternalModels")]
     [Audited]
     public class RetailEclPdAssumptionNonInteralModel : EclPdAssumptionNonInternalModelBase
 	{

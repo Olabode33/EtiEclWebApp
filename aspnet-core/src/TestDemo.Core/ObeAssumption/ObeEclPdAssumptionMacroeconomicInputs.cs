@@ -12,8 +12,8 @@ using TestDemo.EclLibrary.BaseEngine.AssumptionBase;
 
 namespace TestDemo.ObeAssumption
 {
-	[Table("ObeEclPdAssumptionMacroeconomicInputses")]
-    [Audited]
+	[Table("ObeEclPdAssumptionMacroeconomicInputs")]
+	[Audited]
     public class ObeEclPdAssumptionMacroeconomicInputs : EclPdAssumptionMacroeconomicInputBase
 	{
 		public virtual Guid ObeEclId { get; set; }
