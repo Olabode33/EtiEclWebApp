@@ -211,7 +211,7 @@ namespace TestDemo.Calibration
                                                                .Where(e => e.AffiliateId == macro.OrganizationUnitId)
                                                                .Select(e => new NameValueDto<int>
                                                                {
-                                                                   Value = e.Id,
+                                                                   Value = e.MacroeconomicVariableId,
                                                                    Name = e.MacroeconomicVariableFk == null ? "" : e.MacroeconomicVariableFk.Name
                                                                })
                                                                .ToListAsync();
@@ -460,7 +460,7 @@ namespace TestDemo.Calibration
                                                                .Include(e => e.MacroeconomicVariableFk)
                                                                .Where(e => e.AffiliateId == macro.OrganizationUnitId)
                                                                .Select(e => new NameValueDto<int> {
-                                                                    Value = e.Id,
+                                                                    Value = e.MacroeconomicVariableId,
                                                                     Name = e.MacroeconomicVariableFk == null ? "" : e.MacroeconomicVariableFk.Name
                                                                })
                                                                .ToListAsync();

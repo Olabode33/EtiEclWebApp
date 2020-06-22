@@ -16,9 +16,5 @@ namespace TestDemo.WholesaleComputation
 	{
 
 		public virtual Guid? WholesaleEclId { get; set; }
-		
-        [ForeignKey("WholesaleEclId")]
-		public WholesaleEcl WholesaleEclFk { get; set; }
-		
     }
 }

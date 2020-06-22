@@ -11,10 +11,6 @@ namespace TestDemo.WholesaleComputation
 	[Table("WholesalePdRedefaultLifetimeOptimistics")]
     public class WholesalePdRedefaultLifetimeOptimistic : EclPdRedefaultLifetimeBase
 	{
-		public virtual Guid? WholesaleEclId { get; set; }
-		
-        [ForeignKey("WholesaleEclId")]
-		public WholesaleEcl WholesaleEclFk { get; set; }
-		
+		public virtual Guid? WholesaleEclId { get; set; }		
     }
 }

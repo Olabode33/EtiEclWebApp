@@ -1788,7 +1788,7 @@ namespace TestDemo.Migrations
 
                     b.Property<string>("Product_Type");
 
-                    b.Property<DateTime?>("RAPP_Date");
+                    b.Property<int?>("RAPP_Date");
 
                     b.HasKey("Id");
 
@@ -5323,7 +5323,7 @@ namespace TestDemo.Migrations
 
                     b.Property<string>("CustomerNo");
 
-                    b.Property<int?>("DaysPastDue");
+                    b.Property<double?>("DaysPastDue");
 
                     b.Property<double?>("DebentureFSV");
 
@@ -7428,7 +7428,7 @@ namespace TestDemo.Migrations
 
                     b.Property<string>("CustomerNo");
 
-                    b.Property<int?>("DaysPastDue");
+                    b.Property<double?>("DaysPastDue");
 
                     b.Property<double?>("DebentureFSV");
 
@@ -9390,7 +9390,7 @@ namespace TestDemo.Migrations
 
                     b.Property<string>("CustomerNo");
 
-                    b.Property<int?>("DaysPastDue");
+                    b.Property<double?>("DaysPastDue");
 
                     b.Property<double?>("DebentureFSV");
 

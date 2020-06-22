@@ -35,16 +35,16 @@ namespace TestDemo.WholesaleComputation
 		 public async Task<PagedResultDto<GetWholesaleEclSicrForViewDto>> GetAll(GetAllWholesaleEclSicrsInput input)
          {
 			var statusFilter = (GeneralStatusEnum) input.StatusFilter;
-			
-			var filteredWholesaleEclSicrs = _wholesaleEclSicrRepository.GetAll()
-						.Include( e => e.WholesaleEclDataLoanBookFk)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.OverrideSICR.Contains(input.Filter) || e.OverrideComment.Contains(input.Filter))
-						.WhereIf(input.MinComputedSICRFilter != null, e => e.ComputedSICR >= input.MinComputedSICRFilter)
-						.WhereIf(input.MaxComputedSICRFilter != null, e => e.ComputedSICR <= input.MaxComputedSICRFilter)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.OverrideSICRFilter),  e => e.OverrideSICR.ToLower() == input.OverrideSICRFilter.ToLower().Trim())
-						.WhereIf(!string.IsNullOrWhiteSpace(input.OverrideCommentFilter),  e => e.OverrideComment.ToLower() == input.OverrideCommentFilter.ToLower().Trim())
-						.WhereIf(input.StatusFilter > -1, e => e.Status == statusFilter)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.WholesaleEclDataLoanBookContractNoFilter), e => e.WholesaleEclDataLoanBookFk != null && e.WholesaleEclDataLoanBookFk.ContractNo.ToLower() == input.WholesaleEclDataLoanBookContractNoFilter.ToLower().Trim());
+
+            var filteredWholesaleEclSicrs = _wholesaleEclSicrRepository.GetAll()
+                        //.Include( e => e.WholesaleEclDataLoanBookFk)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.OverrideSICR.Contains(input.Filter) || e.OverrideComment.Contains(input.Filter))
+                        .WhereIf(input.MinComputedSICRFilter != null, e => e.ComputedSICR >= input.MinComputedSICRFilter)
+                        .WhereIf(input.MaxComputedSICRFilter != null, e => e.ComputedSICR <= input.MaxComputedSICRFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.OverrideSICRFilter), e => e.OverrideSICR.ToLower() == input.OverrideSICRFilter.ToLower().Trim())
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.OverrideCommentFilter), e => e.OverrideComment.ToLower() == input.OverrideCommentFilter.ToLower().Trim())
+                        .WhereIf(input.StatusFilter > -1, e => e.Status == statusFilter);
+						//.WhereIf(!string.IsNullOrWhiteSpace(input.WholesaleEclDataLoanBookContractNoFilter), e => e.WholesaleEclDataLoanBookFk != null && e.WholesaleEclDataLoanBookFk.ContractNo.ToLower() == input.WholesaleEclDataLoanBookContractNoFilter.ToLower().Trim());
 
 			var pagedAndFilteredWholesaleEclSicrs = filteredWholesaleEclSicrs
                 .OrderBy(input.Sorting ?? "id asc")

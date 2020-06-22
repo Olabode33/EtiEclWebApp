@@ -31,10 +31,6 @@ namespace TestDemo.WholesaleComputation
         [ForeignKey("ReviewedByUserId")]
 		public User ReviewedByUserFk { get; set; }
 		
-		public virtual Guid? WholesaleEclSicrId { get; set; }
-		
-        [ForeignKey("WholesaleEclSicrId")]
-		public WholesaleEclSicr WholesaleEclSicrFk { get; set; }
-		
+		public virtual Guid? WholesaleEclSicrId { get; set; }		
     }
 }

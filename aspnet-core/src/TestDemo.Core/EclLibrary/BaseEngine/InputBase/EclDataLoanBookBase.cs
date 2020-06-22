@@ -44,7 +44,7 @@ namespace TestDemo.EclLibrary.BaseEngine.InputBase
 
 		public virtual double? Month12PD { get; set; }
 
-		public virtual int? DaysPastDue { get; set; }
+		public virtual double? DaysPastDue { get; set; }
 
 		public virtual bool WatchlistIndicator { get; set; }
 

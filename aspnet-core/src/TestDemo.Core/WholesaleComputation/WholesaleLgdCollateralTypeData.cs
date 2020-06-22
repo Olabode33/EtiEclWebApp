@@ -13,10 +13,6 @@ namespace TestDemo.WholesaleComputation
     [Audited]
     public class WholesaleLgdCollateralTypeData : EclLgdCollateralTypeDataBase
 	{
-		public virtual Guid? WholesaleEclId { get; set; }
-		
-        [ForeignKey("WholesaleEclId")]
-		public WholesaleEcl WholesaleEclFk { get; set; }
-		
+		public virtual Guid? WholesaleEclId { get; set; }		
     }
 }

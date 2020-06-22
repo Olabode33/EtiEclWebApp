@@ -293,10 +293,10 @@ namespace TestDemo.Migrations
                 table: "WholesalePdMappings",
                 newName: "RedefaultLifetimePd");
 
-            migrationBuilder.RenameColumn(
-                name: "MacroeconomicGroup",
-                table: "WholesaleEclPdAssumptionMacroeconomicProjections",
-                newName: "MacroeconomicVariableId");
+            //migrationBuilder.RenameColumn(
+            //    name: "MacroeconomicGroup",
+            //    table: "WholesaleEclPdAssumptionMacroeconomicProjections",
+            //    newName: "MacroeconomicVariableId");
 
             migrationBuilder.RenameColumn(
                 name: "MacroEconomicInputGroup",
@@ -318,10 +318,10 @@ namespace TestDemo.Migrations
                 table: "WholesaleEadEirProjections",
                 newName: "EIR_Group");
 
-            migrationBuilder.RenameColumn(
-                name: "Months",
-                table: "WholesaleEadCirProjections",
-                newName: "Month");
+            //migrationBuilder.RenameColumn(
+            //    name: "Months",
+            //    table: "WholesaleEadCirProjections",
+            //    newName: "Month");
 
             migrationBuilder.RenameColumn(
                 name: "TtrYears",
@@ -363,10 +363,10 @@ namespace TestDemo.Migrations
                 table: "ObeEadEirProjections",
                 newName: "EIR_Group");
 
-            migrationBuilder.RenameColumn(
-                name: "Months",
-                table: "ObeEadCirProjections",
-                newName: "Month");
+            //migrationBuilder.RenameColumn(
+            //    name: "Months",
+            //    table: "ObeEadCirProjections",
+            //    newName: "Month");
 
             migrationBuilder.AlterColumn<string>(
                 name: "Value",
@@ -789,10 +789,10 @@ namespace TestDemo.Migrations
                 nullable: false,
                 defaultValue: 0);
 
-            migrationBuilder.AddColumn<string>(
-                name: "Currency",
-                table: "AbpOrganizationUnits",
-                nullable: true);
+            //migrationBuilder.AddColumn<string>(
+            //    name: "Currency",
+            //    table: "AbpOrganizationUnits",
+            //    nullable: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_WholesaleEclPdAssumptionMacroeconomicProjections_MacroeconomicVariableId",

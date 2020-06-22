@@ -38,17 +38,17 @@ namespace TestDemo.WholesaleComputation
 		 public async Task<PagedResultDto<GetWholesaleEclSicrApprovalForViewDto>> GetAll(GetAllWholesaleEclSicrApprovalsInput input)
          {
 			var statusFilter = (GeneralStatusEnum) input.StatusFilter;
-			
-			var filteredWholesaleEclSicrApprovals = _wholesaleEclSicrApprovalRepository.GetAll()
-						.Include( e => e.ReviewedByUserFk)
-						.Include( e => e.WholesaleEclSicrFk)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.ReviewComment.Contains(input.Filter))
-						.WhereIf(input.MinReviewedDateFilter != null, e => e.ReviewedDate >= input.MinReviewedDateFilter)
-						.WhereIf(input.MaxReviewedDateFilter != null, e => e.ReviewedDate <= input.MaxReviewedDateFilter)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.ReviewCommentFilter),  e => e.ReviewComment.ToLower() == input.ReviewCommentFilter.ToLower().Trim())
-						.WhereIf(input.StatusFilter > -1, e => e.Status == statusFilter)
-						.WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.ReviewedByUserFk != null && e.ReviewedByUserFk.Name.ToLower() == input.UserNameFilter.ToLower().Trim())
-						.WhereIf(!string.IsNullOrWhiteSpace(input.WholesaleEclSicrOverrideCommentFilter), e => e.WholesaleEclSicrFk != null && e.WholesaleEclSicrFk.OverrideComment.ToLower() == input.WholesaleEclSicrOverrideCommentFilter.ToLower().Trim());
+
+            var filteredWholesaleEclSicrApprovals = _wholesaleEclSicrApprovalRepository.GetAll()
+                        .Include(e => e.ReviewedByUserFk)
+                        //.Include( e => e.WholesaleEclSicrFk)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.ReviewComment.Contains(input.Filter))
+                        .WhereIf(input.MinReviewedDateFilter != null, e => e.ReviewedDate >= input.MinReviewedDateFilter)
+                        .WhereIf(input.MaxReviewedDateFilter != null, e => e.ReviewedDate <= input.MaxReviewedDateFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.ReviewCommentFilter), e => e.ReviewComment.ToLower() == input.ReviewCommentFilter.ToLower().Trim())
+                        .WhereIf(input.StatusFilter > -1, e => e.Status == statusFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.ReviewedByUserFk != null && e.ReviewedByUserFk.Name.ToLower() == input.UserNameFilter.ToLower().Trim());
+						//.WhereIf(!string.IsNullOrWhiteSpace(input.WholesaleEclSicrOverrideCommentFilter), e => e.WholesaleEclSicrFk != null && e.WholesaleEclSicrFk.OverrideComment.ToLower() == input.WholesaleEclSicrOverrideCommentFilter.ToLower().Trim());
 
 			var pagedAndFilteredWholesaleEclSicrApprovals = filteredWholesaleEclSicrApprovals
                 .OrderBy(input.Sorting ?? "id asc")

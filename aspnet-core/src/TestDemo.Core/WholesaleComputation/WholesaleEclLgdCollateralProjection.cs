@@ -11,8 +11,5 @@ namespace TestDemo.WholesaleComputation
     public class WholesaleEclLgdCollateralProjection: EclLgdCollateralProjectionBase
     {
         public virtual Guid WholesaleEclId { get; set; }
-
-        [ForeignKey("WholesaleEclId")]
-        public WholesaleEcl WholesaleEclFk { get; set; }
     }
 }

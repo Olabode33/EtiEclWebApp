@@ -9,14 +9,10 @@ using TestDemo.EclLibrary.BaseEngine.ComputationBase;
 
 namespace TestDemo.WholesaleComputation
 {
-	[Table("WholesaleLgdContractDatas")]
+	[Table("WholesaleLGDAccountData")]
     [Audited]
     public class WholesaleLgdContractData : EclLgdContractDataBase
 	{
 		public virtual Guid WholesaleEclId { get; set; }
-		
-        [ForeignKey("WholesaleEclId")]
-		public WholesaleEcl WholesaleEclFk { get; set; }
-		
     }
 }

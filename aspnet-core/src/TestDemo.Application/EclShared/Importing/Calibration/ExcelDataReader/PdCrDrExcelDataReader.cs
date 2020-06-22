@@ -26,10 +26,10 @@ namespace TestDemo.EclShared.Importing
 
         private ImportCalibrationPdCrDrDto ProcessExcelRow(ExcelWorksheet worksheet, int row)
         {
-            if (IsRowEmpty(worksheet, row))
-            {
-                return null;
-            }
+            //if (IsRowEmpty(worksheet, row))
+            //{
+            //    return null;
+            //}
 
             var exceptionMessage = new StringBuilder();
             var data = new ImportCalibrationPdCrDrDto();
@@ -45,7 +45,7 @@ namespace TestDemo.EclShared.Importing
                 data.Outstanding_Balance_Lcy = GetDoubleValueFromRowOrNull(worksheet, row, 7, nameof(data.Outstanding_Balance_Lcy), exceptionMessage);
                 data.Contract_Start_Date = GetDateTimeValueFromRowOrNull(worksheet, row, 8, nameof(data.Contract_Start_Date), exceptionMessage);
                 data.Contract_End_Date = GetDateTimeValueFromRowOrNull(worksheet, row, 9, nameof(data.Contract_End_Date), exceptionMessage);
-                data.RAPP_Date = GetDateTimeValueFromRowOrNull(worksheet, row, 10, nameof(data.RAPP_Date), exceptionMessage);
+                data.RAPP_Date = GetIntegerValueFromRowOrNull(worksheet, row, 10, nameof(data.RAPP_Date), exceptionMessage);
                 data.Current_Rating = GetIntegerValueFromRowOrNull(worksheet, row, 11, nameof(data.Current_Rating), exceptionMessage);
 
             }

@@ -14,10 +14,6 @@ namespace TestDemo.WholesaleComputation
     [Audited]
     public class WholesalePdLifetimeBest : EclPdLifetimeBase
 	{
-		public virtual Guid WholesaleEclId { get; set; }
-		
-        [ForeignKey("WholesaleEclId")]
-		public WholesaleEcl WholesaleEclFk { get; set; }
-		
+		public virtual Guid WholesaleEclId { get; set; }		
     }
 }

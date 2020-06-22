@@ -121,9 +121,13 @@ namespace TestDemo.EclShared.Importing
             {
                 return cellValue.ToString();
             }
+            else
+            {
+                return "";
+            }
 
-            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName));
-            return null;
+            //exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName));
+            //return null;
         }
 
         private int? GetIntegerValueFromRowOrNull(ExcelWorksheet worksheet, int row, int column, string columnName, StringBuilder exceptionMessage)
@@ -184,6 +188,10 @@ namespace TestDemo.EclShared.Importing
         {
             var cellValue = worksheet.Cells[row, column].Value;
             bool returnValue;
+            if (cellValue == null)
+            {
+                return false;
+            }
 
             if (bool.TryParse(cellValue.ToString(), out returnValue))
             {

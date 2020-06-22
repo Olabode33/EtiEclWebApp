@@ -38,7 +38,7 @@ namespace TestDemo.ObeInputs.Dtos
 
 		public double? Month12PD { get; set; }
 
-		public int? DaysPastDue { get; set; }
+		public double? DaysPastDue { get; set; }
 
 		public bool WatchlistIndicator { get; set; }
 

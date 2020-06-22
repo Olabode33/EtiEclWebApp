@@ -22,7 +22,7 @@ namespace TestDemo.EclShared.Importing.Dto
         public int? CurrentRating { get; set; }
         public double? LifetimePD { get; set; }
         public double? Month12PD { get; set; }
-        public int? DaysPastDue { get; set; }
+        public double? DaysPastDue { get; set; }
         public bool WatchlistIndicator { get; set; }
         public string Classification { get; set; }
         public DateTime? ImpairedDate { get; set; }
