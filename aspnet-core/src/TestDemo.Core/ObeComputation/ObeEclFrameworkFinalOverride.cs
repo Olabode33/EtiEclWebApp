@@ -7,11 +7,9 @@ using TestDemo.OBE;
 
 namespace TestDemo.ObeComputation
 {
+    [Table("ObeECLFrameworkFinalOverride")]
     public class ObeEclFrameworkFinalOverride: EclFrameworkFinalBase
     {
         public virtual Guid ObeEclId { get; set; }
-
-        [ForeignKey("ObeEclId")]
-        public ObeEcl ObeEclFk { get; set; }
     }
 }

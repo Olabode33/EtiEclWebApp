@@ -12,9 +12,5 @@ namespace TestDemo.RetailComputation
     public class RetailPdRedefaultLifetimeBest : EclPdRedefaultLifetimeBase
 	{
 		public virtual Guid RetailEclId { get; set; }
-		
-        [ForeignKey("RetailEclId")]
-		public RetailEcl RetailEclFk { get; set; }
-		
     }
 }

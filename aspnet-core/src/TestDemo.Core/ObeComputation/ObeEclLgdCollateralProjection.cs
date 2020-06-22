@@ -7,11 +7,10 @@ using TestDemo.OBE;
 
 namespace TestDemo.ObeComputation
 {
+    [Table("ObeLgdCollateralProjection")]
     public class ObeEclLgdCollateralProjection: EclLgdCollateralProjectionBase
     {
         public virtual Guid ObeEclId { get; set; }
 
-        [ForeignKey("ObeEclId")]
-        public ObeEcl ObeEclFk { get; set; }
     }
 }

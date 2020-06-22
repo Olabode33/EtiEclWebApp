@@ -11,8 +11,5 @@ namespace TestDemo.RetailComputation
     public class RetailEclEadLifetimeProjection: EclEadLifetimeProjectionBase
     {
         public virtual Guid RetailEclId { get; set; }
-
-        [ForeignKey("RetailEclId")]
-        public RetailEcl RetailEclFk { get; set; }
     }
 }

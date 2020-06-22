@@ -11,11 +11,6 @@ namespace TestDemo.ObeComputation
 	[Table("ObePdMappings")]
     public class ObePdMapping : EclPdMappingBase
 	{
-
 		public virtual Guid? ObeEclId { get; set; }
-		
-        [ForeignKey("ObeEclId")]
-		public ObeEcl ObeEclFk { get; set; }
-		
     }
 }

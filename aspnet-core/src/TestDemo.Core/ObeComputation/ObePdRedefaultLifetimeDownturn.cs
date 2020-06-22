@@ -14,8 +14,5 @@ namespace TestDemo.ObeComputation
 
 		public virtual Guid? ObeEclId { get; set; }
 		
-        [ForeignKey("ObeEclId")]
-		public ObeEcl ObeEclFk { get; set; }
-		
     }
 }

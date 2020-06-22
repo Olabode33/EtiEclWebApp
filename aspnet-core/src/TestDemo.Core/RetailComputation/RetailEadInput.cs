@@ -12,9 +12,6 @@ namespace TestDemo.RetailComputation
     public class RetailEadInput : EclEadInputBase
 	{
 		public virtual Guid RetailEclId { get; set; }
-		
-        [ForeignKey("RetailEclId")]
-		public RetailEcl RetailEclFk { get; set; }
-		
+
     }
 }

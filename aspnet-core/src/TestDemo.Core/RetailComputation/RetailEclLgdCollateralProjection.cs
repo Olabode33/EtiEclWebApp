@@ -11,9 +11,5 @@ namespace TestDemo.RetailComputation
     public class RetailEclLgdCollateralProjection: EclLgdCollateralProjectionBase
     {
         public virtual Guid RetailEclId { get; set; }
-
-        [ForeignKey("RetailEclId")]
-        public RetailEcl RetailEclFk { get; set; }
-
     }
 }

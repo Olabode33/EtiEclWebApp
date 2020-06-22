@@ -12,9 +12,5 @@ namespace TestDemo.ObeComputation
     public class ObePdLifetimeBest : EclPdLifetimeBase
 	{
 		public virtual Guid ObeEclId { get; set; }
-		
-        [ForeignKey("ObeEclId")]
-		public ObeEcl ObeEclFk { get; set; }
-		
     }
 }

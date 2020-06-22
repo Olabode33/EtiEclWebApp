@@ -8,13 +8,9 @@ using TestDemo.EclLibrary.BaseEngine.ComputationBase;
 
 namespace TestDemo.ObeComputation
 {
-	[Table("ObeLgdContractDatas")]
+	[Table("ObeLGDAccountData")]
     public class ObeLgdContractData : EclLgdContractDataBase
 	{
 		public virtual Guid ObeEclId { get; set; }
-		
-        [ForeignKey("ObeEclId")]
-		public ObeEcl ObeEclFk { get; set; }
-		
     }
 }

@@ -12,9 +12,5 @@ namespace TestDemo.RetailComputation
     public class RetailPdLifetimeDownturn : EclPdLifetimeBase
 	{
 		public virtual Guid RetailEclId { get; set; }
-		
-        [ForeignKey("RetailEclId")]
-		public RetailEcl RetailEclFk { get; set; }
-		
     }
 }

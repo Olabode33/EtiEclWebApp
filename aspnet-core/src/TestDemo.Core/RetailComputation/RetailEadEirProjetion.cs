@@ -8,13 +8,10 @@ using TestDemo.EclLibrary.BaseEngine.ComputationBase;
 
 namespace TestDemo.RetailComputation
 {
-	[Table("RetailEadEirProjetions")]
+	[Table("RetailEadEirProjections")]
     public class RetailEadEirProjection : EclEadEirProjectionBase
 	{
 		public virtual Guid RetailEclId { get; set; }
-		
-        [ForeignKey("RetailEclId")]
-		public RetailEcl RetailEclFk { get; set; }
 		
     }
 }

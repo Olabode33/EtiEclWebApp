@@ -11,8 +11,5 @@ namespace TestDemo.RetailComputation
     public class RetailEclFrameworkFinalOverride: EclFrameworkFinalBase
     {
         public virtual Guid RetailEclId { get; set; }
-
-        [ForeignKey("RetailEclId")]
-        public RetailEcl RetailEclFk { get; set; }
     }
 }

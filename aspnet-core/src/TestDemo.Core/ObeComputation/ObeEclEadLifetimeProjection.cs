@@ -7,11 +7,9 @@ using TestDemo.OBE;
 
 namespace TestDemo.ObeComputation
 {
+    [Table("ObeEadLifetimeProjections")]
     public class ObeEclEadLifetimeProjection: EclEadLifetimeProjectionBase
     {
         public virtual Guid ObeEclId { get; set; }
-
-        [ForeignKey("ObeEclId")]
-        public ObeEcl ObeEclFk { get; set; }
     }
 }
