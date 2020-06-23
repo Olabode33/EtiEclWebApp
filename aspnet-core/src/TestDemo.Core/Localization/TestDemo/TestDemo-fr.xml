@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="fr">
   <texts>
+
+    <text name="WorkspaceTitle">Accueil</text>
     <text name = "EmailDataUploadComplete_Subject"> {0} téléchargement des données terminé </text>
     <text name = "EmailDataUploadComplete_Title"> Téléchargement des données terminé!. </text>
     <text name = "EmailDataUploadComplete_SubTitle"> {0} téléchargement des données terminé pour {1} </text>

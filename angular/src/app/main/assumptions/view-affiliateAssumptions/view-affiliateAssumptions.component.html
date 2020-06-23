@@ -41,6 +41,7 @@
                             </h3>
                         </div>
                         <div class="kt-portlet__head-toolbar">
+                            {{l('ReportingDate')}}: {{item.reportDate | momentFormat: 'll'}}
                             <button *ngIf="isGranted('Pages.Assumption.Affiliates.Edit')" class="btn btn-outline-primary btn-sm btn-pill" (click)="editReportDate(item.key)">
                                 {{l('ReportingDate')}}: {{item.reportDate | momentFormat: 'll'}}
                                 <i class="fa fa-edit hoverable"></i>

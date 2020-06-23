@@ -45,7 +45,7 @@ namespace TestDemo.Authorization
             assumptionsUpdate.CreateChildPermission(AppPermissions.Pages_AssumptionsUpdate_Review, L("ReviewUpdatedAssumption"));
             assumptionsUpdate.CreateChildPermission(AppPermissions.Pages_AssumptionsUpdate_Copy, L("CopyAssumption"));
 
-            var workspace = pages.CreateChildPermission(AppPermissions.Pages_Workspace, L("Workspace"));
+            var workspace = pages.CreateChildPermission(AppPermissions.Pages_Workspace, L("WorkspaceTitle"));
             workspace.CreateChildPermission(AppPermissions.Pages_Workspace_CreateEcl, L("CreateNewEcl"));
             workspace.CreateChildPermission(AppPermissions.Pages_Workspace_Dashboard, L("ViewDashboard"));
 
