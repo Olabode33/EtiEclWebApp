@@ -24,6 +24,9 @@ export class LgdInputAssumptionsComponent extends AppComponentBase {
     collateralGrowthGroup: LgdAssumptionDto[] = new Array();
     collateralTTRGroup: LgdAssumptionDto[] = new Array();
     investmentGroup: LgdAssumptionDto[] = new Array();
+    collateralProjectionBest: LgdAssumptionDto[] = new Array();
+    collateralProjectionOptimistic: LgdAssumptionDto[] = new Array();
+    collateralProjectionDownturn: LgdAssumptionDto[] = new Array();
 
     dataTypeEnum = DataTypeEnum;
     lgdAssumptionGroupEnum = LdgInputAssumptionGroupEnum;
@@ -39,6 +42,9 @@ export class LgdInputAssumptionsComponent extends AppComponentBase {
         {key: this.lgdAssumptionGroupEnum[this.lgdAssumptionGroupEnum.CollateralGrowthBest], isActive: false},
         {key: this.lgdAssumptionGroupEnum[this.lgdAssumptionGroupEnum.CollateralTTR], isActive: false},
         {key: this.lgdAssumptionGroupEnum[this.lgdAssumptionGroupEnum.General], isActive: false},
+        {key: this.lgdAssumptionGroupEnum[this.lgdAssumptionGroupEnum.CollateralProjectionBest], isActive: false},
+        {key: this.lgdAssumptionGroupEnum[this.lgdAssumptionGroupEnum.CollateralProjectionOptimistic], isActive: false},
+        {key: this.lgdAssumptionGroupEnum[this.lgdAssumptionGroupEnum.CollateralProjectionDownturn], isActive: false},
     ];
 
     constructor(
@@ -77,6 +83,9 @@ export class LgdInputAssumptionsComponent extends AppComponentBase {
         this.collateralGrowthGroup = this.lgdInputAssumptions.filter(x => x.assumptionGroup === LdgInputAssumptionGroupEnum.CollateralGrowthBest);
         this.collateralTTRGroup = this.lgdInputAssumptions.filter(x => x.assumptionGroup === LdgInputAssumptionGroupEnum.CollateralTTR);
         this.investmentGroup = this.lgdInputAssumptions.filter(x => x.assumptionGroup === LdgInputAssumptionGroupEnum.General);
+        this.collateralProjectionBest = this.lgdInputAssumptions.filter(x => x.assumptionGroup === LdgInputAssumptionGroupEnum.CollateralProjectionBest);
+        this.collateralProjectionOptimistic = this.lgdInputAssumptions.filter(x => x.assumptionGroup === LdgInputAssumptionGroupEnum.CollateralProjectionOptimistic);
+        this.collateralProjectionDownturn = this.lgdInputAssumptions.filter(x => x.assumptionGroup === LdgInputAssumptionGroupEnum.CollateralProjectionDownturn);
     }
 
     hide(): void {

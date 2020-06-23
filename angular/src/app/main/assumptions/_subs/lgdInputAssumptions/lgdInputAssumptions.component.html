@@ -206,6 +206,123 @@
         </div>
     </div>
 
+    <!-- Collateral Projection Best -->
+    <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
+        <div class="card-header" id="heading5">
+            <div class="card-title" (click)="toggleAccordion(6)"
+                [ngClass]="{collapsed: !accordionList[6].isActive}">
+                <i class="flaticon-pie-chart-1"></i>
+                {{l(accordionList[6].key)}}
+            </div>
+        </div>
+        <div id="collapse5" class="collapse" [ngClass]="{show: accordionList[6].isActive}">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>{{l('CollateralType')}}</th>
+                                <th>{{l('Value')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of collateralProjectionBest">
+                                <td>{{item.inputName}}</td>
+                                <td>
+                                    <span class="hoverable pull-right" *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')"
+                                        (click)="editAssumption(item, lgdAssumptionGroupEnum[lgdAssumptionGroupEnum.CollateralProjectionBest])">
+                                        <i class="fa fa-edit"></i>
+                                    </span>
+                                    <span class="kt-widget1__number kt-font-brand">
+                                        <span>{{item.value | number:'1.2-2'}}</span>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Collateral Projection Optimistic -->
+    <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
+        <div class="card-header" id="heading5">
+            <div class="card-title" (click)="toggleAccordion(7)"
+                [ngClass]="{collapsed: !accordionList[7].isActive}">
+                <i class="flaticon-pie-chart-1"></i>
+                {{l(accordionList[7].key)}}
+            </div>
+        </div>
+        <div id="collapse5" class="collapse" [ngClass]="{show: accordionList[7].isActive}">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>{{l('CollateralType')}}</th>
+                                <th>{{l('Value')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of collateralProjectionOptimistic">
+                                <td>{{item.inputName}}</td>
+                                <td>
+                                    <span class="hoverable pull-right" *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')"
+                                        (click)="editAssumption(item, lgdAssumptionGroupEnum[lgdAssumptionGroupEnum.CollateralProjectionOptimistic])">
+                                        <i class="fa fa-edit"></i>
+                                    </span>
+                                    <span class="kt-widget1__number kt-font-brand">
+                                        <span>{{item.value | number:'1.2-2'}}</span>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Collateral Projection Optimistic -->
+    <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
+        <div class="card-header" id="heading5">
+            <div class="card-title" (click)="toggleAccordion(8)"
+                [ngClass]="{collapsed: !accordionList[8].isActive}">
+                <i class="flaticon-pie-chart-1"></i>
+                {{l(accordionList[8].key)}}
+            </div>
+        </div>
+        <div id="collapse5" class="collapse" [ngClass]="{show: accordionList[8].isActive}">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>{{l('CollateralType')}}</th>
+                                <th>{{l('Value')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of collateralProjectionDownturn">
+                                <td>{{item.inputName}}</td>
+                                <td>
+                                    <span class="hoverable pull-right" *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')"
+                                        (click)="editAssumption(item, lgdAssumptionGroupEnum[lgdAssumptionGroupEnum.CollateralProjectionDownturn])">
+                                        <i class="fa fa-edit"></i>
+                                    </span>
+                                    <span class="kt-widget1__number kt-font-brand">
+                                        <span>{{item.value | number:'1.2-2'}}</span>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Investment -->
     <div *ngIf="affiliateFramework === frameworkEnum.Investments" class="card">
         <div class="card-header" id="heading6">
