@@ -30,6 +30,7 @@ using TestDemo.Notifications;
 using TestDemo.EclConfig;
 using TestDemo.Authorization.Ldap;
 using Abp.Zero.Ldap.Configuration;
+using Abp.Domain.Uow;
 
 namespace TestDemo
 {
@@ -74,6 +75,10 @@ namespace TestDemo
 
             //Twilio - Enable this line to activate Twilio SMS integration
             //Configuration.ReplaceService<ISmsSender,TwilioSmsSender>();
+
+            //Disale Tenant filter
+            Configuration.UnitOfWork.OverrideFilter(AbpDataFilters.MayHaveTenant, false);
+            Configuration.UnitOfWork.OverrideFilter(AbpDataFilters.MustHaveTenant, false);
 
             // MailKit configuration
             Configuration.Modules.AbpMailKit().SecureSocketOption = SecureSocketOptions.Auto;
