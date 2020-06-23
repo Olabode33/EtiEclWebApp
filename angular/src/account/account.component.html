@@ -1,4 +1,5 @@
-<div id="header" [ngClass]="{'kt-grid kt-grid--ver kt-grid--root': !useFullWidthLayout(), 'kt-content': useFullWidthLayout() }" [style.text-align]="useFullWidthLayout() ? 'center' : 'left'">
+<div id="header" [ngClass]="{'kt-grid kt-grid--ver kt-grid--root': !useFullWidthLayout(), 'kt-content': useFullWidthLayout() }" [style.text-align]="useFullWidthLayout() ? 'center' : 'left'"
+style="background:url(../assets/common/images/bg.png) #005B83; background-size: cover; background-position: center; background-attachment: fixed;">
     
     <div class="header-text animated fadeIn delay-1s">
         <h4 class="display-4 text-center">ECL ENGINE</h4>
@@ -25,9 +26,9 @@
             </div>
 
             <div class="kt-grid__item kt-grid__item--fluid  kt-grid__item--order-tablet-and-mobile-1  kt-login__wrapper d-block landing_container">
-                <!-- <div class="kt-login__head d-block mt-3 mr-auto ml-auto text-right">
+                <div class="kt-login__head d-block mt-3 mr-auto ml-auto text-center">
                     <language-switch></language-switch>
-                </div> -->
+                </div>
                 <div class="kt-login__body d-block mt-3 mr-auto ml-auto">
                     <div *ngIf="showTenantChange()" class="kt-login__signup-label tenant-change-box text-center">
                         <tenant-change></tenant-change>
@@ -37,9 +38,4 @@
             </div>
         </div>
     </div>
-
-    <div class="overlay"></div>
-    <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
-        <source src="/assets/common/videos/190828_29_Timelapse_05.mp4" type="video/mp4">
-    </video>
 </div>

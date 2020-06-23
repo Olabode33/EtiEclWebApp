@@ -125,6 +125,7 @@ namespace TestDemo.EclShared.Importing
             }
         }
 
+        [UnitOfWork]
         private void CreateLoanbook(ImportEclDataFromExcelJobArgs args, List<ImportLoanbookDto> loanbooks)
         {
             var invalidLoanbook = new List<ImportLoanbookDto>();
@@ -419,6 +420,7 @@ namespace TestDemo.EclShared.Importing
                 Abp.Notifications.NotificationSeverity.Warn);
         }
 
+        [UnitOfWork]
         private void UpdateSummaryTableToCompletedAsync(ImportEclDataFromExcelJobArgs args)
         {
             switch (args.Framework)
@@ -450,8 +452,10 @@ namespace TestDemo.EclShared.Importing
                     }
                     break;
             }
+            CurrentUnitOfWork.SaveChanges();
         }
 
+        [UnitOfWork]
         private void DeleteExistingDataAsync(ImportEclDataFromExcelJobArgs args)
         {
             switch (args.Framework)
@@ -483,6 +487,7 @@ namespace TestDemo.EclShared.Importing
                     }
                     break;
             }
+            CurrentUnitOfWork.SaveChanges();
         }
 
         private void SendEmailAlert(ImportEclDataFromExcelJobArgs args)
