@@ -435,12 +435,36 @@ namespace TestDemo.EntityFrameworkCore
             modelBuilder.Entity<InvestmentEclPdLifetime>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
 
             //Wholeslale
-            modelBuilder.Entity<WholesalePdLifetimeBest>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
-            modelBuilder.Entity<WholesalePdLifetimeOptimistic>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
-            modelBuilder.Entity<WholesalePdLifetimeDownturn>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
-            modelBuilder.Entity<WholesalePdRedefaultLifetimeBest>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
-            modelBuilder.Entity<WholesalePdRedefaultLifetimeOptimistic>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
-            modelBuilder.Entity<WholesalePdRedefaultLifetimeDownturn>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<WholesalePdLifetimeBest>(o =>
+            {
+                o.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                o.Property(x => x.Value).HasDefaultValueSql("0");
+            });
+            modelBuilder.Entity<WholesalePdLifetimeOptimistic>(o =>
+            {
+                o.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                o.Property(x => x.Value).HasDefaultValueSql("0");
+            });
+            modelBuilder.Entity<WholesalePdLifetimeDownturn>(o =>
+            {
+                o.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                o.Property(x => x.Value).HasDefaultValueSql("0");
+            });
+            modelBuilder.Entity<WholesalePdRedefaultLifetimeBest>(o =>
+            {
+                o.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                o.Property(x => x.Value).HasDefaultValueSql("0");
+            });
+            modelBuilder.Entity<WholesalePdRedefaultLifetimeOptimistic>(o =>
+            {
+                o.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                o.Property(x => x.Value).HasDefaultValueSql("0");
+            });
+            modelBuilder.Entity<WholesalePdRedefaultLifetimeDownturn>(o =>
+            {
+                o.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                o.Property(x => x.Value).HasDefaultValueSql("0");
+            });
             modelBuilder.Entity<WholesalePdMapping>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<WholesaleEadCirProjection>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<WholesaleEadEirProjection>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
@@ -456,12 +480,36 @@ namespace TestDemo.EntityFrameworkCore
             modelBuilder.Entity<WholesaleEclFramworkReportDetail>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
 
             //Retail
-            modelBuilder.Entity<RetailPdLifetimeBest>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
-            modelBuilder.Entity<RetailPdLifetimeOptimistic>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
-            modelBuilder.Entity<RetailPdLifetimeDownturn>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
-            modelBuilder.Entity<RetailPdRedefaultLifetimeBest>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
-            modelBuilder.Entity<RetailPdRedefaultLifetimeOptimistic>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
-            modelBuilder.Entity<RetailPdRedefaultLifetimeDownturn>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<RetailPdLifetimeBest>(o =>
+            {
+                o.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                o.Property(x => x.Value).HasDefaultValueSql("0");
+            });
+            modelBuilder.Entity<RetailPdLifetimeOptimistic>(o =>
+            {
+                o.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                o.Property(x => x.Value).HasDefaultValueSql("0");
+            });
+            modelBuilder.Entity<RetailPdLifetimeDownturn>(o =>
+            {
+                o.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                o.Property(x => x.Value).HasDefaultValueSql("0");
+            });
+            modelBuilder.Entity<RetailPdRedefaultLifetimeBest>(o =>
+            {
+                o.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                o.Property(x => x.Value).HasDefaultValueSql("0");
+            });
+            modelBuilder.Entity<RetailPdRedefaultLifetimeOptimistic>(o =>
+            {
+                o.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                o.Property(x => x.Value).HasDefaultValueSql("0");
+            });
+            modelBuilder.Entity<RetailPdRedefaultLifetimeDownturn>(o =>
+            {
+                o.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                o.Property(x => x.Value).HasDefaultValueSql("0");
+            });
             modelBuilder.Entity<RetailPdMapping>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<RetailEadCirProjection>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<RetailEadEirProjection>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
@@ -477,12 +525,36 @@ namespace TestDemo.EntityFrameworkCore
             modelBuilder.Entity<RetailEclFramworkReportDetail>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
 
             //OBE
-            modelBuilder.Entity<ObePdLifetimeBest>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
-            modelBuilder.Entity<ObePdLifetimeOptimistic>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
-            modelBuilder.Entity<ObePdLifetimeDownturn>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
-            modelBuilder.Entity<ObePdRedefaultLifetimeBest>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
-            modelBuilder.Entity<ObePdRedefaultLifetimeOptimistic>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
-            modelBuilder.Entity<ObePdRedefaultLifetimeDownturn>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
+            modelBuilder.Entity<ObePdLifetimeBest>(o =>
+            {
+                o.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                o.Property(x => x.Value).HasDefaultValueSql("0");
+            });
+            modelBuilder.Entity<ObePdLifetimeOptimistic>(o =>
+            {
+                o.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                o.Property(x => x.Value).HasDefaultValueSql("0");
+            });
+            modelBuilder.Entity<ObePdLifetimeDownturn>(o =>
+            {
+                o.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                o.Property(x => x.Value).HasDefaultValueSql("0");
+            });
+            modelBuilder.Entity<ObePdRedefaultLifetimeBest>(o =>
+            {
+                o.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                o.Property(x => x.Value).HasDefaultValueSql("0");
+            });
+            modelBuilder.Entity<ObePdRedefaultLifetimeOptimistic>(o =>
+            {
+                o.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                o.Property(x => x.Value).HasDefaultValueSql("0");
+            });
+            modelBuilder.Entity<ObePdRedefaultLifetimeDownturn>(o =>
+            {
+                o.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                o.Property(x => x.Value).HasDefaultValueSql("0");
+            });
             modelBuilder.Entity<ObePdMapping>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<ObeEadCirProjection>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<ObeEadEirProjection>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
