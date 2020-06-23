@@ -24,7 +24,7 @@ namespace TestDemo.Notifications
         Task SendMessageAsync(UserIdentifier user, string message, NotificationSeverity severity = NotificationSeverity.Info);
 
         Task TenantsMovedToEdition(UserIdentifier argsUser, string sourceEditionName, string targetEditionName);
-
+        Task SomeDataCouldntBeImported(UserIdentifier argsUser, string fileToken, string fileType, string fileName);
         Task SomeUsersCouldntBeImported(UserIdentifier argsUser, string fileToken, string fileType, string fileName);
     }
 }

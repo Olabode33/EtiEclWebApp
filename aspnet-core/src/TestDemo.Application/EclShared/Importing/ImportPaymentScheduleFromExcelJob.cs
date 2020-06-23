@@ -17,6 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TestDemo.Authorization.Users;
 using TestDemo.Configuration;
+using TestDemo.Dto;
 using TestDemo.EclShared.Dtos;
 using TestDemo.EclShared.Emailer;
 using TestDemo.EclShared.Importing.Dto;
@@ -108,7 +109,6 @@ namespace TestDemo.EclShared.Importing
             DeleteExistingDataAsync(args);
             CreatePaymentSchedule(args, paymentSchedules);
             UpdateSummaryTableToCompletedAsync(args);
-            SendEmailAlert(args);
         }
 
         private List<ImportPaymentScheduleDto> GetPaymentScheduleListFromExcelOrNull(ImportEclDataFromExcelJobArgs args)
@@ -209,7 +209,8 @@ namespace TestDemo.EclShared.Importing
             if (invalidPaymentSchedule.Any())
             {
                 var file = _invalidPaymentScheduleExporter.ExportToFile(invalidPaymentSchedule);
-                await _appNotifier.SomeUsersCouldntBeImported(args.User, file.FileToken, file.FileType, file.FileName);
+                await _appNotifier.SomeDataCouldntBeImported(args.User, file.FileToken, file.FileType, file.FileName);
+                SendInvalidEmailAlert(args, file);
             }
             else
             {
@@ -217,6 +218,7 @@ namespace TestDemo.EclShared.Importing
                     args.User,
                     _localizationSource.GetString("AllPaymentScheduleSuccessfullyImportedFromExcel"),
                     Abp.Notifications.NotificationSeverity.Success);
+                SendEmailAlert(args);
             }
         }
 
@@ -228,6 +230,7 @@ namespace TestDemo.EclShared.Importing
                 Abp.Notifications.NotificationSeverity.Warn);
         }
 
+        [UnitOfWork]
         private void UpdateSummaryTableToCompletedAsync(ImportEclDataFromExcelJobArgs args)
         {
             switch (args.Framework)
@@ -259,8 +262,10 @@ namespace TestDemo.EclShared.Importing
                     }
                     break;
             }
+            CurrentUnitOfWork.SaveChanges();
         }
 
+        [UnitOfWork]
         private void DeleteExistingDataAsync(ImportEclDataFromExcelJobArgs args)
         {
             switch (args.Framework)
@@ -292,6 +297,7 @@ namespace TestDemo.EclShared.Importing
                     }
                     break;
             }
+            CurrentUnitOfWork.SaveChanges();
         }
 
         private void SendEmailAlert(ImportEclDataFromExcelJobArgs args)
@@ -329,6 +335,40 @@ namespace TestDemo.EclShared.Importing
             var ou = _ouRepository.FirstOrDefault(ouId);
             var type = args.Framework.ToString() + " Payment schedule";
             _emailer.SendEmailDataUploadCompleteAsync(user, type, ou.DisplayName, link);
+        }
+
+        private void SendInvalidEmailAlert(ImportEclDataFromExcelJobArgs args, FileDto file)
+        {
+            var user = _userRepository.FirstOrDefault(args.User.UserId);
+            var baseUrl = _appConfiguration["App:ServerRootAddress"];
+            var link = baseUrl + "file/DownloadTempFile?fileType=" + file.FileType + "&fileToken=" + file.FileToken + "&fileName=" + file.FileName;
+
+            long ouId = 0;
+
+            switch (args.Framework)
+            {
+                case FrameworkEnum.Retail:
+                    var retailSummary = _retailUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    var retailEcl = _retailEclRepository.FirstOrDefault(retailSummary.RetailEclId);
+                    ouId = retailEcl.OrganizationUnitId;
+                    break;
+
+                case FrameworkEnum.Wholesale:
+                    var wholesaleSummary = _wholesaleUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    var wEcl = _wholesaleEclRepository.FirstOrDefault(wholesaleSummary.WholesaleEclId);
+                    ouId = wEcl.OrganizationUnitId;
+                    break;
+
+                case FrameworkEnum.OBE:
+                    var obeSummary = _obeUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    var oEcl = _obeEclRepository.FirstOrDefault((Guid)obeSummary.ObeEclId);
+                    ouId = oEcl.OrganizationUnitId;
+                    break;
+            }
+
+            var ou = _ouRepository.FirstOrDefault(ouId);
+            var type = args.Framework.ToString() + " Payment schedule";
+            _emailer.SendEmailInvalidDataUploadCompleteAsync(user, type, ou.DisplayName, link);
         }
 
     }

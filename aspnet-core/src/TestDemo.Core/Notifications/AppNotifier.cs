@@ -167,5 +167,21 @@ namespace TestDemo.Notifications
 
             await _notificationPublisher.PublishAsync(AppNotificationNames.DownloadInvalidImportUsers, notificationData, userIds: new[] { argsUser });
         }
+
+        public async Task SomeDataCouldntBeImported(UserIdentifier argsUser, string fileToken, string fileType, string fileName)
+        {
+            var notificationData = new LocalizableMessageNotificationData(
+                new LocalizableString(
+                    "ClickToSeeInvalidDataImport",
+                    TestDemoConsts.LocalizationSourceName
+                )
+            );
+
+            notificationData["fileToken"] = fileToken;
+            notificationData["fileType"] = fileType;
+            notificationData["fileName"] = fileName;
+
+            await _notificationPublisher.PublishAsync(AppNotificationNames.DownloadInvalidImportUsers, notificationData, userIds: new[] { argsUser });
+        }
     }
 }

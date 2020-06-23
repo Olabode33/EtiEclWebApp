@@ -3,6 +3,14 @@
   <texts>
 
     <text name="WorkspaceTitle">Accueil</text>
+    <text name="EmailInvalidDataUploadComplete_Subject">{0} data upload completed with invalid data</text>
+    <text name="EmailInvalidDataUploadComplete_Title">Data Upload Completed with invalid data!.</text>
+    <text name="EmailInvalidDataUploadComplete_SubTitle">{0} data upload completed for {1} with invalid data</text>
+    <text name="EmailInvalidDataUploadComplete_Body">{0} data upload for {1} has been completed. There are some invalid data.</text>
+    <text name="Email_ClickTheLinkBelowToDownloadTempNote">Note: This is a temporary file and would only be available for 24hours after receiving this email.</text>
+
+    <text name="ClickToSeeInvalidDataImport">Data import process has been completed. There are some invalid data. Click to see Invalid data imports.</text>
+    
     <text name = "EmailDataUploadComplete_Subject"> {0} téléchargement des données terminé </text>
     <text name = "EmailDataUploadComplete_Title"> Téléchargement des données terminé!. </text>
     <text name = "EmailDataUploadComplete_SubTitle"> {0} téléchargement des données terminé pour {1} </text>

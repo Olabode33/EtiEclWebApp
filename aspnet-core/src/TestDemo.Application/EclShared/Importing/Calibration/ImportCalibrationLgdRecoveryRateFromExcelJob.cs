@@ -19,6 +19,7 @@ using TestDemo.Authorization.Users;
 using TestDemo.Calibration;
 using TestDemo.CalibrationInput;
 using TestDemo.Configuration;
+using TestDemo.Dto;
 using TestDemo.EclShared.Dtos;
 using TestDemo.EclShared.Emailer;
 using TestDemo.EclShared.Importing.Calibration;
@@ -88,7 +89,6 @@ namespace TestDemo.EclShared.Importing
             DeleteExistingDataAsync(args);
             CreateRecoveryRate(args, recoveryRate);
             UpdateCalibrationTableToDraftAsync(args);
-            SendEmailAlert(args);
         }
 
         private List<ImportCalibrationLgdRecoveryRateDto> GetRecoveryRateFromExcelOrNull(ImportCalibrationDataFromExcelJobArgs args)
@@ -163,7 +163,8 @@ namespace TestDemo.EclShared.Importing
             if (invalids.Any())
             {
                 var file = _invalidExporter.ExportToFile(invalids);
-                await _appNotifier.SomeUsersCouldntBeImported(args.User, file.FileToken, file.FileType, file.FileName);
+                await _appNotifier.SomeDataCouldntBeImported(args.User, file.FileToken, file.FileType, file.FileName);
+                SendInvalidEmailAlert(args, file);
             }
             else
             {
@@ -171,6 +172,7 @@ namespace TestDemo.EclShared.Importing
                     args.User,
                     _localizationSource.GetString("AllCalibrationRecoveryRateSuccessfullyImportedFromExcel"),
                     Abp.Notifications.NotificationSeverity.Success);
+                SendEmailAlert(args);
             }
         }
 
@@ -182,11 +184,13 @@ namespace TestDemo.EclShared.Importing
                 Abp.Notifications.NotificationSeverity.Warn);
         }
 
+        [UnitOfWork]
         private void DeleteExistingDataAsync(ImportCalibrationDataFromExcelJobArgs args)
         {
             _recoveryRateRepository.Delete(x => x.CalibrationId == args.CalibrationId);
         }
 
+        [UnitOfWork]
         private void UpdateCalibrationTableToDraftAsync(ImportCalibrationDataFromExcelJobArgs args)
         {
             var calibration = _calibrationRepository.FirstOrDefault((Guid)args.CalibrationId);
@@ -206,6 +210,18 @@ namespace TestDemo.EclShared.Importing
             var calibration = _calibrationRepository.FirstOrDefault((Guid)args.CalibrationId);
             var ou = _ouRepository.FirstOrDefault(calibration.OrganizationUnitId);
             _emailer.SendEmailDataUploadCompleteAsync(user, type, ou.DisplayName, link);
+        }
+
+        private void SendInvalidEmailAlert(ImportCalibrationDataFromExcelJobArgs args, FileDto file)
+        {
+            var user = _userRepository.FirstOrDefault(args.User.UserId);
+            var baseUrl = _appConfiguration["App:ServerRootAddress"];
+            var link = baseUrl + "file/DownloadTempFile?fileType=" + file.FileType + "&fileToken=" + file.FileToken + "&fileName=" + file.FileName;
+
+            var type = "LGD recovery rate calibration";
+            var calibration = _calibrationRepository.FirstOrDefault((Guid)args.CalibrationId);
+            var ou = _ouRepository.FirstOrDefault(calibration.OrganizationUnitId);
+            _emailer.SendEmailInvalidDataUploadCompleteAsync(user, type, ou.DisplayName, link);
         }
 
     }

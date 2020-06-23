@@ -81,6 +81,26 @@ namespace TestDemo.EclShared.Emailer
         }
 
         [UnitOfWork]
+        public virtual async Task SendEmailInvalidDataUploadCompleteAsync(User user, string uploadType, string affiliateName, string link)
+        {
+
+            var emailTemplate = GetTitleAndSubTitle(user.TenantId, L("EmailInvalidDataUploadComplete_Title"), L("EmailInvalidDataUploadComplete_SubTitle", uploadType, affiliateName));
+            var mailMessage = new StringBuilder();
+
+            mailMessage.AppendLine("<b>Dear " + user.Name + " " + user.Surname + ",<br />");
+
+            mailMessage.AppendLine(L("EmailInvalidDataUploadComplete_Body", uploadType, affiliateName) + "<br /><br />");
+            mailMessage.AppendLine(L("Email_ClickTheLinkBelowToDownload") + "<br /><br />");
+            mailMessage.AppendLine("<a style=\"" + _emailButtonStyle + "\" bg-color=\"" + _emailButtonColor + "\" href=\"" + link + "\">" + L("Download") + "</a>");
+            mailMessage.AppendLine("<br />");
+            mailMessage.AppendLine("<br />");
+            mailMessage.AppendLine("<br />");
+            mailMessage.AppendLine(L("Email_ClickTheLinkBelowToDownloadTempNote"));
+
+            await ReplaceBodyAndSend(user.EmailAddress, L("EmailDataUploadComplete_Subject", uploadType), emailTemplate, mailMessage);
+        }
+
+        [UnitOfWork]
         public virtual async Task SendEmailSubmittedForApprovalAsync(User user, string type, string affiliateName, string link)
         {
 

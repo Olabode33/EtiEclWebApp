@@ -17,6 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TestDemo.Authorization.Users;
 using TestDemo.Configuration;
+using TestDemo.Dto;
 using TestDemo.EclShared.Dtos;
 using TestDemo.EclShared.Emailer;
 using TestDemo.EclShared.Importing;
@@ -109,7 +110,6 @@ namespace TestDemo.EclShared.Importing
             DeleteExistingDataAsync(args);
             CreateLoanbook(args, loanbooks);
             UpdateSummaryTableToCompletedAsync(args);
-            SendEmailAlert(args);
         }
 
         private List<ImportLoanbookDto> GetLoanbookListFromExcelOrNull(ImportEclDataFromExcelJobArgs args)
@@ -401,7 +401,8 @@ namespace TestDemo.EclShared.Importing
             if (invalidLoanbook.Any())
             {
                 var file = _invalidLoanbookExporter.ExportToFile(invalidLoanbook);
-                await _appNotifier.SomeUsersCouldntBeImported(args.User, file.FileToken, file.FileType, file.FileName);
+                await _appNotifier.SomeDataCouldntBeImported(args.User, file.FileToken, file.FileType, file.FileName);
+                SendInvalidEmailAlert(args, file);
             }
             else
             {
@@ -409,6 +410,7 @@ namespace TestDemo.EclShared.Importing
                     args.User,
                     _localizationSource.GetString("AllLoanbookSuccessfullyImportedFromExcel"),
                     Abp.Notifications.NotificationSeverity.Success);
+                SendEmailAlert(args);
             }
         }
 
@@ -525,6 +527,41 @@ namespace TestDemo.EclShared.Importing
             var ou = _ouRepository.FirstOrDefault(ouId);
             var type = args.Framework.ToString() + " loanbook";
             _emailer.SendEmailDataUploadCompleteAsync(user, type, ou.DisplayName, link);
+        }
+
+
+        private void SendInvalidEmailAlert(ImportEclDataFromExcelJobArgs args, FileDto file)
+        {
+            var user = _userRepository.FirstOrDefault(args.User.UserId); 
+            var baseUrl = _appConfiguration["App:ServerRootAddress"];
+            var link = baseUrl + "file/DownloadTempFile?fileType=" + file.FileType + "&fileToken=" + file.FileToken + "&fileName=" + file.FileName;
+
+            long ouId = 0;
+
+            switch (args.Framework)
+            {
+                case FrameworkEnum.Retail:
+                    var retailSummary = _retailUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    var retailEcl = _retailEclRepository.FirstOrDefault(retailSummary.RetailEclId);
+                    ouId = retailEcl.OrganizationUnitId;
+                    break;
+
+                case FrameworkEnum.Wholesale:
+                    var wholesaleSummary = _wholesaleUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    var wEcl = _wholesaleEclRepository.FirstOrDefault(wholesaleSummary.WholesaleEclId);
+                    ouId = wEcl.OrganizationUnitId;
+                    break;
+
+                case FrameworkEnum.OBE:
+                    var obeSummary = _obeUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    var oEcl = _obeEclRepository.FirstOrDefault((Guid)obeSummary.ObeEclId);
+                    ouId = oEcl.OrganizationUnitId;
+                    break;
+            }
+
+            var ou = _ouRepository.FirstOrDefault(ouId);
+            var type = args.Framework.ToString() + " loanbook";
+            _emailer.SendEmailInvalidDataUploadCompleteAsync(user, type, ou.DisplayName, link);
         }
     }
 }

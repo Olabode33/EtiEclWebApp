@@ -11,6 +11,6 @@ namespace TestDemo.EclLibrary.BaseEngine.ComputationBase
 
         public virtual int Month { get; set; }
 
-        public virtual string Value { get; set; }
+        public virtual double Value { get; set; }
     }
 }

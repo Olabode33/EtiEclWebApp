@@ -19,6 +19,7 @@ using TestDemo.Authorization.Users;
 using TestDemo.Calibration;
 using TestDemo.CalibrationInput;
 using TestDemo.Configuration;
+using TestDemo.Dto;
 using TestDemo.EclShared.Dtos;
 using TestDemo.EclShared.Emailer;
 using TestDemo.EclShared.Importing.Assumptions.Dto;
@@ -91,8 +92,6 @@ namespace TestDemo.EclShared.Importing
 
             DeleteExistingDataAsync(args);
             CreateNpl(args, npl);
-            SubmitForApproval(args);
-            SendEmailAlert(args);
         }
 
         private List<ImportNplDataDto> GetNplFromExcelOrNull(ImportAssumptionDataFromExcelJobArgs args)
@@ -166,7 +165,8 @@ namespace TestDemo.EclShared.Importing
             if (invalids.Any())
             {
                 var file = _invalidExporter.ExportToFile(invalids);
-                await _appNotifier.SomeUsersCouldntBeImported(args.User, file.FileToken, file.FileType, file.FileName);
+                await _appNotifier.SomeDataCouldntBeImported(args.User, file.FileToken, file.FileType, file.FileName);
+                SendInvalidEmailAlert(args, file);
             }
             else
             {
@@ -174,6 +174,8 @@ namespace TestDemo.EclShared.Importing
                     args.User,
                     _localizationSource.GetString("AllSnPSuccessfullyImportedFromExcel"),
                     Abp.Notifications.NotificationSeverity.Success);
+                SendEmailAlert(args);
+                SubmitForApproval(args);
             }
         }
 
@@ -185,6 +187,7 @@ namespace TestDemo.EclShared.Importing
                 Abp.Notifications.NotificationSeverity.Warn);
         }
 
+        [UnitOfWork]
         private void DeleteExistingDataAsync(ImportAssumptionDataFromExcelJobArgs args)
         {
             var ids = _dataRepository.GetAllList(x => x.Framework == args.Framework && x.OrganizationUnitId == args.AffiliateId);
@@ -220,6 +223,17 @@ namespace TestDemo.EclShared.Importing
             var type = args.Framework.ToString() + " NPL";
             var ou = _ouRepository.FirstOrDefault(args.AffiliateId);
             _emailer.SendEmailDataUploadCompleteAsync(user, type, ou.DisplayName, link);
+        }
+
+        private void SendInvalidEmailAlert(ImportAssumptionDataFromExcelJobArgs args, FileDto file)
+        {
+            var user = _userRepository.FirstOrDefault(args.User.UserId);
+            var baseUrl = _appConfiguration["App:ServerRootAddress"];
+            var link = baseUrl + "file/DownloadTempFile?fileType=" + file.FileType + "&fileToken=" + file.FileToken + "&fileName=" + file.FileName;
+
+            var type = args.Framework.ToString() + " NPL";
+            var ou = _ouRepository.FirstOrDefault(args.AffiliateId);
+            _emailer.SendEmailInvalidDataUploadCompleteAsync(user, type, ou.DisplayName, link);
         }
 
     }

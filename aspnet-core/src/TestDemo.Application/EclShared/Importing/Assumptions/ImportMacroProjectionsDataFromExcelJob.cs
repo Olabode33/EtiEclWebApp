@@ -24,6 +24,7 @@ using TestDemo.Calibration;
 using TestDemo.CalibrationInput;
 using TestDemo.CalibrationResult;
 using TestDemo.Configuration;
+using TestDemo.Dto;
 using TestDemo.EclShared.Dtos;
 using TestDemo.EclShared.Emailer;
 using TestDemo.EclShared.Importing.Assumptions.Dto;
@@ -105,8 +106,6 @@ namespace TestDemo.EclShared.Importing
 
             DeleteExistingDataAsync(args);
             CreateMacroProjection(args, macroAnalysis);
-            SubmitForApproval(args);
-            SendEmailAlert(args);
         }
 
         private List<ImportMacroProjectionDataDto> GetMacroProjectionDataFromExcelOrNull(ImportAssumptionDataFromExcelJobArgs args)
@@ -208,7 +207,8 @@ namespace TestDemo.EclShared.Importing
                 var items = query.OrderBy(e => e.Name).ToList();
 
                 var file = _invalidExporter.ExportToFile(invalids, items);
-                await _appNotifier.SomeUsersCouldntBeImported(args.User, file.FileToken, file.FileType, file.FileName);
+                await _appNotifier.SomeDataCouldntBeImported(args.User, file.FileToken, file.FileType, file.FileName);
+                SendInvalidEmailAlert(args, file);
             }
             else
             {
@@ -216,6 +216,8 @@ namespace TestDemo.EclShared.Importing
                     args.User,
                     _localizationSource.GetString("AllMacroProjectionDataSuccessfullyImportedFromExcel"),
                     Abp.Notifications.NotificationSeverity.Success);
+                SubmitForApproval(args);
+                SendEmailAlert(args);
             }
         }
 
@@ -262,6 +264,17 @@ namespace TestDemo.EclShared.Importing
             var type = args.Framework.ToString() + " Macro-economic projection";
             var ou = _ouRepository.FirstOrDefault(args.AffiliateId);
             _emailer.SendEmailDataUploadCompleteAsync(user, type, ou.DisplayName, link);
+        }
+
+        private void SendInvalidEmailAlert(ImportAssumptionDataFromExcelJobArgs args, FileDto file)
+        {
+            var user = _userRepository.FirstOrDefault(args.User.UserId);
+            var baseUrl = _appConfiguration["App:ServerRootAddress"];
+            var link = baseUrl + "file/DownloadTempFile?fileType=" + file.FileType + "&fileToken=" + file.FileToken + "&fileName=" + file.FileName;
+
+            var type = args.Framework.ToString() + " Macro-economic projection";
+            var ou = _ouRepository.FirstOrDefault(args.AffiliateId);
+            _emailer.SendEmailInvalidDataUploadCompleteAsync(user, type, ou.DisplayName, link);
         }
 
     }

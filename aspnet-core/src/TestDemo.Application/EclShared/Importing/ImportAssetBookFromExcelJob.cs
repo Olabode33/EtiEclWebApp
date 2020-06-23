@@ -17,6 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TestDemo.Authorization.Users;
 using TestDemo.Configuration;
+using TestDemo.Dto;
 using TestDemo.EclShared.Dtos;
 using TestDemo.EclShared.Emailer;
 using TestDemo.EclShared.Importing.Dto;
@@ -83,7 +84,6 @@ namespace TestDemo.EclShared.Importing
             }
             CreateAssetbook(args, assetBooks);
             UpdateSummaryTableToCompletedAsync(args);
-            SendEmailAlert(args);
         }
 
         private List<ImportAssetBookDto> GetAssetListFromExcelOrNull(ImportEclDataFromExcelJobArgs args)
@@ -167,7 +167,8 @@ namespace TestDemo.EclShared.Importing
             if (invalidAssetbook.Any())
             {
                 var file = _invalidassetBookExporter.ExportToFile(invalidAssetbook);
-                await _appNotifier.SomeUsersCouldntBeImported(args.User, file.FileToken, file.FileType, file.FileName);
+                await _appNotifier.SomeDataCouldntBeImported(args.User, file.FileToken, file.FileType, file.FileName);
+                SendInvalidEmailAlert(args, file);
             }
             else
             {
@@ -175,6 +176,8 @@ namespace TestDemo.EclShared.Importing
                     args.User,
                     _localizationSource.GetString("AllAssetBookSuccessfullyImportedFromExcel"),
                     Abp.Notifications.NotificationSeverity.Success);
+
+                SendEmailAlert(args);
             }
         }
 
@@ -186,11 +189,13 @@ namespace TestDemo.EclShared.Importing
                 Abp.Notifications.NotificationSeverity.Warn);
         }
 
+        [UnitOfWork]
         private void UpdateSummaryTableToCompletedAsync(ImportEclDataFromExcelJobArgs args)
         {
             var investmentSummary = _investmentEclUploadRepository.FirstOrDefault((Guid)args.UploadSummaryId);
             investmentSummary.Status = GeneralStatusEnum.Completed;
             _investmentEclUploadRepository.Update(investmentSummary);
+            CurrentUnitOfWork.SaveChanges();
         }
 
         private void SendEmailAlert(ImportEclDataFromExcelJobArgs args)
@@ -206,6 +211,20 @@ namespace TestDemo.EclShared.Importing
             var ou = _ouRepository.FirstOrDefault(ecl.OrganizationUnitId);
             var type = args.Framework.ToString() + " Assetbook";
             _emailer.SendEmailDataUploadCompleteAsync(user, type, ou.DisplayName, link);
+        }
+
+        private void SendInvalidEmailAlert(ImportEclDataFromExcelJobArgs args, FileDto file)
+        {
+            var user = _userRepository.FirstOrDefault(args.User.UserId);
+            var summary = _investmentEclUploadRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+            var ecl = _eclRepository.FirstOrDefault((Guid)summary.InvestmentEclId);
+
+            var baseUrl = _appConfiguration["App:ServerRootAddress"];
+            var link = baseUrl + "file/DownloadTempFile?fileType=" + file.FileType + "&fileToken=" + file.FileToken + "&fileName=" + file.FileName;
+
+            var ou = _ouRepository.FirstOrDefault(ecl.OrganizationUnitId);
+            var type = args.Framework.ToString() + " Assetbook";
+            _emailer.SendEmailInvalidDataUploadCompleteAsync(user, type, ou.DisplayName, link);
         }
 
     }
