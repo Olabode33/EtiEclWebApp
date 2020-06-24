@@ -25,7 +25,7 @@
                                 <timezone-combo name="Timezone" [(ngModel)]="settings.general.timezone" defaultTimezoneScope="{{defaultTimezoneScope}}"></timezone-combo>
                             </div>
                         </tab>
-                        <tab *ngIf="true" heading="{{'Appearance' | localize}}" [active]="activeTabIndex == 1">
+                        <tab *ngIf="false" heading="{{'Appearance' | localize}}" [active]="activeTabIndex == 1">
                             <div class="row m-form">
                                 <div class="col-md-6">
                                     <h5>{{"ApplicationLogo" | localize}}</h5>
@@ -249,7 +249,7 @@
                                 </div>
                             </div>
                         </tab>
-                        <tab *ngIf="true" heading="{{'Invoice' | localize}}">
+                        <tab *ngIf="false" heading="{{'Invoice' | localize}}">
                             <!-- *ngIf="true" is a workaround for https://github.com/valor-software/ng2-bootstrap/issues/823 -->
                             <h5>{{"InvoiceInformation" | localize}}</h5>
                             <div class="form-group">
@@ -265,7 +265,7 @@
                                 <input id="taxVatNo" type="text" name="taxVatNo" class="form-control" [ngClass]="{'edited':settings.billing.taxVatNo}" [(ngModel)]="settings.billing.taxVatNo" maxlength="32">
                             </div>
                         </tab>
-                        <tab *ngIf="!isMultiTenancyEnabled" heading="{{'OtherSettings' | localize}}">
+                        <tab *ngIf="false" heading="{{'OtherSettings' | localize}}">
                             <div class="kt-checkbox-list">
                                 <h5>{{"IsQuickThemeSelectEnabled" | localize}}</h5>
                                 <label for="Settings_IsQuickThemeSelectEnabled" class="kt-checkbox">
