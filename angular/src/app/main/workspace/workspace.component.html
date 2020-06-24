@@ -156,7 +156,7 @@
         </div>
 
         <div *ngIf="isGranted('Pages.Workspace')" class="row">
-            <div class="col-lg-12 col-md-12">
+            <div class="col-lg-8 col-md-12">
                 <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
                     <div class="kt-portlet__head">
                         <div class="kt-portlet__head-label">
@@ -219,7 +219,7 @@
                 </div>
             </div>
 
-            <!-- <div class="col-lg-4">
+            <div *ngIf="isGranted('Pages.Workspace')" class="col-lg-4">
                 
                 <div class="kt-portlet kt-portlet--skin-solid kt-portlet--solid-primary kt-portlet--head-overlay">
                     <div class="kt-portlet__head kt-portlet__head--noborder">
@@ -324,7 +324,7 @@
                     </div>
                 </div> 
                 
-            </div> -->
+            </div>
         </div>
     </div>
 </div>

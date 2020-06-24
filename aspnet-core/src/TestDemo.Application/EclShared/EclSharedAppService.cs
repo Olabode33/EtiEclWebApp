@@ -25,6 +25,9 @@ using Abp.Runtime.Session;
 using TestDemo.RetailComputation;
 using TestDemo.WholesaleComputation;
 using TestDemo.ObeComputation;
+using TestDemo.WholesaleResults;
+using TestDemo.RetailResults;
+using TestDemo.ObeResults;
 
 namespace TestDemo.EclShared
 {
@@ -56,6 +59,10 @@ namespace TestDemo.EclShared
         private readonly IRepository<AffiliateMacroEconomicVariableOffset> _affiliateMacroVariableRepository;
         //Final Result Tables
         private readonly IRepository<InvestmentEclFinalResult, Guid> _investmentFinalEclResult;
+        private readonly IRepository<InvestmentEclFinalPostOverrideResult, Guid> _investmentFinalEclOverrideResult;
+        private readonly IRepository<WholesaleEclFramworkReportDetail, Guid> _wholesaleFinalEclResult;
+        private readonly IRepository<RetailEclFramworkReportDetail, Guid> _retailFinalEclResult;
+        private readonly IRepository<ObeEclFramworkReportDetail, Guid> _obeFinalEclResult;
         private readonly UserManager _userManager;
         private readonly IBackgroundJobManager _backgroundJobManager;
 
@@ -84,7 +91,11 @@ namespace TestDemo.EclShared
             IRepository<WholesaleEclOverrideApproval, Guid> wholesaleOverrideApprovalRepository,
             IRepository<ObeEclOverrideApproval, Guid> obeOverrideApprovalRepository,
             IRepository<AffiliateMacroEconomicVariableOffset> affiliateMacroVariableRepository,
+            IRepository<InvestmentEclFinalPostOverrideResult, Guid> investmentFinalEclOverrideResult,
             IRepository<InvestmentEclFinalResult, Guid> investmentFinalEclResult,
+            IRepository<WholesaleEclFramworkReportDetail, Guid> wholesaleFinalEclResult,
+            IRepository<RetailEclFramworkReportDetail, Guid> retailFinalEclResult,
+            IRepository<ObeEclFramworkReportDetail, Guid> obeFinalEclResult,
             IBackgroundJobManager backgroundJobManager,
         UserManager userManager)
         {
@@ -114,6 +125,10 @@ namespace TestDemo.EclShared
             _obeOverrideApprovalRepository = obeOverrideApprovalRepository;
             _affiliateMacroVariableRepository = affiliateMacroVariableRepository; 
             _investmentFinalEclResult = investmentFinalEclResult;
+            _investmentFinalEclOverrideResult = investmentFinalEclOverrideResult;
+            _wholesaleFinalEclResult = wholesaleFinalEclResult;
+            _retailFinalEclResult = retailFinalEclResult;
+            _obeFinalEclResult = obeFinalEclResult;
             _backgroundJobManager = backgroundJobManager;
         }
 
@@ -255,18 +270,40 @@ namespace TestDemo.EclShared
 
         public async Task<GetWorkspaceImpairmentSummaryDto> GetWorkspaceImpairmentSummary()
         {
-            double wholesaleExposure = 0;
-            double wholesalePreOverride = 0;
-            double wholesalePostOverride = 0;
-            double retailExposure = 0;
-            double retailPreOverride = 0;
-            double retailPostOverride = 0;
-            double obeExposure = 0;
-            double obePreOverride = 0;
-            double obePostOverride = 0;
-            double? investmentExposure = await _investmentFinalEclResult.GetAll().SumAsync(x => x.Exposure);
-            double? investmentPreOverride = await _investmentFinalEclResult.GetAll().SumAsync(x => x.Impairment);
-            double? investmentPostOverride = await _investmentFinalEclResult.GetAll().SumAsync(x => x.Impairment);
+            var user = await _userManager.GetUserByIdAsync((long)AbpSession.UserId);
+            var userOrganizationUnit = await _userManager.GetOrganizationUnitsAsync(user);
+            //var userSubsChildren = _organizationUnitRepository.GetAll().Where(ou => userSubsidiaries.Any(uou => ou.Code.StartsWith(uou.Code)));
+            var userOrganizationUnitIds = userOrganizationUnit.Select(ou => ou.Id);
+
+            var w_ecl = await _wholesaleEclRepository.GetAll().WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId)).Select(e => e.Id).ToListAsync();
+            var wholesale_results = await _wholesaleFinalEclResult.GetAll().Where(e => w_ecl.Contains((Guid)e.WholesaleEclId)).ToListAsync();
+
+            var r_ecl = await _retailEclRepository.GetAll().WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId)).Select(e => e.Id).ToListAsync();
+            var retail_results = await _retailFinalEclResult.GetAll().Where(e => r_ecl.Contains((Guid)e.RetailEclId)).ToListAsync();
+
+            var o_ecl = await _obeEclRepository.GetAll().WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId)).Select(e => e.Id).ToListAsync();
+            var obe_results = await _obeFinalEclResult.GetAll().Where(e => o_ecl.Contains((Guid)e.ObeEclId)).ToListAsync();
+
+            var i_ecl = await _investmentclRepository.GetAll().WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId)).Select(e => e.Id).ToListAsync();
+            var investment_results = await _investmentFinalEclResult.GetAll().Where(e => i_ecl.Contains((Guid)e.EclId)).ToListAsync();
+            var investment_override_results = await _investmentFinalEclOverrideResult.GetAll().Where(e => i_ecl.Contains((Guid)e.EclId)).ToListAsync();
+
+
+            double? wholesaleExposure = wholesale_results.Sum(e => e.Outstanding_Balance);
+            double? wholesalePreOverride = wholesale_results.Sum(e => e.Impairment_ModelOutput);
+            double? wholesalePostOverride = wholesale_results.Sum(e => e.Overrides_Impairment_Manual);
+
+            double? retailExposure = retail_results.Sum(e => e.Outstanding_Balance);
+            double? retailPreOverride = retail_results.Sum(e => e.Impairment_ModelOutput);
+            double? retailPostOverride = retail_results.Sum(e => e.Overrides_Impairment_Manual);
+
+            double? obeExposure = obe_results.Sum(e => e.Outstanding_Balance);
+            double? obePreOverride = obe_results.Sum(e => e.Impairment_ModelOutput);
+            double? obePostOverride = obe_results.Sum(e => e.Overrides_Impairment_Manual);
+
+            double? investmentExposure = investment_results.Sum(x => x.Exposure);
+            double? investmentPreOverride = investment_results.Sum(x => x.Impairment);
+            double? investmentPostOverride = investment_results.Sum(x => x.Impairment);
 
             return new GetWorkspaceImpairmentSummaryDto
             {
@@ -287,6 +324,7 @@ namespace TestDemo.EclShared
                 InvestmentPostOverride = investmentPostOverride
             };
         }
+
 
         public async Task<PagedResultDto<GetAllEclForWorkspaceDto>> GetAllEclForWorkspace(GetAllEclForWorkspaceInput input)
         {
