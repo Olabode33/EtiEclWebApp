@@ -864,6 +864,34 @@ namespace TestDemo.EclShared
             });
         }
 
-        
+        public async Task ApplyToAllAffiliates(ApplyAssumptionToAllAffiliateDto input)
+        {
+            var ouIds = _organizationUnitRepository.GetAll().Where(e => e.Id != input.FromAffiliateId).Select(e => e.Id);
+            foreach (var item in ouIds)
+            {
+                await _backgroundJobManager.EnqueueAsync<Importing.ApplyAssumptionToAffiliateJob, ApplyAffiliateAssumptionJobArgs>(new ApplyAffiliateAssumptionJobArgs()
+                {
+                    FromAffiliateId = input.FromAffiliateId,
+                    ToAffiliateId = item,
+                    Framework = input.Framework,
+                    Type = input.Type,
+                    User = AbpSession.ToUserIdentifier()
+                });
+            }
+        }
+
+        public async Task ApplyToSelectedAffiliates(ApplyAssumptionToSelectedAffiliateDto input)
+        {
+            await _backgroundJobManager.EnqueueAsync<Importing.ApplyAssumptionToAffiliateJob, ApplyAffiliateAssumptionJobArgs>(new ApplyAffiliateAssumptionJobArgs()
+            {
+                FromAffiliateId = input.FromAffiliateId,
+                ToAffiliateId = input.ToAffiliateId,
+                Framework = input.Framework,
+                Type = input.Type,
+                User = AbpSession.ToUserIdentifier()
+            });
+        }
+
+
     }
 }

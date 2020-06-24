@@ -1,3 +1,4 @@
+import { ApplyAssumptionToAllAffiliateDto, ApplyAssumptionToSelectedAffiliateDto } from './../../../../shared/service-proxies/service-proxies';
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotifyService } from '@abp/notify/notify.service';
@@ -20,6 +21,7 @@ import { LgdInputAssumptionsComponent } from '../_subs/lgdInputAssumptions/lgdIn
 import { PdInputAssumptionsComponent } from '../_subs/pdInputAssumptions/pdInputAssumptions.component';
 import { EditPortfolioReportDateComponent } from '../_subs/edit-portfolioReportDate/edit-portfolioReportDate.component';
 import { EditAssumptionModalComponent } from '../_subs/edit-assumption-modal/edit-assumption-modal.component';
+import { OuLookupTableModalComponent } from '@app/main/eclShared/ou-lookup-modal/ou-lookup-table-modal.component';
 
 @Component({
     selector: 'app-view-affiliateAssumptions',
@@ -35,6 +37,7 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
     @ViewChild('lgdInputAssumptionTag', {static: true}) lgdInputAssumptionTag: LgdInputAssumptionsComponent;
     @ViewChild('pdInputAssumptionTag', {static: true}) pdInputAssumptionTag: PdInputAssumptionsComponent;
     @ViewChild('editReportDateModal', {static: true}) editReportDateModal: EditPortfolioReportDateComponent;
+    @ViewChild('ouLookupTableModal', { static: true }) ouLookupTableModal: OuLookupTableModalComponent;
 
     loadingAssumptions = false;
     loading = false;
@@ -54,6 +57,8 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
     selectedAssumption = '';
     reportDate = moment().endOf('month');
     affiliateAssumption: CreateOrEditAffiliateAssumptionsDto = new CreateOrEditAffiliateAssumptionsDto();
+    selectedPortfolioId;
+    selectedAssumptionId;
 
 
     constructor(
@@ -94,6 +99,8 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
     selectPortfolioAssumption(portfolio: FrameworkEnum, assumption: AssumptionTypeEnum): void {
         this.selectedPortfolio = portfolio.toString();
         this.selectedAssumption = assumption.toString();
+        this.selectedPortfolioId = portfolio;
+        this.selectedAssumptionId = assumption;
         switch (assumption) {
             case AssumptionTypeEnum.General:
                 if (portfolio !== FrameworkEnum.Investments) {
@@ -114,10 +121,6 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
                 }
                 break;
         }
-    }
-
-    editAssumption(): void {
-        this.notify.info('Yet to be implemented!!!');
     }
 
     toggleAccordion(event, index) {
@@ -217,5 +220,48 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
 
     navigateToApproveAssumptions(): void {
         this._router.navigate(['../../approve', this._affiliateId], { relativeTo: this._activatedRoute});
+    }
+
+    applyToAll(): void {
+        this.message.confirm(
+            this.l('ApplySelectedModelAssumptionToAllAffiliate', FrameworkEnum[this.selectedPortfolio], this.l(AssumptionTypeEnum[this.selectedAssumption]), this.selectedAffiliate),
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    let dto = new ApplyAssumptionToAllAffiliateDto();
+                    dto.framework = this.selectedPortfolioId;
+                    dto.type = this.selectedAssumptionId;
+                    dto.fromAffiliateId = this._affiliateId;
+                    this._eclSharedServiceProxy.applyToAllAffiliates(dto)
+                        .subscribe(() => {
+                            this.notify.success(this.l('ApplyProcessStarted'));
+                        });
+                }
+            }
+        );
+    }
+
+    selectAffiliate(): void {
+        this.ouLookupTableModal.show();
+    }
+
+    applyToSelected(): void {
+        this.message.confirm(
+            this.l('ApplySelectedModelAssumptionToSelectedAffiliate', FrameworkEnum[this.selectedPortfolio], this.l(AssumptionTypeEnum[this.selectedAssumption]), this.selectedAffiliate, this.ouLookupTableModal.displayName),
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    let dto = new ApplyAssumptionToSelectedAffiliateDto();
+                    dto.framework = this.selectedPortfolioId;
+                    dto.type = this.selectedAssumptionId;
+                    dto.fromAffiliateId = this._affiliateId;
+                    dto.toAffiliateId = this.ouLookupTableModal.id;
+                    this._eclSharedServiceProxy.applyToSelectedAffiliates(dto)
+                        .subscribe(() => {
+                            this.notify.success(this.l('ApplyProcessStarted'));
+                        });
+                }
+            }
+        );
     }
 }

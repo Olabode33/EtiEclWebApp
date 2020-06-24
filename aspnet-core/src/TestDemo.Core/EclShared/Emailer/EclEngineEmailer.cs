@@ -271,6 +271,25 @@ namespace TestDemo.EclShared.Emailer
             await ReplaceBodyAndSend(user.EmailAddress, L("EmailAffiliateCopied_Subject", fromAffiliate), emailTemplate, mailMessage);
         }
 
+        [UnitOfWork]
+        public virtual async Task SendEmailAssumptionAppiedAsync(User user, string type, string fromAffiliate, string toAffiliate, string link)
+        {
+
+            var emailTemplate = GetTitleAndSubTitle(user.TenantId, L("EmailAssumptionApplied_Title"), L("EmailAssumptionApplied_SubTitle", type, fromAffiliate, toAffiliate));
+            var mailMessage = new StringBuilder();
+
+            mailMessage.AppendLine("<b>Dear " + user.Name + " " + user.Surname + ",<br />");
+
+            mailMessage.AppendLine(L("EmailAssumptionApplied_Body", type, fromAffiliate, toAffiliate) + "<br /><br />");
+            mailMessage.AppendLine(L("Email_ClickTheLinkBelowToView") + "<br /><br />");
+            mailMessage.AppendLine("<a style=\"" + _emailButtonStyle + "\" bg-color=\"" + _emailButtonColor + "\" href=\"" + link + "\">" + L("View") + "</a>");
+            mailMessage.AppendLine("<br />");
+            mailMessage.AppendLine("<br />");
+            mailMessage.AppendLine("<br />");
+
+            await ReplaceBodyAndSend(user.EmailAddress, L("EmailAssumptionApplied_Subject", fromAffiliate), emailTemplate, mailMessage);
+        }
+
 
 
         private string GetTenancyNameOrNull(int? tenantId)

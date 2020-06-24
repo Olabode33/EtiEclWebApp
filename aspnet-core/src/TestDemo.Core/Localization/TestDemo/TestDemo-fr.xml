@@ -2,6 +2,15 @@
 <localizationDictionary culture="fr">
   <texts>
 
+    <text name="ApplyProcessStarted">Applying assumptions, you'll be notified when the process is completd.</text>
+    <text name="ApplySelectedModelAssumptionToAllAffiliate">Apply {0} {1} for {2} to all other affiliate</text>
+    <text name="ApplySelectedModelAssumptionToSelectedAffiliate">Apply {0} {1} for {2} to {3}</text>
+
+    <text name="EmailAssumptionApplied_Subject">Assumptions Applied</text>
+    <text name="EmailAssumptionApplied_Title">Affiliate applied!.</text>
+    <text name="EmailAssumptionApplied_SubTitle">{0} from {1} appied to {2}</text>
+    <text name="EmailAssumptionApplied_Body">{0} from {1} was successfully applied to {2}.</text>
+
     <text name="EmailInvalidDataUploadComplete_Subject">{0} data upload completed with invalid data</text>
     <text name="EmailInvalidDataUploadComplete_Title">Data Upload Completed with invalid data!.</text>
     <text name="EmailInvalidDataUploadComplete_SubTitle">{0} data upload completed for {1} with invalid data</text>

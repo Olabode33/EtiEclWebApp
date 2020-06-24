@@ -6,6 +6,7 @@ namespace TestDemo.EclShared.Emailer
     public interface IEclEngineEmailer
     {
         Task SendEmailAffiliateCopiedAsync(User user, string fromAffiliate, string toAffiliate, string link);
+        Task SendEmailAssumptionAppiedAsync(User user, string type, string fromAffiliate, string toAffiliate, string link);
         Task SendEmailApprovedAsync(User user, string type, string affiliateName, string link);
         Task SendEmailClosedAsync(User user, string type, string affiliateName, string link);
         Task SendEmailDataUploadCompleteAsync(User user, string uploadType, string affiliateName, string link);

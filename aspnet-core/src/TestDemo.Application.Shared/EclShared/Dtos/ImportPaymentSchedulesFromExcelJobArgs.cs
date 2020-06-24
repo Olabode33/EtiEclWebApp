@@ -46,4 +46,14 @@ namespace TestDemo.EclShared.Dtos
         public long ToAffiliateId { get; set; }
         public UserIdentifier User { get; set; }
     }
+
+    [Serializable]
+    public class ApplyAffiliateAssumptionJobArgs
+    {
+        public long FromAffiliateId { get; set; }
+        public long ToAffiliateId { get; set; }
+        public UserIdentifier User { get; set; }
+        public AssumptionTypeEnum Type { get; set; }
+        public FrameworkEnum Framework { get; set; }
+    }
 }

@@ -111,6 +111,8 @@ namespace TestDemo.EclShared
         None, Wholesale, Retail, Obe, CalibrateBehaviouralTerm, CalibrateCcfSummary, CalibrateHaircut, CalibrateRecoveryRate, CalibratePdCrDr, MacroAnalysis
     }
 
+    
+
     public static class EclEnums
     {
         public const string Assumption = "Assumption";
