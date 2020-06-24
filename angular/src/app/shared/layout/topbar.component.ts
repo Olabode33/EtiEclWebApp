@@ -6,7 +6,7 @@ import { AppAuthService } from '@app/shared/common/auth/app-auth.service';
 import { LinkedAccountService } from '@app/shared/layout/linked-account.service';
 import { AppConsts } from '@shared/AppConsts';
 import { ThemesLayoutBaseComponent } from '@app/shared/layout/themes/themes-layout-base.component';
-import { ChangeUserLanguageDto, LinkedUserDto, ProfileServiceProxy, UserLinkServiceProxy } from '@shared/service-proxies/service-proxies';
+import { ChangeUserLanguageDto, LinkedUserDto, ProfileServiceProxy, UserLinkServiceProxy, CommonLookupServiceProxy, NameValueDtoOfInt64 } from '@shared/service-proxies/service-proxies';
 import * as _ from 'lodash';
 
 @Component({
@@ -24,6 +24,7 @@ export class TopBarComponent extends ThemesLayoutBaseComponent implements OnInit
     shownLoginName = '';
     tenancyName = '';
     userName = '';
+    fullName = '';
     profilePicture = AppConsts.appBaseUrl + '/assets/common/images/default-profile-picture.png';
     defaultLogo = AppConsts.appBaseUrl + '/assets/common/images/app-logo-on-' + this.currentTheme.baseSettings.menu.asideSkin + '.svg';
     recentlyLinkedUsers: LinkedUserDto[];
@@ -31,6 +32,8 @@ export class TopBarComponent extends ThemesLayoutBaseComponent implements OnInit
     remoteServiceBaseUrl: string = AppConsts.remoteServiceBaseUrl;
     chatConnected = false;
     isQuickThemeSelectEnabled: boolean = this.setting.getBoolean('App.UserManagement.IsQuickThemeSelectEnabled');
+
+    userAffiliate: NameValueDtoOfInt64 = new NameValueDtoOfInt64();
 
     constructor(
         injector: Injector,
@@ -40,7 +43,8 @@ export class TopBarComponent extends ThemesLayoutBaseComponent implements OnInit
         private _userLinkServiceProxy: UserLinkServiceProxy,
         private _authService: AppAuthService,
         private _impersonationService: ImpersonationService,
-        private _linkedAccountService: LinkedAccountService
+        private _linkedAccountService: LinkedAccountService,
+        private _commonServiceProxy: CommonLookupServiceProxy
     ) {
         super(injector);
     }
@@ -57,6 +61,11 @@ export class TopBarComponent extends ThemesLayoutBaseComponent implements OnInit
         this.getRecentlyLinkedUsers();
 
         this.registerToEvents();
+        this._commonServiceProxy.getUserAffiliates().subscribe(result => {
+            if (result.length > 0) {
+                this.userAffiliate = result[0];
+            }
+        });
     }
 
     registerToEvents() {
@@ -101,6 +110,7 @@ export class TopBarComponent extends ThemesLayoutBaseComponent implements OnInit
         this.shownLoginName = this.appSession.getShownLoginName();
         this.tenancyName = this.appSession.tenancyName;
         this.userName = this.appSession.user.userName;
+        this.fullName = this.appSession.user.name + ' ' + this.appSession.user.surname;
     }
 
     getShownUserName(linkedUser: LinkedUserDto): string {

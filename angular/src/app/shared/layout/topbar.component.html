@@ -53,7 +53,9 @@
             <div class="kt-header__topbar-user">
                 <i *ngIf="isImpersonatedLogin" class="fa fa-reply kt-font-danger mr-2"></i>
                 <span class="kt-header__topbar-username kt-hidden-mobile">
-                    <span *ngIf="isMultiTenancyEnabled" class="tenancy-name">{{tenancyName}}\</span>{{userName}}
+                    <span *ngIf="isMultiTenancyEnabled" class="tenancy-name">{{tenancyName}}\</span>
+                    <span *ngIf="userAffiliate" class="tenancy-name">{{userAffiliate.name}}\</span>
+                    {{userName}}
                 </span>
                 <img *ngIf="profilePicture" class="header-profile-picture m--img-rounded m--marginless m--img-centered" alt="Pic" [src]="profilePicture">
             </div>
@@ -64,7 +66,9 @@
                     <img class="" alt="Pic" [src]="profilePicture">
                 </div>
                 <div class="kt-user-card__name">
-                    <span *ngIf="isMultiTenancyEnabled" class="tenancy-name">{{tenancyName}}\</span>{{userName}}
+                    <span *ngIf="isMultiTenancyEnabled" class="tenancy-name">{{tenancyName}}\</span>
+                    <span *ngIf="userAffiliate" class="tenancy-name">{{userAffiliate.name}}\</span>
+                    {{fullName}}
                 </div>
             </div>
             <div class="kt-notification">
