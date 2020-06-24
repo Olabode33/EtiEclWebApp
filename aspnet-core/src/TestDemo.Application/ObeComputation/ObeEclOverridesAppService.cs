@@ -386,7 +386,7 @@ namespace TestDemo.ObeComputation
 
             //Validate cutoff date
             var cutOffDate = await SettingManager.GetSettingValueAsync<DateTime>(EclSettings.OverrideCutOffDate);
-            if (cutOffDate.Date <= DateTime.Now.Date)
+            if (cutOffDate.Date >= DateTime.Now.Date)
             {
                 output.Status = true;
                 output.Message = "";

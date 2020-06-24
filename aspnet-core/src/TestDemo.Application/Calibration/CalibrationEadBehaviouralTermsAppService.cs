@@ -374,7 +374,7 @@ namespace TestDemo.Calibration
             if (calibration.Status == CalibrationStatusEnum.Completed)
             {
                 //Call apply to ecl job
-                var old = await _calibrationRepository.FirstOrDefaultAsync(x => x.Status == CalibrationStatusEnum.AppliedToEcl);
+                var old = await _calibrationRepository.FirstOrDefaultAsync(x => x.Status == CalibrationStatusEnum.AppliedToEcl && x.OrganizationUnitId == calibration.OrganizationUnitId);
                 if (old != null)
                 {
                     old.Status = CalibrationStatusEnum.Completed;
