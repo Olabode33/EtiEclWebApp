@@ -26,6 +26,7 @@ using TestDemo.Configuration;
 using TestDemo.EntityFrameworkCore;
 using TestDemo.MultiTenancy;
 using Newtonsoft.Json.Linq;
+using TestDemo.EclLibrary.Workers;
 
 namespace TestDemo.Web.Startup
 {
@@ -70,6 +71,12 @@ namespace TestDemo.Web.Startup
                 var workManager = IocManager.Resolve<IBackgroundWorkerManager>();
                 workManager.Add(IocManager.Resolve<SubscriptionExpirationCheckWorker>());
                 workManager.Add(IocManager.Resolve<SubscriptionExpireEmailNotifierWorker>());
+                workManager.Add(IocManager.Resolve<RunningRegisterCheckWorker>());
+            } 
+            else
+            {
+                var workManager = IocManager.Resolve<IBackgroundWorkerManager>();
+                workManager.Add(IocManager.Resolve<RunningRegisterCheckWorker>());
             }
 
             ConfigureExternalAuthProviders();

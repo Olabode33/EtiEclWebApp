@@ -42,11 +42,16 @@ using TestDemo.InvestmentComputation;
 using TestDemo.CalibrationInput;
 using TestDemo.CalibrationResult;
 using TestDemo.Calibration.Approvals;
+using TestDemo.EclLibrary.Workers.Trackers;
 
 namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        
+        public virtual DbSet<TrackRunningGuidRegister> TrackRunningGuidRegister { get; set; }
+        public virtual DbSet<TrackRunningIntRegister> TrackRunningIntRegister { get; set; }
+        
 
         public virtual DbSet<RetailEclFramworkReportDetail> RetailEclFramworkReportDetail { get; set; }
         public virtual DbSet<WholesaleEclFramworkReportDetail> WholesaleEclFramworkReportDetail { get; set; }

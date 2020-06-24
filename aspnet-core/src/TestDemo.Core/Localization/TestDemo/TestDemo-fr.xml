@@ -2,15 +2,27 @@
 <localizationDictionary culture="fr">
   <texts>
 
-    <text name="WorkspaceTitle">Accueil</text>
     <text name="EmailInvalidDataUploadComplete_Subject">{0} data upload completed with invalid data</text>
     <text name="EmailInvalidDataUploadComplete_Title">Data Upload Completed with invalid data!.</text>
     <text name="EmailInvalidDataUploadComplete_SubTitle">{0} data upload completed for {1} with invalid data</text>
     <text name="EmailInvalidDataUploadComplete_Body">{0} data upload for {1} has been completed. There are some invalid data.</text>
     <text name="Email_ClickTheLinkBelowToDownloadTempNote">Note: This is a temporary file and would only be available for 24hours after receiving this email.</text>
 
+    <text name="EmailComputationFailed_Subject">{0} computation failed</text>
+    <text name="EmailComputationFailed_Title">{0} computation failed!.</text>
+    <text name="EmailComputationFailed_SubTitle">{0} for {1} computation failed</text>
+    <text name="EmailComputationFailed_Body">{0} for {1} failed to compute. Please see reason below:</text>
+    <text name="EmailComputationFailed_Reason">Reason: {0}</text>
+
+    <text name="AnErrorOccured">An error occured!</text>
+
     <text name="ClickToSeeInvalidDataImport">Data import process has been completed. There are some invalid data. Click to see Invalid data imports.</text>
-    
+
+    <text name="CollateralProjectionBest">Collateral Projection Best</text>
+    <text name="CollateralProjectionOptimistic">Collateral Projection Optimistic</text>
+    <text name="CollateralProjectionDownturn">Collateral Projection Downturn</text>
+
+    <text name="WorkspaceTitle">Accueil</text>
     <text name = "EmailDataUploadComplete_Subject"> {0} téléchargement des données terminé </text>
     <text name = "EmailDataUploadComplete_Title"> Téléchargement des données terminé!. </text>
     <text name = "EmailDataUploadComplete_SubTitle"> {0} téléchargement des données terminé pour {1} </text>

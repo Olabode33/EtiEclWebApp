@@ -97,7 +97,7 @@ namespace TestDemo.EclShared.Emailer
             mailMessage.AppendLine("<br />");
             mailMessage.AppendLine(L("Email_ClickTheLinkBelowToDownloadTempNote"));
 
-            await ReplaceBodyAndSend(user.EmailAddress, L("EmailDataUploadComplete_Subject", uploadType), emailTemplate, mailMessage);
+            await ReplaceBodyAndSend(user.EmailAddress, L("EmailInvalidDataUploadComplete_Subject", uploadType), emailTemplate, mailMessage);
         }
 
         [UnitOfWork]
@@ -174,6 +174,27 @@ namespace TestDemo.EclShared.Emailer
             mailMessage.AppendLine("<br />");
 
             await ReplaceBodyAndSend(user.EmailAddress, L("EmailComputationCompleted_Subject", type), emailTemplate, mailMessage);
+        }
+
+        [UnitOfWork]
+        public virtual async Task SendEmailRunFailedAsync(User user, string type, string affiliateName, string link, string reason)
+        {
+            var cleanedReason = string.IsNullOrWhiteSpace(reason) ? L("AnErrorOccured") : reason;
+
+            var emailTemplate = GetTitleAndSubTitle(user.TenantId, L("EmailComputationFailed_Title", type), L("EmailComputationFailed_SubTitle", type, affiliateName));
+            var mailMessage = new StringBuilder();
+
+            mailMessage.AppendLine("<b>Dear " + user.Name + " " + user.Surname + ",<br />");
+
+            mailMessage.AppendLine(L("EmailComputationFailed_Body", type, affiliateName) + "<br /><br />");
+            mailMessage.AppendLine(L("EmailComputationFailed_Reason", cleanedReason) + "<br /><br />");
+            mailMessage.AppendLine(L("Email_ClickTheLinkBelowToView") + "<br /><br />");
+            mailMessage.AppendLine("<a style=\"" + _emailButtonStyle + "\" bg-color=\"" + _emailButtonColor + "\" href=\"" + link + "\">" + L("View") + "</a>");
+            mailMessage.AppendLine("<br />");
+            mailMessage.AppendLine("<br />");
+            mailMessage.AppendLine("<br />");
+
+            await ReplaceBodyAndSend(user.EmailAddress, L("EmailComputationFailed_Subject", type), emailTemplate, mailMessage);
         }
 
         [UnitOfWork]

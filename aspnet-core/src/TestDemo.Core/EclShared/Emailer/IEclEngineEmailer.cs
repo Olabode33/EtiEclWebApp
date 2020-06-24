@@ -13,6 +13,7 @@ namespace TestDemo.EclShared.Emailer
         Task SendEmailReopenedAsync(User user, string type, string affiliateName, string link);
         Task SendEmailReportGeneratedAsync(User user, string type, string affiliateName, string link);
         Task SendEmailRunCompletedAsync(User user, string type, string affiliateName, string link);
+        Task SendEmailRunFailedAsync(User user, string type, string affiliateName, string link, string reason);
         Task SendEmailSubmittedForAdditionalApprovalAsync(User user, string type, string affiliateName, string link);
         Task SendEmailSubmittedForApprovalAsync(User user, string type, string affiliateName, string link);
     }

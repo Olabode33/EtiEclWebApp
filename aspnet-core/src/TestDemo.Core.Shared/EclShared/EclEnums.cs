@@ -21,7 +21,7 @@ namespace TestDemo.EclShared
 
     public enum EclStatusEnum
     {
-        Draft, Submitted, Approved, Running, PreOverrideComplete, PostOverrideComplete, ComputedEAD, ComputedLGD, ComputedECL, Completed, Closed, AwaitngAdditionApproval, QueuePostOverride
+        Draft, Submitted, Approved, Running, PreOverrideComplete, PostOverrideComplete, ComputedEAD, ComputedLGD, ComputedECL, Completed, Closed, AwaitngAdditionApproval, QueuePostOverride, Failed
     }
 
     public enum UploadDocTypeEnum
@@ -104,6 +104,11 @@ namespace TestDemo.EclShared
         Wholesale,
         Obe,
         Investment
+    }
+
+    public enum TrackTypeEnum
+    {
+        None, Wholesale, Retail, Obe, CalibrateBehaviouralTerm, CalibrateCcfSummary, CalibrateHaircut, CalibrateRecoveryRate, CalibratePdCrDr, MacroAnalysis
     }
 
     public static class EclEnums
