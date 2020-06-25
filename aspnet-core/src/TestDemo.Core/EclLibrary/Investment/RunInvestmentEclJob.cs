@@ -12,6 +12,7 @@ using System.Text;
 using TestDemo.Authorization.Users;
 using TestDemo.Configuration;
 using TestDemo.EclLibrary.BaseEngine.Dtos;
+using TestDemo.EclLibrary.Jobs;
 using TestDemo.EclShared;
 using TestDemo.EclShared.Emailer;
 using TestDemo.Investment;
@@ -29,6 +30,7 @@ namespace TestDemo.EclLibrary.Investment
         private readonly IRepository<User, long> _userRepository;
         private readonly IRepository<OrganizationUnit, long> _ouRepository;
         private readonly IRepository<InvestmentEcl, Guid> _eclRepository;
+        private readonly IBackgroundJobManager _backgroundJobManager;
 
         public RunInvestmentEclJob(IEclCustomRepository investmentEclRepository,
             IEclEngineEmailer emailer,
@@ -36,6 +38,7 @@ namespace TestDemo.EclLibrary.Investment
             IRepository<User, long> userRepository,
             IRepository<OrganizationUnit, long> ouRepository,
             IRepository<InvestmentEcl, Guid> eclRepository,
+            IBackgroundJobManager backgroundJobManager,
             IAppNotifier appNotifier)
         {
             _investmentEclRepository = investmentEclRepository;
@@ -45,13 +48,23 @@ namespace TestDemo.EclLibrary.Investment
             _userRepository = userRepository;
             _ouRepository = ouRepository;
             _eclRepository = eclRepository;
+            _backgroundJobManager = backgroundJobManager;
         }
 
         [UnitOfWork]
         public override void Execute(RunEclJobArgs args)
         {
+            var ecl = _eclRepository.FirstOrDefault(args.EclId);
+
             _investmentEclRepository.RunInvestmentPreOverrideEclStoredProcedure(args.EclId);
             SendEmailAlert(args);
+
+            _backgroundJobManager.Enqueue<UpdateFacilityStageTrackerJob, UpdateFacilityStageTrackerJobArgs>(new UpdateFacilityStageTrackerJobArgs()
+            {
+                EclId = args.EclId,
+                EclType = FrameworkEnum.Investments,
+                OrganizationUnitId = ecl.OrganizationUnitId
+            });
             // Send notification to user.
             //AsyncHelper.RunSync(() => _appNotifier.EclClosed(args.UserIdentifier));
         }

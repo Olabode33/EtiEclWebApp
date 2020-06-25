@@ -1,6 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="fr">
   <texts>
+    <text name="LastStage">Last Stage</text>
+    <text name="AsAt">As At</text>
+    <text name="DaysAgo">Days ago</text>
+    <text name="Facility90DaysCheck">90days Check</text>
+    <text name="NewFacilityNotTracked">This is a new facility</text>
 
     <text name="ApplyProcessStarted">Applying assumptions, you'll be notified when the process is completd.</text>
     <text name="ApplySelectedModelAssumptionToAllAffiliate">Apply {0} {1} for {2} to all other affiliate</text>

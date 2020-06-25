@@ -2330,6 +2330,27 @@ namespace TestDemo.Migrations
                     b.ToTable("EclConfigurations");
                 });
 
+            modelBuilder.Entity("TestDemo.EclLibrary.Workers.Trackers.TrackFacilityStage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Facility");
+
+                    b.Property<int>("Framework");
+
+                    b.Property<DateTime?>("LastReportingDate");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<int?>("Stage");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TrackFacilityStage");
+                });
+
             modelBuilder.Entity("TestDemo.EclLibrary.Workers.Trackers.TrackRunningGuidRegister", b =>
                 {
                     b.Property<int>("Id")

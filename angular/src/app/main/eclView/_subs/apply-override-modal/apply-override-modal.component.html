@@ -12,83 +12,101 @@
             </div>
             <div class="modal-body">
                 <form novalidate>
-                    <div [hidden]="reviewMode || viewOnlyMode" class="row">
-                        <div class="form-group  col-md-6">
-                            <label>{{l('SelectAccount')}}</label>
-                            <div></div>
-                            <p-autoComplete [(ngModel)]="selectedAccount" id="SelectAccount"
-                                [suggestions]="filteredAccounts" (completeMethod)="searchBooks($event)" field="name"
-                                placeholder="Accounts" [minLength]="1" name="SelectAccount"
-                                inputStyleClass="form-control" styleClass="width-percent-100">
-                            </p-autoComplete>
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <div [hidden]="reviewMode || viewOnlyMode" class="row">
+                                <div class="form-group  col-md-6">
+                                    <label>{{l('SelectAccount')}}</label>
+                                    <div></div>
+                                    <p-autoComplete [(ngModel)]="selectedAccount" id="SelectAccount"
+                                        [suggestions]="filteredAccounts" (completeMethod)="searchBooks($event)" field="name"
+                                        placeholder="Accounts" [minLength]="1" name="SelectAccount"
+                                        inputStyleClass="form-control" styleClass="width-percent-100">
+                                    </p-autoComplete>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>&nbsp;</label>
+                                    <div></div>
+                                    <button (click)="getRecordDetails()" type="button" class="btn btn-success"
+                                        *ngIf="selectedAccount !== undefined">
+                                        <i class="fa fa-check" style="font-size: 1.2rem !important;"></i>
+                                        {{l("Select")}}
+                                    </button>
+                                </div>
+                            </div>
+        
+                            <div [hidden]="reviewMode || viewOnlyMode" class="kt-separator kt-separator--border-dashed"></div>
+        
+                            <h5>{{l('ContractDetails')}}</h5>
+                            <p *ngIf="dataSource === undefined">{{l('NoContractSelected')}}</p>
+                            <div *ngIf="dataSource !== null" class="row">
+                                <div *ngIf="hasProp('assetDescription')" class="col-lg-4">
+                                    <label class="control-label">{{l('AssetDescription')}}</label>
+                                    <p class="kt-font-boldest">{{dataSource.assetDescription}}</p>
+                                </div>
+                                <div *ngIf="hasProp('assetType')" class="col-lg-4">
+                                    <label class="control-label">{{l('AssetType')}}</label>
+                                    <p class="kt-font-boldest">{{dataSource.assetType}}</p>
+                                </div>
+                                <div *ngIf="hasProp('currentRating')" class="col-lg-4">
+                                    <label class="control-label">{{l('CurrentRating')}}</label>
+                                    <p class="kt-font-boldest">{{dataSource.currentRating}}</p>
+                                </div>
+                                
+                                <div *ngIf="hasProp('contractNo')" class="col-lg-4">
+                                    <label class="control-label">{{l('ContractNo')}}</label>
+                                    <p class="kt-font-boldest">{{dataSource.contractNo}}</p>
+                                </div>
+                                <div *ngIf="hasProp('accountNo')" class="col-lg-4">
+                                    <label class="control-label">{{l('AccountNo')}}</label>
+                                    <p class="kt-font-boldest">{{dataSource.accountNo}}</p>
+                                </div>
+                                <div *ngIf="hasProp('customerNo')" class="col-lg-4">
+                                    <label class="control-label">{{l('CustomerNo')}}</label>
+                                    <p class="kt-font-boldest">{{dataSource.customerNo}}</p>
+                                </div>
+        
+                                
+                                <div *ngIf="hasProp('productType')" class="col-lg-4">
+                                    <label class="control-label">{{l('ProductType')}}</label>
+                                    <p class="kt-font-boldest">{{dataSource.productType}}</p>
+                                </div>
+                                <div *ngIf="hasProp('sector')" class="col-lg-4">
+                                    <label class="control-label">{{l('Sector')}}</label>
+                                    <p class="kt-font-boldest">{{dataSource.sector}}</p>
+                                </div>
+                                <div *ngIf="hasProp('segment')" class="col-lg-4">
+                                    <label class="control-label">{{l('Segment')}}</label>
+                                    <p class="kt-font-boldest">{{dataSource.segment}}</p>
+                                </div>
+                                
+                                <div *ngIf="hasProp('outstanding_Balance')" class="col-lg-4">
+                                    <label class="control-label">{{l('Exposure')}}</label>
+                                    <p class="kt-font-boldest">{{dataSource.outstanding_Balance | number: '1.2-2'}}</p>
+                                </div>
+                                <div *ngIf="hasProp('stage')" class="col-lg-4">
+                                    <label class="control-label">{{l('Stage')}}</label>
+                                    <p class="kt-font-boldest">{{dataSource.stage}}</p>
+                                </div>
+                                <div *ngIf="hasProp('impairment')" class="col-lg-4">
+                                    <label class="control-label">{{l('Impairment')}}</label>
+                                    <p class="kt-font-boldest">{{dataSource.impairment | number: '1.2-2'}}</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-4">
-                            <label>&nbsp;</label>
-                            <div></div>
-                            <button (click)="getRecordDetails()" type="button" class="btn btn-success"
-                                *ngIf="selectedAccount !== undefined">
-                                <i class="fa fa-check" style="font-size: 1.2rem !important;"></i>
-                                {{l("Select")}}
-                            </button>
-                        </div>
-                    </div>
-
-                    <div [hidden]="reviewMode || viewOnlyMode" class="kt-separator kt-separator--border-dashed"></div>
-
-                    <h5>{{l('ContractDetails')}}</h5>
-                    <p *ngIf="dataSource === undefined">{{l('NoContractSelected')}}</p>
-                    <div *ngIf="dataSource !== null" class="row">
-                        <div *ngIf="hasProp('assetDescription')" class="col-lg-3">
-                            <label class="control-label">{{l('AssetDescription')}}</label>
-                            <p class="kt-font-boldest">{{dataSource.assetDescription}}</p>
-                        </div>
-                        <div *ngIf="hasProp('assetType')" class="col-lg-3">
-                            <label class="control-label">{{l('AssetType')}}</label>
-                            <p class="kt-font-boldest">{{dataSource.assetType}}</p>
-                        </div>
-                        <div *ngIf="hasProp('currentRating')" class="col-lg-3">
-                            <label class="control-label">{{l('CurrentRating')}}</label>
-                            <p class="kt-font-boldest">{{dataSource.currentRating}}</p>
-                        </div>
-                        
-                        <div *ngIf="hasProp('contractNo')" class="col-lg-3">
-                            <label class="control-label">{{l('ContractNo')}}</label>
-                            <p class="kt-font-boldest">{{dataSource.contractNo}}</p>
-                        </div>
-                        <div *ngIf="hasProp('accountNo')" class="col-lg-3">
-                            <label class="control-label">{{l('AccountNo')}}</label>
-                            <p class="kt-font-boldest">{{dataSource.accountNo}}</p>
-                        </div>
-                        <div *ngIf="hasProp('customerNo')" class="col-lg-3">
-                            <label class="control-label">{{l('CustomerNo')}}</label>
-                            <p class="kt-font-boldest">{{dataSource.customerNo}}</p>
-                        </div>
-
-                        
-                        <div *ngIf="hasProp('productType')" class="col-lg-3">
-                            <label class="control-label">{{l('ProductType')}}</label>
-                            <p class="kt-font-boldest">{{dataSource.productType}}</p>
-                        </div>
-                        <div *ngIf="hasProp('sector')" class="col-lg-3">
-                            <label class="control-label">{{l('Sector')}}</label>
-                            <p class="kt-font-boldest">{{dataSource.sector}}</p>
-                        </div>
-                        <div *ngIf="hasProp('segment')" class="col-lg-3">
-                            <label class="control-label">{{l('Segment')}}</label>
-                            <p class="kt-font-boldest">{{dataSource.segment}}</p>
-                        </div>
-                        
-                        <div *ngIf="hasProp('outstanding_Balance')" class="col-lg-3">
-                            <label class="control-label">{{l('Exposure')}}</label>
-                            <p class="kt-font-boldest">{{dataSource.outstanding_Balance | number: '1.2-2'}}</p>
-                        </div>
-                        <div *ngIf="hasProp('stage')" class="col-lg-3">
-                            <label class="control-label">{{l('Stage')}}</label>
-                            <p class="kt-font-boldest">{{dataSource.stage}}</p>
-                        </div>
-                        <div *ngIf="hasProp('impairment')" class="col-lg-3">
-                            <label class="control-label">{{l('Impairment')}}</label>
-                            <p class="kt-font-boldest">{{dataSource.impairment | number: '1.2-2'}}</p>
+                        <div class="col-lg-3">
+                            <h5>{{l('Facility90DaysCheck')}}</h5>
+                            <div *ngIf="!facility90dayCheck && dataSource !== null" style="border: 1px solid #e2e5ec; border-radius: 10px; padding: 10px;">
+                                <label class="control-label">{{l('NewFacilityNotTracked')}}</label>
+                            </div>
+                            <div *ngIf="facility90dayCheck"  [ngClass]="{'text-danger': daysAgo > 90}" 
+                                    style="border: 1px solid #e2e5ec; border-radius: 10px; padding: 10px;">
+                                <label class="control-label">{{l('LastStage')}}</label>
+                                <p class="kt-font-boldest">{{facility90dayCheck.stage}}</p>
+                                <label class="control-label">{{l('AsAt')}}</label>
+                                <p class="kt-font-boldest">{{facility90dayCheck.lastReportingDate | momentFormat:'LL'}}</p>
+                                <span class="kt-font-boldest">{{daysAgo + ' ' }}</span>{{l('DaysAgo')}}
+                            </div>
                         </div>
                     </div>
 

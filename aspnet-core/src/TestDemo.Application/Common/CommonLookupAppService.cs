@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
@@ -10,9 +11,14 @@ using Abp.Linq.Extensions;
 using Abp.Organizations;
 using Microsoft.EntityFrameworkCore;
 using TestDemo.Common.Dto;
+using TestDemo.EclLibrary.Workers.Trackers;
 using TestDemo.EclShared;
 using TestDemo.Editions;
 using TestDemo.Editions.Dto;
+using TestDemo.Investment;
+using TestDemo.OBE;
+using TestDemo.Retail;
+using TestDemo.Wholesale;
 
 namespace TestDemo.Common
 {
@@ -22,14 +28,29 @@ namespace TestDemo.Common
         private readonly EditionManager _editionManager;
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
         private readonly IRepository<MacroeconomicVariable, int> _macroeconomicVariableRepository;
+        private readonly IRepository<TrackFacilityStage> _facilityStageTrackerRepository;
+        private readonly IRepository<RetailEcl, Guid> _retailEclRepository;
+        private readonly IRepository<ObeEcl, Guid> _obeEclRepository;
+        private readonly IRepository<InvestmentEcl, Guid> _investmentEclRepository;
+        private readonly IRepository<WholesaleEcl, Guid> _wholesaleEclRepository;
 
-        public CommonLookupAppService(EditionManager editionManager, 
+        public CommonLookupAppService(EditionManager editionManager,
                                       IRepository<OrganizationUnit, long> organizationUnitRepository,
-                                      IRepository<MacroeconomicVariable, int> macroeconomicVariableRepository)
+                                      IRepository<MacroeconomicVariable, int> macroeconomicVariableRepository,
+                                      IRepository<ObeEcl, Guid> obeEclRepository,
+                                      IRepository<RetailEcl, Guid> retailEclRepository,
+                                      IRepository<WholesaleEcl, Guid> wholesaleRepository,
+                                      IRepository<InvestmentEcl, Guid> investmentEclRepository,
+                                      IRepository<TrackFacilityStage> facilityStageTrackerRepository)
         {
             _editionManager = editionManager;
             _organizationUnitRepository = organizationUnitRepository;
             _macroeconomicVariableRepository = macroeconomicVariableRepository;
+            _facilityStageTrackerRepository = facilityStageTrackerRepository;
+            _wholesaleEclRepository = wholesaleRepository;
+            _retailEclRepository = retailEclRepository;
+            _obeEclRepository = obeEclRepository;
+            _investmentEclRepository = investmentEclRepository;
         }
 
         public async Task<ListResultDto<SubscribableEditionComboboxItemDto>> GetEditionsForCombobox(bool onlyFreeItems = false)
@@ -160,9 +181,59 @@ namespace TestDemo.Common
             return await _macroeconomicVariableRepository.GetAll()
                                                          .Select(x => new NameValueDto()
                                                          {
-                                                            Name = x.Name,
-                                                            Value = x.Id.ToString()
+                                                             Name = x.Name,
+                                                             Value = x.Id.ToString()
                                                          }).ToListAsync();
+        }
+
+        public async Task<FacilityStageTrackerOutputDto> GetTrackedFacilityInfo(GetFacilityStageTrackerInputDto input)
+        {
+            long ouId = -1;
+
+            switch (input.Framework)
+            {
+                case FrameworkEnum.Wholesale:
+                    var w_ecl = await _wholesaleEclRepository.FirstOrDefaultAsync(input.EclId);
+                    ouId = w_ecl.OrganizationUnitId;
+                    break;
+                case FrameworkEnum.Retail:
+                    var r_ecl = await _retailEclRepository.FirstOrDefaultAsync(input.EclId);
+                    ouId = r_ecl.OrganizationUnitId;
+                    break;
+                case FrameworkEnum.OBE:
+                    var o_ecl = await _obeEclRepository.FirstOrDefaultAsync(input.EclId);
+                    ouId = o_ecl.OrganizationUnitId;
+                    break;
+                case FrameworkEnum.Investments:
+                    var i_ecl = await _investmentEclRepository.FirstOrDefaultAsync(input.EclId);
+                    ouId = i_ecl.OrganizationUnitId;
+                    break;
+                default:
+                    break;
+            }
+
+
+            var trackedFacility = await _facilityStageTrackerRepository.FirstOrDefaultAsync(e => e.Facility == input.Facility && e.Framework == input.Framework && e.OrganizationUnitId == ouId);
+
+            if (trackedFacility != null)
+            {
+                return new FacilityStageTrackerOutputDto
+                {
+                    Facility = trackedFacility.Facility,
+                    Stage = trackedFacility.Stage,
+                    Framework = trackedFacility.Framework,
+                    LastReportingDate = trackedFacility.LastReportingDate,
+                    OrganizationUnitId = trackedFacility.OrganizationUnitId
+                };
+            }
+            else
+            {
+                return new FacilityStageTrackerOutputDto
+                {
+                    Facility = null,
+                    Stage = -1
+                };
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Abp.Dependency;
+﻿using Abp.BackgroundJobs;
+using Abp.Dependency;
 using Abp.Domain.Repositories;
 using Abp.Domain.Uow;
 using Abp.Organizations;
@@ -13,6 +14,8 @@ using System.Text;
 using TestDemo.Authorization.Users;
 using TestDemo.Calibration;
 using TestDemo.Configuration;
+using TestDemo.EclLibrary.BaseEngine.Dtos;
+using TestDemo.EclLibrary.Jobs;
 using TestDemo.EclLibrary.Workers.Trackers;
 using TestDemo.EclShared;
 using TestDemo.EclShared.Emailer;
@@ -41,6 +44,7 @@ namespace TestDemo.EclLibrary.Workers
         private readonly IRepository<OrganizationUnit, long> _ouRepository;
         private readonly IEclEngineEmailer _emailer;
         private readonly IConfigurationRoot _appConfiguration;
+        private readonly IBackgroundJobManager _backgroundJobManager;
 
         public RunningRegisterCheckWorker(
             AbpTimer timer,
@@ -58,6 +62,7 @@ namespace TestDemo.EclLibrary.Workers
             IRepository<MacroAnalysis> macroAnalysisRepository,
             IRepository<User, long> userRepository,
             IRepository<OrganizationUnit, long> ouRepository,
+            IBackgroundJobManager backgroundJobManager,
             IEclEngineEmailer emailer)
             : base(timer)
         {
@@ -78,6 +83,7 @@ namespace TestDemo.EclLibrary.Workers
             _appConfiguration = env.GetAppConfiguration();
             _userRepository = userRepository;
             _ouRepository = ouRepository;
+            _backgroundJobManager = backgroundJobManager;
         }
 
         [UnitOfWork]
@@ -313,6 +319,14 @@ namespace TestDemo.EclLibrary.Workers
                             }
                             _guidTrackreRepository.Delete(item.Id);
                             Logger.Debug("RunningRegisterCheckWorker: WholesaleEcl: " + item.RegisterId + " completed, Email sent & tracker deleted.");
+
+                            _backgroundJobManager.Enqueue<UpdateFacilityStageTrackerJob, UpdateFacilityStageTrackerJobArgs>(new UpdateFacilityStageTrackerJobArgs()
+                            {
+                                EclId = register.Id,
+                                EclType = FrameworkEnum.Wholesale,
+                                OrganizationUnitId = register.OrganizationUnitId
+                            });
+
                             break;
                         case EclStatusEnum.Failed:
                             if (register.CreatorUserId != null)
@@ -350,6 +364,14 @@ namespace TestDemo.EclLibrary.Workers
                             }
                             _guidTrackreRepository.Delete(item.Id);
                             Logger.Debug("RunningRegisterCheckWorker: RetailEcl: " + item.RegisterId + " completed, Email sent & tracker deleted.");
+
+                            _backgroundJobManager.Enqueue<UpdateFacilityStageTrackerJob, UpdateFacilityStageTrackerJobArgs>(new UpdateFacilityStageTrackerJobArgs()
+                            {
+                                EclId = register.Id,
+                                EclType = FrameworkEnum.Retail,
+                                OrganizationUnitId = register.OrganizationUnitId
+                            });
+
                             break;
                         case EclStatusEnum.Failed:
                             if (register.CreatorUserId != null)
@@ -387,6 +409,13 @@ namespace TestDemo.EclLibrary.Workers
                             }
                             _guidTrackreRepository.Delete(item.Id);
                             Logger.Debug("RunningRegisterCheckWorker: ObeEcl: " + item.RegisterId + " completed, Email sent & tracker deleted.");
+
+                            _backgroundJobManager.Enqueue<UpdateFacilityStageTrackerJob, UpdateFacilityStageTrackerJobArgs>(new UpdateFacilityStageTrackerJobArgs()
+                            {
+                                EclId = register.Id,
+                                EclType = FrameworkEnum.OBE,
+                                OrganizationUnitId = register.OrganizationUnitId
+                            });
                             break;
                         case EclStatusEnum.Failed:
                             if (register.CreatorUserId != null)

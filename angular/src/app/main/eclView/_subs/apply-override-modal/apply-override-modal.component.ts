@@ -1,15 +1,17 @@
-import { GetRecordForOverrideInputDto, ReviewEclOverrideInputDto, InvestmentEclOverrideApprovalsServiceProxy, EclAuditInfoDto, EclApprovalAuditInfoDto, ObeEclOverridesServiceProxy, GetPreResultForOverrideNewOutput, CreateOrEditEclOverrideNewDto } from './../../../../../shared/service-proxies/service-proxies';
+import { GetRecordForOverrideInputDto, ReviewEclOverrideInputDto, InvestmentEclOverrideApprovalsServiceProxy, EclAuditInfoDto, EclApprovalAuditInfoDto, ObeEclOverridesServiceProxy, GetPreResultForOverrideNewOutput, CreateOrEditEclOverrideNewDto, FacilityStageTrackerOutputDto, CommonLookupServiceProxy, FrameworkEnum } from './../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, ViewEncapsulation, ViewChild, Output, EventEmitter, Injector } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ModalDirective } from 'ngx-bootstrap';
 import { GeneralStatusEnum, NameValueDto, InvestmentEclOverridesServiceProxy } from '@shared/service-proxies/service-proxies';
 import * as _ from 'lodash';
+import * as moment from 'moment';
 import { ApprovalModalComponent } from '@app/main/eclShared/approve-ecl-modal/approve-ecl-modal.component';
 
 export interface IApplyOverrideModalOptions {
     title?: string;
     serviceProxy: any;
     selectedEclId: string;
+    selectedFrameWork?: FrameworkEnum;
 }
 
 @Component({
@@ -51,11 +53,14 @@ export class ApplyOverrideModalComponent extends AppComponentBase {
     approvalsAuditInfo: EclApprovalAuditInfoDto[];
     genStatusEnum = GeneralStatusEnum;
 
+    facility90dayCheck: FacilityStageTrackerOutputDto = new FacilityStageTrackerOutputDto();
+    selectedFramework: FrameworkEnum;
+    selectedAffiliateId: number;
+    daysAgo = 0;
+
     constructor(
         injector: Injector,
-        private _invSecOverrideServiceProxy: InvestmentEclOverridesServiceProxy,
-        private _invSecOverrideApprovalServiceProxy: InvestmentEclOverrideApprovalsServiceProxy,
-        private _obeOverrideServiceProxy: ObeEclOverridesServiceProxy,
+        private _commonServiceProxy: CommonLookupServiceProxy
     ) {
         super(injector);
     }
@@ -65,6 +70,7 @@ export class ApplyOverrideModalComponent extends AppComponentBase {
         this.serviceProxy = options.serviceProxy;
         this._eclId = options.selectedEclId;
         this.title = options.title;
+        this.selectedFramework = options.selectedFrameWork;
         //console.log(options);
     }
 
@@ -78,6 +84,7 @@ export class ApplyOverrideModalComponent extends AppComponentBase {
         this.viewOnlyMode = false;
         this.dataSource = null;
         this.eclOverride = null;
+        this.facility90dayCheck = null;
         this.modal.show();
     }
 
@@ -135,14 +142,27 @@ export class ApplyOverrideModalComponent extends AppComponentBase {
                 //console.log(result);
                 this.dataSource = result;
                 this.eclOverride = result.eclOverrides;
+                if (this.hasProp('assetDescription')) {
+                    this.checkFacilityStage(result.assetDescription);
+                } else if (this.hasProp('contractNo')) {
+                    this.checkFacilityStage(result.contractNo);
+                }
                 if (this.eclOverrideHasProp('id') && this.eclOverride.id && this.eclOverride.id !== '00000000-0000-0000-0000-000000000000') {
                     this.getOverrideAuditTrail();
                 }
             });
         } else {
             this.serviceProxy.getEclRecordDetails(selectedAccountId).subscribe(result => {
+                console.log(result);
                 this.dataSource = result;
                 this.eclOverride = result.eclOverrides;
+
+                if (this.hasProp('assetDescription')) {
+                    this.checkFacilityStage(result.assetDescription);
+                } else if (this.hasProp('contractNo')) {
+                    this.checkFacilityStage(result.contractNo);
+                }
+
                 if (this.eclOverrideHasProp('id')) {
                     this.getOverrideAuditTrail();
                 }
@@ -216,6 +236,29 @@ export class ApplyOverrideModalComponent extends AppComponentBase {
             //console.log(this.auditInfo);
             this.approvalsAuditInfo = result.approvals;
         });
+    }
+
+    checkFacilityStage(selectedFacility: string): void {
+        console.log(selectedFacility, this.selectedFramework, this._eclId);
+        if ( this.selectedFramework && this._eclId) {
+            this._commonServiceProxy.getTrackedFacilityInfo(selectedFacility, this.selectedFramework, this._eclId)
+                                    .subscribe(result => {
+                                        console.log(result);
+                                        if (result.facility && result.stage !== -1) {
+                                            this.facility90dayCheck = result;
+                                            this.getDaysAgo(result.lastReportingDate);
+                                        } else {
+                                            this.facility90dayCheck = null;
+                                        }
+                                    });
+        }
+    }
+
+    getDaysAgo(date: moment.Moment): void {
+        let today = new Date();
+        let facilityDate = date.toDate();
+
+        this.daysAgo = Math.floor((today.getTime() - facilityDate.getTime()) / (1000 * 60 * 60 * 24));
     }
 
 }

@@ -49,6 +49,7 @@ namespace TestDemo.EntityFrameworkCore
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
         
+        public virtual DbSet<TrackFacilityStage> TrackFacilityStage { get; set; }
         public virtual DbSet<TrackRunningGuidRegister> TrackRunningGuidRegister { get; set; }
         public virtual DbSet<TrackRunningIntRegister> TrackRunningIntRegister { get; set; }
         

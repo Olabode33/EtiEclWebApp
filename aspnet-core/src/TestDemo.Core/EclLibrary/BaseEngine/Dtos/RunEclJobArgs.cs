@@ -14,4 +14,12 @@ namespace TestDemo.EclLibrary.BaseEngine.Dtos
         public UserIdentifier UserIdentifier { get; set; }
         public EclType EclType { get; set; }
     }
+
+    [Serializable]
+    public class UpdateFacilityStageTrackerJobArgs
+    {
+        public Guid EclId { get; set; }
+        public long OrganizationUnitId { get; set; }
+        public FrameworkEnum EclType { get; set; }
+    }
 }

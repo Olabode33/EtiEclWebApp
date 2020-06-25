@@ -1,3 +1,4 @@
+import { FacilityStageTrackerOutputDto, CommonLookupServiceProxy } from './../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, Injector, ViewChild } from '@angular/core';
 import { FrameworkEnum, InvestmentEclOverridesServiceProxy, GeneralStatusEnum, WholesaleEclOverridesServiceProxy, RetailEclOverridesServiceProxy, ObeEclOverridesServiceProxy } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -87,6 +88,7 @@ export class EclOverrideComponent extends AppComponentBase {
         this.applyOverrideModal.configure({
             selectedEclId: this._eclId,
             serviceProxy: this._serviceProxy,
+            selectedFrameWork: this._eclFramework
         });
     }
 
