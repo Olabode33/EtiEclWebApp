@@ -43,7 +43,7 @@ namespace TestDemo.AffiliateMacroEconomicVariable
             var filteredAffiliateMacroEconomicVariableOffsets = _affiliateMacroEconomicVariableOffsetRepository.GetAll()
                         .Include(e => e.AffiliateFk)
                         .Include(e => e.MacroeconomicVariableFk)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => (e.AffiliateFk != null && e.AffiliateFk.DisplayName.ToLower().Contains(input.Filter.ToLower())) || (e.MacroeconomicVariableFk != null && e.MacroeconomicVariableFk.Name.ToLower().Contains(input.Filter.ToLower())))
                         .WhereIf(input.MinBackwardOffsetFilter != null, e => e.BackwardOffset >= input.MinBackwardOffsetFilter)
                         .WhereIf(input.MaxBackwardOffsetFilter != null, e => e.BackwardOffset <= input.MaxBackwardOffsetFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OrganizationUnitDisplayNameFilter), e => e.AffiliateFk != null && e.AffiliateFk.DisplayName == input.OrganizationUnitDisplayNameFilter)
