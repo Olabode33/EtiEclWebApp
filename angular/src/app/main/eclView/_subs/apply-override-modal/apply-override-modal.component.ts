@@ -153,7 +153,7 @@ export class ApplyOverrideModalComponent extends AppComponentBase {
             });
         } else {
             this.serviceProxy.getEclRecordDetails(selectedAccountId).subscribe(result => {
-                console.log(result);
+                //console.log(result);
                 this.dataSource = result;
                 this.eclOverride = result.eclOverrides;
 
@@ -239,11 +239,11 @@ export class ApplyOverrideModalComponent extends AppComponentBase {
     }
 
     checkFacilityStage(selectedFacility: string): void {
-        console.log(selectedFacility, this.selectedFramework, this._eclId);
+        //console.log(selectedFacility, this.selectedFramework, this._eclId);
         if ( this.selectedFramework && this._eclId) {
             this._commonServiceProxy.getTrackedFacilityInfo(selectedFacility, this.selectedFramework, this._eclId)
                                     .subscribe(result => {
-                                        console.log(result);
+                                        //console.log(result);
                                         if (result.facility && result.stage !== -1) {
                                             this.facility90dayCheck = result;
                                             this.getDaysAgo(result.lastReportingDate);

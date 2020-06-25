@@ -188,6 +188,7 @@ namespace TestDemo.InvestmentComputation
                 dto.OverrideComment = overrideRecord.OverrideComment;
                 dto.Stage = overrideRecord.StageOverride;
                 dto.Status = overrideRecord.Status;
+                dto.ImpairmentOverride = overrideRecord.ImpairmentOverride;
             }
 
             return new GetInvestmentPreResultForOverrideOutput
