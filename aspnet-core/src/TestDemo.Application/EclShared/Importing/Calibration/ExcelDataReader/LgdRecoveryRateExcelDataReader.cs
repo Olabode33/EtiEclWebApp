@@ -26,10 +26,10 @@ namespace TestDemo.EclShared.Importing
 
         private ImportCalibrationLgdRecoveryRateDto ProcessExcelRow(ExcelWorksheet worksheet, int row)
         {
-            if (IsRowEmpty(worksheet, row))
-            {
-                return null;
-            }
+            //if (IsRowEmpty(worksheet, row))
+            //{
+            //    return null;
+            //}
 
             var exceptionMessage = new StringBuilder();
             var data = new ImportCalibrationLgdRecoveryRateDto();
