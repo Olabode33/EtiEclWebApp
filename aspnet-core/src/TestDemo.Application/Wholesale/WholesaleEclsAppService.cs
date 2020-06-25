@@ -902,6 +902,10 @@ namespace TestDemo.Wholesale
                 ecl.Status = EclStatusEnum.Approved;
                 await _wholesaleEclRepository.UpdateAsync(ecl);
             }
+            else if (ecl.Status == EclStatusEnum.Running)
+            {
+
+            }
             else
             {
                 throw new UserFriendlyException(L("EclMustBeApprovedBeforeRunning"));

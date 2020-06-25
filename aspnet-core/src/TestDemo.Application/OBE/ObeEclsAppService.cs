@@ -894,6 +894,10 @@ namespace TestDemo.OBE
                 ecl.Status = EclStatusEnum.Approved;
                 await _obeEclRepository.UpdateAsync(ecl);
             }
+            else if (ecl.Status == EclStatusEnum.Running)
+            {
+
+            }
             else
             {
                 throw new UserFriendlyException(L("EclMustBeApprovedBeforeRunning"));
