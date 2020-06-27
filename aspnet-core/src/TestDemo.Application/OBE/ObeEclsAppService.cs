@@ -221,7 +221,8 @@ namespace TestDemo.OBE
         protected virtual async Task Update(CreateOrEditEclDto input)
         {
             var obeEcl = await _obeEclRepository.FirstOrDefaultAsync((Guid)input.Id);
-            ObjectMapper.Map(input, obeEcl);
+            obeEcl.ReportingDate = input.ReportingDate;
+            await _obeEclRepository.UpdateAsync(obeEcl);
         }
 
         public async Task Delete(EntityDto<Guid> input)

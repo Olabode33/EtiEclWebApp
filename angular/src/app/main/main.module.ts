@@ -86,6 +86,7 @@ import { ViewCalibrationPdCrDrComponent } from './calibration/calibratePdCrDr/vi
 import { ApprovalMultipleModalComponent } from './eclShared/approve-multiple-modal/approve-multiple-modal.component';
 import { MacroAnalysisComponent } from './calibration/calibrateMacroAnalysis/macroAnalysis.component';
 import { ViewMacroAnalysisComponent } from './calibration/calibrateMacroAnalysis/view-macroAnalysis.component';
+import { EditEclReportDateComponent } from './eclView/_subs/edit-EclReportDate/edit-EclReportDate.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -112,6 +113,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+        EditEclReportDateComponent,
         MacroAnalysisComponent,
         ViewMacroAnalysisComponent,
         ApprovalMultipleModalComponent,

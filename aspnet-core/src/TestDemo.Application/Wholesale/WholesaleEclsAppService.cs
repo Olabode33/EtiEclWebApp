@@ -228,7 +228,8 @@ namespace TestDemo.Wholesale
         protected virtual async Task Update(CreateOrEditEclDto input)
         {
             var wholesaleEcl = await _wholesaleEclRepository.FirstOrDefaultAsync((Guid)input.Id);
-            ObjectMapper.Map(input, wholesaleEcl);
+            wholesaleEcl.ReportingDate = input.ReportingDate;
+            await _wholesaleEclRepository.UpdateAsync(wholesaleEcl);
         }
 
         public async Task Delete(EntityDto<Guid> input)

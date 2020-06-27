@@ -21,6 +21,7 @@ import { FakeResultData } from '@app/main/retail/view-retailEcl/view-retailEcl.c
 import { EclOverrideComponent } from '../_subs/ecl-override/ecl-override.component';
 import { EclResultsComponent } from '../_subs/ecl-results/ecl-results.component';
 import { EclAuditInfoComponent } from '../_subs/ecl-audit-info/ecl-audit-info.component';
+import { EditEclReportDateComponent } from '../_subs/edit-EclReportDate/edit-EclReportDate.component';
 
 const secondsCounter = interval(5000);
 
@@ -44,6 +45,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
     @ViewChild('eclOverrideTag', { static: true }) eclOverrideTag: EclOverrideComponent;
     @ViewChild('eclResultTag', { static: true }) eclResultTag: EclResultsComponent;
     @ViewChild('eclAuditInfoTag', { static: true }) eclAuditInfoTag: EclAuditInfoComponent;
+    @ViewChild('editEclReportDate', { static: true }) editEclReportDate: EditEclReportDateComponent;
 
 
     isLoading = false;
@@ -183,6 +185,20 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
         this.eclAuditInfoTag.load(this._eclId, this._eclFramework);
     }
 
+    configureEclReportDateSubComponent(eclDto?: CreateOrEditEclDto): void {
+        if (eclDto) {
+            this.editEclReportDate.configure({
+                eclDto: eclDto,
+                serviceProxy: this._eclServiceProxy
+            });
+        } else {
+            this.editEclReportDate.configure({
+                eclDto: new CreateOrEditEclDto(),
+                serviceProxy: this._eclServiceProxy
+            });
+        }
+    }
+
     getUploadDto(): any {
         switch (this._eclFramework) {
             case FrameworkEnum.Wholesale:
@@ -220,6 +236,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
                                     this.eclDetails = result;
                                     if (this.checkDtoProp('eclDto', result)) {
                                         this.eclDto = result.eclDto;
+                                        this.configureEclReportDateSubComponent(result.eclDto);
                                     }
                                     if (this.hasProp('frameworkAssumption', result)) {
                                         this.loadGeneralAssumptionComponent(result.frameworkAssumption);
@@ -239,6 +256,10 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
         } else {
             throw Error('Function does not exist in service proxy');
         }
+    }
+
+    editReportDate(): void {
+        this.editEclReportDate.show();
     }
 
     loadGeneralAssumptionComponent(input: AssumptionDto[]): void {

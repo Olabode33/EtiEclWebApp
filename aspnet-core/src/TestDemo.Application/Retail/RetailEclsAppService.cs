@@ -498,7 +498,8 @@ namespace TestDemo.Retail
         protected virtual async Task Update(CreateOrEditEclDto input)
         {
             var retailEcl = await _retailEclRepository.FirstOrDefaultAsync((Guid)input.Id);
-            ObjectMapper.Map(input, retailEcl);
+            retailEcl.ReportingDate = input.ReportingDate;
+            await _retailEclRepository.UpdateAsync(retailEcl);
         }
 
         protected virtual async Task<Guid> CreateAndGetId(long ouId)

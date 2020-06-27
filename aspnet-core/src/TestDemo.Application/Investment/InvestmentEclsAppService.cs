@@ -312,7 +312,8 @@ namespace TestDemo.Investment
         protected virtual async Task Update(CreateOrEditEclDto input)
         {
             var investmentEcl = await _investmentEclRepository.FirstOrDefaultAsync((Guid)input.Id);
-            ObjectMapper.Map(input, investmentEcl);
+            investmentEcl.ReportingDate = input.ReportingDate;
+            await _investmentEclRepository.UpdateAsync(investmentEcl);
         }
 
 

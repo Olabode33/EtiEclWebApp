@@ -78,7 +78,11 @@
                                     <div class="col align-middle">
                                         <div class="kt-widget__label kt-widget__label-overwrite">
                                             {{l('ReportingDate')}}: 
-                                            <span class="btn btn-label-brand btn-sm btn-bold btn-upper">{{eclDto.reportingDate | momentFormat:'LL'}}</span>
+                                            <span *ngIf="!isGranted('Pages.EclView.Edit') || eclDto.status != eclStatusEnum.Draft" class="btn btn-label-brand btn-sm btn-bold btn-upper">{{eclDto.reportingDate | momentFormat:'LL'}}</span>
+                                            <button *ngIf="isGranted('Pages.EclView.Edit') && eclDto.status == eclStatusEnum.Draft" class="btn btn-outline-primary btn-sm btn-pill" (click)="editReportDate()">
+                                                {{ eclDto.reportingDate | momentFormat: 'll'}}
+                                                <i class="fa fa-edit hoverable"></i>
+                                            </button>
                                         </div>
                                     </div>
                                     <div class="col text-center align-middle">
@@ -299,4 +303,5 @@
     </div>
 
     <app-approve-ecl-modal #approvalModal (approved)="eclReviewed($event)"></app-approve-ecl-modal>
+    <app-edit-eclReportDate #editEclReportDate (submitReportDate)="getEclDetails()"></app-edit-eclReportDate>
 </div>
