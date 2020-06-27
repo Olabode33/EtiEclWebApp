@@ -14,7 +14,7 @@ namespace TestDemo.EclInterfaces
     {
         Task<GetEclForEditOutput> GetEclDetailsForEdit(EntityDto<Guid> input);
         Task CreateOrEdit(CreateOrEditEclDto input);
-        Task<Guid> CreateEclAndAssumption();
+        Task<Guid> CreateEclAndAssumption(CreateOrEditEclDto input);
         //Task<Guid> CreateAndGetId(long ouId);
         //Task SaveEadInputAssumption(long ouId, Guid eclId);
         //Task SaveLgdInputAssumption(long ouId, Guid eclId);

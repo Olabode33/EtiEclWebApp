@@ -13,5 +13,6 @@ namespace TestDemo.Dto.Ecls
 		public bool IsApproved { get; set; }
 		public EclStatusEnum Status { get; set; }
 		public long? ClosedByUserId { get; set; }
+		public long? OrganizationUnitId { get; set; }
 	}
 }

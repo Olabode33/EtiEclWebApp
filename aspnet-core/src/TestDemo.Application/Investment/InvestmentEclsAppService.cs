@@ -318,42 +318,52 @@ namespace TestDemo.Investment
 
 
         [AbpAuthorize(AppPermissions.Pages_Workspace_CreateEcl)]
-        public async Task<Guid> CreateEclAndAssumption()
+        public async Task<Guid> CreateEclAndAssumption(CreateOrEditEclDto input)
         {
             var user = await UserManager.GetUserByIdAsync((long)AbpSession.UserId);
             var userSubsidiaries = await UserManager.GetOrganizationUnitsAsync(user);
 
+            AffiliateAssumption affiliateAssumption = new AffiliateAssumption();
+            long ouId = -1;
+
             if (userSubsidiaries.Count > 0)
             {
-                long ouId = userSubsidiaries[0].Id;
-                var affiliateAssumption = await _affiliateAssumptionRepository.FirstOrDefaultAsync(x => x.OrganizationUnitId == ouId);
-
-                if (affiliateAssumption != null)
-                {
-                    await ValidateForCreation(ouId);
-
-                    Guid eclId = await CreateAndGetId(ouId);
-
-                    await SaveEadInputAssumption(ouId, eclId);
-                    await SaveLgdInputAssumption(ouId, eclId);
-                    await SavePdInputAssumption(ouId, eclId);
-                    await SavePdMacroAssumption(ouId, eclId);
-                    await SavePdFitchAssumption(ouId, eclId);
-
-                    return eclId;
-                }
-                else
-                {
-                    throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
-                }
+                ouId = userSubsidiaries[0].Id;
+                affiliateAssumption = await _affiliateAssumptionRepository.FirstOrDefaultAsync(x => x.OrganizationUnitId == ouId);
             }
             else
             {
+                if (input.OrganizationUnitId != null )
+                {
+                    ouId = (long)input.OrganizationUnitId;
+                    affiliateAssumption = await _affiliateAssumptionRepository.FirstOrDefaultAsync(x => x.OrganizationUnitId == input.OrganizationUnitId);
+                }
                 throw new UserFriendlyException(L("UserDoesNotBelongToAnyAffiliateError"));
+            }
+
+            
+
+            if (affiliateAssumption != null)
+            {
+                await ValidateForCreation(ouId);
+
+                Guid eclId = await CreateAndGetId(ouId, input.ReportingDate);
+
+                await SaveEadInputAssumption(ouId, eclId);
+                await SaveLgdInputAssumption(ouId, eclId);
+                await SavePdInputAssumption(ouId, eclId);
+                await SavePdMacroAssumption(ouId, eclId);
+                await SavePdFitchAssumption(ouId, eclId);
+
+                return eclId;
+            }
+            else
+            {
+                throw new UserFriendlyException(L("AffiliateAssumptionDoesNotExistError"));
             }
         }
         
-        protected virtual async Task<Guid> CreateAndGetId(long ouId)
+        protected virtual async Task<Guid> CreateAndGetId(long ouId, DateTime reportDate)
         {
             var affiliateAssumption = await _affiliateAssumptionRepository.FirstOrDefaultAsync(x => x.OrganizationUnitId == ouId);
 
@@ -362,8 +372,8 @@ namespace TestDemo.Investment
 
                 Guid id = await _investmentEclRepository.InsertAndGetIdAsync(new InvestmentEcl()
                 {
-                    ReportingDate = affiliateAssumption.LastSecuritiesReportingDate,
-                    OrganizationUnitId = affiliateAssumption.OrganizationUnitId,
+                    ReportingDate = reportDate,
+                    OrganizationUnitId = ouId,
                     Status = EclStatusEnum.Draft,
                 });
                 return id;
