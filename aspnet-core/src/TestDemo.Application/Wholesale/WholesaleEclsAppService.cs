@@ -490,7 +490,11 @@ namespace TestDemo.Wholesale
                     ouId = (long)input.OrganizationUnitId;
                     affiliateAssumption = await _affiliateAssumptionRepository.FirstOrDefaultAsync(x => x.OrganizationUnitId == input.OrganizationUnitId);
                 }
-                throw new UserFriendlyException(L("UserDoesNotBelongToAnyAffiliateError"));
+                else
+                {
+
+                    throw new UserFriendlyException(L("UserDoesNotBelongToAnyAffiliateError"));
+                }
             }
 
             if (affiliateAssumption != null)

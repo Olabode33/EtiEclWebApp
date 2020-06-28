@@ -58,6 +58,7 @@ export class EditEclReportDateComponent extends AppComponentBase {
             throw Error('EditEclReportDateComponentError');
         }
 
+        this.active = true;
         this.modal.show();
     }
 
@@ -66,20 +67,24 @@ export class EditEclReportDateComponent extends AppComponentBase {
     }
 
     close(): void {
+        this.active = false;
         this.isShown = false;
         this.modal.hide();
     }
 
     save(): void {
         this.message.confirm(
-            this.l('SaveReportDateNote'),
+            this.l('UseReportDate'),
             (isConfirmed) => {
-
-                this.serviceProxy.createOrEdit(this.eclDto).subscribe(result => {
-                    this.notify.success('SubmittedSuccessfully');
-                    this.submitReportDate.emit(null);
-                    this.close();
-                });
+                if (!this.eclDto.id) {
+                    this.submitReportDate.emit(this.eclDto);
+                } else {
+                    this.serviceProxy.createOrEdit(this.eclDto).subscribe(result => {
+                        this.notify.success('SubmittedSuccessfully');
+                        this.submitReportDate.emit(null);
+                        this.close();
+                    });
+                }
             });
     }
 

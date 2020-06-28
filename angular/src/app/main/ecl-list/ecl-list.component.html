@@ -19,7 +19,7 @@
                         <i class="fa fa-plus"></i> {{"NewEcl" | localize}}
                     </button>
                     <div class="dropdown-menu dropdown-menu-right dropdown-excel-operations" *dropdownMenu>
-                        <a class="dropdown-item" id="ExportUsersToExcelButton" (click)="createWholesaleEcl()"
+                        <a class="dropdown-item" id="ExportUsersToExcelButton" (click)="createNewEcl(frameworkEnum.Wholesale)"
                             href="javascript:;">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon pr-1">
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -30,7 +30,7 @@
                             </svg>
                             {{'Wholesales' | localize}}
                         </a>
-                        <a class="dropdown-item" id="ExportUsersToExcelButton" (click)="createRetailEcl()"
+                        <a class="dropdown-item" id="ExportUsersToExcelButton" (click)="createNewEcl(frameworkEnum.Retail)"
                             href="javascript:;">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon pr-1">
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -41,7 +41,7 @@
                             </svg>
                             {{'Retail' | localize}}
                         </a>
-                        <a class="dropdown-item" id="ExportUsersToExcelButton" (click)="createObeEcl()"
+                        <a class="dropdown-item" id="ExportUsersToExcelButton" (click)="createNewEcl(frameworkEnum.OBE)"
                             href="javascript:;">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon pr-1">
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -52,7 +52,7 @@
                             </svg>
                             {{'OBE' | localize}}
                         </a>
-                        <a class="dropdown-item" id="ExportUsersToExcelButton" (click)="createInvestmentEcl()"
+                        <a class="dropdown-item" id="ExportUsersToExcelButton" (click)="createNewEcl(frameworkEnum.Investments)"
                             href="javascript:;">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon pr-1">
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -253,5 +253,8 @@
                 </div>
             </div>
         </div>
+
+        <app-edit-eclReportDate #editEclReportDate (submitReportDate)="createNewEclWithReportDate($event)"></app-edit-eclReportDate>
+        <ouLookupTableModal #ouLookupTableModal (modalSave)="createEclAsGroup()"></ouLookupTableModal>
     </div>
 </div>

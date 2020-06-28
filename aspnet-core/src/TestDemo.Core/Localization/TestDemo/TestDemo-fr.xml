@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="fr">
   <texts>
+
+    <text name="UseReportDate">Use Reporting Date</text>
     <text name="SetReportDate">Set Reporting Date</text>
     <text name="LastStage">Last Stage</text>
     <text name="AsAt">As At</text>

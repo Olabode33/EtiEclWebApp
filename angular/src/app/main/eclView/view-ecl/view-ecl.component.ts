@@ -1,4 +1,4 @@
-import { GetEclForEditOutput, CreateOrEditEclDto, EclUploadDto, CreateOrEditEclApprovalDto, GetEclUploadForViewDto } from './../../../../shared/service-proxies/service-proxies';
+import { GetEclForEditOutput, CreateOrEditEclDto, EclUploadDto, CreateOrEditEclApprovalDto, GetEclUploadForViewDto, CommonLookupServiceProxy } from './../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, ViewEncapsulation, ViewChild, Injector } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
@@ -22,6 +22,7 @@ import { EclOverrideComponent } from '../_subs/ecl-override/ecl-override.compone
 import { EclResultsComponent } from '../_subs/ecl-results/ecl-results.component';
 import { EclAuditInfoComponent } from '../_subs/ecl-audit-info/ecl-audit-info.component';
 import { EditEclReportDateComponent } from '../_subs/edit-EclReportDate/edit-EclReportDate.component';
+import { OuLookupTableModalComponent } from '@app/main/eclShared/ou-lookup-modal/ou-lookup-table-modal.component';
 
 const secondsCounter = interval(5000);
 
@@ -87,6 +88,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
         private _obeEclUploadServiceProxy: ObeEclUploadsServiceProxy,
         private _investmentEclServiceProxy: InvestmentEclsServiceProxy,
         private _investmentEclUploadServiceProxy: InvestmentEclUploadsServiceProxy,
+        private _commonServiceProxy: CommonLookupServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,

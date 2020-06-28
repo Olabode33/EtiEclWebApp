@@ -1,6 +1,6 @@
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { WholesaleEclsServiceProxy, WholesaleEclDto, EclStatusEnum, EclSharedServiceProxy, FrameworkEnum, RetailEclsServiceProxy, InvestmentEclsServiceProxy, EntityDtoOfGuid, ObeEclsServiceProxy, NameValueDtoOfInt64, CommonLookupServiceProxy } from '@shared/service-proxies/service-proxies';
+import { WholesaleEclsServiceProxy, WholesaleEclDto, EclStatusEnum, EclSharedServiceProxy, FrameworkEnum, RetailEclsServiceProxy, InvestmentEclsServiceProxy, EntityDtoOfGuid, ObeEclsServiceProxy, NameValueDtoOfInt64, CommonLookupServiceProxy, CreateOrEditEclDto } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -14,6 +14,8 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import { Location } from '@angular/common';
 import { finalize } from 'rxjs/operators';
+import { OuLookupTableModalComponent } from '../eclShared/ou-lookup-modal/ou-lookup-table-modal.component';
+import { EditEclReportDateComponent } from '../eclView/_subs/edit-EclReportDate/edit-EclReportDate.component';
 
 @Component({
     selector: 'app-workspace',
@@ -26,6 +28,8 @@ export class EclListComponent extends AppComponentBase implements OnInit {
 
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
+    @ViewChild('ouLookupTableModal', { static: true }) ouLookupTableModal: OuLookupTableModalComponent;
+    @ViewChild('editEclReportDate', { static: true }) editEclReportDate: EditEclReportDateComponent;
 
     loadingEclAssumption = false;
 
@@ -37,8 +41,10 @@ export class EclListComponent extends AppComponentBase implements OnInit {
     statusFilter = -1;
     frameworkFilter = -1;
     _affiliateId = -1;
+    frameworkForNew: any;
 
     ouList: NameValueDtoOfInt64[] = new Array();
+    newEcl: CreateOrEditEclDto = new CreateOrEditEclDto();
 
     constructor(
         injector: Injector,
@@ -110,9 +116,59 @@ export class EclListComponent extends AppComponentBase implements OnInit {
         this._router.navigate(['/app/main/ecl/view/', framework.toString(), eclId]);
     }
 
-    createRetailEcl(): void {
+    createNewEcl(framework: FrameworkEnum): void {
+        this.frameworkForNew = framework;
+        if (this._affiliateId === -1) {
+            this.ouLookupTableModal.show();
+        } else {
+            let ecl = new CreateOrEditEclDto();
+            ecl.reportingDate = moment().endOf('month');
+            this.editEclReportDate.configure({
+                eclDto: ecl,
+                serviceProxy: null
+            });
+            this.editEclReportDate.show();
+        }
+    }
+
+    createEclAsGroup(): void {
+        let ecl = new CreateOrEditEclDto();
+        ecl.organizationUnitId = this.ouLookupTableModal.id;
+        ecl.reportingDate = moment().endOf('month');
+        this.editEclReportDate.configure({
+            eclDto: ecl,
+            serviceProxy: null
+        });
+        this.editEclReportDate.show();
+    }
+
+    createNewEclWithReportDate(event): void {
+        console.log(event);
+        this.editEclReportDate.close();
+        if (this.frameworkForNew) {
+            switch (this.frameworkForNew) {
+                case FrameworkEnum.Wholesale:
+                    this.createWholesaleEcl(event);
+                    break;
+                case FrameworkEnum.Retail:
+                    this.createRetailEcl(event);
+                    break;
+                case FrameworkEnum.OBE:
+                    this.createObeEcl(event);
+                    break;
+                case FrameworkEnum.Investments:
+                    this.createInvestmentEcl(event);
+                    break;
+                default:
+                    break;
+            }
+            this.frameworkForNew = undefined;
+        }
+    }
+
+    createRetailEcl(ecl: CreateOrEditEclDto): void {
         this.loadingEclAssumption = true;
-        this._retailEclServiceProxy.createEclAndAssumption()
+        this._retailEclServiceProxy.createEclAndAssumption(ecl)
             .pipe(finalize(() => this.loadingEclAssumption = false))
             .subscribe(result => {
                 this.notify.success('EclSuccessfullyCreated');
@@ -120,9 +176,9 @@ export class EclListComponent extends AppComponentBase implements OnInit {
             });
     }
 
-    createWholesaleEcl(): void {
+    createWholesaleEcl(ecl: CreateOrEditEclDto): void {
         this.loadingEclAssumption = true;
-        this._wholesaleEclServiceProxy.createEclAndAssumption()
+        this._wholesaleEclServiceProxy.createEclAndAssumption(ecl)
         .pipe(finalize(() => this.loadingEclAssumption = false))
         .subscribe(result => {
             this.notify.success('EclSuccessfullyCreated');
@@ -130,9 +186,9 @@ export class EclListComponent extends AppComponentBase implements OnInit {
         });
     }
 
-    createObeEcl(): void {
+    createObeEcl(ecl: CreateOrEditEclDto): void {
         this.loadingEclAssumption = true;
-        this._obeEclServiceProxy.createEclAndAssumption()
+        this._obeEclServiceProxy.createEclAndAssumption(ecl)
         .pipe(finalize(() => this.loadingEclAssumption = false))
         .subscribe(result => {
             this.notify.success('EclSuccessfullyCreated');
@@ -140,9 +196,9 @@ export class EclListComponent extends AppComponentBase implements OnInit {
         });
     }
 
-    createInvestmentEcl(): void {
+    createInvestmentEcl(ecl: CreateOrEditEclDto): void {
         this.loadingEclAssumption = true;
-        this._investmentEclServiceProxy.createEclAndAssumption()
+        this._investmentEclServiceProxy.createEclAndAssumption(ecl)
         .pipe(finalize(() => this.loadingEclAssumption = false))
         .subscribe(result => {
             this.notify.success('EclSuccessfullyCreated');

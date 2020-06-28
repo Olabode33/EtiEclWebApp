@@ -2,7 +2,7 @@
      (onShown)="shown()"
      aria-hidden="true" [config]="{backdrop: 'static'}">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+        <div *ngIf="active" class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">
                     <span *ngIf="eclDto.id">{{l('UpdateReportDate')}}</span>
@@ -27,7 +27,8 @@
             <div class="modal-footer">
                 <button  *ngIf="isGranted('Pages.Workspace.CreateEcl')" type="button" class="btn btn-success" (click)="save()">
                     <i class="fa fa-check"></i>
-                    {{"Save" | localize}}
+                    <span *ngIf="eclDto.id">{{"Save" | localize}}</span>
+                    <span *ngIf="!eclDto.id">{{"Create" | localize}}</span>
                 </button>
             </div>
 
