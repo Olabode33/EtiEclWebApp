@@ -37,7 +37,7 @@ export class AssumptionApprovalsComponent extends AppComponentBase implements On
     organizationUnitIdFilterEmpty: number;
     frameworkFilter = -1;
     assumptionTypeFilter = -1;
-    statusFilter = 1;
+    statusFilter = -1;
     assumptionGroupFilter = '';
     userNameFilter = '';
 
@@ -114,6 +114,26 @@ export class AssumptionApprovalsComponent extends AppComponentBase implements On
             this.primengTableHelper.records = result.items;
             this.selectedRecords = new Array();
             this.primengTableHelper.hideLoadingIndicator();
+            this.getAssumptionApprovalSummary();
+        });
+    }
+
+    getAssumptionApprovalSummary() {
+        this._assumptionApprovalsServiceProxy.getSummary(
+            this.filterText,
+            this._affiliateId == null ? this.organizationUnitIdFilterEmpty : this._affiliateId,
+            this.frameworkFilter,
+            this.assumptionTypeFilter,
+            this.statusFilter,
+            this.assumptionGroupFilter,
+            this.userNameFilter,
+            '',
+            0,
+            1000
+        ).subscribe(result => {
+            this.totalAwaitingApproval = result.awaitingApprovals;
+            this.totalSubmitted = result.submitted;
+            this.totalForReview = result.awaitingApprovals + result.submitted;
         });
     }
 
@@ -175,5 +195,23 @@ export class AssumptionApprovalsComponent extends AppComponentBase implements On
             dataSource: d
         });
         this.approvalMultipleModel.show();
+    }
+
+    getStatusLabelClass(uploadStatus: GeneralStatusEnum): string {
+        switch (uploadStatus) {
+            case GeneralStatusEnum.Draft:
+                return 'primary';
+            case GeneralStatusEnum.Submitted:
+            case GeneralStatusEnum.Processing:
+            case GeneralStatusEnum.AwaitngAdditionApproval:
+                return 'warning';
+            case GeneralStatusEnum.Completed:
+            case GeneralStatusEnum.Approved:
+                return 'success';
+            case GeneralStatusEnum.Rejected:
+                return 'danger';
+            default:
+                return 'dark';
+        }
     }
 }

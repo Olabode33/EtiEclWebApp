@@ -208,7 +208,9 @@ namespace TestDemo.EclShared.Importing
                 NewValue = _localizationSource.GetString("CheckAssumptionsPage"),
                 AssumptionId = assumption.Id,
                 AssumptionEntity = EclEnums.PdSnpAssumption,
-                Status = GeneralStatusEnum.Submitted
+                Status = GeneralStatusEnum.Submitted,
+                CreationTime = DateTime.Now,
+                CreatorUserId = args.User.UserId,
             });
         }
 

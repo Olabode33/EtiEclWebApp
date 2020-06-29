@@ -534,6 +534,8 @@ namespace TestDemo.Wholesale
                     OrganizationUnitId = ouId,
                     Status = EclStatusEnum.Draft
                 });
+                affiliateAssumption.LastWholesaleReportingDate = reportDate;
+                await _affiliateAssumptionRepository.UpdateAsync(affiliateAssumption);
                 return id;
             }
             else

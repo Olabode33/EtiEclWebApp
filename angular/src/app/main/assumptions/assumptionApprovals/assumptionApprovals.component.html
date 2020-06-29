@@ -220,6 +220,14 @@
                                     <th style="width: 130px"
                                         [hidden]="!isGranted('Pages.Assumption.Affiliates.Review')">
                                         {{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="dateSubmitted">
+                                        {{l('Date')}}
+                                        <p-sortIcon field="dateSubmitted"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="submittedBy">
+                                        {{l('SubmittedBy')}}
+                                        <p-sortIcon field="submittedBy"></p-sortIcon>
+                                    </th>
                                     <th style="width: 150px" pSortableColumn="organizationUnitName">
                                         {{l('Affiliate')}}
                                         <p-sortIcon field="organizationUnitName"></p-sortIcon>
@@ -232,10 +240,10 @@
                                         {{l('Type')}}
                                         <p-sortIcon field="assumptionApproval.assumptionType"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="assumptionGroup">
+                                    <!-- <th style="width: 150px" pSortableColumn="assumptionGroup">
                                         {{l('Group')}}
                                         <p-sortIcon field="assumptionApproval.assumptionGroup"></p-sortIcon>
-                                    </th>
+                                    </th> -->
                                     <th style="width: 200px" pSortableColumn="inputName">
                                         {{l('Category')}}
                                         <p-sortIcon field="assumptionApproval.inputName"></p-sortIcon>
@@ -275,6 +283,14 @@
                                         </div>
                                     </td>
                                     <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('DateSubmitted')}}</span>
+                                        {{record.dateSubmitted | momentFormat: 'LL'}}
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('SubmittedBy')}}</span>
+                                        {{record.submittedBy}}
+                                    </td>
+                                    <td style="width:150px">
                                         <span class="ui-column-title"> {{l('Affiliate')}}</span>
                                         {{record.organizationUnitName}}
                                     </td>
@@ -286,10 +302,10 @@
                                         <span class="ui-column-title"> {{l('Type')}}</span>
                                         {{l( assumptionTypeEnum[record.assumptionApproval.assumptionType])}}
                                     </td>
-                                    <td style="width:150px">
+                                    <!-- <td style="width:150px">
                                         <span class="ui-column-title"> {{l('Group')}}</span>
                                         {{record.assumptionApproval.assumptionGroup}}
-                                    </td>
+                                    </td> -->
                                     <td style="width:200px">
                                         <span class="ui-column-title"> {{l('Category')}}</span>
                                         {{record.assumptionApproval.inputName}}
@@ -300,7 +316,11 @@
                                     </td>
                                     <td style="width:150px">
                                         <span class="ui-column-title"> {{l('Status')}}</span>
-                                        {{l( generalStatusEnum[record.assumptionApproval.status])}}
+                                        <span
+                                            class="kt-badge kt-badge--bolder kt-badge kt-badge--inline 
+                                                     kt-badge--unified-{{ getStatusLabelClass(record.assumptionApproval.status) }}">
+                                            {{l( generalStatusEnum[record.assumptionApproval.status])}}
+                                        </span>
                                     </td>
 
                                 </tr>

@@ -380,6 +380,8 @@ namespace TestDemo.Investment
                     OrganizationUnitId = ouId,
                     Status = EclStatusEnum.Draft,
                 });
+                affiliateAssumption.LastSecuritiesReportingDate = reportDate;
+                await _affiliateAssumptionRepository.UpdateAsync(affiliateAssumption);
                 return id;
             }
             else

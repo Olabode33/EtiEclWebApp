@@ -526,6 +526,8 @@ namespace TestDemo.OBE
                     OrganizationUnitId = ouId,
                     Status = EclStatusEnum.Draft
                 });
+                affiliateAssumption.LastObeReportingDate = reportDate;
+                await _affiliateAssumptionRepository.UpdateAsync(affiliateAssumption);
                 return id;
             }
             else

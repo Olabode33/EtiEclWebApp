@@ -70,6 +70,7 @@ namespace TestDemo.EclShared
                         .WhereIf(input.FrameworkFilter > -1, e => e.Framework == frameworkFilter)
                         .WhereIf(input.AssumptionTypeFilter > -1, e => e.AssumptionType == assumptionTypeFilter)
                         .WhereIf(input.StatusFilter > -1, e => e.Status == statusFilter)
+                        .WhereIf(input.StatusFilter <= -1, e => e.Status == GeneralStatusEnum.Submitted || e.Status == GeneralStatusEnum.AwaitngAdditionApproval)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.AssumptionGroupFilter), e => e.AssumptionGroup == input.AssumptionGroupFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.ReviewedByUserFk != null && e.ReviewedByUserFk.Name == input.UserNameFilter);
 
@@ -134,7 +135,6 @@ namespace TestDemo.EclShared
                         .WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
                         .WhereIf(input.FrameworkFilter > -1, e => e.Framework == frameworkFilter)
                         .WhereIf(input.AssumptionTypeFilter > -1, e => e.AssumptionType == assumptionTypeFilter)
-                        .WhereIf(input.StatusFilter > -1, e => e.Status == statusFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.AssumptionGroupFilter), e => e.AssumptionGroup == input.AssumptionGroupFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.ReviewedByUserFk != null && e.ReviewedByUserFk.Name == input.UserNameFilter);
 

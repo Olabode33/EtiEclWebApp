@@ -527,6 +527,8 @@ namespace TestDemo.Retail
                     OrganizationUnitId = ouId,
                     Status = EclStatusEnum.Draft
                 });
+                affiliateAssumption.LastRetailReportingDate = reportDate;
+                await _affiliateAssumptionRepository.UpdateAsync(affiliateAssumption);
                 return id;
             }
             else
