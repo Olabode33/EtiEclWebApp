@@ -1,4 +1,4 @@
-﻿import { ReviewMultipleRecordsDtoOfAssumptionApprovalDto } from './../../../../shared/service-proxies/service-proxies';
+﻿import { ReviewMultipleRecordsDtoOfAssumptionApprovalDto, GetAssumptionApprovalForViewDto } from './../../../../shared/service-proxies/service-proxies';
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AssumptionApprovalsServiceProxy, AssumptionApprovalDto, FrameworkEnum, AssumptionTypeEnum, GeneralStatusEnum, CommonLookupServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -51,7 +51,11 @@ export class AssumptionApprovalsComponent extends AppComponentBase implements On
     _affiliateId = -1;
     selectedAffiliate = '';
 
-    selectedRecords: AssumptionApprovalDto[] = new Array();
+    selectedRecords: GetAssumptionApprovalForViewDto[] = new Array();
+
+    totalSubmitted = 0;
+    totalAwaitingApproval = 0;
+    totalForReview = 0;
 
     constructor(
         injector: Injector,
@@ -105,6 +109,7 @@ export class AssumptionApprovalsComponent extends AppComponentBase implements On
             this.primengTableHelper.getSkipCount(this.paginator, event),
             this.primengTableHelper.getMaxResultCount(this.paginator, event)
         ).subscribe(result => {
+            console.log(result.items);
             this.primengTableHelper.totalRecordsCount = result.totalCount;
             this.primengTableHelper.records = result.items;
             this.selectedRecords = new Array();
@@ -159,7 +164,10 @@ export class AssumptionApprovalsComponent extends AppComponentBase implements On
 
     reviewMultiple(): void {
         let d = new ReviewMultipleRecordsDtoOfAssumptionApprovalDto();
-        d.items = this.selectedRecords;
+        d.items = new Array();
+        this.selectedRecords.forEach(element => {
+            d.items.push(element.assumptionApproval);
+        });
         d.reviewComment = '';
         this.approvalMultipleModel.configure({
             title: this.l('ApproveAssumption'),

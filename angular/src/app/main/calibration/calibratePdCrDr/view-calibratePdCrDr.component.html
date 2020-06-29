@@ -153,6 +153,7 @@
                                 <th>{{l('DaysPastDue')}}</th>
                                 <th>{{l('Classification')}}</th>
                                 <th>{{l('OutstandingBalanceLcy')}}</th>
+                                <th>{{l('RPT_Date')}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -165,6 +166,7 @@
                                 <td class="align-middle">{{ item.days_Past_Due }}</td>
                                 <td class="align-right">{{item.classification }}</td>
                                 <td class="align-right">{{item.outstanding_Balance_Lcy | number: '1.2-2' }}</td>
+                                <td class="align-right">{{item.rapP_Date }}</td>
                             </tr>
                         </tbody>
                     </table>

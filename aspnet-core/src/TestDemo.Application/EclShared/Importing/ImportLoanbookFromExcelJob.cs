@@ -111,9 +111,11 @@ namespace TestDemo.EclShared.Importing
                 SendInvalidExcelNotification(args);
                 return;
             }
-
+            Logger.Debug("ImportLoanbookFromExcelJob: Finish Reading Data from Excel, " + DateTime.Now.ToString());
             DeleteExistingDataAsync(args);
+            Logger.Debug("ImportLoanbookFromExcelJob: Finish Deleting Existing Data, " + DateTime.Now.ToString());
             CreateLoanbook(args, loanbooks);
+            Logger.Debug("ImportLoanbookFromExcelJob: Finish Inserting new Data, " + DateTime.Now.ToString());
             UpdateSummaryTableToCompletedAsync(args);
         }
 

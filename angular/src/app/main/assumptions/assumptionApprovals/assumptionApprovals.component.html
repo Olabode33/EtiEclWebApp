@@ -30,6 +30,72 @@
 
     </div>
     <div class="kt-content">
+        <div class="row row-no-padding row-col-separator-xl">
+            <div class="col-md-4">
+                <div class="kt-portlet kt-portlet--height-fluid">
+                    <div class="kt-portlet__body kt-portlet__body--fit">
+                        <div class="kt-widget24">
+                            <div class="kt-widget24__details">
+                                <div class="kt-widget24__info">
+                                    <h4 class="kt-widget24__title">
+                                        Submitted
+                                    </h4>
+                                    <!-- <span class="kt-widget24__desc">
+                                        Total submitted
+                                    </span> -->
+                                </div>
+                                <span class="kt-widget24__stats kt--font-brand">
+                                    <span>
+                                        {{totalSubmitted.toFixed(0)}}
+                                    </span>
+                                </span>
+                            </div>
+                            <div class="progress progress--sm">
+                                <div class="progress-bar kt-bg-info" role="progressbar" [style.width]="((totalForReview > 0 ? totalSubmitted / totalForReview : 1) * 100) + '%'"
+                                    aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+        
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="kt-portlet kt-portlet--height-fluid">
+                    <div class="kt-portlet__body kt-portlet__body--fit">
+                        <div class="kt-widget24">
+                            <div class="kt-widget24__details">
+                                <div class="kt-widget24__info">
+                                    <h4 class="kt-widget24__title">
+                                        {{l('AwaitngAdditionApproval')}}
+                                    </h4>
+                                    <!-- <span class="kt-widget24__desc">
+                                        Customer Review
+                                    </span> -->
+                                </div>
+                                <span class="kt-widget24__stats kt--font-info">
+                                    {{totalAwaitingApproval.toFixed(0)}}
+                                </span>
+                            </div>
+                            <div class="progress progress--sm">
+                                <div class="progress-bar kt-bg-warning" role="progressbar" [style.width]="((totalForReview > 0 ? totalAwaitingApproval / totalForReview : 1) * 100) + '%'"
+                                    aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <!-- <div class="kt-widget24__action">
+                                <span class="kt-widget24__change">
+                                    Change
+                                </span>
+                                <span class="kt-widget24__number">
+                                    <span class="counterup">{{dashboardTopStats.newFeedbacksChange}}</span>%
+                                </span>
+                            </div> -->
+                        </div>
+        
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
         <div class="kt-portlet kt-portlet--mobile">
             <div class="kt-portlet__body">
                 <form class="kt-form" autocomplete="off">
@@ -43,7 +109,7 @@
                                         <option [value]="generalStatusEnum.Submitted">{{l(generalStatusEnum[generalStatusEnum.Submitted])}}</option>
                                         <option [value]="generalStatusEnum.AwaitngAdditionApproval">{{l(generalStatusEnum[generalStatusEnum.AwaitngAdditionApproval])}}</option>
                                         <option [value]="generalStatusEnum.Approved">{{l(generalStatusEnum[generalStatusEnum.Approved])}}</option>
-                                        <option [value]="generalStatusEnum.Rejected">{{l(generalStatusEnum[generalStatusEnum.Rejected])}}</option>
+                                        <!-- <option [value]="generalStatusEnum.Rejected">{{l(generalStatusEnum[generalStatusEnum.Rejected])}}</option> -->
                                     </select>
                                 </div>
                             </div>
@@ -149,7 +215,7 @@
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th style="width: 3em">
-                                        <!-- <p-tableHeaderCheckbox></p-tableHeaderCheckbox> -->
+                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                     </th>
                                     <th style="width: 130px"
                                         [hidden]="!isGranted('Pages.Assumption.Affiliates.Review')">
@@ -188,7 +254,7 @@
                             <ng-template pTemplate="body" let-record="$implicit">
                                 <tr [pSelectableRow]="record.assumptionApproval">
                                     <td style="width: 3em">
-                                        <p-tableCheckbox [value]="record.assumptionApproval"></p-tableCheckbox>
+                                        <p-tableCheckbox [value]="record"></p-tableCheckbox>
                                     </td>
                                     <td style="width: 130px"
                                         [hidden]="!isGranted('Pages.Assumption.Affiliates.Review')">

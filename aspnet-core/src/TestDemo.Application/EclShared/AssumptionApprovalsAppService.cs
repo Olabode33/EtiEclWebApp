@@ -82,6 +82,8 @@ namespace TestDemo.EclShared
                                       from s1 in j1.DefaultIfEmpty()
                                       join ou in _organizationUnitRepository.GetAll() on o.OrganizationUnitId equals ou.Id into ou1
                                       from ou2 in ou1.DefaultIfEmpty()
+                                      join u in _lookup_userRepository.GetAll() on o.CreatorUserId equals u.Id into u1
+                                      from u2 in u1.DefaultIfEmpty()
 
                                       select new GetAssumptionApprovalForViewDto()
                                       {
@@ -102,7 +104,9 @@ namespace TestDemo.EclShared
                                               ReviewComment = o.ReviewComment
                                           },
                                           UserName = s1 == null ? "" : s1.FullName.ToString(),
-                                          OrganizationUnitName = ou2 == null ? "" : ou2.DisplayName
+                                          OrganizationUnitName = ou2 == null ? "" : ou2.DisplayName,
+                                          DateSubmitted = o.CreationTime,
+                                          SubmittedBy = u2 == null ? "" : u2.FullName
                                       };
 
             var totalCount = await filteredAssumptionApprovals.CountAsync();
@@ -111,6 +115,39 @@ namespace TestDemo.EclShared
                 totalCount,
                 await assumptionApprovals.ToListAsync()
             );
+        }
+
+        public async Task<GetAssumptionApprovalSummaryDto> GetSummary(GetAllAssumptionApprovalsInput input)
+        {
+            var frameworkFilter = (FrameworkEnum)input.FrameworkFilter;
+            var assumptionTypeFilter = (AssumptionTypeEnum)input.AssumptionTypeFilter;
+            var statusFilter = (GeneralStatusEnum)input.StatusFilter;
+
+            var user = await UserManager.GetUserByIdAsync((long)AbpSession.UserId);
+            var userOrganizationUnit = await UserManager.GetOrganizationUnitsAsync(user);
+            //var userSubsChildren = _organizationUnitRepository.GetAll().Where(ou => userSubsidiaries.Any(uou => ou.Code.StartsWith(uou.Code)));
+            var userOrganizationUnitIds = userOrganizationUnit.Select(ou => ou.Id);
+
+            var filteredAssumptionApprovals = _assumptionApprovalRepository.GetAll()
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.AssumptionGroup.Contains(input.Filter) || e.InputName.Contains(input.Filter) || e.OldValue.Contains(input.Filter) || e.NewValue.Contains(input.Filter) || e.ReviewComment.Contains(input.Filter))
+                        .WhereIf(input.OrganizationUnitIdFilter != null && userOrganizationUnitIds.Count() <= 0, e => e.OrganizationUnitId == input.OrganizationUnitIdFilter)
+                        .WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
+                        .WhereIf(input.FrameworkFilter > -1, e => e.Framework == frameworkFilter)
+                        .WhereIf(input.AssumptionTypeFilter > -1, e => e.AssumptionType == assumptionTypeFilter)
+                        .WhereIf(input.StatusFilter > -1, e => e.Status == statusFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.AssumptionGroupFilter), e => e.AssumptionGroup == input.AssumptionGroupFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.ReviewedByUserFk != null && e.ReviewedByUserFk.Name == input.UserNameFilter);
+
+            var submitted = await filteredAssumptionApprovals.CountAsync(x => x.Status == GeneralStatusEnum.Submitted);
+            var awaitingAdditional = await filteredAssumptionApprovals.CountAsync(x => x.Status == GeneralStatusEnum.AwaitngAdditionApproval);
+            var approved = await filteredAssumptionApprovals.CountAsync(x => x.Status == GeneralStatusEnum.Approved);
+
+            return new GetAssumptionApprovalSummaryDto
+            {
+                Submitted = submitted,
+                AwaitingApprovals = awaitingAdditional,
+                Approved = approved
+            };
         }
 
         public async Task<GetAssumptionApprovalForViewDto> GetAssumptionApprovalForView(Guid id)
