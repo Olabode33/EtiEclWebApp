@@ -25,10 +25,10 @@ namespace TestDemo.EclShared.Importing
 
         private ImportLoanbookDto ProcessExcelRow(ExcelWorksheet worksheet, int row)
         {
-            //if (IsRowEmpty(worksheet, row))
-            //{
-            //    return null;
-            //}
+            if (IsRowEmpty(worksheet, row))
+            {
+                return null;
+            }
 
             var exceptionMessage = new StringBuilder();
             var loanbook = new ImportLoanbookDto();

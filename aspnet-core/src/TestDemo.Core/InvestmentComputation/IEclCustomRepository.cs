@@ -20,5 +20,6 @@ namespace TestDemo.InvestmentComputation
         Task RunRetailReopenEclStoredProcedure(Guid eclId);
         Task RunObeCloseEclStoredProcedure(Guid eclId);
         Task RunObeReopenEclStoredProcedure(Guid eclId);
+        Task DeleteExistingInputRecords(string tableName, string columnName, string value);
     }
 }

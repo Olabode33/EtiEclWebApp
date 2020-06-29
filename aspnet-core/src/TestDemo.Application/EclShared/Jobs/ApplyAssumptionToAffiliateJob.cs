@@ -634,10 +634,10 @@ namespace TestDemo.EclShared.Importing
 
         private void SendCopyCompleteNotification(ApplyAffiliateAssumptionJobArgs args)
         {
-            _appNotifier.SendMessageAsync(
+            AsyncHelper.RunSync(() => _appNotifier.SendMessageAsync(
                 args.User,
                 _localizationSource.GetString("CopyAffiliateProcessCompleted"),
-                Abp.Notifications.NotificationSeverity.Success);
+                Abp.Notifications.NotificationSeverity.Success));
         }
 
         private void SendEmailAlert(ApplyAffiliateAssumptionJobArgs args)
@@ -648,7 +648,7 @@ namespace TestDemo.EclShared.Importing
             var from = _ouRepository.FirstOrDefault(args.FromAffiliateId);
             var to = _ouRepository.FirstOrDefault(args.ToAffiliateId);
             var type = _localizationSource.GetString(args.Framework.ToString()) + " " + _localizationSource.GetString(args.Type.ToString());
-            _emailer.SendEmailAssumptionAppiedAsync(user, type, from.DisplayName, to.DisplayName, link);
+            AsyncHelper.RunSync(() => _emailer.SendEmailAssumptionAppiedAsync(user, type, from.DisplayName, to.DisplayName, link));
         }
     }
 }

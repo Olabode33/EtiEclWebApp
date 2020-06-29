@@ -113,7 +113,7 @@ namespace TestDemo.EclShared.Importing
             };
             CopyAffiliateAssumptions(args);
             SendCopyCompleteNotification(args);
-           // AsyncHelper.RunSync(() => SendEmailAlert(args));
+            AsyncHelper.RunSync(() => SendEmailAlert(args));
         }
 
         [UnitOfWork]
@@ -638,10 +638,10 @@ namespace TestDemo.EclShared.Importing
 
         private void SendCopyCompleteNotification(CopyAffiliateAssumptionJobArgs args)
         {
-            _appNotifier.SendMessageAsync(
+            AsyncHelper.RunSync(() => _appNotifier.SendMessageAsync(
                 args.User,
                 _localizationSource.GetString("CopyAffiliateProcessCompleted"),
-                Abp.Notifications.NotificationSeverity.Success);
+                Abp.Notifications.NotificationSeverity.Success));
         }
 
         private async Task SendEmailAlert(CopyAffiliateAssumptionJobArgs args)

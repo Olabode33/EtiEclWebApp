@@ -56,6 +56,7 @@ namespace TestDemo.Web.Controllers
                 var fileObject = new BinaryObject(tenantId, fileBytes);
 
                 await BinaryObjectManager.SaveAsync(fileObject);
+                await CurrentUnitOfWork.SaveChangesAsync();
 
                 await BackgroundJobManager.EnqueueAsync<ImportCalibrationBehaviouralFromExcelJob, ImportCalibrationDataFromExcelJobArgs>(new ImportCalibrationDataFromExcelJobArgs
                 {
@@ -100,6 +101,7 @@ namespace TestDemo.Web.Controllers
                 var fileObject = new BinaryObject(tenantId, fileBytes);
 
                 await BinaryObjectManager.SaveAsync(fileObject);
+                await CurrentUnitOfWork.SaveChangesAsync();
 
                 await BackgroundJobManager.EnqueueAsync<ImportCalibrationCcfSummaryFromExcelJob, ImportCalibrationDataFromExcelJobArgs>(new ImportCalibrationDataFromExcelJobArgs
                 {
@@ -144,6 +146,7 @@ namespace TestDemo.Web.Controllers
                 var fileObject = new BinaryObject(tenantId, fileBytes);
 
                 await BinaryObjectManager.SaveAsync(fileObject);
+                await CurrentUnitOfWork.SaveChangesAsync();
 
                 await BackgroundJobManager.EnqueueAsync<ImportCalibrationLgdHaircutFromExcelJob, ImportCalibrationDataFromExcelJobArgs>(new ImportCalibrationDataFromExcelJobArgs
                 {
@@ -188,6 +191,7 @@ namespace TestDemo.Web.Controllers
                 var fileObject = new BinaryObject(tenantId, fileBytes);
 
                 await BinaryObjectManager.SaveAsync(fileObject);
+                await CurrentUnitOfWork.SaveChangesAsync();
 
                 await BackgroundJobManager.EnqueueAsync<ImportCalibrationLgdRecoveryRateFromExcelJob, ImportCalibrationDataFromExcelJobArgs>(new ImportCalibrationDataFromExcelJobArgs
                 {
@@ -232,6 +236,7 @@ namespace TestDemo.Web.Controllers
                 var fileObject = new BinaryObject(tenantId, fileBytes);
 
                 await BinaryObjectManager.SaveAsync(fileObject);
+                await CurrentUnitOfWork.SaveChangesAsync();
 
                 await BackgroundJobManager.EnqueueAsync<ImportCalibrationPdCrDrFromExcelJob, ImportCalibrationDataFromExcelJobArgs>(new ImportCalibrationDataFromExcelJobArgs
                 {
@@ -276,6 +281,7 @@ namespace TestDemo.Web.Controllers
                 var fileObject = new BinaryObject(tenantId, fileBytes);
 
                 await BinaryObjectManager.SaveAsync(fileObject);
+                await CurrentUnitOfWork.SaveChangesAsync();
 
                 await BackgroundJobManager.EnqueueAsync<ImportMacroAnalysisDataFromExcelJob, ImportMacroAnalysisDataFromExcelJobArgs>(new ImportMacroAnalysisDataFromExcelJobArgs
                 {

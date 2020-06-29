@@ -80,6 +80,15 @@ namespace TestDemo.EntityFrameworkCore.Repositories
         {
             await RunEclProcedure_(ObeReopenEclProcedure, eclId);
         }
+        public async Task DeleteExistingInputRecords(string tableName, string columnName, string value)
+        {
+            var query = $"Delete from {tableName} where {columnName} = @Id";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("Id", value)
+            };
+            await ExecuteQuery(query, parameters);
+        }
 
         private async Task RunEclProcedure(string procedureName, Guid eclId)
         {
@@ -103,10 +112,17 @@ namespace TestDemo.EntityFrameworkCore.Repositories
         {
             await EnsureConnectionOpenAsync();
 
+
+
             using (var command = CreateCommand(procedureName, CommandType.StoredProcedure, parameters))
             {
                 await command.ExecuteNonQueryAsync();
             }
+        }
+
+        private async Task ExecuteQuery(string query, SqlParameter[] parameters)
+        {
+            await Context.Database.ExecuteSqlCommandAsync(query, parameters);
         }
 
         private DbCommand CreateCommand(string commandText, CommandType commandType, params SqlParameter[] parameters)

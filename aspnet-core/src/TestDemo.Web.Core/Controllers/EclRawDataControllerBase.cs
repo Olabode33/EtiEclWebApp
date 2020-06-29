@@ -58,6 +58,7 @@ namespace TestDemo.Web.Controllers
                 var fileObject = new BinaryObject(tenantId, fileBytes);
 
                 await BinaryObjectManager.SaveAsync(fileObject);
+                await CurrentUnitOfWork.SaveChangesAsync();
 
                 await BackgroundJobManager.EnqueueAsync<ImportPaymentScheduleFromExcelJob , ImportEclDataFromExcelJobArgs>(new ImportEclDataFromExcelJobArgs
                 {
@@ -105,6 +106,7 @@ namespace TestDemo.Web.Controllers
                 var fileObject = new BinaryObject(tenantId, fileBytes);
 
                 await BinaryObjectManager.SaveAsync(fileObject);
+                await CurrentUnitOfWork.SaveChangesAsync();
 
                 await BackgroundJobManager.EnqueueAsync<ImportLoanbookFromExcelJob, ImportEclDataFromExcelJobArgs>(new ImportEclDataFromExcelJobArgs
                 {
@@ -152,6 +154,7 @@ namespace TestDemo.Web.Controllers
                 var fileObject = new BinaryObject(tenantId, fileBytes);
 
                 await BinaryObjectManager.SaveAsync(fileObject);
+                await CurrentUnitOfWork.SaveChangesAsync();
 
                 await BackgroundJobManager.EnqueueAsync<ImportAssetBookFromExcelJob, ImportEclDataFromExcelJobArgs>(new ImportEclDataFromExcelJobArgs
                 {

@@ -16,12 +16,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TestDemo.Authorization.Users;
+using TestDemo.Common;
 using TestDemo.Configuration;
 using TestDemo.Dto;
 using TestDemo.EclShared.Dtos;
 using TestDemo.EclShared.Emailer;
 using TestDemo.EclShared.Importing;
 using TestDemo.EclShared.Importing.Dto;
+using TestDemo.InvestmentComputation;
 using TestDemo.Notifications;
 using TestDemo.OBE;
 using TestDemo.ObeInputs;
@@ -54,6 +56,7 @@ namespace TestDemo.EclShared.Importing
         private readonly IRepository<RetailEcl, Guid> _retailEclRepository;
         private readonly IRepository<ObeEcl, Guid> _obeEclRepository;
         private readonly IRepository<WholesaleEcl, Guid> _wholesaleEclRepository;
+        private readonly IEclCustomRepository _customRepository;
 
         public ImportLoanbookFromExcelJob(
             ILoanbookExcelDataReader loanbookExcelDataReader, 
@@ -74,6 +77,7 @@ namespace TestDemo.EclShared.Importing
             IRepository<RetailEcl, Guid> retailEclRepository,
             IRepository<ObeEcl, Guid> obeEclRepository,
             IRepository<WholesaleEcl, Guid> wholesaleEclRepository,
+            IEclCustomRepository customRepository,
             IObjectMapper objectMapper)
         {
             _loanbookExcelDataReader = loanbookExcelDataReader;
@@ -95,6 +99,7 @@ namespace TestDemo.EclShared.Importing
             _obeEclRepository = obeEclRepository;
             _wholesaleEclRepository = wholesaleEclRepository;
             _objectMapper = objectMapper;
+            _customRepository = customRepository;
         }
 
         [UnitOfWork]
@@ -117,10 +122,14 @@ namespace TestDemo.EclShared.Importing
             try
             {
                 var file = AsyncHelper.RunSync(() => _binaryObjectManager.GetOrNullAsync(args.BinaryObjectId));
+                Logger.Debug("ImportLoanbookFromExcelJobFileToken: " + file.Id);
                 return _loanbookExcelDataReader.GetImportLoanbookFromExcel(file.Bytes);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Logger.Debug("ImportLoanbookFromExcelJobError: " + e.Message);
+                Logger.Debug("ImportLoanbookFromExcelJobErrorInnerException: " + e.InnerException);
+                Logger.Debug("ImportLoanbookFromExcelJobErrorStackTrack: " + e.StackTrace);
                 return null;
             }
         }
@@ -416,10 +425,10 @@ namespace TestDemo.EclShared.Importing
 
         private void SendInvalidExcelNotification(ImportEclDataFromExcelJobArgs args)
         {
-            _appNotifier.SendMessageAsync(
+            AsyncHelper.RunSync(() => _appNotifier.SendMessageAsync(
                 args.User,
                 _localizationSource.GetString("FileCantBeConvertedToLoanbookList"),
-                Abp.Notifications.NotificationSeverity.Warn);
+                Abp.Notifications.NotificationSeverity.Warn));
         }
 
         [UnitOfWork]
@@ -454,7 +463,7 @@ namespace TestDemo.EclShared.Importing
                     }
                     break;
             }
-            CurrentUnitOfWork.SaveChanges();
+            //CurrentUnitOfWork.SaveChanges();
         }
 
         [UnitOfWork]
@@ -467,7 +476,8 @@ namespace TestDemo.EclShared.Importing
                     var rlb = _retailEclDataLoanbookRepository.Count(x => x.RetailEclUploadId == retailSummary.RetailEclId);
                     if (retailSummary != null && rlb > 0)
                     {
-                        _retailEclDataLoanbookRepository.HardDelete(x => x.RetailEclUploadId == retailSummary.RetailEclId);
+                        AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_EclLoanBookRetail, DbHelperConst.COL_RetailEclUploadId, retailSummary.RetailEclId.ToString()));
+                        //_retailEclDataLoanbookRepository.HardDelete(x => x.RetailEclUploadId == retailSummary.RetailEclId);
                     }
                     break;
 
@@ -476,7 +486,8 @@ namespace TestDemo.EclShared.Importing
                     var wlb = _wholesaleEclDataLoanbookRepository.Count(x => x.WholesaleEclUploadId == wholesaleSummary.WholesaleEclId);
                     if (wholesaleSummary != null && wlb > 0)
                     {
-                        _wholesaleEclDataLoanbookRepository.HardDelete(x => x.WholesaleEclUploadId == wholesaleSummary.WholesaleEclId);
+                        AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_EclLoanBookWholesale, DbHelperConst.COL_WholesaleEclUploadId, wholesaleSummary.WholesaleEclId.ToString()));
+                        //_wholesaleEclDataLoanbookRepository.HardDelete(x => x.WholesaleEclUploadId == wholesaleSummary.WholesaleEclId);
                     }
                     break;
 
@@ -485,11 +496,11 @@ namespace TestDemo.EclShared.Importing
                     var obelb = _obeEclDataLoanbookRepository.Count(x => x.ObeEclUploadId == obeSummary.ObeEclId);
                     if (obeSummary != null && obelb > 0)
                     {
-                        _obeEclDataLoanbookRepository.HardDelete(x => x.ObeEclUploadId == obeSummary.ObeEclId);
+                        AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_EclLoanBookObe, DbHelperConst.COL_ObeEclUploadId, obeSummary.ObeEclId.ToString()));
+                        //_obeEclDataLoanbookRepository.HardDelete(x => x.ObeEclUploadId == obeSummary.ObeEclId);
                     }
                     break;
             }
-            CurrentUnitOfWork.SaveChanges();
         }
 
         private void SendEmailAlert(ImportEclDataFromExcelJobArgs args)
@@ -526,7 +537,7 @@ namespace TestDemo.EclShared.Importing
 
             var ou = _ouRepository.FirstOrDefault(ouId);
             var type = args.Framework.ToString() + " loanbook";
-            _emailer.SendEmailDataUploadCompleteAsync(user, type, ou.DisplayName, link);
+            AsyncHelper.RunSync(() => _emailer.SendEmailDataUploadCompleteAsync(user, type, ou.DisplayName, link));
         }
 
 
@@ -561,7 +572,7 @@ namespace TestDemo.EclShared.Importing
 
             var ou = _ouRepository.FirstOrDefault(ouId);
             var type = args.Framework.ToString() + " loanbook";
-            _emailer.SendEmailInvalidDataUploadCompleteAsync(user, type, ou.DisplayName, link);
+            AsyncHelper.RunSync(() => _emailer.SendEmailInvalidDataUploadCompleteAsync(user, type, ou.DisplayName, link));
         }
     }
 }

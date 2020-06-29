@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using TestDemo.Authorization.Users;
 using TestDemo.Calibration;
 using TestDemo.CalibrationInput;
+using TestDemo.Common;
 using TestDemo.Configuration;
 using TestDemo.Dto;
 using TestDemo.EclShared.Dtos;
@@ -25,6 +26,7 @@ using TestDemo.EclShared.Emailer;
 using TestDemo.EclShared.Importing.Calibration;
 using TestDemo.EclShared.Importing.Calibration.Dto;
 using TestDemo.EclShared.Importing.Dto;
+using TestDemo.InvestmentComputation;
 using TestDemo.Notifications;
 using TestDemo.ObeInputs;
 using TestDemo.RetailInputs;
@@ -47,6 +49,7 @@ namespace TestDemo.EclShared.Importing
         private readonly IConfigurationRoot _appConfiguration;
         private readonly IRepository<User, long> _userRepository;
         private readonly IRepository<OrganizationUnit, long> _ouRepository;
+        private readonly IEclCustomRepository _customRepository;
 
         public ImportCalibrationPdCrDrFromExcelJob(
             IPdCrDrExcelDataReader pdCrDreExcelDataReader,
@@ -60,6 +63,7 @@ namespace TestDemo.EclShared.Importing
             IHostingEnvironment env,
             IRepository<User, long> userRepository,
             IRepository<OrganizationUnit, long> ouRepository,
+            IEclCustomRepository customRepository,
             IObjectMapper objectMapper)
         {
             _pdCrDrExcelDataReader = pdCrDreExcelDataReader;
@@ -74,6 +78,7 @@ namespace TestDemo.EclShared.Importing
             _appConfiguration = env.GetAppConfiguration();
             _userRepository = userRepository;
             _ouRepository = ouRepository;
+            _customRepository = customRepository;
         }
 
         [UnitOfWork]
@@ -176,16 +181,17 @@ namespace TestDemo.EclShared.Importing
 
         private void SendInvalidExcelNotification(ImportCalibrationDataFromExcelJobArgs args)
         {
-            _appNotifier.SendMessageAsync(
+            AsyncHelper.RunSync(() => _appNotifier.SendMessageAsync(
                 args.User,
                 _localizationSource.GetString("FileCantBeConvertedToCalibrationLgdRecoveryRateList"),
-                Abp.Notifications.NotificationSeverity.Warn);
+                Abp.Notifications.NotificationSeverity.Warn));
         }
 
         [UnitOfWork]
         private void DeleteExistingDataAsync(ImportCalibrationDataFromExcelJobArgs args)
         {
-            _pdCrDrRepository.Delete(x => x.CalibrationId == args.CalibrationId);
+            AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_CalibrationInputPdCrDr, DbHelperConst.COL_CalibrationId, args.CalibrationId.ToString()));
+            //_pdCrDrRepository.Delete(x => x.CalibrationId == args.CalibrationId);
         }
 
         [UnitOfWork]
@@ -207,7 +213,7 @@ namespace TestDemo.EclShared.Importing
             var type = "PD CR DR calibration";
             var calibration = _calibrationRepository.FirstOrDefault((Guid)args.CalibrationId);
             var ou = _ouRepository.FirstOrDefault(calibration.OrganizationUnitId);
-            _emailer.SendEmailDataUploadCompleteAsync(user, type, ou.DisplayName, link);
+            AsyncHelper.RunSync(() => _emailer.SendEmailDataUploadCompleteAsync(user, type, ou.DisplayName, link));
         }
 
         private void SendInvalidEmailAlert(ImportCalibrationDataFromExcelJobArgs args, FileDto file)
@@ -219,7 +225,7 @@ namespace TestDemo.EclShared.Importing
             var type = "PD CR DR calibration";
             var calibration = _calibrationRepository.FirstOrDefault((Guid)args.CalibrationId);
             var ou = _ouRepository.FirstOrDefault(calibration.OrganizationUnitId);
-            _emailer.SendEmailInvalidDataUploadCompleteAsync(user, type, ou.DisplayName, link);
+            AsyncHelper.RunSync(() => _emailer.SendEmailInvalidDataUploadCompleteAsync(user, type, ou.DisplayName, link));
         }
 
     }

@@ -16,11 +16,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TestDemo.Authorization.Users;
+using TestDemo.Common;
 using TestDemo.Configuration;
 using TestDemo.Dto;
 using TestDemo.EclShared.Dtos;
 using TestDemo.EclShared.Emailer;
 using TestDemo.EclShared.Importing.Dto;
+using TestDemo.InvestmentComputation;
 using TestDemo.Notifications;
 using TestDemo.OBE;
 using TestDemo.ObeInputs;
@@ -53,6 +55,7 @@ namespace TestDemo.EclShared.Importing
         private readonly IRepository<RetailEcl, Guid> _retailEclRepository;
         private readonly IRepository<ObeEcl, Guid> _obeEclRepository;
         private readonly IRepository<WholesaleEcl, Guid> _wholesaleEclRepository;
+        private readonly IEclCustomRepository _customRepository;
 
         public ImportPaymentScheduleFromExcelJob (
             IPaymentScheduleExcelDataReader paymentScheduleExcelDataReader, 
@@ -73,6 +76,7 @@ namespace TestDemo.EclShared.Importing
             IRepository<RetailEcl, Guid> retailEclRepository,
             IRepository<ObeEcl, Guid> obeEclRepository,
             IRepository<WholesaleEcl, Guid> wholesaleEclRepository,
+            IEclCustomRepository customRepository,
             IObjectMapper objectMapper)
         {
             _paymentScheduleExcelDataReader = paymentScheduleExcelDataReader;
@@ -94,6 +98,7 @@ namespace TestDemo.EclShared.Importing
             _retailEclRepository = retailEclRepository;
             _obeEclRepository = obeEclRepository;
             _wholesaleEclRepository = wholesaleEclRepository;
+            _customRepository = customRepository;
         }
 
         [UnitOfWork]
@@ -224,10 +229,10 @@ namespace TestDemo.EclShared.Importing
 
         private void SendInvalidExcelNotification(ImportEclDataFromExcelJobArgs args)
         {
-            _appNotifier.SendMessageAsync(
+            AsyncHelper.RunSync(() => _appNotifier.SendMessageAsync(
                 args.User,
                 _localizationSource.GetString("FileCantBeConvertedToPaymentScheduleList"),
-                Abp.Notifications.NotificationSeverity.Warn);
+                Abp.Notifications.NotificationSeverity.Warn));
         }
 
         [UnitOfWork]
@@ -262,7 +267,7 @@ namespace TestDemo.EclShared.Importing
                     }
                     break;
             }
-            CurrentUnitOfWork.SaveChanges();
+            //CurrentUnitOfWork.SaveChanges();
         }
 
         [UnitOfWork]
@@ -275,7 +280,9 @@ namespace TestDemo.EclShared.Importing
                     var rp = _retailEclDataPaymentScheduleRepository.Count(x => x.RetailEclUploadId == retailSummary.RetailEclId);
                     if (retailSummary != null && rp > 0)
                     {
-                        _retailEclDataPaymentScheduleRepository.HardDelete(x => x.RetailEclUploadId == retailSummary.RetailEclId);
+                        AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_EclPaymentScheduleRetail, DbHelperConst.COL_RetailEclUploadId, retailSummary.RetailEclId.ToString()));
+
+                        //_retailEclDataPaymentScheduleRepository.HardDelete(x => x.RetailEclUploadId == retailSummary.RetailEclId);
                     }
                     break;
 
@@ -284,7 +291,9 @@ namespace TestDemo.EclShared.Importing
                     var wp = _wholesaleEclDataPaymentScheduleRepository.Count(x => x.WholesaleEclUploadId == wholesaleSummary.WholesaleEclId);
                     if (wholesaleSummary != null && wp > 0)
                     {
-                        _wholesaleEclDataPaymentScheduleRepository.HardDelete(x => x.WholesaleEclUploadId == wholesaleSummary.WholesaleEclId);
+                        AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_EclPaymentScheduleWholesale, DbHelperConst.COL_WholesaleEclUploadId, wholesaleSummary.WholesaleEclId.ToString()));
+                        //
+                        //_wholesaleEclDataPaymentScheduleRepository.HardDelete(x => x.WholesaleEclUploadId == wholesaleSummary.WholesaleEclId);
                     }
                     break;
 
@@ -293,11 +302,13 @@ namespace TestDemo.EclShared.Importing
                     var op = _obeEclDataPaymentScheduleRepository.Count(x => x.ObeEclUploadId == obeSummary.ObeEclId);
                     if (obeSummary != null && op > 0)
                     {
-                        _obeEclDataPaymentScheduleRepository.HardDelete(x => x.ObeEclUploadId == obeSummary.ObeEclId);
+                        AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_EclPaymentScheduleObe, DbHelperConst.COL_ObeEclUploadId, obeSummary.ObeEclId.ToString()));
+
+                        //_obeEclDataPaymentScheduleRepository.HardDelete(x => x.ObeEclUploadId == obeSummary.ObeEclId);
                     }
                     break;
             }
-            CurrentUnitOfWork.SaveChanges();
+            //CurrentUnitOfWork.SaveChanges();
         }
 
         private void SendEmailAlert(ImportEclDataFromExcelJobArgs args)
@@ -334,7 +345,7 @@ namespace TestDemo.EclShared.Importing
 
             var ou = _ouRepository.FirstOrDefault(ouId);
             var type = args.Framework.ToString() + " Payment schedule";
-            _emailer.SendEmailDataUploadCompleteAsync(user, type, ou.DisplayName, link);
+            AsyncHelper.RunSync(() => _emailer.SendEmailDataUploadCompleteAsync(user, type, ou.DisplayName, link));
         }
 
         private void SendInvalidEmailAlert(ImportEclDataFromExcelJobArgs args, FileDto file)
@@ -368,7 +379,7 @@ namespace TestDemo.EclShared.Importing
 
             var ou = _ouRepository.FirstOrDefault(ouId);
             var type = args.Framework.ToString() + " Payment schedule";
-            _emailer.SendEmailInvalidDataUploadCompleteAsync(user, type, ou.DisplayName, link);
+            AsyncHelper.RunSync(() => _emailer.SendEmailInvalidDataUploadCompleteAsync(user, type, ou.DisplayName, link));
         }
 
     }

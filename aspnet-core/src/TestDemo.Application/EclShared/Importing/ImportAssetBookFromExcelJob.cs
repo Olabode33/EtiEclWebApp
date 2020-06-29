@@ -195,7 +195,7 @@ namespace TestDemo.EclShared.Importing
             var investmentSummary = _investmentEclUploadRepository.FirstOrDefault((Guid)args.UploadSummaryId);
             investmentSummary.Status = GeneralStatusEnum.Completed;
             _investmentEclUploadRepository.Update(investmentSummary);
-            CurrentUnitOfWork.SaveChanges();
+            //CurrentUnitOfWork.SaveChanges();
         }
 
         private void SendEmailAlert(ImportEclDataFromExcelJobArgs args)
@@ -210,7 +210,7 @@ namespace TestDemo.EclShared.Importing
 
             var ou = _ouRepository.FirstOrDefault(ecl.OrganizationUnitId);
             var type = args.Framework.ToString() + " Assetbook";
-            _emailer.SendEmailDataUploadCompleteAsync(user, type, ou.DisplayName, link);
+            AsyncHelper.RunSync(() => _emailer.SendEmailDataUploadCompleteAsync(user, type, ou.DisplayName, link));
         }
 
         private void SendInvalidEmailAlert(ImportEclDataFromExcelJobArgs args, FileDto file)
@@ -224,7 +224,7 @@ namespace TestDemo.EclShared.Importing
 
             var ou = _ouRepository.FirstOrDefault(ecl.OrganizationUnitId);
             var type = args.Framework.ToString() + " Assetbook";
-            _emailer.SendEmailInvalidDataUploadCompleteAsync(user, type, ou.DisplayName, link);
+            AsyncHelper.RunSync(() => _emailer.SendEmailInvalidDataUploadCompleteAsync(user, type, ou.DisplayName, link));
         }
 
     }

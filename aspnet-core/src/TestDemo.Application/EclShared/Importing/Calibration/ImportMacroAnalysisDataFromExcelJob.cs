@@ -22,6 +22,7 @@ using TestDemo.AffiliateMacroEconomicVariable;
 using TestDemo.Authorization.Users;
 using TestDemo.Calibration;
 using TestDemo.CalibrationInput;
+using TestDemo.Common;
 using TestDemo.Configuration;
 using TestDemo.Dto;
 using TestDemo.EclShared.Dtos;
@@ -29,6 +30,7 @@ using TestDemo.EclShared.Emailer;
 using TestDemo.EclShared.Importing.Calibration;
 using TestDemo.EclShared.Importing.Calibration.Dto;
 using TestDemo.EclShared.Importing.Dto;
+using TestDemo.InvestmentComputation;
 using TestDemo.Notifications;
 using TestDemo.ObeInputs;
 using TestDemo.RetailInputs;
@@ -52,6 +54,7 @@ namespace TestDemo.EclShared.Importing
         private readonly IConfigurationRoot _appConfiguration;
         private readonly IRepository<User, long> _userRepository;
         private readonly IRepository<OrganizationUnit, long> _ouRepository;
+        private readonly IEclCustomRepository _customRepository;
 
         public ImportMacroAnalysisDataFromExcelJob(
             IMacroAnalysisDataExcelDataReader excelDataReader,
@@ -66,6 +69,7 @@ namespace TestDemo.EclShared.Importing
             IHostingEnvironment env,
             IRepository<User, long> userRepository,
             IRepository<OrganizationUnit, long> ouRepository,
+            IEclCustomRepository customRepository,
             IObjectMapper objectMapper)
         {
             _excelDataReader = excelDataReader;
@@ -81,6 +85,7 @@ namespace TestDemo.EclShared.Importing
             _appConfiguration = env.GetAppConfiguration();
             _userRepository = userRepository;
             _ouRepository = ouRepository;
+            _customRepository = customRepository;
         }
 
         [UnitOfWork]
@@ -197,16 +202,18 @@ namespace TestDemo.EclShared.Importing
 
         private void SendInvalidExcelNotification(ImportMacroAnalysisDataFromExcelJobArgs args)
         {
-            _appNotifier.SendMessageAsync(
+            AsyncHelper.RunSync(() => _appNotifier.SendMessageAsync(
                 args.User,
                 _localizationSource.GetString("FileCantBeConvertedToMacroAnalysisDataList"),
-                Abp.Notifications.NotificationSeverity.Warn);
+                Abp.Notifications.NotificationSeverity.Warn));
         }
 
         [UnitOfWork]
         private void DeleteExistingDataAsync(ImportMacroAnalysisDataFromExcelJobArgs args)
         {
-            _dataRepository.Delete(x => x.MacroId == args.MacroId);
+            AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_CalibrationInputMacroeconomicData, DbHelperConst.COL_MacroId, args.MacroId.ToString()));
+
+            //_dataRepository.Delete(x => x.MacroId == args.MacroId);
         }
 
         [UnitOfWork]
@@ -228,7 +235,7 @@ namespace TestDemo.EclShared.Importing
             var type = "Macro analysis";
             var calibration = _calibrationRepository.FirstOrDefault(args.MacroId);
             var ou = _ouRepository.FirstOrDefault(calibration.OrganizationUnitId);
-            _emailer.SendEmailDataUploadCompleteAsync(user, type, ou.DisplayName, link);
+            AsyncHelper.RunSync(() => _emailer.SendEmailDataUploadCompleteAsync(user, type, ou.DisplayName, link));
         }
 
         private void SendInvalidEmailAlert(ImportMacroAnalysisDataFromExcelJobArgs args, FileDto file)
@@ -240,7 +247,7 @@ namespace TestDemo.EclShared.Importing
             var type = "Macro analysis";
             var calibration = _calibrationRepository.FirstOrDefault(args.MacroId);
             var ou = _ouRepository.FirstOrDefault(calibration.OrganizationUnitId);
-            _emailer.SendEmailInvalidDataUploadCompleteAsync(user, type, ou.DisplayName, link);
+            AsyncHelper.RunSync(() => _emailer.SendEmailInvalidDataUploadCompleteAsync(user, type, ou.DisplayName, link));
         }
 
     }

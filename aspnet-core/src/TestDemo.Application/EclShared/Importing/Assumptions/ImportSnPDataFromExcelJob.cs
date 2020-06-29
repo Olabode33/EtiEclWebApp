@@ -178,10 +178,10 @@ namespace TestDemo.EclShared.Importing
 
         private void SendInvalidExcelNotification(ImportAssumptionDataFromExcelJobArgs args)
         {
-            _appNotifier.SendMessageAsync(
+            AsyncHelper.RunSync(() => _appNotifier.SendMessageAsync(
                 args.User,
                 _localizationSource.GetString("FileCantBeConvertedToSnPList"),
-                Abp.Notifications.NotificationSeverity.Warn);
+                Abp.Notifications.NotificationSeverity.Warn));
         }
 
         [UnitOfWork]
@@ -219,7 +219,7 @@ namespace TestDemo.EclShared.Importing
             var link = baseUrl + "/app/main/assumption/affiliates/view/" + args.AffiliateId;
             var type = args.Framework.ToString() + " S&P Cummulative Default Rate";
             var ou = _ouRepository.FirstOrDefault(args.AffiliateId);
-            _emailer.SendEmailDataUploadCompleteAsync(user, type, ou.DisplayName, link);
+            AsyncHelper.RunSync(() => _emailer.SendEmailDataUploadCompleteAsync(user, type, ou.DisplayName, link));
         }
 
         private void SendInvalidEmailAlert(ImportAssumptionDataFromExcelJobArgs args, FileDto file)
@@ -230,7 +230,7 @@ namespace TestDemo.EclShared.Importing
 
             var type = args.Framework.ToString() + " S&P Cummulative Default Rate";
             var ou = _ouRepository.FirstOrDefault(args.AffiliateId);
-            _emailer.SendEmailInvalidDataUploadCompleteAsync(user, type, ou.DisplayName, link);
+            AsyncHelper.RunSync(() => _emailer.SendEmailInvalidDataUploadCompleteAsync(user, type, ou.DisplayName, link));
         }
 
     }

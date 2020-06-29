@@ -58,6 +58,7 @@ namespace TestDemo.Web.Controllers
                 var fileObject = new BinaryObject(tenantId, fileBytes);
 
                 await BinaryObjectManager.SaveAsync(fileObject);
+                await CurrentUnitOfWork.SaveChangesAsync();
 
                 await BackgroundJobManager.EnqueueAsync<ImportSnPDataFromExcelJob, ImportAssumptionDataFromExcelJobArgs>(new ImportAssumptionDataFromExcelJobArgs
                 {
@@ -104,6 +105,7 @@ namespace TestDemo.Web.Controllers
                 var fileObject = new BinaryObject(tenantId, fileBytes);
 
                 await BinaryObjectManager.SaveAsync(fileObject);
+                await CurrentUnitOfWork.SaveChangesAsync();
 
                 await BackgroundJobManager.EnqueueAsync<ImportNonInternalModelDataFromExcelJob, ImportAssumptionDataFromExcelJobArgs>(new ImportAssumptionDataFromExcelJobArgs
                 {
@@ -150,6 +152,7 @@ namespace TestDemo.Web.Controllers
                 var fileObject = new BinaryObject(tenantId, fileBytes);
 
                 await BinaryObjectManager.SaveAsync(fileObject);
+                await CurrentUnitOfWork.SaveChangesAsync();
 
                 await BackgroundJobManager.EnqueueAsync<ImportNplDataFromExcelJob, ImportAssumptionDataFromExcelJobArgs>(new ImportAssumptionDataFromExcelJobArgs
                 {
@@ -196,6 +199,7 @@ namespace TestDemo.Web.Controllers
                 var fileObject = new BinaryObject(tenantId, fileBytes);
 
                 await BinaryObjectManager.SaveAsync(fileObject);
+                await CurrentUnitOfWork.SaveChangesAsync();
 
                 await BackgroundJobManager.EnqueueAsync<ImportMacroProjectionsDataFromExcelJob, ImportAssumptionDataFromExcelJobArgs>(new ImportAssumptionDataFromExcelJobArgs
                 {

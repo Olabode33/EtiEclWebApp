@@ -31,6 +31,7 @@ using TestDemo.EclShared.Importing.Assumptions.Dto;
 using TestDemo.EclShared.Importing.Calibration;
 using TestDemo.EclShared.Importing.Calibration.Dto;
 using TestDemo.EclShared.Importing.Dto;
+using TestDemo.InvestmentComputation;
 using TestDemo.Notifications;
 using TestDemo.ObeInputs;
 using TestDemo.RetailInputs;
@@ -57,6 +58,7 @@ namespace TestDemo.EclShared.Importing
         private readonly IConfigurationRoot _appConfiguration;
         private readonly IRepository<User, long> _userRepository;
         private readonly IRepository<OrganizationUnit, long> _ouRepository;
+        private readonly IEclCustomRepository _customRepository;
 
         public ImportMacroProjectionsDataFromExcelJob(
             IMacroProjectionDataExcelDataReader excelDataReader,
@@ -74,6 +76,7 @@ namespace TestDemo.EclShared.Importing
             IHostingEnvironment env,
             IRepository<User, long> userRepository,
             IRepository<OrganizationUnit, long> ouRepository,
+            IEclCustomRepository customRepository,
             IObjectMapper objectMapper)
         {
             _excelDataReader = excelDataReader;
@@ -92,6 +95,7 @@ namespace TestDemo.EclShared.Importing
             _appConfiguration = env.GetAppConfiguration();
             _userRepository = userRepository;
             _ouRepository = ouRepository;
+            _customRepository = customRepository;
         }
 
         [UnitOfWork]
@@ -223,10 +227,10 @@ namespace TestDemo.EclShared.Importing
 
         private void SendInvalidExcelNotification(ImportAssumptionDataFromExcelJobArgs args)
         {
-            _appNotifier.SendMessageAsync(
+            AsyncHelper.RunSync(() => _appNotifier.SendMessageAsync(
                 args.User,
                 _localizationSource.GetString("FileCantBeConvertedToMacroProjectionDataList"),
-                Abp.Notifications.NotificationSeverity.Warn);
+                Abp.Notifications.NotificationSeverity.Warn));
         }
 
         private void DeleteExistingDataAsync(ImportAssumptionDataFromExcelJobArgs args)
@@ -263,7 +267,7 @@ namespace TestDemo.EclShared.Importing
             var link = baseUrl + "/app/main/assumption/affiliates/view/" + args.AffiliateId;
             var type = args.Framework.ToString() + " Macro-economic projection";
             var ou = _ouRepository.FirstOrDefault(args.AffiliateId);
-            _emailer.SendEmailDataUploadCompleteAsync(user, type, ou.DisplayName, link);
+            AsyncHelper.RunSync(() => _emailer.SendEmailDataUploadCompleteAsync(user, type, ou.DisplayName, link));
         }
 
         private void SendInvalidEmailAlert(ImportAssumptionDataFromExcelJobArgs args, FileDto file)
@@ -274,7 +278,7 @@ namespace TestDemo.EclShared.Importing
 
             var type = args.Framework.ToString() + " Macro-economic projection";
             var ou = _ouRepository.FirstOrDefault(args.AffiliateId);
-            _emailer.SendEmailInvalidDataUploadCompleteAsync(user, type, ou.DisplayName, link);
+            AsyncHelper.RunSync(() => _emailer.SendEmailInvalidDataUploadCompleteAsync(user, type, ou.DisplayName, link));
         }
 
     }
