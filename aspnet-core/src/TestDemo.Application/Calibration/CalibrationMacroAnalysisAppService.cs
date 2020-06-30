@@ -39,7 +39,7 @@ namespace TestDemo.Calibration
     [AbpAuthorize(AppPermissions.Pages_Calibration)]
     public class CalibrationMacroAnalysisAppService : TestDemoAppServiceBase
     {
-        private readonly IRepository<MacroAnalysis> _calibrationRepository;
+        private readonly IRepository<MacroAnalysis> _macroAnalysisRepository;
         private readonly IRepository<MacroAnalysisApproval> _calibrationApprovalRepository;
         private readonly IRepository<MacroeconomicData> _calibrationInputRepository;
         private readonly IRepository<MacroResult_PrincipalComponent> _principalComponentResultRepository;
@@ -73,7 +73,7 @@ namespace TestDemo.Calibration
             IHostingEnvironment env,
         IMacroAnalysisDataTemplateExporter templateeExporter)
         {
-            _calibrationRepository = calibrationRepository;
+            _macroAnalysisRepository = calibrationRepository;
             _lookup_userRepository = lookup_userRepository;
             _calibrationApprovalRepository = calibrationApprovalRepository;
             _calibrationInputRepository = calibrationInputRepository;
@@ -101,18 +101,18 @@ namespace TestDemo.Calibration
                         ? (CalibrationStatusEnum)input.StatusFilter
                         : default;
 
-            var filteredCalibrationEadBehaviouralTerms = _calibrationRepository.GetAll()
+            var filteredMacroAnalysisData = _macroAnalysisRepository.GetAll()
                         .Include(e => e.CloseByUserFk)
                         .WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false)
                         .WhereIf(input.StatusFilter.HasValue && input.StatusFilter > -1, e => e.Status == statusFilter)
                         .WhereIf(input.AffiliateIdFilter.HasValue && input.AffiliateIdFilter > -1, e => e.OrganizationUnitId == input.AffiliateIdFilter);
 
-            var pagedAndFilteredCalibrationEadBehaviouralTerms = filteredCalibrationEadBehaviouralTerms
+            var pagedAndFilteredMacroAnalysis = filteredMacroAnalysisData
                 .OrderBy(input.Sorting ?? "creationTime desc")
                 .PageBy(input);
 
-            var calibrationEadBehaviouralTerms = from o in pagedAndFilteredCalibrationEadBehaviouralTerms
+            var calibrationEadBehaviouralTerms = from o in pagedAndFilteredMacroAnalysis
                                                  join o1 in _lookup_userRepository.GetAll() on o.CreatorUserId equals o1.Id into j1
                                                  from s1 in j1.DefaultIfEmpty()
 
@@ -125,6 +125,7 @@ namespace TestDemo.Calibration
                                                      {
                                                          ClosedDate = o.ClosedDate,
                                                          Status = o.Status,
+                                                         ModelType=o.ModelType,
                                                          Id = o.Id
                                                      },
                                                      ClosedBy = o.CloseByUserFk == null || o.CloseByUserFk.FullName == null ? "" : o.CloseByUserFk.FullName,
@@ -133,7 +134,7 @@ namespace TestDemo.Calibration
                                                      AffiliateName = ou2 == null ? "" : ou2.DisplayName
                                                  };
 
-            var totalCount = await filteredCalibrationEadBehaviouralTerms.CountAsync();
+            var totalCount = await filteredMacroAnalysisData.CountAsync();
 
             return new PagedResultDto<GetMacroAnalysisRunForViewDto>(
                 totalCount,
@@ -143,7 +144,7 @@ namespace TestDemo.Calibration
 
         public async Task<GetCalibrationRunForEditOutput> GetCalibrationForEdit(EntityDto input)
         {
-            var calibration = await _calibrationRepository.FirstOrDefaultAsync(input.Id);
+            var calibration = await _macroAnalysisRepository.FirstOrDefaultAsync(input.Id);
 
             var output = new GetCalibrationRunForEditOutput { Calibration = ObjectMapper.Map<CreateOrEditCalibrationRunDto>(calibration) };
 
@@ -205,7 +206,7 @@ namespace TestDemo.Calibration
         public async Task<GetMacroAnalysisDataDto> GetInputSummary(EntityDto input)
         {
             var total = await _calibrationInputRepository.CountAsync(x => x.MacroId == input.Id && x.MacroeconomicId == -1);
-            var macro = await _calibrationRepository.FirstOrDefaultAsync(input.Id);
+            var macro = await _macroAnalysisRepository.FirstOrDefaultAsync(input.Id);
             var items = await _affiliateMacroVariableRepository.GetAll()
                                                                .Include(e => e.MacroeconomicVariableFk)
                                                                .Where(e => e.AffiliateId == macro.OrganizationUnitId)
@@ -294,19 +295,21 @@ namespace TestDemo.Calibration
             if (userSubsidiaries.Count > 0)
             {
                 long ouId = userSubsidiaries[0].Id;
-                int id = await _calibrationRepository.InsertAndGetIdAsync(new MacroAnalysis()
+                int id = await _macroAnalysisRepository.InsertAndGetIdAsync(new MacroAnalysis()
                 {
                     OrganizationUnitId = ouId,
-                    Status = CalibrationStatusEnum.Draft
+                    Status = CalibrationStatusEnum.Draft,
+                    ModelType = input.ModelType
                 });
                 return id;
             }
             else
             {
-                int id = await _calibrationRepository.InsertAndGetIdAsync(new MacroAnalysis()
+                int id = await _macroAnalysisRepository.InsertAndGetIdAsync(new MacroAnalysis()
                 {
                     OrganizationUnitId = (long)input.AffiliateId,
-                    Status = CalibrationStatusEnum.Draft
+                    Status = CalibrationStatusEnum.Draft,
+                    ModelType = input.ModelType
                 });
                 return id;
             }
@@ -314,13 +317,13 @@ namespace TestDemo.Calibration
 
         protected virtual async Task Update(CreateOrEditMacroAnalysisRunDto input)
         {
-            var calibrationEadBehaviouralTerm = await _calibrationRepository.FirstOrDefaultAsync((int)input.Id);
+            var calibrationEadBehaviouralTerm = await _macroAnalysisRepository.FirstOrDefaultAsync((int)input.Id);
             ObjectMapper.Map(input, calibrationEadBehaviouralTerm);
         }
 
         public async Task Delete(EntityDto input)
         {
-            await _calibrationRepository.DeleteAsync(input.Id);
+            await _macroAnalysisRepository.DeleteAsync(input.Id);
         }
 
         public virtual async Task SubmitForApproval(EntityDto input)
@@ -328,7 +331,7 @@ namespace TestDemo.Calibration
             var validation = await ValidateForSubmission(input.Id);
             if (validation.Status)
             {
-                var calibration = await _calibrationRepository.FirstOrDefaultAsync(input.Id);
+                var calibration = await _macroAnalysisRepository.FirstOrDefaultAsync(input.Id);
                 calibration.Status = CalibrationStatusEnum.Submitted;
                 ObjectMapper.Map(calibration, calibration);
                 await SendSubmittedEmail(input.Id);
@@ -341,7 +344,7 @@ namespace TestDemo.Calibration
 
         public virtual async Task ApproveReject(CreateOrEditMacroAnalysisApprovalDto input)
         {
-            var calibration = await _calibrationRepository.FirstOrDefaultAsync(input.MacroId);
+            var calibration = await _macroAnalysisRepository.FirstOrDefaultAsync(input.MacroId);
 
             await _calibrationApprovalRepository.InsertAsync(new MacroAnalysisApproval
             {
@@ -378,11 +381,11 @@ namespace TestDemo.Calibration
 
         public async Task RunCalibration(EntityDto input)
         {
-            var calibration = await _calibrationRepository.FirstOrDefaultAsync(input.Id);
+            var calibration = await _macroAnalysisRepository.FirstOrDefaultAsync(input.Id);
             if (calibration.Status == CalibrationStatusEnum.Approved)
             {
                 calibration.Status = CalibrationStatusEnum.Completed;
-                await _calibrationRepository.UpdateAsync(calibration);
+                await _macroAnalysisRepository.UpdateAsync(calibration);
                 //await _backgroundJobManager.EnqueueAsync<RunInvestmentEclJob, RunEclJobArgs>(new RunEclJobArgs
                 //{
                 //    EclId = input.Id,
@@ -397,7 +400,7 @@ namespace TestDemo.Calibration
 
         public async Task GenerateReport(EntityDto input)
         {
-            var calibration = await _calibrationRepository.FirstOrDefaultAsync(input.Id);
+            var calibration = await _macroAnalysisRepository.FirstOrDefaultAsync(input.Id);
 
             if (calibration.Status == CalibrationStatusEnum.Completed || calibration.Status == CalibrationStatusEnum.AppliedToEcl)
             {
@@ -416,20 +419,20 @@ namespace TestDemo.Calibration
 
         public async Task ApplyToEcl(EntityDto input)
         {
-            var calibration = await _calibrationRepository.FirstOrDefaultAsync(input.Id);
+            var calibration = await _macroAnalysisRepository.FirstOrDefaultAsync(input.Id);
 
             if (calibration.Status == CalibrationStatusEnum.Completed)
             {
                 //Call apply to ecl job
-                var old = await _calibrationRepository.FirstOrDefaultAsync(x => x.Status == CalibrationStatusEnum.AppliedToEcl && x.OrganizationUnitId == calibration.OrganizationUnitId);
+                var old = await _macroAnalysisRepository.FirstOrDefaultAsync(x => x.Status == CalibrationStatusEnum.AppliedToEcl && x.OrganizationUnitId == calibration.OrganizationUnitId);
                 if (old != null)
                 {
                     old.Status = CalibrationStatusEnum.Completed;
-                    await _calibrationRepository.UpdateAsync(old);
+                    await _macroAnalysisRepository.UpdateAsync(old);
                 }
 
                 calibration.Status = CalibrationStatusEnum.AppliedToEcl;
-                await _calibrationRepository.UpdateAsync(calibration);
+                await _macroAnalysisRepository.UpdateAsync(calibration);
             }
             else
             {
@@ -439,7 +442,7 @@ namespace TestDemo.Calibration
 
         public async Task CloseCalibration(EntityDto input)
         {
-            var calibration = await _calibrationRepository.FirstOrDefaultAsync(input.Id);
+            var calibration = await _macroAnalysisRepository.FirstOrDefaultAsync(input.Id);
 
             if (calibration.Status == CalibrationStatusEnum.Completed)
             {
@@ -455,7 +458,7 @@ namespace TestDemo.Calibration
         public async Task<FileDto> ExportToExcel(EntityDto input)
         {
 
-            var macro = await _calibrationRepository.FirstOrDefaultAsync(input.Id);
+            var macro = await _macroAnalysisRepository.FirstOrDefaultAsync(input.Id);
             var items = await _affiliateMacroVariableRepository.GetAll()
                                                                .Include(e => e.MacroeconomicVariableFk)
                                                                .Where(e => e.AffiliateId == macro.OrganizationUnitId)
@@ -490,7 +493,7 @@ namespace TestDemo.Calibration
 
         public async Task<FileDto> GetInputTemplate(EntityDto input)
         {
-            var macro = await _calibrationRepository.FirstOrDefaultAsync(input.Id);
+            var macro = await _macroAnalysisRepository.FirstOrDefaultAsync(input.Id);
             var items = await _affiliateMacroVariableRepository.GetAll()
                                                                .Include(e => e.MacroeconomicVariableFk)
                                                                .Where(e => e.AffiliateId == macro.OrganizationUnitId)
@@ -507,7 +510,7 @@ namespace TestDemo.Calibration
             var uploads = await _calibrationInputRepository.GetAllListAsync(x => x.MacroId == calibrationId);
             if (uploads.Count > 0)
             {
-                var calibration = await _calibrationRepository.FirstOrDefaultAsync(calibrationId);
+                var calibration = await _macroAnalysisRepository.FirstOrDefaultAsync(calibrationId);
                 var notCompleted = calibration.Status == CalibrationStatusEnum.Uploading;
                 output.Status = !notCompleted;
                 output.Message = notCompleted == true ? L("UploadInProgressError") : "";
@@ -532,7 +535,7 @@ namespace TestDemo.Calibration
                     var baseUrl = _appConfiguration["App:ClientRootAddress"];
                     var link = baseUrl + "/app/main/calibration/macroAnalysis/view/" + calibrationId;
                     var type = "Macro analysis";
-                    var calibration = _calibrationRepository.FirstOrDefault(calibrationId);
+                    var calibration = _macroAnalysisRepository.FirstOrDefault(calibrationId);
                     var ou = _organizationUnitRepository.FirstOrDefault(calibration.OrganizationUnitId);
                     await _emailer.SendEmailSubmittedForApprovalAsync(user, type, ou.DisplayName, link);
                 }
@@ -550,7 +553,7 @@ namespace TestDemo.Calibration
                     var baseUrl = _appConfiguration["App:ClientRootAddress"];
                     var link = baseUrl + "/app/main/calibration/macroAnalysis/view/" + calibrationId;
                     var type = "Macro analysis";
-                    var calibration = _calibrationRepository.FirstOrDefault(calibrationId);
+                    var calibration = _macroAnalysisRepository.FirstOrDefault(calibrationId);
                     var ou = _organizationUnitRepository.FirstOrDefault(calibration.OrganizationUnitId);
                     await _emailer.SendEmailSubmittedForAdditionalApprovalAsync(user, type, ou.DisplayName, link);
                 }
@@ -559,7 +562,7 @@ namespace TestDemo.Calibration
 
         public async Task SendApprovedEmail(int calibrationId)
         {
-            var calibration = _calibrationRepository.FirstOrDefault(calibrationId);
+            var calibration = _macroAnalysisRepository.FirstOrDefault(calibrationId);
             var user = _lookup_userRepository.FirstOrDefault(calibration.CreatorUserId == null ? (long)AbpSession.UserId : (long)calibration.CreatorUserId);
             var baseUrl = _appConfiguration["App:ClientRootAddress"];
             var link = baseUrl + "/app/main/calibration/macroAnalysis/view/" + calibrationId;

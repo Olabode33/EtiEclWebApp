@@ -17,9 +17,11 @@ namespace TestDemo.Calibration
         public virtual long OrganizationUnitId { get; set; }
         public virtual DateTime? ClosedDate { get; set; }
         public virtual CalibrationStatusEnum Status { get; set; }
+        public virtual FrameworkEnum ModelType { get; set; }
         public virtual string ExceptionComment { get; set; }
         public virtual long? CloseByUserId { get; set; }
         [ForeignKey("CloseByUserId")]
         public User CloseByUserFk { get; set; }
+
     }
 }

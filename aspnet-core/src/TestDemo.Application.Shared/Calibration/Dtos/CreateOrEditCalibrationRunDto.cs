@@ -11,6 +11,7 @@ namespace TestDemo.Calibration.Dtos
         public CalibrationStatusEnum Status { get; set; }
         public long? CloseByUserId { get; set; }
         public long? AffiliateId { get; set; }
+        public FrameworkEnum ModelType { get; set; }
     }
 
     public class CreateOrEditMacroAnalysisRunDto : EntityDto<int?>
@@ -18,5 +19,6 @@ namespace TestDemo.Calibration.Dtos
         public CalibrationStatusEnum Status { get; set; }
         public long? CloseByUserId { get; set; }
         public long? AffiliateId { get; set; }
+        public FrameworkEnum ModelType { get; set; }
     }
 }
