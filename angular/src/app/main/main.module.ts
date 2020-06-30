@@ -87,6 +87,7 @@ import { ApprovalMultipleModalComponent } from './eclShared/approve-multiple-mod
 import { MacroAnalysisComponent } from './calibration/calibrateMacroAnalysis/macroAnalysis.component';
 import { ViewMacroAnalysisComponent } from './calibration/calibrateMacroAnalysis/view-macroAnalysis.component';
 import { EditEclReportDateComponent } from './eclView/_subs/edit-EclReportDate/edit-EclReportDate.component';
+import { LoanbookReaderComponent } from './eclView/_subs/loanbook-reader/loanbook-reader.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -113,6 +114,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+        LoanbookReaderComponent,
         EditEclReportDateComponent,
         MacroAnalysisComponent,
         ViewMacroAnalysisComponent,

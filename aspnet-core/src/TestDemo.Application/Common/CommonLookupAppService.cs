@@ -11,6 +11,7 @@ using Abp.Linq.Extensions;
 using Abp.Organizations;
 using Microsoft.EntityFrameworkCore;
 using TestDemo.Common.Dto;
+using TestDemo.Dto.Inputs;
 using TestDemo.EclLibrary.Workers.Trackers;
 using TestDemo.EclShared;
 using TestDemo.Editions;
@@ -234,6 +235,11 @@ namespace TestDemo.Common
                     Stage = -1
                 };
             }
+        }
+
+        public async Task UploadLoanbookData(List<EclDataLoanBookDto> input)
+        {
+            
         }
     }
 }

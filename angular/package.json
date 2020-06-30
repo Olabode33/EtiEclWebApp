@@ -10,7 +10,7 @@
     "hmr": "ng serve --host 0.0.0.0 --port 4200 --hmr",
     "test": "ng test",
     "pree2e": "webdriver-manager update --standalone false --gecko false",
-    "e2e": "protractor",    
+    "e2e": "protractor",
     "build-prod": "node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build --prod"
   },
   "private": false,
@@ -57,6 +57,7 @@
     "simple-line-icons": "^2.4.1",
     "sweetalert2": "^8.11.6",
     "text-mask-addons": "^3.8.0",
+    "xlsx": "^0.16.3",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
@@ -82,7 +83,7 @@
     "nswag": "12.3.1",
     "protractor": "~5.4.2",
     "ts-node": "~8.2.0",
-    "typescript": "3.4.5",
-    "tslint": "~5.17.0"
+    "tslint": "~5.17.0",
+    "typescript": "3.4.5"
   }
 }

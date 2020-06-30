@@ -146,6 +146,10 @@
                             </h3>
                         </div>
                         <div class="kt-portlet__head-toolbar">
+                            <!-- <button type="button" *ngIf="eclDto.status == eclStatusEnum.Draft" (click)="showLoanbookReader()"
+                                class="btn btn-outline-success ">
+                                <i class="fa fa-upload"></i> {{"Upload" | localize}}
+                            </button> -->
                             <div *ngIf="isGranted('Pages.EclView.Upload')" class="btn-group" dropdown>
                                 <button dropdownToggle type="button" *ngIf="eclDto.status == eclStatusEnum.Draft"
                                     class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -159,7 +163,7 @@
                                                     #UploadLoanSnapshot
                                                     maxFileSize="100000000"
                                                     auto="auto"
-                                                    accept=".csv,.xls,.xlsx"
+                                                    accept=".csv,.xls,.xlsb,.xlsx"
                                                     (uploadHandler)="uploadLoanbook($event)"
                                                     (onError)="onUploadExcelError()"
                                                     chooseLabel="{{'RawDataLoanBook' | localize}}">
@@ -304,4 +308,5 @@
 
     <app-approve-ecl-modal #approvalModal (approved)="eclReviewed($event)"></app-approve-ecl-modal>
     <app-edit-eclReportDate #editEclReportDate (submitReportDate)="getEclDetails()"></app-edit-eclReportDate>
+    <app-loanbook-reader #loanbookReader></app-loanbook-reader>
 </div>

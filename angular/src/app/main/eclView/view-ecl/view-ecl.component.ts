@@ -23,6 +23,7 @@ import { EclResultsComponent } from '../_subs/ecl-results/ecl-results.component'
 import { EclAuditInfoComponent } from '../_subs/ecl-audit-info/ecl-audit-info.component';
 import { EditEclReportDateComponent } from '../_subs/edit-EclReportDate/edit-EclReportDate.component';
 import { OuLookupTableModalComponent } from '@app/main/eclShared/ou-lookup-modal/ou-lookup-table-modal.component';
+import { LoanbookReaderComponent } from '../_subs/loanbook-reader/loanbook-reader.component';
 
 const secondsCounter = interval(5000);
 
@@ -47,6 +48,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
     @ViewChild('eclResultTag', { static: true }) eclResultTag: EclResultsComponent;
     @ViewChild('eclAuditInfoTag', { static: true }) eclAuditInfoTag: EclAuditInfoComponent;
     @ViewChild('editEclReportDate', { static: true }) editEclReportDate: EditEclReportDateComponent;
+    @ViewChild('loanbookReader', { static: true }) loanbookReader: LoanbookReaderComponent;
 
 
     isLoading = false;
@@ -489,6 +491,10 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
 
     //#region Data Upload
     //#region Loanbook Upload
+    showLoanbookReader(): void {
+        this.loanbookReader.show();
+    }
+
     uploadLoanbook(data: { files: File }): void {
         let upload = this.getUploadDto();
         upload.docType = UploadDocTypeEnum.LoanBook;
