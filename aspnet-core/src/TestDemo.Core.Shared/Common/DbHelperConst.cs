@@ -20,6 +20,7 @@ namespace TestDemo.Common
         public const string TB_EclPaymentScheduleRetail = "RetailEclDataPaymentSchedules";
         public const string TB_EclPaymentScheduleObe = "ObeEclDataPaymentSchedules";
         public const string TB_EclAssetbookInvestment = "InvestmentAssetBooks";
+        public const string TB_TrackEclDataLoanBookException = "TrackEclDataLoanBookException";
 
 
         //Column Names
@@ -29,5 +30,6 @@ namespace TestDemo.Common
         public const string COL_RetailEclUploadId = "RetailEclUploadId";
         public const string COL_ObeEclUploadId = "ObeEclUploadId";
         public const string COL_InvestmentEclUploadId = "InvestmentEclUploadId";
+        public const string COL_EclId = "EclId";
     }
 }

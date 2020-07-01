@@ -83,6 +83,8 @@ using TestDemo.Notifications.Dto;
 using TestDemo.Organizations.Dto;
 using TestDemo.Sessions.Dto;
 using TestDemo.Dto.Inputs;
+using TestDemo.EclShared.Importing.Dto;
+using TestDemo.EclLibrary.Workers.Trackers;
 
 namespace TestDemo
 {
@@ -108,6 +110,10 @@ namespace TestDemo
                 .ReverseMap();
             configuration.CreateMap<EclDataPaymentScheduleDto, ObeEclDataPaymentSchedule>()
                 .ForMember(e => e.ObeEclUploadId, options => options.MapFrom(dto => dto.EclId))
+                .ReverseMap();
+            configuration.CreateMap<ImportLoanbookDto, TrackEclDataLoanBookException>()
+                .ForMember(e => e.EclId, opt => opt.Ignore())
+                .ForMember(e => e.OrganizationUnitId, opt => opt.Ignore())
                 .ReverseMap();
 
             configuration.CreateMap<CreateOrEditCalibrationRunDto, MacroAnalysis>().ReverseMap();

@@ -123,6 +123,12 @@ namespace TestDemo.EntityFrameworkCore.Repositories
         private async Task ExecuteQuery(string query, SqlParameter[] parameters)
         {
             await Context.Database.ExecuteSqlCommandAsync(query, parameters);
+            await EnsureConnectionOpenAsync();
+
+            using (var command = CreateCommand(query, CommandType.Text, parameters))
+            {
+                await command.ExecuteNonQueryAsync();
+            }
         }
 
         private DbCommand CreateCommand(string commandText, CommandType commandType, params SqlParameter[] parameters)

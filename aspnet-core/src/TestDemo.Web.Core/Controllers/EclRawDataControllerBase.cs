@@ -66,7 +66,7 @@ namespace TestDemo.Web.Controllers
                     Framework = (FrameworkEnum)Convert.ToInt32(framework),
                     UploadSummaryId = Guid.Parse(uploadSummaryId.ToString()),
                     User = AbpSession.ToUserIdentifier()
-                });
+                }, priority: BackgroundJobPriority.High);
 
                 return Json(new AjaxResponse(new { }));
             }

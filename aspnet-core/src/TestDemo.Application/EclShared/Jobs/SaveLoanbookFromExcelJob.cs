@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ using TestDemo.Authorization.Users;
 using TestDemo.Common;
 using TestDemo.Configuration;
 using TestDemo.Dto;
+using TestDemo.EclLibrary.Workers.Trackers;
 using TestDemo.EclShared.Dtos;
 using TestDemo.EclShared.Emailer;
 using TestDemo.EclShared.Importing;
@@ -35,7 +37,7 @@ using TestDemo.WholesaleInputs;
 
 namespace TestDemo.EclShared.Importing
 {
-    public class ImportLoanbookFromExcelJob : BackgroundJob<ImportEclDataFromExcelJobArgs>, ITransientDependency
+    public class SaveLoanbookFromExcelJob : BackgroundJob<SaveEclLoanbookDataFromExcelJobArgs>, ITransientDependency
     {
         private readonly ILoanbookExcelDataReader _loanbookExcelDataReader;
         private readonly IInvalidLoanbookExporter _invalidLoanbookExporter;
@@ -56,10 +58,11 @@ namespace TestDemo.EclShared.Importing
         private readonly IRepository<RetailEcl, Guid> _retailEclRepository;
         private readonly IRepository<ObeEcl, Guid> _obeEclRepository;
         private readonly IRepository<WholesaleEcl, Guid> _wholesaleEclRepository;
+        private readonly IRepository<TrackEclDataLoanBookException> _loanbookExceptionTrackerRepository;
+        private readonly IRepository<TrackRunningUploadJobs> _uploadJobsTrackerRepository;
         private readonly IEclCustomRepository _customRepository;
-        protected readonly IBackgroundJobManager _backgroundJobManager;
 
-        public ImportLoanbookFromExcelJob(
+        public SaveLoanbookFromExcelJob(
             ILoanbookExcelDataReader loanbookExcelDataReader, 
             IInvalidLoanbookExporter invalidLoanbookExporter, 
             IRepository<RetailEclDataLoanBook, Guid> retailEclDataLoanbookRepository, 
@@ -78,8 +81,9 @@ namespace TestDemo.EclShared.Importing
             IRepository<RetailEcl, Guid> retailEclRepository,
             IRepository<ObeEcl, Guid> obeEclRepository,
             IRepository<WholesaleEcl, Guid> wholesaleEclRepository,
+            IRepository<TrackEclDataLoanBookException> loanbookExceptionTrackerRepository,
+            IRepository<TrackRunningUploadJobs> uploadJobsTrackerRepository,
             IEclCustomRepository customRepository,
-            IBackgroundJobManager backgroundJobManager,
             IObjectMapper objectMapper)
         {
             _loanbookExcelDataReader = loanbookExcelDataReader;
@@ -102,133 +106,118 @@ namespace TestDemo.EclShared.Importing
             _wholesaleEclRepository = wholesaleEclRepository;
             _objectMapper = objectMapper;
             _customRepository = customRepository;
-            _backgroundJobManager = backgroundJobManager;
+            _loanbookExceptionTrackerRepository = loanbookExceptionTrackerRepository;
+            _uploadJobsTrackerRepository = uploadJobsTrackerRepository;
         }
 
         [UnitOfWork]
-        public override void Execute(ImportEclDataFromExcelJobArgs args)
+        public override void Execute(SaveEclLoanbookDataFromExcelJobArgs args)
         {
-            var loanbooks = GetLoanbookListFromExcelOrNull(args);
-            if (loanbooks == null || !loanbooks.Any())
-            {
-                SendInvalidExcelNotification(args);
-                return;
-            }
-            //var validatedLoanbooks = ValidateLoanBook(args, loanbooks);
-            //Logger.Debug("ImportLoanbookFromExcelJob: Finish Reading Data from Excel, " + DateTime.Now.ToString());
-            DeleteExistingDataAsync(args);
-            //Logger.Debug("ImportLoanbookFromExcelJob: Finish Deleting Existing Data, " + DateTime.Now.ToString());
-            //CreateLoanbook(args, loanbooks);
-            //Logger.Debug("ImportLoanbookFromExcelJob: Finish Inserting new Data, " + DateTime.Now.ToString());
-            
-            var jobs = loanbooks.Count / 5000;
-            jobs += 1;
-            UpdateSummaryTableToCompletedAsync(args, jobs);
-
-            for (int i = 0; i < jobs; i++)
-            {
-                var sub_loanbook = loanbooks.Skip(i * 5000).Take(5000).ToList();
-                _backgroundJobManager.Enqueue<SaveLoanbookFromExcelJob, SaveEclLoanbookDataFromExcelJobArgs>(new SaveEclLoanbookDataFromExcelJobArgs
-                {
-                    Args = args,
-                    Loanbook = sub_loanbook
-                });
-            }
-            //if ((jobs * 10000) < loanbooks.Count )
+            var loanbooks = args.Loanbook;
+            //if (loanbooks == null || !loanbooks.Any())
             //{
-            //    var sub_loanbook = loanbooks.Skip(1 * 10000).Take(10000).ToList();
-            //    _backgroundJobManager.Enqueue<SaveLoanbookFromExcelJob, SaveEclLoanbookDataFromExcelJobArgs>(new SaveEclLoanbookDataFromExcelJobArgs
-            //    {
-            //        Args = args,
-            //        Loanbook = sub_loanbook
-            //    });
+            //    SendInvalidExcelNotification(args);
+            //    return;
             //}
-
-            _backgroundJobManager.Enqueue<TrackUploadJob, ImportEclDataFromExcelJobArgs>(args, delay: TimeSpan.FromMinutes(3));
+            var validatedLoanbooks = ValidateLoanBook(loanbooks);
+            var EclId = GetEclId(args.Args);
+            if (EclId != null)
+            {
+                CreateLoanbook(args.Args, validatedLoanbooks, (Guid)EclId);
+            }
+            else
+            {
+                Logger.Debug("ImportLoanbookFromExcelJob: Error Retrieving ECL Id, " + DateTime.Now.ToString());
+            }
         }
 
-        private List<ImportLoanbookDto> ValidateLoanBook(ImportEclDataFromExcelJobArgs args, List<ImportLoanbookDtoNew> loanbooks)
+        private List<ImportLoanbookDto> ValidateLoanBook(List<ImportLoanbookDtoNew> loanbooks)
         {
             var invalidLoanbook = new List<ImportLoanbookDto>();
             var validLoanbook = new List<ImportLoanbookDto>();
-            var loanbookArray = loanbooks.ToArray();
+            //var loanbookArray = loanbooks.ToArray();
 
-            for(var i = 0; i < loanbookArray.Length; i++)
+            foreach(var loanbookNew in loanbooks)
             {
                 var exceptionMessage = new StringBuilder();
                 var loanbook = new ImportLoanbookDto();
 
                 try
                 {
-                    loanbook.CustomerNo = loanbookArray[i].CustomerNo;
-                    loanbook.AccountNo = loanbookArray[i].AccountNo;
-                    loanbook.ContractNo = loanbookArray[i].ContractNo;
-                    loanbook.CustomerName = loanbookArray[i].CustomerName;
-                    loanbook.SnapshotDate = ValidateDateTimeValueFromRowOrNull(loanbookArray[i].SnapshotDate, nameof(loanbook.SnapshotDate), exceptionMessage);
-                    loanbook.Segment = loanbookArray[i].Segment;
-                    loanbook.Sector = loanbookArray[i].Sector;
-                    loanbook.Currency = loanbookArray[i].Currency;
-                    loanbook.ProductType = loanbookArray[i].ProductType;
-                    loanbook.ProductMapping = loanbookArray[i].ProductMapping;
-                    loanbook.SpecialisedLending = loanbookArray[i].SpecialisedLending;
-                    loanbook.RatingModel = loanbookArray[i].RatingModel;
-                    loanbook.OriginalRating = ValidateIntegerValueFromRowOrNull(loanbookArray[i].OriginalRating, nameof(loanbook.OriginalRating), exceptionMessage);
-                    loanbook.CurrentRating = ValidateIntegerValueFromRowOrNull(loanbookArray[i].CurrentRating, nameof(loanbook.CurrentRating), exceptionMessage);
-                    loanbook.LifetimePD = ValidateDoubleValueFromRowOrNull(loanbookArray[i].LifetimePD, nameof(loanbook.LifetimePD), exceptionMessage);
-                    loanbook.Month12PD = ValidateDoubleValueFromRowOrNull(loanbookArray[i].Month12PD, nameof(loanbook.Month12PD), exceptionMessage);
-                    loanbook.DaysPastDue = ValidateIntegerValueFromRowOrNull(loanbookArray[i].DaysPastDue, nameof(loanbook.DaysPastDue), exceptionMessage);
-                    loanbook.WatchlistIndicator = ValidateBooleanValueFromRowOrNull(loanbookArray[i].WatchlistIndicator, nameof(loanbook.WatchlistIndicator), exceptionMessage);
-                    loanbook.Classification = loanbookArray[i].Classification;
-                    loanbook.ImpairedDate = ValidateDateTimeValueFromRowOrNull(loanbookArray[i].ImpairedDate, nameof(loanbook.ImpairedDate), exceptionMessage);
-                    loanbook.DefaultDate = ValidateDateTimeValueFromRowOrNull(loanbookArray[i].DefaultDate, nameof(loanbook.DefaultDate), exceptionMessage);
-                    loanbook.CreditLimit = ValidateDoubleValueFromRowOrNull(loanbookArray[i].CreditLimit, nameof(loanbook.CreditLimit), exceptionMessage);
-                    loanbook.OriginalBalanceLCY = ValidateDoubleValueFromRowOrNull(loanbookArray[i].OriginalBalanceLCY, nameof(loanbook.OriginalBalanceLCY), exceptionMessage);
-                    loanbook.OutstandingBalanceLCY = ValidateDoubleValueFromRowOrNull(loanbookArray[i].OutstandingBalanceLCY, nameof(loanbook.OutstandingBalanceLCY), exceptionMessage);
-                    loanbook.OutstandingBalanceACY = ValidateDoubleValueFromRowOrNull(loanbookArray[i].OutstandingBalanceACY, nameof(loanbook.OutstandingBalanceACY), exceptionMessage);
-                    loanbook.ContractStartDate = ValidateDateTimeValueFromRowOrNull(loanbookArray[i].ContractStartDate, nameof(loanbook.ContractStartDate), exceptionMessage);
-                    loanbook.ContractEndDate = ValidateDateTimeValueFromRowOrNull(loanbookArray[i].ContractEndDate, nameof(loanbook.ContractEndDate), exceptionMessage);
-                    loanbook.RestructureIndicator = ValidateBooleanValueFromRowOrNull(loanbookArray[i].RestructureIndicator, nameof(loanbook.RestructureIndicator), exceptionMessage);
-                    loanbook.RestructureRisk = loanbookArray[i].RestructureRisk;
-                    loanbook.RestructureType = loanbookArray[i].RestructureType;
-                    loanbook.RestructureStartDate = ValidateDateTimeValueFromRowOrNull(loanbookArray[i].RestructureStartDate, nameof(loanbook.RestructureStartDate), exceptionMessage);
-                    loanbook.RestructureEndDate = ValidateDateTimeValueFromRowOrNull(loanbookArray[i].RestructureEndDate, nameof(loanbook.RestructureEndDate), exceptionMessage);
-                    loanbook.PrincipalPaymentTermsOrigination = loanbookArray[i].PrincipalPaymentTermsOrigination;
-                    loanbook.PPTOPeriod = ValidateIntegerValueFromRowOrNull(loanbookArray[i].PPTOPeriod, nameof(loanbook.PPTOPeriod), exceptionMessage);
-                    loanbook.InterestPaymentTermsOrigination = loanbookArray[i].InterestPaymentTermsOrigination;
-                    loanbook.IPTOPeriod = ValidateIntegerValueFromRowOrNull(loanbookArray[i].IPTOPeriod, nameof(loanbook.IPTOPeriod), exceptionMessage);
-                    loanbook.PrincipalPaymentStructure = loanbookArray[i].PrincipalPaymentStructure;
-                    loanbook.InterestPaymentStructure = loanbookArray[i].InterestPaymentStructure;
-                    loanbook.InterestRateType = loanbookArray[i].InterestRateType;
-                    loanbook.BaseRate = loanbookArray[i].BaseRate;
-                    loanbook.OriginationContractualInterestRate = loanbookArray[i].OriginationContractualInterestRate;
-                    loanbook.IntroductoryPeriod = ValidateIntegerValueFromRowOrNull(loanbookArray[i].IntroductoryPeriod, nameof(loanbook.IntroductoryPeriod), exceptionMessage);
-                    loanbook.PostIPContractualInterestRate = ValidateDoubleValueFromRowOrNull(loanbookArray[i].PostIPContractualInterestRate, nameof(loanbook.PostIPContractualInterestRate), exceptionMessage);
-                    loanbook.CurrentContractualInterestRate = ValidateDoubleValueFromRowOrNull(loanbookArray[i].CurrentContractualInterestRate, nameof(loanbook.CurrentContractualInterestRate), exceptionMessage);
-                    loanbook.EIR = ValidateDoubleValueFromRowOrNull(loanbookArray[i].EIR, nameof(loanbook.EIR), exceptionMessage);
-                    loanbook.DebentureOMV = ValidateDoubleValueFromRowOrNull(loanbookArray[i].DebentureOMV, nameof(loanbook.DebentureOMV), exceptionMessage);
-                    loanbook.DebentureFSV = ValidateDoubleValueFromRowOrNull(loanbookArray[i].DebentureFSV, nameof(loanbook.DebentureFSV), exceptionMessage);
-                    loanbook.CashOMV = ValidateDoubleValueFromRowOrNull(loanbookArray[i].CashOMV, nameof(loanbook.CashOMV), exceptionMessage);
-                    loanbook.CashFSV = ValidateDoubleValueFromRowOrNull(loanbookArray[i].CashFSV, nameof(loanbook.CashFSV), exceptionMessage);
-                    loanbook.InventoryOMV = ValidateDoubleValueFromRowOrNull(loanbookArray[i].InventoryOMV, nameof(loanbook.InventoryOMV), exceptionMessage);
-                    loanbook.InventoryFSV = ValidateDoubleValueFromRowOrNull(loanbookArray[i].InventoryFSV, nameof(loanbook.InventoryFSV), exceptionMessage);
-                    loanbook.PlantEquipmentOMV = ValidateDoubleValueFromRowOrNull(loanbookArray[i].PlantEquipmentOMV, nameof(loanbook.PlantEquipmentOMV), exceptionMessage);
-                    loanbook.PlantEquipmentFSV = ValidateDoubleValueFromRowOrNull(loanbookArray[i].PlantEquipmentFSV, nameof(loanbook.PlantEquipmentFSV), exceptionMessage);
-                    loanbook.ResidentialPropertyOMV = ValidateDoubleValueFromRowOrNull(loanbookArray[i].ResidentialPropertyOMV, nameof(loanbook.ResidentialPropertyOMV), exceptionMessage);
-                    loanbook.ResidentialPropertyFSV = ValidateDoubleValueFromRowOrNull(loanbookArray[i].ResidentialPropertyFSV, nameof(loanbook.ResidentialPropertyFSV), exceptionMessage);
-                    loanbook.CommercialPropertyOMV = ValidateDoubleValueFromRowOrNull(loanbookArray[i].CommercialPropertyOMV, nameof(loanbook.CommercialPropertyOMV), exceptionMessage);
-                    loanbook.CommercialPropertyFSV = ValidateDoubleValueFromRowOrNull(loanbookArray[i].CommercialPropertyFSV, nameof(loanbook.CommercialPropertyFSV), exceptionMessage);
-                    loanbook.ReceivablesOMV = ValidateDoubleValueFromRowOrNull(loanbookArray[i].ReceivablesOMV, nameof(loanbook.ReceivablesOMV), exceptionMessage);
-                    loanbook.ReceivablesFSV = ValidateDoubleValueFromRowOrNull(loanbookArray[i].ReceivablesFSV, nameof(loanbook.ReceivablesFSV), exceptionMessage);
-                    loanbook.SharesOMV = ValidateDoubleValueFromRowOrNull(loanbookArray[i].SharesOMV, nameof(loanbook.SharesOMV), exceptionMessage);
-                    loanbook.SharesFSV = ValidateDoubleValueFromRowOrNull(loanbookArray[i].SharesFSV, nameof(loanbook.SharesFSV), exceptionMessage);
-                    loanbook.VehicleOMV = ValidateDoubleValueFromRowOrNull(loanbookArray[i].VehicleOMV, nameof(loanbook.VehicleOMV), exceptionMessage);
-                    loanbook.VehicleFSV = ValidateDoubleValueFromRowOrNull(loanbookArray[i].VehicleFSV, nameof(loanbook.VehicleFSV), exceptionMessage);
-                    loanbook.CureRate = ValidateDoubleValueFromRowOrNull(loanbookArray[i].CureRate, nameof(loanbook.CureRate), exceptionMessage);
-                    loanbook.GuaranteeIndicator = ValidateBooleanValueFromRowOrNull(loanbookArray[i].GuaranteeIndicator, nameof(loanbook.GuaranteeIndicator), exceptionMessage);
-                    loanbook.GuarantorPD = loanbookArray[i].GuarantorPD;
-                    loanbook.GuarantorLGD = loanbookArray[i].GuarantorLGD;
-                    loanbook.GuaranteeValue = ValidateDoubleValueFromRowOrNull(loanbookArray[i].GuaranteeValue, nameof(loanbook.GuaranteeValue), exceptionMessage);
-                    loanbook.GuaranteeLevel = ValidateDoubleValueFromRowOrNull(loanbookArray[i].GuaranteeLevel, nameof(loanbook.GuaranteeLevel), exceptionMessage);
+                    loanbook.CustomerNo = loanbookNew.CustomerNo;
+                    loanbook.AccountNo = loanbookNew.AccountNo;
+                    loanbook.ContractNo = loanbookNew.ContractNo;
+                    loanbook.CustomerName = loanbookNew.CustomerName;
+                    loanbook.SnapshotDate = ValidateDateTimeValueFromRowOrNull(loanbookNew.SnapshotDate, nameof(loanbook.SnapshotDate), exceptionMessage);
+                    loanbook.Segment = loanbookNew.Segment;
+                    loanbook.Sector = loanbookNew.Sector;
+                    loanbook.Currency = loanbookNew.Currency;
+                    loanbook.ProductType = loanbookNew.ProductType;
+                    loanbook.ProductMapping = loanbookNew.ProductMapping;
+                    loanbook.SpecialisedLending = loanbookNew.SpecialisedLending;
+                    loanbook.RatingModel = loanbookNew.RatingModel;
+                    loanbook.OriginalRating = ValidateIntegerValueFromRowOrNull(loanbookNew.OriginalRating, nameof(loanbook.OriginalRating), exceptionMessage);
+                    loanbook.CurrentRating = ValidateIntegerValueFromRowOrNull(loanbookNew.CurrentRating, nameof(loanbook.CurrentRating), exceptionMessage);
+                    loanbook.LifetimePD = ValidateDoubleValueFromRowOrNull(loanbookNew.LifetimePD, nameof(loanbook.LifetimePD), exceptionMessage);
+                    loanbook.Month12PD = ValidateDoubleValueFromRowOrNull(loanbookNew.Month12PD, nameof(loanbook.Month12PD), exceptionMessage);
+                    loanbook.DaysPastDue = ValidateDoubleValueFromRowOrNull(loanbookNew.DaysPastDue, nameof(loanbook.DaysPastDue), exceptionMessage);
+                    loanbook.WatchlistIndicator = ValidateBooleanValueFromRowOrNull(loanbookNew.WatchlistIndicator, nameof(loanbook.WatchlistIndicator), exceptionMessage);
+                    loanbook.Classification = loanbookNew.Classification;
+                    loanbook.ImpairedDate = ValidateDateTimeValueFromRowOrNull(loanbookNew.ImpairedDate, nameof(loanbook.ImpairedDate), exceptionMessage);
+                    loanbook.DefaultDate = ValidateDateTimeValueFromRowOrNull(loanbookNew.DefaultDate, nameof(loanbook.DefaultDate), exceptionMessage);
+                    loanbook.CreditLimit = ValidateDoubleValueFromRowOrNull(loanbookNew.CreditLimit, nameof(loanbook.CreditLimit), exceptionMessage);
+                    loanbook.OriginalBalanceLCY = ValidateDoubleValueFromRowOrNull(loanbookNew.OriginalBalanceLCY, nameof(loanbook.OriginalBalanceLCY), exceptionMessage);
+                    loanbook.OutstandingBalanceLCY = ValidateDoubleValueFromRowOrNull(loanbookNew.OutstandingBalanceLCY, nameof(loanbook.OutstandingBalanceLCY), exceptionMessage);
+                    loanbook.OutstandingBalanceACY = ValidateDoubleValueFromRowOrNull(loanbookNew.OutstandingBalanceACY, nameof(loanbook.OutstandingBalanceACY), exceptionMessage);
+                    loanbook.ContractStartDate = ValidateDateTimeValueFromRowOrNull(loanbookNew.ContractStartDate, nameof(loanbook.ContractStartDate), exceptionMessage);
+                    loanbook.ContractEndDate = ValidateDateTimeValueFromRowOrNull(loanbookNew.ContractEndDate, nameof(loanbook.ContractEndDate), exceptionMessage);
+                    loanbook.RestructureIndicator = ValidateBooleanValueFromRowOrNull(loanbookNew.RestructureIndicator, nameof(loanbook.RestructureIndicator), exceptionMessage);
+                    loanbook.RestructureRisk = loanbookNew.RestructureRisk;
+                    loanbook.RestructureType = loanbookNew.RestructureType;
+                    loanbook.RestructureStartDate = ValidateDateTimeValueFromRowOrNull(loanbookNew.RestructureStartDate, nameof(loanbook.RestructureStartDate), exceptionMessage);
+                    loanbook.RestructureEndDate = ValidateDateTimeValueFromRowOrNull(loanbookNew.RestructureEndDate, nameof(loanbook.RestructureEndDate), exceptionMessage);
+                    loanbook.PrincipalPaymentTermsOrigination = loanbookNew.PrincipalPaymentTermsOrigination;
+                    loanbook.PPTOPeriod = ValidateIntegerValueFromRowOrNull(loanbookNew.PPTOPeriod, nameof(loanbook.PPTOPeriod), exceptionMessage);
+                    loanbook.InterestPaymentTermsOrigination = loanbookNew.InterestPaymentTermsOrigination;
+                    loanbook.IPTOPeriod = ValidateIntegerValueFromRowOrNull(loanbookNew.IPTOPeriod, nameof(loanbook.IPTOPeriod), exceptionMessage);
+                    loanbook.PrincipalPaymentStructure = loanbookNew.PrincipalPaymentStructure;
+                    loanbook.InterestPaymentStructure = loanbookNew.InterestPaymentStructure;
+                    loanbook.InterestRateType = loanbookNew.InterestRateType;
+                    loanbook.BaseRate = loanbookNew.BaseRate;
+                    loanbook.OriginationContractualInterestRate = loanbookNew.OriginationContractualInterestRate;
+                    loanbook.IntroductoryPeriod = ValidateIntegerValueFromRowOrNull(loanbookNew.IntroductoryPeriod, nameof(loanbook.IntroductoryPeriod), exceptionMessage);
+                    loanbook.PostIPContractualInterestRate = ValidateDoubleValueFromRowOrNull(loanbookNew.PostIPContractualInterestRate, nameof(loanbook.PostIPContractualInterestRate), exceptionMessage);
+                    loanbook.CurrentContractualInterestRate = ValidateDoubleValueFromRowOrNull(loanbookNew.CurrentContractualInterestRate, nameof(loanbook.CurrentContractualInterestRate), exceptionMessage);
+                    loanbook.EIR = ValidateDoubleValueFromRowOrNull(loanbookNew.EIR, nameof(loanbook.EIR), exceptionMessage);
+                    loanbook.DebentureOMV = ValidateDoubleValueFromRowOrNull(loanbookNew.DebentureOMV, nameof(loanbook.DebentureOMV), exceptionMessage);
+                    loanbook.DebentureFSV = ValidateDoubleValueFromRowOrNull(loanbookNew.DebentureFSV, nameof(loanbook.DebentureFSV), exceptionMessage);
+                    loanbook.CashOMV = ValidateDoubleValueFromRowOrNull(loanbookNew.CashOMV, nameof(loanbook.CashOMV), exceptionMessage);
+                    loanbook.CashFSV = ValidateDoubleValueFromRowOrNull(loanbookNew.CashFSV, nameof(loanbook.CashFSV), exceptionMessage);
+                    loanbook.InventoryOMV = ValidateDoubleValueFromRowOrNull(loanbookNew.InventoryOMV, nameof(loanbook.InventoryOMV), exceptionMessage);
+                    loanbook.InventoryFSV = ValidateDoubleValueFromRowOrNull(loanbookNew.InventoryFSV, nameof(loanbook.InventoryFSV), exceptionMessage);
+                    loanbook.PlantEquipmentOMV = ValidateDoubleValueFromRowOrNull(loanbookNew.PlantEquipmentOMV, nameof(loanbook.PlantEquipmentOMV), exceptionMessage);
+                    loanbook.PlantEquipmentFSV = ValidateDoubleValueFromRowOrNull(loanbookNew.PlantEquipmentFSV, nameof(loanbook.PlantEquipmentFSV), exceptionMessage);
+                    loanbook.ResidentialPropertyOMV = ValidateDoubleValueFromRowOrNull(loanbookNew.ResidentialPropertyOMV, nameof(loanbook.ResidentialPropertyOMV), exceptionMessage);
+                    loanbook.ResidentialPropertyFSV = ValidateDoubleValueFromRowOrNull(loanbookNew.ResidentialPropertyFSV, nameof(loanbook.ResidentialPropertyFSV), exceptionMessage);
+                    loanbook.CommercialPropertyOMV = ValidateDoubleValueFromRowOrNull(loanbookNew.CommercialPropertyOMV, nameof(loanbook.CommercialPropertyOMV), exceptionMessage);
+                    loanbook.CommercialPropertyFSV = ValidateDoubleValueFromRowOrNull(loanbookNew.CommercialPropertyFSV, nameof(loanbook.CommercialPropertyFSV), exceptionMessage);
+                    loanbook.ReceivablesOMV = ValidateDoubleValueFromRowOrNull(loanbookNew.ReceivablesOMV, nameof(loanbook.ReceivablesOMV), exceptionMessage);
+                    loanbook.ReceivablesFSV = ValidateDoubleValueFromRowOrNull(loanbookNew.ReceivablesFSV, nameof(loanbook.ReceivablesFSV), exceptionMessage);
+                    loanbook.SharesOMV = ValidateDoubleValueFromRowOrNull(loanbookNew.SharesOMV, nameof(loanbook.SharesOMV), exceptionMessage);
+                    loanbook.SharesFSV = ValidateDoubleValueFromRowOrNull(loanbookNew.SharesFSV, nameof(loanbook.SharesFSV), exceptionMessage);
+                    loanbook.VehicleOMV = ValidateDoubleValueFromRowOrNull(loanbookNew.VehicleOMV, nameof(loanbook.VehicleOMV), exceptionMessage);
+                    loanbook.VehicleFSV = ValidateDoubleValueFromRowOrNull(loanbookNew.VehicleFSV, nameof(loanbook.VehicleFSV), exceptionMessage);
+                    loanbook.CureRate = ValidateDoubleValueFromRowOrNull(loanbookNew.CureRate, nameof(loanbook.CureRate), exceptionMessage);
+                    loanbook.GuaranteeIndicator = ValidateBooleanValueFromRowOrNull(loanbookNew.GuaranteeIndicator, nameof(loanbook.GuaranteeIndicator), exceptionMessage);
+                    loanbook.GuarantorPD = loanbookNew.GuarantorPD;
+                    loanbook.GuarantorLGD = loanbookNew.GuarantorLGD;
+                    loanbook.GuaranteeValue = ValidateDoubleValueFromRowOrNull(loanbookNew.GuaranteeValue, nameof(loanbook.GuaranteeValue), exceptionMessage);
+                    loanbook.GuaranteeLevel = ValidateDoubleValueFromRowOrNull(loanbookNew.GuaranteeLevel, nameof(loanbook.GuaranteeLevel), exceptionMessage);
+
+                    if (exceptionMessage.Length > 0)
+                    {
+                        loanbook.Exception = exceptionMessage.ToString();
+                    }
 
                     validLoanbook.Add(loanbook);
                 }
@@ -239,6 +228,26 @@ namespace TestDemo.EclShared.Importing
             }
 
             return validLoanbook;
+        }
+
+        private Guid? GetEclId(ImportEclDataFromExcelJobArgs args)
+        {
+            switch (args.Framework)
+            {
+                case FrameworkEnum.Retail:
+                    var retailSummary = _retailUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    return retailSummary == null ? (Guid?)null : retailSummary.RetailEclId;
+
+                case FrameworkEnum.Wholesale:
+                    var wholesaleSummary = _wholesaleUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    return wholesaleSummary == null ? (Guid?)null : wholesaleSummary.WholesaleEclId;
+
+                case FrameworkEnum.OBE:
+                    var obeSummary = _obeUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    return obeSummary == null ? (Guid?)null : (Guid)obeSummary.ObeEclId;
+                default:
+                    return null;
+            }
         }
 
         private List<ImportLoanbookDtoNew> GetLoanbookListFromExcelOrNull(ImportEclDataFromExcelJobArgs args)
@@ -259,7 +268,7 @@ namespace TestDemo.EclShared.Importing
         }
 
         [UnitOfWork]
-        private void CreateLoanbook(ImportEclDataFromExcelJobArgs args, List<ImportLoanbookDto> loanbooks)
+        private void CreateLoanbook(ImportEclDataFromExcelJobArgs args, List<ImportLoanbookDto> loanbooks, Guid eclId)
         {
             var invalidLoanbook = new List<ImportLoanbookDto>();
 
@@ -269,7 +278,7 @@ namespace TestDemo.EclShared.Importing
                 {
                     try
                     {
-                        AsyncHelper.RunSync(() => CreateLoanbookAsync(loanbook, args));
+                        AsyncHelper.RunSync(() => CreateLoanbookAsync(loanbook, args, eclId));
                     }
                     catch (UserFriendlyException exception)
                     {
@@ -288,15 +297,14 @@ namespace TestDemo.EclShared.Importing
                 }
             }
 
-            AsyncHelper.RunSync(() => ProcessImportLoanbookResultAsync(args, invalidLoanbook));
+            AsyncHelper.RunSync(() => ProcessImportLoanbookResultAsync(args, invalidLoanbook, eclId));
         }
 
-        private async Task CreateLoanbookAsync(ImportLoanbookDto input, ImportEclDataFromExcelJobArgs args)
+        private async Task CreateLoanbookAsync(ImportLoanbookDto input, ImportEclDataFromExcelJobArgs args, Guid eclId)
         {
             switch (args.Framework)
             {
                 case FrameworkEnum.Retail:
-                    var retailSummary = _retailUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
                     await _retailEclDataLoanbookRepository.InsertAsync(new RetailEclDataLoanBook()
                     {
                         CustomerNo = input.CustomerNo,
@@ -368,13 +376,12 @@ namespace TestDemo.EclShared.Importing
                         GuarantorLGD = input.GuarantorLGD,
                         GuaranteeValue = input.GuaranteeValue,
                         GuaranteeLevel = input.GuaranteeLevel,
-                        RetailEclUploadId = retailSummary.RetailEclId
+                        RetailEclUploadId = eclId
                        
                     });
                     break;
 
                 case FrameworkEnum.Wholesale:
-                    var wholesaleSummary = _wholesaleUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
                     await _wholesaleEclDataLoanbookRepository.InsertAsync(new WholesaleEclDataLoanBook()
                     {
                         CustomerNo = input.CustomerNo,
@@ -446,12 +453,11 @@ namespace TestDemo.EclShared.Importing
                         GuarantorLGD = input.GuarantorLGD,
                         GuaranteeValue = input.GuaranteeValue,
                         GuaranteeLevel = input.GuaranteeLevel,
-                        WholesaleEclUploadId = wholesaleSummary.WholesaleEclId
+                        WholesaleEclUploadId = eclId
                     });
                     break;
 
                 case FrameworkEnum.OBE:
-                    var obeSummary = _obeUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
                     await _obeEclDataLoanbookRepository.InsertAsync(new ObeEclDataLoanBook()
                     {
                         CustomerNo = input.CustomerNo,
@@ -523,49 +529,110 @@ namespace TestDemo.EclShared.Importing
                         GuarantorLGD = input.GuarantorLGD,
                         GuaranteeValue = input.GuaranteeValue,
                         GuaranteeLevel = input.GuaranteeLevel,
-                        ObeEclUploadId = obeSummary.ObeEclId
+                        ObeEclUploadId = eclId
                     });
                     break;
             }
         }
 
-        private async Task ProcessImportLoanbookResultAsync(ImportEclDataFromExcelJobArgs args, List<ImportLoanbookDto> invalidLoanbook)
+        private async Task ProcessImportLoanbookResultAsync(ImportEclDataFromExcelJobArgs args, List<ImportLoanbookDto> invalidLoanbook, Guid eclId)
         {
             if (invalidLoanbook.Any())
             {
-                var file = _invalidLoanbookExporter.ExportToFile(invalidLoanbook);
-                await _appNotifier.SomeDataCouldntBeImported(args.User, file.FileToken, file.FileType, file.FileName);
-                SendInvalidEmailAlert(args, file);
+                foreach (var invalid in invalidLoanbook)
+                {
+                    await _loanbookExceptionTrackerRepository.InsertAsync(new TrackEclDataLoanBookException
+                    {
+                        CustomerNo = invalid.CustomerNo,
+                        AccountNo = invalid.AccountNo,
+                        ContractNo = invalid.ContractNo,
+                        CustomerName = invalid.CustomerName,
+                        SnapshotDate = invalid.SnapshotDate,
+                        Segment = invalid.Segment,
+                        Sector = invalid.Sector,
+                        Currency = invalid.Currency,
+                        ProductType = invalid.ProductType,
+                        ProductMapping = invalid.ProductMapping,
+                        SpecialisedLending = invalid.SpecialisedLending,
+                        RatingModel = invalid.RatingModel,
+                        OriginalRating = invalid.OriginalRating,
+                        CurrentRating = invalid.CurrentRating,
+                        LifetimePD = invalid.LifetimePD,
+                        Month12PD = invalid.Month12PD,
+                        DaysPastDue = invalid.DaysPastDue,
+                        WatchlistIndicator = invalid.WatchlistIndicator,
+                        Classification = invalid.Classification,
+                        ImpairedDate = invalid.ImpairedDate,
+                        DefaultDate = invalid.DefaultDate,
+                        CreditLimit = invalid.CreditLimit,
+                        OriginalBalanceLCY = invalid.OriginalBalanceLCY,
+                        OutstandingBalanceLCY = invalid.OutstandingBalanceLCY,
+                        OutstandingBalanceACY = invalid.OutstandingBalanceACY,
+                        ContractStartDate = invalid.ContractStartDate,
+                        ContractEndDate = invalid.ContractEndDate,
+                        RestructureIndicator = invalid.RestructureIndicator,
+                        RestructureRisk = invalid.RestructureRisk,
+                        RestructureType = invalid.RestructureType,
+                        RestructureStartDate = invalid.RestructureStartDate,
+                        RestructureEndDate = invalid.RestructureEndDate,
+                        PrincipalPaymentTermsOrigination = invalid.PrincipalPaymentTermsOrigination,
+                        PPTOPeriod = invalid.PPTOPeriod,
+                        InterestPaymentTermsOrigination = invalid.InterestPaymentTermsOrigination,
+                        IPTOPeriod = invalid.IPTOPeriod,
+                        PrincipalPaymentStructure = invalid.PrincipalPaymentStructure,
+                        InterestPaymentStructure = invalid.InterestPaymentStructure,
+                        InterestRateType = invalid.InterestRateType,
+                        BaseRate = invalid.BaseRate,
+                        OriginationContractualInterestRate = invalid.OriginationContractualInterestRate,
+                        IntroductoryPeriod = invalid.IntroductoryPeriod,
+                        PostIPContractualInterestRate = invalid.PostIPContractualInterestRate,
+                        CurrentContractualInterestRate = invalid.CurrentContractualInterestRate,
+                        EIR = invalid.EIR,
+                        DebentureOMV = invalid.DebentureOMV,
+                        DebentureFSV = invalid.DebentureFSV,
+                        CashOMV = invalid.CashOMV,
+                        CashFSV = invalid.CashFSV,
+                        InventoryOMV = invalid.InventoryOMV,
+                        InventoryFSV = invalid.InventoryFSV,
+                        PlantEquipmentOMV = invalid.PlantEquipmentOMV,
+                        PlantEquipmentFSV = invalid.PlantEquipmentFSV,
+                        ResidentialPropertyOMV = invalid.ResidentialPropertyOMV,
+                        ResidentialPropertyFSV = invalid.ResidentialPropertyFSV,
+                        CommercialPropertyOMV = invalid.CommercialPropertyOMV,
+                        CommercialProperty = invalid.CommercialPropertyFSV,
+                        ReceivablesOMV = invalid.ReceivablesOMV,
+                        ReceivablesFSV = invalid.ReceivablesFSV,
+                        SharesOMV = invalid.SharesOMV,
+                        SharesFSV = invalid.SharesFSV,
+                        VehicleOMV = invalid.VehicleOMV,
+                        VehicleFSV = invalid.VehicleFSV,
+                        CureRate = invalid.CureRate,
+                        GuaranteeIndicator = invalid.GuaranteeIndicator,
+                        GuarantorPD = invalid.GuarantorPD,
+                        GuarantorLGD = invalid.GuarantorLGD,
+                        GuaranteeValue = invalid.GuaranteeValue,
+                        GuaranteeLevel = invalid.GuaranteeLevel,
+                        EclId = eclId,
+                        Exception = invalid.Exception
+                    });
+                }
             }
-            else
+            _uploadJobsTrackerRepository.Insert(new TrackRunningUploadJobs
             {
-                await _appNotifier.SendMessageAsync(
-                    args.User,
-                    _localizationSource.GetString("AllLoanbookSuccessfullyImportedFromExcel"),
-                    Abp.Notifications.NotificationSeverity.Success);
-                SendEmailAlert(args);
-            }
+                RegisterId = args.UploadSummaryId
+            });
         }
 
-        private void SendInvalidExcelNotification(ImportEclDataFromExcelJobArgs args)
+        private async Task ExportInvalids(ImportEclDataFromExcelJobArgs args)
         {
-            AsyncHelper.RunSync(() => _appNotifier.SendMessageAsync(
-                args.User,
-                _localizationSource.GetString("FileCantBeConvertedToLoanbookList"),
-                Abp.Notifications.NotificationSeverity.Warn));
-        }
-
-        [UnitOfWork]
-        private void UpdateSummaryTableToCompletedAsync(ImportEclDataFromExcelJobArgs args, int allJobs)
-        {
+            Guid? eclId = null;
             switch (args.Framework)
             {
                 case FrameworkEnum.Retail:
                     var retailSummary = _retailUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
                     if (retailSummary != null)
                     {
-                        retailSummary.AllJobs = allJobs;
-                        _retailUploadSummaryRepository.Update(retailSummary);
+                        eclId = retailSummary.RetailEclId;
                     }
                     break;
 
@@ -573,8 +640,7 @@ namespace TestDemo.EclShared.Importing
                     var wholesaleSummary = _wholesaleUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
                     if (wholesaleSummary != null)
                     {
-                        wholesaleSummary.AllJobs = allJobs;
-                        _wholesaleUploadSummaryRepository.Update(wholesaleSummary);
+                        eclId = wholesaleSummary.WholesaleEclId;
                     }
                     break;
 
@@ -582,8 +648,89 @@ namespace TestDemo.EclShared.Importing
                     var obeSummary = _obeUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
                     if (obeSummary != null)
                     {
-                        obeSummary.AllJobs = allJobs;
-                        _obeUploadSummaryRepository.Update(obeSummary);
+                        eclId = (Guid)obeSummary.ObeEclId;
+                    }
+                    break;
+            }
+            
+            if(eclId != null)
+            {
+                var invalids = _loanbookExceptionTrackerRepository.GetAll()
+                                                                  .Where(e => e.EclId == eclId)
+                                                                  .Select(e => _objectMapper.Map<ImportLoanbookDto>(e))
+                                                                  .ToList();
+                var file = _invalidLoanbookExporter.ExportToFile(invalids);
+                await _appNotifier.SomeDataCouldntBeImported(args.User, file.FileToken, file.FileType, file.FileName);
+                SendInvalidEmailAlert(args, file);
+                DeleteExistingExceptions(args, (Guid)eclId);
+            } 
+        }
+
+        [UnitOfWork]
+        private void UpdateSummaryTableToCompletedAsync(ImportEclDataFromExcelJobArgs args)
+        {
+            switch (args.Framework)
+            {
+                case FrameworkEnum.Retail:
+                    var retailSummary = _retailUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (retailSummary != null)
+                    {
+                        var allJobs = retailSummary.AllJobs;
+                        var completed = retailSummary.CompletedJobs;
+                        if ( allJobs <= (completed + 1))
+                        {
+                            retailSummary.CompletedJobs = retailSummary.AllJobs;
+                            retailSummary.Status = GeneralStatusEnum.Completed;
+                            AsyncHelper.RunSync(() => ExportInvalids(args));
+                            SendEmailAlert(args);
+                        }
+                        else
+                        {
+                            retailSummary.CompletedJobs += 1;
+                            _retailUploadSummaryRepository.Update(retailSummary);
+                        }
+                    }
+                    break;
+
+                case FrameworkEnum.Wholesale:
+                    var wholesaleSummary = _wholesaleUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (wholesaleSummary != null)
+                    {
+                        var allJobs = wholesaleSummary.AllJobs;
+                        var completed = wholesaleSummary.CompletedJobs;
+                        if (allJobs <= (completed + 1))
+                        {
+                            wholesaleSummary.CompletedJobs = wholesaleSummary.AllJobs;
+                            wholesaleSummary.Status = GeneralStatusEnum.Completed;
+                            AsyncHelper.RunSync(() => ExportInvalids(args));
+                            SendEmailAlert(args);
+                        }
+                        else
+                        {
+                            wholesaleSummary.CompletedJobs += 1;
+                            _wholesaleUploadSummaryRepository.Update(wholesaleSummary);
+                        }
+                    }
+                    break;
+
+                case FrameworkEnum.OBE:
+                    var obeSummary = _obeUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (obeSummary != null)
+                    {
+                        var allJobs = obeSummary.AllJobs;
+                        var completed = obeSummary.CompletedJobs;
+                        if (allJobs <= (completed + 1))
+                        {
+                            obeSummary.CompletedJobs = obeSummary.AllJobs;
+                            obeSummary.Status = GeneralStatusEnum.Completed;
+                            AsyncHelper.RunSync(() => ExportInvalids(args));
+                            SendEmailAlert(args);
+                        }
+                        else
+                        {
+                            obeSummary.CompletedJobs += 1;
+                            _obeUploadSummaryRepository.Update(obeSummary);
+                        }
                     }
                     break;
             }
@@ -591,40 +738,9 @@ namespace TestDemo.EclShared.Importing
         }
 
         [UnitOfWork]
-        private void DeleteExistingDataAsync(ImportEclDataFromExcelJobArgs args)
+        private void DeleteExistingExceptions(ImportEclDataFromExcelJobArgs args, Guid EclId)
         {
-            switch (args.Framework)
-            {
-                case FrameworkEnum.Retail:
-                    var retailSummary = _retailUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
-                    var rlb = _retailEclDataLoanbookRepository.Count(x => x.RetailEclUploadId == retailSummary.RetailEclId);
-                    if (retailSummary != null && rlb > 0)
-                    {
-                        AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_EclLoanBookRetail, DbHelperConst.COL_RetailEclUploadId, retailSummary.RetailEclId.ToString()));
-                        //_retailEclDataLoanbookRepository.HardDelete(x => x.RetailEclUploadId == retailSummary.RetailEclId);
-                    }
-                    break;
-
-                case FrameworkEnum.Wholesale:
-                    var wholesaleSummary = _wholesaleUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
-                    var wlb = _wholesaleEclDataLoanbookRepository.Count(x => x.WholesaleEclUploadId == wholesaleSummary.WholesaleEclId);
-                    if (wholesaleSummary != null && wlb > 0)
-                    {
-                        AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_EclLoanBookWholesale, DbHelperConst.COL_WholesaleEclUploadId, wholesaleSummary.WholesaleEclId.ToString()));
-                        //_wholesaleEclDataLoanbookRepository.HardDelete(x => x.WholesaleEclUploadId == wholesaleSummary.WholesaleEclId);
-                    }
-                    break;
-
-                case FrameworkEnum.OBE:
-                    var obeSummary = _obeUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
-                    var obelb = _obeEclDataLoanbookRepository.Count(x => x.ObeEclUploadId == obeSummary.ObeEclId);
-                    if (obeSummary != null && obelb > 0)
-                    {
-                        AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_EclLoanBookObe, DbHelperConst.COL_ObeEclUploadId, obeSummary.ObeEclId.ToString()));
-                        //_obeEclDataLoanbookRepository.HardDelete(x => x.ObeEclUploadId == obeSummary.ObeEclId);
-                    }
-                    break;
-            }
+            AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_TrackEclDataLoanBookException, DbHelperConst.COL_EclId, EclId.ToString()));
         }
 
         private void SendEmailAlert(ImportEclDataFromExcelJobArgs args)
@@ -701,24 +817,31 @@ namespace TestDemo.EclShared.Importing
         private int? ValidateIntegerValueFromRowOrNull(string value, string columnName, StringBuilder exceptionMessage)
         {
             int returnValue;
+            double doubleValue;
 
-            if (value == null)
+            if (string.IsNullOrWhiteSpace(value) || string.Equals(value.Trim(), "-"))
             {
                 return null;
             }
-            else if (int.TryParse(value, out returnValue))
+            
+            if (int.TryParse(value, out returnValue))
             {
                 return returnValue;
             }
 
-            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName));
+            if (double.TryParse(value, out doubleValue))
+            {
+                return Convert.ToInt32(doubleValue);
+            }
+
+            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "ExpectingWholeNumber"));
             return null;
         }
 
         private double? ValidateDoubleValueFromRowOrNull(string value, string columnName, StringBuilder exceptionMessage)
         {
             double returnValue;
-            if (value == null)
+            if (string.IsNullOrWhiteSpace(value) || string.Equals(value.Trim(), "-"))
             {
                 return null;
             }
@@ -727,33 +850,50 @@ namespace TestDemo.EclShared.Importing
                 return returnValue;
             }
 
-            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName));
+            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "ExpectingNumber"));
             return null;
         }
 
         private DateTime? ValidateDateTimeValueFromRowOrNull(string value, string columnName, StringBuilder exceptionMessage)
         {
             DateTime returnValue;
+            int dateSerial;
 
-            if (value == null)
+            if (string.IsNullOrWhiteSpace(value) || string.Equals(value.Trim(), "-"))
             {
                 return null;
             }
-            else if (DateTime.TryParse(value, out returnValue))
+
+            if (int.TryParse(value, out dateSerial))
+            {
+                return DateTime.FromOADate(dateSerial);
+            }
+            
+            if (DateTime.TryParse(value, out returnValue))
             {
                 return returnValue;
             }
 
-            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName));
+            if (DateTime.TryParseExact(value, "d/M/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None,  out returnValue))
+            {
+                return returnValue;
+            }
+
+            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "ExpectingDateTime"));
             return null;
         }
 
         private bool ValidateBooleanValueFromRowOrNull(string value, string columnName, StringBuilder exceptionMessage)
         {
             bool returnValue;
-            if (value == null)
+            if (string.IsNullOrWhiteSpace(value) || string.Equals(value, "0") || string.Equals(value.Trim(), "-"))
             {
                 return false;
+            }
+
+            if (string.Equals(value, "1"))
+            {
+                return true;
             }
 
             if (bool.TryParse(value, out returnValue))
@@ -761,13 +901,13 @@ namespace TestDemo.EclShared.Importing
                 return returnValue;
             }
 
-            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName));
+            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "Expecting1or0"));
             return false;
         }
 
-        private string GetLocalizedExceptionMessagePart(string parameter)
+        private string GetLocalizedExceptionMessagePart(string parameter, string required)
         {
-            return _localizationSource.GetString("{0}IsInvalid", _localizationSource.GetString(parameter)) + "; ";
+            return _localizationSource.GetString("{0}IsInvalid", parameter) + " " + _localizationSource.GetString(required) + "; ";
         }
 
     }

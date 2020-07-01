@@ -18,5 +18,7 @@ namespace TestDemo.EclLibrary.BaseEngine.InputBase
         public virtual string UploadComment { get; set; }
 
         public virtual GeneralStatusEnum Status { get; set; }
+        public virtual int AllJobs { get; set; }
+        public virtual int CompletedJobs { get; set; }
     }
 }
