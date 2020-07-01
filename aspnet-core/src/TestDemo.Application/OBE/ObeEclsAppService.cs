@@ -906,12 +906,8 @@ namespace TestDemo.OBE
             var ecl = await _obeEclRepository.FirstOrDefaultAsync(input.Id);
             if (ecl.Status == EclStatusEnum.Approved)
             {
-                ecl.Status = EclStatusEnum.Approved;
+                ecl.Status = EclStatusEnum.Running;
                 await _obeEclRepository.UpdateAsync(ecl);
-            }
-            else if (ecl.Status == EclStatusEnum.Running)
-            {
-
             }
             else
             {

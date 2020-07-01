@@ -912,11 +912,8 @@ namespace TestDemo.Retail
             var ecl = await _retailEclRepository.FirstOrDefaultAsync(input.Id);
             if (ecl.Status == EclStatusEnum.Approved)
             {
-                ecl.Status = EclStatusEnum.Approved;
+                ecl.Status = EclStatusEnum.Running;
                 await _retailEclRepository.UpdateAsync(ecl);
-            }
-            else if (ecl.Status == EclStatusEnum.Running) {
-
             }
             else
             {

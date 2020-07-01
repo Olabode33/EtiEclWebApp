@@ -127,7 +127,7 @@ namespace TestDemo.EclLibrary.Workers
         private void GetRunningWholesale(List<TrackRunningGuidRegister> allRunningGuid)
         {
             var type = TrackTypeEnum.Wholesale;
-            var w_running = _wholesaleRepository.GetAll().Where(e => e.Status == EclStatusEnum.Running).Select(e => e.Id).ToList();
+            var w_running = _wholesaleRepository.GetAll().Where(e => e.Status == EclStatusEnum.Running || e.Status == EclStatusEnum.ComputedEAD ).Select(e => e.Id).ToList();
             if (w_running.Count > 0)
             {
                 foreach (var id in w_running)
@@ -146,7 +146,7 @@ namespace TestDemo.EclLibrary.Workers
         private void GetRunningkRetail(List<TrackRunningGuidRegister> allRunningGuid)
         {
             var type = TrackTypeEnum.Retail;
-            var running = _retailRepository.GetAll().Where(e => e.Status == EclStatusEnum.Running).Select(e => e.Id).ToList();
+            var running = _retailRepository.GetAll().Where(e => e.Status == EclStatusEnum.Running || e.Status == EclStatusEnum.ComputedEAD).Select(e => e.Id).ToList();
             if (running.Count > 0)
             {
                 foreach (var id in running)
@@ -165,7 +165,7 @@ namespace TestDemo.EclLibrary.Workers
         private void GetRunningObe(List<TrackRunningGuidRegister> allRunningGuid)
         {
             var type = TrackTypeEnum.Obe;
-            var running = _obeRepository.GetAll().Where(e => e.Status == EclStatusEnum.Running).Select(e => e.Id).ToList();
+            var running = _obeRepository.GetAll().Where(e => e.Status == EclStatusEnum.Running || e.Status == EclStatusEnum.ComputedEAD).Select(e => e.Id).ToList();
             if (running.Count > 0)
             {
                 foreach (var id in running)

@@ -914,12 +914,8 @@ namespace TestDemo.Wholesale
             var ecl = await _wholesaleEclRepository.FirstOrDefaultAsync(input.Id);
             if (ecl.Status == EclStatusEnum.Approved)
             {
-                ecl.Status = EclStatusEnum.Approved;
+                ecl.Status = EclStatusEnum.Running;
                 await _wholesaleEclRepository.UpdateAsync(ecl);
-            }
-            else if (ecl.Status == EclStatusEnum.Running)
-            {
-
             }
             else
             {
