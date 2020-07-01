@@ -144,7 +144,7 @@ namespace TestDemo.EclShared.Importing
             //    });
             //}
 
-            _backgroundJobManager.Enqueue<TrackUploadJob, ImportEclDataFromExcelJobArgs>(args, delay: TimeSpan.FromMinutes(3));
+            _backgroundJobManager.Enqueue<TrackUploadJob, ImportEclDataFromExcelJobArgs>(args, delay: TimeSpan.FromSeconds(30));
         }
 
         private List<ImportLoanbookDto> ValidateLoanBook(ImportEclDataFromExcelJobArgs args, List<ImportLoanbookDtoNew> loanbooks)

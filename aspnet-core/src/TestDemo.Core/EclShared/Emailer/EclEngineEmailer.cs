@@ -316,15 +316,23 @@ namespace TestDemo.EclShared.Emailer
 
         private async Task ReplaceBodyAndSend(string emailAddress, string subject, StringBuilder emailTemplate, StringBuilder mailMessage)
         {
-            emailTemplate.Replace("{EMAIL_BODY}", mailMessage.ToString());
-            await _emailSender.SendAsync(new MailMessage
+            try
             {
-                To = { emailAddress },
-                Subject = subject,
-                Body = emailTemplate.ToString(),
-                IsBodyHtml = true
-            });
-            Logger.Debug("Testing Email: Email Sent; EmailHtmlContent: " + emailTemplate.ToString());
+                emailTemplate.Replace("{EMAIL_BODY}", mailMessage.ToString());
+                await _emailSender.SendAsync(new MailMessage
+                {
+                    To = { emailAddress },
+                    Subject = subject,
+                    Body = emailTemplate.ToString(),
+                    IsBodyHtml = true
+                });
+                Logger.Debug("Testing Email: Email Sent; EmailHtmlContent: " + emailTemplate.ToString());
+            }
+            catch (Exception e)
+            {
+
+                Logger.Debug("Testing Email: Error sending email: " + e.Message);
+            }
         }
 
         /// <summary>

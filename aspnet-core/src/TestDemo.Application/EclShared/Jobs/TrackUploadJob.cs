@@ -153,7 +153,7 @@ namespace TestDemo.EclShared.Importing
             }
             else
             {
-                _backgroundJobManager.Enqueue<TrackUploadJob, ImportEclDataFromExcelJobArgs>(args, delay: TimeSpan.FromMinutes(3));
+                _backgroundJobManager.Enqueue<TrackUploadJob, ImportEclDataFromExcelJobArgs>(args, delay: TimeSpan.FromSeconds(30));
             }
 
         }
