@@ -106,6 +106,7 @@ namespace TestDemo.Calibration
                                                      {
                                                          ClosedDate = o.ClosedDate,
                                                          Status = o.Status,
+                                                         ModelType = o.ModelType,
                                                          Id = o.Id
                                                      },
                                                      ClosedBy = o.CloseByUserFk == null || o.CloseByUserFk.FullName == null ? "" : o.CloseByUserFk.FullName,
@@ -230,7 +231,8 @@ namespace TestDemo.Calibration
                 Guid id = await _calibrationRepository.InsertAndGetIdAsync(new CalibrationEadCcfSummary()
                 {
                     OrganizationUnitId = ouId,
-                    Status = CalibrationStatusEnum.Draft
+                    Status = CalibrationStatusEnum.Draft,
+                    ModelType = input.ModelType
                 });
                 return id;
             }
@@ -239,7 +241,8 @@ namespace TestDemo.Calibration
                 Guid id = await _calibrationRepository.InsertAndGetIdAsync(new CalibrationEadCcfSummary()
                 {
                     OrganizationUnitId = (long)input.AffiliateId,
-                    Status = CalibrationStatusEnum.Draft
+                    Status = CalibrationStatusEnum.Draft,
+                    ModelType = input.ModelType
                 });
                 return id;
             }

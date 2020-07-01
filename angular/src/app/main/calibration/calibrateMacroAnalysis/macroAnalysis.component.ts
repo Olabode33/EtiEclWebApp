@@ -1,4 +1,4 @@
-﻿import { MacroAnalysisRunDto } from './../../../../shared/service-proxies/service-proxies';
+﻿import { MacroAnalysisRunDto, FrameworkEnum } from './../../../../shared/service-proxies/service-proxies';
 import { CalibrationStatusEnum, CreateOrEditCalibrationRunDto, CommonLookupServiceProxy, NameValueDtoOfInt64, CalibrationEadCcfSummaryServiceProxy, CalibrationLgdHairCutServiceProxy, CalibrationLgdRecoveryRateServiceProxy, CalibrationPdCrDrServiceProxy, CalibrationMacroAnalysisServiceProxy, CreateOrEditMacroAnalysisRunDto } from '../../../../shared/service-proxies/service-proxies';
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -40,6 +40,9 @@ export class MacroAnalysisComponent extends AppComponentBase implements OnInit {
     affiliateFilter = -1;
 
     generalStatusEnum = CalibrationStatusEnum;
+    frameworkEnum = FrameworkEnum;
+
+    selectFramework=FrameworkEnum.All;
 
     _entityTypeFullName = 'TestDemo.Calibration.CalibrationEadBehaviouralTerm';
     entityHistoryEnabled = false;
@@ -104,11 +107,13 @@ export class MacroAnalysisComponent extends AppComponentBase implements OnInit {
         this.paginator.changePage(this.paginator.getPage());
     }
 
-    create(): void {
+    create(framework: FrameworkEnum): void {
+        this.selectFramework=framework;
         if (this._affiliateId === -1) {
             this.ouLookupTableModal.show();
         } else {
             let c = new CreateOrEditMacroAnalysisRunDto();
+            c.modelType=framework;
             this._calibrationServiceProxy.createOrEdit(c).subscribe(result => {
                 this.reloadPage();
                 this.notify.success(this.l('CalibrationSuccessfullyCreated'));
@@ -124,6 +129,7 @@ export class MacroAnalysisComponent extends AppComponentBase implements OnInit {
     createForAffiliate() {
         let c = new CreateOrEditMacroAnalysisRunDto();
         c.affiliateId = this.ouLookupTableModal.id;
+        c.modelType=this.selectFramework;
         this._calibrationServiceProxy.createOrEdit(c).subscribe(result => {
             this.reloadPage();
             this.notify.success(this.l('CalibrationSuccessfullyCreated'));

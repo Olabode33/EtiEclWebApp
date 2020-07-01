@@ -1370,6 +1370,8 @@ namespace TestDemo.Migrations
 
                     b.Property<long?>("LastModifierUserId");
 
+                    b.Property<int>("ModelType");
+
                     b.Property<long>("OrganizationUnitId");
 
                     b.Property<int>("Status");
@@ -1405,6 +1407,8 @@ namespace TestDemo.Migrations
                     b.Property<DateTime?>("LastModificationTime");
 
                     b.Property<long?>("LastModifierUserId");
+
+                    b.Property<int>("ModelType");
 
                     b.Property<long>("OrganizationUnitId");
 
@@ -1442,6 +1446,8 @@ namespace TestDemo.Migrations
 
                     b.Property<long?>("LastModifierUserId");
 
+                    b.Property<int>("ModelType");
+
                     b.Property<long>("OrganizationUnitId");
 
                     b.Property<int>("Status");
@@ -1477,6 +1483,8 @@ namespace TestDemo.Migrations
                     b.Property<DateTime?>("LastModificationTime");
 
                     b.Property<long?>("LastModifierUserId");
+
+                    b.Property<int>("ModelType");
 
                     b.Property<long>("OrganizationUnitId");
 
@@ -1514,6 +1522,8 @@ namespace TestDemo.Migrations
 
                     b.Property<long?>("LastModifierUserId");
 
+                    b.Property<int>("ModelType");
+
                     b.Property<long>("OrganizationUnitId");
 
                     b.Property<int>("Status");
@@ -1550,6 +1560,8 @@ namespace TestDemo.Migrations
                     b.Property<DateTime?>("LastModificationTime");
 
                     b.Property<long?>("LastModifierUserId");
+
+                    b.Property<int>("ModelType");
 
                     b.Property<long>("OrganizationUnitId");
 

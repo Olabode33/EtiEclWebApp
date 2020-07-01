@@ -9,6 +9,7 @@ namespace TestDemo.Calibration.Dtos
     {
         public DateTime? ClosedDate { get; set; }
         public CalibrationStatusEnum Status { get; set; }
+        public FrameworkEnum ModelType { get; set; }
         public long? CloseByUserId { get; set; }
     }
 
@@ -16,6 +17,7 @@ namespace TestDemo.Calibration.Dtos
     {
         public DateTime? ClosedDate { get; set; }
         public CalibrationStatusEnum Status { get; set; }
+        public FrameworkEnum ModelType { get; set; }
         public long? CloseByUserId { get; set; }
     }
 }
