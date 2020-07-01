@@ -298,15 +298,16 @@ namespace TestDemo.Calibration
         [AbpAuthorize(AppPermissions.Pages_Calibration_Review)]
         public virtual async Task ApproveReject(CreateOrEditEclApprovalDto input)
         {
+            //Get Calibrations for ECL ID
             var calibration = await _calibrationRepository.FirstOrDefaultAsync((Guid)input.EclId);
-
+            //Save Audit Information
             await _calibrationApprovalRepository.InsertAsync(new CalibrationLgdHairCutApproval
             {
-                CalibrationId = input.EclId,
+                CalibrationId = input.EclId,  //For result override calibration.Id
                 ReviewComment = input.ReviewComment,
                 ReviewedByUserId = AbpSession.UserId,
                 ReviewedDate = DateTime.Now,
-                Status = input.Status
+                Status = GeneralStatusEnum.Override
             });
             await CurrentUnitOfWork.SaveChangesAsync();
 
