@@ -17,7 +17,7 @@
                             <thead>
                                 <tr>
                                     <th>{{l('Credit')}}</th>
-                                    <th>{{l('PD')}}</th>
+                                    <!-- <th>{{l('PD')}}</th> -->
                                     <th>{{l('SnPMappingEtiCreditPolicy')}}</th>
                                     <th>{{l('SnPMappingBestFit')}}</th>
                                 </tr>
@@ -25,14 +25,12 @@
                             <tbody>
                                 <tr *ngFor="let item of creditPds; let i = index">
                                     <td><span class="text-right">{{item.inputName}}</span></td>
-                                    <td>
-                                        <!-- <span class="hoverable pull-right">
-                                            <i class="fa fa-edit"></i>
-                                        </span> -->
+                                    <!-- <td>
+                                       
                                         <span class="kt-widget1__number kt-font-brand">
                                             <span>{{item.value | percent:'1.2-2'}}</span>
                                         </span>
-                                    </td>
+                                    </td> -->
                                     <td>
                                         <span *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')" class="hoverable pull-right" (click)="editPdAssumption(etiPolicy[i])">
                                             <i class="fa fa-edit"></i>
@@ -218,7 +216,7 @@
         </div>
 
         <!-- NPL -->
-        <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
+        <!-- <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
             <div class="card-header" id="heading4">
                 <div class="card-title" (click)="toggleAccordion(3)"
                     [ngClass]="{collapsed: !accordionList[3].isActive}">
@@ -287,10 +285,10 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         
         <!-- Macroeconomics Inputs -->
-        <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
+        <!-- <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
             <div class="card-header" id="heading5">
                 <div class="card-title" (click)="toggleAccordion(4)"
                     [ngClass]="{collapsed: !accordionList[4].isActive}">
@@ -301,21 +299,14 @@
             <div id="collapse5" class="collapse" [ngClass]="{show: accordionList[4].isActive}">
                 <div class="card-body">
                     <div class="form-group kt-form__group row">
-                        <!-- <label for="example-text-input" class="col-lg-2 col-form-label">{{l('Mode')}}</label>
-                        <select id="MacroMode" class="form-control col-lg-2" [(ngModel)]="selectedMode" name="MacroMode" (ngModelChange)="filterMacroeconomic()">
-                            <option value="">All</option>
-                            <option *ngFor="let item of pdModes" [value]="item">{{item}}</option>
-                        </select> -->
+                        
                         <label for="example-text-input" class="col-lg-4 col-xl-3 col-form-label">{{l('MacroVariable')}}</label>
                         <select id="MacroVariable" class="form-control col-lg-4" [(ngModel)]="selectedMacroeconomicVariable" name="MacroVariable" (ngModelChange)="filterMacroeconomic()">
                             <option value="">All</option>
                             <option *ngFor="let item of pdMacroeconomicVariables" [value]="item.value">{{item.name}}</option>
                         </select>
                         <div *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')" class="col-lg-4 col-xl-5">
-                            <!-- <button (click)="uploadSnP()" class="btn btn-outline-primary pull-right">
-                                <i class="fa fa-upload" style="font-size: 1.2rem !important;"></i>
-                                {{l("Upload")}}
-                            </button> -->
+                           
                         </div>
                     </div>
                     <div class="row">
@@ -349,7 +340,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Macroeconomic Projections -->
         <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
