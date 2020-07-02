@@ -59,7 +59,8 @@ namespace TestDemo.EclShared.Importing
                 data.Shares_FSV = GetDoubleValueFromRowOrNull(worksheet, row, 21, nameof(data.Shares_FSV), exceptionMessage);
                 data.Vehicle_OMV = GetDoubleValueFromRowOrNull(worksheet, row, 22, nameof(data.Vehicle_OMV), exceptionMessage);
                 data.Vehicle_FSV = GetDoubleValueFromRowOrNull(worksheet, row, 23, nameof(data.Vehicle_FSV), exceptionMessage);
-                data.Period = GetIntegerValueFromRowOrNull(worksheet, row, 24, nameof(data.Period), exceptionMessage);
+                data.Guarantee_Value = GetDoubleValueFromRowOrNull(worksheet, row, 24, nameof(data.Guarantee_Value), exceptionMessage);
+                data.Period = GetIntegerValueFromRowOrNull(worksheet, row, 25, nameof(data.Period), exceptionMessage);
             }
             catch (Exception exception)
             {

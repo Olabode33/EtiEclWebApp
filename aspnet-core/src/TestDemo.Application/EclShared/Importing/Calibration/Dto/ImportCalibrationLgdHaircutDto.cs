@@ -30,6 +30,7 @@ namespace TestDemo.EclShared.Importing.Calibration.Dto
         public double? Shares_FSV { get; set; }
         public double? Vehicle_OMV { get; set; }
         public double? Vehicle_FSV { get; set; }
+        public double? Guarantee_Value { get; set; }
         public Guid? CalibrationId { get; set; }
         public DateTime? DateCreated { get; set; }
         public string Exception { get; set; }

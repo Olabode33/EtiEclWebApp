@@ -50,7 +50,8 @@ namespace TestDemo.Calibration.Exporting
                         "Shares_OMV",
                         "Shares_FSV",
                         "Vehicle_OMV",
-                        "Vehicle_FSV"
+                        "Vehicle_FSV",
+                        "Guarantee_Value"
                         );
 
                     AddObjects(
@@ -78,10 +79,11 @@ namespace TestDemo.Calibration.Exporting
                         _ => _.Shares_OMV,
                         _ => _.Shares_FSV,
                         _ => _.Vehicle_OMV,
-                        _ => _.Vehicle_FSV
+                        _ => _.Vehicle_FSV,
+                        _ => _.Guarantee_Value
                         );
 
-                    for (var i = 1; i <= 23; i++)
+                    for (var i = 1; i <= 24; i++)
                     {
                         sheet.Column(i).AutoFit();
                     }
