@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="OverrideType">Override type</text>
+  <texts>    <text name="NoOverrideTypeDefined">No override type defined!</text>
+    <text name="OverrideType">Override type</text>
     <text name="TestDemo.EclConfig.OverrideType">OverrideType</text>
     <text name="OverrideTypesHeaderInfo">Manage override types</text>
     <text name="CreateNewOverrideType">New</text>

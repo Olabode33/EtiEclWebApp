@@ -65,10 +65,10 @@
                                 {{l('StageOverride')}}
                                 <p-sortIcon field="eclOverride.stageOverride"></p-sortIcon>
                             </th>
-                            <!-- <th style="width: 150px" pSortableColumn="stageOverride">
-                                {{l('ImpairmentOverride')}}
-                                <p-sortIcon field="eclOverride.impairmentOverride"></p-sortIcon>
-                            </th> -->
+                            <th style="width: 150px" pSortableColumn="eclOverride.overrideType">
+                                {{l('OverrideType')}}
+                                <p-sortIcon field="eclOverride.overrideType"></p-sortIcon>
+                            </th>
                             <th style="width: 150px" pSortableColumn="status">
                                 {{l('Status')}}
                                 <p-sortIcon field="eclOverride.status"></p-sortIcon>
@@ -98,10 +98,10 @@
                                 <span class="ui-column-title"> {{l('StageOverride')}}</span>
                                 {{record.eclOverride.stageOverride}}
                             </td>
-                            <!-- <td style="width:150px">
-                                <span class="ui-column-title"> {{l('Impairment')}}</span>
-                                {{record.eclOverride.impairmentOverride | number:'1.2-2'}}
-                            </td> -->
+                            <td style="width:150px">
+                                <span class="ui-column-title"> {{l('OverrideType')}}</span>
+                                {{record.eclOverride.overrideType}}
+                            </td>
                             <td style="width:150px">
                                 <span class="ui-column-title"> {{l('Status')}}</span>
                                 <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline 

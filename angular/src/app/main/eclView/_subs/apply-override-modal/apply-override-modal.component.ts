@@ -1,4 +1,4 @@
-import { GetRecordForOverrideInputDto, ReviewEclOverrideInputDto, InvestmentEclOverrideApprovalsServiceProxy, EclAuditInfoDto, EclApprovalAuditInfoDto, ObeEclOverridesServiceProxy, GetPreResultForOverrideNewOutput, CreateOrEditEclOverrideNewDto, FacilityStageTrackerOutputDto, CommonLookupServiceProxy, FrameworkEnum } from './../../../../../shared/service-proxies/service-proxies';
+import { GetRecordForOverrideInputDto, ReviewEclOverrideInputDto, InvestmentEclOverrideApprovalsServiceProxy, EclAuditInfoDto, EclApprovalAuditInfoDto, ObeEclOverridesServiceProxy, GetPreResultForOverrideNewOutput, CreateOrEditEclOverrideNewDto, FacilityStageTrackerOutputDto, CommonLookupServiceProxy, FrameworkEnum, NameValueDtoOfInt32 } from './../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, ViewEncapsulation, ViewChild, Output, EventEmitter, Injector } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ModalDirective } from 'ngx-bootstrap';
@@ -58,11 +58,16 @@ export class ApplyOverrideModalComponent extends AppComponentBase {
     selectedAffiliateId: number;
     daysAgo = 0;
 
+    overrideTypes: NameValueDtoOfInt32[] = new Array();
+
     constructor(
         injector: Injector,
         private _commonServiceProxy: CommonLookupServiceProxy
     ) {
         super(injector);
+        _commonServiceProxy.getOverrideTypesForDropdown().subscribe(result => {
+            this.overrideTypes = result;
+        });
     }
 
     configure(options: IApplyOverrideModalOptions): void {

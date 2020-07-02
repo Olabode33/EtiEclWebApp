@@ -13,7 +13,7 @@
             <div class="modal-body">
                 <form novalidate>
                     <div class="row">
-                        <div class="col-lg-9">
+                        <div class="col-lg-12">
                             <div [hidden]="reviewMode || viewOnlyMode" class="row">
                                 <div class="form-group  col-md-6">
                                     <label>{{l('SelectAccount')}}</label>
@@ -24,7 +24,7 @@
                                         inputStyleClass="form-control" styleClass="width-percent-100">
                                     </p-autoComplete>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-2">
                                     <label>&nbsp;</label>
                                     <div></div>
                                     <button (click)="getRecordDetails()" type="button" class="btn btn-success"
@@ -32,6 +32,20 @@
                                         <i class="fa fa-check" style="font-size: 1.2rem !important;"></i>
                                         {{l("Select")}}
                                     </button>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label>{{l('Facility90DaysCheck')}}</label>
+                                    <div *ngIf="!facility90dayCheck && dataSource !== null" style="border: 1px solid #e2e5ec; border-radius: 10px; padding: 10px;">
+                                        <label class="control-label">{{l('NewFacilityNotTracked')}}</label>
+                                    </div>
+                                    <div *ngIf="facility90dayCheck"  [ngClass]="{'text-danger': daysAgo > 90}" 
+                                            style="border: 1px solid #e2e5ec; border-radius: 10px; padding: 10px;">
+                                        <span class="control-label">{{l('LastStage')}}:&nbsp;</span>
+                                        <span class="kt-font-boldest">{{facility90dayCheck.stage}}</span>
+                                        <span class="control-label">&nbsp;{{l('AsAt')}}:&nbsp;</span>
+                                        <span class="kt-font-boldest">{{facility90dayCheck.lastReportingDate | momentFormat:'LL'}}</span>
+                                        <span class="">&nbsp;({{daysAgo + ' ' }}</span>{{l('DaysAgo')}})
+                                    </div>
                                 </div>
                             </div>
         
@@ -92,20 +106,6 @@
                                     <label class="control-label">{{l('Impairment')}}</label>
                                     <p class="kt-font-boldest">{{dataSource.impairment | number: '1.2-2'}}</p>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <h5>{{l('Facility90DaysCheck')}}</h5>
-                            <div *ngIf="!facility90dayCheck && dataSource !== null" style="border: 1px solid #e2e5ec; border-radius: 10px; padding: 10px;">
-                                <label class="control-label">{{l('NewFacilityNotTracked')}}</label>
-                            </div>
-                            <div *ngIf="facility90dayCheck"  [ngClass]="{'text-danger': daysAgo > 90}" 
-                                    style="border: 1px solid #e2e5ec; border-radius: 10px; padding: 10px;">
-                                <label class="control-label">{{l('LastStage')}}</label>
-                                <p class="kt-font-boldest">{{facility90dayCheck.stage}}</p>
-                                <label class="control-label">{{l('AsAt')}}</label>
-                                <p class="kt-font-boldest">{{facility90dayCheck.lastReportingDate | momentFormat:'LL'}}</p>
-                                <span class="kt-font-boldest">{{daysAgo + ' ' }}</span>{{l('DaysAgo')}}
                             </div>
                         </div>
                     </div>
@@ -184,6 +184,14 @@
                             <label class="control-label mt-3">{{l('FSV Vehicle')}}</label>
                             <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" 
                             [(ngModel)]="eclOverride.fsV_Vehicle" id="fsV_Vehicle" name="fsV_Vehicle" min="0" />
+                        </div>
+                        <div *ngIf="eclOverrideHasProp('overrideType')" class="col-md-12">  
+                            <label class="control-label mt-3">{{l('OverrideType')}}</label>                              
+                            <p *ngIf="overrideTypes.length <= 0">{{l('NoOverrideTypeDefined')}}</p>
+                            <select *ngIf="overrideTypes.length > 0" class="form-control custom-select" name="OverrideType" id="IsApprovedFilterSelect" [(ngModel)]="eclOverride.overrideType"
+                                [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)">
+                                <option *ngFor="let item of overrideTypes" [value]="item.name">{{item.name}}</option>
+                            </select>
                         </div>
                         <div *ngIf="eclOverrideHasProp('overrideComment')" class="col-md-12">
                             <label class="control-label mt-3">{{l('Comment')}}</label>
