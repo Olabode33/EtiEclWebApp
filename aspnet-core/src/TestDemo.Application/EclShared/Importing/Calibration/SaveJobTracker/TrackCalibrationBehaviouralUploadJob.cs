@@ -36,7 +36,7 @@ using TestDemo.WholesaleInputs;
 
 namespace TestDemo.EclShared.Importing
 {
-    public class ImportCalibrationBehaviouralFromExcelJob : BackgroundJob<ImportCalibrationDataFromExcelJobArgs>, ITransientDependency
+    public class TrackCalibrationBehaviouralUploadJob : BackgroundJob<ImportCalibrationDataFromExcelJobArgs>, ITransientDependency
     {
         private readonly IEadBehaviouralTermExcelDataReader _eadBehaviouralTermExcelDataReader;
         private readonly IInvalidEadBehaviouralTermExporter _invalidExporter;
@@ -51,10 +51,12 @@ namespace TestDemo.EclShared.Importing
         private readonly IRepository<User, long> _userRepository;
         private readonly IRepository<OrganizationUnit, long> _ouRepository;
         private readonly IEclCustomRepository _customRepository;
+        private readonly IRepository<TrackCalibrationBehaviouralTermException> _exceptionTrackerRepository;
+        private readonly IRepository<TrackRunningUploadJobs> _uploadJobsTrackerRepository;
         private readonly IRepository<TrackCalibrationUploadSummary> _uploadSummaryRepository;
         protected readonly IBackgroundJobManager _backgroundJobManager;
 
-        public ImportCalibrationBehaviouralFromExcelJob(
+        public TrackCalibrationBehaviouralUploadJob(
             IEadBehaviouralTermExcelDataReader eadBehaviouralTermExcelDataReader,
             IInvalidEadBehaviouralTermExporter invalidExporter, 
             IAppNotifier appNotifier, 
@@ -66,8 +68,10 @@ namespace TestDemo.EclShared.Importing
             IHostingEnvironment env,
             IRepository<User, long> userRepository,
             IRepository<OrganizationUnit, long> ouRepository,
-            IRepository<TrackCalibrationUploadSummary> uploadSummaryRepository,
             IEclCustomRepository customRepository,
+            IRepository<TrackCalibrationBehaviouralTermException> exceptionTrackerRepository,
+            IRepository<TrackRunningUploadJobs> uploadJobsTrackerRepository,
+            IRepository<TrackCalibrationUploadSummary> uploadSummaryRepository,
             IBackgroundJobManager backgroundJobManager,
             IObjectMapper objectMapper)
         {
@@ -83,145 +87,59 @@ namespace TestDemo.EclShared.Importing
             _appConfiguration = env.GetAppConfiguration();
             _userRepository = userRepository;
             _ouRepository = ouRepository;
-            _uploadSummaryRepository = uploadSummaryRepository;
             _customRepository = customRepository;
+            _exceptionTrackerRepository = exceptionTrackerRepository;
+            _uploadJobsTrackerRepository = uploadJobsTrackerRepository;
+            _uploadSummaryRepository = uploadSummaryRepository;
             _backgroundJobManager = backgroundJobManager;
         }
 
         [UnitOfWork]
         public override void Execute(ImportCalibrationDataFromExcelJobArgs args)
         {
-            var behavioural = GeBehaviouralTermsListFromExcelOrNull(args);
-            if (behavioural == null || !behavioural.Any())
+            var allJobs = 0;
+            var uploadSummary = _uploadSummaryRepository.FirstOrDefault(e => e.RegisterId == args.CalibrationId);
+
+            if (uploadSummary != null)
             {
-                SendInvalidExcelNotification(args);
-                return;
-            }
+                allJobs = uploadSummary.AllJobs;
+                var completedJobs = _uploadJobsTrackerRepository.Count(e => e.RegisterId == args.CalibrationId);
 
-            DeleteExistingDataAsync(args);
-            UpdateCalibrationTableToDraftAsync(args);
-
-            var jobs = behavioural.Count / 5000;
-            jobs += 1;
-            UpdateUploadSummaryTable(args, jobs);
-
-            for (int i = 0; i < jobs; i++)
-            {
-                var sub_ = behavioural.Skip(i * 5000).Take(5000).ToList();
-                _backgroundJobManager.Enqueue<SaveCalibrationBehaviouralFromExcelJob, SaveCalibrationBehaviouralTermExcelJobArgs>(new SaveCalibrationBehaviouralTermExcelJobArgs
+                if (allJobs <= completedJobs)
                 {
-                    Args = args,
-                    UploadedRecords = sub_
-                });
-            }
-
-            _backgroundJobManager.Enqueue<TrackCalibrationBehaviouralUploadJob, ImportCalibrationDataFromExcelJobArgs>(args, delay: TimeSpan.FromSeconds(30));
-
-        }
-
-        private List<ImportCalibrationBehaviouralTermAsStringDto> GeBehaviouralTermsListFromExcelOrNull(ImportCalibrationDataFromExcelJobArgs args)
-        {
-            try
-            {
-                var file = AsyncHelper.RunSync(() => _binaryObjectManager.GetOrNullAsync(args.BinaryObjectId));
-                return _eadBehaviouralTermExcelDataReader.GetImportBehaviouralTermFromExcel(file.Bytes);
-            }
-            catch(Exception)
-            {
-                return null;
-            }
-        }
-
-        private void CreateBehaviouralTerm(ImportCalibrationDataFromExcelJobArgs args, List<ImportCalibrationBehaviouralTermDto> behaviouralTerms)
-        {
-            var invalidBehaviouralTerm = new List<ImportCalibrationBehaviouralTermDto>();
-
-            foreach (var behaviouralTerm in behaviouralTerms)
-            {
-                if (behaviouralTerm.CanBeImported())
-                {
-                    try
-                    {
-                        AsyncHelper.RunSync(() => CreateBehaviouralTermAsync(behaviouralTerm, args));
-                    }
-                    catch (UserFriendlyException exception)
-                    {
-                        behaviouralTerm.Exception = exception.Message;
-                        invalidBehaviouralTerm.Add(behaviouralTerm);
-                    }
-                    catch(Exception exception)
-                    {
-                        behaviouralTerm.Exception = exception.ToString();
-                        invalidBehaviouralTerm.Add(behaviouralTerm);
-                    }
+                    AsyncHelper.RunSync(() => ExportInvalids(args));
+                    UpdateCalibrationTableToDraftAsync(args);
+                    UpdateUploadSummaryTable(args);
+                    SendEmailAlert(args);
+                    _uploadJobsTrackerRepository.Delete(e => e.RegisterId == args.CalibrationId);
                 }
                 else
                 {
-                    invalidBehaviouralTerm.Add(behaviouralTerm);
+                    _backgroundJobManager.Enqueue<TrackCalibrationBehaviouralUploadJob, ImportCalibrationDataFromExcelJobArgs>(args, delay: TimeSpan.FromSeconds(30));
                 }
             }
-
-            AsyncHelper.RunSync(() => ProcessImportBehaviouralTermResultAsync(args, invalidBehaviouralTerm));
         }
 
-        private async Task CreateBehaviouralTermAsync(ImportCalibrationBehaviouralTermDto input, ImportCalibrationDataFromExcelJobArgs args)
+        private async Task ExportInvalids(ImportCalibrationDataFromExcelJobArgs args)
         {
-            await _behaviouralTermsRepository.InsertAsync(new CalibrationInputEadBehaviouralTerms()
-            {
-                Customer_No = input.Customer_No,
-                Account_No = input.Account_No,
-                Contract_No = input.Contract_No,
-                Customer_Name = input.Customer_Name,
-                Snapshot_Date = input.Snapshot_Date,
-                Classification = input.Classification,
-                Original_Balance_Lcy = input.Original_Balance_Lcy,
-                Outstanding_Balance_Lcy = input.Outstanding_Balance_Lcy,
-                Outstanding_Balance_Acy = input.Outstanding_Balance_Acy,
-                Contract_Start_Date = input.Contract_Start_Date,
-                Contract_End_Date = input.Contract_End_Date,
-                Restructure_Indicator = input.Restructure_Indicator,
-                Restructure_Type = input.Restructure_Type,
-                Restructure_Start_Date = input.Restructure_Start_Date,
-                Restructure_End_Date = input.Restructure_End_Date,
-                CalibrationId = args.CalibrationId,
-                DateCreated = DateTime.Now
-            });
-        }
+            var invalids = _exceptionTrackerRepository.GetAll()
+                                                      .Where(e => e.CalibrationId == args.CalibrationId)
+                                                      .Select(e => _objectMapper.Map<ImportCalibrationBehaviouralTermDto>(e))
+                                                      .ToList();
 
-        private async Task ProcessImportBehaviouralTermResultAsync(ImportCalibrationDataFromExcelJobArgs args, List<ImportCalibrationBehaviouralTermDto> invalidBehaviouralTerm)
-        {
-            if (invalidBehaviouralTerm.Any())
+            if (invalids.Count > 0)
             {
-                var file = _invalidExporter.ExportToFile(invalidBehaviouralTerm);
+                var file = _invalidExporter.ExportToFile(invalids);
                 await _appNotifier.SomeDataCouldntBeImported(args.User, file.FileToken, file.FileType, file.FileName);
                 SendInvalidEmailAlert(args, file);
+                DeleteExistingExceptions(args);
             }
-            else
-            {
-                await _appNotifier.SendMessageAsync(
-                    args.User,
-                    _localizationSource.GetString("AllCalibrationBehaviouralTermSuccessfullyImportedFromExcel"),
-                    Abp.Notifications.NotificationSeverity.Success);
-
-                SendEmailAlert(args);
-            }
-        }
-
-        private void SendInvalidExcelNotification(ImportCalibrationDataFromExcelJobArgs args)
-        {
-            AsyncHelper.RunSync(() => _appNotifier.SendMessageAsync(
-                args.User,
-                _localizationSource.GetString("FileCantBeConvertedToCalibrationBehaviouralTermList"),
-                Abp.Notifications.NotificationSeverity.Warn));
         }
 
         [UnitOfWork]
-        private void DeleteExistingDataAsync(ImportCalibrationDataFromExcelJobArgs args)
+        private void DeleteExistingExceptions(ImportCalibrationDataFromExcelJobArgs args)
         {
-            AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_CalibrationInputBehaviouralTerm, DbHelperConst.COL_CalibrationId, args.CalibrationId.ToString()));
-
-            //_behaviouralTermsRepository.Delete(x => x.CalibrationId == args.CalibrationId);
-            //CurrentUnitOfWork.SaveChanges();
+            AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_TrackCalibrationBehaviouralTermException, DbHelperConst.COL_CalibrationId, args.CalibrationId.ToString()));
         }
 
         [UnitOfWork]
@@ -236,27 +154,19 @@ namespace TestDemo.EclShared.Importing
             }
         }
 
-        private void UpdateUploadSummaryTable(ImportCalibrationDataFromExcelJobArgs args, int allJobs)
+        [UnitOfWork]
+        private void UpdateUploadSummaryTable(ImportCalibrationDataFromExcelJobArgs args)
         {
             var uploadSummary = _uploadSummaryRepository.FirstOrDefault(e => e.RegisterId == args.CalibrationId);
-            if (uploadSummary == null)
-            {
-                _uploadSummaryRepository.Insert(new TrackCalibrationUploadSummary
-                {
-                    RegisterId = args.CalibrationId,
-                    AllJobs = allJobs,
-                    CompletedJobs = 0
-                });
-            }
-            else
+            if (uploadSummary != null)
             {
                 uploadSummary.RegisterId = args.CalibrationId;
-                uploadSummary.AllJobs = allJobs;
-                uploadSummary.CompletedJobs = 0;
+                uploadSummary.CompletedJobs = uploadSummary.AllJobs;
                 _uploadSummaryRepository.Update(uploadSummary);
             }
             CurrentUnitOfWork.SaveChanges();
         }
+
 
         private void SendEmailAlert(ImportCalibrationDataFromExcelJobArgs args)
         {

@@ -121,6 +121,9 @@ namespace TestDemo
             configuration.CreateMap<ImportCalibrationPdCrDrDto, TrackCalibrationPdCrDrException>()
                 .ReverseMap()
                 .ForMember(dto => dto.DateCreated, opt => opt.Ignore());
+            configuration.CreateMap<ImportCalibrationBehaviouralTermDto, TrackCalibrationBehaviouralTermException>()
+                .ReverseMap()
+                .ForMember(dto => dto.DateCreated, opt => opt.Ignore());
 
             configuration.CreateMap<CreateOrEditCalibrationRunDto, MacroAnalysis>().ReverseMap();
             configuration.CreateMap<CreateOrEditCalibrationRunDto, CalibrationPdCrDr>().ReverseMap();

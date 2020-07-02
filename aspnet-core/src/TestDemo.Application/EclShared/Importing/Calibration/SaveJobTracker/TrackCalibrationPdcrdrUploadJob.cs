@@ -36,7 +36,7 @@ using TestDemo.WholesaleInputs;
 
 namespace TestDemo.EclShared.Importing
 {
-    public class TrackCalibrationUploadJob : BackgroundJob<ImportCalibrationDataFromExcelJobArgs>, ITransientDependency
+    public class TrackCalibrationPdcrdrUploadJob : BackgroundJob<ImportCalibrationDataFromExcelJobArgs>, ITransientDependency
     {
         private readonly IPdCrDrExcelDataReader _pdCrDrExcelDataReader;
         private readonly IInvalidPdCrDrExporter _invalidExporter;
@@ -56,7 +56,7 @@ namespace TestDemo.EclShared.Importing
         private readonly IRepository<TrackCalibrationUploadSummary> _uploadSummaryRepository;
         protected readonly IBackgroundJobManager _backgroundJobManager;
 
-        public TrackCalibrationUploadJob(
+        public TrackCalibrationPdcrdrUploadJob(
             IPdCrDrExcelDataReader pdCrDreExcelDataReader,
             IInvalidPdCrDrExporter invalidExporter, 
             IAppNotifier appNotifier, 
@@ -115,7 +115,7 @@ namespace TestDemo.EclShared.Importing
                 }
                 else
                 {
-                    _backgroundJobManager.Enqueue<TrackCalibrationUploadJob, ImportCalibrationDataFromExcelJobArgs>(args, delay: TimeSpan.FromSeconds(30));
+                    _backgroundJobManager.Enqueue<TrackCalibrationPdcrdrUploadJob, ImportCalibrationDataFromExcelJobArgs>(args, delay: TimeSpan.FromSeconds(30));
                 }
             }
         }

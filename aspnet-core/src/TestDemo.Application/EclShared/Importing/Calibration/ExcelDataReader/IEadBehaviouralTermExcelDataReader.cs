@@ -6,6 +6,6 @@ namespace TestDemo.EclShared.Importing
 {
     public interface IEadBehaviouralTermExcelDataReader : ITransientDependency
     {
-        List<ImportCalibrationBehaviouralTermDto> GetImportBehaviouralTermFromExcel(byte[] fileBytes);
+        List<ImportCalibrationBehaviouralTermAsStringDto> GetImportBehaviouralTermFromExcel(byte[] fileBytes);
     }
 }

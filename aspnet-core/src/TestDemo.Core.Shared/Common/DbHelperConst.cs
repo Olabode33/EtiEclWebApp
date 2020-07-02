@@ -22,6 +22,7 @@ namespace TestDemo.Common
         public const string TB_EclAssetbookInvestment = "InvestmentAssetBooks";
         public const string TB_TrackEclDataLoanBookException = "TrackEclDataLoanBookException";
         public const string TB_TrackCalibrationPdCrDrException = "TrackCalibrationPdCrDrException";
+        public const string TB_TrackCalibrationBehaviouralTermException = "TrackCalibrationBehaviouralTermException";
 
 
         //Column Names

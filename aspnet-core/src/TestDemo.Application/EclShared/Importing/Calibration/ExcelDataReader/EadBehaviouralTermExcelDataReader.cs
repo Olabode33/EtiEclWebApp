@@ -10,7 +10,7 @@ using TestDemo.EclShared.Importing.Dto;
 
 namespace TestDemo.EclShared.Importing
 {
-    public class EadBehaviouralTermExcelDataReader : EpPlusExcelImporterBase<ImportCalibrationBehaviouralTermDto>, IEadBehaviouralTermExcelDataReader
+    public class EadBehaviouralTermExcelDataReader : EpPlusExcelImporterBase<ImportCalibrationBehaviouralTermAsStringDto>, IEadBehaviouralTermExcelDataReader
     {
         private readonly ILocalizationSource _localizationSource;
 
@@ -19,12 +19,12 @@ namespace TestDemo.EclShared.Importing
             _localizationSource = localizationManager.GetSource(TestDemoConsts.LocalizationSourceName);
         }
 
-        public List<ImportCalibrationBehaviouralTermDto> GetImportBehaviouralTermFromExcel(byte[] fileBytes)
+        public List<ImportCalibrationBehaviouralTermAsStringDto> GetImportBehaviouralTermFromExcel(byte[] fileBytes)
         {
             return ProcessExcelFile(fileBytes, ProcessExcelRow);
         }
 
-        private ImportCalibrationBehaviouralTermDto ProcessExcelRow(ExcelWorksheet worksheet, int row)
+        private ImportCalibrationBehaviouralTermAsStringDto ProcessExcelRow(ExcelWorksheet worksheet, int row)
         {
             //if (IsRowEmpty(worksheet, row))
             //{
@@ -32,7 +32,7 @@ namespace TestDemo.EclShared.Importing
             //}
 
             var exceptionMessage = new StringBuilder();
-            var data = new ImportCalibrationBehaviouralTermDto();
+            var data = new ImportCalibrationBehaviouralTermAsStringDto();
 
             try
             {
@@ -40,22 +40,18 @@ namespace TestDemo.EclShared.Importing
                 data.Account_No = GetRequiredValueFromRowOrNull(worksheet, row, 2, nameof(data.Account_No), exceptionMessage);
                 data.Contract_No = GetRequiredValueFromRowOrNull(worksheet, row, 3, nameof(data.Contract_No), exceptionMessage);
                 data.Customer_Name = GetRequiredValueFromRowOrNull(worksheet, row, 4, nameof(data.Customer_Name), exceptionMessage);
-                data.Snapshot_Date = GetDateTimeValueFromRowOrNull(worksheet, row, 5, nameof(data.Snapshot_Date), exceptionMessage);
+                data.Snapshot_Date = GetRequiredValueFromRowOrNull(worksheet, row, 5, nameof(data.Snapshot_Date), exceptionMessage);
                 data.Classification = GetRequiredValueFromRowOrNull(worksheet, row, 6, nameof(data.Classification), exceptionMessage);
-                data.Original_Balance_Lcy = GetDoubleValueFromRowOrNull(worksheet, row, 7, nameof(data.Original_Balance_Lcy), exceptionMessage);
-                data.Outstanding_Balance_Lcy = GetDoubleValueFromRowOrNull(worksheet, row, 8, nameof(data.Outstanding_Balance_Lcy), exceptionMessage);
-                data.Outstanding_Balance_Acy = GetDoubleValueFromRowOrNull(worksheet, row, 9, nameof(data.Outstanding_Balance_Acy), exceptionMessage);
-                data.Contract_Start_Date = GetDateTimeValueFromRowOrNull(worksheet, row, 10, nameof(data.Contract_Start_Date), exceptionMessage);
-                data.Contract_End_Date = GetDateTimeValueFromRowOrNull(worksheet, row, 11, nameof(data.Contract_End_Date), exceptionMessage);
+                data.Original_Balance_Lcy = GetRequiredValueFromRowOrNull(worksheet, row, 7, nameof(data.Original_Balance_Lcy), exceptionMessage);
+                data.Outstanding_Balance_Lcy = GetRequiredValueFromRowOrNull(worksheet, row, 8, nameof(data.Outstanding_Balance_Lcy), exceptionMessage);
+                data.Outstanding_Balance_Acy = GetRequiredValueFromRowOrNull(worksheet, row, 9, nameof(data.Outstanding_Balance_Acy), exceptionMessage);
+                data.Contract_Start_Date = GetRequiredValueFromRowOrNull(worksheet, row, 10, nameof(data.Contract_Start_Date), exceptionMessage);
+                data.Contract_End_Date = GetRequiredValueFromRowOrNull(worksheet, row, 11, nameof(data.Contract_End_Date), exceptionMessage);
                 data.Restructure_Indicator = GetRequiredValueFromRowOrNull(worksheet, row, 12, nameof(data.Restructure_Indicator), exceptionMessage);
                 data.Restructure_Type = GetRequiredValueFromRowOrNull(worksheet, row, 13, nameof(data.Restructure_Type), exceptionMessage);
-                data.Restructure_Start_Date = GetDateTimeValueFromRowOrNull(worksheet, row, 14, nameof(data.Restructure_Start_Date), exceptionMessage);
-                data.Restructure_End_Date = GetDateTimeValueFromRowOrNull(worksheet, row, 15, nameof(data.Restructure_End_Date), exceptionMessage);
-                data.Assumption_NonExpired = GetRequiredValueFromRowOrNull(worksheet, row, 16, nameof(data.Assumption_NonExpired), exceptionMessage);
-                data.Freq_NonExpired = GetRequiredValueFromRowOrNull(worksheet, row, 17, nameof(data.Freq_NonExpired), exceptionMessage);
-                data.Assumption_Expired = GetRequiredValueFromRowOrNull(worksheet, row, 18, nameof(data.Assumption_Expired), exceptionMessage);
-                data.Freq_Expired = GetRequiredValueFromRowOrNull(worksheet, row, 19, nameof(data.Freq_Expired), exceptionMessage);
-                data.Comment = GetRequiredValueFromRowOrNull(worksheet, row, 20, nameof(data.Comment), exceptionMessage);
+                data.Restructure_Start_Date = GetRequiredValueFromRowOrNull(worksheet, row, 14, nameof(data.Restructure_Start_Date), exceptionMessage);
+                data.Restructure_End_Date = GetRequiredValueFromRowOrNull(worksheet, row, 15, nameof(data.Restructure_End_Date), exceptionMessage);
+                
             }
             catch (Exception exception)
             {

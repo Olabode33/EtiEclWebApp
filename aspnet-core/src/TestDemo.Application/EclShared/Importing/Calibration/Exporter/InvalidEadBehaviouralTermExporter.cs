@@ -42,11 +42,11 @@ namespace TestDemo.EclShared.Importing
                         L("Restructure_Type"),
                         L("Restructure_Start_Date"),
                         L("Restructure_End_Date"),
-                        L("Assumption_NonExpired"),
-                        L("Freq_NonExpired"),
-                        L("Assumption_Expired"),
-                        L("Freq_Expired"),
-                        L("Comment"),
+                        //L("Assumption_NonExpired"),
+                        //L("Freq_NonExpired"),
+                        //L("Assumption_Expired"),
+                        //L("Freq_Expired"),
+                        //L("Comment"),
                         L("RefuseReason")
                         );
 
@@ -67,15 +67,15 @@ namespace TestDemo.EclShared.Importing
                         _ => _.Restructure_Type,
                         _ => _.Restructure_Start_Date,
                         _ => _.Restructure_End_Date,
-                        _ => _.Assumption_NonExpired,
-                        _ => _.Freq_NonExpired,
-                        _ => _.Assumption_Expired,
-                        _ => _.Freq_Expired,
-                        _ => _.Comment,
+                        //_ => _.Assumption_NonExpired,
+                        //_ => _.Freq_NonExpired,
+                        //_ => _.Assumption_Expired,
+                        //_ => _.Freq_Expired,
+                        //_ => _.Comment,
                         _ => _.Exception
                         );
 
-                    for (var i = 1; i <= 21; i++)
+                    for (var i = 1; i <= 16; i++)
                     {
                         sheet.Column(i).AutoFit();
                     }
