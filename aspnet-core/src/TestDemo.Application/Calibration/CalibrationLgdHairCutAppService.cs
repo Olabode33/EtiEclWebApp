@@ -262,6 +262,22 @@ namespace TestDemo.Calibration
             ObjectMapper.Map(input, calibrationEadBehaviouralTerm);
         }
 
+        public async Task UpdateCalibrationResult(ResultLgdHairCutSummaryDto input)
+        {
+            var result = ObjectMapper.Map<CalibrationResultLgdHairCut>(input);
+
+            await _calibrationResultRepository.UpdateAsync(result);
+
+            await _calibrationApprovalRepository.InsertAsync(new CalibrationLgdHairCutApproval
+            {
+                CalibrationId = input.CalibrationId,
+                ReviewComment = "",
+                ReviewedByUserId = AbpSession.UserId,
+                ReviewedDate = DateTime.Now,
+                Status = GeneralStatusEnum.Override
+            });
+        }
+
         [AbpAuthorize(AppPermissions.Pages_Calibration_Delete)]
         public async Task Delete(EntityDto<Guid> input)
         {

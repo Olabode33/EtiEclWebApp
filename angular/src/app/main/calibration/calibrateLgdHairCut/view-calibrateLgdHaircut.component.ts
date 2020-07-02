@@ -107,7 +107,7 @@ export class ViewCalibrationLgdHaircutComponent extends AppComponentBase impleme
                 this.auditInfo = result.auditInfo;
                 this.approvalsAuditInfo = result.auditInfo.approvals;
 
-                if (result.calibration.status === CalibrationStatusEnum.Completed) {
+                if (result.calibration.status === CalibrationStatusEnum.Completed || result.calibration.status === CalibrationStatusEnum.AppliedToEcl) {
                     this.getResults();
                 }
                 this.active = true;

@@ -1,0 +1,126 @@
+﻿<div bsModal #editModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal"
+    aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #assessmentForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span> Override Calibration Result</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="kt-portlet__body kt-portlet__body--fluid">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>{{l('Summary')}}</th>
+                                        <th>{{l('OD')}}</th>
+                                        <th>{{l('Card')}}</th>
+                                        <th>{{l('Overall')}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- <tr>
+                                        <td class="align-middle">{{ l('TotalLimitDefaultedLoan') }}</td>
+                                        <td class="align-middle">
+                                            <input type="number" name="oD_TotalLimitOdDefaultedLoan" class="form-control"
+                                                [(ngModel)]="result.oD_TotalLimitOdDefaultedLoan">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="number" name="card_TotalLimitOdDefaultedLoan"
+                                                class="form-control"
+                                                [(ngModel)]="result.card_TotalLimitOdDefaultedLoan">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="number" name="overall_TotalLimitOdDefaultedLoan"
+                                                class="form-control"
+                                                [(ngModel)]="result.overall_TotalLimitOdDefaultedLoan">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="align-middle">{{ l('BalanceAtDefault') }}</td>
+                                        <td class="align-middle">
+                                            <input type="number" name="oD_BalanceAtDefault" class="form-control"
+                                                [(ngModel)]="result.oD_BalanceAtDefault">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="number" name="card_BalanceAtDefault" class="form-control"
+                                                [(ngModel)]="result.card_BalanceAtDefault">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="number" name="overall_BalanceAtDefault" class="form-control"
+                                                [(ngModel)]="result.overall_BalanceAtDefault">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="align-middle">{{ l('Balance12MonthBeforeDefault') }}</td>
+                                        <td class="align-middle">
+                                            <input type="number" name="oD_Balance12MonthBeforeDefault" class="form-control"
+                                                [(ngModel)]="result.oD_Balance12MonthBeforeDefault">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="number" name="card_Balance12MonthBeforeDefault" class="form-control"
+                                                [(ngModel)]="result.card_Balance12MonthBeforeDefault">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="number" name="overall_Balance12MonthBeforeDefault" class="form-control"
+                                                [(ngModel)]="result.overall_Balance12MonthBeforeDefault">
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="align-middle">{{ l('TotalConversation') }}</td>
+                                        <td class="align-middle">
+                                            <input type="number" name="oD_TotalConversation" class="form-control"
+                                                [(ngModel)]="result.oD_TotalConversation">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="number" name="card_TotalConversation" class="form-control"
+                                                [(ngModel)]="result.card_TotalConversation">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="number" name="overall_TotalConversation" class="form-control"
+                                                [(ngModel)]="result.overall_TotalConversation">
+                                        </td>
+                                    </tr> -->
+                                    <tr>
+                                        <td class="align-middle">{{ l('CCF') }}</td>
+                                        <td class="align-middle">
+                                            <input type="number" name="oD_CCF" class="form-control"
+                                                [(ngModel)]="result.oD_CCF">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="number" name="card_CCF" class="form-control"
+                                                [(ngModel)]="result.card_CCF">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="number" name="overall_CCF" class="form-control"
+                                                [(ngModel)]="result.overall_CCF">
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default"
+                        (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!assessmentForm.form.valid"
+                        [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
+                        <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

@@ -13,6 +13,9 @@ namespace TestDemo.Calibration.Dtos
         public string Freq_Expired { get; set; }
         public string Comment { get; set; }
         public int Status { get; set; }
+        public int Id { get; set; }
+        public virtual DateTime? DateCreated { get; set; }
+        public virtual Guid? CalibrationId { get; set; }
 
     }
 }

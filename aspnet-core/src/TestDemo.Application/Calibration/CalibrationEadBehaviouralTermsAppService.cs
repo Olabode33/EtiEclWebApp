@@ -207,7 +207,11 @@ namespace TestDemo.Calibration
                 Assumption_NonExpired = item.Assumption_NonExpired,
                 Freq_Expired = item.Freq_Expired,
                 Freq_NonExpired = item.Freq_NonExpired,
-                Comment = item.Comment
+                Comment = item.Comment,
+                Id = item.Id,
+                CalibrationId = item.CalibrationId,
+                DateCreated = item.DateCreated,
+                Status = item.Status
             };
         }
 
@@ -258,6 +262,22 @@ namespace TestDemo.Calibration
         {
             var calibrationEadBehaviouralTerm = await _calibrationRepository.FirstOrDefaultAsync((Guid)input.Id);
             ObjectMapper.Map(input, calibrationEadBehaviouralTerm);
+        }
+
+        public async Task UpdateCalibrationResult(ResultBehaviouralTermsDto input)
+        {
+            var result = ObjectMapper.Map<CalibrationResultEadBehaviouralTerms>(input);
+
+            await _calibrationResultRepository.UpdateAsync(result);
+
+            await _calibrationApprovalRepository.InsertAsync(new CalibrationEadBehaviouralTermApproval
+            {
+                CalibrationId = input.CalibrationId,
+                ReviewComment = "",
+                ReviewedByUserId = AbpSession.UserId,
+                ReviewedDate = DateTime.Now,
+                Status = GeneralStatusEnum.Override
+            });
         }
 
         [AbpAuthorize(AppPermissions.Pages_Calibration_Delete)]

@@ -91,6 +91,12 @@ import { MacroAnalysisComponent } from './calibration/calibrateMacroAnalysis/mac
 import { ViewMacroAnalysisComponent } from './calibration/calibrateMacroAnalysis/view-macroAnalysis.component';
 import { EditEclReportDateComponent } from './eclView/_subs/edit-EclReportDate/edit-EclReportDate.component';
 import { LoanbookReaderComponent } from './eclView/_subs/loanbook-reader/loanbook-reader.component';
+import { EditEadCcfResultModalComponent } from './calibration/calibrateEadCcfSummary/edit-eadccf-result-modal.component';
+import { EditEadBehaviouralTermsResultModalComponent } from './calibration/calibrationEadBehaviouralTerms/edit-eadBehaviouralTerms-result-modal.component';
+import { EditLgdHaircutResultModalComponent } from './calibration/calibrateLgdHairCut/edit-lgdHaircut-result-modal.component';
+import { EditLgdRecoveryResultModalComponent } from './calibration/calibrateLgdRecoveryRate/edit-recoveryRate-result-modal.component';
+import { EditCalibratePdCrDrResultModalComponent } from './calibration/calibratePdCrDr/edit-calibratePdCrDr-result-modal.component';
+import { EditCalibratePdCrDrSummaryModalComponent } from './calibration/calibratePdCrDr/edit-calibratePdCrDr-summary-modal.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -179,7 +185,13 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         CreateOrEditAssumptionModalComponent,
         PdInputSnPCummulativeDefaultRatesComponent,
         CreateOrEditPdInputSnPCummulativeDefaultRateModalComponent,
-        DashboardComponent
+        DashboardComponent,
+        EditEadCcfResultModalComponent,
+        EditEadBehaviouralTermsResultModalComponent,
+        EditLgdHaircutResultModalComponent,
+        EditLgdRecoveryResultModalComponent,
+        EditCalibratePdCrDrResultModalComponent,
+        EditCalibratePdCrDrSummaryModalComponent
     ],
     providers: [
         { provide: BsDatepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDatepickerConfig },
