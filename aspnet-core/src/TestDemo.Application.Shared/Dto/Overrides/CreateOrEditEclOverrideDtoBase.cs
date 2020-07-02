@@ -13,6 +13,8 @@ namespace TestDemo.Dto
 		public double? ImpairmentOverride { get; set; }
 		[Required]
 		public string OverrideComment { get; set; }
+		[Required]
+		public string OverrideType { get; set; }
 		public GeneralStatusEnum Status { get; set; }
 		public Guid EclId { get; set; }
 		public Guid RecordId { get; set; }

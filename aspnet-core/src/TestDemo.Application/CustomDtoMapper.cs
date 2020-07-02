@@ -92,6 +92,8 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditOverrideTypeDto, OverrideType>().ReverseMap();
+            configuration.CreateMap<OverrideTypeDto, OverrideType>().ReverseMap();
             configuration.CreateMap<EclDataAssetBookDto, InvestmentAssetBook>().ReverseMap();
             configuration.CreateMap<EclDataLoanBookDto, WholesaleEclDataLoanBook>()
                 .ForMember(e => e.WholesaleEclUploadId, options => options.MapFrom(dto => dto.EclId))

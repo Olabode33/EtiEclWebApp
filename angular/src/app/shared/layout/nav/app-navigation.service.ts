@@ -37,6 +37,7 @@ export class AppNavigationService {
                 new AppMenuItem('Affiliates', 'Pages.Configurations', 'flaticon-more', '/app/main/eclConfig/affiliates'),
                 new AppMenuItem('MacroeconomicVariables', 'Pages.Configurations', 'flaticon-more', '/app/main/config/macroeconomicVariables'),
                 new AppMenuItem('AffiliateMacroEconomicVariableOffsets', 'Pages.Configurations', 'flaticon-more', '/app/main/affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets'),
+                new AppMenuItem('OverrideTypes', 'Pages.Configurations', 'flaticon-more', '/app/main/eclConfig/overrideTypes'),
             ]),
             new AppMenuItem('Administration', '', 'fa fa-cogs', '', [
                 new AppMenuItem('OrganizationUnits', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),

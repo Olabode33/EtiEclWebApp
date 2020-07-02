@@ -28,8 +28,11 @@ namespace TestDemo.InvestmentComputation.Dtos
 		public virtual double? FSV_Shares { get; set; }
 		public virtual double? FSV_Vehicle { get; set; }
 		public virtual double? OverlaysPercentage { get; set; }
+		[Required]
 		public virtual string OverrideComment { get; set; }
 		public virtual GeneralStatusEnum Status { get; set; }
 		public Guid EclId { get; set; }
+		[Required]
+		public string OverrideType { get; set; }
 	}
 }

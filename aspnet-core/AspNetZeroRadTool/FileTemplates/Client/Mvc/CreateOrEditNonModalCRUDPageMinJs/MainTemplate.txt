@@ -11,11 +11,10 @@
             locale: abp.localization.currentLanguage.name,
             format: 'L'
         });
-
       
 	    {{NP_Modal_Open_Clear_Here}}
 
-        function save() {
+        function save(successCallback) {
             if (!_${{entity_Name_Here}}InformationForm.valid()) {
                 return;
             }{{NP_Required_Validation_Here}}
@@ -28,13 +27,31 @@
 			 ).done(function () {
                abp.notify.info(app.localize('SavedSuccessfully'));
                abp.event.trigger('app.createOrEdit{{Entity_Name_Here}}ModalSaved');
+               
+               if(typeof(successCallback)==='function'){
+                    successCallback();
+               }
 			 }).always(function () {
 			    abp.ui.clearBusy();
 			});
         };
-
-        _${{entity_Name_Here}}InformationForm.on('submit', function(){
-            save();
+        
+        function clearForm(){
+            _${{entity_Name_Here}}InformationForm[0].reset();
+        }
+        
+        $('#saveBtn').click(function(){
+            save(function(){
+                window.location="/{{App_Area_Name_Here}}/{{Entity_Name_Plural_Here}}";
+            });
+        });
+        
+        $('#saveAndNewBtn').click(function(){
+            save(function(){
+                if (!$('input[name=id]').val()) {//if it is create page
+                   clearForm();
+                }
+            });
         });
     });
 })();

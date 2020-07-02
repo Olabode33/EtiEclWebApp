@@ -236,7 +236,7 @@ import { LazyLoadEvent } from 'primeng/public_api';"
 		},
 		{
 			"placeholder": "{{View_Child_Create_Or_Edit_Modal_Def_Here}}",
-			"condition": "{{Is_Master_Detail_Page_Here}} == false",
+			"condition": "{{Is_Non_Modal_CRUD_Page}} == false",
 			"content": "@ViewChild('createOrEdit{{Entity_Name_Here}}Modal', { static: true }) createOrEdit{{Entity_Name_Here}}Modal: CreateOrEdit{{Entity_Name_Here}}ModalComponent;{{View_Component_Dec_Here}}"
 		},
 		{

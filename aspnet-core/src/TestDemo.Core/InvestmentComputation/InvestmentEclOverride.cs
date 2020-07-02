@@ -19,6 +19,8 @@ namespace TestDemo.InvestmentComputation
 		
 		[Required]
 		public virtual string OverrideComment { get; set; }
+		[Required]
+		public virtual string OverrideType { get; set; }
 		
 		public virtual GeneralStatusEnum Status { get; set; }
 

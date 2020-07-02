@@ -108,7 +108,8 @@ namespace TestDemo.RetailComputation
                                              FSV_ResidentialProperty = o.FSV_ResidentialProperty,
                                              FSV_Shares = o.FSV_Shares,
                                              FSV_Vehicle = o.FSV_Vehicle,
-                                             OverlaysPercentage = o.OverlaysPercentage
+                                             OverlaysPercentage = o.OverlaysPercentage,
+                                             OverrideType = o.OverrideType
                                          },
                                          ContractId = o.ContractId,
                                          ContractNo = s1 == null ? "" : s1.ContractNo,
@@ -169,6 +170,7 @@ namespace TestDemo.RetailComputation
                 dto.FSV_Shares = overrideRecord.FSV_Shares;
                 dto.FSV_Vehicle = overrideRecord.FSV_Vehicle;
                 dto.OverlaysPercentage = overrideRecord.OverlaysPercentage;
+                dto.OverrideType = overrideRecord.OverrideType;
             }
 
             return new GetPreResultForOverrideNewOutput()
@@ -282,7 +284,8 @@ namespace TestDemo.RetailComputation
                 FSV_Shares = input.FSV_Shares,
                 FSV_Vehicle = input.FSV_Vehicle,
                 OverlaysPercentage = input.OverlaysPercentage,
-                Status = GeneralStatusEnum.Submitted
+                Status = GeneralStatusEnum.Submitted,
+                OverrideType = input.OverrideType
             });
             await SendSubmittedEmail((Guid)input.EclId);
         }
@@ -309,6 +312,7 @@ namespace TestDemo.RetailComputation
             eclOverride.FSV_Vehicle = input.FSV_Vehicle;
             eclOverride.OverlaysPercentage = input.OverlaysPercentage;
             eclOverride.Status = GeneralStatusEnum.Submitted;
+            eclOverride.OverrideType = input.OverrideType;
 
             await _retailEclOverrideRepository.UpdateAsync(eclOverride);
             await SendSubmittedEmail((Guid)eclOverride.RetailEclDataLoanBookId);
@@ -398,18 +402,18 @@ namespace TestDemo.RetailComputation
                 return output;
             }
 
-            var reviewedOverride = await _retailEclOverrideRepository.FirstOrDefaultAsync(x => x.ContractId == input.ContractId && x.Status != GeneralStatusEnum.Submitted);
+            //var reviewedOverride = await _retailEclOverrideRepository.FirstOrDefaultAsync(x => x.ContractId == input.ContractId && x.Status != GeneralStatusEnum.Submitted);
 
-            if (reviewedOverride != null)
-            {
-                output.Status = false;
-                output.Message = L("ApplyOverrideErrorRecordReviewed");
-            }
-            else
-            {
-                output.Status = true;
-                output.Message = "";
-            }
+            //if (reviewedOverride != null)
+            //{
+            //    output.Status = false;
+            //    output.Message = L("ApplyOverrideErrorRecordReviewed");
+            //}
+            //else
+            //{
+            //    output.Status = true;
+            //    output.Message = "";
+            //}
 
             return output;
         }

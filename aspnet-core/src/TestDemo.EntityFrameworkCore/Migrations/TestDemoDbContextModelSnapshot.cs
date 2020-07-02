@@ -2342,6 +2342,21 @@ namespace TestDemo.Migrations
                     b.ToTable("EclConfigurations");
                 });
 
+            modelBuilder.Entity("TestDemo.EclConfig.OverrideType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OverrideTypes");
+                });
+
             modelBuilder.Entity("TestDemo.EclLibrary.Workers.Trackers.TrackEclDataLoanBookException", b =>
                 {
                     b.Property<int>("Id")
@@ -3753,6 +3768,9 @@ namespace TestDemo.Migrations
                     b.Property<string>("OverrideComment")
                         .IsRequired();
 
+                    b.Property<string>("OverrideType")
+                        .IsRequired();
+
                     b.Property<int?>("StageOverride");
 
                     b.Property<int>("Status");
@@ -5088,7 +5106,11 @@ namespace TestDemo.Migrations
 
                     b.Property<double?>("OverlaysPercentage");
 
-                    b.Property<string>("Reason");
+                    b.Property<string>("OverrideType")
+                        .IsRequired();
+
+                    b.Property<string>("Reason")
+                        .IsRequired();
 
                     b.Property<int?>("Stage");
 
@@ -7257,7 +7279,11 @@ namespace TestDemo.Migrations
 
                     b.Property<double?>("OverlaysPercentage");
 
-                    b.Property<string>("Reason");
+                    b.Property<string>("OverrideType")
+                        .IsRequired();
+
+                    b.Property<string>("Reason")
+                        .IsRequired();
 
                     b.Property<Guid?>("RetailEclDataLoanBookId");
 
@@ -9134,7 +9160,11 @@ namespace TestDemo.Migrations
 
                     b.Property<double?>("OverlaysPercentage");
 
-                    b.Property<string>("Reason");
+                    b.Property<string>("OverrideType")
+                        .IsRequired();
+
+                    b.Property<string>("Reason")
+                        .IsRequired();
 
                     b.Property<int?>("Stage");
 

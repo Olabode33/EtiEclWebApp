@@ -1,6 +1,7 @@
 ﻿using Abp.Domain.Entities.Auditing;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using TestDemo.EclShared;
 
@@ -21,7 +22,10 @@ namespace TestDemo.EclLibrary.BaseEngine.ComputationBase
 		public virtual double? FSV_Shares { get; set; }
 		public virtual double? FSV_Vehicle { get; set; }
 		public virtual double? OverlaysPercentage { get; set; }
+		[Required]
 		public virtual string Reason { get; set; }
 		public virtual GeneralStatusEnum Status { get; set; }
+		[Required]
+		public virtual string OverrideType { get; set; }
 	}
 }

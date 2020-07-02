@@ -1,7 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="fr">
   <texts>
+    <text name="OverrideType">Override type</text>
+    <text name="TestDemo.EclConfig.OverrideType">OverrideType</text>
+    <text name="OverrideTypesHeaderInfo">Manage override types</text>
+    <text name="CreateNewOverrideType">New</text>
+    <text name="EditOverrideType">Edit override type</text>
+    <text name="DeleteOverrideType">Delete override type</text>
+    <text name="OverrideTypes">Override types</text>
 
+    <text name="ExpectingDateTime">Expecting: Date value</text>
+    <text name="ExpectingWholeNumber">Expecting: Whole number</text>
+    <text name="ExpectingNumber">Expecting: Number</text>
+    <text name="Expecting1or0">Expecting: 1 or 0</text>
     <text name="UseReportDate">Use Reporting Date</text>
     <text name="SetReportDate">Set Reporting Date</text>
     <text name="LastStage">Last Stage</text>

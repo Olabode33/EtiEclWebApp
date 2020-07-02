@@ -2,6 +2,9 @@
 import { FrameworkAssumptionsComponent } from './assumptions/_subs/frameworkAssumptions/frameworkAssumptions.component';
 import { ViewAffiliateAssumptionsComponent } from './assumptions/view-affiliateAssumptions/view-affiliateAssumptions.component';
 import { CommonModule } from '@angular/common';
+import { OverrideTypesComponent } from './eclConfig/overrideTypes/overrideTypes.component';
+import { CreateOrEditOverrideTypeModalComponent } from './eclConfig/overrideTypes/create-or-edit-overrideType-modal.component';
+
 import { CalibrationEadBehaviouralTermsComponent } from './calibration/calibrationEadBehaviouralTerms/calibrationEadBehaviouralTerms.component';
 import { CreateOrEditCalibrationEadBehaviouralTermComponent } from './calibration/calibrationEadBehaviouralTerms/create-or-edit-calibrationEadBehaviouralTerm.component';
 
@@ -114,6 +117,8 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+		OverrideTypesComponent,
+		CreateOrEditOverrideTypeModalComponent,
         LoanbookReaderComponent,
         EditEclReportDateComponent,
         MacroAnalysisComponent,

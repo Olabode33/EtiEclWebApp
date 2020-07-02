@@ -48,6 +48,8 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<OverrideType> OverrideTypes { get; set; }
+
         
         public virtual DbSet<TrackRunningUploadJobs> TrackRunningUploadJobs { get; set; }
         public virtual DbSet<TrackEclDataLoanBookException> TrackEclDataLoanBookException { get; set; }

@@ -1,5 +1,6 @@
 ﻿import { MacroAnalysisComponent } from './calibration/calibrateMacroAnalysis/macroAnalysis.component';
 import { ViewCalibrationEadCcfSummaryComponent } from './calibration/calibrateEadCcfSummary/view-calibrateEadCcfSummary.component';
+import { OverrideTypesComponent } from './eclConfig/overrideTypes/overrideTypes.component';
 import { CalibrationEadCcfSummaryComponent } from './calibration/calibrateEadCcfSummary/calibrateEadCcfSummary.component';
 import { ViewRetailEclComponent } from './retail/view-retailEcl/view-retailEcl.component';
 import { NgModule } from '@angular/core';
@@ -40,6 +41,7 @@ import { ViewMacroAnalysisComponent } from './calibration/calibrateMacroAnalysis
             {
                 path: '',
                 children: [
+                    { path: 'eclConfig/overrideTypes', component: OverrideTypesComponent, data: { permission: 'Pages.Configurations' }  },
                     { path: 'calibration/behavioralTerms', component: CalibrationEadBehaviouralTermsComponent, data: { permission: 'Pages.Calibration' }  },
                     { path: 'calibration/behavioralTerms/view/:calibrationId', component: CreateOrEditCalibrationEadBehaviouralTermComponent, data: { permission: 'Pages.Calibration' }  },
                     { path: 'calibration/ccfSummary', component: CalibrationEadCcfSummaryComponent, data: { permission: 'Pages.Calibration' }  },

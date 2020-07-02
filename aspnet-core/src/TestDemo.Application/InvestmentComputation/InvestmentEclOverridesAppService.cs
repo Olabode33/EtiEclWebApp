@@ -102,7 +102,8 @@ namespace TestDemo.InvestmentComputation
                                                  Status = o.Status,
                                                  Id = o.Id,
                                                  EclId = o.EclId,
-                                                 RecordId = o.InvestmentEclSicrId
+                                                 RecordId = o.InvestmentEclSicrId,
+                                                 OverrideType = o.OverrideType
                                              },
                                              ContractId = s1 == null ? "" : s1.AssetDescription.ToString(),
                                              AccountNumber = s1 == null ? "" : s1.AssetDescription,
@@ -186,6 +187,7 @@ namespace TestDemo.InvestmentComputation
                 dto.EclId = overrideRecord.EclId;
                 dto.Id = overrideRecord.Id;
                 dto.OverrideComment = overrideRecord.OverrideComment;
+                dto.OverrideType = overrideRecord.OverrideType;
                 dto.Stage = overrideRecord.StageOverride;
                 dto.Status = overrideRecord.Status;
                 dto.ImpairmentOverride = overrideRecord.ImpairmentOverride;
@@ -248,7 +250,8 @@ namespace TestDemo.InvestmentComputation
                 OverrideComment = input.OverrideComment,
                 StageOverride = input.Stage,
                 ImpairmentOverride = input.ImpairmentOverride,
-                Status = GeneralStatusEnum.Submitted
+                Status = GeneralStatusEnum.Submitted,
+                OverrideType = input.OverrideType
             });
             await SendSubmittedEmail(input.EclId);
         }
@@ -261,7 +264,8 @@ namespace TestDemo.InvestmentComputation
             investmentEclOverride.OverrideComment = input.OverrideComment;
             investmentEclOverride.StageOverride = (int)input.Stage;
             investmentEclOverride.ImpairmentOverride = input.ImpairmentOverride;
-            investmentEclOverride.Status = input.Status;
+            investmentEclOverride.Status = GeneralStatusEnum.Submitted;
+            investmentEclOverride.OverrideType = input.OverrideType;
 
             await _investmentEclOverrideRepository.UpdateAsync(investmentEclOverride);
             if (input.Status == GeneralStatusEnum.Submitted)
@@ -388,17 +392,17 @@ namespace TestDemo.InvestmentComputation
             }
 
 
-            var reviewedOverride = await _investmentEclOverrideRepository.FirstOrDefaultAsync(x => x.InvestmentEclSicrId == input.EclSicrId && x.Status != GeneralStatusEnum.Submitted);
+            //var reviewedOverride = await _investmentEclOverrideRepository.FirstOrDefaultAsync(x => x.InvestmentEclSicrId == input.EclSicrId && x.Status != GeneralStatusEnum.Submitted);
 
-            if (reviewedOverride != null)
-            {
-                output.Status = false;
-                output.Message = L("ApplyOverrideErrorRecordReviewed");
-            } else
-            {
-                output.Status = true;
-                output.Message = "";
-            }
+            //if (reviewedOverride != null)
+            //{
+            //    output.Status = false;
+            //    output.Message = L("ApplyOverrideErrorRecordReviewed");
+            //} else
+            //{
+            //    output.Status = true;
+            //    output.Message = "";
+            //}
 
             return output;
         }

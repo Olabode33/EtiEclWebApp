@@ -12,6 +12,7 @@ using Abp.Organizations;
 using Microsoft.EntityFrameworkCore;
 using TestDemo.Common.Dto;
 using TestDemo.Dto.Inputs;
+using TestDemo.EclConfig;
 using TestDemo.EclLibrary.Workers.Trackers;
 using TestDemo.EclShared;
 using TestDemo.Editions;
@@ -34,6 +35,7 @@ namespace TestDemo.Common
         private readonly IRepository<ObeEcl, Guid> _obeEclRepository;
         private readonly IRepository<InvestmentEcl, Guid> _investmentEclRepository;
         private readonly IRepository<WholesaleEcl, Guid> _wholesaleEclRepository;
+        private readonly IRepository<OverrideType> _overrideTypeRepository;
 
         public CommonLookupAppService(EditionManager editionManager,
                                       IRepository<OrganizationUnit, long> organizationUnitRepository,
@@ -41,7 +43,8 @@ namespace TestDemo.Common
                                       IRepository<ObeEcl, Guid> obeEclRepository,
                                       IRepository<RetailEcl, Guid> retailEclRepository,
                                       IRepository<WholesaleEcl, Guid> wholesaleRepository,
-                                      IRepository<InvestmentEcl, Guid> investmentEclRepository,
+                                      IRepository<InvestmentEcl, Guid> investmentEclRepository, 
+                                      IRepository<OverrideType> overrideTypeRepository,
                                       IRepository<TrackFacilityStage> facilityStageTrackerRepository)
         {
             _editionManager = editionManager;
@@ -52,6 +55,7 @@ namespace TestDemo.Common
             _retailEclRepository = retailEclRepository;
             _obeEclRepository = obeEclRepository;
             _investmentEclRepository = investmentEclRepository;
+            _overrideTypeRepository = overrideTypeRepository;
         }
 
         public async Task<ListResultDto<SubscribableEditionComboboxItemDto>> GetEditionsForCombobox(bool onlyFreeItems = false)
@@ -235,6 +239,17 @@ namespace TestDemo.Common
                     Stage = -1
                 };
             }
+        }
+
+        public async Task<List<NameValueDto<int>>> GetOverrideTypesForDropdown()
+        {
+            var overrideTypes = _overrideTypeRepository.GetAll().Select(e => new NameValueDto<int>
+            {
+                Name = e.Name,
+                Value = e.Id
+            });
+
+            return await overrideTypes.ToListAsync();
         }
 
         public async Task UploadLoanbookData(List<EclDataLoanBookDto> input)

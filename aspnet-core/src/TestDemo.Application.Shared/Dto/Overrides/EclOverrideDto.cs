@@ -25,6 +25,6 @@ namespace TestDemo.Dto.Overrides
 		public double? FSV_Shares { get; set; }
 		public double? FSV_Vehicle { get; set; }
 		public double? OverlaysPercentage { get; set; }
-
+		public string OverrideType { get; set; }
 	}
 }
