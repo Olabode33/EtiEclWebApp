@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestDemo.EntityFrameworkCore;
 
 namespace TestDemo.Migrations
 {
     [DbContext(typeof(TestDemoDbContext))]
-    partial class TestDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200702175419_Added_Calibration_UploadSummary")]
+    partial class Added_Calibration_UploadSummary
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2357,43 +2359,6 @@ namespace TestDemo.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("OverrideTypes");
-                });
-
-            modelBuilder.Entity("TestDemo.EclLibrary.Workers.Trackers.TrackCalibrationPdCrDrException", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Account_No");
-
-                    b.Property<Guid?>("CalibrationId");
-
-                    b.Property<string>("Classification");
-
-                    b.Property<DateTime?>("Contract_End_Date");
-
-                    b.Property<string>("Contract_No");
-
-                    b.Property<DateTime?>("Contract_Start_Date");
-
-                    b.Property<int?>("Current_Rating");
-
-                    b.Property<string>("Customer_No");
-
-                    b.Property<int?>("Days_Past_Due");
-
-                    b.Property<string>("Exception");
-
-                    b.Property<double?>("Outstanding_Balance_Lcy");
-
-                    b.Property<string>("Product_Type");
-
-                    b.Property<int?>("RAPP_Date");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TrackCalibrationPdCrDrException");
                 });
 
             modelBuilder.Entity("TestDemo.EclLibrary.Workers.Trackers.TrackCalibrationUploadSummary", b =>

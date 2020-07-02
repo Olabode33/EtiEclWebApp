@@ -298,6 +298,7 @@
     <text name="AllMacroProjectionDataSuccessfullyImportedFromExcel">Macro-economic projection data import process has been completed successfully. All Macro-economic projection data in file are imported.</text>
     <text name="AllMacroAnalysisDataSuccessfullyImportedFromExcel">Macro analysis data import process has been completed successfully. All Macro analysis data in file are imported.</text>
     <text name="AllSnPSuccessfullyImportedFromExcel">SnP import process has been completed successfully. All SnP data in file are imported.</text>
+    <text name="AllCalibrationPdCrDrSuccessfullyImportedFromExcel">PD CR DR import process has been completed successfully. All PD CR DR data in file are imported.</text>
     <text name="AllCalibrationRecoveryRateSuccessfullyImportedFromExcel">LGD Recovery rate import process has been completed successfully. All LGD recovery rate data in file are imported.</text>
     <text name="AllCalibrationHaircutSuccessfullyImportedFromExcel">LGD Haircut import process has been completed successfully. All LGD Haircut data in file are imported.</text>
     <text name="AllCalibrationCcfSummarySuccessfullyImportedFromExcel">EAD CCF summary import process has been completed successfully. All EAD CCF summary data in file are imported.</text>
@@ -306,6 +307,7 @@
     <text name="FileCantBeConvertedToMacroProjectionDataList">Macro-economic projection data import process has failed. File is invalid.</text>
     <text name="FileCantBeConvertedToMacroAnalysisDataList">Macro analysis data import process has failed. File is invalid.</text>
     <text name="FileCantBeConvertedToSnPList">SnP data import process has failed. File is invalid.</text>
+    <text name="FileCantBeConvertedToCalibrationPdCrDrList">PD CR DR import process has failed. File is invalid.</text>
     <text name="FileCantBeConvertedToCalibrationLgdRecoveryRateList">LGD Recovery rate import process has failed. File is invalid.</text>
     <text name="FileCantBeConvertedToCalibrationLgdHaircutList">LGD Haircut import process has failed. File is invalid.</text>
     <text name="FileCantBeConvertedToCalibrationCcfSummaryList">EAD CCF Summary import process has failed. File is invalid.</text>

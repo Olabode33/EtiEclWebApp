@@ -144,7 +144,8 @@ namespace TestDemo.EclShared.Importing
             //    });
             //}
 
-            _backgroundJobManager.Enqueue<TrackUploadJob, ImportEclDataFromExcelJobArgs>(args, delay: TimeSpan.FromSeconds(30));
+            _backgroundJobManager.Enqueue<TrackLoanbookUploadJob, ImportEclDataFromExcelJobArgs>(args, delay: TimeSpan.FromSeconds(30));
+        
         }
 
         private List<ImportLoanbookDto> ValidateLoanBook(ImportEclDataFromExcelJobArgs args, List<ImportLoanbookDtoNew> loanbooks)
@@ -246,7 +247,7 @@ namespace TestDemo.EclShared.Importing
             try
             {
                 var file = AsyncHelper.RunSync(() => _binaryObjectManager.GetOrNullAsync(args.BinaryObjectId));
-                Logger.Debug("ImportLoanbookFromExcelJobFileToken: " + file.Id);
+                //Logger.Debug("ImportLoanbookFromExcelJobFileToken: " + file.Id);
                 return _loanbookExcelDataReader.GetImportLoanbookFromExcel(file.Bytes);
             }
             catch (Exception e)

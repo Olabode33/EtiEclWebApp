@@ -6,6 +6,6 @@ namespace TestDemo.EclShared.Importing
 {
     public interface IPdCrDrExcelDataReader : ITransientDependency
     {
-        List<ImportCalibrationPdCrDrDto> GetImportPdCrDrFromExcel(byte[] fileBytes);
+        List<ImportCalibrationPdCrDrAsStringDto> GetImportPdCrDrFromExcel(byte[] fileBytes);
     }
 }

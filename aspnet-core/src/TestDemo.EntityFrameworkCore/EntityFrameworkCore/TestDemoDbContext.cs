@@ -49,20 +49,18 @@ namespace TestDemo.EntityFrameworkCore
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
         public virtual DbSet<OverrideType> OverrideTypes { get; set; }
-
         
+        public virtual DbSet<TrackCalibrationPdCrDrException> TrackCalibrationPdCrDrException { get; set; }
+        public virtual DbSet<TrackCalibrationUploadSummary> TrackCalibrationUploadSummary { get; set; }
         public virtual DbSet<TrackRunningUploadJobs> TrackRunningUploadJobs { get; set; }
         public virtual DbSet<TrackEclDataLoanBookException> TrackEclDataLoanBookException { get; set; }
         public virtual DbSet<TrackFacilityStage> TrackFacilityStage { get; set; }
         public virtual DbSet<TrackRunningGuidRegister> TrackRunningGuidRegister { get; set; }
         public virtual DbSet<TrackRunningIntRegister> TrackRunningIntRegister { get; set; }
         
-
         public virtual DbSet<RetailEclFramworkReportDetail> RetailEclFramworkReportDetail { get; set; }
         public virtual DbSet<WholesaleEclFramworkReportDetail> WholesaleEclFramworkReportDetail { get; set; }
         public virtual DbSet<ObeEclFramworkReportDetail> ObeEclFramworkReportDetail { get; set; }
-
-
 
         public virtual DbSet<CalibrationEadBehaviouralTermApproval> CalibrationEadBehaviouralTermApprovals { get; set; }
         public virtual DbSet<CalibrationEadCcfSummaryApproval> CalibrationEadCcfSummaryApproval { get; set; }

@@ -36,7 +36,7 @@ using TestDemo.WholesaleInputs;
 
 namespace TestDemo.EclShared.Importing
 {
-    public class TrackUploadJob : BackgroundJob<ImportEclDataFromExcelJobArgs>, ITransientDependency
+    public class TrackLoanbookUploadJob : BackgroundJob<ImportEclDataFromExcelJobArgs>, ITransientDependency
     {
         private readonly ILoanbookExcelDataReader _loanbookExcelDataReader;
         private readonly IInvalidLoanbookExporter _invalidLoanbookExporter;
@@ -62,7 +62,7 @@ namespace TestDemo.EclShared.Importing
         private readonly IEclCustomRepository _customRepository;
         protected readonly IBackgroundJobManager _backgroundJobManager;
 
-        public TrackUploadJob(
+        public TrackLoanbookUploadJob(
             ILoanbookExcelDataReader loanbookExcelDataReader, 
             IInvalidLoanbookExporter invalidLoanbookExporter, 
             IRepository<RetailEclDataLoanBook, Guid> retailEclDataLoanbookRepository, 
@@ -153,7 +153,7 @@ namespace TestDemo.EclShared.Importing
             }
             else
             {
-                _backgroundJobManager.Enqueue<TrackUploadJob, ImportEclDataFromExcelJobArgs>(args, delay: TimeSpan.FromSeconds(30));
+                _backgroundJobManager.Enqueue<TrackLoanbookUploadJob, ImportEclDataFromExcelJobArgs>(args, delay: TimeSpan.FromSeconds(30));
             }
 
         }

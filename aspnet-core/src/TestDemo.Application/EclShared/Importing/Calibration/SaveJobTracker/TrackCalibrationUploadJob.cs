@@ -36,7 +36,7 @@ using TestDemo.WholesaleInputs;
 
 namespace TestDemo.EclShared.Importing
 {
-    public class ImportCalibrationPdCrDrFromExcelJob : BackgroundJob<ImportCalibrationDataFromExcelJobArgs>, ITransientDependency
+    public class TrackCalibrationUploadJob : BackgroundJob<ImportCalibrationDataFromExcelJobArgs>, ITransientDependency
     {
         private readonly IPdCrDrExcelDataReader _pdCrDrExcelDataReader;
         private readonly IInvalidPdCrDrExporter _invalidExporter;
@@ -50,11 +50,13 @@ namespace TestDemo.EclShared.Importing
         private readonly IConfigurationRoot _appConfiguration;
         private readonly IRepository<User, long> _userRepository;
         private readonly IRepository<OrganizationUnit, long> _ouRepository;
-        private readonly IRepository<TrackCalibrationUploadSummary> _uploadSummaryRepository;
         private readonly IEclCustomRepository _customRepository;
+        private readonly IRepository<TrackCalibrationPdCrDrException> _exceptionTrackerRepository;
+        private readonly IRepository<TrackRunningUploadJobs> _uploadJobsTrackerRepository;
+        private readonly IRepository<TrackCalibrationUploadSummary> _uploadSummaryRepository;
         protected readonly IBackgroundJobManager _backgroundJobManager;
 
-        public ImportCalibrationPdCrDrFromExcelJob(
+        public TrackCalibrationUploadJob(
             IPdCrDrExcelDataReader pdCrDreExcelDataReader,
             IInvalidPdCrDrExporter invalidExporter, 
             IAppNotifier appNotifier, 
@@ -66,8 +68,10 @@ namespace TestDemo.EclShared.Importing
             IHostingEnvironment env,
             IRepository<User, long> userRepository,
             IRepository<OrganizationUnit, long> ouRepository,
-            IRepository<TrackCalibrationUploadSummary> uploadSummaryRepository,
             IEclCustomRepository customRepository,
+            IRepository<TrackCalibrationPdCrDrException> exceptionTrackerRepository,
+            IRepository<TrackRunningUploadJobs> uploadJobsTrackerRepository,
+            IRepository<TrackCalibrationUploadSummary> uploadSummaryRepository,
             IBackgroundJobManager backgroundJobManager,
             IObjectMapper objectMapper)
         {
@@ -83,137 +87,59 @@ namespace TestDemo.EclShared.Importing
             _appConfiguration = env.GetAppConfiguration();
             _userRepository = userRepository;
             _ouRepository = ouRepository;
-            _uploadSummaryRepository = uploadSummaryRepository;
             _customRepository = customRepository;
+            _exceptionTrackerRepository = exceptionTrackerRepository;
+            _uploadJobsTrackerRepository = uploadJobsTrackerRepository;
+            _uploadSummaryRepository = uploadSummaryRepository;
             _backgroundJobManager = backgroundJobManager;
         }
 
         [UnitOfWork]
         public override void Execute(ImportCalibrationDataFromExcelJobArgs args)
         {
-            var pdCrDr = GetPdCrDrFromExcelOrNull(args);
-            if (pdCrDr == null || !pdCrDr.Any())
+            var allJobs = 0;
+            var uploadSummary = _uploadSummaryRepository.FirstOrDefault(e => e.RegisterId == args.CalibrationId);
+
+            if (uploadSummary != null)
             {
-                SendInvalidExcelNotification(args);
-                return;
-            }
+                allJobs = uploadSummary.AllJobs;
+                var completedJobs = _uploadJobsTrackerRepository.Count(e => e.RegisterId == args.CalibrationId);
 
-            DeleteExistingDataAsync(args);
-            UpdateCalibrationTableToDraftAsync(args);
-
-            var jobs = pdCrDr.Count / 5000;
-            jobs += 1;
-            UpdateUploadSummaryTable(args, jobs);
-
-            for (int i = 0; i < jobs; i++)
-            {
-                var sub_pdcrdr = pdCrDr.Skip(i * 5000).Take(5000).ToList();
-                _backgroundJobManager.Enqueue<SaveCalibrationPdCrDrFromExcelJob, SaveCalibrationPdCrDrFromExcelJobArgs>(new SaveCalibrationPdCrDrFromExcelJobArgs
+                if (allJobs <= completedJobs)
                 {
-                    Args = args,
-                    UploadedRecords = sub_pdcrdr
-                });
-            }
-
-            _backgroundJobManager.Enqueue<TrackCalibrationUploadJob, ImportCalibrationDataFromExcelJobArgs>(args, delay: TimeSpan.FromSeconds(30));
-        }
-
-        private List<ImportCalibrationPdCrDrAsStringDto> GetPdCrDrFromExcelOrNull(ImportCalibrationDataFromExcelJobArgs args)
-        {
-            try
-            {
-                var file = AsyncHelper.RunSync(() => _binaryObjectManager.GetOrNullAsync(args.BinaryObjectId));
-                return _pdCrDrExcelDataReader.GetImportPdCrDrFromExcel(file.Bytes);
-            }
-            catch(Exception)
-            {
-                return null;
-            }
-        }
-
-        private void CreatePdCrDr(ImportCalibrationDataFromExcelJobArgs args, List<ImportCalibrationPdCrDrDto> inputs)
-        {
-            var invalids = new List<ImportCalibrationPdCrDrDto>();
-
-            foreach (var input in inputs)
-            {
-                if (input.CanBeImported())
-                {
-                    try
-                    {
-                        AsyncHelper.RunSync(() => CreatePdCrDrAsync(input, args));
-                    }
-                    catch (UserFriendlyException exception)
-                    {
-                        input.Exception = exception.Message;
-                        invalids.Add(input);
-                    }
-                    catch(Exception exception)
-                    {
-                        input.Exception = exception.ToString();
-                        invalids.Add(input);
-                    }
+                    AsyncHelper.RunSync(() => ExportInvalids(args));
+                    UpdateCalibrationTableToDraftAsync(args);
+                    UpdateUploadSummaryTable(args);
+                    SendEmailAlert(args);
+                    _uploadJobsTrackerRepository.Delete(e => e.RegisterId == args.CalibrationId);
                 }
                 else
                 {
-                    invalids.Add(input);
+                    _backgroundJobManager.Enqueue<TrackCalibrationUploadJob, ImportCalibrationDataFromExcelJobArgs>(args, delay: TimeSpan.FromSeconds(30));
                 }
             }
-
-            AsyncHelper.RunSync(() => ProcessImportPdCrDrResultAsync(args, invalids));
         }
 
-        private async Task CreatePdCrDrAsync(ImportCalibrationPdCrDrDto input, ImportCalibrationDataFromExcelJobArgs args)
+        private async Task ExportInvalids(ImportCalibrationDataFromExcelJobArgs args)
         {
-            await _pdCrDrRepository.InsertAsync(new CalibrationInputPdCrDr()
-            {
-                Customer_No = input.Customer_No,
-                Account_No = input.Account_No,
-                Contract_No = input.Contract_No,
-                Product_Type = input.Product_Type,
-                Days_Past_Due = input.Days_Past_Due,
-                Classification = input.Classification,
-                Outstanding_Balance_Lcy = input.Outstanding_Balance_Lcy,
-                Contract_Start_Date = input.Contract_Start_Date,
-                Contract_End_Date = input.Contract_End_Date,
-                RAPP_Date = input.RAPP_Date,
-                Current_Rating = input.Current_Rating,
-                CalibrationId = args.CalibrationId,
-                DateCreated = DateTime.Now
-            });
-        }
+            var invalids = _exceptionTrackerRepository.GetAll()
+                                                      .Where(e => e.CalibrationId == args.CalibrationId)
+                                                      .Select(e => _objectMapper.Map<ImportCalibrationPdCrDrDto>(e))
+                                                      .ToList();
 
-        private async Task ProcessImportPdCrDrResultAsync(ImportCalibrationDataFromExcelJobArgs args, List<ImportCalibrationPdCrDrDto> invalids)
-        {
-            if (invalids.Any())
+            if (invalids.Count > 0)
             {
                 var file = _invalidExporter.ExportToFile(invalids);
                 await _appNotifier.SomeDataCouldntBeImported(args.User, file.FileToken, file.FileType, file.FileName);
                 SendInvalidEmailAlert(args, file);
+                DeleteExistingExceptions(args);
             }
-            else
-            {
-                await _appNotifier.SendMessageAsync(
-                    args.User,
-                    _localizationSource.GetString("AllCalibrationRecoveryRateSuccessfullyImportedFromExcel"),
-                    Abp.Notifications.NotificationSeverity.Success);
-                SendEmailAlert(args);
-            }
-        }
-
-        private void SendInvalidExcelNotification(ImportCalibrationDataFromExcelJobArgs args)
-        {
-            AsyncHelper.RunSync(() => _appNotifier.SendMessageAsync(
-                args.User,
-                _localizationSource.GetString("FileCantBeConvertedToCalibrationLgdRecoveryRateList"),
-                Abp.Notifications.NotificationSeverity.Warn));
         }
 
         [UnitOfWork]
-        private void DeleteExistingDataAsync(ImportCalibrationDataFromExcelJobArgs args)
+        private void DeleteExistingExceptions(ImportCalibrationDataFromExcelJobArgs args)
         {
-            AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_CalibrationInputPdCrDr, DbHelperConst.COL_CalibrationId, args.CalibrationId.ToString()));
-            //_pdCrDrRepository.Delete(x => x.CalibrationId == args.CalibrationId);
+            AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_TrackCalibrationPdCrDrException, DbHelperConst.COL_CalibrationId, args.CalibrationId.ToString()));
         }
 
         [UnitOfWork]
@@ -225,26 +151,16 @@ namespace TestDemo.EclShared.Importing
                 calibration.Status = CalibrationStatusEnum.Draft;
                 _calibrationRepository.Update(calibration);
             }
-
         }
 
-        private void UpdateUploadSummaryTable(ImportCalibrationDataFromExcelJobArgs args, int allJobs)
+        [UnitOfWork]
+        private void UpdateUploadSummaryTable(ImportCalibrationDataFromExcelJobArgs args)
         {
             var uploadSummary = _uploadSummaryRepository.FirstOrDefault(e => e.RegisterId == args.CalibrationId);
-            if(uploadSummary == null)
-            {
-                _uploadSummaryRepository.Insert(new TrackCalibrationUploadSummary
-                {
-                    RegisterId = args.CalibrationId,
-                    AllJobs = allJobs,
-                    CompletedJobs = 0
-                });
-            }
-            else
+            if (uploadSummary != null)
             {
                 uploadSummary.RegisterId = args.CalibrationId;
-                uploadSummary.AllJobs = allJobs;
-                uploadSummary.CompletedJobs = 0;
+                uploadSummary.CompletedJobs = uploadSummary.AllJobs;
                 _uploadSummaryRepository.Update(uploadSummary);
             }
             CurrentUnitOfWork.SaveChanges();

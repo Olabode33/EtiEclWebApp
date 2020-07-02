@@ -85,6 +85,7 @@ using TestDemo.Sessions.Dto;
 using TestDemo.Dto.Inputs;
 using TestDemo.EclShared.Importing.Dto;
 using TestDemo.EclLibrary.Workers.Trackers;
+using TestDemo.EclShared.Importing.Calibration.Dto;
 
 namespace TestDemo
 {
@@ -117,6 +118,9 @@ namespace TestDemo
                 .ForMember(e => e.EclId, opt => opt.Ignore())
                 .ForMember(e => e.OrganizationUnitId, opt => opt.Ignore())
                 .ReverseMap();
+            configuration.CreateMap<ImportCalibrationPdCrDrDto, TrackCalibrationPdCrDrException>()
+                .ReverseMap()
+                .ForMember(dto => dto.DateCreated, opt => opt.Ignore());
 
             configuration.CreateMap<CreateOrEditCalibrationRunDto, MacroAnalysis>().ReverseMap();
             configuration.CreateMap<CreateOrEditCalibrationRunDto, CalibrationPdCrDr>().ReverseMap();

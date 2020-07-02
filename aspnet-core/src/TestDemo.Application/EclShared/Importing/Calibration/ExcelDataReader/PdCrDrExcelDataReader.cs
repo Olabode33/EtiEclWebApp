@@ -10,7 +10,7 @@ using TestDemo.EclShared.Importing.Dto;
 
 namespace TestDemo.EclShared.Importing
 {
-    public class PdCrDrExcelDataReader : EpPlusExcelImporterBase<ImportCalibrationPdCrDrDto>, IPdCrDrExcelDataReader
+    public class PdCrDrExcelDataReader : EpPlusExcelImporterBase<ImportCalibrationPdCrDrAsStringDto>, IPdCrDrExcelDataReader
     {
         private readonly ILocalizationSource _localizationSource;
 
@@ -19,12 +19,12 @@ namespace TestDemo.EclShared.Importing
             _localizationSource = localizationManager.GetSource(TestDemoConsts.LocalizationSourceName);
         }
 
-        public List<ImportCalibrationPdCrDrDto> GetImportPdCrDrFromExcel(byte[] fileBytes)
+        public List<ImportCalibrationPdCrDrAsStringDto> GetImportPdCrDrFromExcel(byte[] fileBytes)
         {
             return ProcessExcelFile(fileBytes, ProcessExcelRow);
         }
 
-        private ImportCalibrationPdCrDrDto ProcessExcelRow(ExcelWorksheet worksheet, int row)
+        private ImportCalibrationPdCrDrAsStringDto ProcessExcelRow(ExcelWorksheet worksheet, int row)
         {
             //if (IsRowEmpty(worksheet, row))
             //{
@@ -32,7 +32,7 @@ namespace TestDemo.EclShared.Importing
             //}
 
             var exceptionMessage = new StringBuilder();
-            var data = new ImportCalibrationPdCrDrDto();
+            var data = new ImportCalibrationPdCrDrAsStringDto();
 
             try
             {
@@ -40,14 +40,13 @@ namespace TestDemo.EclShared.Importing
                 data.Account_No = GetRequiredValueFromRowOrNull(worksheet, row, 2, nameof(data.Account_No), exceptionMessage);
                 data.Contract_No = GetRequiredValueFromRowOrNull(worksheet, row, 3, nameof(data.Contract_No), exceptionMessage);
                 data.Product_Type = GetRequiredValueFromRowOrNull(worksheet, row, 4, nameof(data.Product_Type), exceptionMessage);
-                data.Days_Past_Due = GetIntegerValueFromRowOrNull(worksheet, row, 5, nameof(data.Days_Past_Due), exceptionMessage);
+                data.Days_Past_Due = GetRequiredValueFromRowOrNull(worksheet, row, 5, nameof(data.Days_Past_Due), exceptionMessage);
                 data.Classification = GetRequiredValueFromRowOrNull(worksheet, row, 6, nameof(data.Classification), exceptionMessage);
-                data.Outstanding_Balance_Lcy = GetDoubleValueFromRowOrNull(worksheet, row, 7, nameof(data.Outstanding_Balance_Lcy), exceptionMessage);
-                data.Contract_Start_Date = GetDateTimeValueFromRowOrNull(worksheet, row, 8, nameof(data.Contract_Start_Date), exceptionMessage);
-                data.Contract_End_Date = GetDateTimeValueFromRowOrNull(worksheet, row, 9, nameof(data.Contract_End_Date), exceptionMessage);
-                data.RAPP_Date = GetIntegerValueFromRowOrNull(worksheet, row, 10, nameof(data.RAPP_Date), exceptionMessage);
-                data.Current_Rating = GetIntegerValueFromRowOrNull(worksheet, row, 11, nameof(data.Current_Rating), exceptionMessage);
-
+                data.Outstanding_Balance_Lcy = GetRequiredValueFromRowOrNull(worksheet, row, 7, nameof(data.Outstanding_Balance_Lcy), exceptionMessage);
+                data.Contract_Start_Date = GetRequiredValueFromRowOrNull(worksheet, row, 8, nameof(data.Contract_Start_Date), exceptionMessage);
+                data.Contract_End_Date = GetRequiredValueFromRowOrNull(worksheet, row, 9, nameof(data.Contract_End_Date), exceptionMessage);
+                data.RAPP_Date = GetRequiredValueFromRowOrNull(worksheet, row, 10, nameof(data.RAPP_Date), exceptionMessage);
+                data.Current_Rating = GetRequiredValueFromRowOrNull(worksheet, row, 11, nameof(data.Current_Rating), exceptionMessage);
             }
             catch (Exception exception)
             {
