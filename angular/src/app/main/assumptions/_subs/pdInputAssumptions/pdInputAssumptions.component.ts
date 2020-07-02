@@ -90,7 +90,7 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
     affiliateId = -1;
 
     accordionList = [
-        {key: 'Pd12Months', isActive: false},
+        {key: 'Pd12Months(S&P Mapping)', isActive: false},
         {key: 'PdInputSnPCummulativeDefaultRates', isActive: false},
         {key: 'PdInputAssumptionNonInternalModel', isActive: false},
         {key: 'PdInputAssumptionNplIndex', isActive: false},
