@@ -54,13 +54,60 @@
     </div>
     <div class="kt-content">
 
-        <div *ngIf="calibration.status == calibrationStatusEnum.Completed || calibration.status == calibrationStatusEnum.AppliedToEcl" 
+        <div *ngIf="calibration.status == calibrationStatusEnum.Completed || calibration.status == calibrationStatusEnum.AppliedToEcl"
+            class="kt-portlet kt-portlet--height-fluid">
+            <div class="kt-portlet__head">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">
+                         Result Summary
+                    </h3>
+                </div>
+                <div class="kt-portlet__head-toolbar">
+                    <button (click)="editCalibratePdCrDrSummaryModal.show(resultSummary)" class="btn btn-outline-primary mr-2">
+                        <i class="fa fa-edit" style="font-size: 1.2rem !important;"></i>
+                        Override Result
+                    </button>
+                </div>
+            </div>
+            <div class="kt-portlet__body kt-portlet__body--fluid">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>{{l('CureRate')}}</th>
+                                <th>{{l('RedefaultRate')}}</th>
+                                <th>{{l('RedefaultFactor')}}</th>
+                                <th>{{l('MonthPd12')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="align-middle">{{ resultSummary.cure_Rate | number: '1.2-2' }}</td>
+                                <td class="align-middle">{{ resultSummary.redefault_Rate | number: '1.2-2' }}</td>
+                                <td class="align-middle">{{ resultSummary.redefault_Factor | number: '1.2-2' }}</td>
+                                <td class="align-middle">{{ resultSummary.normal_12_Months_PD | percent: '1.2-2'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div *ngIf="calibration.status == calibrationStatusEnum.Completed || calibration.status == calibrationStatusEnum.AppliedToEcl"
             class="kt-portlet kt-portlet--height-fluid">
             <div class="kt-portlet__head">
                 <div class="kt-portlet__head-label">
                     <h3 class="kt-portlet__head-title">
                         Calibration Result
                     </h3>
+                </div>
+                <div class="kt-portlet__head-toolbar">
+                    <button (click)="editCalibratePdCrDrModal.show(result)" class="btn btn-outline-primary mr-2">
+                        <i class="fa fa-edit" style="font-size: 1.2rem !important;"></i>
+                        Override Result
+                    </button>
                 </div>
             </div>
             <div class="kt-portlet__body kt-portlet__body--fluid">
@@ -220,16 +267,20 @@
                             <td>{{item.reviewedDate | momentFormat: 'lll'}}</td>
                             <td>{{item.reviewedBy}}</td>
                             <td>
-                                <span *ngIf="item.status === genStatusEnum.Approved" class="kt-badge kt-badge--bolder kt-badge kt-badge--inline 
+                                <span *ngIf="item.status === genStatusEnum.Approved" class="kt-badge kt-badge--bolder kt-badge kt-badge--inline
                                                 kt-badge--unified-success">
                                                 {{l(genStatusEnum[item.status])}}
                                 </span>
-                                <span *ngIf="item.status === genStatusEnum.Rejected" class="kt-badge kt-badge--bolder kt-badge kt-badge--inline 
+                                <span *ngIf="item.status === genStatusEnum.Rejected" class="kt-badge kt-badge--bolder kt-badge kt-badge--inline
                                                 kt-badge--unified-danger">
                                                 {{l(genStatusEnum[item.status])}}
                                 </span>
-                                <span *ngIf="item.status === genStatusEnum.Submitted" class="kt-badge kt-badge--bolder kt-badge kt-badge--inline 
+                                <span *ngIf="item.status === genStatusEnum.Submitted" class="kt-badge kt-badge--bolder kt-badge kt-badge--inline
                                                 kt-badge--unified-warning">
+                                                {{l(genStatusEnum[item.status])}}
+                                </span>
+                                <span *ngIf="item.status === genStatusEnum.Override" class="kt-badge kt-badge--bolder kt-badge kt-badge--inline
+                                                kt-badge--unified-info">
                                                 {{l(genStatusEnum[item.status])}}
                                 </span>
                             </td>
@@ -241,6 +292,8 @@
         </div>
     </div>
 
+    <editCalibratePdCrDrModal #editCalibratePdCrDrModal (modalSave)="show(_calibrationId)"></editCalibratePdCrDrModal>
+    <editCalibratePdCrDrSummaryModal #editCalibratePdCrDrSummaryModal (modalSave)="show(_calibrationId)"></editCalibratePdCrDrSummaryModal>
 
     <app-approve-ecl-modal #approvalModal (approved)="reloadPage()"></app-approve-ecl-modal>
 </div>

@@ -262,6 +262,41 @@ namespace TestDemo.Calibration
             ObjectMapper.Map(input, calibrationEadBehaviouralTerm);
         }
 
+        public async Task UpdateCalibrationResult(List<ResultPd12MonthsDto> input)
+        {
+            var result = ObjectMapper.Map<List<CalibrationResultPd12Months>>(input);
+
+            foreach (var item in result)
+            {
+                await _pd12MonthsResultRepository.UpdateAsync(item);
+            }
+
+            await _calibrationApprovalRepository.InsertAsync(new CalibrationPdCrDrApproval
+            {
+                CalibrationId = input[0].CalibrationId,
+                ReviewComment = "",
+                ReviewedByUserId = AbpSession.UserId,
+                ReviewedDate = DateTime.Now,
+                Status = GeneralStatusEnum.Override
+            });
+        }
+
+        public async Task UpdateCalibrationResultSummary(ResultPd12MonthsSummaryDto input)
+        {
+            var result = ObjectMapper.Map<CalibrationResultPd12MonthsSummary>(input);
+
+                await _calibrationResultRepository.UpdateAsync(result);
+
+            await _calibrationApprovalRepository.InsertAsync(new CalibrationPdCrDrApproval
+            {
+                CalibrationId = input.CalibrationId,
+                ReviewComment = "",
+                ReviewedByUserId = AbpSession.UserId,
+                ReviewedDate = DateTime.Now,
+                Status = GeneralStatusEnum.Override
+            });
+        }
+
         public async Task Delete(EntityDto<Guid> input)
         {
             await _calibrationRepository.DeleteAsync(input.Id);

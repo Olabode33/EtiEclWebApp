@@ -28,5 +28,7 @@ namespace TestDemo.Calibration.Dtos
         public int? Status { get; set; }
         public DateTime? DateCreated { get; set; }
         public Guid? CalibrationId { get; set; }
+        public int Id { get; set; }
+
     }
 }

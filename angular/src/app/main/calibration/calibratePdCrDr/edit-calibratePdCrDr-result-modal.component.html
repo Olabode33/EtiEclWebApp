@@ -1,0 +1,74 @@
+﻿<div bsModal #editModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal"
+    aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #assessmentForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span> Override Calibration Result</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="kt-portlet__body kt-portlet__body--fluid">
+                        <div class="table-responsive">
+
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>{{l('Rating')}}</th>
+                                        <!-- <th>{{l('OutstandingBalance')}}</th>
+                                        <th>{{l('RedefaultBalance')}}</th>
+                                        <th>{{l('RedefaultedBalance')}}</th>
+                                        <th>{{l('TotalRedefault')}}</th> -->
+                                        <th>{{l('MonthPd12')}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of result; let i = index">
+                                        <td class="align-middle">
+                                            {{item.rating}}
+                                        </td>
+                                      <!--   <td class="align-middle">
+                                            <input type="text" name="'outstanding_Balance'+ i" class="form-control"
+                                                [(ngModel)]="item.outstanding_Balance">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="text" name="'redefault_Balance'+ i" class="form-control"
+                                                [(ngModel)]="item.redefault_Balance">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="text" name="'redefaulted_Balance'+ i" class="form-control"
+                                                [(ngModel)]="item.redefaulted_Balance"></td>
+
+                                        <td class="align-middle">
+                                            <input type="text" name="'total_Redefault'+ i" class="form-control"
+                                                [(ngModel)]="item.total_Redefault">
+                                        </td> -->
+                                        <td class="align-middle">
+                                            <input type="number" name="{{'months_PDs_12'+ i}}" class="form-control"
+                                                [(ngModel)]="item.months_PDs_12">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default"
+                        (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!assessmentForm.form.valid"
+                        [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
+                        <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,128 @@
+﻿<div bsModal #editModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal"
+    aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #assessmentForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span> Override Calibration Result</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="kt-portlet__body kt-portlet__body--fluid">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>{{l('RecoveryRate')}}</th>
+                                        <th>{{l('Overall')}}</th>
+                                        <th>{{l('Corporate')}}</th>
+                                        <th>{{l('Commercial')}}</th>
+                                        <th>{{l('Consumer')}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- <tr>
+                                        <td class="align-middle">{{ l('ExposureAtDefault') }}</td>
+                                        <td class="align-middle">
+                                            <input type="number" name="overall_Exposure_At_Default" class="form-control"
+                                                [(ngModel)]="result.overall_Exposure_At_Default">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="number" name="corporate_Exposure_At_Default" class="form-control"
+                                                [(ngModel)]="result.corporate_Exposure_At_Default">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="number" name="commercial_Exposure_At_Default"
+                                                class="form-control"
+                                                [(ngModel)]="result.commercial_Exposure_At_Default">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="number" name="consumer_Exposure_At_Default" class="form-control"
+                                                [(ngModel)]="result.consumer_Exposure_At_Default">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="align-middle">{{ l('PvOfAmountRecovered') }}</td>
+                                        <td class="align-middle">
+                                            <input type="number" name="overall_PvOfAmountReceived" class="form-control"
+                                                [(ngModel)]="result.overall_PvOfAmountReceived">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="number" name="corporate_PvOfAmountReceived" class="form-control"
+                                                [(ngModel)]="result.corporate_PvOfAmountReceived">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="number" name="commercial_PvOfAmountReceived" class="form-control"
+                                                [(ngModel)]="result.commercial_PvOfAmountReceived">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="number" name="consumer_PvOfAmountReceived" class="form-control"
+                                                [(ngModel)]="result.consumer_PvOfAmountReceived">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="align-middle">{{ l('Count') }}</td>
+                                        <td class="align-middle">
+                                            <input type="number" name="overall_Count" class="form-control"
+                                                [(ngModel)]="result.overall_Count">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="number" name="corporate_Count" class="form-control"
+                                                [(ngModel)]="result.corporate_Count">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="number" name="commercial_Count" class="form-control"
+                                                [(ngModel)]="result.commercial_Count">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="number" name="consumer_Count" class="form-control"
+                                                [(ngModel)]="result.consumer_Count">
+                                        </td>
+                                    </tr> -->
+
+                                    <tr>
+                                        <td class="align-middle">{{ l('RecoveryRate') }}</td>
+                                        <td class="align-middle">
+                                            <input type="number" name="overall_RecoveryRate" class="form-control"
+                                                [(ngModel)]="result.overall_RecoveryRate">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="number" name="corporate_RecoveryRate" class="form-control"
+                                                [(ngModel)]="result.corporate_RecoveryRate">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="number" name="commercial_RecoveryRate" class="form-control"
+                                                [(ngModel)]="result.commercial_RecoveryRate">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="number" name="consumer_RecoveryRate" class="form-control"
+                                                [(ngModel)]="result.consumer_RecoveryRate">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default"
+                        (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!assessmentForm.form.valid"
+                        [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
+                        <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

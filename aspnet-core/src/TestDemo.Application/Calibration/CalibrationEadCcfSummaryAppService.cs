@@ -255,6 +255,22 @@ namespace TestDemo.Calibration
             ObjectMapper.Map(input, calibrationEadBehaviouralTerm);
         }
 
+        public async Task UpdateCalibrationResult(ResultEadCcfSummaryDto input)
+        {
+            var result = ObjectMapper.Map<CalibrationResultEadCcfSummary>(input);
+
+            await _calibrationResultRepository.UpdateAsync(result);
+
+            await _calibrationApprovalRepository.InsertAsync(new CalibrationEadCcfSummaryApproval
+            {
+                CalibrationId = input.CalibrationId,
+                ReviewComment = "",
+                ReviewedByUserId = AbpSession.UserId,
+                ReviewedDate = DateTime.Now,
+                Status = GeneralStatusEnum.Override
+            });
+        }
+
         public async Task Delete(EntityDto<Guid> input)
         {
             await _calibrationRepository.DeleteAsync(input.Id);
