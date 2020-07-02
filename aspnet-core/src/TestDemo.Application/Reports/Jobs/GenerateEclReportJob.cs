@@ -27,6 +27,7 @@ using TestDemo.Wholesale;
 using TestDemo.Investment;
 using TestDemo.OBE;
 using TestDemo.Retail;
+using System.IO;
 
 namespace TestDemo.Reports.Jobs
 {
@@ -82,6 +83,10 @@ namespace TestDemo.Reports.Jobs
 
             var rc = new ReportComputation();
             var excelPackage = rc.GenerateEclReport(args.eclType, args.eclId, rd);
+
+            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), @"Template\", "ETI_template.xlsx");
+            var fi = new FileInfo(path);
+            Logger.Debug("ReportTemplateFileLocation: " + fi);
 
             //var file = Save(excelPackage, args.eclType.ToString() + "-ECL-Report.xlsx");
             var binaryObjectId = SaveAsBinary(excelPackage);

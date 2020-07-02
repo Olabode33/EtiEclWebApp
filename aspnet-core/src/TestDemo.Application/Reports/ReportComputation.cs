@@ -29,7 +29,7 @@ namespace TestDemo.Reports
             var dataTable = new DataTable();
             //var fi = new FileInfo(@"C:\Users\Dev-Sys\Desktop\ETI_template.xlsx");
             //string path = Path.Combine(Path.GetDirectoryName(@"\Template\ETI_template.xlsx"));
-            string path = Path.Combine(Environment.CurrentDirectory, @"Template\", "ETI_template.xlsx");
+            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), @"Template\", "ETI_template.xlsx");
             var fi = new FileInfo(path);
             ExcelPackage excelPackage = new ExcelPackage(fi);
             //using (ExcelPackage excelPackage = new ExcelPackage(fi))
