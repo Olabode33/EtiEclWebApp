@@ -43,6 +43,7 @@ namespace TestDemo.Calibration
         private readonly IRepository<CalibrationInputLgdHairCut> _calibrationInputRepository;
         private readonly IRepository<CalibrationResultLgdHairCut> _calibrationResultRepository;
         private readonly IRepository<CalibrationResultLgdHairCutSummary> _haircutSummaryResultRepository;
+        private readonly IRepository<CalibrationHistoryLgdHairCut> _calibrationHistoryRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
         private readonly IInputLgdHaircutExporter _inputDataExporter;
@@ -58,6 +59,7 @@ namespace TestDemo.Calibration
             IRepository<OrganizationUnit, long> organizationUnitRepository,
             IRepository<CalibrationResultLgdHairCut> calibrationResultRepository,
             IRepository<CalibrationResultLgdHairCutSummary> haircutSummaryResultRepository,
+            IRepository<CalibrationHistoryLgdHairCut> calibrationHistoryRepository,
             IEclEngineEmailer emailer,
             IHostingEnvironment env,
             IInputLgdHaircutExporter inputDataExporter)
@@ -69,6 +71,7 @@ namespace TestDemo.Calibration
             _calibrationResultRepository = calibrationResultRepository;
             _organizationUnitRepository = organizationUnitRepository;
             _haircutSummaryResultRepository = haircutSummaryResultRepository;
+            _calibrationHistoryRepository = calibrationHistoryRepository;
             _inputDataExporter = inputDataExporter;
             _emailer = emailer;
             _appConfiguration = env.GetAppConfiguration();
@@ -199,6 +202,30 @@ namespace TestDemo.Calibration
                 Total = total,
                 Items = items
             };
+        }
+
+        public async Task<CalibrationInputSummaryDto<InputLgdHaircutDto>> GetHistorySummary()
+        {
+            var total = await _calibrationHistoryRepository.CountAsync();
+            var items = await _calibrationHistoryRepository.GetAll().OrderByDescending(e => e.DateCreated).Take(10)
+                                                         .Select(x => ObjectMapper.Map<InputLgdHaircutDto>(x))
+                                                         .ToListAsync();
+
+            return new CalibrationInputSummaryDto<InputLgdHaircutDto>
+            {
+                Total = total,
+                Items = items
+            };
+        }
+
+        public async Task<FileDto> ExportHistoryToExcel()
+        {
+
+            var items = await _calibrationHistoryRepository.GetAll()
+                                                         .Select(x => ObjectMapper.Map<InputLgdHaircutDto>(x))
+                                                         .ToListAsync();
+
+            return _inputDataExporter.ExportToFile(items);
         }
 
         public async Task<GetAllResultLgdHaircutDto> GetResult(EntityDto<Guid> input)

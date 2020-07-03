@@ -43,6 +43,7 @@ namespace TestDemo.Calibration
         private readonly IRepository<CalibrationInputPdCrDr> _calibrationInputRepository;
         private readonly IRepository<CalibrationResultPd12MonthsSummary> _calibrationResultRepository;
         private readonly IRepository<CalibrationResultPd12Months> _pd12MonthsResultRepository;
+        private readonly IRepository<CalibrationHistoryPdCrDr> _calibrationHistoryRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
         private readonly IInputPdCrDrExporter _inputDataExporter;
@@ -58,6 +59,7 @@ namespace TestDemo.Calibration
             IRepository<OrganizationUnit, long> organizationUnitRepository,
             IRepository<CalibrationResultPd12MonthsSummary> calibrationResultRepository,
             IRepository<CalibrationResultPd12Months> pd12MonthsResultRepository,
+            IRepository<CalibrationHistoryPdCrDr> calibrationHistoryRepository,
             IEclEngineEmailer emailer,
             IHostingEnvironment env,
             IInputPdCrDrExporter inputDataExporter)
@@ -68,6 +70,7 @@ namespace TestDemo.Calibration
             _calibrationInputRepository = calibrationInputRepository;
             _calibrationResultRepository = calibrationResultRepository;
             _pd12MonthsResultRepository = pd12MonthsResultRepository;
+            _calibrationHistoryRepository = calibrationHistoryRepository;
             _organizationUnitRepository = organizationUnitRepository;
             _inputDataExporter = inputDataExporter;
             _emailer = emailer;
@@ -199,6 +202,30 @@ namespace TestDemo.Calibration
                 Total = total,
                 Items = items
             };
+        }
+
+        public async Task<CalibrationInputSummaryDto<InputPdCrDrDto>> GetHistorySummary()
+        {
+            var total = await _calibrationHistoryRepository.CountAsync();
+            var items = await _calibrationHistoryRepository.GetAll().OrderByDescending(e => e.DateCreated).Take(10)
+                                                         .Select(x => ObjectMapper.Map<InputPdCrDrDto>(x))
+                                                         .ToListAsync();
+
+            return new CalibrationInputSummaryDto<InputPdCrDrDto>
+            {
+                Total = total,
+                Items = items
+            };
+        }
+
+        public async Task<FileDto> ExportHistoryToExcel()
+        {
+
+            var items = await _calibrationHistoryRepository.GetAll()
+                                                         .Select(x => ObjectMapper.Map<InputPdCrDrDto>(x))
+                                                         .ToListAsync();
+
+            return _inputDataExporter.ExportToFile(items);
         }
 
         public async Task<GetAllResultPdCrDrDto> GetResult(EntityDto<Guid> input)

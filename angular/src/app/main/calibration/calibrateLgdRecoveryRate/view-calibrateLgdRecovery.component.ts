@@ -1,5 +1,5 @@
 ﻿import { InputBehaviouralTermsDto, ResultBehaviouralTermsDto, CalibrationEadCcfSummaryServiceProxy, InputCcfSummaryDto, ResultEadCcfSummaryDto, CalibrationLgdHairCutServiceProxy, InputLgdHaircutDto, ResultLgdHairCutSummaryDto, CalibrationLgdRecoveryRateServiceProxy, InputLgdRecoveryRateDto, ResultLgdRecoveryRateDto } from '../../../../shared/service-proxies/service-proxies';
-import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, AfterViewInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
 import {
@@ -24,7 +24,7 @@ const secondsCounter = interval(5000);
     templateUrl: './view-calibrateLgdRecovery.component.html',
     animations: [appModuleAnimation()]
 })
-export class ViewCalibrationLgdRecoveryComponent extends AppComponentBase implements OnInit {
+export class ViewCalibrationLgdRecoveryComponent extends AppComponentBase implements OnInit, AfterViewInit {
 
     @ViewChild('approvalModal', { static: true }) approvalModal: ApprovalModalComponent;
     @ViewChild('excelFileUpload', { static: true }) excelFileUpload: FileUpload;
@@ -35,6 +35,7 @@ export class ViewCalibrationLgdRecoveryComponent extends AppComponentBase implem
     saving = false;
 
     showUploadCard = true;
+    showHistoricCard = true;
 
     _calibrationId = '';
     calibration: CreateOrEditCalibrationRunDto = new CreateOrEditCalibrationRunDto();
@@ -50,7 +51,9 @@ export class ViewCalibrationLgdRecoveryComponent extends AppComponentBase implem
     genStatusEnum = GeneralStatusEnum;
 
     totalUploads = 0;
+    totalHistoric = 0;
     uploads: InputLgdRecoveryRateDto[] = new Array();
+    historic: InputLgdRecoveryRateDto[] = new Array();
     result: ResultLgdRecoveryRateDto = new ResultLgdRecoveryRateDto();
 
     autoReloadSub: Subscription;
@@ -76,6 +79,10 @@ export class ViewCalibrationLgdRecoveryComponent extends AppComponentBase implem
             this.show(this._calibrationId);
             this.getInputSummary();
         });
+    }
+
+    ngAfterViewInit(): void {
+        this.getHistoricSummary();
     }
 
     configureApprovalModal(): void {
@@ -122,6 +129,13 @@ export class ViewCalibrationLgdRecoveryComponent extends AppComponentBase implem
             // if (this.totalUploads > 0 && this.autoReloadSub) {
             //     this.autoReloadSub.unsubscribe();
             // }
+        });
+    }
+
+    getHistoricSummary(): void {
+        this._calibrationServiceProxy.getHistorySummary().subscribe(result => {
+            this.totalHistoric = result.total;
+            this.historic = result.items;
         });
     }
 
@@ -206,6 +220,12 @@ export class ViewCalibrationLgdRecoveryComponent extends AppComponentBase implem
         let dto = new EntityDtoOfGuid();
         dto.id = this._calibrationId;
         this._calibrationServiceProxy.exportToExcel(dto).subscribe(result => {
+            this._fileDownloadService.downloadTempFile(result);
+        });
+    }
+
+    exportHistoric(): void {
+        this._calibrationServiceProxy.exportHistoryToExcel().subscribe(result => {
             this._fileDownloadService.downloadTempFile(result);
         });
     }

@@ -1,5 +1,5 @@
 ﻿import { InputBehaviouralTermsDto, ResultBehaviouralTermsDto, CalibrationEadCcfSummaryServiceProxy, InputCcfSummaryDto, ResultEadCcfSummaryDto, CalibrationLgdHairCutServiceProxy, InputLgdHaircutDto, ResultLgdHairCutSummaryDto, CalibrationLgdRecoveryRateServiceProxy, InputLgdRecoveryRateDto, ResultLgdRecoveryRateDto, CalibrationPdCrDrServiceProxy, InputPdCrDrDto, ResultPd12MonthsDto, ResultPd12MonthsSummaryDto } from '../../../../shared/service-proxies/service-proxies';
-import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, AfterViewInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
 import {
@@ -24,7 +24,7 @@ const secondsCounter = interval(5000);
     templateUrl: './view-calibratePdCrDr.component.html',
     animations: [appModuleAnimation()]
 })
-export class ViewCalibrationPdCrDrComponent extends AppComponentBase implements OnInit {
+export class ViewCalibrationPdCrDrComponent extends AppComponentBase implements OnInit, AfterViewInit {
 
     @ViewChild('approvalModal', { static: true }) approvalModal: ApprovalModalComponent;
     @ViewChild('excelFileUpload', { static: true }) excelFileUpload: FileUpload;
@@ -35,6 +35,7 @@ export class ViewCalibrationPdCrDrComponent extends AppComponentBase implements 
     saving = false;
 
     showUploadCard = true;
+    showHistoricCard = true;
 
     _calibrationId = '';
     calibration: CreateOrEditCalibrationRunDto = new CreateOrEditCalibrationRunDto();
@@ -50,7 +51,9 @@ export class ViewCalibrationPdCrDrComponent extends AppComponentBase implements 
     genStatusEnum = GeneralStatusEnum;
 
     totalUploads = 0;
+    totalHistoric = 0;
     uploads: InputPdCrDrDto[] = new Array();
+    historic: InputPdCrDrDto[] = new Array();
     result: ResultPd12MonthsDto[] = new Array();
     resultSummary: ResultPd12MonthsSummaryDto = new ResultPd12MonthsSummaryDto();
 
@@ -77,6 +80,10 @@ export class ViewCalibrationPdCrDrComponent extends AppComponentBase implements 
             this.show(this._calibrationId);
             this.getInputSummary();
         });
+    }
+
+    ngAfterViewInit(): void {
+        this.getHistoricSummary();
     }
 
     configureApprovalModal(): void {
@@ -123,6 +130,13 @@ export class ViewCalibrationPdCrDrComponent extends AppComponentBase implements 
             // if (this.totalUploads > 0 && this.autoReloadSub) {
             //     this.autoReloadSub.unsubscribe();
             // }
+        });
+    }
+
+    getHistoricSummary(): void {
+        this._calibrationServiceProxy.getHistorySummary().subscribe(result => {
+            this.totalHistoric = result.total;
+            this.historic = result.items;
         });
     }
 
@@ -208,6 +222,12 @@ export class ViewCalibrationPdCrDrComponent extends AppComponentBase implements 
         let dto = new EntityDtoOfGuid();
         dto.id = this._calibrationId;
         this._calibrationServiceProxy.exportToExcel(dto).subscribe(result => {
+            this._fileDownloadService.downloadTempFile(result);
+        });
+    }
+
+    exportHistoric(): void {
+        this._calibrationServiceProxy.exportHistoryToExcel().subscribe(result => {
             this._fileDownloadService.downloadTempFile(result);
         });
     }

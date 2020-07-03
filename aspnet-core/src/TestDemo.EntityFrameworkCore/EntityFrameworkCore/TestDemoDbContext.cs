@@ -77,6 +77,12 @@ namespace TestDemo.EntityFrameworkCore
         public virtual DbSet<CalibrationPdCrDr> CalibrationPdCrDr { get; set; }
         public virtual DbSet<MacroAnalysis> MacroAnalysis { get; set; }
 
+        public virtual DbSet<CalibrationHistoryPdCrDr> CalibrationHistoryPdCrDr { get; set; }
+        public virtual DbSet<CalibrationHistoryLgdRecoveryRate> CalibrationHistoryLgdRecoveryRate { get; set; }
+        public virtual DbSet<CalibrationHistoryLgdHairCut> CalibrationHistoryLgdHairCut { get; set; }
+        public virtual DbSet<CalibrationHistoryEadCcfSummary> CalibrationHistoryEadCcfSummary { get; set; }
+        public virtual DbSet<CalibrationHistoryEadBehaviouralTerms> CalibrationHistoryEadBehaviouralTerms { get; set; }
+
         public virtual DbSet<CalibrationInputEadBehaviouralTerms> CalibrationInputEadBehaviouralTerms { get; set; }
         public virtual DbSet<CalibrationInputEadCcfSummary> CalibrationInputEadCcfSummary { get; set; }
         public virtual DbSet<CalibrationInputLgdHairCut> CalibrationInputLgdHairCut { get; set; }
@@ -434,6 +440,13 @@ namespace TestDemo.EntityFrameworkCore
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<CalibrationHistoryEadBehaviouralTerms>(o => o.Property(x => x.DateCreated).HasDefaultValueSql("GETDATE()"));
+            modelBuilder.Entity<CalibrationHistoryEadCcfSummary>(o => o.Property(x => x.DateCreated).HasDefaultValueSql("GETDATE()"));
+            modelBuilder.Entity<CalibrationHistoryLgdHairCut>(o => o.Property(x => x.DateCreated).HasDefaultValueSql("GETDATE()"));
+            modelBuilder.Entity<CalibrationHistoryLgdRecoveryRate>(o => o.Property(x => x.DateCreated).HasDefaultValueSql("GETDATE()"));
+            modelBuilder.Entity<CalibrationHistoryPdCrDr>(o => o.Property(x => x.DateCreated).HasDefaultValueSql("GETDATE()"));
+
             //Investment
             modelBuilder.Entity<InvestmentEclMonthlyPostOverrideResult>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));
             modelBuilder.Entity<InvestmentEclFinalPostOverrideResult>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));

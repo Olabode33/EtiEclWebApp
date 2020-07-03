@@ -1574,6 +1574,251 @@ namespace TestDemo.Migrations
                     b.ToTable("CalibrationRunMacroAnalysis");
                 });
 
+            modelBuilder.Entity("TestDemo.CalibrationInput.CalibrationHistoryEadBehaviouralTerms", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Account_No");
+
+                    b.Property<long?>("AffiliateId");
+
+                    b.Property<string>("Classification");
+
+                    b.Property<DateTime?>("Contract_End_Date");
+
+                    b.Property<string>("Contract_No");
+
+                    b.Property<DateTime?>("Contract_Start_Date");
+
+                    b.Property<string>("Customer_Name");
+
+                    b.Property<string>("Customer_No");
+
+                    b.Property<DateTime?>("DateCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<int?>("ModelType");
+
+                    b.Property<double?>("Original_Balance_Lcy");
+
+                    b.Property<double?>("Outstanding_Balance_Acy");
+
+                    b.Property<double?>("Outstanding_Balance_Lcy");
+
+                    b.Property<DateTime?>("Restructure_End_Date");
+
+                    b.Property<string>("Restructure_Indicator");
+
+                    b.Property<DateTime?>("Restructure_Start_Date");
+
+                    b.Property<string>("Restructure_Type");
+
+                    b.Property<DateTime?>("Snapshot_Date");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CalibrationHistory_EAD_Behavioural_Terms");
+                });
+
+            modelBuilder.Entity("TestDemo.CalibrationInput.CalibrationHistoryEadCcfSummary", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Account_No");
+
+                    b.Property<long?>("AffiliateId");
+
+                    b.Property<string>("Classification");
+
+                    b.Property<DateTime?>("Contract_End_Date");
+
+                    b.Property<DateTime?>("Contract_Start_Date");
+
+                    b.Property<string>("Customer_No");
+
+                    b.Property<DateTime?>("DateCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<double?>("Limit");
+
+                    b.Property<int?>("ModelType");
+
+                    b.Property<double?>("Outstanding_Balance");
+
+                    b.Property<string>("Product_Type");
+
+                    b.Property<string>("Settlement_Account");
+
+                    b.Property<int?>("Snapshot_Date");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CalibrationHistory_EAD_CCF_Summary");
+                });
+
+            modelBuilder.Entity("TestDemo.CalibrationInput.CalibrationHistoryLgdHairCut", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Account_No");
+
+                    b.Property<long?>("AffiliateId");
+
+                    b.Property<double?>("Cash_FSV");
+
+                    b.Property<double?>("Cash_OMV");
+
+                    b.Property<double?>("Commercial_Property_FSV");
+
+                    b.Property<double?>("Commercial_Property_OMV");
+
+                    b.Property<string>("Contract_No");
+
+                    b.Property<string>("Customer_No");
+
+                    b.Property<DateTime?>("DateCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<double?>("Debenture_FSV");
+
+                    b.Property<double?>("Debenture_OMV");
+
+                    b.Property<double?>("Guarantee_Value");
+
+                    b.Property<double?>("Inventory_FSV");
+
+                    b.Property<double?>("Inventory_OMV");
+
+                    b.Property<int?>("ModelType");
+
+                    b.Property<double?>("Outstanding_Balance_Lcy");
+
+                    b.Property<int?>("Period");
+
+                    b.Property<double?>("Plant_And_Equipment_FSV");
+
+                    b.Property<double?>("Plant_And_Equipment_OMV");
+
+                    b.Property<double?>("Receivables_FSV");
+
+                    b.Property<double?>("Receivables_OMV");
+
+                    b.Property<double?>("Residential_Property_FSV");
+
+                    b.Property<double?>("Residential_Property_OMV");
+
+                    b.Property<double?>("Shares_FSV");
+
+                    b.Property<double?>("Shares_OMV");
+
+                    b.Property<DateTime?>("Snapshot_Date");
+
+                    b.Property<double?>("Vehicle_FSV");
+
+                    b.Property<double?>("Vehicle_OMV");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CalibrationHistory_LGD_HairCut");
+                });
+
+            modelBuilder.Entity("TestDemo.CalibrationInput.CalibrationHistoryLgdRecoveryRate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Account_Name");
+
+                    b.Property<string>("Account_No");
+
+                    b.Property<long?>("AffiliateId");
+
+                    b.Property<double?>("Amount_Recovered");
+
+                    b.Property<string>("Classification");
+
+                    b.Property<string>("Contract_No");
+
+                    b.Property<double?>("Contractual_Interest_Rate");
+
+                    b.Property<string>("Customer_No");
+
+                    b.Property<DateTime?>("DateCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<DateTime?>("Date_Of_Recovery");
+
+                    b.Property<int?>("Days_Past_Due");
+
+                    b.Property<DateTime?>("Default_Date");
+
+                    b.Property<int?>("ModelType");
+
+                    b.Property<double?>("Outstanding_Balance_Lcy");
+
+                    b.Property<string>("Product_Type");
+
+                    b.Property<string>("Segment");
+
+                    b.Property<string>("Type_Of_Recovery");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CalibrationHistory_LGD_RecoveryRate");
+                });
+
+            modelBuilder.Entity("TestDemo.CalibrationInput.CalibrationHistoryPdCrDr", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Account_No");
+
+                    b.Property<long?>("AffiliateId");
+
+                    b.Property<string>("Classification");
+
+                    b.Property<DateTime?>("Contract_End_Date");
+
+                    b.Property<string>("Contract_No");
+
+                    b.Property<DateTime?>("Contract_Start_Date");
+
+                    b.Property<int?>("Current_Rating");
+
+                    b.Property<string>("Customer_No");
+
+                    b.Property<DateTime?>("DateCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<int?>("Days_Past_Due");
+
+                    b.Property<int?>("ModelType");
+
+                    b.Property<double?>("Outstanding_Balance_Lcy");
+
+                    b.Property<string>("Product_Type");
+
+                    b.Property<int?>("RAPP_Date");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CalibrationHistory_PD_CR_DR");
+                });
+
             modelBuilder.Entity("TestDemo.CalibrationInput.CalibrationInputEadBehaviouralTerms", b =>
                 {
                     b.Property<int>("Id")

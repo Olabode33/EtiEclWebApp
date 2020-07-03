@@ -86,6 +86,7 @@ using TestDemo.Dto.Inputs;
 using TestDemo.EclShared.Importing.Dto;
 using TestDemo.EclLibrary.Workers.Trackers;
 using TestDemo.EclShared.Importing.Calibration.Dto;
+using TestDemo.CalibrationInput;
 
 namespace TestDemo
 {
@@ -124,6 +125,22 @@ namespace TestDemo
             configuration.CreateMap<ImportCalibrationBehaviouralTermDto, TrackCalibrationBehaviouralTermException>()
                 .ReverseMap()
                 .ForMember(dto => dto.DateCreated, opt => opt.Ignore());
+
+            configuration.CreateMap<InputBehaviouralTermsDto, CalibrationHistoryEadBehaviouralTerms>()
+                .ReverseMap()
+                .ForMember(dto => dto.CalibrationId, opt => opt.Ignore());
+            configuration.CreateMap<InputCcfSummaryDto, CalibrationHistoryEadCcfSummary>()
+                .ReverseMap()
+                .ForMember(dto => dto.CalibrationId, opt => opt.Ignore());
+            configuration.CreateMap<InputLgdHaircutDto, CalibrationHistoryLgdHairCut>()
+                .ReverseMap()
+                .ForMember(dto => dto.CalibrationId, opt => opt.Ignore());
+            configuration.CreateMap<InputLgdRecoveryRateDto, CalibrationHistoryLgdRecoveryRate>()
+                .ReverseMap()
+                .ForMember(dto => dto.CalibrationId, opt => opt.Ignore());
+            configuration.CreateMap<InputPdCrDrDto, CalibrationHistoryPdCrDr>()
+                .ReverseMap()
+                .ForMember(dto => dto.CalibrationId, opt => opt.Ignore());
 
             configuration.CreateMap<CreateOrEditCalibrationRunDto, MacroAnalysis>().ReverseMap();
             configuration.CreateMap<CreateOrEditCalibrationRunDto, CalibrationPdCrDr>().ReverseMap();

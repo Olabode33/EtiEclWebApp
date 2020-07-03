@@ -1,5 +1,5 @@
 ﻿import { InputBehaviouralTermsDto, ResultBehaviouralTermsDto, CalibrationEadCcfSummaryServiceProxy, InputCcfSummaryDto, ResultEadCcfSummaryDto } from '../../../../shared/service-proxies/service-proxies';
-import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, AfterViewInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
 import {
@@ -24,7 +24,7 @@ const secondsCounter = interval(5000);
     templateUrl: './view-calibrateEadCcfSummary.component.html',
     animations: [appModuleAnimation()]
 })
-export class ViewCalibrationEadCcfSummaryComponent extends AppComponentBase implements OnInit {
+export class ViewCalibrationEadCcfSummaryComponent extends AppComponentBase implements OnInit, AfterViewInit {
 
     @ViewChild('approvalModal', { static: true }) approvalModal: ApprovalModalComponent;
     @ViewChild('excelFileUpload', { static: true }) excelFileUpload: FileUpload;
@@ -35,6 +35,7 @@ export class ViewCalibrationEadCcfSummaryComponent extends AppComponentBase impl
     saving = false;
 
     showUploadCard = true;
+    showHistoricCard = true;
 
     _calibrationId = '';
     calibration: CreateOrEditCalibrationRunDto = new CreateOrEditCalibrationRunDto();
@@ -50,7 +51,9 @@ export class ViewCalibrationEadCcfSummaryComponent extends AppComponentBase impl
     genStatusEnum = GeneralStatusEnum;
 
     totalUploads = 0;
+    totalHistoric = 0;
     uploads: InputCcfSummaryDto[] = new Array();
+    historic: InputCcfSummaryDto[] = new Array();
     result: ResultEadCcfSummaryDto = new ResultEadCcfSummaryDto();
 
     autoReloadSub: Subscription;
@@ -76,6 +79,10 @@ export class ViewCalibrationEadCcfSummaryComponent extends AppComponentBase impl
             this.show(this._calibrationId);
             this.getInputSummary();
         });
+    }
+
+    ngAfterViewInit(): void {
+        this.getHistoricSummary();
     }
 
     configureApprovalModal(): void {
@@ -122,6 +129,13 @@ export class ViewCalibrationEadCcfSummaryComponent extends AppComponentBase impl
             // if (this.totalUploads > 0 && this.autoReloadSub) {
             //     this.autoReloadSub.unsubscribe();
             // }
+        });
+    }
+
+    getHistoricSummary(): void {
+        this._calibrationServiceProxy.getHistorySummary().subscribe(result => {
+            this.totalHistoric = result.total;
+            this.historic = result.items;
         });
     }
 
@@ -206,6 +220,12 @@ export class ViewCalibrationEadCcfSummaryComponent extends AppComponentBase impl
         let dto = new EntityDtoOfGuid();
         dto.id = this._calibrationId;
         this._calibrationServiceProxy.exportToExcel(dto).subscribe(result => {
+            this._fileDownloadService.downloadTempFile(result);
+        });
+    }
+
+    exportHistoric(): void {
+        this._calibrationServiceProxy.exportHistoryToExcel().subscribe(result => {
             this._fileDownloadService.downloadTempFile(result);
         });
     }

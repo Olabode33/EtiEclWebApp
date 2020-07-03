@@ -1,5 +1,5 @@
 ﻿import { InputBehaviouralTermsDto, ResultBehaviouralTermsDto, CalibrationEadCcfSummaryServiceProxy, InputCcfSummaryDto, ResultEadCcfSummaryDto, CalibrationLgdHairCutServiceProxy, InputLgdHaircutDto, ResultLgdHairCutSummaryDto } from '../../../../shared/service-proxies/service-proxies';
-import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, AfterViewInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
 import {
@@ -24,7 +24,7 @@ const secondsCounter = interval(5000);
     templateUrl: './view-calibrateLgdHaircut.component.html',
     animations: [appModuleAnimation()]
 })
-export class ViewCalibrationLgdHaircutComponent extends AppComponentBase implements OnInit {
+export class ViewCalibrationLgdHaircutComponent extends AppComponentBase implements OnInit, AfterViewInit {
 
     @ViewChild('approvalModal', { static: true }) approvalModal: ApprovalModalComponent;
     @ViewChild('excelFileUpload', { static: true }) excelFileUpload: FileUpload;
@@ -35,6 +35,7 @@ export class ViewCalibrationLgdHaircutComponent extends AppComponentBase impleme
     saving = false;
 
     showUploadCard = true;
+    showHistoricCard = true;
 
     _calibrationId = '';
     calibration: CreateOrEditCalibrationRunDto = new CreateOrEditCalibrationRunDto();
@@ -50,7 +51,9 @@ export class ViewCalibrationLgdHaircutComponent extends AppComponentBase impleme
     genStatusEnum = GeneralStatusEnum;
 
     totalUploads = 0;
+    totalHistoric = 0;
     uploads: InputLgdHaircutDto[] = new Array();
+    historic: InputLgdHaircutDto[] = new Array();
     result: ResultLgdHairCutSummaryDto = new ResultLgdHairCutSummaryDto();
 
     autoReloadSub: Subscription;
@@ -76,6 +79,10 @@ export class ViewCalibrationLgdHaircutComponent extends AppComponentBase impleme
             this.show(this._calibrationId);
             this.getInputSummary();
         });
+    }
+
+    ngAfterViewInit(): void {
+        this.getHistoricSummary();
     }
 
     configureApprovalModal(): void {
@@ -200,6 +207,19 @@ export class ViewCalibrationLgdHaircutComponent extends AppComponentBase impleme
 
     goBack(): void {
         this._location.back();
+    }
+
+    getHistoricSummary(): void {
+        this._calibrationServiceProxy.getHistorySummary().subscribe(result => {
+            this.totalHistoric = result.total;
+            this.historic = result.items;
+        });
+    }
+
+    exportHistoric(): void {
+        this._calibrationServiceProxy.exportHistoryToExcel().subscribe(result => {
+            this._fileDownloadService.downloadTempFile(result);
+        });
     }
 
     exportToExcel(): void {

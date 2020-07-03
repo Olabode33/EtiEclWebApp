@@ -179,6 +179,61 @@
         </div>
 
         <div class="kt-portlet kt-portlet--height-fluid">
+            <div class="kt-portlet__head ">
+                <div class="kt-portlet__head-label hoverable" (click)="showHistoricCard = !showHistoricCard;">
+                    <h3 class="kt-portlet__head-title">
+                        {{l('HistoricDataPreview')}}
+                    </h3>
+                </div>
+                <div class="kt-portlet__head-toolbar">
+                    <button *ngIf="totalHistoric > 0" (click)="exportHistoric()" class="btn btn-outline-primary mr-2">
+                        <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
+                        {{l("DownloadHistoricData")}}
+                    </button>
+                </div>
+            </div>
+            <div [hidden]="!showHistoricCard" class="kt-portlet__body">
+                <div *ngIf="historic.length > 0">
+                    {{l('TotalHistoricData')}} <b>{{totalHistoric}}</b>
+                    <hr>
+                </div>
+                <div class="table-responsive">
+                    <p *ngIf="historic.length <= 0" class="">
+                        {{l('NoHistoricDataFound')}}
+                    </p>
+                    <table *ngIf="historic.length > 0" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <!-- <th>{{l('Actions')}}</th> -->
+                                <th>{{l('CustomerNo')}}</th>
+                                <th>{{l('AccountNo')}}</th>
+                                <th>{{l('ContractNo')}}</th>
+                                <th>{{l('CustomerName')}}</th>
+                                <th>{{l('SnapshotDate')}}</th>
+                                <th>{{l('Classification')}}</th>
+                                <th>{{l('OriginalBalanceLcy')}}</th>
+                                <th>{{l('OutstandingBalanceLcy')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let hist of historic">
+                                <td class="align-middle">{{ hist.customer_No }}</td>
+                                <td class="align-middle">{{ hist.account_No }}</td>
+                                <td class="align-middle">{{ hist.contract_No }}</td>
+                                <td class="align-middle">{{ hist.customer_Name }}</td>
+                                <td class="align-middle">{{hist.snapshot_Date | momentFormat: 'LL'}}</td>
+                                <td class="align-middle">{{ hist.classification }}</td>
+                                <td class="align-right">{{hist.original_Balance_Lcy | number: '1.2-2'}}</td>
+                                <td class="align-right">{{hist.outstanding_Balance_Lcy | number: '1.2-2'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="kt-portlet kt-portlet--height-fluid">
             <div class="kt-portlet__head">
                 <div class="kt-portlet__head-label">
                     <h3 class="kt-portlet__head-title">

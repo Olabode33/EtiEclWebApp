@@ -24,10 +24,10 @@ namespace TestDemo.Calibration.Dtos
         public DateTime? Restructure_End_Date { get; set; }
         public Guid? CalibrationId { get; set; }
         public DateTime? DateCreated { get; set; }
-        public string Assumption_NonExpired { get; set; }
-        public string Freq_NonExpired { get; set; }
-        public string Assumption_Expired { get; set; }
-        public string Freq_Expired { get; set; }
-        public string Comment { get; set; }
+        //public string Assumption_NonExpired { get; set; }
+        //public string Freq_NonExpired { get; set; }
+        //public string Assumption_Expired { get; set; }
+        //public string Freq_Expired { get; set; }
+        //public string Comment { get; set; }
     }
 }
