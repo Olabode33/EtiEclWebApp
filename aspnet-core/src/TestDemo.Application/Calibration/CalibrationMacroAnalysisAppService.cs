@@ -321,6 +321,25 @@ namespace TestDemo.Calibration
             ObjectMapper.Map(input, calibrationEadBehaviouralTerm);
         }
 
+        public async Task UpdateStatisticsResult(List<MacroResultStatisticsDto> input)
+        {
+            var result = ObjectMapper.Map<List<MacroResult_Statistics>>(input);
+
+            foreach (var item in result)
+            {
+                await _statisticsResultRepository.UpdateAsync(item);
+            }
+
+            await _calibrationApprovalRepository.InsertAsync(new MacroAnalysisApproval
+            {
+                MacroId = input[0].MacroId,
+                ReviewComment = "",
+                ReviewedByUserId = AbpSession.UserId,
+                ReviewedDate = DateTime.Now,
+                Status = GeneralStatusEnum.Override
+            });
+        }
+
         public async Task Delete(EntityDto input)
         {
             await _macroAnalysisRepository.DeleteAsync(input.Id);
