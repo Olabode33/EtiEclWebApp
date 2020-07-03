@@ -81,6 +81,10 @@ export class MacroAnalysisComponent extends AppComponentBase implements OnInit {
         return this.isGrantedAny('Pages.Administration.AuditLogs') && customSettings.EntityHistory && customSettings.EntityHistory.isEnabled && _.filter(customSettings.EntityHistory.enabledEntities, entityType => entityType === this._entityTypeFullName).length === 1;
     }
 
+    getAffiliateId(afiliateName) {
+        return this.ouList.find(ou => ou.name == afiliateName).value;
+    }
+
     getAll(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
@@ -122,8 +126,8 @@ export class MacroAnalysisComponent extends AppComponentBase implements OnInit {
         //this._router.navigate(['/app/main/calibration/calibrationEadBehaviouralTerms/createOrEdit']);
     }
 
-    view(id: string): void {
-        this._router.navigate(['/app/main/calibration/macroAnalysis/view/', id]);
+    view(record): void {
+        this._router.navigate(['/app/main/calibration/macroAnalysis/view/', record.calibration.id, { affiliateId: this.getAffiliateId(record.affiliateName) }]);
     }
 
     createForAffiliate() {

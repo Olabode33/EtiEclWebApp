@@ -49,6 +49,7 @@ namespace TestDemo.Calibration
         private readonly IRepository<MacroResult_PrincipalComponentSummary> _principalSummayrResultRepository;
         private readonly IRepository<MacroeconomicVariable> _macroeconomicVariableRepository;
         private readonly IRepository<AffiliateMacroEconomicVariableOffset> _affiliateMacroVariableRepository;
+        private readonly IRepository<MacroResult_SelectedMacroEconomicVariables> _macroResultEconomicVariableRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
         private readonly IMacroAnalysisDataTemplateExporter _templateExporter;
@@ -69,6 +70,7 @@ namespace TestDemo.Calibration
             IRepository<MacroResult_PrincipalComponentSummary> principalSummayrResultRepository,
             IRepository<MacroeconomicVariable> macroeconomicVariableRepository,
             IRepository<AffiliateMacroEconomicVariableOffset> affiliateMacroVariableRepository,
+            IRepository<MacroResult_SelectedMacroEconomicVariables> macroResultEconomicVariableRepository,
             IEclEngineEmailer emailer,
             IHostingEnvironment env,
         IMacroAnalysisDataTemplateExporter templateeExporter)
@@ -85,6 +87,7 @@ namespace TestDemo.Calibration
             _organizationUnitRepository = organizationUnitRepository;
             _macroeconomicVariableRepository = macroeconomicVariableRepository;
             _affiliateMacroVariableRepository = affiliateMacroVariableRepository;
+            _macroResultEconomicVariableRepository = macroResultEconomicVariableRepository;
             _templateExporter = templateeExporter;
             _emailer = emailer;
             _appConfiguration = env.GetAppConfiguration();
@@ -395,6 +398,19 @@ namespace TestDemo.Calibration
                 ReviewedDate = DateTime.Now,
                 Status = GeneralStatusEnum.Override
             });
+        }
+
+        public List<MacroeconomicVariableDto> GetMacroEconomicVariables(EntityDto input)
+        {
+            var output = new List<MacroeconomicVariableDto>();
+            var macroResult_SelectedMacros = _macroResultEconomicVariableRepository.GetAll().Where(r => r.AffiliateId == input.Id).ToList();
+
+            foreach (var item in macroResult_SelectedMacros)
+            {
+                output.Add(ObjectMapper.Map<MacroeconomicVariableDto>(_macroeconomicVariableRepository.FirstOrDefault(i => i.Id == item.MacroeconomicVariableId)));
+            }
+
+            return output;
         }
 
         public async Task Delete(EntityDto input)
