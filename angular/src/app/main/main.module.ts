@@ -97,7 +97,10 @@ import { EditLgdHaircutResultModalComponent } from './calibration/calibrateLgdHa
 import { EditLgdRecoveryResultModalComponent } from './calibration/calibrateLgdRecoveryRate/edit-recoveryRate-result-modal.component';
 import { EditCalibratePdCrDrResultModalComponent } from './calibration/calibratePdCrDr/edit-calibratePdCrDr-result-modal.component';
 import { EditCalibratePdCrDrSummaryModalComponent } from './calibration/calibratePdCrDr/edit-calibratePdCrDr-summary-modal.component';
-import { EditStatisticsResultModalComponent } from './calibration/calibrateMacroAnalysis/edit-statistics-result-modal.component';
+import { EditStatisticsResultModalComponent } from './calibration/calibrateMacroAnalysis/edit-statisticsResult-modal.component';
+import { EditPrincipalSummaryResultModalComponent } from './calibration/calibrateMacroAnalysis/edit-principalSummary-result-modal.component';
+import { EditIndexResultModalComponent } from './calibration/calibrateMacroAnalysis/edit-index-result-modal.component';
+import { EditPrincipalComponentResultModalComponent } from './calibration/calibrateMacroAnalysis/edit-principalComponent-result-modal.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -193,7 +196,10 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         EditLgdRecoveryResultModalComponent,
         EditCalibratePdCrDrResultModalComponent,
         EditCalibratePdCrDrSummaryModalComponent,
-        EditStatisticsResultModalComponent
+        EditStatisticsResultModalComponent,
+        EditPrincipalSummaryResultModalComponent,
+        EditIndexResultModalComponent,
+        EditPrincipalComponentResultModalComponent
     ],
     providers: [
         { provide: BsDatepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDatepickerConfig },

@@ -340,6 +340,63 @@ namespace TestDemo.Calibration
             });
         }
 
+        public async Task UpdatePrincipalSummaryResult(List<MacroResultPrincipalComponentSummaryDto> input)
+        {
+            var result = ObjectMapper.Map<List<MacroResult_PrincipalComponentSummary>>(input);
+
+            foreach (var item in result)
+            {
+                await _principalSummayrResultRepository.UpdateAsync(item);
+            }
+
+            await _calibrationApprovalRepository.InsertAsync(new MacroAnalysisApproval
+            {
+                MacroId = input[0].MacroId,
+                ReviewComment = "",
+                ReviewedByUserId = AbpSession.UserId,
+                ReviewedDate = DateTime.Now,
+                Status = GeneralStatusEnum.Override
+            });
+        }
+
+        public async Task UpdatePrincipalComponentResult(List<MacroResultPrincipalComponentDto> input)
+        {
+            var result = ObjectMapper.Map<List<MacroResult_PrincipalComponent>>(input);
+
+            foreach (var item in result)
+            {
+                await _principalComponentResultRepository.UpdateAsync(item);
+            }
+
+            await _calibrationApprovalRepository.InsertAsync(new MacroAnalysisApproval
+            {
+                MacroId = input[0].MacroId,
+                ReviewComment = "",
+                ReviewedByUserId = AbpSession.UserId,
+                ReviewedDate = DateTime.Now,
+                Status = GeneralStatusEnum.Override
+            });
+        }
+
+        public async Task UpdateIndexResult(List<MacroResultIndexDataDto> input)
+        {
+            var result = ObjectMapper.Map<List<MacroResult_IndexData>>(input);
+
+            foreach (var item in result)
+            {
+                await _indexDataResultRepository.UpdateAsync(item);
+            }
+
+            await _calibrationApprovalRepository.InsertAsync(new MacroAnalysisApproval
+            {
+                MacroId = input[0].MacroId,
+                ReviewComment = "",
+                ReviewedByUserId = AbpSession.UserId,
+                ReviewedDate = DateTime.Now,
+                Status = GeneralStatusEnum.Override
+            });
+        }
+
         public async Task Delete(EntityDto input)
         {
             await _macroAnalysisRepository.DeleteAsync(input.Id);
