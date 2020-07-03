@@ -323,7 +323,7 @@ namespace TestDemo.Calibration
                 ReviewComment = input.ReviewComment,
                 ReviewedByUserId = AbpSession.UserId,
                 ReviewedDate = DateTime.Now,
-                Status = GeneralStatusEnum.Override
+                Status = input.Status
             });
             await CurrentUnitOfWork.SaveChangesAsync();
 
