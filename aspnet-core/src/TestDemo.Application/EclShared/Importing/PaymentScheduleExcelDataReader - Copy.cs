@@ -9,21 +9,21 @@ using TestDemo.EclShared.Importing.Dto;
 
 namespace TestDemo.EclShared.Importing
 {
-    public class PaymentScheduleExcelDataReader : EpPlusExcelImporterBase<ImportPaymentScheduleAsStringDto>, IPaymentScheduleExcelDataReader
+    public class PaymentScheduleExcelDataReader_ : EpPlusExcelImporterBase<ImportPaymentScheduleDto>//, IPaymentScheduleExcelDataReader
     {
         private readonly ILocalizationSource _localizationSource;
 
-        public PaymentScheduleExcelDataReader(ILocalizationManager localizationManager)
+        public PaymentScheduleExcelDataReader_(ILocalizationManager localizationManager)
         {
             _localizationSource = localizationManager.GetSource(TestDemoConsts.LocalizationSourceName);
         }
 
-        public List<ImportPaymentScheduleAsStringDto> GetImportPaymentScheduleFromExcel(byte[] fileBytes)
+        public List<ImportPaymentScheduleDto> GetImportPaymentScheduleFromExcel(byte[] fileBytes)
         {
             return ProcessExcelFile(fileBytes, ProcessExcelRow);
         }
 
-        private ImportPaymentScheduleAsStringDto ProcessExcelRow(ExcelWorksheet worksheet, int row)
+        private ImportPaymentScheduleDto ProcessExcelRow(ExcelWorksheet worksheet, int row)
         {
             if (IsRowEmpty(worksheet, row))
             {
@@ -31,16 +31,16 @@ namespace TestDemo.EclShared.Importing
             }
 
             var exceptionMessage = new StringBuilder();
-            var paymentSchedule = new ImportPaymentScheduleAsStringDto();
+            var paymentSchedule = new ImportPaymentScheduleDto();
 
             try
             {
                 paymentSchedule.ContractRefNo = GetRequiredValueFromRowOrNull(worksheet, row, 1, nameof(paymentSchedule.ContractRefNo), exceptionMessage);
-                paymentSchedule.StartDate = GetRequiredValueFromRowOrNull(worksheet, row, 2, nameof(paymentSchedule.StartDate), exceptionMessage);
+                paymentSchedule.StartDate = GetDateTimeValueFromRowOrNull(worksheet, row, 2, nameof(paymentSchedule.StartDate), exceptionMessage);
                 paymentSchedule.Component = GetRequiredValueFromRowOrNull(worksheet, row, 3, nameof(paymentSchedule.Component), exceptionMessage);
-                paymentSchedule.NoOfSchedules = GetRequiredValueFromRowOrNull(worksheet, row, 4, nameof(paymentSchedule.NoOfSchedules), exceptionMessage);
+                paymentSchedule.NoOfSchedules = GetIntegerValueFromRowOrNull(worksheet, row, 4, nameof(paymentSchedule.NoOfSchedules), exceptionMessage);
                 paymentSchedule.Frequency = GetRequiredValueFromRowOrNull(worksheet, row, 5, nameof(paymentSchedule.Frequency), exceptionMessage);
-                paymentSchedule.Amount = GetRequiredValueFromRowOrNull(worksheet, row, 6, nameof(paymentSchedule.Amount), exceptionMessage);
+                paymentSchedule.Amount = GetDoubleValueFromRowOrNull(worksheet, row, 6, nameof(paymentSchedule.Amount), exceptionMessage);
             }
             catch (Exception exception)
             {

@@ -34,7 +34,7 @@ using TestDemo.WholesaleInputs;
 
 namespace TestDemo.EclShared.Importing
 {
-    public class ImportPaymentScheduleFromExcelJob : BackgroundJob<ImportEclDataFromExcelJobArgs>, ITransientDependency
+    public class ImportPaymentScheduleFromExcelJob_ : BackgroundJob<ImportEclDataFromExcelJobArgs>, ITransientDependency
     {
         private readonly IPaymentScheduleExcelDataReader _paymentScheduleExcelDataReader;
         private readonly IInvalidPaymentScheduleExporter _invalidPaymentScheduleExporter;
@@ -56,9 +56,8 @@ namespace TestDemo.EclShared.Importing
         private readonly IRepository<ObeEcl, Guid> _obeEclRepository;
         private readonly IRepository<WholesaleEcl, Guid> _wholesaleEclRepository;
         private readonly IEclCustomRepository _customRepository;
-        protected readonly IBackgroundJobManager _backgroundJobManager;
 
-        public ImportPaymentScheduleFromExcelJob (
+        public ImportPaymentScheduleFromExcelJob_ (
             IPaymentScheduleExcelDataReader paymentScheduleExcelDataReader, 
             IInvalidPaymentScheduleExporter invalidPaymentScheduleExporter, 
             IAppNotifier appNotifier, 
@@ -78,7 +77,6 @@ namespace TestDemo.EclShared.Importing
             IRepository<ObeEcl, Guid> obeEclRepository,
             IRepository<WholesaleEcl, Guid> wholesaleEclRepository,
             IEclCustomRepository customRepository,
-            IBackgroundJobManager backgroundJobManager,
             IObjectMapper objectMapper)
         {
             _paymentScheduleExcelDataReader = paymentScheduleExcelDataReader;
@@ -101,7 +99,6 @@ namespace TestDemo.EclShared.Importing
             _obeEclRepository = obeEclRepository;
             _wholesaleEclRepository = wholesaleEclRepository;
             _customRepository = customRepository;
-            _backgroundJobManager = backgroundJobManager;
         }
 
         [UnitOfWork]
@@ -115,33 +112,17 @@ namespace TestDemo.EclShared.Importing
             }
 
             DeleteExistingDataAsync(args);
-            //CreatePaymentSchedule(args, paymentSchedules);
-            //UpdateSummaryTableToCompletedAsync(args);
-
-            var jobs = paymentSchedules.Count / 5000;
-            jobs += 1;
-            UpdateSummaryTableToCompletedAsync(args, jobs);
-
-            for (int i = 0; i < jobs; i++)
-            {
-                var sub_ = paymentSchedules.Skip(i * 5000).Take(5000).ToList();
-                _backgroundJobManager.Enqueue<SavePaymentScheduleFromExcelJob, SaveEclPaymentScheduleDataFromExcelJobArgs>(new SaveEclPaymentScheduleDataFromExcelJobArgs
-                {
-                    Args = args,
-                    PaymentSchedules = sub_
-                });
-            }
-
-            _backgroundJobManager.Enqueue<TrackPaymentScheduleUploadJob, ImportEclDataFromExcelJobArgs>(args, delay: TimeSpan.FromSeconds(30));
-
+            CreatePaymentSchedule(args, paymentSchedules);
+            UpdateSummaryTableToCompletedAsync(args);
         }
 
-        private List<ImportPaymentScheduleAsStringDto> GetPaymentScheduleListFromExcelOrNull(ImportEclDataFromExcelJobArgs args)
+        private List<ImportPaymentScheduleDto> GetPaymentScheduleListFromExcelOrNull(ImportEclDataFromExcelJobArgs args)
         {
             try
             {
                 var file = AsyncHelper.RunSync(() => _binaryObjectManager.GetOrNullAsync(args.BinaryObjectId));
-                return _paymentScheduleExcelDataReader.GetImportPaymentScheduleFromExcel(file.Bytes);
+                return null;
+                //return _paymentScheduleExcelDataReader.GetImportPaymentScheduleFromExcel(file.Bytes);
             }
             catch(Exception)
             {
@@ -256,7 +237,7 @@ namespace TestDemo.EclShared.Importing
         }
 
         [UnitOfWork]
-        private void UpdateSummaryTableToCompletedAsync(ImportEclDataFromExcelJobArgs args, int allJobs)
+        private void UpdateSummaryTableToCompletedAsync(ImportEclDataFromExcelJobArgs args)
         {
             switch (args.Framework)
             {
@@ -264,7 +245,7 @@ namespace TestDemo.EclShared.Importing
                     var retailSummary = _retailUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
                     if (retailSummary != null)
                     {
-                        retailSummary.AllJobs = allJobs;
+                        retailSummary.Status = GeneralStatusEnum.Completed;
                         _retailUploadSummaryRepository.Update(retailSummary);
                     }
                     break;
@@ -273,7 +254,7 @@ namespace TestDemo.EclShared.Importing
                     var wholesaleSummary = _wholesaleUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
                     if(wholesaleSummary != null)
                     {
-                        wholesaleSummary.AllJobs = allJobs;
+                        wholesaleSummary.Status = GeneralStatusEnum.Completed;
                         _wholesaleUploadSummaryRepository.Update(wholesaleSummary);
                     }
                     break;
@@ -282,12 +263,12 @@ namespace TestDemo.EclShared.Importing
                     var obeSummary = _obeUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
                     if (obeSummary != null)
                     {
-                        obeSummary.AllJobs = allJobs;
+                        obeSummary.Status = GeneralStatusEnum.Completed;
                         _obeUploadSummaryRepository.Update(obeSummary);
                     }
                     break;
             }
-            CurrentUnitOfWork.SaveChanges();
+            //CurrentUnitOfWork.SaveChanges();
         }
 
         [UnitOfWork]

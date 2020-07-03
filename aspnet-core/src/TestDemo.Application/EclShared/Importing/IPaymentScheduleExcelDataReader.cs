@@ -6,6 +6,6 @@ namespace TestDemo.EclShared.Importing
 {
     public interface IPaymentScheduleExcelDataReader : ITransientDependency
     {
-        List<ImportPaymentScheduleDto> GetImportPaymentScheduleFromExcel(byte[] fileBytes);
+        List<ImportPaymentScheduleAsStringDto> GetImportPaymentScheduleFromExcel(byte[] fileBytes);
     }
 }

@@ -21,6 +21,7 @@ namespace TestDemo.Common
         public const string TB_EclPaymentScheduleObe = "ObeEclDataPaymentSchedules";
         public const string TB_EclAssetbookInvestment = "InvestmentAssetBooks";
         public const string TB_TrackEclDataLoanBookException = "TrackEclDataLoanBookException";
+        public const string TB_TrackEclDataPaymentScheduleException = "TrackEclDataPaymentScheduleException";
         public const string TB_TrackCalibrationPdCrDrException = "TrackCalibrationPdCrDrException";
         public const string TB_TrackCalibrationBehaviouralTermException = "TrackCalibrationBehaviouralTermException";
 

@@ -50,6 +50,7 @@ namespace TestDemo.EntityFrameworkCore
     {
         public virtual DbSet<OverrideType> OverrideTypes { get; set; }
         
+        public virtual DbSet<TrackEclDataPaymentScheduleException> TrackEclDataPaymentScheduleException { get; set; }
         public virtual DbSet<TrackCalibrationBehaviouralTermException> TrackCalibrationBehaviouralTermException { get; set; }
         public virtual DbSet<TrackCalibrationPdCrDrException> TrackCalibrationPdCrDrException { get; set; }
         public virtual DbSet<TrackCalibrationUploadSummary> TrackCalibrationUploadSummary { get; set; }
