@@ -153,6 +153,7 @@ namespace TestDemo.EclShared.Importing
             }
             else
             {
+                UpdateSummaryTableToProgress(args, completedJobs);
                 _backgroundJobManager.Enqueue<TrackLoanbookUploadJob, ImportEclDataFromExcelJobArgs>(args, delay: TimeSpan.FromSeconds(30));
             }
 
@@ -240,6 +241,42 @@ namespace TestDemo.EclShared.Importing
                     break;
             }
         }
+
+        [UnitOfWork]
+        private void UpdateSummaryTableToProgress(ImportEclDataFromExcelJobArgs args, int completedJobs)
+        {
+            switch (args.Framework)
+            {
+                case FrameworkEnum.Retail:
+                    var retailSummary = _retailUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (retailSummary != null)
+                    {
+                        retailSummary.CompletedJobs = completedJobs;
+                        _retailUploadSummaryRepository.Update(retailSummary);
+                    }
+                    break;
+
+                case FrameworkEnum.Wholesale:
+                    var wholesaleSummary = _wholesaleUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (wholesaleSummary != null)
+                    {
+                        wholesaleSummary.CompletedJobs = completedJobs;
+                        _wholesaleUploadSummaryRepository.Update(wholesaleSummary);
+                    }
+                    break;
+
+                case FrameworkEnum.OBE:
+                    var obeSummary = _obeUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (obeSummary != null)
+                    {
+                        obeSummary.CompletedJobs = completedJobs;
+                        _obeUploadSummaryRepository.Update(obeSummary);
+                    }
+                    break;
+            }
+            CurrentUnitOfWork.SaveChanges();
+        }
+
 
         [UnitOfWork]
         private void DeleteExistingExceptions(ImportEclDataFromExcelJobArgs args, Guid EclId)

@@ -97,7 +97,10 @@ namespace TestDemo.RetailInputs
                                            UploadComment = o.UploadComment,
                                            Status = o.Status,
                                            EclId = o.RetailEclId,
-                                           Id = o.Id
+                                           Id = o.Id,
+                                           FileUploaded = o.FileUploaded,
+                                           AllJobs = o.AllJobs,
+                                           CompletedJobs = o.CompletedJobs
                                        },
                                        DateUploaded = o.CreationTime,
                                        UploadedBy = u2 == null ? "" : u2.FullName

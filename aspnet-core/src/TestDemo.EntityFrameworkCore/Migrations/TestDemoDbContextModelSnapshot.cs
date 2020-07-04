@@ -6119,6 +6119,8 @@ namespace TestDemo.Migrations
 
                     b.Property<int>("DocType");
 
+                    b.Property<bool>("FileUploaded");
+
                     b.Property<bool>("IsDeleted");
 
                     b.Property<DateTime?>("LastModificationTime");
@@ -8208,6 +8210,8 @@ namespace TestDemo.Migrations
 
                     b.Property<int>("DocType");
 
+                    b.Property<bool>("FileUploaded");
+
                     b.Property<bool>("IsDeleted");
 
                     b.Property<DateTime?>("LastModificationTime");
@@ -10149,6 +10153,8 @@ namespace TestDemo.Migrations
                     b.Property<DateTime?>("DeletionTime");
 
                     b.Property<int>("DocType");
+
+                    b.Property<bool>("FileUploaded");
 
                     b.Property<bool>("IsDeleted");
 

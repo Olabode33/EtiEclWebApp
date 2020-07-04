@@ -107,6 +107,8 @@ namespace TestDemo.EclShared.Importing
         [UnitOfWork]
         public override void Execute(ImportEclDataFromExcelJobArgs args)
         {
+            //UpdateSummaryTableToFileUploaded(args);
+
             var paymentSchedules = GetPaymentScheduleListFromExcelOrNull(args);
             if (paymentSchedules == null || !paymentSchedules.Any())
             {
@@ -283,6 +285,41 @@ namespace TestDemo.EclShared.Importing
                     if (obeSummary != null)
                     {
                         obeSummary.AllJobs = allJobs;
+                        _obeUploadSummaryRepository.Update(obeSummary);
+                    }
+                    break;
+            }
+            CurrentUnitOfWork.SaveChanges();
+        }
+
+        [UnitOfWork]
+        private void UpdateSummaryTableToFileUploaded(ImportEclDataFromExcelJobArgs args)
+        {
+            switch (args.Framework)
+            {
+                case FrameworkEnum.Retail:
+                    var retailSummary = _retailUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (retailSummary != null)
+                    {
+                        retailSummary.FileUploaded = true;
+                        _retailUploadSummaryRepository.Update(retailSummary);
+                    }
+                    break;
+
+                case FrameworkEnum.Wholesale:
+                    var wholesaleSummary = _wholesaleUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (wholesaleSummary != null)
+                    {
+                        wholesaleSummary.FileUploaded = true;
+                        _wholesaleUploadSummaryRepository.Update(wholesaleSummary);
+                    }
+                    break;
+
+                case FrameworkEnum.OBE:
+                    var obeSummary = _obeUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (obeSummary != null)
+                    {
+                        obeSummary.FileUploaded = true;
                         _obeUploadSummaryRepository.Update(obeSummary);
                     }
                     break;

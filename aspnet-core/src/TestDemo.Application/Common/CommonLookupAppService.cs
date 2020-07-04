@@ -36,6 +36,7 @@ namespace TestDemo.Common
         private readonly IRepository<InvestmentEcl, Guid> _investmentEclRepository;
         private readonly IRepository<WholesaleEcl, Guid> _wholesaleEclRepository;
         private readonly IRepository<OverrideType> _overrideTypeRepository;
+        private readonly IRepository<TrackRunningUploadJobs> _uploadJobsTrackerRepository;
 
         public CommonLookupAppService(EditionManager editionManager,
                                       IRepository<OrganizationUnit, long> organizationUnitRepository,
@@ -45,6 +46,7 @@ namespace TestDemo.Common
                                       IRepository<WholesaleEcl, Guid> wholesaleRepository,
                                       IRepository<InvestmentEcl, Guid> investmentEclRepository, 
                                       IRepository<OverrideType> overrideTypeRepository,
+                                      IRepository<TrackRunningUploadJobs> uploadJobsTrackerRepository,
                                       IRepository<TrackFacilityStage> facilityStageTrackerRepository)
         {
             _editionManager = editionManager;
@@ -56,6 +58,7 @@ namespace TestDemo.Common
             _obeEclRepository = obeEclRepository;
             _investmentEclRepository = investmentEclRepository;
             _overrideTypeRepository = overrideTypeRepository;
+            _uploadJobsTrackerRepository = uploadJobsTrackerRepository;
         }
 
         public async Task<ListResultDto<SubscribableEditionComboboxItemDto>> GetEditionsForCombobox(bool onlyFreeItems = false)
@@ -250,6 +253,12 @@ namespace TestDemo.Common
             });
 
             return await overrideTypes.ToListAsync();
+        }
+
+        public async Task<int> GetCompletedUploadJobs(EntityDto<Guid> input)
+        {
+            var completedJobs = await _uploadJobsTrackerRepository.CountAsync(e => e.RegisterId == input.Id);
+            return completedJobs;
         }
 
         public async Task UploadLoanbookData(List<EclDataLoanBookDto> input)

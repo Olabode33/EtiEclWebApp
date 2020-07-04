@@ -94,7 +94,10 @@ namespace TestDemo.InvestmentInputs
                                            UploadComment = o.UploadComment,
                                            Status = o.Status,
                                            EclId = o.InvestmentEclId,
-                                           Id = o.Id
+                                           Id = o.Id,
+                                           FileUploaded = true,
+                                           AllJobs = 0,
+                                           CompletedJobs = 0
                                        },
                                        DateUploaded = o.CreationTime,
                                        UploadedBy = u2 == null ? "" : u2.FullName

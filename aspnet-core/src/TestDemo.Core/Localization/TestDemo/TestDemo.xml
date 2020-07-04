@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="ApplyCalibrationNote">Note: Applying this result will append the uploaded data to the historic data. This process is not reversible.</text>
+  <texts>    <text name="Done">Done</text>
+    <text name="Uploading">Uploading</text>
+    <text name="Validating">Validating</text>
+    <text name="ApplyCalibrationNote">Note: Applying this result will append the uploaded data to the historic data. This process is not reversible.</text>
     <text name="TotalHistoricData">Total historic data count:</text>
     <text name="DownloadHistoricData">Download Historic Data</text>
     <text name="HistoricDataPreview">Historic Data Preview</text>

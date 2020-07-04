@@ -1,59 +1,62 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="fr">
   <texts>
-    <text name="ApplyCalibrationNote">Note: Applying this result will append the uploaded data to the historic data. This process is not reversible.</text>
-    <text name="TotalHistoricData">Total historic data count:</text>
-    <text name="DownloadHistoricData">Download Historic Data</text>
-    <text name="HistoricDataPreview">Historic Data Preview</text>
-    <text name="NoOverrideTypeDefined">No override type defined!</text>
-    <text name="OverrideType">Override type</text>
-    <text name="TestDemo.EclConfig.OverrideType">OverrideType</text>
-    <text name="OverrideTypesHeaderInfo">Manage override types</text>
-    <text name="CreateNewOverrideType">New</text>
-    <text name="EditOverrideType">Edit override type</text>
-    <text name="DeleteOverrideType">Delete override type</text>
-    <text name="OverrideTypes">Override types</text>
+    <text name = "Done"> Done </text>
+    <text name = "Uploading"> Téléchargement </text>
+    <text name = "Validating"> Validation </text>
+    <text name = "ApplyCalibrationNote"> Remarque: L'application de ce résultat ajoutera les données téléchargées aux données historiques. Ce processus n'est pas réversible. </text>
+    <text name = "TotalHistoricData"> Nombre total de données historiques: </text>
+    <text name = "DownloadHistoricData"> Télécharger les données historiques </text>
+    <text name = "HistoricDataPreview"> Aperçu des données historiques </text>
+    <text name = "NoOverrideTypeDefined"> Aucun type de remplacement défini! </text>
+    <text name = "OverrideType"> Type de remplacement </text>
+    <text name = "TestDemo.EclConfig.OverrideType"> OverrideType </text>
+    <text name = "OverrideTypesHeaderInfo"> Gérer les types de substitution </text>
+    <text name = "CreateNewOverrideType"> Nouveau </text>
+    <text name = "EditOverrideType"> Modifier le type de remplacement </text>
+    <text name = "DeleteOverrideType"> Supprimer le type de remplacement </text>
+    <text name = "OverrideTypes"> Types de remplacement </text>
 
-    <text name="ExpectingDateTime">Expecting: Date value</text>
-    <text name="ExpectingWholeNumber">Expecting: Whole number</text>
-    <text name="ExpectingNumber">Expecting: Number</text>
-    <text name="Expecting1or0">Expecting: 1 or 0</text>
-    <text name="UseReportDate">Use Reporting Date</text>
-    <text name="SetReportDate">Set Reporting Date</text>
-    <text name="LastStage">Last Stage</text>
-    <text name="AsAt">As At</text>
-    <text name="DaysAgo">Days ago</text>
-    <text name="Facility90DaysCheck">90days Check</text>
-    <text name="NewFacilityNotTracked">nformation not available for this facility</text>
+    <text name = "ExpectingDateTime"> Attente: Date value </text>
+    <text name = "ExpectingWholeNumber"> Attente: Whole number </text>
+    <text name = "ExpectingNumber"> Attente: Number </text>
+    <text name = "Expecting1or0"> Attente: 1 ou 0 </text>
+    <text name = "UseReportDate"> Utiliser la date de rapport </text>
+    <text name = "SetReportDate"> Définir la date de rapport </text>
+    <text name = "LastStage"> Dernière étape </text>
+    <text name = "AsAt"> As At </text>
+    <text name = "DaysAgo"> Il y a jours </text>
+    <text name = "Facility90DaysCheck"> Chèque de 90 jours </text>
+    <text name = "NewFacilityNotTracked"> nformation non disponible pour cette fonction </text>
 
-    <text name="ApplyProcessStarted">Applying assumptions, you'll be notified when the process is completd.</text>
-    <text name="ApplySelectedModelAssumptionToAllAffiliate">Apply {0} {1} for {2} to all other affiliate</text>
-    <text name="ApplySelectedModelAssumptionToSelectedAffiliate">Apply {0} {1} for {2} to {3}</text>
+    <text name = "ApplyProcessStarted"> En appliquant des hypothèses, vous serez averti lorsque le processus sera terminé. </text>
+    <text name = "ApplySelectedModelAssumptionToAllAffiliate"> Appliquer {0} {1} pour {2} à tous les autres affiliés </text>
+    <text name = "ApplySelectedModelAssumptionToSelectedAffiliate"> Appliquer {0} {1} pour {2} à {3} </text>
 
-    <text name="EmailAssumptionApplied_Subject">Assumptions Applied</text>
-    <text name="EmailAssumptionApplied_Title">Affiliate applied!.</text>
-    <text name="EmailAssumptionApplied_SubTitle">{0} from {1} appied to {2}</text>
-    <text name="EmailAssumptionApplied_Body">{0} from {1} was successfully applied to {2}.</text>
+    <text name = "EmailAssumptionApplied_Subject"> Hypothèses appliquées </text>
+    <text name = "EmailAssumptionApplied_Title"> Affilié appliqué !. </text>
+    <text name = "EmailAssumptionApplied_SubTitle"> {0} de {1} appliqué à {2} </text>
+    <text name = "EmailAssumptionApplied_Body"> {0} de {1} a été appliqué avec succès à {2}. </text>
 
-    <text name="EmailInvalidDataUploadComplete_Subject">{0} data upload completed with invalid data</text>
-    <text name="EmailInvalidDataUploadComplete_Title">Data Upload Completed with invalid data!.</text>
-    <text name="EmailInvalidDataUploadComplete_SubTitle">{0} data upload completed for {1} with invalid data</text>
-    <text name="EmailInvalidDataUploadComplete_Body">{0} data upload for {1} has been completed. There are some invalid data.</text>
-    <text name="Email_ClickTheLinkBelowToDownloadTempNote">Note: This is a temporary file and would only be available for 24hours after receiving this email.</text>
+    <text name = "EmailInvalidDataUploadComplete_Subject"> {0} téléchargement des données terminé avec des données non valides </text>
+    <text name = "EmailInvalidDataUploadComplete_Title"> Téléchargement de données terminé avec des données non valides! </text>
+    <text name = "EmailInvalidDataUploadComplete_SubTitle"> {0} téléchargement de données terminé pour {1} avec des données non valides </text>
+    <text name = "EmailInvalidDataUploadComplete_Body"> {0} le téléchargement des données pour {1} est terminé. Il y a des données invalides. </text>
+    <text name = "Email_ClickTheLinkBelowToDownloadTempNote"> Remarque: Il s'agit d'un fichier temporaire et ne serait disponible que pendant 24 heures après avoir reçu cet e-mail. </text>
 
-    <text name="EmailComputationFailed_Subject">{0} computation failed</text>
-    <text name="EmailComputationFailed_Title">{0} computation failed!.</text>
-    <text name="EmailComputationFailed_SubTitle">{0} for {1} computation failed</text>
-    <text name="EmailComputationFailed_Body">{0} for {1} failed to compute. Please see reason below:</text>
-    <text name="EmailComputationFailed_Reason">Reason: {0}</text>
+    <text name = "EmailComputationFailed_Subject"> {0} échec du calcul </text>
+    <text name = "EmailComputationFailed_Title"> {0} le calcul a échoué !. </text>
+    <text name = "EmailComputationFailed_SubTitle"> {0} pour {1} le calcul a échoué </text>
+    <text name = "EmailComputationFailed_Body"> {0} pour {1} n'a pas pu être calculé. Veuillez voir la raison ci-dessous: </text>
+    <text name = "EmailComputationFailed_Reason"> Raison: {0} </text>
 
-    <text name="AnErrorOccured">An error occured!</text>
+    <text name = "AnErrorOccured"> Une erreur s'est produite! </text>
 
-    <text name="ClickToSeeInvalidDataImport">Data import process has been completed. There are some invalid data. Click to see Invalid data imports.</text>
+    <text name = "ClickToSeeInvalidDataImport"> Le processus d'importation de données est terminé. Il y a des données invalides. Cliquez pour voir les importations de données non valides. </text>
 
-    <text name="CollateralProjectionBest">Collateral Projection Best</text>
-    <text name="CollateralProjectionOptimistic">Collateral Projection Optimistic</text>
-    <text name="CollateralProjectionDownturn">Collateral Projection Downturn</text>
+    <text name = "CollateralProjectionBest"> Collateral Projection Best </text>
+    <text name = "CollateralProjectionOptimistic"> Collateral Projection Optimistic </text>
+    <text name = "CollateralProjectionDownturn"> Ralentissement de la projection collatérale </text>
 
     <text name="WorkspaceTitle">Accueil</text>
     <text name = "EmailDataUploadComplete_Subject"> {0} téléchargement des données terminé </text>

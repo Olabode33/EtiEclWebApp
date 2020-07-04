@@ -1,4 +1,5 @@
 ﻿using Abp.BackgroundJobs;
+using Abp.Domain.Repositories;
 using Abp.IO.Extensions;
 using Abp.Runtime.Session;
 using Abp.UI;
@@ -12,7 +13,10 @@ using System.Threading.Tasks;
 using TestDemo.EclShared;
 using TestDemo.EclShared.Dtos;
 using TestDemo.EclShared.Importing;
+using TestDemo.ObeInputs;
+using TestDemo.RetailInputs;
 using TestDemo.Storage;
+using TestDemo.WholesaleInputs;
 
 namespace TestDemo.Web.Controllers
 {
@@ -20,13 +24,22 @@ namespace TestDemo.Web.Controllers
     {
         protected readonly IBinaryObjectManager BinaryObjectManager;
         protected readonly IBackgroundJobManager BackgroundJobManager;
+        protected readonly IRepository<RetailEclUpload, Guid> _retailUploadSummaryRepository;
+        protected readonly IRepository<WholesaleEclUpload, Guid> _wholesaleUploadSummaryRepository;
+        protected readonly IRepository<ObeEclUpload, Guid> _obeUploadSummaryRepository;
 
         protected EclRawDataControllerBase(
-            IBinaryObjectManager binaryObjectManager, 
+            IBinaryObjectManager binaryObjectManager,
+            IRepository<RetailEclUpload, Guid> retailUploadSummaryRepository,
+            IRepository<WholesaleEclUpload, Guid> wholesaleUploadSummaryRepository,
+            IRepository<ObeEclUpload, Guid> obeUploadSummaryRepository,
             IBackgroundJobManager backgroundJobManager)
         {
             BinaryObjectManager = binaryObjectManager;
             BackgroundJobManager = backgroundJobManager;
+            _retailUploadSummaryRepository = retailUploadSummaryRepository;
+            _wholesaleUploadSummaryRepository = wholesaleUploadSummaryRepository;
+            _obeUploadSummaryRepository = obeUploadSummaryRepository;
         }
 
         [HttpPost]
@@ -60,6 +73,8 @@ namespace TestDemo.Web.Controllers
                 await BinaryObjectManager.SaveAsync(fileObject);
                 await CurrentUnitOfWork.SaveChangesAsync();
 
+                await UpdateSummaryTableToFileUploaded(Guid.Parse(uploadSummaryId.ToString()), (FrameworkEnum)Convert.ToInt32(framework));
+
                 await BackgroundJobManager.EnqueueAsync<ImportPaymentScheduleFromExcelJob , ImportEclDataFromExcelJobArgs>(new ImportEclDataFromExcelJobArgs
                 {
                     BinaryObjectId = fileObject.Id,
@@ -67,6 +82,7 @@ namespace TestDemo.Web.Controllers
                     UploadSummaryId = Guid.Parse(uploadSummaryId.ToString()),
                     User = AbpSession.ToUserIdentifier()
                 }, priority: BackgroundJobPriority.High);
+
 
                 return Json(new AjaxResponse(new { }));
             }
@@ -108,13 +124,16 @@ namespace TestDemo.Web.Controllers
                 await BinaryObjectManager.SaveAsync(fileObject);
                 await CurrentUnitOfWork.SaveChangesAsync();
 
+                await UpdateSummaryTableToFileUploaded(Guid.Parse(uploadSummaryId.ToString()), (FrameworkEnum)Convert.ToInt32(framework));
+
                 await BackgroundJobManager.EnqueueAsync<ImportLoanbookFromExcelJob, ImportEclDataFromExcelJobArgs>(new ImportEclDataFromExcelJobArgs
                 {
                     BinaryObjectId = fileObject.Id,
                     Framework = (FrameworkEnum)Convert.ToInt32(framework),
                     UploadSummaryId = Guid.Parse(uploadSummaryId.ToString()),
                     User = AbpSession.ToUserIdentifier()
-                });
+                }, priority: BackgroundJobPriority.High);
+
 
                 return Json(new AjaxResponse(new { }));
             }
@@ -171,5 +190,40 @@ namespace TestDemo.Web.Controllers
                 return Json(new AjaxResponse(new ErrorInfo(ex.Message)));
             }
         }
+
+        private async Task UpdateSummaryTableToFileUploaded(Guid updateSummaryId, FrameworkEnum framework)
+        {
+            switch (framework)
+            {
+                case FrameworkEnum.Retail:
+                    var retailSummary = await _retailUploadSummaryRepository.FirstOrDefaultAsync((Guid)updateSummaryId);
+                    if (retailSummary != null)
+                    {
+                        retailSummary.FileUploaded = true;
+                        _retailUploadSummaryRepository.Update(retailSummary);
+                    }
+                    break;
+
+                case FrameworkEnum.Wholesale:
+                    var wholesaleSummary = await _wholesaleUploadSummaryRepository.FirstOrDefaultAsync((Guid)updateSummaryId);
+                    if (wholesaleSummary != null)
+                    {
+                        wholesaleSummary.FileUploaded = true;
+                        _wholesaleUploadSummaryRepository.Update(wholesaleSummary);
+                    }
+                    break;
+
+                case FrameworkEnum.OBE:
+                    var obeSummary = await _obeUploadSummaryRepository.FirstOrDefaultAsync((Guid)updateSummaryId);
+                    if (obeSummary != null)
+                    {
+                        obeSummary.FileUploaded = true;
+                        _obeUploadSummaryRepository.Update(obeSummary);
+                    }
+                    break;
+            }
+            await CurrentUnitOfWork.SaveChangesAsync();
+        }
+
     }
 }

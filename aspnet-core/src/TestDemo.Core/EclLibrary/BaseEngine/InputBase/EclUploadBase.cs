@@ -12,13 +12,11 @@ namespace TestDemo.EclLibrary.BaseEngine.InputBase
     {
         public int? TenantId { get; set; }
         public virtual long OrganizationUnitId { get; set; }
-
         public virtual UploadDocTypeEnum DocType { get; set; }
-
         public virtual string UploadComment { get; set; }
-
         public virtual GeneralStatusEnum Status { get; set; }
         public virtual int AllJobs { get; set; }
         public virtual int CompletedJobs { get; set; }
+        public virtual bool FileUploaded { get; set; }
     }
 }

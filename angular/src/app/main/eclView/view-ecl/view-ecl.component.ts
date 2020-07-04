@@ -25,7 +25,7 @@ import { EditEclReportDateComponent } from '../_subs/edit-EclReportDate/edit-Ecl
 import { OuLookupTableModalComponent } from '@app/main/eclShared/ou-lookup-modal/ou-lookup-table-modal.component';
 import { LoanbookReaderComponent } from '../_subs/loanbook-reader/loanbook-reader.component';
 
-const secondsCounter = interval(5000);
+const secondsCounter = interval(1000);
 
 @Component({
     selector: 'app-view-ecl',
@@ -79,6 +79,8 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
 
     fakeResultData: FakeResultData = new FakeResultData();
     showFakeTopExposure = false;
+
+    uploadRefreshInterval = 15000;
 
     constructor(
         injector: Injector,
@@ -228,6 +230,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
             this._eclUploadServiceProxy.getEclUploads(this._eclId).subscribe(result => {
                 this.eclUploads = result;
                 this.isLoadingUploads = false;
+                setTimeout(() => this.autoReloadUploadSummary(), this.uploadRefreshInterval);
             });
         }
     }
@@ -236,27 +239,27 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
         if (typeof this._eclServiceProxy.getEclDetailsForEdit === 'function') {
             this.isLoading = true;
             this._eclServiceProxy.getEclDetailsForEdit(this._eclId)
-                                 .subscribe(result => {
-                                    this.eclDetails = result;
-                                    if (this.checkDtoProp('eclDto', result)) {
-                                        this.eclDto = result.eclDto;
-                                        this.configureEclReportDateSubComponent(result.eclDto);
-                                    }
-                                    if (this.hasProp('frameworkAssumption', result)) {
-                                        this.loadGeneralAssumptionComponent(result.frameworkAssumption);
-                                    }
-                                    if (this.checkDtoProp('eadInputAssumptions', result)) {
-                                        this.loadEadAssumptionComponent(result.eadInputAssumptions);
-                                    }
-                                    if (this.checkDtoProp('lgdInputAssumptions', result)) {
-                                        this.loadLgdAssumptionComponent(result.lgdInputAssumptions);
-                                    }
-                                    this.loadPdAssumptionComponent(result);
-                                    //console.log(this.showOverride());
-                                    this.eclOverrideTag.display(this.showOverride());
-                                    this.eclResultTag.displayResult(this.eclDto.status);
-                                    this.isLoading = false;
-                                });
+                .subscribe(result => {
+                    this.eclDetails = result;
+                    if (this.checkDtoProp('eclDto', result)) {
+                        this.eclDto = result.eclDto;
+                        this.configureEclReportDateSubComponent(result.eclDto);
+                    }
+                    if (this.hasProp('frameworkAssumption', result)) {
+                        this.loadGeneralAssumptionComponent(result.frameworkAssumption);
+                    }
+                    if (this.checkDtoProp('eadInputAssumptions', result)) {
+                        this.loadEadAssumptionComponent(result.eadInputAssumptions);
+                    }
+                    if (this.checkDtoProp('lgdInputAssumptions', result)) {
+                        this.loadLgdAssumptionComponent(result.lgdInputAssumptions);
+                    }
+                    this.loadPdAssumptionComponent(result);
+                    //console.log(this.showOverride());
+                    this.eclOverrideTag.display(this.showOverride());
+                    this.eclResultTag.displayResult(this.eclDto.status);
+                    this.isLoading = false;
+                });
         } else {
             throw Error('Function does not exist in service proxy');
         }
@@ -297,7 +300,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
             pdAssumption.pdInputSnPCummulativeDefaultRate = input.pdInputSnPCummulativeDefaultRate;
         }
 
-        this.pdInputAssumptionTag.load(pdAssumption, '', this._eclFramework,  true);
+        this.pdInputAssumptionTag.load(pdAssumption, '', this._eclFramework, true);
     }
 
     submitEcl(): void {
@@ -490,6 +493,44 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
 
 
     //#region Data Upload
+    getLoanbookUploadProgress(uploadSummaryId: string): void {
+        console.log('Checking Upload progress for: ' + uploadSummaryId);
+        this._commonServiceProxy.getCompletedUploadJobs(uploadSummaryId).subscribe(result => {
+            if (result === 0) {
+                console.log('Upload progress for: ' + uploadSummaryId + ' = ' + result);
+                if (this.eclUploads.length > 0) {
+                    let r = this.eclUploads.find(e => e.eclUpload.id === uploadSummaryId);
+                    r.eclUpload.completedJobs = result;
+                    if (r.eclUpload.allJobs > 0 && r.eclUpload.allJobs <= result) {
+                        r.eclUpload.status = GeneralStatusEnum.Completed;
+                    } else {
+                        setTimeout(() => this.getLoanbookUploadProgress(uploadSummaryId), this.uploadRefreshInterval);
+                    }
+                }
+            } else {
+                setTimeout(() => this.getEclUploadSummary());
+            }
+        });
+    }
+    getPaymentUploadProgress(uploadSummaryId: string): void {
+        console.log('Checking Upload progress for: ' + uploadSummaryId);
+        this._commonServiceProxy.getCompletedUploadJobs(uploadSummaryId).subscribe(result => {
+            if (result === 0) {
+                console.log('Upload progress for: ' + uploadSummaryId + ' = ' + result);
+                if (this.eclUploads.length > 0) {
+                    let r = this.eclUploads.find(e => e.eclUpload.id === uploadSummaryId);
+                    r.eclUpload.completedJobs = result;
+                    if (r.eclUpload.allJobs > 0 && r.eclUpload.allJobs <= result) {
+                        r.eclUpload.status = GeneralStatusEnum.Completed;
+                    } else {
+                        setTimeout(() => this.getPaymentUploadProgress(uploadSummaryId), this.uploadRefreshInterval);
+                    }
+                }
+            } else {
+                setTimeout(() => this.getEclUploadSummary());
+            }
+        });
+    }
     //#region Loanbook Upload
     showLoanbookReader(): void {
         this.loanbookReader.show();
@@ -606,10 +647,39 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
 
     autoReloadUploadSummary(): void {
         let processing = this.eclUploads.filter(x => x.eclUpload.status === GeneralStatusEnum.Processing);
-        const sub_ = secondsCounter.subscribe(n => {
-                            //console.log(`It's been ${n} seconds since subscribing!`);
-                            this.getEclUploadSummary();
-                        });
+        if (processing.length > 0) {
+            //this.getEclUploadSummary();
+            setTimeout(() => this.getEclUploadSummary(), this.uploadRefreshInterval);
+        }
+        // if (this._eclFramework === FrameworkEnum.Investments) {
+        //     let processing = this.eclUploads.filter(x => x.eclUpload.status === GeneralStatusEnum.Processing);
+        //     if (processing.length > 0) {
+        //         //this.getEclUploadSummary();
+        //         setTimeout(() => this.getEclUploadSummary(), this.uploadRefreshInterval);
+        //     }
+        //     // const sub_ = secondsCounter.subscribe(n => {
+        //     //     //console.log(`It's been ${n} seconds since subscribing!`);
+        //     //     this.getEclUploadSummary();
+        //     // });
+        // } else {
+        //     let uploading = this.eclUploads.filter(x => x.eclUpload.status === GeneralStatusEnum.Processing && x.eclUpload.fileUploaded === false);
+
+        //     let validatingLoanbook = this.eclUploads.find(x => x.eclUpload.status === GeneralStatusEnum.Processing
+        //         && x.eclUpload.fileUploaded === true && x.eclUpload.docType === UploadDocTypeEnum.LoanBook);
+        //     let validatingPayment = this.eclUploads.find(x => x.eclUpload.status === GeneralStatusEnum.Processing
+        //         && x.eclUpload.fileUploaded === true && x.eclUpload.docType === UploadDocTypeEnum.PaymentSchedule);
+        //     if (uploading.length > 0) {
+        //         setTimeout(() => this.getEclUploadSummary(), this.uploadRefreshInterval);
+        //     } else {
+        //         if (validatingLoanbook) {
+        //             setTimeout(() => this.getLoanbookUploadProgress(validatingLoanbook.eclUpload.id), this.uploadRefreshInterval);
+        //         }
+        //         if (validatingPayment) {
+        //             setTimeout(() => this.getPaymentUploadProgress(validatingPayment.eclUpload.id), this.uploadRefreshInterval);
+        //         }
+        //     }
+
+        // }
         // if (processing.length <= 0) {
         //     sub_.unsubscribe();
         //     this.getEclUploadSummary();
@@ -647,15 +717,15 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
     }
 
     navigateToViewLoanbookDetails(uploadId: string): void {
-        this._router.navigate(['/app/main/ecl/view/upload/loanbook/', this._eclFramework.toString(), uploadId], { relativeTo: this._activatedRoute});
+        this._router.navigate(['/app/main/ecl/view/upload/loanbook/', this._eclFramework.toString(), uploadId], { relativeTo: this._activatedRoute });
     }
 
     navigateToViewPaymentScheduleDetails(uploadId: string): void {
-        this._router.navigate(['/app/main/ecl/view/upload/payment/', this._eclFramework.toString(), uploadId], { relativeTo: this._activatedRoute});
+        this._router.navigate(['/app/main/ecl/view/upload/payment/', this._eclFramework.toString(), uploadId], { relativeTo: this._activatedRoute });
     }
 
     navigateToViewAssetBookDetails(uploadId: string): void {
-        this._router.navigate(['/app/main/ecl/view/upload/assetbook/', this._eclFramework.toString(), uploadId], { relativeTo: this._activatedRoute});
+        this._router.navigate(['/app/main/ecl/view/upload/assetbook/', this._eclFramework.toString(), uploadId], { relativeTo: this._activatedRoute });
     }
     //#endregion
 

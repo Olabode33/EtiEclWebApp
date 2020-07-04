@@ -146,10 +146,10 @@
                             </h3>
                         </div>
                         <div class="kt-portlet__head-toolbar">
-                            <!-- <button type="button" *ngIf="eclDto.status == eclStatusEnum.Draft" (click)="showLoanbookReader()"
-                                class="btn btn-outline-success ">
-                                <i class="fa fa-upload"></i> {{"Upload" | localize}}
-                            </button> -->
+                            <button type="button" (click)="getEclUploadSummary()"
+                                class="btn btn-primary mr-2">
+                                <i class="fa fa-sync"></i> {{"Refresh" | localize}}
+                            </button>
                             <div *ngIf="isGranted('Pages.EclView.Upload')" class="btn-group" dropdown>
                                 <button dropdownToggle type="button" *ngIf="eclDto.status == eclStatusEnum.Draft"
                                     class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -259,6 +259,22 @@
                                                             kt-badge--unified-{{ getStatusLabelClass(item.eclUpload.status) }}">
                                                 {{l(statusEnum[item.eclUpload.status])}}
                                             </span>
+                                        </td>
+                                        <td style="width: 100px;" class="align-middle" *ngIf="_eclFramework != frameworkEnum.Investments && item.eclUpload.status == statusEnum.Processing">
+                                            {{l('Uploading')}}: 
+                                            <span *ngIf="item.eclUpload.fileUploaded" class="text-success"><i class="fa fa-check-circle"></i>Done</span>
+                                            <div *ngIf="!item.eclUpload.fileUploaded" class="progress" style="height: 10px;">
+                                                <div class="progress-bar progress-bar-striped" [ngClass]="{'progress-bar-animated': !item.eclUpload.fileUploaded}"
+                                                     role="progressbar" style="width: 100%"></div>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle" *ngIf="_eclFramework != frameworkEnum.Investments && item.eclUpload.status == statusEnum.Processing && item.eclUpload.fileUploaded">
+                                            {{l('Validating')}}:
+                                            <div class="progress" style="height: 10px;">
+                                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" [style.width]="(item.eclUpload.allJobs == 0 ? 0 : item.eclUpload.completedJobs / item.eclUpload.allJobs) * 100 + '%'">
+                                                    {{ (item.eclUpload.allJobs == 0 ? 0 : (item.eclUpload.completedJobs / item.eclUpload.allJobs)) | percent: '1.0-0'}}
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 </tbody>
