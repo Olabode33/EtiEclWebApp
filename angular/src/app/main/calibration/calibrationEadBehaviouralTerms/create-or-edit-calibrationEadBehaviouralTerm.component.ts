@@ -197,7 +197,7 @@ export class CreateOrEditCalibrationEadBehaviouralTermComponent extends AppCompo
 
     applyToEcl(): void {
         this.message.confirm(
-            this.l('ApplyCalibrationToEclInfo') + '<br><b>' + this.l('ApplyCalibrationNote') + '</b>', '',
+            this.l('ApplyCalibrationToEclInfo') + '<br><span style="color: red">' + this.l('ApplyCalibrationNote') + '</span>', '',
             (isConfirmed) => {
                 if (isConfirmed) {
                     let dto = new EntityDtoOfGuid();
