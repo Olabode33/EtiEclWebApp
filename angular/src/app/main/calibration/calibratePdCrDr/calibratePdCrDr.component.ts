@@ -172,6 +172,7 @@ export class CalibrationPdCrDrComponent extends AppComponentBase implements OnIn
             case CalibrationStatusEnum.Approved:
                 return 'success';
             case CalibrationStatusEnum.Rejected:
+            case CalibrationStatusEnum.Failed:
                 return 'danger';
             default:
                 return 'dark';

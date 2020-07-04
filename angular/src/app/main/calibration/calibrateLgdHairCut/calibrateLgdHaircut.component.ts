@@ -172,6 +172,7 @@ export class CalibrationLgdHaircutComponent extends AppComponentBase implements 
             case CalibrationStatusEnum.Approved:
                 return 'success';
             case CalibrationStatusEnum.Rejected:
+            case CalibrationStatusEnum.Failed:
                 return 'danger';
             default:
                 return 'dark';
