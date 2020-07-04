@@ -133,7 +133,7 @@ export class ViewCalibrationLgdRecoveryComponent extends AppComponentBase implem
     }
 
     getHistoricSummary(): void {
-        this._calibrationServiceProxy.getHistorySummary().subscribe(result => {
+        this._calibrationServiceProxy.getHistorySummary(this._calibrationId).subscribe(result => {
             this.totalHistoric = result.total;
             this.historic = result.items;
         });
@@ -197,7 +197,7 @@ export class ViewCalibrationLgdRecoveryComponent extends AppComponentBase implem
 
     applyToEcl(): void {
         this.message.confirm(
-            this.l('ApplyCalibrationToEclInfo'),
+            this.l('ApplyCalibrationToEclInfo') + '<br><b>' + this.l('ApplyCalibrationNote') + '</b>', '',
             (isConfirmed) => {
                 if (isConfirmed) {
                     let dto = new EntityDtoOfGuid();
@@ -208,7 +208,7 @@ export class ViewCalibrationLgdRecoveryComponent extends AppComponentBase implem
                             this.notify.success(this.l('ApplyCalibrationProcessStart'));
                         });
                 }
-            }
+            }, true
         );
     }
 
@@ -225,7 +225,9 @@ export class ViewCalibrationLgdRecoveryComponent extends AppComponentBase implem
     }
 
     exportHistoric(): void {
-        this._calibrationServiceProxy.exportHistoryToExcel().subscribe(result => {
+        let dto = new EntityDtoOfGuid();
+        dto.id = this._calibrationId;
+        this._calibrationServiceProxy.exportHistoryToExcel(dto).subscribe(result => {
             this._fileDownloadService.downloadTempFile(result);
         });
     }

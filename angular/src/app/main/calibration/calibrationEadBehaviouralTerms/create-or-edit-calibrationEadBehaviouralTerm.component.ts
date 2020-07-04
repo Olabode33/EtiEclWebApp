@@ -133,7 +133,7 @@ export class CreateOrEditCalibrationEadBehaviouralTermComponent extends AppCompo
     }
 
     getHistoricSummary(): void {
-        this._calibrationServiceProxy.getHistorySummary().subscribe(result => {
+        this._calibrationServiceProxy.getHistorySummary(this._calibrationId).subscribe(result => {
             this.totalHistoric = result.total;
             this.historic = result.items;
         });
@@ -197,7 +197,7 @@ export class CreateOrEditCalibrationEadBehaviouralTermComponent extends AppCompo
 
     applyToEcl(): void {
         this.message.confirm(
-            this.l('ApplyCalibrationToEclInfo'),
+            this.l('ApplyCalibrationToEclInfo') + '<br><b>' + this.l('ApplyCalibrationNote') + '</b>', '',
             (isConfirmed) => {
                 if (isConfirmed) {
                     let dto = new EntityDtoOfGuid();
@@ -208,7 +208,7 @@ export class CreateOrEditCalibrationEadBehaviouralTermComponent extends AppCompo
                             this.notify.success(this.l('ApplyCalibrationProcessStart'));
                         });
                 }
-            }
+            }, true
         );
     }
 
@@ -225,7 +225,9 @@ export class CreateOrEditCalibrationEadBehaviouralTermComponent extends AppCompo
     }
 
     exportHistoric(): void {
-        this._calibrationServiceProxy.exportHistoryToExcel().subscribe(result => {
+        let dto = new EntityDtoOfGuid();
+        dto.id = this._calibrationId;
+        this._calibrationServiceProxy.exportHistoryToExcel(dto).subscribe(result => {
             this._fileDownloadService.downloadTempFile(result);
         });
     }

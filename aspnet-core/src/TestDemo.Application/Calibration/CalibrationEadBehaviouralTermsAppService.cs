@@ -31,6 +31,8 @@ using TestDemo.EclShared.Emailer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using TestDemo.Configuration;
+using Abp.BackgroundJobs;
+using TestDemo.Calibration.Jobs;
 
 namespace TestDemo.Calibration
 {
@@ -47,6 +49,7 @@ namespace TestDemo.Calibration
         private readonly IInputBehavioralTermExcelExporter _inputDataExporter;
         private readonly IEclEngineEmailer _emailer;
         private readonly IConfigurationRoot _appConfiguration;
+        private readonly IBackgroundJobManager _backgroundJobManager;
 
 
         public CalibrationEadBehaviouralTermsAppService(
@@ -59,6 +62,7 @@ namespace TestDemo.Calibration
             IRepository<CalibrationHistoryEadBehaviouralTerms> calibrationHistoryRepository,
             IEclEngineEmailer emailer,
             IHostingEnvironment env,
+            IBackgroundJobManager backgroundJobManager,
             IInputBehavioralTermExcelExporter inputDataExporter)
         {
             _calibrationRepository = calibrationRepository;
@@ -71,6 +75,7 @@ namespace TestDemo.Calibration
             _inputDataExporter = inputDataExporter;
             _emailer = emailer;
             _appConfiguration = env.GetAppConfiguration();
+            _backgroundJobManager = backgroundJobManager;
         }
 
         public async Task<PagedResultDto<GetCalibrationRunForViewDto>> GetAll(GetAllCalibrationRunInput input)
@@ -200,10 +205,14 @@ namespace TestDemo.Calibration
             };
         }
 
-        public async Task<CalibrationInputSummaryDto<InputBehaviouralTermsDto>> GetHistorySummary()
+        public async Task<CalibrationInputSummaryDto<InputBehaviouralTermsDto>> GetHistorySummary(EntityDto<Guid> input)
         {
-            var total = await _calibrationHistoryRepository.CountAsync();
-            var items = await _calibrationHistoryRepository.GetAll().OrderByDescending(e => e.DateCreated).Take(10)
+            var calibration = await _calibrationRepository.FirstOrDefaultAsync((Guid)input.Id);
+
+            var total = await _calibrationHistoryRepository.CountAsync(e => e.AffiliateId == calibration.OrganizationUnitId && e.ModelType == calibration.ModelType);
+            var items = await _calibrationHistoryRepository.GetAll()
+                .Where(e => e.AffiliateId == calibration.OrganizationUnitId && e.ModelType == calibration.ModelType)
+                .OrderByDescending(e => e.DateCreated).Take(10)
                                                          .Select(x => ObjectMapper.Map<InputBehaviouralTermsDto>(x))
                                                          .ToListAsync();
 
@@ -214,10 +223,13 @@ namespace TestDemo.Calibration
             };
         }
 
-        public async Task<FileDto> ExportHistoryToExcel()
+        public async Task<FileDto> ExportHistoryToExcel(EntityDto<Guid> input)
         {
 
+            var calibration = await _calibrationRepository.FirstOrDefaultAsync((Guid)input.Id);
+
             var items = await _calibrationHistoryRepository.GetAll()
+                .Where(e => e.AffiliateId == calibration.OrganizationUnitId && e.ModelType == calibration.ModelType)
                                                          .Select(x => ObjectMapper.Map<InputBehaviouralTermsDto>(x))
                                                          .ToListAsync();
 
@@ -433,6 +445,11 @@ namespace TestDemo.Calibration
 
                 calibration.Status = CalibrationStatusEnum.AppliedToEcl;
                 await _calibrationRepository.UpdateAsync(calibration);
+
+                await _backgroundJobManager.EnqueueAsync<SaveHistoricEadBehaviouralDataJob, ImportCalibrationDataFromExcelJobArgs>(new ImportCalibrationDataFromExcelJobArgs
+                {
+                    CalibrationId = input.Id
+                });
             }
             else
             {

@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="fr">
   <texts>
+    <text name="ApplyCalibrationNote">Note: Applying this result will append the uploaded data to the historic data. This process is not reversible.</text>
+    <text name="TotalHistoricData">Total historic data count:</text>
+    <text name="DownloadHistoricData">Download Historic Data</text>
+    <text name="HistoricDataPreview">Historic Data Preview</text>
     <text name="NoOverrideTypeDefined">No override type defined!</text>
     <text name="OverrideType">Override type</text>
     <text name="TestDemo.EclConfig.OverrideType">OverrideType</text>
