@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="Done">Done</text>
+  <texts>    <text name="OpenNewTab">Open in new Tab</text>
+    <text name="Done">Done</text>
     <text name="Uploading">Uploading</text>
     <text name="Validating">Validating</text>
     <text name="ApplyCalibrationNote">Note: Applying this result will append the uploaded data to the historic data. This process is not reversible.</text>
