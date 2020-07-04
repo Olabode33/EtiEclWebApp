@@ -269,6 +269,42 @@
             <div class="kt-portlet__head ">
                 <div class="kt-portlet__head-label hoverable" (click)="showUploadCard = !showUploadCard;">
                     <h3 class="kt-portlet__head-title">
+                        {{l('MacroEconomicVariables')}}
+                    </h3>
+                </div>
+            </div>
+            <div class="kt-portlet__body">
+                <!-- <div *ngIf="periods.length > 0">
+                    {{l('TotalUploadsCount')}} <b>{{totalUploads}}</b>
+                    <hr>
+                </div> -->
+                <div class="table-responsive">
+                    <p *ngIf="periods.length <= 0" class="">
+                        {{l('NoMacroEconomicVariables')}}
+                    </p>
+                    <table *ngIf="periods.length > 0" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>{{l('Name')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let varirable of macroEconomicVariables; let i = index;">
+                                <td class="align-middle">{{ i + 1 }}</td>
+                                <td class="align-middle">{{ varirable.name }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="kt-portlet kt-portlet--height-fluid">
+            <div class="kt-portlet__head ">
+                <div class="kt-portlet__head-label hoverable" (click)="showUploadCard = !showUploadCard;">
+                    <h3 class="kt-portlet__head-title">
                         {{l('InputSummary')}}
                     </h3>
                 </div>

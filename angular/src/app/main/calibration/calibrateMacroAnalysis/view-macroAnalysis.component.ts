@@ -1,4 +1,4 @@
-﻿import { InputBehaviouralTermsDto, ResultBehaviouralTermsDto, CalibrationEadCcfSummaryServiceProxy, InputCcfSummaryDto, ResultEadCcfSummaryDto, CalibrationLgdHairCutServiceProxy, InputLgdHaircutDto, ResultLgdHairCutSummaryDto, CalibrationLgdRecoveryRateServiceProxy, InputLgdRecoveryRateDto, ResultLgdRecoveryRateDto, CalibrationPdCrDrServiceProxy, InputPdCrDrDto, ResultPd12MonthsDto, ResultPd12MonthsSummaryDto, CalibrationMacroAnalysisServiceProxy, CreateOrEditMacroAnalysisApprovalDto, CreateOrEditMacroAnalysisRunDto, MacroResultPrincipalComponentDto, MacroResultStatisticsDto, MacroResultCorMatDto, MacroResultIndexDataDto, MacroResultPrincipalComponentSummaryDto, EntityDto } from '../../../../shared/service-proxies/service-proxies';
+﻿import { InputBehaviouralTermsDto, ResultBehaviouralTermsDto, CalibrationEadCcfSummaryServiceProxy, InputCcfSummaryDto, ResultEadCcfSummaryDto, CalibrationLgdHairCutServiceProxy, InputLgdHaircutDto, ResultLgdHairCutSummaryDto, CalibrationLgdRecoveryRateServiceProxy, InputLgdRecoveryRateDto, ResultLgdRecoveryRateDto, CalibrationPdCrDrServiceProxy, InputPdCrDrDto, ResultPd12MonthsDto, ResultPd12MonthsSummaryDto, CalibrationMacroAnalysisServiceProxy, CreateOrEditMacroAnalysisApprovalDto, CreateOrEditMacroAnalysisRunDto, MacroResultPrincipalComponentDto, MacroResultStatisticsDto, MacroResultCorMatDto, MacroResultIndexDataDto, MacroResultPrincipalComponentSummaryDto, EntityDto, MacroeconomicVariableDto } from '../../../../shared/service-proxies/service-proxies';
 import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
@@ -58,7 +58,7 @@ export class ViewMacroAnalysisComponent extends AppComponentBase implements OnIn
     resultCor: MacroResultCorMatDto[] = new Array();
     resultIndex: MacroResultIndexDataDto[] = new Array();
     resultPrincipalSummary: MacroResultPrincipalComponentSummaryDto[] = new Array();
-
+    macroEconomicVariables = new Array<MacroeconomicVariableDto>();
     autoReloadSub: Subscription;
 
     constructor(
@@ -78,10 +78,17 @@ export class ViewMacroAnalysisComponent extends AppComponentBase implements OnIn
     ngOnInit(): void {
         this._activatedRoute.paramMap.subscribe(params => {
             this._calibrationId = +params.get('calibrationId');
+            this.getMacroEconomicVariables(params.get('affiliateId'));
             this.configureApprovalModal();
             this.show(this._calibrationId);
             this.getInputSummary();
         });
+    }
+
+    getMacroEconomicVariables(id) {
+        this._calibrationServiceProxy.getMacroEconomicVariables(id).subscribe(res => {
+            this.macroEconomicVariables = res;
+        })
     }
 
     configureApprovalModal(): void {

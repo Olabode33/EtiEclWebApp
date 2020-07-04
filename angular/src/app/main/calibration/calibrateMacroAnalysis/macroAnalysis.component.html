@@ -66,7 +66,7 @@
                         </svg>
                         {{'OBE' | localize}}
                     </a>
-                    
+
                 </div>
             </div>
         </div>
@@ -164,7 +164,7 @@
                                     <td style="width: 130px"
                                         [hidden]="!isGrantedAny('Pages.Calibration', 'Pages.Calibration')">
                                         <button *ngIf="record.calibration.status !== generalStatusEnum.Draft" type="button" class="btn btn-primary btn-sm"
-                                            (click)="view(record.calibration.id)">
+                                            (click)="view(record)">
                                             <i class="fa fa-info-circle"></i> View
                                         </button>
                                         <div *ngIf="record.calibration.status === generalStatusEnum.Draft" class="btn-group m-btn-group m-btn-group--pill" dropdown container="body">
@@ -206,7 +206,7 @@
                                     <td style="width:150px">
                                         <span class="ui-column-title"> {{l('Status')}}</span>
                                         <span
-                                            class="kt-badge kt-badge--bolder kt-badge kt-badge--inline 
+                                            class="kt-badge kt-badge--bolder kt-badge kt-badge--inline
                                                      kt-badge--unified-{{ getStatusLabelClass(record.calibration.status) }}">
                                             {{l( generalStatusEnum[record.calibration.status])}}
                                         </span>
