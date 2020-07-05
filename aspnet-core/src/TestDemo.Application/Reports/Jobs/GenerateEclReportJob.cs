@@ -307,9 +307,11 @@ namespace TestDemo.Reports.Jobs
             //dt = GetData(qry);
 
             qry = $"Select ContractNo, AccountNo,CustomerNo, Segment, ProductType, Sector, " +
-                  $"Stage, Outstanding_Balance, ECL_Best_Estimate, ECL_Optimistic, ECL_Downturn, Impairment_ModelOutput, " +
-                  $"Overrides_Stage, Overrides_ECL_Best_Estimate, Overrides_ECL_Optimistic, Overrides_ECL_Downturn,Overrides_Impairment_Manual " +
-                  $"from {_eclTypeTable}EclFramworkReportDetail " +
+                  $"r.Stage, Outstanding_Balance, ECL_Best_Estimate, ECL_Optimistic, ECL_Downturn, Impairment_ModelOutput, " +
+                  $"Overrides_Stage, Overrides_ECL_Best_Estimate, Overrides_ECL_Optimistic, Overrides_ECL_Downturn,Overrides_Impairment_Manual, " +
+                  $"o.Reason, o.OverrideType " +
+                  $"from {_eclTypeTable}EclFramworkReportDetail r" +
+                  $"left join {_eclTypeTable}EclOverrides o on r.ContractNo = o.ContractId and r.{_eclType}EclId = o.{_eclType}EclDataLoanBookId " +
                   $"where {_eclType}EclId = '{_eclId}'";
 
             dt = GetData(qry);
@@ -432,9 +434,12 @@ namespace TestDemo.Reports.Jobs
             qry = $"Select asset.AssetDescription ContractNo, asset.AssetDescription AccountNo, asset.AssetDescription CustomerNo, asset.AssetDescription Segment, asset.AssetType ProductType, asset.CounterParty Sector, " +
                   $" pre.Stage, asset.CarryingAmountIFRS Outstanding_Balance, pre.BestValue ECL_Best_Estimate, pre.OptimisticValue ECL_Optimistic, pre.DownturnValue ECL_Downturn, pre.Impairment Impairment_ModelOutput, " +
                   $" post.Stage Overrides_Stage, ISNULL(post.BestValue, pre.BestValue) Overrides_ECL_Best_Estimate, isnull(post.OptimisticValue, pre.OptimisticValue) Overrides_ECL_Optimistic, isnull(post.DownturnValue, pre.DownturnValue) Overrides_ECL_Downturn, isnull(post.Impairment, pre.Impairment) Overrides_Impairment_Manual " +
+                  $" ,o.OverrideComment Reason, o.OverrideType " +
                   $"from {_eclTypeTable}EclFinalResult pre " +
                   $"left join {_eclTypeTable}EclFinalPostOverrideResults post on pre.RecordId = post.RecordId " +
                   $"left join {_eclTypeTable}AssetBooks asset on pre.RecordId = asset.Id " +
+                  $"left join {_eclTypeTable}EclSicr sicr on pre.RecordId = sicr.RecordId " +
+                  $"left join {_eclTypeTable}EclOverrides o on sicr.id = o.InvestmentEclSicrId " +
                   $"where pre.EclId = '{_eclId}'";
             dt = GetData(qry);
 

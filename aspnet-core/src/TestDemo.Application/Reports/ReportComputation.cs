@@ -84,9 +84,9 @@ namespace TestDemo.Reports
             summarySheet.Column(2).Width = columnWidth;//column B
 
             //results summary container
-            summarySheet.Cells["B2:J60"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
-            summarySheet.Cells["B2:J60"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-            summarySheet.Cells["B2:J60"].Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_DARK_BLUE));
+            summarySheet.Cells["B2:J80"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+            summarySheet.Cells["B2:J80"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            summarySheet.Cells["B2:J80"].Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_DARK_BLUE));
             ////////***///
 
             startCellIndex = 3;
@@ -347,7 +347,6 @@ namespace TestDemo.Reports
             ///
             #endregion
 
-
             #region Breakdown by product type
             ////breakdown by product type
             ///
@@ -541,13 +540,11 @@ namespace TestDemo.Reports
             /////
             #endregion
 
-
-
             #region Top Exposure
             /////
             ///breakdown by segment and stage
             /// 
-            startCellIndex += 10;  //36
+            startCellIndex += 11;  //36
 
             SummarySubheader("C" + startCellIndex.ToString(), summarySheet, "Top Exposure");
 
@@ -650,6 +647,112 @@ namespace TestDemo.Reports
             /////
             #endregion
 
+            #region Top Impairment
+            /////
+            ///breakdown by segment and stage
+            /// 
+            startCellIndex += 16;  //36
+
+            SummarySubheader("C" + startCellIndex.ToString(), summarySheet, "Top Impairment");
+
+            summarySheet.Cells["C" + (startCellIndex + 1).ToString() + ":I" + (startCellIndex + 14).ToString()].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center; //i.e C27:I34
+            summarySheet.Cells["C" + (startCellIndex + 1).ToString() + ":I" + (startCellIndex + 14).ToString()].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+            // summarySheet.Cells["C19:C20"].Merge = true;
+            summarySheet.Cells["D" + (startCellIndex + 1).ToString() + ":F" + (startCellIndex + 1).ToString()].Merge = true;
+            summarySheet.Cells["G" + (startCellIndex + 1).ToString() + ":I" + (startCellIndex + 1).ToString()].Merge = true;
+            summarySheet.Cells["C" + (startCellIndex + 2).ToString()].Value = "Top Impairment";
+            summarySheet.Cells["C" + (startCellIndex + 2).ToString()].Style.Font.Bold = true;
+
+
+
+
+            summarySheet.Cells["D" + (startCellIndex + 1).ToString()].Value = "Model Output (Pre-Overrides & Overlays)";
+            summarySheet.Cells["D" + (startCellIndex + 1).ToString()].Style.Font.Bold = true;
+            summarySheet.Cells["D" + (startCellIndex + 1).ToString()].Style.Font.Italic = true;
+            summarySheet.Cells["D" + (startCellIndex + 2).ToString()].Value = "Exposure";
+            summarySheet.Cells["D" + (startCellIndex + 2).ToString()].Style.Font.Bold = true;
+            summarySheet.Cells["D" + (startCellIndex + 2).ToString()].Style.Font.Italic = true;
+            summarySheet.Cells["E" + (startCellIndex + 2).ToString()].Value = "Impairment";
+            summarySheet.Cells["E" + (startCellIndex + 2).ToString()].Style.Font.Bold = true;
+            summarySheet.Cells["E" + (startCellIndex + 2).ToString()].Style.Font.Italic = true;
+            summarySheet.Cells["F" + (startCellIndex + 2).ToString()].Value = "Coverage Ratio";
+            summarySheet.Cells["F" + (startCellIndex + 2).ToString()].Style.Font.Bold = true;
+            summarySheet.Cells["F" + (startCellIndex + 2).ToString()].Style.Font.Italic = true;
+            summarySheet.Cells["G" + (startCellIndex + 1).ToString()].Value = "Model Output (Post-Overrides & Overlays)";
+            summarySheet.Cells["G" + (startCellIndex + 1).ToString()].Style.Font.Bold = true;
+            summarySheet.Cells["G" + (startCellIndex + 1).ToString()].Style.Font.Italic = true;
+            summarySheet.Cells["G" + (startCellIndex + 2).ToString()].Value = "Exposure";
+            summarySheet.Cells["G" + (startCellIndex + 2).ToString()].Style.Font.Bold = true;
+            summarySheet.Cells["G" + (startCellIndex + 2).ToString()].Style.Font.Italic = true;
+            summarySheet.Cells["H" + (startCellIndex + 2).ToString()].Value = "Impairment";
+            summarySheet.Cells["H" + (startCellIndex + 2).ToString()].Style.Font.Bold = true;
+            summarySheet.Cells["H" + (startCellIndex + 2).ToString()].Style.Font.Italic = true;
+            summarySheet.Cells["I" + (startCellIndex + 2).ToString()].Value = "Coverage Ratio";
+            summarySheet.Cells["I" + (startCellIndex + 2).ToString()].Style.Font.Bold = true;
+            summarySheet.Cells["I" + (startCellIndex + 2).ToString()].Style.Font.Italic = true;
+
+            //styling the borders;
+            summarySheet.Cells["C" + (startCellIndex + 1).ToString() + ":I" + (startCellIndex + 13).ToString()].Style.Border.BorderAround(ExcelBorderStyle.Thick, ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+            summarySheet.Cells["C" + (startCellIndex + 1).ToString() + ":I" + (startCellIndex + 13).ToString()].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            summarySheet.Cells["C" + (startCellIndex + 1).ToString() + ":I" + (startCellIndex + 13).ToString()].Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(ETI_Colors.WHITE));
+
+
+            summarySheet.Cells["D" + (startCellIndex + 2).ToString() + ":I" + (startCellIndex + 2).ToString()].Style.Border.Top.Style = ExcelBorderStyle.Dashed;
+            summarySheet.Cells["D" + (startCellIndex + 2).ToString() + ":I" + (startCellIndex + 2).ToString()].Style.Border.Top.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+            summarySheet.Cells["C" + (startCellIndex + 3).ToString() + ":I" + (startCellIndex + 3).ToString()].Style.Border.Top.Style = ExcelBorderStyle.Medium;
+            summarySheet.Cells["C" + (startCellIndex + 3).ToString() + ":I" + (startCellIndex + 3).ToString()].Style.Border.Top.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+            summarySheet.Cells["C" + (startCellIndex + 4).ToString() + ":I" + (startCellIndex + 4).ToString()].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            summarySheet.Cells["C" + (startCellIndex + 4).ToString() + ":I" + (startCellIndex + 4).ToString()].Style.Border.Top.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+            summarySheet.Cells["C" + (startCellIndex + 5).ToString() + ":I" + (startCellIndex + 5).ToString()].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            summarySheet.Cells["C" + (startCellIndex + 5).ToString() + ":I" + (startCellIndex + 5).ToString()].Style.Border.Top.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+            summarySheet.Cells["C" + (startCellIndex + 6).ToString() + ":I" + (startCellIndex + 6).ToString()].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            summarySheet.Cells["C" + (startCellIndex + 6).ToString() + ":I" + (startCellIndex + 6).ToString()].Style.Border.Top.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+            summarySheet.Cells["C" + (startCellIndex + 7).ToString() + ":I" + (startCellIndex + 7).ToString()].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            summarySheet.Cells["C" + (startCellIndex + 7).ToString() + ":I" + (startCellIndex + 7).ToString()].Style.Border.Top.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+            summarySheet.Cells["C" + (startCellIndex + 8).ToString() + ":I" + (startCellIndex + 8).ToString()].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            summarySheet.Cells["C" + (startCellIndex + 8).ToString() + ":I" + (startCellIndex + 8).ToString()].Style.Border.Top.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+            summarySheet.Cells["C" + (startCellIndex + 9).ToString() + ":I" + (startCellIndex + 9).ToString()].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            summarySheet.Cells["C" + (startCellIndex + 9).ToString() + ":I" + (startCellIndex + 9).ToString()].Style.Border.Top.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+            summarySheet.Cells["C" + (startCellIndex + 10).ToString() + ":I" + (startCellIndex + 10).ToString()].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            summarySheet.Cells["C" + (startCellIndex + 10).ToString() + ":I" + (startCellIndex + 10).ToString()].Style.Border.Top.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+            summarySheet.Cells["C" + (startCellIndex + 11).ToString() + ":I" + (startCellIndex + 11).ToString()].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            summarySheet.Cells["C" + (startCellIndex + 11).ToString() + ":I" + (startCellIndex + 11).ToString()].Style.Border.Top.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+            summarySheet.Cells["C" + (startCellIndex + 12).ToString() + ":I" + (startCellIndex + 12).ToString()].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            summarySheet.Cells["C" + (startCellIndex + 12).ToString() + ":I" + (startCellIndex + 12).ToString()].Style.Border.Top.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+            summarySheet.Cells["C" + (startCellIndex + 13).ToString() + ":I" + (startCellIndex + 13).ToString()].Style.Border.Top.Style = ExcelBorderStyle.Medium;
+            summarySheet.Cells["C" + (startCellIndex + 13).ToString() + ":I" + (startCellIndex + 13).ToString()].Style.Border.Top.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+
+
+            summarySheet.Cells["C" + (startCellIndex + 1).ToString() + ":C" + (startCellIndex + 13).ToString()].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+            summarySheet.Cells["C" + (startCellIndex + 1).ToString() + ":C" + (startCellIndex + 13).ToString()].Style.Border.Right.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+            summarySheet.Cells["D" + (startCellIndex + 1).ToString() + ":D" + (startCellIndex + 13).ToString()].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+            summarySheet.Cells["D" + (startCellIndex + 1).ToString() + ":D" + (startCellIndex + 13).ToString()].Style.Border.Right.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+            summarySheet.Cells["E" + (startCellIndex + 1).ToString() + ":E" + (startCellIndex + 13).ToString()].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+            summarySheet.Cells["E" + (startCellIndex + 1).ToString() + ":E" + (startCellIndex + 13).ToString()].Style.Border.Right.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+            summarySheet.Cells["F" + (startCellIndex + 1).ToString() + ":F" + (startCellIndex + 13).ToString()].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+            summarySheet.Cells["F" + (startCellIndex + 1).ToString() + ":F" + (startCellIndex + 13).ToString()].Style.Border.Right.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+            summarySheet.Cells["G" + (startCellIndex + 1).ToString() + ":G" + (startCellIndex + 13).ToString()].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+            summarySheet.Cells["G" + (startCellIndex + 1).ToString() + ":G" + (startCellIndex + 13).ToString()].Style.Border.Right.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+            summarySheet.Cells["H" + (startCellIndex + 1).ToString() + ":H" + (startCellIndex + 13).ToString()].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+            summarySheet.Cells["H" + (startCellIndex + 1).ToString() + ":H" + (startCellIndex + 13).ToString()].Style.Border.Right.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+
+            ///inserting the values
+            for (int i = 0; i < rs.TopImpairmentSummary.Count; i++)
+            {
+                summarySheet.Cells["C" + (startCellIndex + 3 + i).ToString()].Style.Font.Bold = true;
+                summarySheet.Cells["C" + (startCellIndex + 3 + i).ToString()].Value = rs.TopImpairmentSummary[i].Field1;
+                summarySheet.Cells["D" + (startCellIndex + 3 + i).ToString()].Value = rs.TopImpairmentSummary[i].Exposure_Pre;
+                summarySheet.Cells["E" + (startCellIndex + 3 + i).ToString()].Value = rs.TopImpairmentSummary[i].Impairment_Pre;
+                summarySheet.Cells["F" + (startCellIndex + 3 + i).ToString()].Value = rs.TopImpairmentSummary[i].CoverageRatio_Pre;
+                summarySheet.Cells["G" + (startCellIndex + 3 + i).ToString()].Value = rs.TopImpairmentSummary[i].Exposure_Pre;
+                summarySheet.Cells["H" + (startCellIndex + 3 + i).ToString()].Value = rs.TopImpairmentSummary[i].Impairment_Post;
+                summarySheet.Cells["I" + (startCellIndex + 3 + i).ToString()].Value = rs.TopImpairmentSummary[i].CoverageRatio_Post;
+            }
+
+
+            /// 
+            /////
+            #endregion
 
             summarySheet.Cells[summarySheet.Dimension.Address].AutoFitColumns();
         }
@@ -688,12 +791,12 @@ namespace TestDemo.Reports
             ///
 
             //styling for the container that houses the total number of contracts etc  
-            resultSheet.Cells["B2:W2"].Style.Border.Top.Style = ExcelBorderStyle.Thick;//////2,2,2,23
-            resultSheet.Cells["B5:W5"].Style.Border.Bottom.Style = ExcelBorderStyle.Thick; ///5,2,5,23
+            resultSheet.Cells["B2:Y2"].Style.Border.Top.Style = ExcelBorderStyle.Thick;//////2,2,2,23
+            resultSheet.Cells["B5:Y5"].Style.Border.Bottom.Style = ExcelBorderStyle.Thick; ///5,2,5,23
             resultSheet.Cells["B2:B5"].Style.Border.Left.Style = ExcelBorderStyle.Thick; ////2,2,5,2
-            resultSheet.Cells["W2:W5"].Style.Border.Right.Style = ExcelBorderStyle.Thick; ///2,23,5,23
-            resultSheet.Cells["B2:W5"].Style.Fill.PatternType = ExcelFillStyle.Solid; //2,2,5,23
-            resultSheet.Cells["B2:W5"].Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_DARK_BLUE));//2,2,5,23
+            resultSheet.Cells["Y2:Y5"].Style.Border.Right.Style = ExcelBorderStyle.Thick; ///2,23,5,23
+            resultSheet.Cells["B2:Y5"].Style.Fill.PatternType = ExcelFillStyle.Solid; //2,2,5,23
+            resultSheet.Cells["B2:Y5"].Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_DARK_BLUE));//2,2,5,23
             /////***********///
             ///
 
@@ -756,23 +859,23 @@ namespace TestDemo.Reports
             ///
 
             //////styling the main body container//
-            resultSheet.Cells["C7:V7"].Merge = true;
-            resultSheet.Cells["C7:V9"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-            resultSheet.Cells["C7:V9"].Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_DARK_BLUE));
-            resultSheet.Cells["C7:V9"].Style.Font.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.WHITE));
-            resultSheet.Cells["C7:V9"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
-            resultSheet.Cells["C7:V9"].Style.Font.Bold = true;
-            resultSheet.Cells["C7:V9"].Style.Font.Italic = true;
+            resultSheet.Cells["C7:X7"].Merge = true;
+            resultSheet.Cells["C7:X9"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            resultSheet.Cells["C7:X9"].Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_DARK_BLUE));
+            resultSheet.Cells["C7:X9"].Style.Font.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.WHITE));
+            resultSheet.Cells["C7:X9"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+            resultSheet.Cells["C7:X9"].Style.Font.Bold = true;
+            resultSheet.Cells["C7:X9"].Style.Font.Italic = true;
 
             //////styling the contract level results//
             resultSheet.Cells["C7"].Value = "CONTRACT LEVEL RESULTS";
             // resultSheet.Cells["C7"].Style.Font.Bold = true;
             resultSheet.Cells["C7"].Style.Font.Size = 16;
-            resultSheet.Cells["C7:V7"].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            resultSheet.Cells["C7:X7"].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
 
 
             //styling for Contract Data - Snapshot Date////
-            resultSheet.Cells["C8:V8"].Style.Font.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+            resultSheet.Cells["C8:X8"].Style.Font.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
             //resultSheet.Cells["C8:V8"].Style.Font.Italic = true;
             resultSheet.Cells["C8:J8"].Merge = true;
             resultSheet.Cells["C8"].Value = "Contract Data - Snapshot Date";
@@ -799,10 +902,10 @@ namespace TestDemo.Reports
             resultSheet.Cells["R8"].Style.Border.Right.Style = ExcelBorderStyle.Thin;
 
             //styling for Model Output (Post - Overrides and Overlays)////
-            resultSheet.Cells["S8:V8"].Merge = true;
+            resultSheet.Cells["S8:X8"].Merge = true;
             resultSheet.Cells["S8"].Value = "Model Output (Post-Overrides and Overlays)";
-            resultSheet.Cells["S8:V8"].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-            resultSheet.Cells["S8:V8"].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+            resultSheet.Cells["S8:X8"].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            resultSheet.Cells["S8:X8"].Style.Border.Right.Style = ExcelBorderStyle.Thin;
             /////***********///
             ///
 
@@ -827,6 +930,8 @@ namespace TestDemo.Reports
             resultSheet.Cells["T9"].Value = "ECL - Optimistic";
             resultSheet.Cells["U9"].Value = "ECL - Downturn";
             resultSheet.Cells["V9"].Value = "Impairment (Manual Overrides)";
+            resultSheet.Cells["W9"].Value = "Reason";
+            resultSheet.Cells["X9"].Value = "Override Type";
 
             for (var i = 0; i < rd.ResultDetailDataMore.Count; i++)
             {
@@ -851,6 +956,8 @@ namespace TestDemo.Reports
                 resultSheet.Cells["T" + (10 + i).ToString()].Value = _rd.Overrides_ECL_Optimistic;
                 resultSheet.Cells["U" + (10 + i).ToString()].Value = _rd.Overrides_ECL_Downturn;
                 resultSheet.Cells["V" + (10 + i).ToString()].Value = _rd.Overrides_Impairment_Manual;
+                resultSheet.Cells["W" + (10 + i).ToString()].Value = _rd.Reason;
+                resultSheet.Cells["X" + (10 + i).ToString()].Value = _rd.OverrideType;
             }
 
             int rowCount = resultSheet.Dimension.End.Row;
@@ -867,15 +974,15 @@ namespace TestDemo.Reports
             //    resultSheet.Column(i).Hidden = true;
             //}
 
-            resultSheet.Cells["C9:V" + rowCount.ToString()].Style.Border.Top.Style = ExcelBorderStyle.Dashed;
+            resultSheet.Cells["C9:X" + rowCount.ToString()].Style.Border.Top.Style = ExcelBorderStyle.Dashed;
             resultSheet.Cells["C3:D3"].Style.Border.Top.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
 
-            resultSheet.Cells["C9:V" + rowCount.ToString()].Style.Border.Left.Style = ExcelBorderStyle.Thin;
-            resultSheet.Cells["C9:V" + rowCount.ToString()].Style.Border.Left.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
-            resultSheet.Cells["C9:V" + rowCount.ToString()].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-            resultSheet.Cells["C9:V" + rowCount.ToString()].Style.Border.Bottom.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
-            resultSheet.Cells["C9:V" + rowCount.ToString()].Style.Border.Right.Style = ExcelBorderStyle.Thin;
-            resultSheet.Cells["C9:V" + rowCount.ToString()].Style.Border.Right.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+            resultSheet.Cells["C9:X" + rowCount.ToString()].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+            resultSheet.Cells["C9:X" + rowCount.ToString()].Style.Border.Left.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+            resultSheet.Cells["C9:X" + rowCount.ToString()].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            resultSheet.Cells["C9:X" + rowCount.ToString()].Style.Border.Bottom.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+            resultSheet.Cells["C9:X" + rowCount.ToString()].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+            resultSheet.Cells["C9:X" + rowCount.ToString()].Style.Border.Right.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
 
             //doing sums for total model output (pre overrides)
             resultSheet.Cells["J4"].Value = rd.OutStandingBalance;
@@ -1193,7 +1300,6 @@ namespace TestDemo.Reports
             rs.Segment.Add(segmentTotal);
             #endregion
 
-
             #region Segment and Stage
             rs.SegmentAndStage = new List<ReportBreakdown>();
             var COMMERCIAL_STAGE_1 = new ReportBreakdown();
@@ -1306,7 +1412,6 @@ namespace TestDemo.Reports
             rs.SegmentAndStage.Add(sectorstageTotal);
             #endregion
 
-
             #region Top Exposure
 
             var topExposed = rd.ResultDetailDataMore.OrderByDescending(p => p.Outstanding_Balance).Take(10);
@@ -1335,6 +1440,35 @@ namespace TestDemo.Reports
             rs.TopExposureSummary.Add(rbdT);
 
 
+
+            #endregion
+
+            #region Top Impairment
+
+            var topImpairment = rd.ResultDetailDataMore.OrderByDescending(p => p.Impairment_ModelOutput).Take(10);
+
+            rs.TopImpairmentSummary = new List<ReportBreakdown>();
+            foreach (var itm in topImpairment)
+            {
+                var ibd = new ReportBreakdown();
+                ibd.Field1 = itm.ContractNo;
+                ibd.Exposure_Pre = string.Format("{0:N}", itm.Outstanding_Balance);
+                ibd.Impairment_Pre = string.Format("{0:N}", itm.Impairment_ModelOutput);
+                ibd.CoverageRatio_Pre = ((itm.Impairment_ModelOutput / itm.Outstanding_Balance) * 100).ToString();
+                ibd.Exposure_Post = string.Format("{0:N}", itm.Outstanding_Balance);
+                ibd.Impairment_Post = string.Format("{0:N}", itm.Overrides_Impairment_Manual);
+                ibd.CoverageRatio_Post = ((itm.Overrides_Impairment_Manual / itm.Outstanding_Balance) * 100).ToString();
+                rs.TopImpairmentSummary.Add(ibd);
+            }
+            var ibdT = new ReportBreakdown();
+            ibdT.Field1 = "Total";
+            ibdT.Exposure_Pre = string.Format("{0:N}", topImpairment.Sum(o => o.Outstanding_Balance));
+            ibdT.Impairment_Pre = string.Format("{0:N}", topImpairment.Sum(o => o.Impairment_ModelOutput));
+            ibdT.CoverageRatio_Pre = ((topImpairment.Sum(o => o.Impairment_ModelOutput) / topImpairment.Sum(o => o.Outstanding_Balance)) * 100).ToString();
+            ibdT.Exposure_Post = string.Format("{0:N}", topImpairment.Sum(o => o.Outstanding_Balance));
+            ibdT.Impairment_Post = string.Format("{0:N}", topImpairment.Sum(o => o.Overrides_Impairment_Manual));
+            ibdT.CoverageRatio_Post = ((topImpairment.Sum(o => o.Overrides_Impairment_Manual) / topImpairment.Sum(o => o.Outstanding_Balance)) * 100).ToString();
+            rs.TopImpairmentSummary.Add(ibdT);
 
             #endregion
 
