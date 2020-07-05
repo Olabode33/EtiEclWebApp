@@ -31,7 +31,6 @@ namespace TestDemo.Calibration.Exporting
                         "Account_No",
                         "Contract_No",
                         "Snapshot_Date",
-                        "Period",
                         "Outstanding_Balance_Lcy",
                         "Debenture_OMV",
                         "Debenture_FSV",
@@ -51,7 +50,8 @@ namespace TestDemo.Calibration.Exporting
                         "Shares_FSV",
                         "Vehicle_OMV",
                         "Vehicle_FSV",
-                        "Guarantee_Value"
+                        "Guarantee_Value",
+                        "Period"
                         );
 
                     AddObjects(
@@ -60,7 +60,6 @@ namespace TestDemo.Calibration.Exporting
                         _ => _.Account_No,
                         _ => _.Contract_No,
                         _ => _.Snapshot_Date,
-                        _ => _.Period,
                         _ => _.Outstanding_Balance_Lcy,
                         _ => _.Debenture_OMV,
                         _ => _.Debenture_FSV,
@@ -80,7 +79,8 @@ namespace TestDemo.Calibration.Exporting
                         _ => _.Shares_FSV,
                         _ => _.Vehicle_OMV,
                         _ => _.Vehicle_FSV,
-                        _ => _.Guarantee_Value
+                        _ => _.Guarantee_Value,
+                        _ => _.Period
                         );
 
                     for (var i = 1; i <= 25; i++)
