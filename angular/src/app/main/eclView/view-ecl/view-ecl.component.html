@@ -17,17 +17,17 @@
                     <i class="fa fa-check" style="font-size: 1.2rem !important;"></i>
                     {{l("Submit")}}
                 </button>
-                <button (click)="approveEcl()" class="btn btn-primary" 
+                <button (click)="approveEcl()" class="btn btn-primary"
                     *ngIf="(eclDto.status == eclStatusEnum.Submitted || eclDto.status == eclStatusEnum.AwaitngAdditionApproval) && isGranted('Pages.EclView.Review')">
                     <i class="fa fa-check-double" style="font-size: 1.2rem !important;"></i>
                     {{l("Approve")}}
                 </button>
-                <button (click)="runEclComputation()" class="btn btn-success" 
+                <button (click)="runEclComputation()" class="btn btn-success"
                     *ngIf="eclDto.status == eclStatusEnum.Approved && isGranted('Pages.EclView.Run')">
                     <i class="fa fa-play-circle" style="font-size: 1.2rem !important;"></i>
                     {{l("Run")}}
                 </button>
-                <button (click)="runEclPostComputation()" class="btn btn-success" 
+                <button (click)="runEclPostComputation()" class="btn btn-success"
                     *ngIf="(eclDto.status == eclStatusEnum.PreOverrideComplete || eclDto.status == eclStatusEnum.PostOverrideComplete || eclDto.status == eclStatusEnum.Completed) && isGranted('Pages.EclView.Run') ">
                     <i class="fa fa-forward" style="font-size: 1.2rem !important;"></i>
                     {{l("PostRun")}}
@@ -65,8 +65,8 @@
                                 </div>
                                 <div class="kt-widget__action">
                                     <span class="kt-badge kt-badge--inline kt-badge--pill kt-badge--rounded
-                                               kt-badge--{{eclDto.status == eclStatusEnum.Completed ? 'success' : 
-                                                            ( eclDto.status === eclStatusEnum.Draft ? 'danger' : 
+                                               kt-badge--{{eclDto.status == eclStatusEnum.Completed ? 'success' :
+                                                            ( eclDto.status === eclStatusEnum.Draft ? 'danger' :
                                                             ( eclDto.status === eclStatusEnum.Closed ? 'primary' : 'warning'))}}">
                                         {{l(eclStatusEnum[eclDto.status])}}
                                     </span>
@@ -77,7 +77,7 @@
                                 <div class="row align-middle mt-3">
                                     <div class="col align-middle">
                                         <div class="kt-widget__label kt-widget__label-overwrite">
-                                            {{l('ReportingDate')}}: 
+                                            {{l('ReportingDate')}}:
                                             <span *ngIf="!isGranted('Pages.EclView.Edit') || eclDto.status != eclStatusEnum.Draft" class="btn btn-label-brand btn-sm btn-bold btn-upper">{{eclDto.reportingDate | momentFormat:'LL'}}</span>
                                             <button *ngIf="isGranted('Pages.EclView.Edit') && eclDto.status == eclStatusEnum.Draft" class="btn btn-outline-primary btn-sm btn-pill" (click)="editReportDate()">
                                                 {{ eclDto.reportingDate | momentFormat: 'll'}}
@@ -87,13 +87,13 @@
                                     </div>
                                     <div class="col text-center align-middle">
                                         <div class="kt-widget__label kt-widget__label-overwrite">
-                                            {{l('Affiliate')}}: 
+                                            {{l('Affiliate')}}:
                                             <span class="btn btn-label-success btn-sm btn-bold btn-upper">{{eclDetails.country}}</span>
                                         </div>
                                     </div>
                                     <div class="col text-right align-middle">
                                         <div class="kt-widget__label kt-widget__label-overwrite">
-                                            {{l('CreatedBy')}}: 
+                                            {{l('CreatedBy')}}:
                                             <span class="btn btn-label-warning btn-sm btn-bold btn-upper">{{eclDetails.createdByUserName}}</span>
                                         </div>
                                     </div>
@@ -255,13 +255,13 @@
                                         <td class="align-middle">{{item.dateUploaded | momentFormat: 'LL'}}</td>
                                         <td class="align-middle">{{item.uploadedBy}}</td>
                                         <td class="align-middle">
-                                            <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline 
+                                            <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline
                                                             kt-badge--unified-{{ getStatusLabelClass(item.eclUpload.status) }}">
                                                 {{l(statusEnum[item.eclUpload.status])}}
                                             </span>
                                         </td>
                                         <td style="width: 100px;" class="align-middle" *ngIf="_eclFramework != frameworkEnum.Investments && item.eclUpload.status == statusEnum.Processing">
-                                            {{l('Uploading')}}: 
+                                            {{l('Uploading')}}:
                                             <span *ngIf="item.eclUpload.fileUploaded" class="text-success"><i class="fa fa-check-circle"></i>Done</span>
                                             <div *ngIf="!item.eclUpload.fileUploaded" class="progress" style="height: 10px;">
                                                 <div class="progress-bar progress-bar-striped" [ngClass]="{'progress-bar-animated': !item.eclUpload.fileUploaded}"
@@ -279,7 +279,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-        
+
                         </div>
                     </div>
                 </div>
