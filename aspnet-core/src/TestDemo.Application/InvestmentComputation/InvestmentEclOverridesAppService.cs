@@ -256,6 +256,32 @@ namespace TestDemo.InvestmentComputation
             await SendSubmittedEmail(input.EclId);
         }
 
+        public async Task UploadBulkOveride(List<ImportExcelInvestmentEclOverrideDto> uploadData, Guid eclId)
+        {
+            foreach (var input in uploadData)
+            {
+                var investmentEclSicr = _lookup_investmentEclSicrRepository.FirstOrDefault(i => i.EclId == eclId && i.AssetDescription.ToLower() == input.AssetDescription.ToLower());
+
+                if (investmentEclSicr != null)
+                {
+                    await _investmentEclOverrideRepository.InsertAsync(new InvestmentEclOverride
+                    {
+                        Id = new Guid(),
+                        EclId = eclId,
+                        ImpairmentOverride = input.ImpairmentOverride,
+                        OverrideComment = input.OverrideComment,
+                        StageOverride = input.StageOverride,
+                        Status = GeneralStatusEnum.Submitted,
+                        OverrideType = input.OverrideType,
+                        InvestmentEclSicrId = investmentEclSicr.Id
+                    });
+                }
+
+            }
+
+            await SendSubmittedEmail(eclId);
+        }
+
         [AbpAuthorize(AppPermissions.Pages_EclView_Override)]
         protected virtual async Task Update(CreateOrEditEclOverrideDto input)
         {
