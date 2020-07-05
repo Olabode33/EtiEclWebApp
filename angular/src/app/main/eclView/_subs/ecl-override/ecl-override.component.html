@@ -6,10 +6,33 @@
             </h3>
         </div>
         <div class="kt-portlet__head-toolbar">
+            <div class="btn-group" dropdown *ngIf="canApplyOverride && isGranted('Pages.EclView.Override')">
+                            <button dropdownToggle type="button" class="btn btn-outline-info dropdown-toggle mx-1"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="far fa-file-excel"></i> {{"UploadOverrides"}}
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-excel-operations" *dropdownMenu>
+                                <a href="javascript:;" class="no-padding">
+                                    <span class="fileinput-button">
+                                        <p-fileUpload customUpload="true" name="ExcelFileUpload" #ExcelFileUpload
+                                            maxFileSize="10000000" auto="auto" accept=".csv,.xls,.xlsx"
+                                            (uploadHandler)="uploadExcel($event)" (onError)="onUploadExcelError()"
+                                            chooseLabel="{{'ImportFromExcel'}}">
+                                        </p-fileUpload>
+                                    </span>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <span class="dropdown-item-text text-muted pl-3" href="#">
+                                    <small> <a href="javascript:;" (click)='download()'> Click here </a> to download
+                                        sample import file </small>
+                                </span>
+                            </div>
+                        </div>
+
             <button *ngIf="canApplyOverride && isGranted('Pages.EclView.Override')" (click)="applyOverride()" class="btn btn-outline-success">
                 <i class="fa fa-pen-nib" style="font-size: 1.2rem !important;"></i>
                 {{l("ApplyOverride")}}
-            </button>                    
+            </button>
         </div>
     </div>
     <div class="kt-portlet__body">
@@ -18,7 +41,7 @@
                 <div class="row align-items-center">
                     <div class="col-xl-3">
                         <div class="m-form__group align-items-center">
-                        <select class="custom-select" name="StatusFilter" id="StatusFilterSelect" 
+                        <select class="custom-select" name="StatusFilter" id="StatusFilterSelect"
                                 [(ngModel)]="statusFilter" (change)="getEclOverrides()">
                             <option value="-1">{{l("All")}}</option>
                             <option [value]="generalStatusEnum.Submitted">{{l('Submitted')}}</option>
@@ -43,7 +66,7 @@
                 </div>
             </div>
         </form>
-        
+
         <div class="kt-separator kt-separator--border-dashed"></div>
 
         <div class="row align-items-center">
@@ -73,20 +96,20 @@
                                 {{l('Status')}}
                                 <p-sortIcon field="eclOverride.status"></p-sortIcon>
                             </th>
-        
+
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-record="$implicit">
                         <tr>
                             <td style="width: 130px">
-                                <button *ngIf="record.eclOverride.status != generalStatusEnum.Approved && isGranted('Pages.EclView.Override.Review')" type="button" class="btn btn-primary" 
+                                <button *ngIf="record.eclOverride.status != generalStatusEnum.Approved && isGranted('Pages.EclView.Override.Review')" type="button" class="btn btn-primary"
                                         (click)="reviewOverride(record.eclOverride.recordId)">
-                                    <i class="fa fa-eye"></i> 
+                                    <i class="fa fa-eye"></i>
                                     {{l('Review')}}
                                 </button>
-                                <button *ngIf="record.eclOverride.status == generalStatusEnum.Approved || !isGranted('Pages.EclView.Override.Review')"  type="button" class="btn btn-primary" 
+                                <button *ngIf="record.eclOverride.status == generalStatusEnum.Approved || !isGranted('Pages.EclView.Override.Review')"  type="button" class="btn btn-primary"
                                         (click)="viewOverride(record.eclOverride.recordId)">
-                                    <i class="fa fa-eye"></i> 
+                                    <i class="fa fa-eye"></i>
                                     {{l('View')}}
                                 </button>
                             </td>
@@ -104,12 +127,12 @@
                             </td>
                             <td style="width:150px">
                                 <span class="ui-column-title"> {{l('Status')}}</span>
-                                <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline 
+                                <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline
                                                 kt-badge--unified-{{ getStatusLabelClass(record.eclOverride.status) }}">
                                                 {{l( generalStatusEnum[record.eclOverride.status])}}
                                 </span>
                             </td>
-        
+
                         </tr>
                     </ng-template>
                 </p-table>

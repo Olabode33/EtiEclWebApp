@@ -294,8 +294,10 @@
                                 <td class="align-middle">{{ i + 1 }}</td>
                                 <td class="align-middle">{{ varirable.name }}</td>
                             </tr>
+
                         </tbody>
                     </table>
+                    <div *ngIf="macroEconomicVariables.length == 0" class="text-center">{{l('NoData')}}</div>
 
                 </div>
             </div>

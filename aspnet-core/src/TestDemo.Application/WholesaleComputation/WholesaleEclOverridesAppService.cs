@@ -289,6 +289,41 @@ namespace TestDemo.WholesaleComputation
             await SendSubmittedEmail((Guid)input.EclId);
         }
 
+        public async Task UploadBulkOveride(List<CreateOrEditEclOverrideNewDto> uploadData, Guid eclId)
+        {
+            foreach (var input in uploadData)
+            {
+                var wse = _wholesaleEclOverrideRepository.FirstOrDefault(o => o.ContractId == input.ContractId);
+                if (wse != null)
+                    _wholesaleEclOverrideRepository.Delete(wse);
+
+                await _wholesaleEclOverrideRepository.InsertAsync(new WholesaleEclOverride
+                {
+                    Id = new Guid(),
+                    WholesaleEclDataLoanBookId = eclId,
+                    ContractId = input.ContractId,
+                    Reason = input.OverrideComment,
+                    Stage = input.Stage,
+                    TtrYears = input.TtrYears,
+                    FSV_Cash = input.FSV_Cash,
+                    FSV_CommercialProperty = input.FSV_CommercialProperty,
+                    FSV_Debenture = input.FSV_Debenture,
+                    FSV_Inventory = input.FSV_Inventory,
+                    FSV_PlantAndEquipment = input.FSV_PlantAndEquipment,
+                    FSV_Receivables = input.FSV_Receivables,
+                    FSV_ResidentialProperty = input.FSV_ResidentialProperty,
+                    FSV_Shares = input.FSV_Shares,
+                    FSV_Vehicle = input.FSV_Vehicle,
+                    OverlaysPercentage = input.OverlaysPercentage,
+                    Status = GeneralStatusEnum.Submitted,
+                    OverrideType = input.OverrideType
+                });
+            }
+
+            await SendSubmittedEmail(eclId);
+        }
+
+
 
         [AbpAuthorize(AppPermissions.Pages_EclView_Override)]
         protected virtual async Task Update(CreateOrEditEclOverrideNewDto input)
