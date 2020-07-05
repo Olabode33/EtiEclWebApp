@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using TestDemo.Dto;
 using TestDemo.Dto.Approvals;
 using TestDemo.Dto.Ecls;
 using TestDemo.EclShared.Dtos;
@@ -27,6 +28,7 @@ namespace TestDemo.EclInterfaces
         Task RunEcl(EntityDto<Guid> input);
         Task RunPostEcl(EntityDto<Guid> input);
         Task GenerateReport(EntityDto<Guid> input);
+        Task<FileDto> DownloadReport(EntityDto<Guid> input);
         Task CloseEcl(EntityDto<Guid> input);
         Task ReopenEcl(EntityDto<Guid> input);
         //Task<ValidationMessageDto> ValidateForSubmission(Guid eclId);

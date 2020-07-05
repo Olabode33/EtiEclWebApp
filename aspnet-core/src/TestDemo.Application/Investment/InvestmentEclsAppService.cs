@@ -70,6 +70,7 @@ namespace TestDemo.Investment
         private readonly IEclDataAssetBookExporter _dataExporter;
         private readonly IEclEngineEmailer _emailer;
         private readonly IConfigurationRoot _appConfiguration;
+        private readonly IExcelReportGenerator _reportGenerator;
 
 
         public InvestmentEclsAppService(IRepository<InvestmentEcl, Guid> investmentEclRepository, 
@@ -91,6 +92,7 @@ namespace TestDemo.Investment
                                         IEclDataAssetBookExporter dataExporter,
                                         IEclEngineEmailer emailer,
                                         IHostingEnvironment env,
+                                        IExcelReportGenerator reportGenerator,
                                         IEclSharedAppService eclSharedAppService)
         {
             _investmentEclRepository = investmentEclRepository;
@@ -115,6 +117,7 @@ namespace TestDemo.Investment
             _dataExporter = dataExporter;
             _emailer = emailer;
             _appConfiguration = env.GetAppConfiguration();
+            _reportGenerator = reportGenerator;
         }
 
         public async Task<PagedResultDto<GetInvestmentEclForViewDto>> GetAll(GetAllInvestmentEclsInput input)
@@ -671,6 +674,25 @@ namespace TestDemo.Investment
             if (ecl.Status == EclStatusEnum.PreOverrideComplete || ecl.Status == EclStatusEnum.PostOverrideComplete || ecl.Status == EclStatusEnum.Completed || ecl.Status == EclStatusEnum.Closed)
             {
                 await _backgroundJobManager.EnqueueAsync<GenerateEclReportJob, GenerateReportJobArgs>(new GenerateReportJobArgs()
+                {
+                    eclId = input.Id,
+                    eclType = EclType.Investment,
+                    userIdentifier = AbpSession.ToUserIdentifier()
+                });
+            }
+            else
+            {
+                throw new UserFriendlyException(L("GenerateReportErrorEclNotRun"));
+            }
+        }
+
+        public async Task<FileDto> DownloadReport(EntityDto<Guid> input)
+        {
+            var ecl = await _investmentEclRepository.FirstOrDefaultAsync(input.Id);
+
+            if (ecl.Status == EclStatusEnum.PreOverrideComplete || ecl.Status == EclStatusEnum.PostOverrideComplete || ecl.Status == EclStatusEnum.Completed || ecl.Status == EclStatusEnum.Closed)
+            {
+                return _reportGenerator.DownloadExcelReport(new GenerateReportJobArgs()
                 {
                     eclId = input.Id,
                     eclType = EclType.Investment,

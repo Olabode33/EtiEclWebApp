@@ -404,6 +404,21 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
         }
     }
 
+    downloadReport(): void {
+        if (typeof this._eclServiceProxy.downloadReport === 'function') {
+            this.isLoading = true;
+            let dto = new EntityDtoOfGuid();
+            dto.id = this._eclId;
+            this._eclServiceProxy.downloadReport(dto)
+            .pipe(finalize(() => this.isLoading = false ))
+            .subscribe(result => {
+                this._fileDownloadService.downloadTempFile(result);
+            });
+        } else {
+            this.notify.error('Error: Function not available!');
+        }
+    }
+
     exportData(item: GetEclUploadForViewDto): void {
         switch (item.eclUpload.docType) {
             case UploadDocTypeEnum.LoanBook:
@@ -546,7 +561,6 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
         this._eclUploadServiceProxy.createOrEdit(upload).subscribe(result => {
             this.startLoanbookUpload(data, result);
             this.getEclUploadSummary();
-
         });
     }
 

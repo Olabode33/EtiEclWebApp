@@ -75,6 +75,7 @@ namespace TestDemo.Wholesale
         private readonly IEclDataPaymentScheduleExporter _paymentScheduleExporter;
         private readonly IEclEngineEmailer _emailer;
         private readonly IConfigurationRoot _appConfiguration;
+        private readonly IExcelReportGenerator _reportGenerator;
 
 
         public WholesaleEclsAppService(
@@ -102,6 +103,7 @@ namespace TestDemo.Wholesale
             IEclLoanbookExporter loanbookExporter,
             IEclEngineEmailer emailer,
             IHostingEnvironment env,
+                                        IExcelReportGenerator reportGenerator,
             IEclDataPaymentScheduleExporter paymentScheduleExporter
             )
         {
@@ -132,6 +134,7 @@ namespace TestDemo.Wholesale
             _paymentScheduleExporter = paymentScheduleExporter;
             _emailer = emailer;
             _appConfiguration = env.GetAppConfiguration();
+            _reportGenerator = reportGenerator;
         }
 
         public async Task<PagedResultDto<GetWholesaleEclForViewDto>> GetAll(GetAllWholesaleEclsInput input)
@@ -947,6 +950,25 @@ namespace TestDemo.Wholesale
             if (ecl.Status == EclStatusEnum.PreOverrideComplete || ecl.Status == EclStatusEnum.PostOverrideComplete || ecl.Status == EclStatusEnum.Completed || ecl.Status == EclStatusEnum.Closed)
             {
                 await _backgroundJobManager.EnqueueAsync<GenerateEclReportJob, GenerateReportJobArgs>(new GenerateReportJobArgs()
+                {
+                    eclId = input.Id,
+                    eclType = EclType.Wholesale,
+                    userIdentifier = AbpSession.ToUserIdentifier()
+                });
+            }
+            else
+            {
+                throw new UserFriendlyException(L("GenerateReportErrorEclNotRun"));
+            }
+        }
+
+        public async Task<FileDto> DownloadReport(EntityDto<Guid> input)
+        {
+            var ecl = await _wholesaleEclRepository.FirstOrDefaultAsync(input.Id);
+
+            if (ecl.Status == EclStatusEnum.PreOverrideComplete || ecl.Status == EclStatusEnum.PostOverrideComplete || ecl.Status == EclStatusEnum.Completed || ecl.Status == EclStatusEnum.Closed)
+            {
+                return _reportGenerator.DownloadExcelReport(new GenerateReportJobArgs()
                 {
                     eclId = input.Id,
                     eclType = EclType.Wholesale,
