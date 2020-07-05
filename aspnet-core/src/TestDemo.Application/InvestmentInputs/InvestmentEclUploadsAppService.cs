@@ -138,17 +138,16 @@ namespace TestDemo.InvestmentInputs
         {
             var eclUploadExist = await _investmentEclUploadRepository.FirstOrDefaultAsync(x => x.DocType == input.DocType && x.InvestmentEclId == input.EclId);
 
-            if (eclUploadExist == null)
+            if (eclUploadExist != null)
             {
-                var investmentEclUpload = ObjectMapper.Map<InvestmentEclUpload>(input);
+                await _assetBookRepository.HardDeleteAsync(x => x.InvestmentEclUploadId == eclUploadExist.Id);
+                await _investmentEclUploadRepository.DeleteAsync(eclUploadExist.Id);
+            }
 
-                var id = await _investmentEclUploadRepository.InsertAndGetIdAsync(investmentEclUpload);
-                return id;
-            }
-            else
-            {
-                throw new UserFriendlyException(L("UploadRecordExists"));
-            }
+            var investmentEclUpload = ObjectMapper.Map<InvestmentEclUpload>(input);
+
+            var id = await _investmentEclUploadRepository.InsertAndGetIdAsync(investmentEclUpload);
+            return id;
 
         }
 

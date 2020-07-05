@@ -143,24 +143,22 @@ namespace TestDemo.RetailInputs
         {
             var retailEclUploadExist = await _retailEclUploadRepository.FirstOrDefaultAsync(x => x.DocType == input.DocType && x.RetailEclId == input.EclId);
             
-            if (retailEclUploadExist == null)
+            if (retailEclUploadExist != null)
             {
-                var retailEclUpload = ObjectMapper.Map<RetailEclUpload>(input);
-
-
-                if (AbpSession.TenantId != null)
-                {
-                    retailEclUpload.TenantId = (int?)AbpSession.TenantId;
-                }
-
-
-                var id = await _retailEclUploadRepository.InsertAndGetIdAsync(retailEclUpload);
-                return id;
-            } 
-            else
-            {
-                throw new UserFriendlyException(L("UploadRecordExists"));
+                await _retailEclUploadRepository.DeleteAsync(retailEclUploadExist.Id);
             }
+
+            var retailEclUpload = ObjectMapper.Map<RetailEclUpload>(input);
+
+
+            if (AbpSession.TenantId != null)
+            {
+                retailEclUpload.TenantId = (int?)AbpSession.TenantId;
+            }
+
+
+            var id = await _retailEclUploadRepository.InsertAndGetIdAsync(retailEclUpload);
+            return id;
         }
 
 

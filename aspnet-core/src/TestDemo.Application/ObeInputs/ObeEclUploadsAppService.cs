@@ -143,17 +143,15 @@ namespace TestDemo.ObeInputs
         {
             var eclUploadExist = await _obeEclUploadRepository.FirstOrDefaultAsync(x => x.DocType == input.DocType && x.ObeEclId == input.EclId);
 
-            if (eclUploadExist == null)
+            if (eclUploadExist != null)
             {
-                var investmentEclUpload = ObjectMapper.Map<ObeEclUpload>(input);
+                await _obeEclUploadRepository.DeleteAsync(eclUploadExist.Id);
+            }
 
-                var id = await _obeEclUploadRepository.InsertAndGetIdAsync(investmentEclUpload);
-                return id;
-            }
-            else
-            {
-                throw new UserFriendlyException(L("UploadRecordExists"));
-            }
+            var investmentEclUpload = ObjectMapper.Map<ObeEclUpload>(input);
+
+            var id = await _obeEclUploadRepository.InsertAndGetIdAsync(investmentEclUpload);
+            return id;
         }
 
         protected virtual async Task Update(CreateOrEditObeEclUploadDto input)

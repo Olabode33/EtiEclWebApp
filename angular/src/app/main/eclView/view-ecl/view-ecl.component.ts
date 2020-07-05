@@ -552,16 +552,24 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
     }
 
     uploadLoanbook(data: { files: File }): void {
-        let upload = this.getUploadDto();
-        upload.docType = UploadDocTypeEnum.LoanBook;
-        upload.eclId = this._eclId;
-        upload.status = GeneralStatusEnum.Processing;
-        upload.uploadComment = '';
+        this.message.confirm(
+            this.l('ExistingDataWouldBeReplaced'),
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    let upload = this.getUploadDto();
+                    upload.docType = UploadDocTypeEnum.LoanBook;
+                    upload.eclId = this._eclId;
+                    upload.status = GeneralStatusEnum.Processing;
+                    upload.uploadComment = '';
 
-        this._eclUploadServiceProxy.createOrEdit(upload).subscribe(result => {
-            this.startLoanbookUpload(data, result);
-            this.getEclUploadSummary();
-        });
+                    this._eclUploadServiceProxy.createOrEdit(upload).subscribe(result => {
+                        this.startLoanbookUpload(data, result);
+                        this.getEclUploadSummary();
+                    });
+                }
+            }
+        );
     }
 
     startLoanbookUpload(data: { files: File }, uploadSummaryId: string): void {
@@ -587,16 +595,24 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
 
     //#region Playment Schedule Upload
     uploadPaymentSchedule(data: { files: File }): void {
-        let upload = this.getUploadDto();
-        upload.docType = UploadDocTypeEnum.PaymentSchedule;
-        upload.eclId = this._eclId;
-        upload.status = GeneralStatusEnum.Processing;
-        upload.uploadComment = '';
+        this.message.confirm(
+            this.l('ExistingDataWouldBeReplaced'),
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    let upload = this.getUploadDto();
+                    upload.docType = UploadDocTypeEnum.PaymentSchedule;
+                    upload.eclId = this._eclId;
+                    upload.status = GeneralStatusEnum.Processing;
+                    upload.uploadComment = '';
 
-        this._eclUploadServiceProxy.createOrEdit(upload).subscribe(result => {
-            this.startPaymentUpload(data, result);
-            this.getEclUploadSummary();
-        });
+                    this._eclUploadServiceProxy.createOrEdit(upload).subscribe(result => {
+                        this.startPaymentUpload(data, result);
+                        this.getEclUploadSummary();
+                    });
+                }
+            }
+        );
     }
 
     startPaymentUpload(data: { files: File }, uploadSummaryId: string): void {
@@ -622,16 +638,24 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
 
     //#region Assetbook Upload
     uploadAssetBook(data: { files: File }): void {
-        let upload = this.getUploadDto();
-        upload.docType = UploadDocTypeEnum.AssetBook;
-        upload.eclId = this._eclId;
-        upload.status = GeneralStatusEnum.Processing;
-        upload.uploadComment = '';
+        this.message.confirm(
+            this.l('ExistingDataWouldBeReplaced'),
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    let upload = this.getUploadDto();
+                    upload.docType = UploadDocTypeEnum.AssetBook;
+                    upload.eclId = this._eclId;
+                    upload.status = GeneralStatusEnum.Processing;
+                    upload.uploadComment = '';
 
-        this._eclUploadServiceProxy.createOrEdit(upload).subscribe(result => {
-            this.startAssetBookUpload(data, result);
-            this.getEclUploadSummary();
-        });
+                    this._eclUploadServiceProxy.createOrEdit(upload).subscribe(result => {
+                        this.startAssetBookUpload(data, result);
+                        this.getEclUploadSummary();
+                    });
+                }
+            }
+        );
     }
 
     startAssetBookUpload(data: { files: File }, uploadSummaryId: string): void {

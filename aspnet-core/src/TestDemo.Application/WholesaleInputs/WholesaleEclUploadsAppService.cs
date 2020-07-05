@@ -142,24 +142,22 @@ namespace TestDemo.WholesaleInputs
         {
             var eclUploadExist = await _wholesaleEclUploadRepository.FirstOrDefaultAsync(x => x.DocType == input.DocType && x.WholesaleEclId == input.EclId);
 
-            if (eclUploadExist == null)
+            if (eclUploadExist != null)
             {
-                var eclUpload = ObjectMapper.Map<WholesaleEclUpload>(input);
-
-
-                if (AbpSession.TenantId != null)
-                {
-                    eclUpload.TenantId = (int?)AbpSession.TenantId;
-                }
-
-
-                var id = await _wholesaleEclUploadRepository.InsertAndGetIdAsync(eclUpload);
-                return id;
+                await _wholesaleEclUploadRepository.DeleteAsync(eclUploadExist.Id);
             }
-            else
+
+            var eclUpload = ObjectMapper.Map<WholesaleEclUpload>(input);
+
+
+            if (AbpSession.TenantId != null)
             {
-                throw new UserFriendlyException(L("UploadRecordExists"));
+                eclUpload.TenantId = (int?)AbpSession.TenantId;
             }
+
+
+            var id = await _wholesaleEclUploadRepository.InsertAndGetIdAsync(eclUpload);
+            return id;
         }
 
         protected virtual async Task Update(CreateOrEditWholesaleEclUploadDto input)
