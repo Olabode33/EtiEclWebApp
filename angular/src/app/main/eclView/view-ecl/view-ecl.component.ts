@@ -80,7 +80,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
     fakeResultData: FakeResultData = new FakeResultData();
     showFakeTopExposure = false;
 
-    uploadRefreshInterval = 15000;
+    uploadRefreshInterval = 10000;
 
     constructor(
         injector: Injector,

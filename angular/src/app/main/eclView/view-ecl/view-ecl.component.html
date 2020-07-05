@@ -271,7 +271,7 @@
                                         <td class="align-middle" *ngIf="_eclFramework != frameworkEnum.Investments && item.eclUpload.status == statusEnum.Processing && item.eclUpload.fileUploaded">
                                             {{l('Validating')}}:
                                             <div class="progress" style="height: 10px;">
-                                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="height: 10px;">
+                                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%">
                                                     <!-- {{ (item.eclUpload.allJobs == 0 ? 0 : (item.eclUpload.completedJobs / item.eclUpload.allJobs)) | percent: '1.0-0'}} -->
                                                 </div>
                                             </div>
