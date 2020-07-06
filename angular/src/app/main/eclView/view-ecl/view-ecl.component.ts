@@ -795,6 +795,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
             case GeneralStatusEnum.Approved:
                 return 'success';
             case GeneralStatusEnum.Rejected:
+            case GeneralStatusEnum.Failed:
                 return 'danger';
             default:
                 return 'dark';

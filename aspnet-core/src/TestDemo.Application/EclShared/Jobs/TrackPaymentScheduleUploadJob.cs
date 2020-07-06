@@ -145,10 +145,7 @@ namespace TestDemo.EclShared.Importing
             var completedJobs = _uploadJobsTrackerRepository.Count(e => e.RegisterId == args.UploadSummaryId);
             if (allJobs <= completedJobs)
             {
-                AsyncHelper.RunSync(() => ExportInvalids(args));
-                UpdateSummaryTableToCompletedAsync(args);
-                SendEmailAlert(args);
-                _uploadJobsTrackerRepository.Delete(e => e.RegisterId == args.UploadSummaryId);
+                AsyncHelper.RunSync(() => ProcessResult(args));
             }
             else
             {
@@ -158,7 +155,7 @@ namespace TestDemo.EclShared.Importing
 
         }
 
-        private async Task ExportInvalids(ImportEclDataFromExcelJobArgs args)
+        private async Task ProcessResult(ImportEclDataFromExcelJobArgs args)
         {
             Guid? eclId = null;
             switch (args.Framework)
@@ -208,7 +205,17 @@ namespace TestDemo.EclShared.Importing
                     var file = _invalidPaymentScheduleExporter.ExportToFile(invalids);
                     await _appNotifier.SomeDataCouldntBeImported(args.User, file.FileToken, file.FileType, file.FileName);
                     SendInvalidEmailAlert(args, file);
+                    var baseUrl = _appConfiguration["App:ServerRootAddress"];
+                    var link = baseUrl + "file/DownloadTempFile?fileType=" + file.FileType + "&fileToken=" + file.FileToken + "&fileName=" + file.FileName;
+
                     DeleteExistingExceptions(args, (Guid)eclId);
+                    UpdateSummaryTableToFailed(args, link);
+                }
+                else
+                {
+                    UpdateSummaryTableToCompletedAsync(args);
+                    SendEmailAlert(args);
+                    _uploadJobsTrackerRepository.Delete(e => e.RegisterId == args.UploadSummaryId);
                 }
             }
         }
@@ -249,6 +256,49 @@ namespace TestDemo.EclShared.Importing
                     break;
             }
         }
+
+        [UnitOfWork]
+        private void UpdateSummaryTableToFailed(ImportEclDataFromExcelJobArgs args, string link)
+        {
+            switch (args.Framework)
+            {
+                case FrameworkEnum.Retail:
+                    var retailSummary = _retailUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (retailSummary != null)
+                    {
+                        retailSummary.FileUploaded = false;
+                        retailSummary.Status = GeneralStatusEnum.Failed;
+                        retailSummary.UploadComment = _localizationSource.GetString("CompletedWithErrorsCheckEmail") + " &nbsp;<a href='" + link + "'> Download</a>";
+                        _retailUploadSummaryRepository.Update(retailSummary);
+                    }
+                    break;
+
+                case FrameworkEnum.Wholesale:
+                    var wholesaleSummary = _wholesaleUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (wholesaleSummary != null)
+                    {
+                        wholesaleSummary.FileUploaded = false;
+                        wholesaleSummary.Status = GeneralStatusEnum.Failed;
+                        wholesaleSummary.UploadComment = _localizationSource.GetString("CompletedWithErrorsCheckEmail") + " &nbsp;<a href='" + link + "'> Download</a>"; 
+                        _wholesaleUploadSummaryRepository.Update(wholesaleSummary);
+                    }
+                    break;
+
+                case FrameworkEnum.OBE:
+                    var obeSummary = _obeUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (obeSummary != null)
+                    {
+                        obeSummary.FileUploaded = false;
+                        obeSummary.Status = GeneralStatusEnum.Failed;
+                        obeSummary.UploadComment = _localizationSource.GetString("CompletedWithErrorsCheckEmail") + " &nbsp;<a href='" + link + "'> Download</a>";
+                        _obeUploadSummaryRepository.Update(obeSummary);
+                    }
+                    break;
+            }
+            CurrentUnitOfWork.SaveChanges();
+        }
+
+
 
         [UnitOfWork]
         private void UpdateSummaryTableToProgress(ImportEclDataFromExcelJobArgs args, int completedJobs)

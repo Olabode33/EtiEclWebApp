@@ -177,7 +177,7 @@
                                                     #UploadLoanSnapshot
                                                     maxFileSize="100000000"
                                                     auto="auto"
-                                                    accept=".csv,.xls,.xlsb,.xlsx"
+                                                    accept=".xls,.xlsx"
                                                     (uploadHandler)="uploadLoanbook($event)"
                                                     (onError)="onUploadExcelError()"
                                                     chooseLabel="{{'RawDataLoanBook' | localize}}">
@@ -191,7 +191,7 @@
                                                     #UploadPaymentSchedule
                                                     maxFileSize="100000000"
                                                     auto="auto"
-                                                    accept=".csv,.xls,.xlsx"
+                                                    accept=".xls,.xlsx"
                                                     (uploadHandler)="uploadPaymentSchedule($event)"
                                                     (onError)="onUploadExcelError()"
                                                     chooseLabel="{{'RawDataPaymentSchedule' | localize}}">
@@ -205,7 +205,7 @@
                                                     #UploadAssetBook
                                                     maxFileSize="100000000"
                                                     auto="auto"
-                                                    accept=".csv,.xls,.xlsx"
+                                                    accept=".xls,.xlsx"
                                                     (uploadHandler)="uploadAssetBook($event)"
                                                     (onError)="onUploadExcelError()"
                                                     chooseLabel="{{'RawDataAssetBook' | localize}}">
@@ -289,6 +289,9 @@
                                                     <!-- {{ (item.eclUpload.allJobs == 0 ? 0 : (item.eclUpload.completedJobs / item.eclUpload.allJobs)) | percent: '1.0-0'}} -->
                                                 </div>
                                             </div>
+                                        </td>
+                                        <td class="align-middle" *ngIf="item.eclUpload.status == statusEnum.Failed || item.eclUpload.uploadComment !== ''">
+                                            <span [innerHTML]="item.eclUpload.uploadComment"></span>
                                         </td>
                                     </tr>
                                 </tbody>

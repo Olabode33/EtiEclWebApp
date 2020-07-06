@@ -114,6 +114,7 @@ namespace TestDemo.EclShared.Importing
             if (loanbooks == null || !loanbooks.Any())
             {
                 SendInvalidExcelNotification(args);
+                UpdateSummaryTableToFailed(args);
                 return;
             }
             //var validatedLoanbooks = ValidateLoanBook(args, loanbooks);
@@ -594,7 +595,7 @@ namespace TestDemo.EclShared.Importing
         }
 
         [UnitOfWork]
-        private void UpdateSummaryTableToFileUploaded(ImportEclDataFromExcelJobArgs args)
+        private void UpdateSummaryTableToFailed(ImportEclDataFromExcelJobArgs args)
         {
             switch (args.Framework)
             {
@@ -602,7 +603,9 @@ namespace TestDemo.EclShared.Importing
                     var retailSummary = _retailUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
                     if (retailSummary != null)
                     {
-                        retailSummary.FileUploaded = true;
+                        retailSummary.FileUploaded = false;
+                        retailSummary.Status = GeneralStatusEnum.Failed;
+                        retailSummary.UploadComment = _localizationSource.GetString("FileCantBeConvertedToLoanbookList");
                         _retailUploadSummaryRepository.Update(retailSummary);
                     }
                     break;
@@ -611,7 +614,9 @@ namespace TestDemo.EclShared.Importing
                     var wholesaleSummary = _wholesaleUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
                     if (wholesaleSummary != null)
                     {
-                        wholesaleSummary.FileUploaded = true;
+                        wholesaleSummary.FileUploaded = false;
+                        wholesaleSummary.Status = GeneralStatusEnum.Failed;
+                        wholesaleSummary.UploadComment = _localizationSource.GetString("FileCantBeConvertedToLoanbookList");
                         _wholesaleUploadSummaryRepository.Update(wholesaleSummary);
                     }
                     break;
@@ -620,7 +625,9 @@ namespace TestDemo.EclShared.Importing
                     var obeSummary = _obeUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
                     if (obeSummary != null)
                     {
-                        obeSummary.FileUploaded = true;
+                        obeSummary.FileUploaded = false;
+                        obeSummary.Status = GeneralStatusEnum.Failed;
+                        obeSummary.UploadComment = _localizationSource.GetString("FileCantBeConvertedToLoanbookList");
                         _obeUploadSummaryRepository.Update(obeSummary);
                     }
                     break;
