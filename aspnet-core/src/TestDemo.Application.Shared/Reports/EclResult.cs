@@ -14,6 +14,7 @@ namespace TestDemo.Reports
         public List<ReportBreakdown> ProductType { get; set; }
         public List<ReportBreakdown> SegmentAndStage { get; set; }
         public List<ReportBreakdown> TopExposureSummary { get; set; }
+        public List<ReportBreakdown> TopImpairmentSummary { get; set; }
     }
 
 

@@ -31,7 +31,6 @@ namespace TestDemo.EclShared.Importing
                         "Account_No",
                         "Contract_No",
                         "Snapshot_Date",
-                        "Period",
                         "Outstanding_Balance_Lcy",
                         "Debenture_OMV",
                         "Debenture_FSV",
@@ -52,6 +51,7 @@ namespace TestDemo.EclShared.Importing
                         "Vehicle_OMV",
                         "Vehicle_FSV",
                         "Guarantee_Value",
+                        "Period",
                         L("RefuseReason")
                         );
 
@@ -61,7 +61,6 @@ namespace TestDemo.EclShared.Importing
                         _ => _.Account_No,
                         _ => _.Contract_No,
                         _ => _.Snapshot_Date,
-                        _ => _.Period,
                         _ => _.Outstanding_Balance_Lcy,
                         _ => _.Debenture_OMV,
                         _ => _.Debenture_FSV,
@@ -82,6 +81,7 @@ namespace TestDemo.EclShared.Importing
                         _ => _.Vehicle_OMV,
                         _ => _.Vehicle_FSV,
                         _ => _.Guarantee_Value,
+                        _ => _.Period,
                         _ => _.Exception
                         );
 

@@ -75,6 +75,7 @@ namespace TestDemo.Retail
         private readonly IEclDataPaymentScheduleExporter _paymentScheduleExporter;
         private readonly IEclEngineEmailer _emailer;
         private readonly IConfigurationRoot _appConfiguration;
+        private readonly IExcelReportGenerator _reportGenerator;
 
         public RetailEclsAppService(IRepository<RetailEcl, Guid> retailEclRepository,
                                     IRepository<User, long> lookup_userRepository,
@@ -100,6 +101,7 @@ namespace TestDemo.Retail
                                     IEclLoanbookExporter loanbookExporter,
                                     IEclEngineEmailer emailer,
                                     IHostingEnvironment env,
+                                        IExcelReportGenerator reportGenerator,
                                     IEclDataPaymentScheduleExporter paymentScheduleExporter
                                     )
         {
@@ -130,6 +132,7 @@ namespace TestDemo.Retail
             _paymentScheduleExporter = paymentScheduleExporter;
             _emailer = emailer;
             _appConfiguration = env.GetAppConfiguration();
+            _reportGenerator = reportGenerator;
         }
 
         public async Task<PagedResultDto<GetRetailEclForViewDto>> GetAll(GetAllRetailEclsInput input)
@@ -957,6 +960,24 @@ namespace TestDemo.Retail
             }
         }
 
+        public async Task<FileDto> DownloadReport(EntityDto<Guid> input)
+        {
+            var ecl = await _retailEclRepository.FirstOrDefaultAsync(input.Id);
+
+            if (ecl.Status == EclStatusEnum.PreOverrideComplete || ecl.Status == EclStatusEnum.PostOverrideComplete || ecl.Status == EclStatusEnum.Completed || ecl.Status == EclStatusEnum.Closed)
+            {
+                return _reportGenerator.DownloadExcelReport(new GenerateReportJobArgs()
+                {
+                    eclId = input.Id,
+                    eclType = EclType.Retail,
+                    userIdentifier = AbpSession.ToUserIdentifier()
+                });
+            }
+            else
+            {
+                throw new UserFriendlyException(L("GenerateReportErrorEclNotRun"));
+            }
+        }
 
         [AbpAuthorize(AppPermissions.Pages_EclView_Close)]
         public async Task CloseEcl(EntityDto<Guid> input)

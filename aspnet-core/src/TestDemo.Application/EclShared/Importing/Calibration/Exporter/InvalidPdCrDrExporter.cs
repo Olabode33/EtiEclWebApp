@@ -31,13 +31,13 @@ namespace TestDemo.EclShared.Importing
                         "Account_No",
                         "Contract_No",
                         "Product_Type",
+                        "Current_Rating",
                         "Days_Past_Due",
                         "Classification",
                         "Outstanding_Balance_Lcy",
                         "Contract_Start_Date",
                         "Contract_End_Date",
                         "RAPP_Date",
-                        "Current_Rating",
                         L("RefuseReason")
                         );
 
@@ -47,13 +47,13 @@ namespace TestDemo.EclShared.Importing
                         _ => _.Account_No,
                         _ => _.Contract_No,
                         _ => _.Product_Type,
+                        _ => _.Current_Rating,
                         _ => _.Days_Past_Due,
                         _ => _.Classification,
                         _ => _.Outstanding_Balance_Lcy,
                         _ => _.Contract_Start_Date,
                         _ => _.Contract_End_Date,
                         _ => _.RAPP_Date,
-                        _ => _.Current_Rating,
                         _ => _.Exception
                         );
 

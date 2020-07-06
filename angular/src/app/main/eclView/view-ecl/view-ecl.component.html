@@ -36,10 +36,24 @@
                     <i class="fa fa-check-circle" style="font-size: 1.2rem !important;"></i>
                     {{l("Close")}}
                 </button>
-                <button (click)="generateReport()" class="btn btn-primary" *ngIf="eclDto.status == eclStatusEnum.Completed || eclDto.status == eclStatusEnum.PreOverrideComplete || eclDto.status == eclStatusEnum.PostOverrideComplete">
-                    <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
-                    {{l("Generate Report")}}
-                </button>
+                <div *ngIf="eclDto.status == eclStatusEnum.Completed || eclDto.status == eclStatusEnum.PreOverrideComplete || eclDto.status == eclStatusEnum.PostOverrideComplete"  
+                    class="btn-group" dropdown>
+                    <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
+                        {{l("GenerateReport")}}
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-excel-operations" *dropdownMenu>
+                        <a class="dropdown-item" (click)="downloadReport()"
+                            href="javascript:;">
+                            {{'DownloadToFile' | localize}}
+                        </a>
+                        <a class="dropdown-item" id="ExportUsersToExcelButton" (click)="generateReport()"
+                            href="javascript:;">
+                            {{'SendAsEmail' | localize}}
+                        </a>
+                    </div>
+                </div>
                 <button (click)="goBack()" class="btn btn-outline-danger">
                     <i class="fa fa-reply" style="font-size: 1.2rem !important;"></i>
                     {{l("GoBack")}}
@@ -271,8 +285,8 @@
                                         <td class="align-middle" *ngIf="_eclFramework != frameworkEnum.Investments && item.eclUpload.status == statusEnum.Processing && item.eclUpload.fileUploaded">
                                             {{l('Validating')}}:
                                             <div class="progress" style="height: 10px;">
-                                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" [style.width]="(item.eclUpload.allJobs == 0 ? 0 : item.eclUpload.completedJobs / item.eclUpload.allJobs) * 100 + '%'">
-                                                    {{ (item.eclUpload.allJobs == 0 ? 0 : (item.eclUpload.completedJobs / item.eclUpload.allJobs)) | percent: '1.0-0'}}
+                                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%">
+                                                    <!-- {{ (item.eclUpload.allJobs == 0 ? 0 : (item.eclUpload.completedJobs / item.eclUpload.allJobs)) | percent: '1.0-0'}} -->
                                                 </div>
                                             </div>
                                         </td>

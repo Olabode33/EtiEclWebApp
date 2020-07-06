@@ -10,6 +10,14 @@
                 {{"DashboardHeaderInfo" | localize}}
             </span>
         </div>
+        <div class="kt-subheader__toolbar">
+            <div class="kt-subheader__wrapper">
+                <a *ngIf="!loading" [href]="powerBiUrl" target="_blank" class="btn btn-outline-primary">
+                    <i class="fa fa-external-link-alt" style="font-size: 1.2rem !important;"></i>
+                    {{l("OpenNewTab")}}
+                </a>
+            </div>
+        </div>
     </div>
 
     <div class="kt-content kt-grid__item kt-grid__item--fluid">

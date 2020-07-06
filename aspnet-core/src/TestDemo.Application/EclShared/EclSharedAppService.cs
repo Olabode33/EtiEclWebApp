@@ -337,7 +337,9 @@ namespace TestDemo.EclShared
             var statusFilter = (EclStatusEnum)input.Status;
 
 
-            var allEcl = (from w in _wholesaleEclRepository.GetAll().WhereIf(userOrganizationUnitIds.Count() > 0,  x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
+            var allEcl = (from w in _wholesaleEclRepository.GetAll()
+                                                           .WhereIf(userOrganizationUnitIds.Count() > 0,  x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
+                                                           .WhereIf(userOrganizationUnitIds.Count() <= 0 && input.AffiliateId > -1, e => e.OrganizationUnitId == input.AffiliateId)
 
                           join ou in _organizationUnitRepository.GetAll() on w.OrganizationUnitId equals ou.Id
                           
@@ -354,7 +356,9 @@ namespace TestDemo.EclShared
                                   Id = w.Id
                               }
                           ).Union(
-                            from w in _retailEclRepository.GetAll().WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
+                            from w in _retailEclRepository.GetAll()
+                                                          .WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
+                                                          .WhereIf(userOrganizationUnitIds.Count() <= 0 && input.AffiliateId > -1, e => e.OrganizationUnitId == input.AffiliateId)
 
                             join ou in _organizationUnitRepository.GetAll() on w.OrganizationUnitId equals ou.Id
 
@@ -371,7 +375,9 @@ namespace TestDemo.EclShared
                                 Id = w.Id
                             }
                           ).Union(
-                            from w in _obeEclRepository.GetAll().WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
+                            from w in _obeEclRepository.GetAll()
+                                                       .WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
+                                                       .WhereIf(userOrganizationUnitIds.Count() <= 0 && input.AffiliateId > -1, e => e.OrganizationUnitId == input.AffiliateId)
 
                             join ou in _organizationUnitRepository.GetAll() on w.OrganizationUnitId equals ou.Id
 
@@ -388,7 +394,9 @@ namespace TestDemo.EclShared
                                 Id = w.Id
                             }
                           ).Union(
-                            from w in _investmentclRepository.GetAll().WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
+                            from w in _investmentclRepository.GetAll()
+                                                             .WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
+                                                             .WhereIf(userOrganizationUnitIds.Count() <= 0 && input.AffiliateId > -1, e => e.OrganizationUnitId == input.AffiliateId)
 
                             join ou in _organizationUnitRepository.GetAll() on w.OrganizationUnitId equals ou.Id
 
