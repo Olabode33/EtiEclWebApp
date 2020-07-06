@@ -20,6 +20,7 @@ import { LazyLoadEvent } from "primeng/components/common/lazyloadevent";
 import { ApplyOverrideModalComponent } from "../apply-override-modal/apply-override-modal.component";
 import * as XLSX from "xlsx";
 import { CSVConverter } from "./csv-converter";
+import { finalize } from "rxjs/operators";
 @Component({
     selector: "app-ecl-override",
     templateUrl: "./ecl-override.component.html",
@@ -248,6 +249,7 @@ export class EclOverrideComponent extends AppComponentBase {
                 } else {
                     this._serviceProxy
                         .uploadBulkOveride(finalList, this._eclId)
+                        .pipe(finalize(() => { this.primengTableHelper.isLoading = false;}))
                         .subscribe((result) => {
                             this.primengTableHelper.isLoading = false;
                             this.getEclOverrides();
@@ -300,6 +302,7 @@ export class EclOverrideComponent extends AppComponentBase {
                 } else {
                     this._serviceProxy
                         .uploadBulkOveride(finalList, this._eclId)
+                        .pipe(finalize(() => { this.primengTableHelper.isLoading = false;}))
                         .subscribe((result) => {
                             this.primengTableHelper.isLoading = false;
                             this.getEclOverrides();
