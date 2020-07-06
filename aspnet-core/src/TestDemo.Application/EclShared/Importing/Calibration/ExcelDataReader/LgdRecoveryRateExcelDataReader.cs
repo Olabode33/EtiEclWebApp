@@ -38,8 +38,8 @@ namespace TestDemo.EclShared.Importing
             {
                 data.Customer_No = GetRequiredValueFromRowOrNull(worksheet, row, 1, nameof(data.Customer_No), exceptionMessage);
                 data.Account_No = GetRequiredValueFromRowOrNull(worksheet, row, 2, nameof(data.Account_No), exceptionMessage);
-                data.Contract_No = GetRequiredValueFromRowOrNull(worksheet, row, 3, nameof(data.Contract_No), exceptionMessage);
-                data.Account_Name = GetRequiredValueFromRowOrNull(worksheet, row, 4, nameof(data.Account_Name), exceptionMessage);
+                data.Account_Name = GetRequiredValueFromRowOrNull(worksheet, row, 3, nameof(data.Account_Name), exceptionMessage);
+                data.Contract_No = GetRequiredValueFromRowOrNull(worksheet, row, 4, nameof(data.Contract_No), exceptionMessage);
                 data.Segment = GetRequiredValueFromRowOrNull(worksheet, row, 5, nameof(data.Segment), exceptionMessage);
                 data.Product_Type = GetRequiredValueFromRowOrNull(worksheet, row, 6, nameof(data.Product_Type), exceptionMessage);
                 data.Days_Past_Due = GetIntegerValueFromRowOrNull(worksheet, row, 7, nameof(data.Days_Past_Due), exceptionMessage);

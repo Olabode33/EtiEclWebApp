@@ -90,6 +90,7 @@ export class ApplyOverrideModalComponent extends AppComponentBase {
         this.dataSource = null;
         this.eclOverride = null;
         this.facility90dayCheck = null;
+        this.selectedAccount = null;
         this.modal.show();
     }
 
@@ -140,7 +141,7 @@ export class ApplyOverrideModalComponent extends AppComponentBase {
     }
 
     getRecordDetails(selectedAccountId?: string): void {
-        //console.log(this.selectedAccount);
+        //console.log(this.selectedAccount.value);
         //console.log(selectedAccountId);
         if (!selectedAccountId) {
             this.serviceProxy.getEclRecordDetails(this.selectedAccount.value).subscribe(result => {

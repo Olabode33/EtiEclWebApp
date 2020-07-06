@@ -28,7 +28,7 @@
                                     <label>&nbsp;</label>
                                     <div></div>
                                     <button (click)="getRecordDetails()" type="button" class="btn btn-success"
-                                        *ngIf="selectedAccount !== undefined">
+                                        *ngIf="selectedAccount !== undefined && selectedAccount.value !== undefined">
                                         <i class="fa fa-check" style="font-size: 1.2rem !important;"></i>
                                         {{l("Select")}}
                                     </button>
@@ -117,7 +117,7 @@
                     <div *ngIf="eclOverride !== null" class="row">
                         <div *ngIf="eclOverrideHasProp('stage')" class="col-lg-3">
                             <label class="control-label mt-3">{{l('Stage')}}</label>
-                            <select class="form-control custom-select" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)"
+                            <select class="form-control custom-select" [disabled]="reviewMode || viewOnlyMode || (eclOverride.id && eclOverride.status == generalStatusEnum.Submitted)"
                                 [(ngModel)]="eclOverride.stage" id="Stage" name="Stage">
                                 <option>-- {{l('Select')}} --</option>
                                 <option value="1">1</option>
@@ -127,76 +127,76 @@
                         </div>
                         <div *ngIf="eclOverrideHasProp('impairmentOverride')" class="col-lg-3">
                             <label class="control-label mt-3">{{l('Impairment')}}</label>
-                            <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" 
+                            <input type="number" class="form-control" [disabled]="reviewMode || viewOnlyMode || (eclOverride.id && eclOverride.status == generalStatusEnum.Submitted)" 
                             [(ngModel)]="eclOverride.impairmentOverride" id="ImpairmentOverride" name="ImpairmentOverride" min="0" />
                         </div>
                         <div *ngIf="eclOverrideHasProp('ttrYears')" class="col-lg-3">
                             <label class="control-label mt-3">{{l('TTR Years')}}</label>
-                            <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" 
+                            <input type="number" class="form-control" [disabled]="reviewMode || viewOnlyMode || (eclOverride.id && eclOverride.status == generalStatusEnum.Submitted)" 
                             [(ngModel)]="eclOverride.ttrYears" id="ttrYears" name="ttrYears" min="0" />
                         </div>
                         <div *ngIf="eclOverrideHasProp('overlaysPercentage')" class="col-lg-3">
                             <label class="control-label mt-3">{{l('Overlays Percentage')}}</label>
-                            <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" 
+                            <input type="number" class="form-control" [disabled]="reviewMode || viewOnlyMode || (eclOverride.id && eclOverride.status == generalStatusEnum.Submitted)" 
                             [(ngModel)]="eclOverride.overlaysPercentage" id="overlaysPercentage" name="overlaysPercentage" min="0" />
                         </div>
                         <div *ngIf="eclOverrideHasProp('fsV_Cash')" class="col-lg-3">
                             <label class="control-label mt-3">{{l('FSV Cash')}}</label>
-                            <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" 
+                            <input type="number" class="form-control" [disabled]="reviewMode || viewOnlyMode || (eclOverride.id && eclOverride.status == generalStatusEnum.Submitted)" 
                             [(ngModel)]="eclOverride.fsV_Cash" id="fsV_Cash" name="fsV_Cash" min="0" />
                         </div>
                         <div *ngIf="eclOverrideHasProp('fsV_CommercialProperty')" class="col-lg-3">
                             <label class="control-label mt-3">{{l('FSV Commercial Property')}}</label>
-                            <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" 
+                            <input type="number" class="form-control" [disabled]="reviewMode || viewOnlyMode || (eclOverride.id && eclOverride.status == generalStatusEnum.Submitted)" 
                             [(ngModel)]="eclOverride.fsV_CommercialProperty" id="fsV_CommercialProperty" name="fsV_CommercialProperty" min="0" />
                         </div>
                         <div *ngIf="eclOverrideHasProp('fsV_Debenture')" class="col-lg-3">
                             <label class="control-label mt-3">{{l('FSV Debenture')}}</label>
-                            <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" 
+                            <input type="number" class="form-control" [disabled]="reviewMode || viewOnlyMode || (eclOverride.id && eclOverride.status == generalStatusEnum.Submitted)" 
                             [(ngModel)]="eclOverride.fsV_Debenture" id="fsV_Debenture" name="fsV_Debenture" min="0" />
                         </div>
                         <div *ngIf="eclOverrideHasProp('fsV_Inventory')" class="col-lg-3">
                             <label class="control-label mt-3">{{l('FSV Inventory')}}</label>
-                            <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" 
+                            <input type="number" class="form-control" [disabled]="reviewMode || viewOnlyMode || (eclOverride.id && eclOverride.status == generalStatusEnum.Submitted)" 
                             [(ngModel)]="eclOverride.fsV_Inventory" id="fsV_Inventory" name="fsV_Inventory" min="0" />
                         </div>
                         <div *ngIf="eclOverrideHasProp('fsV_PlantAndEquipment')" class="col-lg-3">
                             <label class="control-label mt-3">{{l('FSV Plant & Equipment')}}</label>
-                            <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" 
+                            <input type="number" class="form-control" [disabled]="reviewMode || viewOnlyMode || (eclOverride.id && eclOverride.status == generalStatusEnum.Submitted)" 
                             [(ngModel)]="eclOverride.fsV_PlantAndEquipment" id="fsV_PlantAndEquipment" name="fsV_PlantAndEquipment" min="0" />
                         </div>
                         <div *ngIf="eclOverrideHasProp('fsV_Receivables')" class="col-lg-3">
                             <label class="control-label mt-3">{{l('FSV Receivables')}}</label>
-                            <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" 
+                            <input type="number" class="form-control" [disabled]="reviewMode || viewOnlyMode || (eclOverride.id && eclOverride.status == generalStatusEnum.Submitted)" 
                             [(ngModel)]="eclOverride.fsV_Receivables" id="fsV_Receivables" name="fsV_Receivables" min="0" />
                         </div>
                         <div *ngIf="eclOverrideHasProp('fsV_ResidentialProperty')" class="col-lg-3">
                             <label class="control-label mt-3">{{l('FSV Residential Property')}}</label>
-                            <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" 
+                            <input type="number" class="form-control" [disabled]="reviewMode || viewOnlyMode || (eclOverride.id && eclOverride.status == generalStatusEnum.Submitted)" 
                             [(ngModel)]="eclOverride.fsV_ResidentialProperty" id="fsV_ResidentialProperty" name="fsV_ResidentialProperty" min="0" />
                         </div>
                         <div *ngIf="eclOverrideHasProp('fsV_Shares')" class="col-lg-3">
                             <label class="control-label mt-3">{{l('FSV Shares')}}</label>
-                            <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" 
+                            <input type="number" class="form-control" [disabled]="reviewMode || viewOnlyMode || (eclOverride.id && eclOverride.status == generalStatusEnum.Submitted)" 
                             [(ngModel)]="eclOverride.fsV_Shares" id="fsV_Shares" name="fsV_Shares" min="0" />
                         </div>
                         <div *ngIf="eclOverrideHasProp('fsV_Vehicle')" class="col-lg-3">
                             <label class="control-label mt-3">{{l('FSV Vehicle')}}</label>
-                            <input type="number" class="form-control" [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" 
+                            <input type="number" class="form-control" [disabled]="reviewMode || viewOnlyMode || (eclOverride.id && eclOverride.status == generalStatusEnum.Submitted)" 
                             [(ngModel)]="eclOverride.fsV_Vehicle" id="fsV_Vehicle" name="fsV_Vehicle" min="0" />
                         </div>
                         <div *ngIf="eclOverrideHasProp('overrideType')" class="col-md-12">  
                             <label class="control-label mt-3">{{l('OverrideType')}}</label>                              
                             <p *ngIf="overrideTypes.length <= 0">{{l('NoOverrideTypeDefined')}}</p>
                             <select *ngIf="overrideTypes.length > 0" class="form-control custom-select" name="OverrideType" id="IsApprovedFilterSelect" [(ngModel)]="eclOverride.overrideType"
-                                [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)">
+                                [disabled]="reviewMode || viewOnlyMode || (eclOverride.id && eclOverride.status == generalStatusEnum.Submitted)">
                                 <option *ngFor="let item of overrideTypes" [value]="item.name">{{item.name}}</option>
                             </select>
                         </div>
                         <div *ngIf="eclOverrideHasProp('overrideComment')" class="col-md-12">
                             <label class="control-label mt-3">{{l('Comment')}}</label>
                             <textarea autoFocus [(ngModel)]="eclOverride.overrideComment" rows="3"
-                                [disabled]="reviewMode || (eclOverride.id && eclOverride.status != generalStatusEnum.Submitted)" name="OverrideComment" class="form-control"
+                                [disabled]="reviewMode || viewOnlyMode || (eclOverride.id && eclOverride.status == generalStatusEnum.Submitted)" name="OverrideComment" class="form-control"
                                 placeholder="{{'OverrideComment' | localize}}"></textarea>
                         </div>
                     </div>
