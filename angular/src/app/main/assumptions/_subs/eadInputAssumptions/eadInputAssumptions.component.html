@@ -93,6 +93,14 @@
         </div>
         <div id="collapse2" class="collapse" [ngClass]="{show: accordionList[1].isActive}">
             <div class="card-body">
+                <div class="form-group kt-form__group row">
+                    <div *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')" class="col-lg-4 pull-right">
+                        <button type="button" (click)="addAssumption(eadAssumptionGroupEnum.VariableInterestRateProjections, eadAssumptionGroupEnum[eadAssumptionGroupEnum.VariableInterestRateProjections])"
+                            class="btn btn-outline-success">
+                            <i class="fa fa-plus"></i> {{"Add" | localize}}
+                        </button>
+                    </div>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
@@ -132,6 +140,14 @@
         </div>
         <div id="collapse3" class="collapse" [ngClass]="{show: accordionList[2].isActive}">
             <div class="card-body">
+                <div class="form-group kt-form__group row">
+                    <div *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')" class="col-lg-4 pull-right">
+                        <button type="button" (click)="addAssumption(eadAssumptionGroupEnum.ExchangeRateProjections, eadAssumptionGroupEnum[eadAssumptionGroupEnum.ExchangeRateProjections])"
+                            class="btn btn-outline-success">
+                            <i class="fa fa-plus"></i> {{"Add" | localize}}
+                        </button>
+                    </div>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
@@ -164,3 +180,4 @@
 <!--end::Accordion-->
 </div>
 <app-edit-assumption-modal #editAssumptionModal></app-edit-assumption-modal>
+<app-add-ead-assumption-modal #addAssumptionModal></app-add-ead-assumption-modal>

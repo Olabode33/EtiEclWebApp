@@ -64,7 +64,7 @@ export class EditAssumptionModalComponent extends AppComponentBase {
         this.affiliateName = options.affiliateName;
         this.selectedAssumption = options.assumption;
         this.assumptionGroup = options.assumptionGroup;
-        console.log(options);
+        //console.log(options);
     }
 
     show(): void {

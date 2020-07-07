@@ -101,6 +101,7 @@ import { EditStatisticsResultModalComponent } from './calibration/calibrateMacro
 import { EditPrincipalSummaryResultModalComponent } from './calibration/calibrateMacroAnalysis/edit-principalSummary-result-modal.component';
 import { EditIndexResultModalComponent } from './calibration/calibrateMacroAnalysis/edit-index-result-modal.component';
 import { EditPrincipalComponentResultModalComponent } from './calibration/calibrateMacroAnalysis/edit-principalComponent-result-modal.component';
+import { AddEadAssumptionModalComponent } from './assumptions/_subs/add-ead-assumption-modal/add-ead-assumption-modal.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -127,8 +128,9 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
-		OverrideTypesComponent,
-		CreateOrEditOverrideTypeModalComponent,
+        AddEadAssumptionModalComponent,
+        OverrideTypesComponent,
+        CreateOrEditOverrideTypeModalComponent,
         LoanbookReaderComponent,
         EditEclReportDateComponent,
         MacroAnalysisComponent,

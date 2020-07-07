@@ -1,7 +1,8 @@
 import { Component, OnInit, Injector, ViewChild } from '@angular/core';
-import { DataTypeEnum, EadInputAssumptionDto, EadInputAssumptionGroupEnum, FrameworkEnum, EadInputAssumptionsServiceProxy, AssumptionTypeEnum } from '@shared/service-proxies/service-proxies';
+import { DataTypeEnum, EadInputAssumptionDto, EadInputAssumptionGroupEnum, FrameworkEnum, EadInputAssumptionsServiceProxy, AssumptionTypeEnum, CreateOrEditEadInputAssumptionDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { EditAssumptionModalComponent } from '../edit-assumption-modal/edit-assumption-modal.component';
+import { AddEadAssumptionModalComponent } from '../add-ead-assumption-modal/add-ead-assumption-modal.component';
 
 @Component({
   selector: 'app-eadInputAssumptions',
@@ -11,6 +12,7 @@ import { EditAssumptionModalComponent } from '../edit-assumption-modal/edit-assu
 export class EadInputAssumptionsComponent extends AppComponentBase {
 
     @ViewChild('editAssumptionModal', {static: true}) editAssumptionModal: EditAssumptionModalComponent;
+    @ViewChild('addAssumptionModal', {static: true}) addAssumptionModal: AddEadAssumptionModalComponent;
 
     displayForm = false;
     viewOnly = true;
@@ -85,6 +87,29 @@ export class EadInputAssumptionsComponent extends AppComponentBase {
             assumption: AssumptionTypeEnum.EadInputAssumption
         });
         this.editAssumptionModal.show();
+    }
+
+    addAssumption(eadGroup: EadInputAssumptionGroupEnum, groupKey: string): void {
+        let dto = new CreateOrEditEadInputAssumptionDto();
+
+        let ead = this.eadInputAssumptions.filter(x => x.assumptionGroup === eadGroup);
+
+        dto.framework = this.affiliateFramework;
+        dto.eadGroup = eadGroup;
+        dto.dataType = ead[0].dataType;
+        dto.organizationUnitId = ead[0].organizationUnitId;
+        dto.inputName = '';
+        dto.value = '';
+
+        this.addAssumptionModal.configure({
+            framework: this.affiliateFramework,
+            affiliateName: this.affiliateName,
+            dataSource: dto,
+            serviceProxy: this._eadInputServiceProxy,
+            assumptionGroup: this.l(groupKey),
+            assumption: AssumptionTypeEnum.EadInputAssumption
+        });
+        this.addAssumptionModal.show();
     }
 
 }

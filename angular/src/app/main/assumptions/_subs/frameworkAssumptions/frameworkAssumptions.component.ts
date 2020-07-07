@@ -65,7 +65,7 @@ export class FrameworkAssumptionsComponent extends AppComponentBase {
 
     extractGeneralAssumptionGroups(): void {
         //Extract general assumption to groups
-        console.log(this.frameworkAssumptions);
+        //console.log(this.frameworkAssumptions);
         this.scenarioAssumptionGroup = this.frameworkAssumptions.filter(x => x.assumptionGroup === AssumptionGroupEnum.ScenarioInputs);
         this.absoluteCreditQualityAssumptionGroup = this.frameworkAssumptions.filter(x => x.assumptionGroup === AssumptionGroupEnum.AbsoluteCreditQuality);
         this.relativeCreditQualityAssumptionGroup = this.frameworkAssumptions.filter(x => x.assumptionGroup === AssumptionGroupEnum.RelativeCreditQuality);

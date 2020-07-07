@@ -16,6 +16,7 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace TestDemo.EclShared
 {
@@ -85,7 +86,8 @@ namespace TestDemo.EclShared
 
         protected virtual async Task Create(CreateOrEditEadInputAssumptionDto input)
         {
-            var eadInputAssumption = ObjectMapper.Map<EadInputAssumption>(input);
+            //var eadInputAssumption = ObjectMapper.Map<EadInputAssumption>(input);
+            EadInputAssumptionGroupEnum eadgroup = (EadInputAssumptionGroupEnum)input.EadGroup;
 
 
             ////if (AbpSession.TenantId != null)
@@ -93,8 +95,22 @@ namespace TestDemo.EclShared
             ////	eadInputAssumption.TenantId = (int?) AbpSession.TenantId;
             ////}
 
-
-            await _eadInputAssumptionRepository.InsertAsync(eadInputAssumption);
+            await _eadInputAssumptionRepository.InsertAsync(new EadInputAssumption
+            {
+                CanAffiliateEdit = false,
+                CreatorUserId = AbpSession.UserId,
+                IsComputed = false,
+                LastModifierUserId = AbpSession.UserId,
+                RequiresGroupApproval = false,
+                Status = GeneralStatusEnum.Submitted,
+                EadGroup = input.EadGroup,
+                Framework = input.Framework,
+                InputName = input.InputName,
+                Datatype = input.DataType,
+                Key = eadgroup.ToString() + Regex.Replace(input.InputName, @"\s+", ""),
+                OrganizationUnitId = input.OrganizationUnitId,
+                Value = input.Value
+            }) ;
         }
 
         protected virtual async Task Update(CreateOrEditEadInputAssumptionDto input)
@@ -103,7 +119,9 @@ namespace TestDemo.EclShared
 
             await SumbitForApproval(input, eadInputAssumption);
 
-            ObjectMapper.Map(input, eadInputAssumption);
+            //ObjectMapper.Map(input, eadInputAssumption);
+            eadInputAssumption.Value = input.Value;
+            await _eadInputAssumptionRepository.UpdateAsync(eadInputAssumption);
         }
 
         private async Task SumbitForApproval(CreateOrEditEadInputAssumptionDto input, EadInputAssumption assumption)
