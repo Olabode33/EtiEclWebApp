@@ -31,7 +31,7 @@ namespace TestDemo.Authorization.Roles
 
         public async Task<ListResultDto<RoleListDto>> GetRoles(GetRolesInput input)
         {
-            var query = _roleManager.Roles;
+            var query = _roleManager.Roles.Where(r => r.TenantId == 1); //TODO: Temp fix for role error
 
             if (!string.IsNullOrEmpty(input.Permission))
             {

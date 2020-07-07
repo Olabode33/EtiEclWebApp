@@ -128,6 +128,7 @@ namespace TestDemo.Authorization.Users
         {
             //Getting all available roles
             var userRoleDtos = await _roleManager.Roles
+                .Where(r => r.TenantId == 1) //TODO: Temp fix for user roles
                 .OrderBy(r => r.DisplayName)
                 .Select(r => new UserRoleDto
                 {
@@ -352,14 +353,14 @@ namespace TestDemo.Authorization.Users
             /* This method is optimized to fill role names to given list. */
 
             var userRoles = await _userRoleRepository.GetAll()
-                .Where(userRole => userListDtos.Any(user => user.Id == userRole.UserId))
+                .Where(userRole => userListDtos.Any(user => user.Id == userRole.UserId) && userRole.TenantId == 1) //TODO: Temp fix for user role error
                 .Select(userRole => userRole).ToListAsync();
 
             var distinctRoleIds = userRoles.Select(userRole => userRole.RoleId).Distinct();
 
             foreach (var user in userListDtos)
             {
-                var rolesOfUser = userRoles.Where(userRole => userRole.UserId == user.Id).ToList();
+                var rolesOfUser = userRoles.Where(userRole => userRole.UserId == user.Id && userRole.TenantId == 1).ToList(); //TODO: Temp fix for user role error
                 user.Roles = ObjectMapper.Map<List<UserListRoleDto>>(rolesOfUser);
             }
 
@@ -389,7 +390,7 @@ namespace TestDemo.Authorization.Users
 
         private IQueryable<User> GetUsersFilteredQuery(IGetUsersInput input)
         {
-            var query = UserManager.Users
+            var query = UserManager.Users.Where(e => e.TenantId == 1) //TODO: Temp fix for user role error
                 .WhereIf(input.Role.HasValue, u => u.Roles.Any(r => r.RoleId == input.Role.Value))
                 .WhereIf(input.OnlyLockedUsers, u => u.LockoutEndDateUtc.HasValue && u.LockoutEndDateUtc.Value > DateTime.UtcNow)
                 .WhereIf(
@@ -420,6 +421,7 @@ namespace TestDemo.Authorization.Users
                         where (up != null && up.IsGranted) ||
                               (up == null && rp != null && rp.IsGranted) ||
                               (up == null && rp == null && staticRoleNames.Contains(urr.Name))
+
                         group user by user
                     into userGrouped
                         select userGrouped.Key;
