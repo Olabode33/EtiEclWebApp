@@ -323,10 +323,10 @@ namespace TestDemo.Calibration
 
         public virtual async Task SubmitForApproval(EntityDto<Guid> input)
         {
-            var validation = await ValidateForSubmission(input.Id);
+            var calibration = await _calibrationRepository.FirstOrDefaultAsync((Guid)input.Id);
+            var validation = await ValidateForSubmission(input.Id, calibration.OrganizationUnitId);
             if (validation.Status)
             {
-                var calibration = await _calibrationRepository.FirstOrDefaultAsync((Guid)input.Id);
                 calibration.Status = CalibrationStatusEnum.Submitted;
                 ObjectMapper.Map(calibration, calibration);
                 await SendSubmittedEmail(input.Id);
@@ -466,12 +466,13 @@ namespace TestDemo.Calibration
         }
 
 
-        protected virtual async Task<ValidationMessageDto> ValidateForSubmission(Guid calibrationId)
+        protected virtual async Task<ValidationMessageDto> ValidateForSubmission(Guid calibrationId, long affiliateId)
         {
             ValidationMessageDto output = new ValidationMessageDto();
 
             var uploads = await _calibrationInputRepository.GetAllListAsync(x => x.CalibrationId == calibrationId);
-            if (uploads.Count > 0)
+            var historic = await _calibrationHistoryRepository.GetAllListAsync(x => x.AffiliateId == affiliateId);
+            if (uploads.Count > 0 || historic.Count > 0)
             {
                 var calibration = await _calibrationRepository.FirstOrDefaultAsync(calibrationId);
                 var notCompleted = calibration.Status == CalibrationStatusEnum.Uploading;

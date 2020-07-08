@@ -7,16 +7,20 @@ using System.Text;
 using TestDemo.DataExporting.Excel.EpPlus;
 using TestDemo.EclShared.Importing.Calibration.Dto;
 using TestDemo.EclShared.Importing.Dto;
+using TestDemo.EclShared.Importing.Utils;
 
 namespace TestDemo.EclShared.Importing
 {
     public class EadCcfSummaryExcelDataReader : EpPlusExcelImporterBase<ImportCalibrationCcfSummaryDto>, IEadCcfSummaryExcelDataReader
     {
         private readonly ILocalizationSource _localizationSource;
+        private readonly IValidationUtil _validator;
 
-        public EadCcfSummaryExcelDataReader(ILocalizationManager localizationManager)
+        public EadCcfSummaryExcelDataReader(ILocalizationManager localizationManager,
+            IValidationUtil validator)
         {
             _localizationSource = localizationManager.GetSource(TestDemoConsts.LocalizationSourceName);
+            _validator = validator;
         }
 
         public List<ImportCalibrationCcfSummaryDto> GetImportCcfSummaryFromExcel(byte[] fileBytes)
@@ -36,20 +40,25 @@ namespace TestDemo.EclShared.Importing
 
             try
             {
-                data.Customer_No = GetRequiredValueFromRowOrNull(worksheet, row, 1, nameof(data.Customer_No), exceptionMessage);
-                data.Account_No = GetRequiredValueFromRowOrNull(worksheet, row, 2, nameof(data.Account_No), exceptionMessage);
-                data.Settlement_Account = GetRequiredValueFromRowOrNull(worksheet, row, 3, nameof(data.Settlement_Account), exceptionMessage);
-                data.Product_Type = GetRequiredValueFromRowOrNull(worksheet, row, 4, nameof(data.Product_Type), exceptionMessage);
-                data.Snapshot_Date = GetIntegerValueFromRowOrNull(worksheet, row, 5, nameof(data.Snapshot_Date), exceptionMessage);
-                data.Contract_Start_Date = GetDateTimeValueFromRowOrNull(worksheet, row, 6, nameof(data.Contract_Start_Date), exceptionMessage);
-                data.Contract_End_Date = GetDateTimeValueFromRowOrNull(worksheet, row, 7, nameof(data.Contract_End_Date), exceptionMessage);
-                data.Limit = GetIntegerValueFromRowOrNull(worksheet, row, 8, nameof(data.Limit), exceptionMessage);
-                data.Outstanding_Balance = GetDoubleValueFromRowOrNull(worksheet, row, 9, nameof(data.Outstanding_Balance), exceptionMessage);
-                data.Classification = GetRequiredValueFromRowOrNull(worksheet, row, 10, nameof(data.Classification), exceptionMessage);
+                data.Customer_No = _validator.GetTextValueFromRowOrNull(worksheet, row, 1, nameof(data.Customer_No), exceptionMessage);
+                data.Account_No = _validator.GetTextValueFromRowOrNull(worksheet, row, 2, nameof(data.Account_No), exceptionMessage);
+                data.Settlement_Account = _validator.GetTextValueFromRowOrNull(worksheet, row, 3, nameof(data.Settlement_Account), exceptionMessage);
+                data.Product_Type = _validator.GetTextValueFromRowOrNull(worksheet, row, 4, nameof(data.Product_Type), exceptionMessage);
+                data.Snapshot_Date = _validator.GetIntegerValueFromRowOrNull(worksheet, row, 5, nameof(data.Snapshot_Date), exceptionMessage);
+                data.Contract_Start_Date = _validator.GetDateTimeValueFromRowOrNull(worksheet, row, 6, nameof(data.Contract_Start_Date), exceptionMessage);
+                data.Contract_End_Date = _validator.GetDateTimeValueFromRowOrNull(worksheet, row, 7, nameof(data.Contract_End_Date), exceptionMessage);
+                data.Limit = _validator.GetDoubleValueFromRowOrNull(worksheet, row, 8, nameof(data.Limit), exceptionMessage);
+                data.Outstanding_Balance = _validator.GetDoubleValueFromRowOrNull(worksheet, row, 9, nameof(data.Outstanding_Balance), exceptionMessage);
+                data.Classification = _validator.GetTextValueFromRowOrNull(worksheet, row, 10, nameof(data.Classification), exceptionMessage);
             }
             catch (Exception exception)
             {
                 data.Exception = exception.Message;
+            }
+
+            if (exceptionMessage.Length > 0)
+            {
+                data.Exception = exceptionMessage.ToString();
             }
 
             return data;

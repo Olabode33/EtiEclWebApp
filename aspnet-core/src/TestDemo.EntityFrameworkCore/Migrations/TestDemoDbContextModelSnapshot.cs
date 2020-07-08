@@ -2694,9 +2694,13 @@ namespace TestDemo.Migrations
 
                     b.Property<int>("AllJobs");
 
+                    b.Property<string>("Comment");
+
                     b.Property<int>("CompletedJobs");
 
                     b.Property<Guid>("RegisterId");
+
+                    b.Property<int>("Status");
 
                     b.HasKey("Id");
 
@@ -2908,6 +2912,27 @@ namespace TestDemo.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TrackFacilityStage");
+                });
+
+            modelBuilder.Entity("TestDemo.EclLibrary.Workers.Trackers.TrackMacroUploadSummary", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AllJobs");
+
+                    b.Property<string>("Comment");
+
+                    b.Property<int>("CompletedJobs");
+
+                    b.Property<int>("RegisterId");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TrackMacroUploadSummary");
                 });
 
             modelBuilder.Entity("TestDemo.EclLibrary.Workers.Trackers.TrackRunningGuidRegister", b =>

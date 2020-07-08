@@ -21,6 +21,7 @@ using TestDemo.CalibrationInput;
 using TestDemo.Common;
 using TestDemo.Configuration;
 using TestDemo.Dto;
+using TestDemo.EclLibrary.Workers.Trackers;
 using TestDemo.EclShared.Dtos;
 using TestDemo.EclShared.Emailer;
 using TestDemo.EclShared.Importing.Calibration;
@@ -50,6 +51,7 @@ namespace TestDemo.EclShared.Importing
         private readonly IRepository<User, long> _userRepository;
         private readonly IRepository<OrganizationUnit, long> _ouRepository;
         private readonly IEclCustomRepository _customRepository;
+        private readonly IRepository<TrackCalibrationUploadSummary> _uploadSummaryRepository;
 
         public ImportCalibrationLgdHaircutFromExcelJob(
             ILgdHaircutExcelDataReader lgdHaircutExcelDataReader,
@@ -64,6 +66,7 @@ namespace TestDemo.EclShared.Importing
             IRepository<User, long> userRepository,
             IRepository<OrganizationUnit, long> ouRepository,
             IEclCustomRepository customRepository,
+            IRepository<TrackCalibrationUploadSummary> uploadSummaryRepository,
             IObjectMapper objectMapper)
         {
             _lgdHaircutExcelDataReader = lgdHaircutExcelDataReader;
@@ -79,11 +82,14 @@ namespace TestDemo.EclShared.Importing
             _userRepository = userRepository;
             _ouRepository = ouRepository;
             _customRepository = customRepository;
+            _uploadSummaryRepository = uploadSummaryRepository;
         }
 
         [UnitOfWork]
         public override void Execute(ImportCalibrationDataFromExcelJobArgs args)
         {
+            AddToUploadSummaryTable(args);
+
             var ccfSummary = GetHaircutListFromExcelOrNull(args);
             if (ccfSummary == null || !ccfSummary.Any())
             {
@@ -182,6 +188,10 @@ namespace TestDemo.EclShared.Importing
                 var file = _invalidExporter.ExportToFile(invalids);
                 await _appNotifier.SomeDataCouldntBeImported(args.User, file.FileToken, file.FileType, file.FileName);
                 SendInvalidEmailAlert(args, file);
+
+                var baseUrl = _appConfiguration["App:ServerRootAddress"];
+                var link = baseUrl + "file/DownloadTempFile?fileType=" + file.FileType + "&fileToken=" + file.FileToken + "&fileName=" + file.FileName;
+                UpdateUploadSummaryTable(args, GeneralStatusEnum.Failed, _localizationSource.GetString("CompletedWithErrorsCheckEmail") + " &nbsp;<a href='" + link + "'> Download</a>");
             }
             else
             {
@@ -190,6 +200,7 @@ namespace TestDemo.EclShared.Importing
                     _localizationSource.GetString("AllCalibrationCcfSummarySuccessfullyImportedFromExcel"),
                     Abp.Notifications.NotificationSeverity.Success);
                 SendEmailAlert(args);
+                UpdateUploadSummaryTable(args, GeneralStatusEnum.Completed, "");
             }
         }
 
@@ -199,6 +210,7 @@ namespace TestDemo.EclShared.Importing
                 args.User,
                 _localizationSource.GetString("FileCantBeConvertedToCalibrationLgdHaircutList"),
                 Abp.Notifications.NotificationSeverity.Warn));
+            UpdateUploadSummaryTable(args, GeneralStatusEnum.Failed, _localizationSource.GetString("FileCantBeConvertedToCalibrationLgdHaircutList"));
         }
 
         [UnitOfWork]
@@ -208,6 +220,44 @@ namespace TestDemo.EclShared.Importing
 
             //_haircutRepository.Delete(x => x.CalibrationId == args.CalibrationId);
             //CurrentUnitOfWork.SaveChanges();
+        }
+
+        private void AddToUploadSummaryTable(ImportCalibrationDataFromExcelJobArgs args)
+        {
+            var uploadSummary = _uploadSummaryRepository.FirstOrDefault(e => e.RegisterId == args.CalibrationId);
+            if (uploadSummary == null)
+            {
+                _uploadSummaryRepository.Insert(new TrackCalibrationUploadSummary
+                {
+                    RegisterId = args.CalibrationId,
+                    AllJobs = 1,
+                    CompletedJobs = 0,
+                    Status = GeneralStatusEnum.Processing
+                });
+            }
+            else
+            {
+                uploadSummary.RegisterId = args.CalibrationId;
+                uploadSummary.AllJobs = 1;
+                uploadSummary.CompletedJobs = 0;
+                uploadSummary.Status = GeneralStatusEnum.Processing;
+                _uploadSummaryRepository.Update(uploadSummary);
+            }
+            CurrentUnitOfWork.SaveChanges();
+        }
+
+        private void UpdateUploadSummaryTable(ImportCalibrationDataFromExcelJobArgs args, GeneralStatusEnum status, string comment)
+        {
+            var uploadSummary = _uploadSummaryRepository.FirstOrDefault(e => e.RegisterId == args.CalibrationId);
+            if (uploadSummary != null)
+            {
+                uploadSummary.RegisterId = args.CalibrationId;
+                uploadSummary.CompletedJobs = uploadSummary.AllJobs;
+                uploadSummary.Status = status;
+                uploadSummary.Comment = status == GeneralStatusEnum.Failed ? comment : "";
+                _uploadSummaryRepository.Update(uploadSummary);
+            }
+            CurrentUnitOfWork.SaveChanges();
         }
 
         [UnitOfWork]

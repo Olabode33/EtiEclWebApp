@@ -53,6 +53,7 @@ namespace TestDemo.EntityFrameworkCore
         public virtual DbSet<TrackEclDataPaymentScheduleException> TrackEclDataPaymentScheduleException { get; set; }
         public virtual DbSet<TrackCalibrationBehaviouralTermException> TrackCalibrationBehaviouralTermException { get; set; }
         public virtual DbSet<TrackCalibrationPdCrDrException> TrackCalibrationPdCrDrException { get; set; }
+        public virtual DbSet<TrackMacroUploadSummary> TrackMacroUploadSummary { get; set; }
         public virtual DbSet<TrackCalibrationUploadSummary> TrackCalibrationUploadSummary { get; set; }
         public virtual DbSet<TrackRunningUploadJobs> TrackRunningUploadJobs { get; set; }
         public virtual DbSet<TrackEclDataLoanBookException> TrackEclDataLoanBookException { get; set; }

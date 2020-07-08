@@ -509,10 +509,10 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
 
     //#region Data Upload
     getLoanbookUploadProgress(uploadSummaryId: string): void {
-        console.log('Checking Upload progress for: ' + uploadSummaryId);
+        //console.log('Checking Upload progress for: ' + uploadSummaryId);
         this._commonServiceProxy.getCompletedUploadJobs(uploadSummaryId).subscribe(result => {
             if (result === 0) {
-                console.log('Upload progress for: ' + uploadSummaryId + ' = ' + result);
+                //console.log('Upload progress for: ' + uploadSummaryId + ' = ' + result);
                 if (this.eclUploads.length > 0) {
                     let r = this.eclUploads.find(e => e.eclUpload.id === uploadSummaryId);
                     r.eclUpload.completedJobs = result;

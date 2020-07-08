@@ -1,4 +1,4 @@
-﻿import { InputBehaviouralTermsDto, ResultBehaviouralTermsDto } from './../../../../shared/service-proxies/service-proxies';
+﻿import { InputBehaviouralTermsDto, ResultBehaviouralTermsDto, GetMacroUploadSummaryDto, CommonLookupServiceProxy, GetCalibrationUploadSummaryDto } from './../../../../shared/service-proxies/service-proxies';
 import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, AfterViewInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
@@ -58,13 +58,16 @@ export class CreateOrEditCalibrationEadBehaviouralTermComponent extends AppCompo
 
     autoReloadSub: Subscription;
 
+    uploadSummary: GetCalibrationUploadSummaryDto = new GetCalibrationUploadSummaryDto();
+
     constructor(
         injector: Injector,
         private _activatedRoute: ActivatedRoute,
         private _calibrationServiceProxy: CalibrationEadBehaviouralTermsServiceProxy,
         private _location: Location,
         private _httpClient: HttpClient,
-        private _fileDownloadService: FileDownloadService
+        private _fileDownloadService: FileDownloadService,
+        private _commonServiceProxy: CommonLookupServiceProxy
     ) {
         super(injector);
         this.uploadUrl = AppConsts.remoteServiceBaseUrl + '/CalibrationData/ImportBehaviouralTermFromExcel';
@@ -117,6 +120,9 @@ export class CreateOrEditCalibrationEadBehaviouralTermComponent extends AppCompo
                 if (result.calibration.status === CalibrationStatusEnum.Completed || result.calibration.status === CalibrationStatusEnum.AppliedToEcl) {
                     this.getResults();
                 }
+                if (result.calibration.status === CalibrationStatusEnum.Draft ) {
+                    this.getUploadSummary();
+                }
                 this.active = true;
             });
         }
@@ -136,6 +142,16 @@ export class CreateOrEditCalibrationEadBehaviouralTermComponent extends AppCompo
         this._calibrationServiceProxy.getHistorySummary(this._calibrationId).subscribe(result => {
             this.totalHistoric = result.total;
             this.historic = result.items;
+        });
+    }
+
+    getUploadSummary(): void {
+        this._commonServiceProxy.getCalibrationUploadSummary(this._calibrationId).subscribe(result => {
+            this.uploadSummary = result;
+
+            if (result && this.uploadSummary.status === GeneralStatusEnum.Processing) {
+                setTimeout(() => this.getUploadSummary(), 5000);
+            }
         });
     }
 
@@ -249,6 +265,7 @@ export class CreateOrEditCalibrationEadBehaviouralTermComponent extends AppCompo
                             if (response.success) {
                                 this.notify.success(this.l('ImportCalibrationDataProcessStart'));
                                 this.autoReloadUploadSummary();
+                                setTimeout(() => this.getUploadSummary(), 5000);
                             } else if (response.error != null) {
                                 this.notify.error(this.l('ImportCalibrationDataUploadFailed'));
                             }

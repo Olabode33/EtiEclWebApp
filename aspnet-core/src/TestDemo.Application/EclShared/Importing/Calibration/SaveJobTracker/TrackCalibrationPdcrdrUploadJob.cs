@@ -107,11 +107,7 @@ namespace TestDemo.EclShared.Importing
 
                 if (allJobs <= completedJobs)
                 {
-                    AsyncHelper.RunSync(() => ExportInvalids(args));
-                    UpdateCalibrationTableToDraftAsync(args);
-                    UpdateUploadSummaryTable(args);
-                    SendEmailAlert(args);
-                    _uploadJobsTrackerRepository.Delete(e => e.RegisterId == args.CalibrationId);
+                    AsyncHelper.RunSync(() => ProcessResult(args));
                 }
                 else
                 {
@@ -120,7 +116,7 @@ namespace TestDemo.EclShared.Importing
             }
         }
 
-        private async Task ExportInvalids(ImportCalibrationDataFromExcelJobArgs args)
+        private async Task ProcessResult(ImportCalibrationDataFromExcelJobArgs args)
         {
             var invalids = _exceptionTrackerRepository.GetAll()
                                                       .Where(e => e.CalibrationId == args.CalibrationId)
@@ -132,7 +128,19 @@ namespace TestDemo.EclShared.Importing
                 var file = _invalidExporter.ExportToFile(invalids);
                 await _appNotifier.SomeDataCouldntBeImported(args.User, file.FileToken, file.FileType, file.FileName);
                 SendInvalidEmailAlert(args, file);
+
+                var baseUrl = _appConfiguration["App:ServerRootAddress"];
+                var link = baseUrl + "file/DownloadTempFile?fileType=" + file.FileType + "&fileToken=" + file.FileToken + "&fileName=" + file.FileName;
+                UpdateUploadSummaryTable(args, GeneralStatusEnum.Failed, _localizationSource.GetString("CompletedWithErrorsCheckEmail") + " &nbsp;<a href='" + link + "'> Download</a>");
+
                 DeleteExistingExceptions(args);
+            } 
+            else
+            {
+                UpdateCalibrationTableToDraftAsync(args);
+                UpdateUploadSummaryTable(args, GeneralStatusEnum.Completed, "");
+                SendEmailAlert(args);
+                _uploadJobsTrackerRepository.Delete(e => e.RegisterId == args.CalibrationId);
             }
         }
 
@@ -154,13 +162,15 @@ namespace TestDemo.EclShared.Importing
         }
 
         [UnitOfWork]
-        private void UpdateUploadSummaryTable(ImportCalibrationDataFromExcelJobArgs args)
+        private void UpdateUploadSummaryTable(ImportCalibrationDataFromExcelJobArgs args, GeneralStatusEnum status, string comment)
         {
             var uploadSummary = _uploadSummaryRepository.FirstOrDefault(e => e.RegisterId == args.CalibrationId);
             if (uploadSummary != null)
             {
                 uploadSummary.RegisterId = args.CalibrationId;
                 uploadSummary.CompletedJobs = uploadSummary.AllJobs;
+                uploadSummary.Status = status;
+                uploadSummary.Comment = comment;
                 _uploadSummaryRepository.Update(uploadSummary);
             }
             CurrentUnitOfWork.SaveChanges();

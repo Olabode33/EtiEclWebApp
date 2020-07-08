@@ -37,6 +37,8 @@ namespace TestDemo.Common
         private readonly IRepository<WholesaleEcl, Guid> _wholesaleEclRepository;
         private readonly IRepository<OverrideType> _overrideTypeRepository;
         private readonly IRepository<TrackRunningUploadJobs> _uploadJobsTrackerRepository;
+        private readonly IRepository<TrackCalibrationUploadSummary> _calibrationUploadSummaryRepository;
+        private readonly IRepository<TrackMacroUploadSummary> _macroUploadSummaryRepository;
 
         public CommonLookupAppService(EditionManager editionManager,
                                       IRepository<OrganizationUnit, long> organizationUnitRepository,
@@ -47,6 +49,8 @@ namespace TestDemo.Common
                                       IRepository<InvestmentEcl, Guid> investmentEclRepository, 
                                       IRepository<OverrideType> overrideTypeRepository,
                                       IRepository<TrackRunningUploadJobs> uploadJobsTrackerRepository,
+                                      IRepository<TrackMacroUploadSummary> macroUploadSummaryRepository,
+                                      IRepository<TrackCalibrationUploadSummary> calibrationUploadSummaryRepository,
                                       IRepository<TrackFacilityStage> facilityStageTrackerRepository)
         {
             _editionManager = editionManager;
@@ -59,6 +63,8 @@ namespace TestDemo.Common
             _investmentEclRepository = investmentEclRepository;
             _overrideTypeRepository = overrideTypeRepository;
             _uploadJobsTrackerRepository = uploadJobsTrackerRepository;
+            _calibrationUploadSummaryRepository = calibrationUploadSummaryRepository;
+            _macroUploadSummaryRepository = macroUploadSummaryRepository;
         }
 
         public async Task<ListResultDto<SubscribableEditionComboboxItemDto>> GetEditionsForCombobox(bool onlyFreeItems = false)
@@ -259,6 +265,46 @@ namespace TestDemo.Common
         {
             var completedJobs = await _uploadJobsTrackerRepository.CountAsync(e => e.RegisterId == input.Id);
             return completedJobs;
+        }
+
+        public async Task<GetCalibrationUploadSummaryDto> GetCalibrationUploadSummary(EntityDto<Guid> input)
+        {
+            var summary = await _calibrationUploadSummaryRepository.FirstOrDefaultAsync(e => e.RegisterId == input.Id);
+            if (summary == null)
+            {
+                return null;
+            } 
+            else
+            {
+                return new GetCalibrationUploadSummaryDto
+                {
+                    RegisterId = summary.RegisterId,
+                    AllJobs = summary.AllJobs,
+                    Comment = summary.Comment,
+                    CompletedJobs = summary.CompletedJobs,
+                    Status = summary.Status
+                };
+            }
+        }
+
+        public async Task<GetMacroUploadSummaryDto> GetMacroUploadSummary(EntityDto input)
+        {
+            var summary = await _macroUploadSummaryRepository.FirstOrDefaultAsync(e => e.RegisterId == input.Id);
+            if (summary == null)
+            {
+                return null;
+            }
+            else
+            {
+                return new GetMacroUploadSummaryDto
+                {
+                    RegisterId = summary.RegisterId,
+                    AllJobs = summary.AllJobs,
+                    Comment = summary.Comment,
+                    CompletedJobs = summary.CompletedJobs,
+                    Status = summary.Status
+                };
+            }
         }
 
         public async Task UploadLoanbookData(List<EclDataLoanBookDto> input)

@@ -1,4 +1,4 @@
-﻿import { InputBehaviouralTermsDto, ResultBehaviouralTermsDto, CalibrationEadCcfSummaryServiceProxy, InputCcfSummaryDto, ResultEadCcfSummaryDto, CalibrationLgdHairCutServiceProxy, InputLgdHaircutDto, ResultLgdHairCutSummaryDto, CalibrationLgdRecoveryRateServiceProxy, InputLgdRecoveryRateDto, ResultLgdRecoveryRateDto, CalibrationPdCrDrServiceProxy, InputPdCrDrDto, ResultPd12MonthsDto, ResultPd12MonthsSummaryDto, CalibrationMacroAnalysisServiceProxy, CreateOrEditMacroAnalysisApprovalDto, CreateOrEditMacroAnalysisRunDto, MacroResultPrincipalComponentDto, MacroResultStatisticsDto, MacroResultCorMatDto, MacroResultIndexDataDto, MacroResultPrincipalComponentSummaryDto, EntityDto, MacroeconomicVariableDto } from '../../../../shared/service-proxies/service-proxies';
+﻿import { InputBehaviouralTermsDto, ResultBehaviouralTermsDto, CalibrationEadCcfSummaryServiceProxy, InputCcfSummaryDto, ResultEadCcfSummaryDto, CalibrationLgdHairCutServiceProxy, InputLgdHaircutDto, ResultLgdHairCutSummaryDto, CalibrationLgdRecoveryRateServiceProxy, InputLgdRecoveryRateDto, ResultLgdRecoveryRateDto, CalibrationPdCrDrServiceProxy, InputPdCrDrDto, ResultPd12MonthsDto, ResultPd12MonthsSummaryDto, CalibrationMacroAnalysisServiceProxy, CreateOrEditMacroAnalysisApprovalDto, CreateOrEditMacroAnalysisRunDto, MacroResultPrincipalComponentDto, MacroResultStatisticsDto, MacroResultCorMatDto, MacroResultIndexDataDto, MacroResultPrincipalComponentSummaryDto, EntityDto, MacroeconomicVariableDto, GetMacroUploadSummaryDto, CommonLookupServiceProxy } from '../../../../shared/service-proxies/service-proxies';
 import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
@@ -61,13 +61,16 @@ export class ViewMacroAnalysisComponent extends AppComponentBase implements OnIn
     macroEconomicVariables = new Array<MacroeconomicVariableDto>();
     autoReloadSub: Subscription;
 
+    uploadSummary: GetMacroUploadSummaryDto = new GetMacroUploadSummaryDto();
+
     constructor(
         injector: Injector,
         private _activatedRoute: ActivatedRoute,
         private _calibrationServiceProxy: CalibrationMacroAnalysisServiceProxy,
         private _location: Location,
         private _httpClient: HttpClient,
-        private _fileDownloadService: FileDownloadService
+        private _fileDownloadService: FileDownloadService,
+        private _commonServiceProxy: CommonLookupServiceProxy
     ) {
         super(injector);
         this.uploadUrl = AppConsts.remoteServiceBaseUrl + '/CalibrationData/ImportMacroAnalysisFromExcel';
@@ -88,7 +91,7 @@ export class ViewMacroAnalysisComponent extends AppComponentBase implements OnIn
     getMacroEconomicVariables(id) {
         this._calibrationServiceProxy.getMacroEconomicVariables(id).subscribe(res => {
             this.macroEconomicVariables = res;
-        })
+        });
     }
 
     configureApprovalModal(): void {
@@ -123,6 +126,9 @@ export class ViewMacroAnalysisComponent extends AppComponentBase implements OnIn
                 if (result.calibration.status === CalibrationStatusEnum.Completed || result.calibration.status === CalibrationStatusEnum.AppliedToEcl) {
                     this.getResults();
                 }
+                if (result.calibration.status === CalibrationStatusEnum.Draft ) {
+                    this.getUploadSummary();
+                }
                 this.active = true;
             });
         }
@@ -144,6 +150,16 @@ export class ViewMacroAnalysisComponent extends AppComponentBase implements OnIn
             this.resultCor = result.corMat;
             this.resultIndex = result.indexData;
             this.resultPrincipalSummary = result.principalComponentSummary;
+        });
+    }
+
+    getUploadSummary(): void {
+        this._commonServiceProxy.getMacroUploadSummary(this._calibrationId).subscribe(result => {
+            this.uploadSummary = result;
+
+            if (result && this.uploadSummary.status === GeneralStatusEnum.Processing) {
+                setTimeout(() => this.getUploadSummary(), 5000);
+            }
         });
     }
 
@@ -251,6 +267,7 @@ export class ViewMacroAnalysisComponent extends AppComponentBase implements OnIn
                             if (response.success) {
                                 this.notify.success(this.l('ImportCalibrationDataProcessStart'));
                                 this.autoReloadUploadSummary();
+                                setTimeout(() => this.getUploadSummary(), 5000);
                             } else if (response.error != null) {
                                 this.notify.error(this.l('ImportCalibrationDataUploadFailed'));
                             }
@@ -284,7 +301,6 @@ export class ViewMacroAnalysisComponent extends AppComponentBase implements OnIn
 
     autoReloadUploadSummary(): void {
         this.autoReloadSub = secondsCounter.subscribe(n => {
-                                console.log('Auto-reload: ' + n);
                                 this.getInputSummary();
                             });
     }

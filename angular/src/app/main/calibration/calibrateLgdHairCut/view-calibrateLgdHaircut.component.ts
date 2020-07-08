@@ -1,4 +1,4 @@
-﻿import { InputBehaviouralTermsDto, ResultBehaviouralTermsDto, CalibrationEadCcfSummaryServiceProxy, InputCcfSummaryDto, ResultEadCcfSummaryDto, CalibrationLgdHairCutServiceProxy, InputLgdHaircutDto, ResultLgdHairCutSummaryDto } from '../../../../shared/service-proxies/service-proxies';
+﻿import { InputBehaviouralTermsDto, ResultBehaviouralTermsDto, CalibrationEadCcfSummaryServiceProxy, InputCcfSummaryDto, ResultEadCcfSummaryDto, CalibrationLgdHairCutServiceProxy, InputLgdHaircutDto, ResultLgdHairCutSummaryDto, GetCalibrationUploadSummaryDto, CommonLookupServiceProxy } from '../../../../shared/service-proxies/service-proxies';
 import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, AfterViewInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
@@ -58,13 +58,16 @@ export class ViewCalibrationLgdHaircutComponent extends AppComponentBase impleme
 
     autoReloadSub: Subscription;
 
+    uploadSummary: GetCalibrationUploadSummaryDto = new GetCalibrationUploadSummaryDto();
+
     constructor(
         injector: Injector,
         private _activatedRoute: ActivatedRoute,
         private _calibrationServiceProxy: CalibrationLgdHairCutServiceProxy,
         private _location: Location,
         private _httpClient: HttpClient,
-        private _fileDownloadService: FileDownloadService
+        private _fileDownloadService: FileDownloadService,
+        private _commonServiceProxy: CommonLookupServiceProxy
     ) {
         super(injector);
         this.uploadUrl = AppConsts.remoteServiceBaseUrl + '/CalibrationData/ImportLgdHaircutFromExcel';
@@ -117,6 +120,9 @@ export class ViewCalibrationLgdHaircutComponent extends AppComponentBase impleme
                 if (result.calibration.status === CalibrationStatusEnum.Completed || result.calibration.status === CalibrationStatusEnum.AppliedToEcl) {
                     this.getResults();
                 }
+                if (result.calibration.status === CalibrationStatusEnum.Draft ) {
+                    this.getUploadSummary();
+                }
                 this.active = true;
             });
         }
@@ -135,6 +141,16 @@ export class ViewCalibrationLgdHaircutComponent extends AppComponentBase impleme
     getResults(): void {
         this._calibrationServiceProxy.getResult(this._calibrationId).subscribe(result => {
             this.result = result.haircutSummary;
+        });
+    }
+
+    getUploadSummary(): void {
+        this._commonServiceProxy.getCalibrationUploadSummary(this._calibrationId).subscribe(result => {
+            this.uploadSummary = result;
+
+            if (result && this.uploadSummary.status === GeneralStatusEnum.Processing) {
+                setTimeout(() => this.getUploadSummary(), 5000);
+            }
         });
     }
 
@@ -250,6 +266,7 @@ export class ViewCalibrationLgdHaircutComponent extends AppComponentBase impleme
                             if (response.success) {
                                 this.notify.success(this.l('ImportCalibrationDataProcessStart'));
                                 this.autoReloadUploadSummary();
+                                setTimeout(() => this.getUploadSummary(), 5000);
                             } else if (response.error != null) {
                                 this.notify.error(this.l('ImportCalibrationDataUploadFailed'));
                             }

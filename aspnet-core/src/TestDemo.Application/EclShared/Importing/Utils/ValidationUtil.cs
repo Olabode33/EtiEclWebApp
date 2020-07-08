@@ -1,6 +1,7 @@
 ﻿using Abp.Dependency;
 using Abp.Localization;
 using Abp.Localization.Sources;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -106,6 +107,92 @@ namespace TestDemo.EclShared.Importing.Utils
 
             exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "Expecting1or0"));
             return false;
+        }
+
+        public string GetRequiredValueFromRowOrNull(ExcelWorksheet worksheet, int row, int column, string columnName, StringBuilder exceptionMessage)
+        {
+            var cellValue = worksheet.Cells[row, column].Value;
+
+            if (cellValue != null && !string.IsNullOrWhiteSpace(cellValue.ToString()))
+            {
+                return cellValue.ToString();
+            }
+
+            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "Required"));
+            return null;
+        }
+
+        public string GetTextValueFromRowOrNull(ExcelWorksheet worksheet, int row, int column, string columnName, StringBuilder exceptionMessage)
+        {
+            var cellValue = worksheet.Cells[row, column].Value;
+
+            if (cellValue != null && !string.IsNullOrWhiteSpace(cellValue.ToString()))
+            {
+                return cellValue.ToString();
+            }
+
+            return null;
+        }
+
+        public int? GetIntegerValueFromRowOrNull(ExcelWorksheet worksheet, int row, int column, string columnName, StringBuilder exceptionMessage)
+        {
+            var cellValue = worksheet.Cells[row, column].Value;
+            int returnValue;
+            double doubleValue;
+
+            if (cellValue == null)
+            {
+                return null;
+            }
+            else if (int.TryParse(cellValue.ToString(), out returnValue))
+            {
+                return returnValue;
+            }
+
+            if (double.TryParse(cellValue.ToString(), out doubleValue))
+            {
+                return Convert.ToInt32(doubleValue);
+            }
+
+
+            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "ExpectingWholeNumber"));
+            return null;
+        }
+
+        public double? GetDoubleValueFromRowOrNull(ExcelWorksheet worksheet, int row, int column, string columnName, StringBuilder exceptionMessage)
+        {
+            var cellValue = worksheet.Cells[row, column].Value;
+            double returnValue;
+
+            if (cellValue == null)
+            {
+                return null;
+            }
+            else if (double.TryParse(cellValue.ToString(), out returnValue))
+            {
+                return returnValue;
+            }
+
+            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "ExpectingNumber"));
+            return null;
+        }
+
+        public DateTime? GetDateTimeValueFromRowOrNull(ExcelWorksheet worksheet, int row, int column, string columnName, StringBuilder exceptionMessage)
+        {
+            var cellValue = worksheet.Cells[row, column].Value;
+            DateTime returnValue;
+
+            if (cellValue == null)
+            {
+                return null;
+            }
+            else if (DateTime.TryParse(cellValue.ToString(), out returnValue))
+            {
+                return returnValue;
+            }
+
+            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "ExpectingDateTime"));
+            return null;
         }
 
         private string GetLocalizedExceptionMessagePart(string parameter, string required)

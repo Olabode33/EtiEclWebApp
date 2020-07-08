@@ -25,11 +25,13 @@ using TestDemo.CalibrationInput;
 using TestDemo.Common;
 using TestDemo.Configuration;
 using TestDemo.Dto;
+using TestDemo.EclLibrary.Workers.Trackers;
 using TestDemo.EclShared.Dtos;
 using TestDemo.EclShared.Emailer;
 using TestDemo.EclShared.Importing.Calibration;
 using TestDemo.EclShared.Importing.Calibration.Dto;
 using TestDemo.EclShared.Importing.Dto;
+using TestDemo.EclShared.Importing.Utils;
 using TestDemo.InvestmentComputation;
 using TestDemo.Notifications;
 using TestDemo.ObeInputs;
@@ -54,6 +56,7 @@ namespace TestDemo.EclShared.Importing
         private readonly IConfigurationRoot _appConfiguration;
         private readonly IRepository<User, long> _userRepository;
         private readonly IRepository<OrganizationUnit, long> _ouRepository;
+        private readonly IRepository<TrackMacroUploadSummary> _uploadSummaryRepository;
         private readonly IEclCustomRepository _customRepository;
 
         public ImportMacroAnalysisDataFromExcelJob(
@@ -69,7 +72,8 @@ namespace TestDemo.EclShared.Importing
             IHostingEnvironment env,
             IRepository<User, long> userRepository,
             IRepository<OrganizationUnit, long> ouRepository,
-            IEclCustomRepository customRepository,
+            IEclCustomRepository customRepository, 
+            IRepository<TrackMacroUploadSummary> uploadSummaryRepository,
             IObjectMapper objectMapper)
         {
             _excelDataReader = excelDataReader;
@@ -86,11 +90,14 @@ namespace TestDemo.EclShared.Importing
             _userRepository = userRepository;
             _ouRepository = ouRepository;
             _customRepository = customRepository;
+            _uploadSummaryRepository = uploadSummaryRepository;
         }
 
         [UnitOfWork]
         public override void Execute(ImportMacroAnalysisDataFromExcelJobArgs args)
         {
+            AddToUploadSummaryTable(args);
+
             var macroAnalysis = GetMacroAnalysisDataFromExcelOrNull(args);
             if (macroAnalysis == null || !macroAnalysis.Any())
             {
@@ -189,6 +196,10 @@ namespace TestDemo.EclShared.Importing
                 var file = _invalidExporter.ExportToFile(invalids, affiliateMacroVariables);
                 await _appNotifier.SomeDataCouldntBeImported(args.User, file.FileToken, file.FileType, file.FileName);
                 SendInvalidEmailAlert(args, file);
+
+                var baseUrl = _appConfiguration["App:ServerRootAddress"];
+                var link = baseUrl + "file/DownloadTempFile?fileType=" + file.FileType + "&fileToken=" + file.FileToken + "&fileName=" + file.FileName;
+                UpdateUploadSummaryTable(args, GeneralStatusEnum.Failed, _localizationSource.GetString("CompletedWithErrorsCheckEmail") + " &nbsp;<a href='" + link + "'> Download</a>");
             }
             else
             {
@@ -197,6 +208,7 @@ namespace TestDemo.EclShared.Importing
                     _localizationSource.GetString("AllMacroAnalysisDataSuccessfullyImportedFromExcel"),
                     Abp.Notifications.NotificationSeverity.Success);
                 SendEmailAlert(args);
+                UpdateUploadSummaryTable(args, GeneralStatusEnum.Completed, "");
             }
         }
 
@@ -206,6 +218,7 @@ namespace TestDemo.EclShared.Importing
                 args.User,
                 _localizationSource.GetString("FileCantBeConvertedToMacroAnalysisDataList"),
                 Abp.Notifications.NotificationSeverity.Warn));
+            UpdateUploadSummaryTable(args, GeneralStatusEnum.Failed, _localizationSource.GetString("FileCantBeConvertedToMacroAnalysisDataList"));
         }
 
         [UnitOfWork]
@@ -225,6 +238,44 @@ namespace TestDemo.EclShared.Importing
                 calibration.Status = CalibrationStatusEnum.Draft;
                 _calibrationRepository.Update(calibration);
             }
+        }
+
+        private void AddToUploadSummaryTable(ImportMacroAnalysisDataFromExcelJobArgs args)
+        {
+            var uploadSummary = _uploadSummaryRepository.FirstOrDefault(e => e.RegisterId == args.MacroId);
+            if (uploadSummary == null)
+            {
+                _uploadSummaryRepository.Insert(new TrackMacroUploadSummary
+                {
+                    RegisterId = args.MacroId,
+                    AllJobs = 1,
+                    CompletedJobs = 0,
+                    Status = GeneralStatusEnum.Processing
+                });
+            }
+            else
+            {
+                uploadSummary.RegisterId = args.MacroId;
+                uploadSummary.AllJobs = 1;
+                uploadSummary.CompletedJobs = 0;
+                uploadSummary.Status = GeneralStatusEnum.Processing;
+                _uploadSummaryRepository.Update(uploadSummary);
+            }
+            CurrentUnitOfWork.SaveChanges();
+        }
+
+        private void UpdateUploadSummaryTable(ImportMacroAnalysisDataFromExcelJobArgs args, GeneralStatusEnum status, string comment)
+        {
+            var uploadSummary = _uploadSummaryRepository.FirstOrDefault(e => e.RegisterId == args.MacroId);
+            if (uploadSummary != null)
+            {
+                uploadSummary.RegisterId = args.MacroId;
+                uploadSummary.CompletedJobs = uploadSummary.AllJobs;
+                uploadSummary.Status = status;
+                uploadSummary.Comment = status == GeneralStatusEnum.Failed ? comment : "";
+                _uploadSummaryRepository.Update(uploadSummary);
+            }
+            CurrentUnitOfWork.SaveChanges();
         }
 
         private void SendEmailAlert(ImportMacroAnalysisDataFromExcelJobArgs args)

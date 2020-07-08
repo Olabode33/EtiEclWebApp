@@ -103,7 +103,7 @@ namespace TestDemo.EclShared.Importing
 
             var jobs = behavioural.Count / 5000;
             jobs += 1;
-            UpdateUploadSummaryTable(args, jobs);
+            AddToUploadSummaryTable(args, jobs);
 
             for (int i = 0; i < jobs; i++)
             {
@@ -213,6 +213,7 @@ namespace TestDemo.EclShared.Importing
                 args.User,
                 _localizationSource.GetString("FileCantBeConvertedToCalibrationBehaviouralTermList"),
                 Abp.Notifications.NotificationSeverity.Warn));
+            UpdateUploadSummaryTable(args, GeneralStatusEnum.Failed, _localizationSource.GetString("FileCantBeConvertedToCalibrationBehaviouralTermList"));
         }
 
         [UnitOfWork]
@@ -236,7 +237,7 @@ namespace TestDemo.EclShared.Importing
             }
         }
 
-        private void UpdateUploadSummaryTable(ImportCalibrationDataFromExcelJobArgs args, int allJobs)
+        private void AddToUploadSummaryTable(ImportCalibrationDataFromExcelJobArgs args, int allJobs)
         {
             var uploadSummary = _uploadSummaryRepository.FirstOrDefault(e => e.RegisterId == args.CalibrationId);
             if (uploadSummary == null)
@@ -245,7 +246,8 @@ namespace TestDemo.EclShared.Importing
                 {
                     RegisterId = args.CalibrationId,
                     AllJobs = allJobs,
-                    CompletedJobs = 0
+                    CompletedJobs = 0,
+                    Status = GeneralStatusEnum.Processing
                 });
             }
             else
@@ -253,6 +255,21 @@ namespace TestDemo.EclShared.Importing
                 uploadSummary.RegisterId = args.CalibrationId;
                 uploadSummary.AllJobs = allJobs;
                 uploadSummary.CompletedJobs = 0;
+                uploadSummary.Status = GeneralStatusEnum.Processing;
+                _uploadSummaryRepository.Update(uploadSummary);
+            }
+            CurrentUnitOfWork.SaveChanges();
+        }
+
+        private void UpdateUploadSummaryTable(ImportCalibrationDataFromExcelJobArgs args, GeneralStatusEnum status, string comment)
+        {
+            var uploadSummary = _uploadSummaryRepository.FirstOrDefault(e => e.RegisterId == args.CalibrationId);
+            if (uploadSummary != null)
+            {
+                uploadSummary.RegisterId = args.CalibrationId;
+                uploadSummary.CompletedJobs = uploadSummary.AllJobs;
+                uploadSummary.Status = status;
+                uploadSummary.Comment = status == GeneralStatusEnum.Failed ? comment : "";
                 _uploadSummaryRepository.Update(uploadSummary);
             }
             CurrentUnitOfWork.SaveChanges();

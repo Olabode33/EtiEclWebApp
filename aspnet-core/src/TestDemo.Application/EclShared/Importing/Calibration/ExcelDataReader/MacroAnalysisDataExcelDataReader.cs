@@ -13,6 +13,7 @@ using TestDemo.AffiliateMacroEconomicVariable;
 using TestDemo.DataExporting.Excel.EpPlus;
 using TestDemo.EclShared.Importing.Calibration.Dto;
 using TestDemo.EclShared.Importing.Dto;
+using TestDemo.EclShared.Importing.Utils;
 
 namespace TestDemo.EclShared.Importing
 {
@@ -20,11 +21,14 @@ namespace TestDemo.EclShared.Importing
     {
         private readonly ILocalizationSource _localizationSource;
         private List<NameValueDto<int>> _affiliateMacroVariable;
+        private readonly IValidationUtil _validator;
 
-        public MacroAnalysisDataExcelDataReader(ILocalizationManager localizationManager)
+        public MacroAnalysisDataExcelDataReader(ILocalizationManager localizationManager,
+            IValidationUtil validator)
         {
             _localizationSource = localizationManager.GetSource(TestDemoConsts.LocalizationSourceName);
             _affiliateMacroVariable = new List<NameValueDto<int>>();
+            _validator = validator;
         }
 
         public List<ImportMacroAnalysisDataDto> GetImportMacroAnalysisDataFromExcel(byte[] fileBytes, List<NameValueDto<int>> affiliateMacroVariables)
@@ -93,14 +97,18 @@ namespace TestDemo.EclShared.Importing
                 var nplData = new ImportMacroAnalysisDataDto();
                 try
                 {
-                    nplData.Period = GetDateTimeValueFromRowOrNull(worksheet, row, 1, nameof(nplData.Period), exceptionMessage);
+                    nplData.Period = _validator.GetDateTimeValueFromRowOrNull(worksheet, row, 1, nameof(nplData.Period), exceptionMessage);
                     nplData.MacroeconomicId = -1;
-                    nplData.Value = GetDoubleValueFromRowOrNull(worksheet, row, 2, "NPL_Percentage_Ratio", exceptionMessage);
+                    nplData.Value = _validator.GetDoubleValueFromRowOrNull(worksheet, row, 2, "NPL_Percentage_Ratio", exceptionMessage);
 
                 }
                 catch (Exception exception)
                 {
                     nplData.Exception = exception.Message;
+                }
+                if (exceptionMessage.Length > 0)
+                {
+                    nplData.Exception = exceptionMessage.ToString();
                 }
                 list.Add(nplData);
 
@@ -108,16 +116,21 @@ namespace TestDemo.EclShared.Importing
                 for (int i = 0; i < _affiliateMacroVariable.Count; i++)
                 {
                     var data = new ImportMacroAnalysisDataDto();
+                    var exceptionMsg = new StringBuilder();
                     try
                     {
-                        data.Period = GetDateTimeValueFromRowOrNull(worksheet, row, 1, nameof(data.Period), exceptionMessage);
+                        data.Period = _validator.GetDateTimeValueFromRowOrNull(worksheet, row, 1, nameof(data.Period), exceptionMsg);
                         data.MacroeconomicId = _affiliateMacroVariable[i].Value;
-                        data.Value = GetDoubleValueFromRowOrNull(worksheet, row, i + 3, _affiliateMacroVariable[i].Name, exceptionMessage);
+                        data.Value = _validator.GetDoubleValueFromRowOrNull(worksheet, row, i + 3, _affiliateMacroVariable[i].Name, exceptionMsg);
 
                     }
                     catch (Exception exception)
                     {
                         data.Exception = exception.Message;
+                    }
+                    if (exceptionMsg.Length > 0)
+                    {
+                        data.Exception = exceptionMsg.ToString();
                     }
                     list.Add(data);
                 }
@@ -130,76 +143,11 @@ namespace TestDemo.EclShared.Importing
             return list;
         }
 
-        private string GetRequiredValueFromRowOrNull(ExcelWorksheet worksheet, int row, int column, string columnName, StringBuilder exceptionMessage)
+        
+
+        private string GetLocalizedExceptionMessagePart(string parameter, string required)
         {
-            var cellValue = worksheet.Cells[row, column].Value;
-
-            if (cellValue != null && !string.IsNullOrWhiteSpace(cellValue.ToString()))
-            {
-                return cellValue.ToString();
-            }
-
-            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName));
-            return null;
-        }
-
-        private int? GetIntegerValueFromRowOrNull(ExcelWorksheet worksheet, int row, int column, string columnName, StringBuilder exceptionMessage)
-        {
-            var cellValue = worksheet.Cells[row, column].Value;
-            int returnValue;
-
-            if (cellValue == null)
-            {
-                return null;
-            }
-            else if (int.TryParse(cellValue.ToString(), out returnValue))
-            {
-                return returnValue;
-            }
-
-            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName));
-            return null;
-        }
-
-        private double? GetDoubleValueFromRowOrNull(ExcelWorksheet worksheet, int row, int column, string columnName, StringBuilder exceptionMessage)
-        {
-            var cellValue = worksheet.Cells[row, column].Value;
-            double returnValue;
-
-            if (cellValue == null)
-            {
-                return null;
-            }
-            else if (double.TryParse(cellValue.ToString(), out returnValue))
-            {
-                return returnValue;
-            }
-
-            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName));
-            return null;
-        }
-
-        private DateTime? GetDateTimeValueFromRowOrNull(ExcelWorksheet worksheet, int row, int column, string columnName, StringBuilder exceptionMessage)
-        {
-            var cellValue = worksheet.Cells[row, column].Value;
-            DateTime returnValue;
-
-            if (cellValue == null)
-            {
-                return null;
-            }
-            else if (DateTime.TryParse(cellValue.ToString(), out returnValue))
-            {
-                return returnValue;
-            }
-
-            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName));
-            return null;
-        }
-
-        private string GetLocalizedExceptionMessagePart(string parameter)
-        {
-            return _localizationSource.GetString("{0}IsInvalid", _localizationSource.GetString(parameter)) + "; ";
+            return _localizationSource.GetString("{0}IsInvalid", _localizationSource.GetString(parameter)) + " " + _localizationSource.GetString(required) + "; ";
         }
 
 

@@ -125,6 +125,16 @@
                     </h3>
                 </div>
                 <div class="kt-portlet__head-toolbar">
+                    <div *ngIf="uploadSummary && uploadSummary.status === genStatusEnum.Processing">
+                        {{l('Validating')}}:
+                        <div class="progress" style="height: 10px;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%">
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="uploadSummary && uploadSummary.status === genStatusEnum.Failed">
+                        <span class="text-danger mr-3" [innerHTML]="uploadSummary.comment"></span>
+                    </div>
                     <button *ngIf="totalUploads > 0" (click)="exportToExcel()" class="btn btn-outline-primary mr-2">
                         <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
                         {{l("DownloadFullData")}}

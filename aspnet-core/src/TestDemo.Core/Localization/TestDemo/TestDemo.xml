@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="CompletedWithErrorsCheckEmail">Completed with errors: Please check your email or notification for more information</text>
+  <texts>    <text name="CompletedWithErrorsCheckEmail">Completed with errors: Please check your email for invalid records or Click </text>
     <text name="GenerateReport">Generate Report</text>
     <text name="SendAsEmail">Send as email</text>
     <text name="DownloadToFile">Download to file</text>
