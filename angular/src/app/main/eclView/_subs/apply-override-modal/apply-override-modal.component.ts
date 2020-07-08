@@ -90,7 +90,7 @@ export class ApplyOverrideModalComponent extends AppComponentBase {
         this.dataSource = null;
         this.eclOverride = null;
         this.facility90dayCheck = null;
-        this.selectedAccount = null;
+        this.selectedAccount = undefined;
         this.modal.show();
     }
 
