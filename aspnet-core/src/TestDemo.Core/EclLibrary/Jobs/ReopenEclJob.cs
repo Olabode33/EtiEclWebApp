@@ -59,7 +59,7 @@ namespace TestDemo.EclLibrary.Jobs
             _investmentEclRepository = investmentEclRepository;
         }
 
-        //[UnitOfWork]
+        [UnitOfWork]
         public override void Execute(RunEclJobArgs args)
         {
             long ouId = 0;
@@ -87,7 +87,6 @@ namespace TestDemo.EclLibrary.Jobs
                     break;
                 case EclType.Obe:
                     _customEclRepository.RunObeReopenEclStoredProcedure(args.EclId);
-                    _customEclRepository.RunObeCloseEclStoredProcedure(args.EclId);
                     var oEcl = _obeEclRepository.FirstOrDefault(args.EclId);
                     ouId = oEcl.OrganizationUnitId;
                     frameworId = (int)FrameworkEnum.OBE;
@@ -102,6 +101,7 @@ namespace TestDemo.EclLibrary.Jobs
             SendEmailAlert(args, ouId, frameworId);
         }
 
+
         private void SendEmailAlert(RunEclJobArgs args, long ouID, int frameworkId)
         {
             var user = _userRepository.FirstOrDefault(args.UserIdentifier.UserId);
@@ -109,7 +109,7 @@ namespace TestDemo.EclLibrary.Jobs
             string link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + args.EclId;
             var type = args.EclType.ToString() + " ECL";
             var ou = _ouRepository.FirstOrDefault(ouID);
-            _emailer.SendEmailRunCompletedAsync(user, type, ou.DisplayName, link);
+            AsyncHelper.RunSync(() => _emailer.SendEmailReopenedAsync(user, type, ou.DisplayName, link));
         }
     }
 }

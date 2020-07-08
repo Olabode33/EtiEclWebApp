@@ -110,24 +110,36 @@ namespace TestDemo.EntityFrameworkCore.Repositories
 
         private async Task RunProcedure(string procedureName, SqlParameter[] parameters)
         {
-            await EnsureConnectionOpenAsync();
-
-
-
-            using (var command = CreateCommand(procedureName, CommandType.StoredProcedure, parameters))
+            try
             {
-                await command.ExecuteNonQueryAsync();
+                await EnsureConnectionOpenAsync();
+
+                using (var command = CreateCommand(procedureName, CommandType.StoredProcedure, parameters))
+                {
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
+            catch(Exception e)
+            {
+
             }
         }
 
         private async Task ExecuteQuery(string query, SqlParameter[] parameters)
         {
-            await Context.Database.ExecuteSqlCommandAsync(query, parameters);
-            await EnsureConnectionOpenAsync();
-
-            using (var command = CreateCommand(query, CommandType.Text, parameters))
+            try
             {
-                await command.ExecuteNonQueryAsync();
+                await Context.Database.ExecuteSqlCommandAsync(query, parameters);
+                await EnsureConnectionOpenAsync();
+
+                using (var command = CreateCommand(query, CommandType.Text, parameters))
+                {
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
+            catch(Exception e)
+            {
+
             }
         }
 
@@ -138,6 +150,7 @@ namespace TestDemo.EntityFrameworkCore.Repositories
             command.CommandText = commandText;
             command.CommandType = commandType;
             command.Transaction = GetActiveTransaction();
+            command.CommandTimeout = 0;
 
             foreach (var parameter in parameters)
             {
