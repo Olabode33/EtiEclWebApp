@@ -304,6 +304,10 @@ namespace TestDemo.Calibration
         {
             var result = ObjectMapper.Map<CalibrationResultLgdHairCut>(input);
 
+            var cal = _calibrationRepository.FirstOrDefault((Guid)input.CalibrationId);
+            cal.Status = CalibrationStatusEnum.AppliedOverride;
+            await _calibrationRepository.UpdateAsync(cal);
+
             await _calibrationResultRepository.UpdateAsync(result);
 
             await _calibrationApprovalRepository.InsertAsync(new CalibrationLgdHairCutApproval
@@ -379,6 +383,31 @@ namespace TestDemo.Calibration
                     calibration.Status = CalibrationStatusEnum.AwaitngAdditionApproval;
                     await SendAdditionalApprovalEmail(calibration.Id);
                 }
+            }
+            else
+            {
+                calibration.Status = CalibrationStatusEnum.Draft;
+            }
+
+            ObjectMapper.Map(calibration, calibration);
+        }
+
+        public async Task ApproveRejectCalibrationResult(CreateOrEditEclApprovalDto input)
+        {
+            var calibration = await _calibrationRepository.FirstOrDefaultAsync((Guid)input.EclId);
+
+            await _calibrationApprovalRepository.InsertAsync(new CalibrationLgdHairCutApproval
+            {
+                CalibrationId = input.EclId,
+                ReviewComment = input.ReviewComment,
+                ReviewedByUserId = AbpSession.UserId,
+                ReviewedDate = DateTime.Now,
+                Status = input.Status
+            });
+
+            if (input.Status == GeneralStatusEnum.Approved)
+            {
+                calibration.Status = CalibrationStatusEnum.Completed;
             }
             else
             {

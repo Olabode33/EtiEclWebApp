@@ -36,7 +36,7 @@ namespace TestDemo.EclShared
 
     public enum CalibrationStatusEnum
     {
-        Draft, Submitted, Approved, Rejected, Processing, Completed, AwaitngAdditionApproval, AppliedToEcl, QueuedForProcessing, Uploading, Failed
+        Draft, Submitted, Approved, Rejected, Processing, Completed, AwaitngAdditionApproval, AppliedToEcl, QueuedForProcessing, Uploading, Failed, AppliedOverride
     }
 
     public enum ResultSummaryTypeEnum

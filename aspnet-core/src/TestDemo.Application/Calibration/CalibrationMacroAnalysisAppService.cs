@@ -33,6 +33,7 @@ using TestDemo.EclShared.Emailer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using TestDemo.Configuration;
+using Abp.AutoMapper;
 
 namespace TestDemo.Calibration
 {
@@ -328,6 +329,10 @@ namespace TestDemo.Calibration
         {
             var result = ObjectMapper.Map<List<MacroResult_Statistics>>(input);
 
+            var mac = _macroAnalysisRepository.FirstOrDefault(input[0].MacroId);
+            mac.Status = CalibrationStatusEnum.AppliedOverride;
+            await _macroAnalysisRepository.UpdateAsync(mac);
+
             foreach (var item in result)
             {
                 await _statisticsResultRepository.UpdateAsync(item);
@@ -346,6 +351,10 @@ namespace TestDemo.Calibration
         public async Task UpdatePrincipalSummaryResult(List<MacroResultPrincipalComponentSummaryDto> input)
         {
             var result = ObjectMapper.Map<List<MacroResult_PrincipalComponentSummary>>(input);
+
+            var mac = _macroAnalysisRepository.FirstOrDefault(input[0].MacroId);
+            mac.Status = CalibrationStatusEnum.AppliedOverride;
+            await _macroAnalysisRepository.UpdateAsync(mac);
 
             foreach (var item in result)
             {
@@ -366,6 +375,10 @@ namespace TestDemo.Calibration
         {
             var result = ObjectMapper.Map<List<MacroResult_PrincipalComponent>>(input);
 
+            var mac = _macroAnalysisRepository.FirstOrDefault(input[0].MacroId);
+            mac.Status = CalibrationStatusEnum.AppliedOverride;
+            await _macroAnalysisRepository.UpdateAsync(mac);
+
             foreach (var item in result)
             {
                 await _principalComponentResultRepository.UpdateAsync(item);
@@ -384,6 +397,10 @@ namespace TestDemo.Calibration
         public async Task UpdateIndexResult(List<MacroResultIndexDataDto> input)
         {
             var result = ObjectMapper.Map<List<MacroResult_IndexData>>(input);
+
+            var mac = _macroAnalysisRepository.FirstOrDefault(input[0].MacroId);
+            mac.Status = CalibrationStatusEnum.AppliedOverride;
+            await _macroAnalysisRepository.UpdateAsync(mac);
 
             foreach (var item in result)
             {
@@ -462,6 +479,31 @@ namespace TestDemo.Calibration
                     calibration.Status = CalibrationStatusEnum.AwaitngAdditionApproval;
                     await SendAdditionalApprovalEmail(calibration.Id);
                 }
+            }
+            else
+            {
+                calibration.Status = CalibrationStatusEnum.Draft;
+            }
+
+            ObjectMapper.Map(calibration, calibration);
+        }
+
+        public async Task ApproveRejectCalibrationResult(CreateOrEditMacroAnalysisApprovalDto input)
+        {
+            var calibration = await _macroAnalysisRepository.FirstOrDefaultAsync(input.MacroId);
+
+            await _calibrationApprovalRepository.InsertAsync(new MacroAnalysisApproval
+            {
+                MacroId = input.MacroId,
+                ReviewComment = input.ReviewComment,
+                ReviewedByUserId = AbpSession.UserId,
+                ReviewedDate = DateTime.Now,
+                Status = input.Status
+            });
+
+            if (input.Status == GeneralStatusEnum.Approved)
+            {
+                calibration.Status = CalibrationStatusEnum.Completed;
             }
             else
             {

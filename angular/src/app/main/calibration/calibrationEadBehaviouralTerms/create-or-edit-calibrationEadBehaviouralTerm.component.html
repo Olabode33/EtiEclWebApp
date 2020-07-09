@@ -25,7 +25,7 @@
                     {{l("Submit")}}
                 </button>
                 <button (click)="approveEcl()" class="btn btn-primary"
-                    *ngIf="(calibration.status == calibrationStatusEnum.Submitted || calibration.status == calibrationStatusEnum.AwaitngAdditionApproval) && isGranted('Pages.Calibration.Review')">
+                    *ngIf="(calibration.status == calibrationStatusEnum.Submitted || calibration.status == calibrationStatusEnum.AppliedOverride || calibration.status == calibrationStatusEnum.AwaitngAdditionApproval) && isGranted('Pages.Calibration.Review')">
                     <i class="fa fa-check-double" style="font-size: 1.2rem !important;"></i>
                     {{l("Approve")}}
                 </button>
@@ -54,7 +54,7 @@
     </div>
     <div class="kt-content">
 
-        <div *ngIf="calibration.status == calibrationStatusEnum.Completed || calibration.status == calibrationStatusEnum.AppliedToEcl"
+        <div *ngIf="calibration.status == calibrationStatusEnum.Completed || calibration.status == calibrationStatusEnum.AppliedToEcl || calibration.status == calibrationStatusEnum.AppliedOverride"
             class="kt-portlet kt-portlet--height-fluid">
             <div class="kt-portlet__head">
                 <div class="kt-portlet__head-label">

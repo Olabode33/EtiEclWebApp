@@ -94,11 +94,11 @@ export class ViewMacroAnalysisComponent extends AppComponentBase implements OnIn
         });
     }
 
-    configureApprovalModal(): void {
+    configureApprovalModal(status?): void {
         let approvalDto = new CreateOrEditMacroAnalysisApprovalDto();
         approvalDto.macroId = this._calibrationId;
         approvalDto.reviewComment = '';
-        approvalDto.status = GeneralStatusEnum.Draft;
+        approvalDto.status = status == null ? GeneralStatusEnum.Draft : status;
 
         this.approvalModal.configure({
             title: this.l('ApproveCalibrationRun'),
@@ -123,7 +123,11 @@ export class ViewMacroAnalysisComponent extends AppComponentBase implements OnIn
                 this.auditInfo = result.auditInfo;
                 this.approvalsAuditInfo = result.auditInfo.approvals;
 
-                if (result.calibration.status === CalibrationStatusEnum.Completed || result.calibration.status === CalibrationStatusEnum.AppliedToEcl) {
+                if(result.calibration.status == CalibrationStatusEnum.AppliedOverride) {
+                    this.configureApprovalModal(CalibrationStatusEnum.AppliedOverride);
+                }
+
+                if (result.calibration.status === CalibrationStatusEnum.Completed || result.calibration.status === CalibrationStatusEnum.AppliedToEcl || result.calibration.status === CalibrationStatusEnum.AppliedOverride) {
                     this.getResults();
                 }
                 if (result.calibration.status === CalibrationStatusEnum.Draft ) {
