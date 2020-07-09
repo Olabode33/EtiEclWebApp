@@ -42,6 +42,7 @@ using TestDemo.EclShared.Emailer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using TestDemo.Configuration;
+using TestDemo.Calibration;
 
 namespace TestDemo.Retail
 {
@@ -68,6 +69,13 @@ namespace TestDemo.Retail
         private readonly IRepository<RetailEclPdAssumptionNonInteralModel, Guid> _eclPdAssumptionNonInternalModelRepository;
         private readonly IRepository<RetailEclPdAssumptionNplIndex, Guid> _eclPdAssumptionNplIndexRepository;
         private readonly IRepository<RetailEclPdSnPCummulativeDefaultRate, Guid> _eclPdSnPCummulativeDefaultRateRepository;
+
+        private readonly IRepository<CalibrationEadBehaviouralTerm, Guid> _eadBehaviouralTermCalibrationRepository;
+        private readonly IRepository<CalibrationEadCcfSummary, Guid> _eadCcfSummaryCalibrationRepository;
+        private readonly IRepository<CalibrationLgdHairCut, Guid> _lgdHaircutCalibrationRepository;
+        private readonly IRepository<CalibrationLgdRecoveryRate, Guid> _lgdRecoveryRateCalibrationRepository;
+        private readonly IRepository<CalibrationPdCrDr, Guid> _pdcrdrCalibrationRepository;
+        private readonly IRepository<MacroAnalysis> _macroCalibrationRepository;
 
         private readonly IBackgroundJobManager _backgroundJobManager;
         private readonly IEclSharedAppService _eclSharedAppService;
@@ -96,6 +104,14 @@ namespace TestDemo.Retail
                                     IRepository<RetailEclPdAssumptionNonInteralModel, Guid> eclPdAssumptionNonInternalModelRepository,
                                     IRepository<RetailEclPdAssumptionNplIndex, Guid> eclPdAssumptionNplIndexRepository,
                                     IRepository<RetailEclPdSnPCummulativeDefaultRate, Guid> eclPdSnPCummulativeDefaultRateRepository,
+
+                                    IRepository<CalibrationEadBehaviouralTerm, Guid> eadBehaviouralTermCalibrationRepository,
+                                    IRepository<CalibrationEadCcfSummary, Guid> eadCcfSummaryCalibrationRepository,
+                                    IRepository<CalibrationLgdHairCut, Guid> lgdHaircutCalibrationRepository,
+                                    IRepository<CalibrationLgdRecoveryRate, Guid> lgdRecoveryRateCalibrationRepository,
+                                    IRepository<CalibrationPdCrDr, Guid> pdcrdrCalibrationRepository,
+                                    IRepository<MacroAnalysis> macroCalibrationRepository,
+
                                     IBackgroundJobManager backgroundJobManager,
                                     IEclSharedAppService eclSharedAppService,
                                     IEclLoanbookExporter loanbookExporter,
@@ -125,6 +141,13 @@ namespace TestDemo.Retail
             _eclPdAssumptionNonInternalModelRepository = eclPdAssumptionNonInternalModelRepository;
             _eclPdAssumptionNplIndexRepository = eclPdAssumptionNplIndexRepository;
             _eclPdSnPCummulativeDefaultRateRepository = eclPdSnPCummulativeDefaultRateRepository;
+
+            _eadBehaviouralTermCalibrationRepository = eadBehaviouralTermCalibrationRepository;
+            _eadCcfSummaryCalibrationRepository = eadCcfSummaryCalibrationRepository;
+            _lgdHaircutCalibrationRepository = lgdHaircutCalibrationRepository;
+            _lgdRecoveryRateCalibrationRepository = lgdRecoveryRateCalibrationRepository;
+            _pdcrdrCalibrationRepository = pdcrdrCalibrationRepository;
+            _macroCalibrationRepository = macroCalibrationRepository;
 
             _backgroundJobManager = backgroundJobManager;
             _eclSharedAppService = eclSharedAppService;
@@ -1044,6 +1067,55 @@ namespace TestDemo.Retail
             if (submittedAssumptions > 0)
             {
                 throw new UserFriendlyException(L("SubmittedAssumptionsYetToBeApproved"));
+            }
+
+            //Behavioural Term Check
+            var appliedBehaviouralTerm = await _eadBehaviouralTermCalibrationRepository.CountAsync(e => e.OrganizationUnitId == ouId
+                                                                                                     && e.Status == CalibrationStatusEnum.AppliedToEcl
+                                                                                                     && (e.ModelType == FrameworkEnum.Retail || e.ModelType == FrameworkEnum.All));
+            if (appliedBehaviouralTerm <= 0)
+            {
+                throw new UserFriendlyException(L("NoAppliedCalibrationForAffiliate", L("CalibrationEadBehaviouralTerm")));
+            }
+            //CCF Check
+            var appliedccf = await _eadCcfSummaryCalibrationRepository.CountAsync(e => e.OrganizationUnitId == ouId
+                                                                                                     && e.Status == CalibrationStatusEnum.AppliedToEcl
+                                                                                                     && (e.ModelType == FrameworkEnum.Retail || e.ModelType == FrameworkEnum.All));
+            if (appliedccf <= 0)
+            {
+                throw new UserFriendlyException(L("NoAppliedCalibrationForAffiliate", L("CalibrationEadCcfSummary")));
+            }
+            //Haircut
+            var appliedhaircut = await _lgdHaircutCalibrationRepository.CountAsync(e => e.OrganizationUnitId == ouId
+                                                                                                     && e.Status == CalibrationStatusEnum.AppliedToEcl
+                                                                                                     && (e.ModelType == FrameworkEnum.Retail || e.ModelType == FrameworkEnum.All));
+            if (appliedhaircut <= 0)
+            {
+                throw new UserFriendlyException(L("NoAppliedCalibrationForAffiliate", L("CalibrationLgdHairCut")));
+            }
+            //Recovery rate check
+            var appliedRecoveryRate = await _lgdRecoveryRateCalibrationRepository.CountAsync(e => e.OrganizationUnitId == ouId
+                                                                                                     && e.Status == CalibrationStatusEnum.AppliedToEcl
+                                                                                                     && (e.ModelType == FrameworkEnum.Retail || e.ModelType == FrameworkEnum.All));
+            if (appliedRecoveryRate <= 0)
+            {
+                throw new UserFriendlyException(L("NoAppliedCalibrationForAffiliate", L("CalibrationLgdRecoveryRate")));
+            }
+            //PdCrDr check
+            var appliedPdCrDr = await _pdcrdrCalibrationRepository.CountAsync(e => e.OrganizationUnitId == ouId
+                                                                                                     && e.Status == CalibrationStatusEnum.AppliedToEcl
+                                                                                                     && (e.ModelType == FrameworkEnum.Retail || e.ModelType == FrameworkEnum.All));
+            if (appliedPdCrDr <= 0)
+            {
+                throw new UserFriendlyException(L("NoAppliedCalibrationForAffiliate", L("CalibrationPdCrDr")));
+            }
+            //Behavioural Term Check
+            var appliedmacro = await _macroCalibrationRepository.CountAsync(e => e.OrganizationUnitId == ouId
+                                                                                                     && e.Status == CalibrationStatusEnum.AppliedToEcl
+                                                                                                     && (e.ModelType == FrameworkEnum.Retail || e.ModelType == FrameworkEnum.All));
+            if (appliedmacro <= 0)
+            {
+                throw new UserFriendlyException(L("NoAppliedCalibrationForAffiliate", L("MacroAnalysis")));
             }
         }
 
