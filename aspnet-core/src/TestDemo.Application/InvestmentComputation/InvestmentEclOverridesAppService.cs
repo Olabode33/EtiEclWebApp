@@ -305,6 +305,19 @@ namespace TestDemo.InvestmentComputation
             await _investmentEclOverrideRepository.DeleteAsync(input.Id);
         }
 
+        public async Task ApproveRejectAll(EclShared.Dtos.ReviewEclOverrideInputDto input)
+        {
+
+            var values = _investmentEclOverrideRepository.GetAll().Where(w => w.EclId == input.EclId && (w.Status == GeneralStatusEnum.AwaitngAdditionApproval || w.Status == GeneralStatusEnum.Submitted)).ToList();
+            foreach (var item in values)
+            {
+                item.Status = input.Status;
+                await _investmentEclOverrideRepository.FirstOrDefaultAsync(item.Id);
+                input.OverrideRecordId = item.Id;
+                await ApproveReject(input);
+            }
+
+        }
 
         [AbpAuthorize(AppPermissions.Pages_EclView_Override_Review)]
         public virtual async Task ApproveReject(EclShared.Dtos.ReviewEclOverrideInputDto input)

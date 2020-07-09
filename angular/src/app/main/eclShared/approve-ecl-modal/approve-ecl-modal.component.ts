@@ -32,6 +32,8 @@ export class ApprovalModalComponent extends AppComponentBase {
     saving = false;
     isShown = false;
     generalStatusEnum = GeneralStatusEnum;
+    rejecting = false;
+    approving = false;
 
     options: IApprovalModalOptions = _.merge({});
     dataSource: any;
@@ -80,6 +82,7 @@ export class ApprovalModalComponent extends AppComponentBase {
         //TODO: update approval note to come from configuration...
         this.message.confirm(this.l("ApprovalNote"), (isConfirmed) => {
             if (isConfirmed) {
+                this.approving = true;
                 if (this.hasProp("status") && this.dataSource.status !== CalibrationStatusEnum.AppliedOverride) {
                     this.dataSource.status = GeneralStatusEnum.Approved;
                 }
@@ -91,15 +94,30 @@ export class ApprovalModalComponent extends AppComponentBase {
                             this.notify.success(this.l("ApprovedSuccessfully"));
                             this.approved.emit(this.dataSource);
                             this.close();
+                            this.approving = false;
                         });
                 } else {
-                    this.serviceProxy
+                    if(this.title == "Review Overrides") {
+                        this.serviceProxy
+                        .approveRejectAll(this.dataSource)
+                        .subscribe(() => {
+                            this.notify.success(this.l("ApprovedSuccessfully"));
+                            this.approved.emit(this.dataSource);
+                            this.close();
+                            this.approving = false;
+                        });
+                    }
+                    else {
+                        this.serviceProxy
                         .approveReject(this.dataSource)
                         .subscribe(() => {
                             this.notify.success(this.l("ApprovedSuccessfully"));
                             this.approved.emit(this.dataSource);
                             this.close();
+                            this.approving = false;
                         });
+                    }
+
                 }
             }
         });
@@ -108,6 +126,7 @@ export class ApprovalModalComponent extends AppComponentBase {
     reject(): void {
         this.message.confirm(this.l("RejectNote"), (isConfirmed) => {
             if (isConfirmed) {
+                this.rejecting = true;
                 if (this.hasProp("status") && this.dataSource.status !== CalibrationStatusEnum.AppliedOverride) {
                     this.dataSource.status = GeneralStatusEnum.Rejected;
                 }
@@ -119,15 +138,29 @@ export class ApprovalModalComponent extends AppComponentBase {
                                 this.notify.success(this.l("RejectedSuccessfully"));
                                 this.approved.emit(this.dataSource);
                                 this.close();
+                                this.rejecting = false;
                             });
                     } else {
+                        if(this.title == "Review Overrides") {
+                            this.serviceProxy
+                            .approveRejectAll(this.dataSource)
+                            .subscribe(() => {
+                                this.notify.success(this.l("RejectedSuccessfully"));
+                                this.approved.emit(this.dataSource);
+                                this.close();
+                                this.rejecting = false;
+                            });
+                        }
+                        else {
                         this.serviceProxy
                             .approveReject(this.dataSource)
                             .subscribe(() => {
                                 this.notify.success(this.l("RejectedSuccessfully"));
                                 this.approved.emit(this.dataSource);
                                 this.close();
+                                this.rejecting = false;
                             });
+                        }
                     }
             }
         });
