@@ -32,6 +32,7 @@ export class EclListComponent extends AppComponentBase implements OnInit {
     @ViewChild('editEclReportDate', { static: true }) editEclReportDate: EditEclReportDateComponent;
 
     loadingEclAssumption = false;
+    generatingReport = false;
 
     eclStatusEnum = EclStatusEnum;
     frameworkEnum = FrameworkEnum;
@@ -143,7 +144,7 @@ export class EclListComponent extends AppComponentBase implements OnInit {
     }
 
     createNewEclWithReportDate(event): void {
-        console.log(event);
+        //console.log(event);
         this.editEclReportDate.close();
         if (this.frameworkForNew) {
             switch (this.frameworkForNew) {
@@ -346,6 +347,67 @@ export class EclListComponent extends AppComponentBase implements OnInit {
         dto.id = eclId;
         this._investmentEclServiceProxy.generateReport(dto).subscribe(() => {
             this.message.success(this.l('EclReportGenerationStartedNotification'));
+        });
+    }
+
+    downloadReport(framework: FrameworkEnum, eclId: string): void {
+        this.generatingReport = true;
+        switch (framework) {
+            case FrameworkEnum.Investments:
+                this.downloadInvestmentReport(eclId);
+                break;
+            case FrameworkEnum.Wholesale:
+                this.downloadWholesaleReport(eclId);
+                break;
+            case FrameworkEnum.Retail:
+                this.downloadRetailReport(eclId);
+                break;
+            case FrameworkEnum.OBE:
+                this.downloadObeReport(eclId);
+                break;
+            default:
+                this.generatingReport = false;
+                break;
+        }
+    }
+
+    downloadWholesaleReport(eclId: string): void {
+        let dto = new EntityDtoOfGuid();
+        dto.id = eclId;
+        this._wholesaleEclServiceProxy.downloadReport(dto)
+        .pipe(finalize(() => this.generatingReport = false ))
+        .subscribe(result => {
+            this._fileDownloadService.downloadTempFile(result);
+        });
+    }
+
+    downloadRetailReport(eclId: string): void {
+        let dto = new EntityDtoOfGuid();
+        dto.id = eclId;
+        this._retailEclServiceProxy.downloadReport(dto)
+        .pipe(finalize(() => this.generatingReport = false ))
+            .subscribe(result => {
+                this._fileDownloadService.downloadTempFile(result);
+            });
+    }
+
+    downloadObeReport(eclId: string): void {
+        let dto = new EntityDtoOfGuid();
+        dto.id = eclId;
+        this._obeEclServiceProxy.downloadReport(dto)
+        .pipe(finalize(() => this.generatingReport = false ))
+            .subscribe(result => {
+                this._fileDownloadService.downloadTempFile(result);
+            });
+    }
+
+    downloadInvestmentReport(eclId: string): void {
+        let dto = new EntityDtoOfGuid();
+        dto.id = eclId;
+        this._investmentEclServiceProxy.downloadReport(dto)
+        .pipe(finalize(() => this.generatingReport = false ))
+        .subscribe(result => {
+            this._fileDownloadService.downloadTempFile(result);
         });
     }
 

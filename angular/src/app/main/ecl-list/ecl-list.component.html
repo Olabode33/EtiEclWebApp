@@ -77,6 +77,11 @@
     </div>
     <div class="kt-content">
         <div class="kt-portlet kt-portlet--mobile">
+            <div *ngIf="generatingReport" class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                    {{l('GeneratingReport')}}
+                </div>
+            </div>
             <div *ngIf="loadingEclAssumption" class="progress">
                 <div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
                     {{l('LoadingAssumptionsForNewEcl')}}
@@ -185,13 +190,18 @@
                                         </button>
                                         <div *ngIf="record.status === eclStatusEnum.Closed" class="btn-group m-btn-group m-btn-group--pill" dropdown container="body">
                                             <button type="button" class="btn btn-primary btn-sm"
-                                                (click)="generateReport(record.framework, record.id)">
+                                                (click)="downloadReport(record.framework, record.id)">
                                                 <i class="fa fa-file-excel"></i> Report
                                             </button>
                                             <button class="dropdown-toggle btn btn-sm btn-primary dropdown-toggle-split" dropdownToggle>
                                                 <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu" *dropdownMenu>
+                                                <li *ngIf="record.status === eclStatusEnum.Closed">
+                                                    <a href="javascript:;" (click)="generateReport(record.framework, record.id)">
+                                                        {{l('SendReportViaEmail')}}
+                                                    </a>
+                                                </li>
                                                 <li *ngIf="record.status === eclStatusEnum.Closed && isGranted('Pages.EclView.Reopen')">
                                                     <a href="javascript:;" (click)="reOpenEcl(record.framework, record.id)">
                                                         {{l('ReOpenEcl')}}

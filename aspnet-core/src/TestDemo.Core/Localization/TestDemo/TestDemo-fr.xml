@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="fr">
   <texts>
+    <text name="GeneratingReport">Generating Report...</text>
     <text name="NoAppliedCalibrationForAffiliate">Cannot create ECL because there's no applied {0} calibration for the selected affiliate.</text>
     <text name="CompletedWithErrorsCheckEmail">Completed with errors: Please check your email for invalid records or Click </text>
     <text name="GenerateReport">Generate Report</text>

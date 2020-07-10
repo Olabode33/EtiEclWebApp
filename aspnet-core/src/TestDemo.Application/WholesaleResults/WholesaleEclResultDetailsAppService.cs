@@ -74,10 +74,10 @@ namespace TestDemo.WholesaleResults
                                                                 PostOverrideResult = new EclResultOverrideFigures
                                                                 {
                                                                     Stage = e.Overrides_Stage,
-                                                                    EclBest = e.ECL_Best_Estimate,
-                                                                    EclDownturn = e.ECL_Downturn,
-                                                                    EclOptimistic = e.ECL_Optimistic,
-                                                                    Impairment = e.Impairment_ModelOutput
+                                                                    EclBest = e.Overrides_ECL_Best_Estimate,
+                                                                    EclDownturn = e.Overrides_ECL_Downturn,
+                                                                    EclOptimistic = e.Overrides_ECL_Optimistic,
+                                                                    Impairment = e.Overrides_Impairment_Manual
                                                                 }
                                                             });
 
