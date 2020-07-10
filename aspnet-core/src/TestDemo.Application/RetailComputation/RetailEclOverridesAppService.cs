@@ -358,6 +358,20 @@ namespace TestDemo.RetailComputation
             await _retailEclOverrideRepository.DeleteAsync(input.Id);
         }
 
+        public async Task ApproveRejectAll(EclShared.Dtos.ReviewEclOverrideInputDto input)
+        {
+
+            var values = _retailEclOverrideRepository.GetAll().Where(w => w.RetailEclDataLoanBookId == input.EclId && (w.Status == GeneralStatusEnum.AwaitngAdditionApproval || w.Status == GeneralStatusEnum.Submitted)).ToList();
+            foreach (var item in values)
+            {
+                item.Status = input.Status;
+                await _retailEclOverrideRepository.FirstOrDefaultAsync(item.Id);
+                input.OverrideRecordId = item.Id;
+                await ApproveReject(input);
+            }
+
+        }
+
 
         [AbpAuthorize(AppPermissions.Pages_EclView_Override_Review)]
         public virtual async Task ApproveReject(EclShared.Dtos.ReviewEclOverrideInputDto input)

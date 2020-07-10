@@ -3,6 +3,7 @@ import {
     CommonLookupServiceProxy,
     CreateOrEditEclOverrideNewDto,
     ImportExcelInvestmentEclOverrideDto,
+    ReviewEclOverrideInputDto,
 } from "./../../../../../shared/service-proxies/service-proxies";
 import { Component, OnInit, Injector, ViewChild, Input } from "@angular/core";
 import {
@@ -21,6 +22,7 @@ import { ApplyOverrideModalComponent } from "../apply-override-modal/apply-overr
 import * as XLSX from "xlsx";
 import { CSVConverter } from "./csv-converter";
 import { finalize } from "rxjs/operators";
+import { ApprovalModalComponent } from "@app/main/eclShared/approve-ecl-modal/approve-ecl-modal.component";
 @Component({
     selector: "app-ecl-override",
     templateUrl: "./ecl-override.component.html",
@@ -31,6 +33,7 @@ export class EclOverrideComponent extends AppComponentBase {
     applyOverrideModal: ApplyOverrideModalComponent;
     @ViewChild("dataTable", { static: true }) dataTable: Table;
     @ViewChild("paginator", { static: true }) paginator: Paginator;
+    @ViewChild('approvalModal', { static: true }) approvalModal: ApprovalModalComponent;
 
     //TODO: Refresh table on modal close
     //TODO: Hide action buttons if ECL is post-override or completed
@@ -152,6 +155,19 @@ export class EclOverrideComponent extends AppComponentBase {
         this.applyOverrideModal.showInViewOnlyMode(sicrId);
     }
 
+    configureApprovalModal(): void {
+        let approvalDto = new ReviewEclOverrideInputDto();
+        approvalDto.eclId = this._eclId;
+        approvalDto.reviewComment = '';
+        approvalDto.status = GeneralStatusEnum.Approved;
+
+        this.approvalModal.configure({
+            title: this.l('ReviewOverrides'),
+            serviceProxy: this._serviceProxy,
+            dataSource: approvalDto
+        });
+    }
+
     getStatusLabelClass(uploadStatus: GeneralStatusEnum): string {
         switch (uploadStatus) {
             case GeneralStatusEnum.Submitted:
@@ -174,7 +190,6 @@ export class EclOverrideComponent extends AppComponentBase {
                     "Asset Description*": "",
                     Stage: "",
                     Impairment: "",
-                    Comment: "",
                     "Override Type": "",
                 },
             ];
@@ -195,7 +210,6 @@ export class EclOverrideComponent extends AppComponentBase {
                     "FSV Shares": "",
                     "FSV Vehicle": "",
                     "Overlays Percentage": "",
-                    Comment: "",
                     "Override Type": "",
                 },
             ];
@@ -233,7 +247,6 @@ export class EclOverrideComponent extends AppComponentBase {
                     var obj = new ImportExcelInvestmentEclOverrideDto();
                     obj.assetDescription = r["Asset Description*"];
                     obj.impairmentOverride = r["Impairment"] as number;
-                    obj.overrideComment = r["Comment"];
                     obj.overrideType = r["Override Type"];
                     obj.stageOverride = r["Stage"] as number;
                     finalList.push(obj);

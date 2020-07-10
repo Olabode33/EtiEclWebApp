@@ -23,11 +23,11 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" (click)="reject()">
+                <button [buttonBusy]="rejecting" type="button" class="btn btn-danger" (click)="reject()">
                     <i class="fa fa-times"></i>
                     {{"Reject" | localize}}
                 </button>
-                <button type="button" class="btn btn-success" (click)="approve()">
+                <button [buttonBusy]="approving" type="button" class="btn btn-success" (click)="approve()">
                     <i class="fa fa-check"></i>
                     {{"Approve" | localize}}
                 </button>

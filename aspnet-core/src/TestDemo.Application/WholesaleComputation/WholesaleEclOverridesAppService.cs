@@ -29,6 +29,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using TestDemo.Configuration;
 using TestDemo.WholesaleResults;
+using TestDemo.EclShared.Dtos;
 
 namespace TestDemo.WholesaleComputation
 {
@@ -355,6 +356,20 @@ namespace TestDemo.WholesaleComputation
         public async Task Delete(EntityDto<Guid> input)
         {
             await _wholesaleEclOverrideRepository.DeleteAsync(input.Id);
+        }
+
+        public async Task ApproveRejectAll(ReviewEclOverrideInputDto input)
+        {
+
+            var values = _wholesaleEclOverrideRepository.GetAll().Where(w => w.WholesaleEclDataLoanBookId == input.EclId && (w.Status == GeneralStatusEnum.AwaitngAdditionApproval || w.Status == GeneralStatusEnum.Submitted)).ToList();
+            foreach (var item in values)
+            {
+                item.Status = input.Status;
+                await _wholesaleEclOverrideRepository.FirstOrDefaultAsync(item.Id);
+                input.OverrideRecordId = item.Id;
+                await ApproveReject(input);
+            }
+            
         }
 
 

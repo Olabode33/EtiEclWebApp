@@ -1,6 +1,6 @@
 import { Component, ViewChild, Injector, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
-import { GeneralStatusEnum } from '@shared/service-proxies/service-proxies';
+import { GeneralStatusEnum, CalibrationStatusEnum } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { Observable } from 'rxjs';
 import * as _ from 'lodash';
@@ -32,6 +32,8 @@ export class ApprovalModalComponent extends AppComponentBase {
     saving = false;
     isShown = false;
     generalStatusEnum = GeneralStatusEnum;
+    rejecting = false;
+    approving = false;
 
     options: IApprovalModalOptions = _.merge({});
     dataSource: any;
@@ -78,37 +80,90 @@ export class ApprovalModalComponent extends AppComponentBase {
 
     approve(): void {
         //TODO: update approval note to come from configuration...
-        this.message.confirm(
-            this.l('ApprovalNote'),
-            (isConfirmed) => {
-                if (isConfirmed) {
-                    if (this.hasProp('status')) {
-                        this.dataSource.status = GeneralStatusEnum.Approved;
-                    }
-                    this.serviceProxy.approveReject(this.dataSource).subscribe(() => {
-                        this.notify.success(this.l('ApprovedSuccessfully'));
-                        this.approved.emit(this.dataSource);
-                        this.close();
-                    });
+        this.message.confirm(this.l("ApprovalNote"), (isConfirmed) => {
+            if (isConfirmed) {
+                this.approving = true;
+                if (this.hasProp("status") && this.dataSource.status !== CalibrationStatusEnum.AppliedOverride) {
+                    this.dataSource.status = GeneralStatusEnum.Approved;
                 }
-            });
+                if (this.dataSource.status == CalibrationStatusEnum.AppliedOverride) {
+                    this.dataSource.status = GeneralStatusEnum.Approved;
+                    this.serviceProxy
+                        .approveRejectCalibrationResult(this.dataSource)
+                        .subscribe(() => {
+                            this.notify.success(this.l("ApprovedSuccessfully"));
+                            this.approved.emit(this.dataSource);
+                            this.close();
+                            this.approving = false;
+                        });
+                } else {
+                    if(this.title == "Review Overrides") {
+                        this.serviceProxy
+                        .approveRejectAll(this.dataSource)
+                        .subscribe(() => {
+                            this.notify.success(this.l("ApprovedSuccessfully"));
+                            this.approved.emit(this.dataSource);
+                            this.close();
+                            this.approving = false;
+                        });
+                    }
+                    else {
+                        this.serviceProxy
+                        .approveReject(this.dataSource)
+                        .subscribe(() => {
+                            this.notify.success(this.l("ApprovedSuccessfully"));
+                            this.approved.emit(this.dataSource);
+                            this.close();
+                            this.approving = false;
+                        });
+                    }
+
+                }
+            }
+        });
     }
 
     reject(): void {
-        this.message.confirm(
-            this.l('RejectNote'),
-            (isConfirmed) => {
-                if (isConfirmed) {
-                    if (this.hasProp('status')) {
-                        this.dataSource.status = GeneralStatusEnum.Rejected;
-                    }
-                    this.serviceProxy.approveReject(this.dataSource).subscribe(() => {
-                        this.notify.success(this.l('RejectedSuccessfully'));
-                        this.approved.emit(this.dataSource);
-                        this.close();
-                    });
+        this.message.confirm(this.l("RejectNote"), (isConfirmed) => {
+            if (isConfirmed) {
+                this.rejecting = true;
+                if (this.hasProp("status") && this.dataSource.status !== CalibrationStatusEnum.AppliedOverride) {
+                    this.dataSource.status = GeneralStatusEnum.Rejected;
                 }
-            });
+                    if (this.dataSource.status == CalibrationStatusEnum.AppliedOverride) {
+                        this.dataSource.status = GeneralStatusEnum.Rejected;
+                        this.serviceProxy
+                            .approveRejectCalibrationResult(this.dataSource)
+                            .subscribe(() => {
+                                this.notify.success(this.l("RejectedSuccessfully"));
+                                this.approved.emit(this.dataSource);
+                                this.close();
+                                this.rejecting = false;
+                            });
+                    } else {
+                        if(this.title == "Review Overrides") {
+                            this.serviceProxy
+                            .approveRejectAll(this.dataSource)
+                            .subscribe(() => {
+                                this.notify.success(this.l("RejectedSuccessfully"));
+                                this.approved.emit(this.dataSource);
+                                this.close();
+                                this.rejecting = false;
+                            });
+                        }
+                        else {
+                        this.serviceProxy
+                            .approveReject(this.dataSource)
+                            .subscribe(() => {
+                                this.notify.success(this.l("RejectedSuccessfully"));
+                                this.approved.emit(this.dataSource);
+                                this.close();
+                                this.rejecting = false;
+                            });
+                        }
+                    }
+            }
+        });
     }
 
 }

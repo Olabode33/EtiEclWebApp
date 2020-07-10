@@ -356,6 +356,19 @@ namespace TestDemo.ObeComputation
             await _obeEclOverrideRepository.DeleteAsync(input.Id);
         }
 
+        public async Task ApproveRejectAll(EclShared.Dtos.ReviewEclOverrideInputDto input)
+        {
+
+            var values = _obeEclOverrideRepository.GetAll().Where(w => w.ObeEclDataLoanBookId == input.EclId && (w.Status == GeneralStatusEnum.AwaitngAdditionApproval || w.Status == GeneralStatusEnum.Submitted)).ToList();
+            foreach (var item in values)
+            {
+                item.Status = input.Status;
+                await _obeEclOverrideRepository.FirstOrDefaultAsync(item.Id);
+                input.OverrideRecordId = item.Id;
+                await ApproveReject(input);
+            }
+
+        }
 
         [AbpAuthorize(AppPermissions.Pages_EclView_Override_Review)]
         public virtual async Task ApproveReject(EclShared.Dtos.ReviewEclOverrideInputDto input)
