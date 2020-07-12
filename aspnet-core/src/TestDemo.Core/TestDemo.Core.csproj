@@ -65,4 +65,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TestDemo.Core.Shared\TestDemo.Core.Shared.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BatchEcl\DataSeperators\" />
+  </ItemGroup>
 </Project>

@@ -23,4 +23,13 @@ namespace TestDemo.Dto.Ecls
         public List<PdInputAssumptionNplIndexDto> PdInputAssumptionNplIndex { get; set; }
         public List<PdInputSnPCummulativeDefaultRateDto> PdInputSnPCummulativeDefaultRate { get; set; }
     }
+
+    public class GetBatchEclForEditOutput
+    {
+        public CreateOrEditEclDto EclDto { get; set; }
+        public string Country { get; set; }
+        public string CreatedByUserName { get; set; }
+        public string ClosedByUserName { get; set; }
+        public List<GetAllEclForWorkspaceDto> SubEcls { get; set; }
+    }
 }

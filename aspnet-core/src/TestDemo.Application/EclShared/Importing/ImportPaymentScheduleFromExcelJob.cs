@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TestDemo.Authorization.Users;
+using TestDemo.BatchEcls.BatchEclInput;
 using TestDemo.Common;
 using TestDemo.Configuration;
 using TestDemo.Dto;
@@ -44,6 +45,8 @@ namespace TestDemo.EclShared.Importing
         private readonly IRepository<RetailEclUpload, Guid> _retailUploadSummaryRepository;
         private readonly IRepository<WholesaleEclUpload, Guid> _wholesaleUploadSummaryRepository;
         private readonly IRepository<ObeEclUpload, Guid> _obeUploadSummaryRepository;
+        private readonly IRepository<BatchEclUpload, Guid> _batchUploadSummaryRepository;
+        private readonly IRepository<BatchEclDataPaymentSchedule, Guid> _batchDataPaymentScheduleRepository;
         private readonly IAppNotifier _appNotifier;
         private readonly IBinaryObjectManager _binaryObjectManager;
         private readonly ILocalizationSource _localizationSource;
@@ -70,6 +73,8 @@ namespace TestDemo.EclShared.Importing
             IRepository<RetailEclUpload, Guid> retailUploadSummaryRepository,
             IRepository<WholesaleEclUpload, Guid> wholesaleUploadSummaryRepository,
             IRepository<ObeEclUpload, Guid> obeUploadSummaryRepository,
+            IRepository<BatchEclUpload, Guid> batchUploadSummaryRepository,
+            IRepository<BatchEclDataPaymentSchedule, Guid> batchDataPaymentScheduleRepository,
             IEclEngineEmailer emailer,
             IHostingEnvironment env,
             IRepository<User, long> userRepository,
@@ -89,6 +94,8 @@ namespace TestDemo.EclShared.Importing
             _retailUploadSummaryRepository = retailUploadSummaryRepository;
             _wholesaleUploadSummaryRepository = wholesaleUploadSummaryRepository;
             _obeUploadSummaryRepository = obeUploadSummaryRepository;
+            _batchUploadSummaryRepository = batchUploadSummaryRepository;
+            _batchDataPaymentScheduleRepository = batchDataPaymentScheduleRepository;
             _appNotifier = appNotifier;
             _binaryObjectManager = binaryObjectManager;
             _objectMapper = objectMapper;
@@ -289,6 +296,15 @@ namespace TestDemo.EclShared.Importing
                         _obeUploadSummaryRepository.Update(obeSummary);
                     }
                     break;
+
+                case FrameworkEnum.Batch:
+                    var bSummary = _batchUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (bSummary != null)
+                    {
+                        bSummary.AllJobs = allJobs;
+                        _batchUploadSummaryRepository.Update(bSummary);
+                    }
+                    break;
             }
             CurrentUnitOfWork.SaveChanges();
         }
@@ -330,6 +346,17 @@ namespace TestDemo.EclShared.Importing
                         _obeUploadSummaryRepository.Update(obeSummary);
                     }
                     break;
+
+                case FrameworkEnum.Batch:
+                    var bs = _batchUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (bs != null)
+                    {
+                        bs.FileUploaded = false;
+                        bs.Status = GeneralStatusEnum.Failed;
+                        bs.UploadComment = _localizationSource.GetString("FileCantBeConvertedToLoanbookList");
+                        _batchUploadSummaryRepository.Update(bs);
+                    }
+                    break;
             }
             CurrentUnitOfWork.SaveChanges();
         }
@@ -369,6 +396,36 @@ namespace TestDemo.EclShared.Importing
                         AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_EclPaymentScheduleObe, DbHelperConst.COL_ObeEclUploadId, obeSummary.ObeEclId.ToString()));
 
                         //_obeEclDataPaymentScheduleRepository.HardDelete(x => x.ObeEclUploadId == obeSummary.ObeEclId);
+                    }
+                    break;
+
+                case FrameworkEnum.Batch:
+                    var batchSummary = _batchUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    var blb = _batchDataPaymentScheduleRepository.Count(x => x.BatchId == batchSummary.BatchId);
+                    if (batchSummary != null && blb > 0)
+                    {
+                        AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_BatchEclDataPaymentSchedules, DbHelperConst.COL_BatchId, batchSummary.Id.ToString()));
+                        //_obeEclDataLoanbookRepository.HardDelete(x => x.ObeEclUploadId == obeSummary.ObeEclId);
+                    }
+                    var bObe = _obeEclRepository.FirstOrDefault(e => e.BatchId == batchSummary.BatchId);
+                    var olb = _obeEclDataPaymentScheduleRepository.Count(x => x.ObeEclUploadId == bObe.Id);
+                    if (bObe != null && olb > 0)
+                    {
+                        AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_EclPaymentScheduleObe, DbHelperConst.COL_ObeEclUploadId, bObe.Id.ToString()));
+                    }
+
+                    var bw = _wholesaleEclRepository.FirstOrDefault(e => e.BatchId == batchSummary.BatchId);
+                    var bwlb = _wholesaleEclDataPaymentScheduleRepository.Count(x => x.WholesaleEclUploadId == bw.Id);
+                    if (bw != null && bwlb > 0)
+                    {
+                        AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_EclPaymentScheduleWholesale, DbHelperConst.COL_WholesaleEclUploadId, bw.Id.ToString()));
+                    }
+
+                    var br = _retailEclRepository.FirstOrDefault(e => e.BatchId == batchSummary.BatchId);
+                    var brlb = _retailEclDataPaymentScheduleRepository.Count(x => x.RetailEclUploadId == br.Id);
+                    if (bw != null && brlb > 0)
+                    {
+                        AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_EclPaymentScheduleRetail, DbHelperConst.COL_RetailEclUploadId, br.Id.ToString()));
                     }
                     break;
             }

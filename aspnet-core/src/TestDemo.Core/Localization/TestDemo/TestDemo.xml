@@ -1,6 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+
+    <text name="NoLoanbookForBatch">Please upload the loanbook snapshot before uploading the payment schedule</text>
+    <text name="LoanbookInProcessForBatch">Please wait for the loanbook upload process to be completed before uploading the payment schedule!</text>
+    <text name="NoSubEclFoundForBatch">No ECL was found for this Batch!</text>
+    <text name="LoadingAssumptions">Preparing</text>
     <text name="GeneratingReport">Generating Report...</text>
     <text name="SendReportViaEmail">Send Report via Email</text>
     <text name="NoAppliedCalibrationForAffiliate">Cannot create ECL because there's no applied {0} calibrations for the selected affiliate.</text>        <text name="CompletedWithErrorsCheckEmail">Completed with errors: Please check your email for invalid records or Click </text>

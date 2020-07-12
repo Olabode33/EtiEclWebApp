@@ -1,0 +1,328 @@
+<div [@routerTransition]>
+
+    <div class="kt-subheader kt-grid__item">
+
+        <div class="kt-subheader__main">
+            <h3 class="kt-subheader__title">
+                <span>{{l(frameworkEnum[frameworkEnum.Batch])}} ECL</span>
+            </h3>
+            <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+            <span class="kt-subheader__desc">
+                {{l("ViewEcl")}}
+            </span>
+        </div>
+        <div class="kt-subheader__toolbar">
+            <div class="kt-subheader__wrapper">
+                <button (click)="submitEcl()" class="btn btn-outline-primary" *ngIf="eclDto.status == eclStatusEnum.Draft && isGranted('Pages.EclView.Submit')">
+                    <i class="fa fa-check" style="font-size: 1.2rem !important;"></i>
+                    {{l("Submit")}}
+                </button>
+                <button (click)="approveEcl()" class="btn btn-primary"
+                    *ngIf="(eclDto.status == eclStatusEnum.Submitted || eclDto.status == eclStatusEnum.AwaitngAdditionApproval) && isGranted('Pages.EclView.Review')">
+                    <i class="fa fa-check-double" style="font-size: 1.2rem !important;"></i>
+                    {{l("Approve")}}
+                </button>
+                <button (click)="runEclComputation()" class="btn btn-success"
+                    *ngIf="eclDto.status == eclStatusEnum.Approved && isGranted('Pages.EclView.Run')">
+                    <i class="fa fa-play-circle" style="font-size: 1.2rem !important;"></i>
+                    {{l("Run")}}
+                </button>
+                <!-- <button (click)="runEclPostComputation()" class="btn btn-success"
+                    *ngIf="(eclDto.status == eclStatusEnum.PreOverrideComplete || eclDto.status == eclStatusEnum.PostOverrideComplete || eclDto.status == eclStatusEnum.Completed) && isGranted('Pages.EclView.Run') ">
+                    <i class="fa fa-forward" style="font-size: 1.2rem !important;"></i>
+                    {{l("PostRun")}}
+                </button>
+                <button (click)="closeEcl()" class="btn btn-primary" *ngIf="eclDto.status == eclStatusEnum.Completed && isGranted('Pages.EclView.Close')">
+                    <i class="fa fa-check-circle" style="font-size: 1.2rem !important;"></i>
+                    {{l("Close")}}
+                </button> -->
+                <!-- <div *ngIf="eclDto.status == eclStatusEnum.Completed || eclDto.status == eclStatusEnum.PreOverrideComplete || eclDto.status == eclStatusEnum.PostOverrideComplete"  
+                    class="btn-group" dropdown>
+                    <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
+                        {{l("GenerateReport")}}
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-excel-operations" *dropdownMenu>
+                        <a class="dropdown-item" (click)="downloadReport()"
+                            href="javascript:;">
+                            {{'DownloadToFile' | localize}}
+                        </a>
+                        <a class="dropdown-item" id="ExportUsersToExcelButton" (click)="generateReport()"
+                            href="javascript:;">
+                            {{'SendAsEmail' | localize}}
+                        </a>
+                    </div>
+                </div> -->
+                <button (click)="goBack()" class="btn btn-outline-danger">
+                    <i class="fa fa-reply" style="font-size: 1.2rem !important;"></i>
+                    {{l("GoBack")}}
+                </button>
+            </div>
+        </div>
+
+    </div>
+    <div class="kt-content">
+        <div class="kt-portlet">
+            <div *ngIf="isLoading" class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+            </div>
+            <div class="kt-portlet__body">
+                <div class="kt-widget kt-widget--user-profile-3">
+                    <div class="kt-widget__top">
+                        <div class="kt-widget__content">
+                            <div class="kt-widget__head">
+                                <div class="kt-widget__user">
+                                    <!-- <a href="javascript:void(0);" class="kt-widget__username">
+                                        #4556 &nbsp;
+                                    </a> -->
+                                </div>
+                                <div class="kt-widget__action">
+                                    <span class="kt-badge kt-badge--inline kt-badge--pill kt-badge--rounded
+                                               kt-badge--{{eclDto.status == eclStatusEnum.Completed ? 'success' :
+                                                            ( eclDto.status === eclStatusEnum.Draft ? 'danger' :
+                                                            ( eclDto.status === eclStatusEnum.Closed ? 'primary' : 'warning'))}}">
+                                        {{l(eclStatusEnum[eclDto.status])}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="kt-widget__subhead kt-widget__subhead-overwrite">
+                                <div class="row align-middle mt-3">
+                                    <div class="col align-middle">
+                                        <div class="kt-widget__label kt-widget__label-overwrite">
+                                            {{l('ReportingDate')}}:
+                                            <span *ngIf="!isGranted('Pages.EclView.Edit') || eclDto.status != eclStatusEnum.Draft" class="btn btn-label-brand btn-sm btn-bold btn-upper">{{eclDto.reportingDate | momentFormat:'LL'}}</span>
+                                            <button *ngIf="isGranted('Pages.EclView.Edit') && eclDto.status == eclStatusEnum.Draft" class="btn btn-outline-primary btn-sm btn-pill" (click)="editReportDate()">
+                                                {{ eclDto.reportingDate | momentFormat: 'll'}}
+                                                <i class="fa fa-edit hoverable"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col text-center align-middle">
+                                        <div class="kt-widget__label kt-widget__label-overwrite">
+                                            {{l('Affiliate')}}:
+                                            <span class="btn btn-label-success btn-sm btn-bold btn-upper">{{eclDetails.country}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col text-right align-middle">
+                                        <div class="kt-widget__label kt-widget__label-overwrite">
+                                            {{l('CreatedBy')}}:
+                                            <span class="btn btn-label-warning btn-sm btn-bold btn-upper">{{eclDetails.createdByUserName}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Start Result -->
+        <!-- <app-ecl-results #eclResultTag></app-ecl-results> -->
+        <!-- End Result -->
+
+        <!--  -->
+        <div class="row">
+            <div [hidden]="eclDto.status === eclStatusEnum.LoadingAssumptions" class="col-xl-12">
+                <!-- Start Upload -->
+                <div class="kt-portlet kt-portlet--height-fluid">
+                    <div class="kt-portlet__head ">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                {{l('UploadSummary')}}
+                            </h3>
+                        </div>
+                        <div class="kt-portlet__head-toolbar">
+                            <button type="button" (click)="getEclUploadSummary()"
+                                class="btn btn-primary mr-2">
+                                <i class="fa fa-sync"></i> {{"Refresh" | localize}}
+                            </button>
+                            <div *ngIf="isGranted('Pages.EclView.Upload')" class="btn-group" dropdown>
+                                <button dropdownToggle type="button" *ngIf="eclDto.status == eclStatusEnum.Draft"
+                                    class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-upload"></i> {{"Upload" | localize}}
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-excel-operations" *dropdownMenu>
+                                    <a href="javascript:;" class="no-padding">
+                                        <span class="fileinput-button">
+                                            <p-fileUpload customUpload="true"
+                                                    name="UploadLoanSnapshot"
+                                                    #UploadLoanSnapshot
+                                                    maxFileSize="100000000"
+                                                    auto="auto"
+                                                    accept=".xls,.xlsx"
+                                                    (uploadHandler)="uploadLoanbook($event)"
+                                                    (onError)="onUploadExcelError()"
+                                                    chooseLabel="{{'RawDataLoanBook' | localize}}">
+                                            </p-fileUpload>
+                                        </span>
+                                    </a>
+                                    <a href="javascript:;" class="no-padding">
+                                        <span class="fileinput-button">
+                                            <p-fileUpload customUpload="true"
+                                                    name="UploadPaymentSchedule"
+                                                    #UploadPaymentSchedule
+                                                    maxFileSize="100000000"
+                                                    auto="auto"
+                                                    accept=".xls,.xlsx"
+                                                    (uploadHandler)="uploadPaymentSchedule($event)"
+                                                    (onError)="onUploadExcelError()"
+                                                    chooseLabel="{{'RawDataPaymentSchedule' | localize}}">
+                                            </p-fileUpload>
+                                        </span>
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <span class="dropdown-item-text text-muted pl-3" href="#">
+                                        <small 
+                                            [innerHTML]="l('ImportToExcelSampleLoanbookFileDownloadInfo', '<a href=/assets/sampleFiles/EclData/LoanbookSnapshotSample.xlsx>' + l('ClickHere') + '</a>')"></small>
+                                        <br><br>
+                                        <small 
+                                            [innerHTML]="l('ImportToExcelSamplePaymentScheduleFileDownloadInfo', '<a href=/assets/sampleFiles/EclData/PaymentScheduleSample.xlsx>' + l('ClickHere') + '</a>')"></small>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <div class="table-responsive">
+                            <p *ngIf="eclUploads.length <= 0" class="">
+                                {{l('NoUploadedRecordFoundForEcl')}}
+                            </p>
+                            <table *ngIf="eclUploads.length > 0" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>{{l('Actions')}}</th>
+                                        <th>{{l('DocType')}}</th>
+                                        <th>{{l('DateUploaded')}}</th>
+                                        <th>{{l('UploadedBy')}}</th>
+                                        <th>{{l('Status')}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of eclUploads">
+                                        <td>
+                                            <button *ngIf="eclDto.status !== eclStatusEnum.Draft" type="button" class="btn btn-primary btn-sm"
+                                                (click)="exportData(item)">
+                                                <i class="fa fa-file-excel"></i> {{l('Export')}}
+                                            </button>
+                                            <div *ngIf="eclDto.status == eclStatusEnum.Draft" class="btn-group m-btn-group m-btn-group--pill" dropdown container="body">
+                                                <button type="button" class="btn btn-primary btn-sm" (click)="exportData(item)">
+                                                    <i class="fa fa-file-excel"></i> {{l('Export')}}
+                                                </button>
+                                                <button class="dropdown-toggle btn btn-sm btn-primary dropdown-toggle-split" dropdownToggle>
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" *dropdownMenu>
+                                                    <li>
+                                                        <a href="javascript:;" (click)="deleteUploadSummary(item.eclUpload.id)">{{l('Delete')}}</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle">{{l(uploadDocEnum[item.eclUpload.docType])}}</td>
+                                        <td class="align-middle">{{item.dateUploaded | momentFormat: 'LL'}}</td>
+                                        <td class="align-middle">{{item.uploadedBy}}</td>
+                                        <td class="align-middle">
+                                            <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline
+                                                            kt-badge--unified-{{ getStatusLabelClass(item.eclUpload.status) }}">
+                                                {{l(statusEnum[item.eclUpload.status])}}
+                                            </span>
+                                        </td>
+                                        <td style="width: 100px;" class="align-middle" *ngIf="item.eclUpload.status == statusEnum.Processing">
+                                            {{l('Uploading')}}:
+                                            <span *ngIf="item.eclUpload.fileUploaded" class="text-success"><i class="fa fa-check-circle"></i>Done</span>
+                                            <div *ngIf="!item.eclUpload.fileUploaded" class="progress" style="height: 10px;">
+                                                <div class="progress-bar progress-bar-striped" [ngClass]="{'progress-bar-animated': !item.eclUpload.fileUploaded}"
+                                                     role="progressbar" style="width: 100%"></div>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle" *ngIf="item.eclUpload.status == statusEnum.Processing && item.eclUpload.fileUploaded">
+                                            {{l('Validating')}}:
+                                            <div class="progress" style="height: 10px;">
+                                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle" *ngIf="item.eclUpload.status == statusEnum.Failed || item.eclUpload.uploadComment !== ''">
+                                            <span [innerHTML]="item.eclUpload.uploadComment"></span>
+                                        </td>
+                                        <td class="align-middle" *ngIf="item.eclUpload.status == statusEnum.Completed">
+                                            <span>
+                                                {{
+                                                    l('Total') + ': ' + item.eclUpload.countTotalData + '; ' +
+                                                    l('Wholesale') + ': ' + item.eclUpload.countWholesaleData + '; ' +
+                                                    l('Retail') + ': ' + item.eclUpload.countRetailData + '; ' +
+                                                    l('Obe') + ': ' + item.eclUpload.countObeData + '; ' 
+                                                }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- End Upload -->
+            </div>
+
+            <div class="col-xl-12">
+                <div class="kt-portlet kt-portlet--height-fluid">
+                    <div class="kt-portlet__head"><div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">
+                            {{l('ECLs')}}
+                        </h3>
+                    </div></div>
+                    <div class="kt-portlet__body">
+                        <div *ngIf="eclDto.status !== eclStatusEnum.LoadingAssumptions">
+                            <div class="table-responsive">
+                                <p *ngIf="subEclList.length <= 0" class="">
+                                    {{l('NoSubEclFoundForBatch')}}
+                                </p>
+                                <table *ngIf="subEclList.length > 0" class="table table-hover">
+                                    <thead>
+                                        <th>{{l('Actions')}}</th>
+                                        <th>{{l('Framework')}}</th>
+                                        <th>{{l('CreatedBy')}}</th>
+                                        <th>{{l('Status')}}</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let subs of subEclList">
+                                            <td [hidden]="!isGrantedAny('Pages.EclView')">
+                                                <button *ngIf="subs.status !== eclStatusEnum.Closed" type="button" class="btn btn-primary btn-sm"
+                                                        (click)="viewEcl(subs.framework, subs.id)">
+                                                        <i class="fa fa-info-circle"></i> View
+                                                    </button>
+                                            </td>
+                                            <td>{{l( frameworkEnum[subs.framework]) }}</td>
+                                            <td>{{subs.createdByUserName}}</td>
+                                            <td>
+                                                <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline 
+                                                                 kt-badge--unified-{{subs.status == eclStatusEnum.Completed ? 'success' : 
+                                                                                        ( subs.status === eclStatusEnum.Draft ? 'danger' : 
+                                                                                        ( subs.status === eclStatusEnum.Closed ? 'primary' : 'warning'))}}">
+                                                        {{l( eclStatusEnum[subs.status])}}
+                                                    </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-xl-12">
+                <!-- Start Audit Trail -->
+                <app-ecl-audit-info #eclAuditInfoTag></app-ecl-audit-info>
+                <!-- End Audit Trail -->
+            </div>
+        </div>
+    </div>
+
+    <app-approve-ecl-modal #approvalModal (approved)="eclReviewed($event)"></app-approve-ecl-modal>
+    <app-edit-eclReportDate #editEclReportDate (submitReportDate)="getEclDetails()"></app-edit-eclReportDate>
+</div>

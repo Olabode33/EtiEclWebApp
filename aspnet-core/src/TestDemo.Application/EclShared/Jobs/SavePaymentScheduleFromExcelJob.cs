@@ -9,6 +9,7 @@ using Abp.Organizations;
 using Abp.Threading;
 using Abp.UI;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TestDemo.Authorization.Users;
+using TestDemo.BatchEcls.BatchEclInput;
 using TestDemo.Common;
 using TestDemo.Configuration;
 using TestDemo.Dto;
@@ -60,6 +62,10 @@ namespace TestDemo.EclShared.Importing
         private readonly IEclCustomRepository _customRepository;
         private readonly IRepository<TrackEclDataPaymentScheduleException> _exceptionTrackerRepository;
         private readonly IRepository<TrackRunningUploadJobs> _uploadJobsTrackerRepository;
+        private readonly IRepository<BatchEclUpload, Guid> _batchUploadSummaryRepository;
+        private readonly IRepository<RetailEclDataLoanBook, Guid> _retailEclDataLoanbookRepository;
+        private readonly IRepository<WholesaleEclDataLoanBook, Guid> _wholesaleEclDataLoanbookRepository;
+        private readonly IRepository<ObeEclDataLoanBook, Guid> _obeEclDataLoanbookRepository;
         private readonly IValidationUtil _validator;
 
         public SavePaymentScheduleFromExcelJob(
@@ -83,6 +89,10 @@ namespace TestDemo.EclShared.Importing
             IRepository<WholesaleEcl, Guid> wholesaleEclRepository,
             IRepository<TrackEclDataPaymentScheduleException> exceptionTrackerRepository,
             IRepository<TrackRunningUploadJobs> uploadJobsTrackerRepository,
+            IRepository<BatchEclUpload, Guid> batchUploadSummaryRepository,
+            IRepository<RetailEclDataLoanBook, Guid> retailEclDataLoanbookRepository,
+            IRepository<WholesaleEclDataLoanBook, Guid> wholesaleEclDataLoanbookRepository,
+            IRepository<ObeEclDataLoanBook, Guid> obeEclDataLoanbookRepository,
             IEclCustomRepository customRepository,
             IValidationUtil validator,
             IObjectMapper objectMapper)
@@ -109,6 +119,10 @@ namespace TestDemo.EclShared.Importing
             _customRepository = customRepository;
             _exceptionTrackerRepository = exceptionTrackerRepository;
             _uploadJobsTrackerRepository = uploadJobsTrackerRepository;
+            _batchUploadSummaryRepository = batchUploadSummaryRepository;
+            _retailEclDataLoanbookRepository = retailEclDataLoanbookRepository;
+            _wholesaleEclDataLoanbookRepository = wholesaleEclDataLoanbookRepository;
+            _obeEclDataLoanbookRepository = obeEclDataLoanbookRepository;
             _validator = validator;
         }
 
@@ -180,6 +194,10 @@ namespace TestDemo.EclShared.Importing
                 case FrameworkEnum.OBE:
                     var obeSummary = _obeUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
                     return obeSummary == null ? (Guid?)null : (Guid)obeSummary.ObeEclId;
+
+                case FrameworkEnum.Batch:
+                    var batchSummary = _batchUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    return batchSummary == null ? (Guid?)null : (Guid)batchSummary.BatchId;
                 default:
                     return null;
             }
@@ -190,20 +208,28 @@ namespace TestDemo.EclShared.Importing
         {
             var invalidPaymentSchedule = new List<ImportPaymentScheduleDto>();
 
+            List<string> obeSeperator = new List<string>();
+            List< string > wSeperator = new List<string>();
+            List<string> rSeperator = new List<string>();
+            if (args.Framework == FrameworkEnum.Batch)
+            {
+                GetLoanbookContractNo(eclId, out obeSeperator, out wSeperator, out rSeperator);
+            }
+
             foreach (var paymentSchedule in paymentSchedules)
             {
                 if (paymentSchedule.CanBeImported())
                 {
                     try
                     {
-                        AsyncHelper.RunSync(() => CreatePaymentScheduleAsync(paymentSchedule, args, eclId));
+                        AsyncHelper.RunSync(() => CreatePaymentScheduleAsync(paymentSchedule, args, eclId, obeSeperator, wSeperator, rSeperator));
                     }
                     catch (UserFriendlyException exception)
                     {
                         paymentSchedule.Exception = exception.Message;
                         invalidPaymentSchedule.Add(paymentSchedule);
                     }
-                    catch(Exception exception)
+                    catch (Exception exception)
                     {
                         paymentSchedule.Exception = exception.ToString();
                         invalidPaymentSchedule.Add(paymentSchedule);
@@ -218,49 +244,141 @@ namespace TestDemo.EclShared.Importing
             AsyncHelper.RunSync(() => ProcessImportPaymentScheduleResultAsync(args, invalidPaymentSchedule, eclId));
         }
 
-        private async Task CreatePaymentScheduleAsync(ImportPaymentScheduleDto input, ImportEclDataFromExcelJobArgs args, Guid eclId)
+        private void GetLoanbookContractNo(Guid eclId, out List<string> obeSeperator, out List<string> wSeperator, out List<string> rSeperator)
+        {
+            obeSeperator = new List<string>();
+            wSeperator = new List<string>();
+            rSeperator = new List<string>();
+
+            var obeEcl = _obeEclRepository.FirstOrDefault(e => e.BatchId == eclId);
+            var wEcl = _wholesaleEclRepository.FirstOrDefault(e => e.BatchId == eclId);
+            var rEcl = _retailEclRepository.FirstOrDefault(e => e.BatchId == eclId);
+
+            if (obeEcl != null)
+            {
+                var os = _obeEclDataLoanbookRepository.GetAll()
+                            .Where(e => e.ObeEclUploadId == obeEcl.Id)
+                            .Select(e => e.ContractNo)
+                            .ToList();
+                obeSeperator.AddRange(os);
+            }
+
+            if (wEcl != null)
+            {
+                var ws = _wholesaleEclDataLoanbookRepository.GetAll()
+                            .Where(e => e.WholesaleEclUploadId == wEcl.Id)
+                            .Select(e => e.ContractNo)
+                            .ToList();
+                wSeperator.AddRange(ws);
+            }
+
+            if (rEcl != null)
+            {
+                var rs = _retailEclDataLoanbookRepository.GetAll()
+                            .Where(e => e.RetailEclUploadId == rEcl.Id)
+                            .Select(e => e.ContractNo)
+                            .ToList();
+                rSeperator.AddRange(rs);
+            }
+        }
+
+        private async Task CreatePaymentScheduleAsync(ImportPaymentScheduleDto input, ImportEclDataFromExcelJobArgs args, Guid eclId, List<string> obeSeperator, List<string> wSeperator, List<string> rSeperator)
         {
             switch(args.Framework)
             {
                 case FrameworkEnum.Retail:
-                    await _retailEclDataPaymentScheduleRepository.InsertAsync(new RetailEclDataPaymentSchedule()
-                            {
-                                ContractRefNo = input.ContractRefNo,
-                                Amount = input.Amount,
-                                Component = input.Component,
-                                Frequency = input.Frequency,
-                                NoOfSchedules = input.NoOfSchedules,
-                                RetailEclUploadId = eclId,
-                                StartDate = input.StartDate
-                            });
+                    await CreateForRetail(input, eclId);
                     break;
 
                 case FrameworkEnum.Wholesale:
-                    await _wholesaleEclDataPaymentScheduleRepository.InsertAsync(new WholesaleEclDataPaymentSchedule()
-                        {
-                            ContractRefNo = input.ContractRefNo,
-                            Amount = input.Amount,
-                            Component = input.Component,
-                            Frequency = input.Frequency,
-                            NoOfSchedules = input.NoOfSchedules,
-                            WholesaleEclUploadId = eclId,
-                            StartDate = input.StartDate
-                        });
+                    await CreateForWholesale(input, eclId);
                     break;
 
                 case FrameworkEnum.OBE:
-                    await _obeEclDataPaymentScheduleRepository.InsertAsync(new ObeEclDataPaymentSchedule()
-                    {
-                        ContractRefNo = input.ContractRefNo,
-                        Amount = input.Amount,
-                        Component = input.Component,
-                        Frequency = input.Frequency,
-                        NoOfSchedules = input.NoOfSchedules,
-                        ObeEclUploadId = eclId,
-                        StartDate = input.StartDate
-                    });
+                    await CreateForObe(input, eclId);
+                    break;
+
+                case FrameworkEnum.Batch:
+                    await SplitPaymentSchedule(input, eclId, obeSeperator, wSeperator, rSeperator);
                     break;
             }
+        }
+
+        private async Task SplitPaymentSchedule(ImportPaymentScheduleDto input, Guid batchId, List<string> obeSeperator, List<string> wSeperator, List<string> rSeperator)
+        {
+            var obeEcl = _obeEclRepository.FirstOrDefault(e => e.BatchId == batchId);
+            var wEcl = _wholesaleEclRepository.FirstOrDefault(e => e.BatchId == batchId);
+            var rEcl = _retailEclRepository.FirstOrDefault(e => e.BatchId == batchId);
+            //Product Type Seperator
+            if (obeSeperator.Count > 0)
+            {
+                if (obeSeperator.Any(e => e == input.ContractRefNo))
+                {
+                    await CreateForObe(input, obeEcl.Id);
+                    return;
+                }
+            }
+
+            if (wSeperator.Count > 0)
+            {
+                if (wSeperator.Any(e => e == input.ContractRefNo))
+                {
+                    await CreateForWholesale(input, wEcl.Id);
+                    return;
+                }
+            }
+
+            if (rSeperator.Count > 0)
+            {
+                if (rSeperator.Any(e => e == input.ContractRefNo))
+                {
+                    await CreateForRetail(input, rEcl.Id);
+                    return;
+                }
+            }
+        }
+
+
+        private async Task CreateForObe(ImportPaymentScheduleDto input, Guid eclId)
+        {
+            await _obeEclDataPaymentScheduleRepository.InsertAsync(new ObeEclDataPaymentSchedule()
+            {
+                ContractRefNo = input.ContractRefNo,
+                Amount = input.Amount,
+                Component = input.Component,
+                Frequency = input.Frequency,
+                NoOfSchedules = input.NoOfSchedules,
+                ObeEclUploadId = eclId,
+                StartDate = input.StartDate
+            });
+        }
+
+        private async Task CreateForWholesale(ImportPaymentScheduleDto input, Guid eclId)
+        {
+            await _wholesaleEclDataPaymentScheduleRepository.InsertAsync(new WholesaleEclDataPaymentSchedule()
+            {
+                ContractRefNo = input.ContractRefNo,
+                Amount = input.Amount,
+                Component = input.Component,
+                Frequency = input.Frequency,
+                NoOfSchedules = input.NoOfSchedules,
+                WholesaleEclUploadId = eclId,
+                StartDate = input.StartDate
+            });
+        }
+
+        private async Task CreateForRetail(ImportPaymentScheduleDto input, Guid eclId)
+        {
+            await _retailEclDataPaymentScheduleRepository.InsertAsync(new RetailEclDataPaymentSchedule()
+            {
+                ContractRefNo = input.ContractRefNo,
+                Amount = input.Amount,
+                Component = input.Component,
+                Frequency = input.Frequency,
+                NoOfSchedules = input.NoOfSchedules,
+                RetailEclUploadId = eclId,
+                StartDate = input.StartDate
+            });
         }
 
         private async Task ProcessImportPaymentScheduleResultAsync(ImportEclDataFromExcelJobArgs args, List<ImportPaymentScheduleDto> invalidPaymentSchedule, Guid eclId)

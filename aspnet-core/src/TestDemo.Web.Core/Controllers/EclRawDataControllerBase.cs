@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestDemo.BatchEcls.BatchEclInput;
 using TestDemo.EclShared;
 using TestDemo.EclShared.Dtos;
 using TestDemo.EclShared.Importing;
@@ -27,12 +28,14 @@ namespace TestDemo.Web.Controllers
         protected readonly IRepository<RetailEclUpload, Guid> _retailUploadSummaryRepository;
         protected readonly IRepository<WholesaleEclUpload, Guid> _wholesaleUploadSummaryRepository;
         protected readonly IRepository<ObeEclUpload, Guid> _obeUploadSummaryRepository;
+        protected readonly IRepository<BatchEclUpload, Guid> _batchUploadSummaryRepository;
 
         protected EclRawDataControllerBase(
             IBinaryObjectManager binaryObjectManager,
             IRepository<RetailEclUpload, Guid> retailUploadSummaryRepository,
             IRepository<WholesaleEclUpload, Guid> wholesaleUploadSummaryRepository,
             IRepository<ObeEclUpload, Guid> obeUploadSummaryRepository,
+            IRepository<BatchEclUpload, Guid> batchUploadSummaryRepository,
             IBackgroundJobManager backgroundJobManager)
         {
             BinaryObjectManager = binaryObjectManager;
@@ -40,6 +43,7 @@ namespace TestDemo.Web.Controllers
             _retailUploadSummaryRepository = retailUploadSummaryRepository;
             _wholesaleUploadSummaryRepository = wholesaleUploadSummaryRepository;
             _obeUploadSummaryRepository = obeUploadSummaryRepository;
+            _batchUploadSummaryRepository = batchUploadSummaryRepository;
         }
 
         [HttpPost]
@@ -219,6 +223,15 @@ namespace TestDemo.Web.Controllers
                     {
                         obeSummary.FileUploaded = true;
                         _obeUploadSummaryRepository.Update(obeSummary);
+                    }
+                    break;
+
+                case FrameworkEnum.Batch:
+                    var bSummary = await _batchUploadSummaryRepository.FirstOrDefaultAsync((Guid)updateSummaryId);
+                    if (bSummary != null)
+                    {
+                        bSummary.FileUploaded = true;
+                        _batchUploadSummaryRepository.Update(bSummary);
                     }
                     break;
             }

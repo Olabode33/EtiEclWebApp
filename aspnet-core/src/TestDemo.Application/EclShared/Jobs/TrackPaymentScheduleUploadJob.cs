@@ -16,6 +16,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TestDemo.Authorization.Users;
+using TestDemo.BatchEcls;
+using TestDemo.BatchEcls.BatchEclInput;
 using TestDemo.Common;
 using TestDemo.Configuration;
 using TestDemo.Dto;
@@ -58,6 +60,8 @@ namespace TestDemo.EclShared.Importing
         private readonly IRepository<WholesaleEcl, Guid> _wholesaleEclRepository;
         private readonly IRepository<TrackEclDataPaymentScheduleException> _exceptionTrackerRepository;
         private readonly IRepository<TrackRunningUploadJobs> _uploadJobsTrackerRepository;
+        private readonly IRepository<BatchEclUpload, Guid> _batchUploadSummaryRepository;
+        private readonly IRepository<BatchEcl, Guid> _batchEclRepository;
         private readonly IEclCustomRepository _customRepository;
         protected readonly IBackgroundJobManager _backgroundJobManager;
 
@@ -82,6 +86,8 @@ namespace TestDemo.EclShared.Importing
             IRepository<WholesaleEcl, Guid> wholesaleEclRepository,
             IRepository<TrackEclDataPaymentScheduleException> exceptionTrackerRepository,
             IRepository<TrackRunningUploadJobs> uploadJobsTrackerRepository,
+            IRepository<BatchEclUpload, Guid> batchUploadSummaryRepository,
+            IRepository<BatchEcl, Guid> batchEclRepository,
             IEclCustomRepository customRepository,
             IBackgroundJobManager backgroundJobManager,
             IObjectMapper objectMapper)
@@ -108,6 +114,8 @@ namespace TestDemo.EclShared.Importing
             _customRepository = customRepository;
             _exceptionTrackerRepository = exceptionTrackerRepository;
             _uploadJobsTrackerRepository = uploadJobsTrackerRepository;
+            _batchUploadSummaryRepository = batchUploadSummaryRepository;
+            _batchEclRepository = batchEclRepository;
             _backgroundJobManager = backgroundJobManager;
         }
 
@@ -138,6 +146,14 @@ namespace TestDemo.EclShared.Importing
                     if (obeSummary != null)
                     {
                         allJobs = obeSummary.AllJobs;
+                    }
+                    break;
+
+                case FrameworkEnum.Batch:
+                    var bSummary = _batchUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (bSummary != null)
+                    {
+                        allJobs = bSummary.AllJobs;
                     }
                     break;
             }
@@ -181,6 +197,14 @@ namespace TestDemo.EclShared.Importing
                     if (obeSummary != null)
                     {
                         eclId = (Guid)obeSummary.ObeEclId;
+                    }
+                    break;
+
+                case FrameworkEnum.Batch:
+                    var bSummary = _batchUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (bSummary != null)
+                    {
+                        eclId = (Guid)bSummary.BatchId;
                     }
                     break;
             }
@@ -254,6 +278,38 @@ namespace TestDemo.EclShared.Importing
                         _obeUploadSummaryRepository.Update(obeSummary);
                     }
                     break;
+
+                case FrameworkEnum.Batch:
+                    var bSummary = _batchUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (bSummary != null)
+                    {
+                        int obeCount = 0; int retailCount = 0; int wholesCount = 0;
+                        var obe = _obeEclRepository.FirstOrDefault(e => e.BatchId == bSummary.BatchId);
+                        var retail = _retailEclRepository.FirstOrDefault(e => e.BatchId == bSummary.BatchId);
+                        var wholes = _wholesaleEclRepository.FirstOrDefault(e => e.BatchId == bSummary.BatchId);
+
+                        if (obe != null)
+                        {
+                            obeCount = _obeEclDataPaymentScheduleRepository.Count(e => e.ObeEclUploadId == obe.Id);
+                        }
+                        if (retail != null)
+                        {
+                            retailCount = _retailEclDataPaymentScheduleRepository.Count(e => e.RetailEclUploadId == retail.Id);
+                        }
+                        if (wholes != null)
+                        {
+                            wholesCount = _wholesaleEclDataPaymentScheduleRepository.Count(e => e.WholesaleEclUploadId == wholes.Id);
+                        }
+
+                        bSummary.CompletedJobs = bSummary.AllJobs;
+                        bSummary.Status = GeneralStatusEnum.Completed;
+                        bSummary.CountWholesaleData = wholesCount;
+                        bSummary.CountRetailData = retailCount;
+                        bSummary.CountObeData = obeCount;
+                        bSummary.CountTotalData = wholesCount + retailCount + obeCount;
+                        _batchUploadSummaryRepository.Update(bSummary);
+                    }
+                    break;
             }
         }
 
@@ -294,6 +350,17 @@ namespace TestDemo.EclShared.Importing
                         _obeUploadSummaryRepository.Update(obeSummary);
                     }
                     break;
+
+                case FrameworkEnum.Batch:
+                    var bSummary = _batchUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (bSummary != null)
+                    {
+                        bSummary.FileUploaded = false;
+                        bSummary.Status = GeneralStatusEnum.Failed;
+                        bSummary.UploadComment = _localizationSource.GetString("CompletedWithErrorsCheckEmail") + " &nbsp;<a href='" + link + "'> Download</a>";
+                        _batchUploadSummaryRepository.Update(bSummary);
+                    }
+                    break;
             }
             CurrentUnitOfWork.SaveChanges();
         }
@@ -329,6 +396,15 @@ namespace TestDemo.EclShared.Importing
                     {
                         obeSummary.CompletedJobs = completedJobs;
                         _obeUploadSummaryRepository.Update(obeSummary);
+                    }
+                    break;
+
+                case FrameworkEnum.Batch:
+                    var bSummary = _batchUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (bSummary != null)
+                    {
+                        bSummary.CompletedJobs = completedJobs;
+                        _batchUploadSummaryRepository.Update(bSummary);
                     }
                     break;
             }
@@ -371,6 +447,13 @@ namespace TestDemo.EclShared.Importing
                     link += oEcl.Id;
                     ouId = oEcl.OrganizationUnitId;
                     break;
+
+                case FrameworkEnum.Batch:
+                    var bSummary = _batchUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    var bEcl = _batchEclRepository.FirstOrDefault((Guid)bSummary.BatchId);
+                    link = baseUrl + "/app/main/ecl/view/batch/" + bEcl.Id;
+                    ouId = bEcl.OrganizationUnitId;
+                    break;
             }
 
             var ou = _ouRepository.FirstOrDefault(ouId);
@@ -404,6 +487,13 @@ namespace TestDemo.EclShared.Importing
                     var obeSummary = _obeUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
                     var oEcl = _obeEclRepository.FirstOrDefault((Guid)obeSummary.ObeEclId);
                     ouId = oEcl.OrganizationUnitId;
+                    break;
+
+                case FrameworkEnum.Batch:
+                    var bSummary = _batchUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    var bEcl = _batchEclRepository.FirstOrDefault((Guid)bSummary.BatchId);
+                    link = baseUrl + "/app/main/ecl/view/batch/" + bEcl.Id;
+                    ouId = bEcl.OrganizationUnitId;
                     break;
             }
 

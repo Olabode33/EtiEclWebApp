@@ -56,4 +56,13 @@ namespace TestDemo.EclShared.Dtos
         public AssumptionTypeEnum Type { get; set; }
         public FrameworkEnum Framework { get; set; }
     }
+
+    [Serializable]
+    public class CreateSubEclJobArgs
+    {
+        public FrameworkEnum Framework { get; set; }
+        public Guid BatchId { get; set; }
+        public long UserId { get; set; }
+    }
+
 }

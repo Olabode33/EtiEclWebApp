@@ -1,6 +1,6 @@
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { WholesaleEclsServiceProxy, WholesaleEclDto, EclStatusEnum, EclSharedServiceProxy, FrameworkEnum, RetailEclsServiceProxy, InvestmentEclsServiceProxy, EntityDtoOfGuid, ObeEclsServiceProxy, NameValueDtoOfInt64, CommonLookupServiceProxy, CreateOrEditEclDto } from '@shared/service-proxies/service-proxies';
+import { WholesaleEclsServiceProxy, WholesaleEclDto, EclStatusEnum, EclSharedServiceProxy, FrameworkEnum, RetailEclsServiceProxy, InvestmentEclsServiceProxy, EntityDtoOfGuid, ObeEclsServiceProxy, NameValueDtoOfInt64, CommonLookupServiceProxy, CreateOrEditEclDto, BatchEclsServiceProxy } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -54,6 +54,7 @@ export class EclListComponent extends AppComponentBase implements OnInit {
         private _investmentEclServiceProxy: InvestmentEclsServiceProxy,
         private _wholesaleEclServiceProxy: WholesaleEclsServiceProxy,
         private _obeEclServiceProxy: ObeEclsServiceProxy,
+        private _batchEclServiceProxy: BatchEclsServiceProxy,
         private _commonServiceProxy: CommonLookupServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
@@ -117,6 +118,10 @@ export class EclListComponent extends AppComponentBase implements OnInit {
         this._router.navigate(['/app/main/ecl/view/', framework.toString(), eclId]);
     }
 
+    viewBatchEcl(eclId: string): void {
+        this._router.navigate(['/app/main/ecl/view/batch', eclId]);
+    }
+
     createNewEcl(framework: FrameworkEnum): void {
         this.frameworkForNew = framework;
         if (this._affiliateId === -1) {
@@ -160,11 +165,24 @@ export class EclListComponent extends AppComponentBase implements OnInit {
                 case FrameworkEnum.Investments:
                     this.createInvestmentEcl(event);
                     break;
+                case FrameworkEnum.Batch:
+                    this.createBatchEcl(event);
+                    break;
                 default:
                     break;
             }
             this.frameworkForNew = undefined;
         }
+    }
+
+    createBatchEcl(ecl: CreateOrEditEclDto): void {
+        this.loadingEclAssumption = true;
+        this._batchEclServiceProxy.createEclAndAssumption(ecl)
+            .pipe(finalize(() => this.loadingEclAssumption = false))
+            .subscribe(result => {
+                this.notify.success('EclSuccessfullyCreated');
+                this.viewBatchEcl(result);
+            });
     }
 
     createRetailEcl(ecl: CreateOrEditEclDto): void {

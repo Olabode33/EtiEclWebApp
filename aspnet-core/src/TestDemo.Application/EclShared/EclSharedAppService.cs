@@ -28,6 +28,7 @@ using TestDemo.ObeComputation;
 using TestDemo.WholesaleResults;
 using TestDemo.RetailResults;
 using TestDemo.ObeResults;
+using TestDemo.BatchEcls;
 
 namespace TestDemo.EclShared
 {
@@ -37,6 +38,7 @@ namespace TestDemo.EclShared
         private readonly IRepository<RetailEcl, Guid> _retailEclRepository;
         private readonly IRepository<ObeEcl, Guid> _obeEclRepository;
         private readonly IRepository<InvestmentEcl, Guid> _investmentclRepository;
+        private readonly IRepository<BatchEcl, Guid> _batchEclRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
         private readonly IRepository<AffiliateAssumption, Guid> _affiliateAssumptions;
@@ -71,6 +73,7 @@ namespace TestDemo.EclShared
             IRepository<RetailEcl, Guid> retailEclRepository, 
             IRepository<ObeEcl, Guid> obeEclRepository,
             IRepository<InvestmentEcl, Guid> investmentclRepository,
+            IRepository<BatchEcl, Guid> batchEclRepository,
             IRepository<User, long> lookup_userRepository,
             IRepository<OrganizationUnit, long> organizationUnitRepository,
             IRepository<Assumption, Guid> frameworkAssumptionRepository,
@@ -103,6 +106,7 @@ namespace TestDemo.EclShared
             _retailEclRepository = retailEclRepository;
             _obeEclRepository = obeEclRepository;
             _investmentclRepository = investmentclRepository;
+            _batchEclRepository = batchEclRepository;
             _lookup_userRepository = lookup_userRepository;
             _organizationUnitRepository = organizationUnitRepository;
             _affiliateAssumptions = affiliateAssumptions;
@@ -337,7 +341,7 @@ namespace TestDemo.EclShared
             var statusFilter = (EclStatusEnum)input.Status;
 
 
-            var allEcl = (from w in _wholesaleEclRepository.GetAll()
+            var allEcl = (from w in _wholesaleEclRepository.GetAll().Where(e => e.BatchId == null)
                                                            .WhereIf(userOrganizationUnitIds.Count() > 0,  x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
                                                            .WhereIf(userOrganizationUnitIds.Count() <= 0 && input.AffiliateId > -1, e => e.OrganizationUnitId == input.AffiliateId)
 
@@ -356,7 +360,7 @@ namespace TestDemo.EclShared
                                   Id = w.Id
                               }
                           ).Union(
-                            from w in _retailEclRepository.GetAll()
+                            from w in _retailEclRepository.GetAll().Where(e => e.BatchId == null)
                                                           .WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
                                                           .WhereIf(userOrganizationUnitIds.Count() <= 0 && input.AffiliateId > -1, e => e.OrganizationUnitId == input.AffiliateId)
 
@@ -375,7 +379,7 @@ namespace TestDemo.EclShared
                                 Id = w.Id
                             }
                           ).Union(
-                            from w in _obeEclRepository.GetAll()
+                            from w in _obeEclRepository.GetAll().Where(e => e.BatchId == null)
                                                        .WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
                                                        .WhereIf(userOrganizationUnitIds.Count() <= 0 && input.AffiliateId > -1, e => e.OrganizationUnitId == input.AffiliateId)
 
@@ -405,6 +409,25 @@ namespace TestDemo.EclShared
                             select new GetAllEclForWorkspaceDto()
                             {
                                 Framework = FrameworkEnum.Investments,
+                                CreatedByUserName = u2 == null ? "" : u2.FullName,
+                                DateCreated = w.CreationTime,
+                                ReportingDate = w.ReportingDate,
+                                OrganisationUnitName = ou == null ? "" : ou.DisplayName,
+                                Status = w.Status,
+                                Id = w.Id
+                            }
+                          ).Union(
+                            from w in _batchEclRepository.GetAll()
+                                                             .WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
+                                                             .WhereIf(userOrganizationUnitIds.Count() <= 0 && input.AffiliateId > -1, e => e.OrganizationUnitId == input.AffiliateId)
+
+                            join ou in _organizationUnitRepository.GetAll() on w.OrganizationUnitId equals ou.Id
+
+                            join u in _lookup_userRepository.GetAll() on w.CreatorUserId equals u.Id into u1
+                            from u2 in u1.DefaultIfEmpty()
+                            select new GetAllEclForWorkspaceDto()
+                            {
+                                Framework = FrameworkEnum.Batch,
                                 CreatedByUserName = u2 == null ? "" : u2.FullName,
                                 DateCreated = w.CreationTime,
                                 ReportingDate = w.ReportingDate,

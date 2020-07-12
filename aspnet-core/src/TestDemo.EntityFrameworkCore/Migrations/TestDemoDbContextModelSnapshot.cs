@@ -1104,6 +1104,352 @@ namespace TestDemo.Migrations
                     b.ToTable("AbpUsers");
                 });
 
+            modelBuilder.Entity("TestDemo.BatchEcls.BatchEcl", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long?>("ClosedByUserId");
+
+                    b.Property<DateTime?>("ClosedDate");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<string>("ExceptionComment");
+
+                    b.Property<bool>("IsApproved");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<DateTime>("ReportingDate");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClosedByUserId");
+
+                    b.ToTable("BatchEcls");
+                });
+
+            modelBuilder.Entity("TestDemo.BatchEcls.BatchEclApproval", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("BatchEclId");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<string>("ReviewComment");
+
+                    b.Property<long?>("ReviewedByUserId");
+
+                    b.Property<DateTime?>("ReviewedDate");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BatchEclId");
+
+                    b.HasIndex("ReviewedByUserId");
+
+                    b.ToTable("BatchEclApprovals");
+                });
+
+            modelBuilder.Entity("TestDemo.BatchEcls.BatchEclInput.BatchEclDataLoanBook", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AccountNo");
+
+                    b.Property<string>("BaseRate");
+
+                    b.Property<Guid>("BatchId");
+
+                    b.Property<double?>("CashFSV");
+
+                    b.Property<double?>("CashOMV");
+
+                    b.Property<string>("Classification");
+
+                    b.Property<double?>("CommercialProperty");
+
+                    b.Property<double?>("CommercialPropertyOMV");
+
+                    b.Property<DateTime?>("ContractEndDate");
+
+                    b.Property<string>("ContractId");
+
+                    b.Property<string>("ContractNo");
+
+                    b.Property<DateTime?>("ContractStartDate");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<double?>("CreditLimit");
+
+                    b.Property<double?>("CureRate");
+
+                    b.Property<string>("Currency");
+
+                    b.Property<double?>("CurrentContractualInterestRate");
+
+                    b.Property<int?>("CurrentRating");
+
+                    b.Property<string>("CustomerName");
+
+                    b.Property<string>("CustomerNo");
+
+                    b.Property<double?>("DaysPastDue");
+
+                    b.Property<double?>("DebentureFSV");
+
+                    b.Property<double?>("DebentureOMV");
+
+                    b.Property<DateTime?>("DefaultDate");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<double?>("EIR");
+
+                    b.Property<bool>("GuaranteeIndicator");
+
+                    b.Property<double?>("GuaranteeLevel");
+
+                    b.Property<double?>("GuaranteeValue");
+
+                    b.Property<string>("GuarantorLGD");
+
+                    b.Property<string>("GuarantorPD");
+
+                    b.Property<int?>("IPTOPeriod");
+
+                    b.Property<DateTime?>("ImpairedDate");
+
+                    b.Property<string>("InterestPaymentStructure");
+
+                    b.Property<string>("InterestPaymentTermsOrigination");
+
+                    b.Property<string>("InterestRateType");
+
+                    b.Property<int?>("IntroductoryPeriod");
+
+                    b.Property<double?>("InventoryFSV");
+
+                    b.Property<double?>("InventoryOMV");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<double?>("LifetimePD");
+
+                    b.Property<double?>("Month12PD");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<double?>("OriginalBalanceLCY");
+
+                    b.Property<int?>("OriginalRating");
+
+                    b.Property<string>("OriginationContractualInterestRate");
+
+                    b.Property<double?>("OutstandingBalanceACY");
+
+                    b.Property<double?>("OutstandingBalanceLCY");
+
+                    b.Property<int?>("PPTOPeriod");
+
+                    b.Property<double?>("PlantEquipmentFSV");
+
+                    b.Property<double?>("PlantEquipmentOMV");
+
+                    b.Property<double?>("PostIPContractualInterestRate");
+
+                    b.Property<string>("PrincipalPaymentStructure");
+
+                    b.Property<string>("PrincipalPaymentTermsOrigination");
+
+                    b.Property<string>("ProductMapping");
+
+                    b.Property<string>("ProductType");
+
+                    b.Property<string>("RatingModel");
+
+                    b.Property<double?>("ReceivablesFSV");
+
+                    b.Property<double?>("ReceivablesOMV");
+
+                    b.Property<double?>("ResidentialPropertyFSV");
+
+                    b.Property<double?>("ResidentialPropertyOMV");
+
+                    b.Property<DateTime?>("RestructureEndDate");
+
+                    b.Property<bool>("RestructureIndicator");
+
+                    b.Property<string>("RestructureRisk");
+
+                    b.Property<DateTime?>("RestructureStartDate");
+
+                    b.Property<string>("RestructureType");
+
+                    b.Property<string>("Sector");
+
+                    b.Property<string>("Segment");
+
+                    b.Property<double?>("SharesFSV");
+
+                    b.Property<double?>("SharesOMV");
+
+                    b.Property<DateTime?>("SnapshotDate");
+
+                    b.Property<string>("SpecialisedLending");
+
+                    b.Property<int?>("TenantId");
+
+                    b.Property<double?>("VehicleFSV");
+
+                    b.Property<double?>("VehicleOMV");
+
+                    b.Property<bool>("WatchlistIndicator");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BatchEclDataLoanBooks");
+                });
+
+            modelBuilder.Entity("TestDemo.BatchEcls.BatchEclInput.BatchEclDataPaymentSchedule", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double?>("Amount");
+
+                    b.Property<Guid>("BatchId");
+
+                    b.Property<string>("Component");
+
+                    b.Property<string>("ContractRefNo");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<string>("Frequency");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<int?>("NoOfSchedules");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<DateTime?>("StartDate");
+
+                    b.Property<int?>("TenantId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BatchEclDataPaymentSchedules");
+                });
+
+            modelBuilder.Entity("TestDemo.BatchEcls.BatchEclInput.BatchEclUpload", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AllJobs");
+
+                    b.Property<Guid?>("BatchEclId");
+
+                    b.Property<Guid>("BatchId");
+
+                    b.Property<int>("CompletedJobs");
+
+                    b.Property<int>("CountObeData");
+
+                    b.Property<int>("CountRetailData");
+
+                    b.Property<int>("CountTotalData");
+
+                    b.Property<int>("CountWholesaleData");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<int>("DocType");
+
+                    b.Property<bool>("FileUploaded");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<int>("Status");
+
+                    b.Property<int?>("TenantId");
+
+                    b.Property<string>("UploadComment");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BatchEclId");
+
+                    b.ToTable("BatchEclUploads");
+                });
+
             modelBuilder.Entity("TestDemo.Calibration.Approvals.CalibrationEadBehaviouralTermApproval", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2978,6 +3324,163 @@ namespace TestDemo.Migrations
                     b.ToTable("TrackRunningUploadJobs");
                 });
 
+            modelBuilder.Entity("TestDemo.EclLibrary.Workers.Trackers.TrackUploadedLoanBook", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AccountNo");
+
+                    b.Property<string>("BaseRate");
+
+                    b.Property<string>("CashFSV");
+
+                    b.Property<string>("CashOMV");
+
+                    b.Property<string>("Classification");
+
+                    b.Property<string>("CommercialProperty");
+
+                    b.Property<string>("CommercialPropertyOMV");
+
+                    b.Property<string>("ContractEndDate");
+
+                    b.Property<string>("ContractId");
+
+                    b.Property<string>("ContractNo");
+
+                    b.Property<string>("ContractStartDate");
+
+                    b.Property<string>("CreditLimit");
+
+                    b.Property<string>("CureRate");
+
+                    b.Property<string>("Currency");
+
+                    b.Property<string>("CurrentContractualInterestRate");
+
+                    b.Property<string>("CurrentRating");
+
+                    b.Property<string>("CustomerName");
+
+                    b.Property<string>("CustomerNo");
+
+                    b.Property<string>("DaysPastDue");
+
+                    b.Property<string>("DebentureFSV");
+
+                    b.Property<string>("DebentureOMV");
+
+                    b.Property<string>("DefaultDate");
+
+                    b.Property<string>("EIR");
+
+                    b.Property<Guid>("EclId");
+
+                    b.Property<string>("Exception");
+
+                    b.Property<bool>("GuaranteeIndicator");
+
+                    b.Property<string>("GuaranteeLevel");
+
+                    b.Property<string>("GuaranteeValue");
+
+                    b.Property<string>("GuarantorLGD");
+
+                    b.Property<string>("GuarantorPD");
+
+                    b.Property<string>("IPTOPeriod");
+
+                    b.Property<string>("ImpairedDate");
+
+                    b.Property<string>("InterestPaymentStructure");
+
+                    b.Property<string>("InterestPaymentTermsOrigination");
+
+                    b.Property<string>("InterestRateType");
+
+                    b.Property<string>("IntroductoryPeriod");
+
+                    b.Property<string>("InventoryFSV");
+
+                    b.Property<string>("InventoryOMV");
+
+                    b.Property<string>("LifetimePD");
+
+                    b.Property<string>("Month12PD");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<string>("OriginalBalanceLCY");
+
+                    b.Property<string>("OriginalRating");
+
+                    b.Property<string>("OriginationContractualInterestRate");
+
+                    b.Property<string>("OutstandingBalanceACY");
+
+                    b.Property<string>("OutstandingBalanceLCY");
+
+                    b.Property<string>("PPTOPeriod");
+
+                    b.Property<string>("PlantEquipmentFSV");
+
+                    b.Property<string>("PlantEquipmentOMV");
+
+                    b.Property<string>("PostIPContractualInterestRate");
+
+                    b.Property<string>("PrincipalPaymentStructure");
+
+                    b.Property<string>("PrincipalPaymentTermsOrigination");
+
+                    b.Property<string>("ProductMapping");
+
+                    b.Property<string>("ProductType");
+
+                    b.Property<string>("RatingModel");
+
+                    b.Property<string>("ReceivablesFSV");
+
+                    b.Property<string>("ReceivablesOMV");
+
+                    b.Property<string>("ResidentialPropertyFSV");
+
+                    b.Property<string>("ResidentialPropertyOMV");
+
+                    b.Property<string>("RestructureEndDate");
+
+                    b.Property<bool>("RestructureIndicator");
+
+                    b.Property<string>("RestructureRisk");
+
+                    b.Property<string>("RestructureStartDate");
+
+                    b.Property<string>("RestructureType");
+
+                    b.Property<string>("Sector");
+
+                    b.Property<string>("Segment");
+
+                    b.Property<string>("SharesFSV");
+
+                    b.Property<string>("SharesOMV");
+
+                    b.Property<string>("SnapshotDate");
+
+                    b.Property<string>("SpecialisedLending");
+
+                    b.Property<string>("VehicleFSV");
+
+                    b.Property<string>("VehicleOMV");
+
+                    b.Property<bool>("WatchlistIndicator");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TrackUploadedLoanBook");
+                });
+
             modelBuilder.Entity("TestDemo.EclShared.AffiliateAssumption", b =>
                 {
                     b.Property<Guid>("Id")
@@ -4573,6 +5076,8 @@ namespace TestDemo.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("BatchId");
 
                     b.Property<long?>("ClosedByUserId");
 
@@ -6787,6 +7292,8 @@ namespace TestDemo.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<Guid?>("BatchId");
+
                     b.Property<long?>("ClosedByUserId");
 
                     b.Property<DateTime?>("ClosedDate");
@@ -8612,6 +9119,8 @@ namespace TestDemo.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("BatchId");
 
                     b.Property<long?>("ClosedByUserId");
 
@@ -10738,6 +11247,31 @@ namespace TestDemo.Migrations
                     b.HasOne("TestDemo.Authorization.Users.User", "LastModifierUser")
                         .WithMany()
                         .HasForeignKey("LastModifierUserId");
+                });
+
+            modelBuilder.Entity("TestDemo.BatchEcls.BatchEcl", b =>
+                {
+                    b.HasOne("TestDemo.Authorization.Users.User", "ClosedByUserFk")
+                        .WithMany()
+                        .HasForeignKey("ClosedByUserId");
+                });
+
+            modelBuilder.Entity("TestDemo.BatchEcls.BatchEclApproval", b =>
+                {
+                    b.HasOne("TestDemo.BatchEcls.BatchEcl", "BatchEclFk")
+                        .WithMany()
+                        .HasForeignKey("BatchEclId");
+
+                    b.HasOne("TestDemo.Authorization.Users.User", "ReviewedByUserFk")
+                        .WithMany()
+                        .HasForeignKey("ReviewedByUserId");
+                });
+
+            modelBuilder.Entity("TestDemo.BatchEcls.BatchEclInput.BatchEclUpload", b =>
+                {
+                    b.HasOne("TestDemo.BatchEcls.BatchEcl", "BatchEclFk")
+                        .WithMany()
+                        .HasForeignKey("BatchEclId");
                 });
 
             modelBuilder.Entity("TestDemo.Calibration.Approvals.CalibrationEadBehaviouralTermApproval", b =>

@@ -60,7 +60,11 @@ namespace TestDemo.OBE
                                          };
 
             var ecl = await _lookup_obeEclRepository.FirstOrDefaultAsync(input.Id);
-            string createdBy = _lookup_userRepository.FirstOrDefault((long)ecl.CreatorUserId).FullName;
+            string createdBy = "";
+            if (ecl.CreatorUserId != null)
+            {
+                createdBy = _lookup_userRepository.FirstOrDefault((long)ecl.CreatorUserId).FullName;
+            }
             string updatedBy = "";
             if (ecl.LastModifierUserId != null)
             {

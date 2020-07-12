@@ -43,11 +43,20 @@ using TestDemo.CalibrationInput;
 using TestDemo.CalibrationResult;
 using TestDemo.Calibration.Approvals;
 using TestDemo.EclLibrary.Workers.Trackers;
+using TestDemo.BatchEcls.BatchEclInput;
+using TestDemo.BatchEcls;
 
 namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<TrackUploadedLoanBook> TrackUploadedLoanBook { get; set; }
+        public virtual DbSet<BatchEcl> BatchEcl { get; set; }
+        public virtual DbSet<BatchEclApproval> BatchEclApproval { get; set; }
+        public virtual DbSet<BatchEclUpload> BatchEclUpload { get; set; }
+        public virtual DbSet<BatchEclDataLoanBook> BatchEclDataLoanBook { get; set; }
+        public virtual DbSet<BatchEclDataPaymentSchedule> BatchEclDataPaymentSchedule { get; set; }
+
         public virtual DbSet<OverrideType> OverrideTypes { get; set; }
         
         public virtual DbSet<TrackEclDataPaymentScheduleException> TrackEclDataPaymentScheduleException { get; set; }

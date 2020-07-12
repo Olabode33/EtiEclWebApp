@@ -34,6 +34,7 @@ import { ViewCalibrationLgdRecoveryComponent } from './calibration/calibrateLgdR
 import { CalibrationPdCrDrComponent } from './calibration/calibratePdCrDr/calibratePdCrDr.component';
 import { ViewCalibrationPdCrDrComponent } from './calibration/calibratePdCrDr/view-calibratePdCrDr.component';
 import { ViewMacroAnalysisComponent } from './calibration/calibrateMacroAnalysis/view-macroAnalysis.component';
+import { ViewBatchEclComponent } from './eclView/view-batchEcl/view-batchEcl.component';
 
 @NgModule({
     imports: [
@@ -74,6 +75,7 @@ import { ViewMacroAnalysisComponent } from './calibration/calibrateMacroAnalysis
                     { path: 'ecl/:filter', component: EclListComponent },
                     { path: 'retail/ecl/create', component: CreateEditRetailEclComponent},
                     { path: 'retail/ecl/view/:eclId', component: ViewRetailEclComponent},
+                    { path: 'ecl/view/batch/:eclId', component: ViewBatchEclComponent,  data: { permission: 'Pages.EclView' } },
                     { path: 'ecl/view/:framework/:eclId', component: ViewEclComponent,  data: { permission: 'Pages.EclView' } },
                     { path: 'ecl/view/upload/loanbook/:framework/:uploadId', component: ViewLoanbookDetailsComponent},
                     { path: 'ecl/view/upload/payment/:framework/:uploadId', component: ViewPaymentScheduleComponent},

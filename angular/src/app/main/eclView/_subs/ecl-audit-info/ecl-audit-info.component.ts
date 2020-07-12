@@ -1,4 +1,4 @@
-import { EclApprovalAuditInfoDto, EclAuditInfoDto, ObeEclApprovalsServiceProxy, RetailEclApprovalsServiceProxy, WholesaleEclApprovalsServiceProxy } from './../../../../../shared/service-proxies/service-proxies';
+import { EclApprovalAuditInfoDto, EclAuditInfoDto, ObeEclApprovalsServiceProxy, RetailEclApprovalsServiceProxy, WholesaleEclApprovalsServiceProxy, BatchEclsServiceProxy } from './../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, Injector } from '@angular/core';
 import { InvestmentEclApprovalsServiceProxy, FrameworkEnum, EclStatusEnum, ViewEclResultSummaryDto, ViewEclResultDetailsDto, GeneralStatusEnum } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -30,7 +30,8 @@ export class EclAuditInfoComponent extends AppComponentBase {
         private _investmentEclApprovalServiceProxy: InvestmentEclApprovalsServiceProxy,
         private _obeEclApprovalServiceProxy: ObeEclApprovalsServiceProxy,
         private _retailEclApprovalServiceProxy: RetailEclApprovalsServiceProxy,
-        private _wholesaleEclApprovalServiceProxy: WholesaleEclApprovalsServiceProxy
+        private _wholesaleEclApprovalServiceProxy: WholesaleEclApprovalsServiceProxy,
+        private _batchEclServiceProxy: BatchEclsServiceProxy
     ) {
         super(injector);
         this.auditInfo = new EclAuditInfoDto();
@@ -59,6 +60,9 @@ export class EclAuditInfoComponent extends AppComponentBase {
                 break;
             case FrameworkEnum.Investments:
                 this._serviceProxy = this._investmentEclApprovalServiceProxy;
+                break;
+            case FrameworkEnum.Batch:
+                this._serviceProxy = this._batchEclServiceProxy;
                 break;
             default:
                 throw Error('FrameworkDoesNotExistError');

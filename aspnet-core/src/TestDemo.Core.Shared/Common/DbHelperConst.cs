@@ -24,6 +24,8 @@ namespace TestDemo.Common
         public const string TB_TrackEclDataPaymentScheduleException = "TrackEclDataPaymentScheduleException";
         public const string TB_TrackCalibrationPdCrDrException = "TrackCalibrationPdCrDrException";
         public const string TB_TrackCalibrationBehaviouralTermException = "TrackCalibrationBehaviouralTermException";
+        public const string TB_BatchEclDataLoanBooks = "BatchEclDataLoanBooks";
+        public const string TB_BatchEclDataPaymentSchedules = "BatchEclDataPaymentSchedules";
 
 
         //Column Names
@@ -34,5 +36,6 @@ namespace TestDemo.Common
         public const string COL_ObeEclUploadId = "ObeEclUploadId";
         public const string COL_InvestmentEclUploadId = "InvestmentEclUploadId";
         public const string COL_EclId = "EclId";
+        public const string COL_BatchId = "BatchId";
     }
 }

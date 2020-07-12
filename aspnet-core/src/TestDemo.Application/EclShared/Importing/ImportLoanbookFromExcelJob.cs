@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TestDemo.Authorization.Users;
+using TestDemo.BatchEcls.BatchEclInput;
 using TestDemo.Common;
 using TestDemo.Configuration;
 using TestDemo.Dto;
@@ -42,9 +43,11 @@ namespace TestDemo.EclShared.Importing
         private readonly IRepository<RetailEclDataLoanBook, Guid> _retailEclDataLoanbookRepository;
         private readonly IRepository<WholesaleEclDataLoanBook, Guid> _wholesaleEclDataLoanbookRepository;
         private readonly IRepository<ObeEclDataLoanBook, Guid> _obeEclDataLoanbookRepository;
+        private readonly IRepository<BatchEclDataLoanBook, Guid> _batchDataLoanbookRepository;
         private readonly IRepository<RetailEclUpload, Guid> _retailUploadSummaryRepository;
         private readonly IRepository<WholesaleEclUpload, Guid> _wholesaleUploadSummaryRepository;
         private readonly IRepository<ObeEclUpload, Guid> _obeUploadSummaryRepository;
+        private readonly IRepository<BatchEclUpload, Guid> _batchUploadSummaryRepository;
         private readonly IAppNotifier _appNotifier;
         private readonly IBinaryObjectManager _binaryObjectManager;
         private readonly ILocalizationSource _localizationSource;
@@ -65,9 +68,11 @@ namespace TestDemo.EclShared.Importing
             IRepository<RetailEclDataLoanBook, Guid> retailEclDataLoanbookRepository, 
             IRepository<WholesaleEclDataLoanBook, Guid> wholesaleEclDataLoanbookRepository, 
             IRepository<ObeEclDataLoanBook, Guid> obeEclDataPaymentScheduleRepository, 
+            IRepository<BatchEclDataLoanBook, Guid> batchDataLoanbookRepository, 
             IRepository<RetailEclUpload, Guid> retailUploadSummaryRepository, 
             IRepository<WholesaleEclUpload, Guid> wholesaleUploadSummaryRepository, 
-            IRepository<ObeEclUpload, Guid> obeUploadSummaryRepository, 
+            IRepository<ObeEclUpload, Guid> obeUploadSummaryRepository,
+            IRepository<BatchEclUpload, Guid> batchUploadSummaryRepository,
             IAppNotifier appNotifier, 
             IBinaryObjectManager binaryObjectManager,
             ILocalizationManager localizationManager,
@@ -87,9 +92,11 @@ namespace TestDemo.EclShared.Importing
             _retailEclDataLoanbookRepository = retailEclDataLoanbookRepository;
             _wholesaleEclDataLoanbookRepository = wholesaleEclDataLoanbookRepository;
             _obeEclDataLoanbookRepository = obeEclDataPaymentScheduleRepository;
+            _batchDataLoanbookRepository = batchDataLoanbookRepository;
             _retailUploadSummaryRepository = retailUploadSummaryRepository;
             _wholesaleUploadSummaryRepository = wholesaleUploadSummaryRepository;
             _obeUploadSummaryRepository = obeUploadSummaryRepository;
+            _batchUploadSummaryRepository = batchUploadSummaryRepository;
             _appNotifier = appNotifier;
             _binaryObjectManager = binaryObjectManager;
             _localizationSource = localizationManager.GetSource(TestDemoConsts.LocalizationSourceName);
@@ -590,6 +597,15 @@ namespace TestDemo.EclShared.Importing
                         _obeUploadSummaryRepository.Update(obeSummary);
                     }
                     break;
+
+                case FrameworkEnum.Batch:
+                    var bSummary = _batchUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (bSummary != null)
+                    {
+                        bSummary.AllJobs = allJobs;
+                        _batchUploadSummaryRepository.Update(bSummary);
+                    }
+                    break;
             }
             CurrentUnitOfWork.SaveChanges();
         }
@@ -631,6 +647,17 @@ namespace TestDemo.EclShared.Importing
                         _obeUploadSummaryRepository.Update(obeSummary);
                     }
                     break;
+
+                case FrameworkEnum.Batch:
+                    var bs = _batchUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    if (bs != null)
+                    {
+                        bs.FileUploaded = false;
+                        bs.Status = GeneralStatusEnum.Failed;
+                        bs.UploadComment = _localizationSource.GetString("FileCantBeConvertedToLoanbookList");
+                        _batchUploadSummaryRepository.Update(bs);
+                    }
+                    break;
             }
             CurrentUnitOfWork.SaveChanges();
         }
@@ -668,6 +695,36 @@ namespace TestDemo.EclShared.Importing
                     {
                         AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_EclLoanBookObe, DbHelperConst.COL_ObeEclUploadId, obeSummary.ObeEclId.ToString()));
                         //_obeEclDataLoanbookRepository.HardDelete(x => x.ObeEclUploadId == obeSummary.ObeEclId);
+                    }
+                    break;
+
+                case FrameworkEnum.Batch:
+                    var batchSummary = _batchUploadSummaryRepository.FirstOrDefault((Guid)args.UploadSummaryId);
+                    var blb = _batchDataLoanbookRepository.Count(x => x.BatchId == batchSummary.BatchId);
+                    if (batchSummary != null && blb > 0)
+                    {
+                        AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_BatchEclDataLoanBooks, DbHelperConst.COL_BatchId, batchSummary.Id.ToString()));
+                        //_obeEclDataLoanbookRepository.HardDelete(x => x.ObeEclUploadId == obeSummary.ObeEclId);
+                    }
+                    var bObe = _obeEclRepository.FirstOrDefault(e => e.BatchId == batchSummary.BatchId);
+                    var olb = _obeEclDataLoanbookRepository.Count(x => x.ObeEclUploadId == bObe.Id);
+                    if (bObe != null && olb > 0)
+                    {
+                        AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_EclLoanBookObe, DbHelperConst.COL_ObeEclUploadId, bObe.Id.ToString()));
+                    }
+
+                    var bw = _wholesaleEclRepository.FirstOrDefault(e => e.BatchId == batchSummary.BatchId);
+                    var bwlb = _wholesaleEclDataLoanbookRepository.Count(x => x.WholesaleEclUploadId == bw.Id);
+                    if (bw != null && bwlb > 0)
+                    {
+                        AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_EclLoanBookWholesale, DbHelperConst.COL_WholesaleEclUploadId, bw.Id.ToString()));
+                    }
+
+                    var br = _retailEclRepository.FirstOrDefault(e => e.BatchId == batchSummary.BatchId);
+                    var brlb = _retailEclDataLoanbookRepository.Count(x => x.RetailEclUploadId == br.Id);
+                    if (bw != null && brlb > 0)
+                    {
+                        AsyncHelper.RunSync(() => _customRepository.DeleteExistingInputRecords(DbHelperConst.TB_EclLoanBookRetail, DbHelperConst.COL_RetailEclUploadId, br.Id.ToString()));
                     }
                     break;
             }

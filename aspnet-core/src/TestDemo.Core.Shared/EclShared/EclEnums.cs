@@ -11,7 +11,7 @@ namespace TestDemo.EclShared
 
     public enum FrameworkEnum
     {
-        All, Wholesale, Retail, OBE, Investments
+        All, Wholesale, Retail, OBE, Investments, Batch
     }
 
     public enum ModuleEnum
@@ -21,7 +21,7 @@ namespace TestDemo.EclShared
 
     public enum EclStatusEnum
     {
-        Draft, Submitted, Approved, Running, PreOverrideComplete, PostOverrideComplete, ComputedEAD, ComputedLGD, ComputedECL, Completed, Closed, AwaitngAdditionApproval, QueuePostOverride, Failed
+        Draft, Submitted, Approved, Running, PreOverrideComplete, PostOverrideComplete, ComputedEAD, ComputedLGD, ComputedECL, Completed, Closed, AwaitngAdditionApproval, QueuePostOverride, Failed, LoadingAssumptions
     }
 
     public enum UploadDocTypeEnum
