@@ -268,7 +268,7 @@
                 <!-- End Upload -->
             </div>
 
-            <div class="col-xl-12">
+            <div [hidden]="eclDto.status === eclStatusEnum.Approved" class="col-xl-12">
                 <div class="kt-portlet kt-portlet--height-fluid">
                     <div class="kt-portlet__head"><div class="kt-portlet__head-label">
                         <h3 class="kt-portlet__head-title">
@@ -286,7 +286,7 @@
                                         <th>{{l('Actions')}}</th>
                                         <th>{{l('Framework')}}</th>
                                         <th>{{l('CreatedBy')}}</th>
-                                        <th>{{l('Status')}}</th>
+                                        <!-- <th>{{l('Status')}}</th> -->
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let subs of subEclList">
@@ -298,7 +298,7 @@
                                             </td>
                                             <td>{{l( frameworkEnum[subs.framework]) }}</td>
                                             <td>{{subs.createdByUserName}}</td>
-                                            <td>
+                                            <td *ngIf="!(subs.status == eclStatusEnum.Draft || subs.status == eclStatusEnum.Submitted || subs.status == eclStatusEnum.AwaitngAdditionApproval || subs.status == eclStatusEnum.Approved  )">
                                                 <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline 
                                                                  kt-badge--unified-{{subs.status == eclStatusEnum.Completed ? 'success' : 
                                                                                         ( subs.status === eclStatusEnum.Draft ? 'danger' : 
