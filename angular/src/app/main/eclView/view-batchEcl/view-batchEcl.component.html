@@ -268,7 +268,7 @@
                 <!-- End Upload -->
             </div>
 
-            <div [hidden]="eclDto.status === eclStatusEnum.Approved" class="col-xl-12">
+            <div [hidden]="eclDto.status !== eclStatusEnum.Approved" class="col-xl-12">
                 <div class="kt-portlet kt-portlet--height-fluid">
                     <div class="kt-portlet__head"><div class="kt-portlet__head-label">
                         <h3 class="kt-portlet__head-title">
