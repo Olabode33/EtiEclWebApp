@@ -1,4 +1,4 @@
-import { CreateOrEditAffiliateDto } from './../../../../shared/service-proxies/service-proxies';
+import { CreateOrEditAffiliateDto, AffiliateConfigurationDto } from './../../../../shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
@@ -12,6 +12,8 @@ import { FileDownloadService } from '@shared/utils/file-download.service';
 import { EntityTypeHistoryModalComponent } from '@app/shared/common/entityHistory/entity-type-history-modal.component';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import { OuLookupTableModalComponent } from '@app/main/eclShared/ou-lookup-modal/ou-lookup-table-modal.component';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-affiliate-configuration',
@@ -28,6 +30,10 @@ export class AffiliateConfigurationComponent extends AppComponentBase implements
     filterText = '';
 
     selectedAffiliate: GetAffiliateConfigurationForViewDto;
+    menuItem: MenuItem[];
+
+    fromAffiliateId = -1;
+    fromAffiliateName = '';
 
     constructor(
         injector: Injector,
@@ -39,9 +45,28 @@ export class AffiliateConfigurationComponent extends AppComponentBase implements
         private _router: Router
     ) {
         super(injector);
+        this.fromAffiliateId = -1;
     }
 
     ngOnInit() {
+        this.fromAffiliateId = -1;
+        this.menuItem = [
+            { label: 'View', icon: 'fa fa-search', command: (event) => this.newAffiliate(this.selectedAffiliate) },
+            { label: this.l('CopyToNew'), icon: 'fa fa-plus', command: (event) => this.newAffiliate(this.selectedAffiliate) }
+        ];
+    }
+
+    newAffiliate(fromAffiliate: GetAffiliateConfigurationForViewDto): void {
+        this.selectedAffiliate = new GetAffiliateConfigurationForViewDto();
+        this.selectedAffiliate.affiliateConfiguration = new AffiliateConfigurationDto();
+        this.selectedAffiliate.affiliateConfiguration.overrideThreshold = fromAffiliate.affiliateConfiguration.overrideThreshold;
+        this.selectedAffiliate.affiliateConfiguration.id = null;
+        this.fromAffiliateId = fromAffiliate.affiliateConfiguration.id;
+        this.fromAffiliateName = fromAffiliate.affiliateConfiguration.affiliateName;
+    }
+
+    viewAffiliate(affiliate: GetAffiliateConfigurationForViewDto): void {
+        this.selectedAffiliate = affiliate;
     }
 
     applyOverride() {
@@ -52,6 +77,10 @@ export class AffiliateConfigurationComponent extends AppComponentBase implements
                 c.overrideThreshold = this.selectedAffiliate.affiliateConfiguration.overrideThreshold;
                 c.displayName = this.selectedAffiliate.affiliateConfiguration.affiliateName;
                 c.id = this.selectedAffiliate.affiliateConfiguration.id;
+
+                if ( this.fromAffiliateId > 0) {
+                    c.parentId = this.fromAffiliateId;
+                }
 
                 this._affiliateConfigServiceProxy.createOrEdit(c).subscribe(() => {
                     this.notify.success(this.l('SavedSuccessfully'));

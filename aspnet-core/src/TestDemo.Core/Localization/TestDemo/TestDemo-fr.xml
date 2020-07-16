@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="fr">
   <texts>
+
+    <text name="NewOrganizationUnit">New Affiliate Name</text>
     <text name="GeneratingReport">Generating Report...</text>
     <text name="NoAppliedCalibrationForAffiliate">Cannot create ECL because there's no applied {0} calibration for the selected affiliate.</text>
     <text name="CompletedWithErrorsCheckEmail">Completed with errors: Please check your email for invalid records or Click </text>
@@ -1379,7 +1381,6 @@
     <text name="RemoveUserFromOuWarningMessage">Êtes-vous sûr de supprimer l'utilisateur {0} de l'unité organisationnelle {1}?</text>
     <text name="SuccessfullyRemoved">Supprimé avec succès</text>
     <text name="SelectAnItem">Sélectionner un élément</text>
-    <text name="NewOrganizationUnit">Nouvelle unité d'organisation</text>
     <text name="SelectAUser">Sélectionner un utilisateur</text>
     <text name="Select">Sélectionner</text>
     <text name="UserIsAlreadyInTheOrganizationUnit">Cet utilisateur est déjà dans l'unité d'organisation!</text>

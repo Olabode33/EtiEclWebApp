@@ -555,7 +555,7 @@ namespace TestDemo.EclShared
                                                     });
 
             var pagedEcls = affiliates
-                            .OrderBy("requiresAttention desc")
+                            .OrderBy(input.Sorting ?? "requiresAttention desc")
                             .PageBy(input);
 
             var totalCount = await affiliates.CountAsync();

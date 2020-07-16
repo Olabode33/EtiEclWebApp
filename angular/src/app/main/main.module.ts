@@ -103,6 +103,7 @@ import { EditIndexResultModalComponent } from './calibration/calibrateMacroAnaly
 import { EditPrincipalComponentResultModalComponent } from './calibration/calibrateMacroAnalysis/edit-principalComponent-result-modal.component';
 import { AddEadAssumptionModalComponent } from './assumptions/_subs/add-ead-assumption-modal/add-ead-assumption-modal.component';
 import { ViewBatchEclComponent } from './eclView/view-batchEcl/view-batchEcl.component';
+import { ContextMenuModule } from 'primeng/primeng';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -113,7 +114,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PaginatorModule,
         EditorModule,
         InputMaskModule, TableModule,
-
+        ContextMenuModule,
         CommonModule,
         FormsModule,
         ModalModule,

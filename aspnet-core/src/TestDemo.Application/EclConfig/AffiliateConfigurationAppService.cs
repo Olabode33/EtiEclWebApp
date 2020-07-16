@@ -15,20 +15,30 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.EclShared;
+using TestDemo.EclShared.Dtos;
+using Abp.BackgroundJobs;
+using Abp.Runtime.Session;
 
 namespace TestDemo.EclConfig
 {
     public class AffiliateConfigurationAppService : TestDemoAppServiceBase
     {
         private readonly IRepository<Affiliate, long> _affiliateRepository;
+        private readonly IRepository<AffiliateAssumption, Guid> _assumptionRepository;
         private readonly OrganizationUnitManager _organizationUnitManager;
+        private readonly IBackgroundJobManager _backgroundJobManager;
 
         public AffiliateConfigurationAppService(
-            IRepository<Affiliate, long> affiliateRepository, 
+            IRepository<Affiliate, long> affiliateRepository,
+            IRepository<AffiliateAssumption, Guid> assumptionRepository,
+            IBackgroundJobManager backgroundJobManager,
             OrganizationUnitManager organizationUnitManager)
         {
             _affiliateRepository = affiliateRepository;
+            _assumptionRepository = assumptionRepository;
             _organizationUnitManager = organizationUnitManager;
+            _backgroundJobManager = backgroundJobManager;
         }
 
         public async Task<PagedResultDto<GetAffiliateConfigurationForViewDto>> GetAll(GetAllAffiliateConfigurationInput input)
@@ -89,11 +99,30 @@ namespace TestDemo.EclConfig
                 DisplayName = input.DisplayName,
                 OverrideThreshold = input.OverrideThreshold,
                 Currency=input.Currency,
-                ParentId = input.ParentId
+                ParentId = null //input.ParentId
             };
             
             await _organizationUnitManager.CreateAsync(affiliate);
             await CurrentUnitOfWork.SaveChangesAsync();
+
+            if (input.ParentId != null)
+            {
+                await CreateAssumption(affiliate.Id, (long)input.ParentId);
+            }
+        }
+
+        protected virtual async Task CreateAssumption(long id, long from)
+        {
+            await _assumptionRepository.InsertAsync(new AffiliateAssumption
+            {
+                OrganizationUnitId = id
+            });
+            await _backgroundJobManager.EnqueueAsync<EclShared.Importing.CopyAffiliateAssumptionJob, CopyAffiliateAssumptionJobArgs>(new CopyAffiliateAssumptionJobArgs()
+            {
+                FromAffiliateId = from,
+                ToAffiliateId = id,
+                User = AbpSession.ToUserIdentifier()
+            });
         }
 
         protected virtual async Task Update(CreateOrEditAffiliateDto input)
