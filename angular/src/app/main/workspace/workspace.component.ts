@@ -76,6 +76,10 @@ export class WorkspaceComponent extends AppComponentBase implements OnInit, Afte
     }
 
     navigateToViewEcl(framework: FrameworkEnum, eclId: string): void {
-        this._router.navigate(['/app/main/ecl/view/', framework.toString(), eclId]);
+        if (framework === FrameworkEnum.Batch) {
+            this._router.navigate(['/app/main/ecl/view/batch/', eclId]);
+        } else {
+            this._router.navigate(['/app/main/ecl/view/', framework.toString(), eclId]);
+        }
     }
 }

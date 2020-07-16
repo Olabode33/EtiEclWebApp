@@ -190,7 +190,7 @@ namespace TestDemo.EclShared
             var statusFilter = (EclStatusEnum)input.Status;
 
 
-            var allEcl = (from w in _wholesaleEclRepository.GetAll().WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
+            var allEcl = (from w in _wholesaleEclRepository.GetAll().Where(e => e.BatchId == null).WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
 
                           join ou in _organizationUnitRepository.GetAll() on w.OrganizationUnitId equals ou.Id
 
@@ -208,7 +208,7 @@ namespace TestDemo.EclShared
                               LastUpdated = w.LastModificationTime
                           }
                           ).Union(
-                            from w in _retailEclRepository.GetAll().WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
+                            from w in _retailEclRepository.GetAll().Where(e => e.BatchId == null).WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
 
                             join ou in _organizationUnitRepository.GetAll() on w.OrganizationUnitId equals ou.Id
 
@@ -226,7 +226,7 @@ namespace TestDemo.EclShared
                                 LastUpdated = w.LastModificationTime
                             }
                           ).Union(
-                            from w in _obeEclRepository.GetAll().WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
+                            from w in _obeEclRepository.GetAll().Where(e => e.BatchId == null).WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
 
                             join ou in _organizationUnitRepository.GetAll() on w.OrganizationUnitId equals ou.Id
 
@@ -253,6 +253,24 @@ namespace TestDemo.EclShared
                             select new GetAllEclForWorkspaceSummaryDto()
                             {
                                 Framework = FrameworkEnum.Investments,
+                                CreatedByUserName = u2 == null ? "" : u2.FullName,
+                                DateCreated = w.CreationTime,
+                                ReportingDate = w.ReportingDate,
+                                OrganisationUnitName = ou == null ? "" : ou.DisplayName,
+                                Status = w.Status,
+                                Id = w.Id,
+                                LastUpdated = w.LastModificationTime
+                            }
+                          ).Union(
+                            from w in _batchEclRepository.GetAll().WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
+
+                            join ou in _organizationUnitRepository.GetAll() on w.OrganizationUnitId equals ou.Id
+
+                            join u in _lookup_userRepository.GetAll() on w.CreatorUserId equals u.Id into u1
+                            from u2 in u1.DefaultIfEmpty()
+                            select new GetAllEclForWorkspaceSummaryDto()
+                            {
+                                Framework = FrameworkEnum.Batch,
                                 CreatedByUserName = u2 == null ? "" : u2.FullName,
                                 DateCreated = w.CreationTime,
                                 ReportingDate = w.ReportingDate,

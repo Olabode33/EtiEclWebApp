@@ -103,6 +103,8 @@
                                             {{l(generalStatusEnum[generalStatusEnum.Approved])}}</option>
                                         <option [value]="generalStatusEnum.Completed">
                                             {{l(generalStatusEnum[generalStatusEnum.Completed])}}</option>
+                                        <option [value]="generalStatusEnum.Failed">
+                                            {{l(generalStatusEnum[generalStatusEnum.Failed])}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -137,17 +139,17 @@
                                     <th style="width: 130px"
                                         [hidden]="!isGrantedAny('Pages.Calibration')">
                                         {{l('Actions')}}</th>
-                                    <th style="width: 150px" pSortableColumn="affiliateName">
+                                    <th style="width: 150px" pSortableColumn="organizationUnitId">
                                         {{l('Affiliate')}}
-                                        <p-sortIcon field="affiliateName"></p-sortIcon>
+                                        <p-sortIcon field="calibration.organizationUnitId"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="createdBy">
+                                    <th style="width: 150px" pSortableColumn="creationTime">
                                         {{l('DateCreated')}}
-                                        <p-sortIcon field="createdBy"></p-sortIcon>
+                                        <p-sortIcon field="calibration.creationTime"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="createdBy">
+                                    <th style="width: 150px" pSortableColumn="creatorUserId">
                                         {{l('CreatedBy')}}
-                                        <p-sortIcon field="createdBy"></p-sortIcon>
+                                        <p-sortIcon field="calibration.creatorUserId"></p-sortIcon>
                                     </th>
                                     <th style="width: 150px" pSortableColumn="modelType">
                                         {{l('Model Type')}}
