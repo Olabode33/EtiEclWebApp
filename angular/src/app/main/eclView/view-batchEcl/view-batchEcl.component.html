@@ -25,7 +25,7 @@
                 <button (click)="runEclComputation()" class="btn btn-success"
                     *ngIf="eclDto.status == eclStatusEnum.Approved && isGranted('Pages.EclView.Run')">
                     <i class="fa fa-play-circle" style="font-size: 1.2rem !important;"></i>
-                    {{l("Run")}}
+                    {{l("RunEcls")}}
                 </button>
                 <!-- <button (click)="runEclPostComputation()" class="btn btn-success"
                     *ngIf="(eclDto.status == eclStatusEnum.PreOverrideComplete || eclDto.status == eclStatusEnum.PostOverrideComplete || eclDto.status == eclStatusEnum.Completed) && isGranted('Pages.EclView.Run') ">

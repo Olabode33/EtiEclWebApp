@@ -15,5 +15,6 @@ namespace TestDemo.EclShared.Importing.Utils
         int? GetIntegerValueFromRowOrNull(ExcelWorksheet worksheet, int row, int column, string columnName, StringBuilder exceptionMessage);
         double? GetDoubleValueFromRowOrNull(ExcelWorksheet worksheet, int row, int column, string columnName, StringBuilder exceptionMessage);
         DateTime? GetDateTimeValueFromRowOrNull(ExcelWorksheet worksheet, int row, int column, string columnName, StringBuilder exceptionMessage);
+        int? HackValidateIntegerValueFromRowOrNull(string value, string columnName, StringBuilder exceptionMessage);
     }
 }

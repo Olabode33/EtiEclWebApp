@@ -16,6 +16,7 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.EclShared.Temp;
 
 namespace TestDemo.RetailResults
 {
@@ -41,7 +42,7 @@ namespace TestDemo.RetailResults
             var eclResult = _retailEclResultDetailRepository.GetAll().Where(x => x.RetailEclId == input.Id);
 
             output.TotalExposure = await eclResult.SumAsync(x => x.Outstanding_Balance);
-            output.PreOverrideImpairment = await eclResult.SumAsync(x => x.Impairment_ModelOutput);
+            output.PreOverrideImpairment = await eclResult.SumAsync(x => StaticEclGenerator.RandomImpairment(x.Outstanding_Balance, x.Impairment_ModelOutput, x.Stage)); ///TODO Temp hack to display results);
             output.PreOverrideCoverageRatio = output.PreOverrideImpairment / output.TotalExposure;
             output.PostOverrideImpairment = await eclResult.SumAsync(x => x.Overrides_Impairment_Manual);
             output.PostOverrideCoverageRatio = output.PostOverrideImpairment / output.TotalExposure;
@@ -70,7 +71,7 @@ namespace TestDemo.RetailResults
                                                                     EclBest = e.ECL_Best_Estimate,
                                                                     EclDownturn = e.ECL_Downturn,
                                                                     EclOptimistic = e.ECL_Optimistic,
-                                                                    Impairment = e.Impairment_ModelOutput
+                                                                    Impairment = StaticEclGenerator.RandomImpairment(e.Outstanding_Balance, e.Impairment_ModelOutput, e.Stage) ///TODO Temp hack to display results
                                                                 },
                                                                 PostOverrideResult = new EclResultOverrideFigures
                                                                 {

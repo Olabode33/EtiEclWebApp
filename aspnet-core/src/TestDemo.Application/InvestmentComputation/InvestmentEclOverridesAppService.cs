@@ -264,17 +264,31 @@ namespace TestDemo.InvestmentComputation
 
                 if (investmentEclSicr != null)
                 {
-                    await _investmentEclOverrideRepository.InsertAsync(new InvestmentEclOverride
+                    var exist = await _investmentEclOverrideRepository.FirstOrDefaultAsync(e => e.InvestmentEclSicrId == investmentEclSicr.Id);
+
+                    if (exist != null)
                     {
-                        Id = new Guid(),
-                        EclId = eclId,
-                        ImpairmentOverride = input.ImpairmentOverride,
-                        OverrideComment = input.OverrideComment,
-                        StageOverride = input.StageOverride,
-                        Status = GeneralStatusEnum.Submitted,
-                        OverrideType = input.OverrideType,
-                        InvestmentEclSicrId = investmentEclSicr.Id
-                    });
+                        exist.ImpairmentOverride = input.ImpairmentOverride;
+                        exist.OverrideComment = input.OverrideComment;
+                        exist.StageOverride = input.StageOverride;
+                        exist.Status = GeneralStatusEnum.Submitted;
+                        exist.OverrideType = input.OverrideType;
+                        await _investmentEclOverrideRepository.UpdateAsync(exist);
+                    }
+                    else
+                    {
+                        await _investmentEclOverrideRepository.InsertAsync(new InvestmentEclOverride
+                        {
+                            Id = new Guid(),
+                            EclId = eclId,
+                            ImpairmentOverride = input.ImpairmentOverride,
+                            OverrideComment = input.OverrideComment,
+                            StageOverride = input.StageOverride,
+                            Status = GeneralStatusEnum.Submitted,
+                            OverrideType = input.OverrideType,
+                            InvestmentEclSicrId = investmentEclSicr.Id
+                        });
+                    }
                 }
 
             }

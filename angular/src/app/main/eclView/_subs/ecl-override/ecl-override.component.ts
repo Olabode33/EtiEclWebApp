@@ -191,13 +191,13 @@ export class EclOverrideComponent extends AppComponentBase {
                     Stage: "",
                     Impairment: "",
                     "Override Type": "",
+                    'Reason*': "",
                 },
             ];
         } else {
             data = [
                 {
                     "ContractId*": "",
-                    Reason: "",
                     Stage: "",
                     "Ttr Years": "",
                     "FSV Cash": "",
@@ -211,6 +211,7 @@ export class EclOverrideComponent extends AppComponentBase {
                     "FSV Vehicle": "",
                     "Overlays Percentage": "",
                     "Override Type": "",
+                    'Reason*': "",
                 },
             ];
         }
@@ -249,12 +250,15 @@ export class EclOverrideComponent extends AppComponentBase {
                     obj.impairmentOverride = r["Impairment"] as number;
                     obj.overrideType = r["Override Type"];
                     obj.stageOverride = r["Stage"] as number;
+                    obj.overrideComment = r["Reason*"];
                     finalList.push(obj);
                 });
 
                 var invalids = finalList.filter(
                     (r) =>
-                        r.assetDescription == "" || r.assetDescription == null
+                        r.assetDescription == "" || r.assetDescription == null ||
+                        r.overrideComment == "" || r.overrideComment == null||
+                        r.overrideType == "" || r.overrideType == null
                 );
                 if (invalids.length > 0) {
                     this.primengTableHelper.isLoading = false;
@@ -293,10 +297,7 @@ export class EclOverrideComponent extends AppComponentBase {
                     obj.fsV_Shares = r["FSV Shares"] as number;
                     obj.fsV_Vehicle = r["FSV Vehicle"] as number;
                     obj.overlaysPercentage = r["Overlays Percentage"] as number;
-                    obj.overrideComment =
-                        r["Comment"] == undefined
-                            ? ""
-                            : (r["Comment"] as string);
+                    obj.overrideComment = r["Reason*"];
                     obj.stage = r["Stage"] as number;
                     obj.ttrYears = r["Ttr Years"] as number;
                     obj.overrideType =
@@ -307,7 +308,9 @@ export class EclOverrideComponent extends AppComponentBase {
                 });
 
                 var invalids = finalList.filter(
-                    (r) => r.contractId == "" || r.contractId == null
+                    (r) => r.contractId == "" || r.contractId == null||
+                            r.overrideComment == "" || r.overrideComment == null ||
+                            r.overrideType == "" || r.overrideType == null
                 );
                 if (invalids.length > 0) {
                     this.primengTableHelper.isLoading = false;

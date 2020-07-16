@@ -42,6 +42,46 @@ namespace TestDemo.EclShared.Importing.Utils
             return null;
         }
 
+        public int? HackValidateIntegerValueFromRowOrNull(string value, string columnName, StringBuilder exceptionMessage)
+        {
+            int returnValue;
+            double doubleValue;
+
+            if (string.IsNullOrWhiteSpace(value) || string.Equals(value.Trim(), "-"))
+            {
+                return null;
+            }
+
+            if (int.TryParse(value, out returnValue))
+            {
+                return returnValue;
+            }
+
+            if (double.TryParse(value, out doubleValue))
+            {
+                return Convert.ToInt32(doubleValue);
+            }
+
+            if (value.Contains("+") || value.Contains("-"))
+            {
+                string b = string.Empty;
+
+                for (int i = 0; i < value.Length; i++)
+                {
+                    if (Char.IsDigit(value[i]))
+                        b += value[i];
+                }
+
+                if (b.Length > 0)
+                    return int.Parse(b);
+                else
+                    return null;
+            }
+
+            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "ExpectingWholeNumber"));
+            return null;
+        }
+
         public double? ValidateDoubleValueFromRowOrNull(string value, string columnName, StringBuilder exceptionMessage)
         {
             double returnValue;

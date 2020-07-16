@@ -6,6 +6,11 @@
             </h3>
         </div>
         <div class="kt-portlet__head-toolbar">
+            <button *ngIf="isGranted('Pages.EclView.Override.Review')" type="button"
+                class="btn btn-primary float-right" (click)="configureApprovalModal();approvalModal.show()">
+                <i class="fa fa-eye"></i>
+                {{l('ReviewAll')}}
+            </button>
             <div class="btn-group" dropdown *ngIf="canApplyOverride && isGranted('Pages.EclView.Override')">
                 <button dropdownToggle type="button" class="btn btn-outline-info dropdown-toggle mx-1"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -104,8 +109,13 @@
                     <ng-template pTemplate="body" let-record="$implicit">
                         <tr>
                             <td style="width: 130px">
-
-                                <button type="button"
+                                <button *ngIf="isGranted('Pages.EclView.Override.Review') && (record.eclOverride.status == generalStatusEnum.Submitted || record.eclOverride.status == generalStatusEnum.AwaitngAdditionApproval    )"
+                                type="button"
+                                    class="btn btn-primary" (click)="reviewOverride(record.eclOverride.recordId)">
+                                    {{l('Review')}}
+                                </button>
+                                <button *ngIf="!(isGranted('Pages.EclView.Override.Review') && (record.eclOverride.status == generalStatusEnum.Submitted || record.eclOverride.status == generalStatusEnum.AwaitngAdditionApproval))"
+                                    type="button"
                                     class="btn btn-primary" (click)="viewOverride(record.eclOverride.recordId)">
                                     <i class="fa fa-eye"></i>
                                     {{l('View')}}
@@ -136,19 +146,15 @@
                     </ng-template>
                 </p-table>
 
-                <div class="kt-portlet__foot">
+                <!-- <div class="kt-portlet__foot">
                     <div class="kt-form__actions">
                         <div class="row">
                             <div class="col-lg-12">
-                                <button *ngIf="isGranted('Pages.EclView.Override.Review')" type="button"
-                                    class="btn btn-primary float-right" (click)="configureApprovalModal();approvalModal.show()">
-                                    <i class="fa fa-eye"></i>
-                                    {{l('ReviewAll')}}
-                                </button>
+                                
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
                     {{l('NoData')}}
                 </div>

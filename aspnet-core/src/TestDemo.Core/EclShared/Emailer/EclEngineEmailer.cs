@@ -326,7 +326,7 @@ namespace TestDemo.EclShared.Emailer
                     Body = emailTemplate.ToString(),
                     IsBodyHtml = true
                 });
-                Logger.Debug("Testing Email: Email Sent; EmailHtmlContent: " + emailTemplate.ToString());
+                //Logger.Debug("Testing Email: Email Sent; EmailHtmlContent: " + emailTemplate.ToString());
             }
             catch (Exception e)
             {
