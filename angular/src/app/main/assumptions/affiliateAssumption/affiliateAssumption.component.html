@@ -27,7 +27,16 @@
                 <form class="kt-form" autocomplete="off">
                     <div>
                         <div class="row align-items-center">
-                            <div class="col-xl-12">
+                            <div *ngIf="_affiliateId === -1" class="col-xl-2 col-sm-6">
+                                <div class="form-group m-form__group align-items-center">
+                                    <select class="form-control" name="IsApprovedFilter" id="IsApprovedFilterSelect"
+                                        [(ngModel)]="filterText">
+                                        <option value="">{{l("SelectOU")}}</option>
+                                        <option *ngFor="let item of ouList" [value]="item.name">{{item.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xl-10">
                                 <div class="form-group m-form__group align-items-center">
                                     <div class="input-group">
                                         <input [(ngModel)]="filterText" name="filterText" autoFocus

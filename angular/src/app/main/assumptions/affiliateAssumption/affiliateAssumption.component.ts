@@ -2,7 +2,7 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { NotifyService } from '@abp/notify/notify.service';
-import { TokenAuthServiceProxy, EclSharedServiceProxy, CopyAffiliateDto } from '@shared/service-proxies/service-proxies';
+import { TokenAuthServiceProxy, EclSharedServiceProxy, CopyAffiliateDto, NameValueDtoOfInt64, CommonLookupServiceProxy } from '@shared/service-proxies/service-proxies';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { Table } from 'primeng/components/table/table';
 import { Paginator } from 'primeng/components/paginator/paginator';
@@ -33,9 +33,13 @@ export class AffiliateAssumptionComponent extends AppComponentBase implements On
     copyFromOuId = -1;
     copyFromOuName = '';
 
+    _affiliateId = -1;
+    ouList: NameValueDtoOfInt64[] = new Array();
+
     constructor(
         injector: Injector,
         private _eclSharedServiceProxy: EclSharedServiceProxy,
+        private _commonServiceProxy: CommonLookupServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
@@ -44,6 +48,14 @@ export class AffiliateAssumptionComponent extends AppComponentBase implements On
         private _location: Location
     ) {
         super(injector);
+        _commonServiceProxy.getUserAffiliates().subscribe(result => {
+            if (result.length > 0) {
+                this._affiliateId = result[0].value;
+            }
+        });
+        _commonServiceProxy.getAllOrganizationUnitForLookupTable('', '', 0, 100).subscribe(result => {
+            this.ouList = result.items;
+        });
     }
 
     ngOnInit() {

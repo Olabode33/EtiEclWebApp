@@ -538,6 +538,7 @@ namespace TestDemo.EclShared
             var submittedAssumptions = await _assumptionsApprovalRepository.GetAll().Where(x => x.Status == GeneralStatusEnum.Submitted || x.Status == GeneralStatusEnum.AwaitngAdditionApproval).ToListAsync();
             var affiliates = _affiliateAssumptions.GetAll().Include(x => x.OrganizationUnitFk)
                                                   .WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
+                                                  .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => (e.OrganizationUnitFk != null ? e.OrganizationUnitFk.DisplayName.ToLower().Contains(input.Filter.ToLower()) : false))
                                                     .Select(x => new GetAllAffiliateAssumptionDto
                                                     {
                                                         Id = x.Id,
