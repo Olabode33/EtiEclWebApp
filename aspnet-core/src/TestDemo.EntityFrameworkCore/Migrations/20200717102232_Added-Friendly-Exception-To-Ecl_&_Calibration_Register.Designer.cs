@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestDemo.EntityFrameworkCore;
 
 namespace TestDemo.Migrations
 {
     [DbContext(typeof(TestDemoDbContext))]
-    partial class TestDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200717102232_Added-Friendly-Exception-To-Ecl_&_Calibration_Register")]
+    partial class AddedFriendlyExceptionToEcl__Calibration_Register
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -15,6 +15,7 @@ namespace TestDemo.EclLibrary.BaseEngine.CalibrationRunBase
         public virtual CalibrationStatusEnum Status { get; set; }
         public virtual FrameworkEnum ModelType { get; set; }
         public virtual string ExceptionComment { get; set; }
+        public virtual string FriendlyException { get; set; }
         public virtual long? CloseByUserId { get; set; }
         [ForeignKey("CloseByUserId")]
         public User CloseByUserFk { get; set; }
