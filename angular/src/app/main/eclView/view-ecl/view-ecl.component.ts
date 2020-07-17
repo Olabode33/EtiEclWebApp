@@ -265,6 +265,25 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
         }
     }
 
+    getEclProgress() {
+        switch (this.eclDto.status) {
+            case this.eclStatusEnum.ComputedEAD:
+                return 25;
+            case this.eclStatusEnum.ComputedLGD:
+                return 50;
+            case this.eclStatusEnum.ComputedPD:
+                return 75;
+            case this.eclStatusEnum.PreOverrideComplete:
+                return 100;
+            case this.eclStatusEnum.PostOverrideComplete:
+                return 100;
+            case this.eclStatusEnum.Completed:
+                return 100;
+            default:
+                return 1;
+        }
+    }
+
     editReportDate(): void {
         this.editEclReportDate.show();
     }
