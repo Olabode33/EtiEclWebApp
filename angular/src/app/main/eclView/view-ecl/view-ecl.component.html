@@ -32,7 +32,7 @@
                     <i class="fa fa-forward" style="font-size: 1.2rem !important;"></i>
                     {{l("PostRun")}}
                 </button>
-                <button (click)="closeEcl()" class="btn btn-primary" *ngIf="eclDto.status == eclStatusEnum.Completed && isGranted('Pages.EclView.Close')">
+                <button (click)="closeEcl()" class="btn btn-primary" *ngIf="(eclDto.status == eclStatusEnum.Completed || eclDto.status == eclStatusEnum.PreOverrideComplete || eclDto.status == eclStatusEnum.PostOverrideComplete) && isGranted('Pages.EclView.Close')">
                     <i class="fa fa-check-circle" style="font-size: 1.2rem !important;"></i>
                     {{l("Close")}}
                 </button>
