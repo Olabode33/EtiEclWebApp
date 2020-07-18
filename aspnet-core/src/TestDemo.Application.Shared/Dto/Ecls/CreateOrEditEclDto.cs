@@ -15,5 +15,6 @@ namespace TestDemo.Dto.Ecls
 		public long? ClosedByUserId { get; set; }
 		public long? OrganizationUnitId { get; set; }
 		public bool IsSingleBatch { get; set; }
+		public string FriendlyException { get; set; }
 	}
 }

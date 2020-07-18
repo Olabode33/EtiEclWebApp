@@ -424,12 +424,12 @@ namespace TestDemo.BatchEcls
 
             var subsEclList = await subEcls.ToListAsync();
 
-            await UpdateBatchStatus(batchId, subEcls);
+            await UpdateBatchStatus(batchId, subsEclList);
 
             return subsEclList;
         }
 
-        private async Task UpdateBatchStatus(Guid batchId, IQueryable<GetAllEclForWorkspaceDto> subEcls)
+        private async Task UpdateBatchStatus(Guid batchId, List<GetAllEclForWorkspaceDto> subEcls)
         {
             var batch = await _batchEclRepository.FirstOrDefaultAsync(batchId);
             if (subEcls.All(x => x.Status == EclStatusEnum.Completed))

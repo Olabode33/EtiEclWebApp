@@ -1123,9 +1123,13 @@ namespace TestDemo.Migrations
 
                     b.Property<string>("ExceptionComment");
 
+                    b.Property<string>("FriendlyException");
+
                     b.Property<bool>("IsApproved");
 
                     b.Property<bool>("IsDeleted");
+
+                    b.Property<bool>("IsSingleBatch");
 
                     b.Property<DateTime?>("LastModificationTime");
 
