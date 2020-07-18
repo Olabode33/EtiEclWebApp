@@ -205,7 +205,8 @@ namespace TestDemo.EclShared
                               OrganisationUnitName = ou == null ? "" : ou.DisplayName,
                               Status = w.Status,
                               Id = w.Id,
-                              LastUpdated = w.LastModificationTime
+                              LastUpdated = w.LastModificationTime,
+                              IsSingleBatch = w.IsSingleBatch
                           }
                           ).Union(
                             from w in _retailEclRepository.GetAll().Where(e => e.BatchId == null).WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
@@ -223,7 +224,8 @@ namespace TestDemo.EclShared
                                 OrganisationUnitName = ou == null ? "" : ou.DisplayName,
                                 Status = w.Status,
                                 Id = w.Id,
-                                LastUpdated = w.LastModificationTime
+                                LastUpdated = w.LastModificationTime,
+                                IsSingleBatch = w.IsSingleBatch
                             }
                           ).Union(
                             from w in _obeEclRepository.GetAll().Where(e => e.BatchId == null).WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
@@ -241,7 +243,8 @@ namespace TestDemo.EclShared
                                 OrganisationUnitName = ou == null ? "" : ou.DisplayName,
                                 Status = w.Status,
                                 Id = w.Id,
-                                LastUpdated = w.LastModificationTime
+                                LastUpdated = w.LastModificationTime,
+                                IsSingleBatch = w.IsSingleBatch
                             }
                           ).Union(
                             from w in _investmentclRepository.GetAll().WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
@@ -259,7 +262,8 @@ namespace TestDemo.EclShared
                                 OrganisationUnitName = ou == null ? "" : ou.DisplayName,
                                 Status = w.Status,
                                 Id = w.Id,
-                                LastUpdated = w.LastModificationTime
+                                LastUpdated = w.LastModificationTime,
+                                IsSingleBatch = false
                             }
                           ).Union(
                             from w in _batchEclRepository.GetAll().WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
@@ -277,7 +281,8 @@ namespace TestDemo.EclShared
                                 OrganisationUnitName = ou == null ? "" : ou.DisplayName,
                                 Status = w.Status,
                                 Id = w.Id,
-                                LastUpdated = w.LastModificationTime
+                                LastUpdated = w.LastModificationTime,
+                                IsSingleBatch = false
                             }
                           );
 
@@ -375,8 +380,9 @@ namespace TestDemo.EclShared
                                   ReportingDate = w.ReportingDate,
                                   OrganisationUnitName = ou == null ? "" : ou.DisplayName,
                                   Status = w.Status,
-                                  Id = w.Id
-                              }
+                                  Id = w.Id,
+                                  IsSingleBatch = w.IsSingleBatch
+                          }
                           ).Union(
                             from w in _retailEclRepository.GetAll().Where(e => e.BatchId == null)
                                                           .WhereIf(userOrganizationUnitIds.Count() > 0, x => userOrganizationUnitIds.Contains(x.OrganizationUnitId))
@@ -394,7 +400,8 @@ namespace TestDemo.EclShared
                                 ReportingDate = w.ReportingDate,
                                 OrganisationUnitName = ou == null ? "" : ou.DisplayName,
                                 Status = w.Status,
-                                Id = w.Id
+                                Id = w.Id,
+                                IsSingleBatch = w.IsSingleBatch
                             }
                           ).Union(
                             from w in _obeEclRepository.GetAll().Where(e => e.BatchId == null)
@@ -413,7 +420,8 @@ namespace TestDemo.EclShared
                                 ReportingDate = w.ReportingDate,
                                 OrganisationUnitName = ou == null ? "" : ou.DisplayName,
                                 Status = w.Status,
-                                Id = w.Id
+                                Id = w.Id,
+                                IsSingleBatch = w.IsSingleBatch
                             }
                           ).Union(
                             from w in _investmentclRepository.GetAll()
@@ -432,7 +440,8 @@ namespace TestDemo.EclShared
                                 ReportingDate = w.ReportingDate,
                                 OrganisationUnitName = ou == null ? "" : ou.DisplayName,
                                 Status = w.Status,
-                                Id = w.Id
+                                Id = w.Id,
+                                IsSingleBatch = false
                             }
                           ).Union(
                             from w in _batchEclRepository.GetAll()
@@ -451,7 +460,8 @@ namespace TestDemo.EclShared
                                 ReportingDate = w.ReportingDate,
                                 OrganisationUnitName = ou == null ? "" : ou.DisplayName,
                                 Status = w.Status,
-                                Id = w.Id
+                                Id = w.Id,
+                                IsSingleBatch = false
                             }
                           )
                           //.WhereIf(string.IsNullOrWhiteSpace(input.Filter),  x => x.OrganisationUnitName.ToLower().Contains(input.Filter.ToLower()) || x.CreatedByUserName.ToLower().Contains(input.Filter.ToLower()))

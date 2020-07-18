@@ -193,7 +193,7 @@
                                             <a href="#" class="kt-widget11__title">{{item.organisationUnitName}}</a>
                                         </td>
                                         <td class="align-middle">
-                                            <span class="kt-widget11__sub">{{l(frameworkEnum[item.framework])}}</span>
+                                            <span class="kt-widget11__sub">{{l(frameworkEnum[item.isSingleBatch ? frameworkEnum.Batch : item.framework])}}</span>
                                         </td>
                                         <td class="align-middle">{{item.createdByUserName}}</td>
                                         <td class="kt-font-brand kt-font-bold align-middle">{{item.reportingDate | momentFormat:'ll'}}</td>

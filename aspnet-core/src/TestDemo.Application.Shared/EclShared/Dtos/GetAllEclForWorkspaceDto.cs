@@ -13,6 +13,7 @@ namespace TestDemo.EclShared.Dtos
         public string OrganisationUnitName { get; set; }
         public string CreatedByUserName { get; set; }
         public DateTime DateCreated { get; set; }
+        public bool? IsSingleBatch { get; set; }
     }
 
     public class GetAllEclForWorkspaceSummaryDto: GetAllEclForWorkspaceDto

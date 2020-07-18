@@ -14,5 +14,6 @@ namespace TestDemo.Dto.Ecls
 		public EclStatusEnum Status { get; set; }
 		public long? ClosedByUserId { get; set; }
 		public long? OrganizationUnitId { get; set; }
+		public bool IsSingleBatch { get; set; }
 	}
 }

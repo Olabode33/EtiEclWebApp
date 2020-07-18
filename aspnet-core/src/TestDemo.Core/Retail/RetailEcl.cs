@@ -25,6 +25,7 @@ namespace TestDemo.Retail
 		public virtual string ExceptionComment { get; set; }
 		public virtual string FriendlyException { get; set; }
 		public virtual Guid? BatchId { get; set; }
+		public virtual bool IsSingleBatch { get; set; }
 		public virtual long? ClosedByUserId { get; set; }
         [ForeignKey("ClosedByUserId")]
 		public User ClosedByUserFk { get; set; }

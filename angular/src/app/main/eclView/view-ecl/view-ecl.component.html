@@ -4,7 +4,7 @@
 
         <div class="kt-subheader__main">
             <h3 class="kt-subheader__title">
-                <span>{{l(frameworkEnum[_eclFramework])}} ECL</span>
+                <span>{{l(frameworkEnum[ eclDto.isSingleBatch ? frameworkEnum.Batch : _eclFramework ])}} ECL</span>
             </h3>
             <span class="kt-subheader__separator kt-subheader__separator--v"></span>
             <span class="kt-subheader__desc">

@@ -527,7 +527,7 @@ namespace TestDemo.Wholesale
             {
                 await ValidateForCreation(ouId);
 
-                Guid eclId = await CreateAndGetId(ouId, input.ReportingDate);
+                Guid eclId = await CreateAndGetId(ouId, input.ReportingDate, input.IsSingleBatch);
 
                 await SaveFrameworkAssumption(ouId, eclId);
                 await SaveEadInputAssumption(ouId, eclId);
@@ -547,7 +547,7 @@ namespace TestDemo.Wholesale
             }
         }
 
-        protected virtual async Task<Guid> CreateAndGetId(long ouId, DateTime reportDate)
+        protected virtual async Task<Guid> CreateAndGetId(long ouId, DateTime reportDate, bool isBatch = false)
         {
             var affiliateAssumption = await _affiliateAssumptionRepository.FirstOrDefaultAsync(x => x.OrganizationUnitId == ouId);
 
@@ -558,7 +558,8 @@ namespace TestDemo.Wholesale
                 {
                     ReportingDate = reportDate,
                     OrganizationUnitId = ouId,
-                    Status = EclStatusEnum.Draft
+                    Status = EclStatusEnum.Draft,
+                    IsSingleBatch = isBatch
                 });
                 affiliateAssumption.LastWholesaleReportingDate = reportDate;
                 await _affiliateAssumptionRepository.UpdateAsync(affiliateAssumption);

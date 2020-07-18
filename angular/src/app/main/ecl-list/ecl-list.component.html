@@ -227,7 +227,7 @@
                                     <td style="width:150px">
                                             <span class="ui-column-title"> {{l('Framework')}}</span>
                                             <span class="kt-font-bold kt-font-primary">
-                                                {{l( frameworkEnum[record.framework]) }}
+                                                {{l( record.isSingleBatch ? frameworkEnum[frameworkEnum.Batch] : frameworkEnum[record.framework]) }}
                                             </span>
                                         </td>
                                     <td style="width:150px">
