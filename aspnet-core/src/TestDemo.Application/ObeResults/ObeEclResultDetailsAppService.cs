@@ -41,7 +41,7 @@ namespace TestDemo.ObeResults
             var eclResult = _obeEclResultDetailRepository.GetAll().Where(x => x.ObeEclId == input.Id);
 
             output.TotalExposure = await eclResult.SumAsync(x => x.Outstanding_Balance);
-            output.PreOverrideImpairment = await eclResult.SumAsync(x => StaticEclGenerator.RandomImpairment(x.Outstanding_Balance, x.Impairment_ModelOutput, x.Stage)); ///TODO Temp hack to display results);
+            output.PreOverrideImpairment = await eclResult.SumAsync(x => x.Impairment_ModelOutput);
             output.PreOverrideCoverageRatio = output.PreOverrideImpairment / output.TotalExposure;
             output.PostOverrideImpairment = await eclResult.SumAsync(x => x.Overrides_Impairment_Manual);
             output.PostOverrideCoverageRatio = output.PostOverrideImpairment / output.TotalExposure;
@@ -69,7 +69,7 @@ namespace TestDemo.ObeResults
                                                                     EclBest = e.ECL_Best_Estimate, 
                                                                     EclDownturn = e.ECL_Downturn, 
                                                                     EclOptimistic = e.ECL_Optimistic, 
-                                                                    Impairment = StaticEclGenerator.RandomImpairment(e.Outstanding_Balance,  e.Impairment_ModelOutput, e.Stage) ///TODO Temp hack to display results
+                                                                    Impairment = e.Impairment_ModelOutput
                                                                 },
                                                                 PostOverrideResult = new EclResultOverrideFigures
                                                                 {
