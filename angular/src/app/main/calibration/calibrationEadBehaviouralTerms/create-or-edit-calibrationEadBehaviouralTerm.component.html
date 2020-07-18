@@ -53,6 +53,13 @@
 
     </div>
     <div class="kt-content">
+        <div *ngIf="calibration.status == calibrationStatusEnum.Failed"
+            class="kt-portlet kt-portlet--height-fluid" [ngClass]="{'failedRun': calibration.status === calibrationStatusEnum.Failed}">
+            <div class="kt-portlet__body kt-portlet__body--fluid text-danger">
+                <b>{{l('Reason:')}}</b><br>
+                {{calibration.friendlyException}}
+            </div>
+        </div>
 
         <div *ngIf="calibration.status == calibrationStatusEnum.Completed || calibration.status == calibrationStatusEnum.AppliedToEcl || calibration.status == calibrationStatusEnum.AppliedOverride"
             class="kt-portlet kt-portlet--height-fluid">

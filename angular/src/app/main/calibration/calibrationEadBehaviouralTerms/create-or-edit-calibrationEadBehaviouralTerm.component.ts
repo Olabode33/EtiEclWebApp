@@ -294,6 +294,7 @@ export class CreateOrEditCalibrationEadBehaviouralTermComponent extends AppCompo
             case CalibrationStatusEnum.Approved:
                 return 'success';
             case CalibrationStatusEnum.Rejected:
+            case CalibrationStatusEnum.Failed:
                 return 'danger';
             default:
                 return 'dark';
