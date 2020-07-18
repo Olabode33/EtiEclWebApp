@@ -14,6 +14,8 @@
         public const string Pages_Calibration_Submit = "Pages.Calibration.Submit";
         public const string Pages_Calibration_Review = "Pages.Calibration.Review";
         public const string Pages_Calibration_Apply = "Pages.Calibration.Apply";
+        public const string Pages_Calibration_Override = "Pages.Calibration.Override";
+        public const string Pages_Calibration_ReviewOverride = "Pages.Calibration.Override.Review";
 
         //Final 
         //Assumptions

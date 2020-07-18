@@ -37,6 +37,8 @@ namespace TestDemo.Authorization
             calibration.CreateChildPermission(AppPermissions.Pages_Calibration_Upload, L("UploadCalibration"));
             calibration.CreateChildPermission(AppPermissions.Pages_Calibration_Submit, L("SubmitCalibration"));
             calibration.CreateChildPermission(AppPermissions.Pages_Calibration_Review, L("ReviewCalibration"));
+            calibration.CreateChildPermission(AppPermissions.Pages_Calibration_Override, L("OverrideResult"));
+            calibration.CreateChildPermission(AppPermissions.Pages_Calibration_ReviewOverride, L("ReviewOverrides"));
             calibration.CreateChildPermission(AppPermissions.Pages_Calibration_Apply, L("ApplyCalibration"));
 
             //Final Permissions List

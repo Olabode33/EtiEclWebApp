@@ -2,6 +2,8 @@
 <localizationDictionary culture="en">
   <texts>
 
+    <text name="EditEclRecord">Edit ECL</text>
+    <text name="OverrideResult">Override calibration result</text>
     <text name="CopyToNew">Copy to new</text>
     <text name="NoLoanbookForBatch">Please upload the loanbook snapshot before uploading the payment schedule</text>
     <text name="LoanbookInProcessForBatch">Please wait for the loanbook upload process to be completed before uploading the payment schedule!</text>

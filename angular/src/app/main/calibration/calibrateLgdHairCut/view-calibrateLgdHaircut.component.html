@@ -25,7 +25,7 @@
                     {{l("Submit")}}
                 </button>
                 <button (click)="approveEcl()" class="btn btn-primary"
-                    *ngIf="(calibration.status == calibrationStatusEnum.Submitted || calibration.status == calibrationStatusEnum.AppliedOverride || calibration.status == calibrationStatusEnum.AwaitngAdditionApproval) && isGranted('Pages.Calibration.Review')">
+                    *ngIf="(calibration.status == calibrationStatusEnum.Submitted || calibration.status == calibrationStatusEnum.AppliedOverride || calibration.status == calibrationStatusEnum.AwaitngAdditionApproval) && isGranted('Pages.Calibration.Review' || 'Pages.Calibration.Override.Review')">
                     <i class="fa fa-check-double" style="font-size: 1.2rem !important;"></i>
                     {{l("Approve")}}
                 </button>
@@ -63,7 +63,7 @@
                     </h3>
                 </div>
                 <div class="kt-portlet__head-toolbar">
-                    <button (click)="editLgdHaircutResultModal.show(result)" class="btn btn-outline-primary mr-2">
+                    <button *ngIf="isGranted('Pages.Calibration.Override')" (click)="editLgdHaircutResultModal.show(result)" class="btn btn-outline-primary mr-2">
                         <i class="fa fa-edit" style="font-size: 1.2rem !important;"></i>
                         Override Result
                     </button>
