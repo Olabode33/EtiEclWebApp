@@ -36,7 +36,7 @@
                     <i class="fa fa-check-circle" style="font-size: 1.2rem !important;"></i>
                     {{l("Close")}}
                 </button>
-                <div *ngIf="eclDto.status == eclStatusEnum.Completed || eclDto.status == eclStatusEnum.PreOverrideComplete || eclDto.status == eclStatusEnum.PostOverrideComplete"  
+                <div *ngIf="eclDto.status == eclStatusEnum.Completed || eclDto.status == eclStatusEnum.PreOverrideComplete || eclDto.status == eclStatusEnum.PostOverrideComplete"
                     class="btn-group" dropdown>
                     <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
@@ -114,25 +114,21 @@
                                 </div>
                             </div>
 
-                            <!-- <div class="kt-widget__info kt-widget__info-overwrite">
+                            <div class="kt-widget__info kt-widget__info-overwrite">
 
                                 <div class="kt-widget__progress kt-widget__progress-overwrite">
                                     <div class="kt-widget__text">
                                         Progress:
                                     </div>
-                                    <div class="progress" style="height: 5px;width: 100%;" *ngIf="retailEClDto.status != eclStatusEnum.Completed">
-                                        <div class="progress-bar kt-bg-success" role="progressbar" style="width: 5%;"
-                                            aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <div class="progress" style="height: 5px;width: 100%;" *ngIf="retailEClDto.status == eclStatusEnum.Completed">
-                                        <div class="progress-bar kt-bg-success" role="progressbar" style="width: 100%;"
+                                    <div class="progress" style="height: 5px;width: 100%;">
+                                        <div class="progress-bar kt-bg-success" role="progressbar" [ngStyle]="{'width': getEclProgress() + '%'}"
                                             aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <div class="kt-widget__stats">
-                                        {{ retailEClDto.status == eclStatusEnum.Completed ? '100' : '5'  }}%
+                                        {{ getEclProgress() }}%
                                     </div>
                                 </div>
-                            </div> -->
+                            </div>
                         </div>
                     </div>
                 </div>
