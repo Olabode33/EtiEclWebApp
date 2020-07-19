@@ -40,6 +40,7 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
     creditPds: PdInputAssumptionDto[] = new Array();
     etiPolicy: PdInputAssumptionDto[] = new Array();
     bestFit: PdInputAssumptionDto[] = new Array();
+    pdGeneral: PdInputAssumptionDto[] = new Array();
 
     //S&P Mapping
     pdSnpCumulativeDefaultRate: PdInputSnPCummulativeDefaultRateDto[] = new Array<PdInputSnPCummulativeDefaultRateDto>();
@@ -99,7 +100,8 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
         {key: 'PdAssumptions', isActive: false},
         {key: 'MacroEconomicScenario', isActive: false},
         {key: 'InvSecMacroEconomicAssumption', isActive: false},
-        {key: 'InvSecFitchCummulativeDefaultRate', isActive: false}
+        {key: 'InvSecFitchCummulativeDefaultRate', isActive: false},
+        {key: 'S&P Mapping', isActive: false}
     ];
 
     constructor(
@@ -186,6 +188,7 @@ export class PdInputAssumptionsComponent extends AppComponentBase {
         this.creditPds = this.pdInputAssumptions.filter(x => x.assumptionGroup === PdInputAssumptionGroupEnum.CreditPD);
         this.etiPolicy = this.pdInputAssumptions.filter(x => x.assumptionGroup === PdInputAssumptionGroupEnum.CreditEtiPolicy);
         this.bestFit = this.pdInputAssumptions.filter(x => x.assumptionGroup === PdInputAssumptionGroupEnum.CreditBestFit);
+        this.pdGeneral = this.pdInputAssumptions.filter(x => x.assumptionGroup === PdInputAssumptionGroupEnum.General);
     }
 
     extractSnPMappingForDropdown(): void {

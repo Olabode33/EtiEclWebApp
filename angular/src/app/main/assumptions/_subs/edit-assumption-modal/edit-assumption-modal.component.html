@@ -12,7 +12,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <h4>{{l(frameworkEnum[affiliateFramework])}}</h4>
+                <h4>{{affiliateFramework == frameworkEnum.Wholesale ? l(frameworkEnum[frameworkEnum.Batch]) + ' / ' + l(frameworkEnum[affiliateFramework]) : l(frameworkEnum[affiliateFramework])}}</h4>
                 <p class="lead">{{l(assumptionTypeEnum[selectedAssumption])}} <br><b>{{assumptionGroup}}</b></p>
                 <form novalidate>
 
@@ -68,6 +68,10 @@
                                 value="Yes">Yes</option>
                             <option *ngIf="dataSource.key === 'UseWatchlistIndicator' || dataSource.key === 'UseRestructureIndicator?'" 
                                 value="No">No</option>
+                            <option *ngIf="dataSource.key === 'SnpMapping'"
+                                value="Best Fit">Best Fit</option>
+                            <option *ngIf="dataSource.key === 'SnpMapping'"
+                                value="ETI Credit Policy">ETI Credit Policy</option>
                         </select>
                         
                             

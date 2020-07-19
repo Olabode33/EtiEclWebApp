@@ -114,6 +114,7 @@ export class EditAssumptionModalComponent extends AppComponentBase {
                 case 'RelativeCreditQualityCriteria':
                 case 'UseWatchlistIndicator':
                 case 'UseRestructureIndicator?':
+                case 'SnpMapping':
                     //console.log(true);
                     return true;
                 default:

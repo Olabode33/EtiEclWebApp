@@ -1,6 +1,44 @@
 <div [busyIf]="loading">
     <!--begin::Accordion-->
     <div *ngIf="displayForm" class="accordion accordion-light  accordion-toggle-arrow" id="accordionExample5">
+        <!-- S&P Mapping -->
+        <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
+            <div class="card-header" id="heading1">
+                <div class="card-title" (click)="toggleAccordion(10)"
+                    [ngClass]="{collapsed: !accordionList[10].isActive}">
+                    <i class="flaticon-pie-chart-1"></i>
+                    {{l(accordionList[10].key)}}
+                </div>
+            </div>
+            <div id="collapse1" class="collapse" [ngClass]="{show: accordionList[10].isActive}">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>{{l('Assumption')}}</th>
+                                    <th>{{l('Value')}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of pdGeneral; let i = index">
+                                    <td><span class="text-right">{{item.inputName}}</span></td>
+                                    <td>
+                                        <span *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')" class="hoverable pull-right" (click)="editPdAssumption(item, pdInputAssumptionGroupEnum[pdInputAssumptionGroupEnum.General])">
+                                            <i class="fa fa-edit"></i>
+                                        </span>
+                                        <span class="kt-widget1__number kt-font-brand">
+                                            {{ item.value }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- 12 Month PD -->
         <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
             <div class="card-header" id="heading1">
