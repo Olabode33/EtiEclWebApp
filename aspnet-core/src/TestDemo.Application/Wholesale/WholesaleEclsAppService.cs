@@ -287,6 +287,42 @@ namespace TestDemo.Wholesale
                 output.ClosedByUserName = _lookupUser.FullName.ToString();
             }
 
+            //output.FrameworkAssumption = await GetFrameworkAssumption(input.Id);
+            //output.EadInputAssumptions = await GetEadInputAssumption(input.Id);
+            //output.LgdInputAssumptions = await GetLgdInputAssumption(input.Id);
+            //output.PdInputAssumption = await GetPdInputAssumption(input.Id);
+            //output.PdInputAssumptionMacroeconomicInput = await GetPdMacroInputAssumption(input.Id);
+            //output.PdInputAssumptionMacroeconomicProjections = await GetPdMacroProjectAssumption(input.Id);
+            //output.PdInputAssumptionNonInternalModels = await GetPdNonInternalModelAssumption(input.Id);
+            //output.PdInputAssumptionNplIndex = await GetPdNplAssumption(input.Id);
+            //output.PdInputSnPCummulativeDefaultRate = await GetPdSnpAssumption(input.Id);
+
+            return output;
+        }
+
+        public async Task<GetEclForEditOutput> GetEclAssumptions(EntityDto<Guid> input)
+        {
+            var wholesaleEcl = await _wholesaleEclRepository.FirstOrDefaultAsync(input.Id);
+
+            var output = new GetEclForEditOutput { EclDto = ObjectMapper.Map<CreateOrEditEclDto>(wholesaleEcl) };
+            //if (wholesaleEcl.CreatorUserId != null)
+            //{
+            //    var _creatorUser = await _lookup_userRepository.FirstOrDefaultAsync((long)wholesaleEcl.CreatorUserId);
+            //    output.CreatedByUserName = _creatorUser.FullName.ToString();
+            //}
+
+            //if (wholesaleEcl.OrganizationUnitId != null)
+            //{
+            //    var ou = await _organizationUnitRepository.FirstOrDefaultAsync((long)wholesaleEcl.OrganizationUnitId);
+            //    output.Country = ou.DisplayName;
+            //}
+
+            //if (output.EclDto.ClosedByUserId != null)
+            //{
+            //    var _lookupUser = await _lookup_userRepository.FirstOrDefaultAsync((long)output.EclDto.ClosedByUserId);
+            //    output.ClosedByUserName = _lookupUser.FullName.ToString();
+            //}
+
             output.FrameworkAssumption = await GetFrameworkAssumption(input.Id);
             output.EadInputAssumptions = await GetEadInputAssumption(input.Id);
             output.LgdInputAssumptions = await GetLgdInputAssumption(input.Id);
@@ -299,6 +335,7 @@ namespace TestDemo.Wholesale
 
             return output;
         }
+
 
         protected virtual async Task<List<AssumptionDto>> GetFrameworkAssumption(Guid eclId)
         {
@@ -527,7 +564,7 @@ namespace TestDemo.Wholesale
             {
                 await ValidateForCreation(ouId);
 
-                Guid eclId = await CreateAndGetId(ouId, input.ReportingDate);
+                Guid eclId = await CreateAndGetId(ouId, input.ReportingDate, input.IsSingleBatch);
 
                 await SaveFrameworkAssumption(ouId, eclId);
                 await SaveEadInputAssumption(ouId, eclId);
@@ -547,7 +584,7 @@ namespace TestDemo.Wholesale
             }
         }
 
-        protected virtual async Task<Guid> CreateAndGetId(long ouId, DateTime reportDate)
+        protected virtual async Task<Guid> CreateAndGetId(long ouId, DateTime reportDate, bool isBatch = false)
         {
             var affiliateAssumption = await _affiliateAssumptionRepository.FirstOrDefaultAsync(x => x.OrganizationUnitId == ouId);
 
@@ -558,7 +595,8 @@ namespace TestDemo.Wholesale
                 {
                     ReportingDate = reportDate,
                     OrganizationUnitId = ouId,
-                    Status = EclStatusEnum.Draft
+                    Status = EclStatusEnum.Draft,
+                    IsSingleBatch = isBatch
                 });
                 affiliateAssumption.LastWholesaleReportingDate = reportDate;
                 await _affiliateAssumptionRepository.UpdateAsync(affiliateAssumption);

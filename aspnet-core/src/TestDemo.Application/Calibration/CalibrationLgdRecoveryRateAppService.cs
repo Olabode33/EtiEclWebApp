@@ -290,6 +290,7 @@ namespace TestDemo.Calibration
             ObjectMapper.Map(input, calibrationEadBehaviouralTerm);
         }
 
+        [AbpAuthorize(AppPermissions.Pages_Calibration_Override)]
         public async Task UpdateCalibrationResult(ResultLgdRecoveryRateDto input)
         {
             var result = ObjectMapper.Map<CalibrationResultLgdRecoveryRate>(input);
@@ -378,6 +379,7 @@ namespace TestDemo.Calibration
             ObjectMapper.Map(calibration, calibration);
         }
 
+        [AbpAuthorize(AppPermissions.Pages_Calibration_ReviewOverride)]
         public async Task ApproveRejectCalibrationResult(CreateOrEditEclApprovalDto input)
         {
             var calibration = await _calibrationRepository.FirstOrDefaultAsync((Guid)input.EclId);

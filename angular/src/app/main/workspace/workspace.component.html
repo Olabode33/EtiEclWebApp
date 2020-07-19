@@ -193,15 +193,16 @@
                                             <a href="#" class="kt-widget11__title">{{item.organisationUnitName}}</a>
                                         </td>
                                         <td class="align-middle">
-                                            <span class="kt-widget11__sub">{{l(frameworkEnum[item.framework])}}</span>
+                                            <span class="kt-widget11__sub">{{l(frameworkEnum[item.isSingleBatch ? frameworkEnum.Batch : item.framework])}}</span>
                                         </td>
                                         <td class="align-middle">{{item.createdByUserName}}</td>
                                         <td class="kt-font-brand kt-font-bold align-middle">{{item.reportingDate | momentFormat:'ll'}}</td>
                                         <td class="align-middle">
                                             <span class="kt-badge kt-badge--inline 
-                                                         kt-badge--{{item.status === eclStatusEnum.Completed ? 'success': 
-                                                                     ( item.status === eclStatusEnum.Draft ? 'danger' : 
-                                                                     ( item.status === eclStatusEnum.Closed ? 'primary' : 'warning'))}}">
+                                                         kt-badge--{{item.status == eclStatusEnum.Completed ? 'success' :
+                                                                    ( item.status === eclStatusEnum.Draft ? 'info' :
+                                                                    ( item.status === eclStatusEnum.Closed ? 'primary' : 
+                                                                    ( item.status === eclStatusEnum.Failed ? 'danger': 'warning')))}}">
                                                 {{l(eclStatusEnum[item.status])}}
                                             </span>
                                         </td>

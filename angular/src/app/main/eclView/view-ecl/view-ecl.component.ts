@@ -1,5 +1,5 @@
 import { GetEclForEditOutput, CreateOrEditEclDto, EclUploadDto, CreateOrEditEclApprovalDto, GetEclUploadForViewDto, CommonLookupServiceProxy } from './../../../../shared/service-proxies/service-proxies';
-import { Component, OnInit, ViewEncapsulation, ViewChild, Injector } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Injector, AfterViewInit } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { ApprovalModalComponent } from '@app/main/eclShared/approve-ecl-modal/approve-ecl-modal.component';
@@ -34,7 +34,7 @@ const secondsCounter = interval(1000);
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()]
 })
-export class ViewEclComponent extends AppComponentBase implements OnInit {
+export class ViewEclComponent extends AppComponentBase implements OnInit, AfterViewInit {
     //TODO: Convert to use _sub component
     //TODO: Include pre-override result view (Computed)
 
@@ -53,6 +53,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
 
     isLoading = false;
     isLoadingUploads = false;
+    isLoadingAssumptions = false;
 
     _eclId = '';
     _eclFramework: FrameworkEnum;
@@ -122,6 +123,10 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
             this.getEclDetails();
             this.getEclUploadSummary();
         });
+    }
+
+    ngAfterViewInit() {
+        this.getEclAssumptions();
     }
 
     configureServiceProxies(): void {
@@ -239,12 +244,44 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
         if (typeof this._eclServiceProxy.getEclDetailsForEdit === 'function') {
             this.isLoading = true;
             this._eclServiceProxy.getEclDetailsForEdit(this._eclId)
+                .pipe(finalize(() => this.isLoading = false))
                 .subscribe(result => {
                     this.eclDetails = result;
                     if (this.checkDtoProp('eclDto', result)) {
                         this.eclDto = result.eclDto;
                         this.configureEclReportDateSubComponent(result.eclDto);
                     }
+                    // if (this.hasProp('frameworkAssumption', result)) {
+                    //     this.loadGeneralAssumptionComponent(result.frameworkAssumption);
+                    // }
+                    // if (this.checkDtoProp('eadInputAssumptions', result)) {
+                    //     this.loadEadAssumptionComponent(result.eadInputAssumptions);
+                    // }
+                    // if (this.checkDtoProp('lgdInputAssumptions', result)) {
+                    //     this.loadLgdAssumptionComponent(result.lgdInputAssumptions);
+                    // }
+                    // this.loadPdAssumptionComponent(result);
+                    //console.log(this.showOverride());
+                    this.eclOverrideTag.display(this.showOverride());
+                    this.eclResultTag.displayResult(this.eclDto.status);
+                    this.isLoading = false;
+                });
+        } else {
+            throw Error('Function does not exist in service proxy');
+        }
+    }
+
+    getEclAssumptions() {
+        if (typeof this._eclServiceProxy.getEclAssumptions === 'function') {
+            this.isLoadingAssumptions = true;
+            this._eclServiceProxy.getEclAssumptions(this._eclId)
+                .pipe(finalize(() => this.isLoadingAssumptions = false))
+                .subscribe(result => {
+                    // this.eclDetails = result;
+                    // if (this.checkDtoProp('eclDto', result)) {
+                    //     this.eclDto = result.eclDto;
+                    //     this.configureEclReportDateSubComponent(result.eclDto);
+                    // }
                     if (this.hasProp('frameworkAssumption', result)) {
                         this.loadGeneralAssumptionComponent(result.frameworkAssumption);
                     }
@@ -256,9 +293,9 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
                     }
                     this.loadPdAssumptionComponent(result);
                     //console.log(this.showOverride());
-                    this.eclOverrideTag.display(this.showOverride());
-                    this.eclResultTag.displayResult(this.eclDto.status);
-                    this.isLoading = false;
+                    // this.eclOverrideTag.display(this.showOverride());
+                    // this.eclResultTag.displayResult(this.eclDto.status);
+                    // this.isLoading = false;
                 });
         } else {
             throw Error('Function does not exist in service proxy');

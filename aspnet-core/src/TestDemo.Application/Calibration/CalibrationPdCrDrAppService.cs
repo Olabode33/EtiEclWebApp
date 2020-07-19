@@ -299,6 +299,8 @@ namespace TestDemo.Calibration
             ObjectMapper.Map(input, calibrationEadBehaviouralTerm);
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_Calibration_Override)]
         public async Task UpdateCalibrationResult(List<ResultPd12MonthsDto> input)
         {
             var result = ObjectMapper.Map<List<CalibrationResultPd12Months>>(input);
@@ -322,6 +324,7 @@ namespace TestDemo.Calibration
             });
         }
 
+        [AbpAuthorize(AppPermissions.Pages_Calibration_Override)]
         public async Task UpdateCalibrationResultSummary(ResultPd12MonthsSummaryDto input)
         {
             var result = ObjectMapper.Map<CalibrationResultPd12MonthsSummary>(input);
@@ -410,6 +413,7 @@ namespace TestDemo.Calibration
             ObjectMapper.Map(calibration, calibration);
         }
 
+        [AbpAuthorize(AppPermissions.Pages_Calibration_ReviewOverride)]
         public async Task ApproveRejectCalibrationResult(CreateOrEditEclApprovalDto input)
         {
             var calibration = await _calibrationRepository.FirstOrDefaultAsync((Guid)input.EclId);

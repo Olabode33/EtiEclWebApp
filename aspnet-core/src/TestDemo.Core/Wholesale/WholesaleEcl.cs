@@ -31,6 +31,7 @@ namespace TestDemo.Wholesale
         public virtual string FriendlyException { get; set; }
 
         public virtual Guid? BatchId { get; set; }
+        public virtual bool IsSingleBatch { get; set; }
 
         public virtual long? ClosedByUserId { get; set; }
 

@@ -325,6 +325,7 @@ namespace TestDemo.Calibration
             ObjectMapper.Map(input, calibrationEadBehaviouralTerm);
         }
 
+        [AbpAuthorize(AppPermissions.Pages_Calibration_Override)]
         public async Task UpdateStatisticsResult(List<MacroResultStatisticsDto> input)
         {
             var result = ObjectMapper.Map<List<MacroResult_Statistics>>(input);
@@ -348,6 +349,7 @@ namespace TestDemo.Calibration
             });
         }
 
+        [AbpAuthorize(AppPermissions.Pages_Calibration_Override)]
         public async Task UpdatePrincipalSummaryResult(List<MacroResultPrincipalComponentSummaryDto> input)
         {
             var result = ObjectMapper.Map<List<MacroResult_PrincipalComponentSummary>>(input);
@@ -371,6 +373,7 @@ namespace TestDemo.Calibration
             });
         }
 
+        [AbpAuthorize(AppPermissions.Pages_Calibration_Override)]
         public async Task UpdatePrincipalComponentResult(List<MacroResultPrincipalComponentDto> input)
         {
             var result = ObjectMapper.Map<List<MacroResult_PrincipalComponent>>(input);
@@ -394,6 +397,7 @@ namespace TestDemo.Calibration
             });
         }
 
+        [AbpAuthorize(AppPermissions.Pages_Calibration_Override)]
         public async Task UpdateIndexResult(List<MacroResultIndexDataDto> input)
         {
             var result = ObjectMapper.Map<List<MacroResult_IndexData>>(input);
@@ -488,6 +492,7 @@ namespace TestDemo.Calibration
             ObjectMapper.Map(calibration, calibration);
         }
 
+        [AbpAuthorize(AppPermissions.Pages_Calibration_ReviewOverride)]
         public async Task ApproveRejectCalibrationResult(CreateOrEditMacroAnalysisApprovalDto input)
         {
             var calibration = await _macroAnalysisRepository.FirstOrDefaultAsync(input.MacroId);

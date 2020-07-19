@@ -161,3 +161,7 @@ body.swal2-height-auto {
     cursor: pointer;
 }
 
+.failedRun {
+    border: 1px #fd397a solid;
+}
+

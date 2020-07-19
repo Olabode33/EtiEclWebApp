@@ -227,7 +227,7 @@
                                     <td style="width:150px">
                                             <span class="ui-column-title"> {{l('Framework')}}</span>
                                             <span class="kt-font-bold kt-font-primary">
-                                                {{l( frameworkEnum[record.framework]) }}
+                                                {{l( record.isSingleBatch ? frameworkEnum[frameworkEnum.Batch] : frameworkEnum[record.framework]) }}
                                             </span>
                                         </td>
                                     <td style="width:150px">
@@ -244,9 +244,10 @@
                                     <td style="width:150px">
                                         <span class="ui-column-title"> {{l('Status')}}</span>
                                         <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline 
-                                                     kt-badge--unified-{{record.status == eclStatusEnum.Completed ? 'success' : 
-                                                                            ( record.status === eclStatusEnum.Draft ? 'danger' : 
-                                                                            ( record.status === eclStatusEnum.Closed ? 'primary' : 'warning'))}}">
+                                                     kt-badge--unified-{{record.status == eclStatusEnum.Completed ? 'success' :
+                                                                        ( record.status === eclStatusEnum.Draft ? 'info' :
+                                                                        ( record.status === eclStatusEnum.Closed ? 'primary' : 
+                                                                        ( record.status === eclStatusEnum.Failed ? 'danger': 'warning')))}}">
                                             {{l( eclStatusEnum[record.status])}}
                                         </span>
                                     </td>

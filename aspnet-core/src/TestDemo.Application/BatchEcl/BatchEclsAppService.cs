@@ -69,16 +69,6 @@ namespace TestDemo.BatchEcls
         private readonly IRepository<RetailEclUpload, Guid> _retailUploadRepository;
         private readonly IRepository<ObeEclUpload, Guid> _obeUploadRepository;
 
-        private readonly IRepository<ObeEclAssumption, Guid> _eclAssumptionRepository;
-        private readonly IRepository<ObeEclEadInputAssumption, Guid> _eclEadInputAssumptionRepository;
-        private readonly IRepository<ObeEclLgdAssumption, Guid> _eclLgdAssumptionRepository;
-        private readonly IRepository<ObeEclPdAssumption, Guid> _eclPdAssumptionRepository;
-        private readonly IRepository<ObeEclPdAssumptionMacroeconomicInputs, Guid> _eclPdAssumptionMacroeconomicInputsRepository;
-        private readonly IRepository<ObeEclPdAssumptionMacroeconomicProjection, Guid> _eclPdAssumptionMacroeconomicProjectionRepository;
-        private readonly IRepository<ObeEclPdAssumptionNonInternalModel, Guid> _eclPdAssumptionNonInternalModelRepository;
-        private readonly IRepository<ObeEclPdAssumptionNplIndex, Guid> _eclPdAssumptionNplIndexRepository;
-        private readonly IRepository<ObeEclPdSnPCummulativeDefaultRate, Guid> _eclPdSnPCummulativeDefaultRateRepository;
-
         private readonly IRepository<CalibrationEadBehaviouralTerm, Guid> _eadBehaviouralTermCalibrationRepository;
         private readonly IRepository<CalibrationEadCcfSummary, Guid> _eadCcfSummaryCalibrationRepository;
         private readonly IRepository<CalibrationLgdHairCut, Guid> _lgdHaircutCalibrationRepository;
@@ -112,16 +102,6 @@ namespace TestDemo.BatchEcls
             IRepository<RetailEclUpload, Guid> retailUploadRepository,
             IRepository<ObeEclUpload, Guid> obeUploadRepository,
 
-            IRepository<ObeEclAssumption, Guid> eclAssumptionRepository,
-            IRepository<ObeEclEadInputAssumption, Guid> eclEadInputAssumptionRepository,
-            IRepository<ObeEclLgdAssumption, Guid> eclLgdAssumptionRepository,
-            IRepository<ObeEclPdAssumption, Guid> eclPdAssumptionRepository,
-            IRepository<ObeEclPdAssumptionMacroeconomicInputs, Guid> eclPdAssumptionMacroeconomicInputsRepository,
-            IRepository<ObeEclPdAssumptionMacroeconomicProjection, Guid> eclPdAssumptionMacroeconomicProjectionRepository,
-            IRepository<ObeEclPdAssumptionNonInternalModel, Guid> eclPdAssumptionNonInternalModelRepository,
-            IRepository<ObeEclPdAssumptionNplIndex, Guid> eclPdAssumptionNplIndexRepository,
-            IRepository<ObeEclPdSnPCummulativeDefaultRate, Guid> eclPdSnPCummulativeDefaultRateRepository,
-
             IRepository<CalibrationEadBehaviouralTerm, Guid> eadBehaviouralTermCalibrationRepository,
             IRepository<CalibrationEadCcfSummary, Guid> eadCcfSummaryCalibrationRepository,
             IRepository<CalibrationLgdHairCut, Guid> lgdHaircutCalibrationRepository,
@@ -153,16 +133,6 @@ namespace TestDemo.BatchEcls
             _wholesaleUploadRepository = wholesaleUploadRepository;
             _retailUploadRepository = retailUploadRepository;
             _obeUploadRepository = obeUploadRepository;
-
-            _eclAssumptionRepository = eclAssumptionRepository;
-            _eclEadInputAssumptionRepository = eclEadInputAssumptionRepository;
-            _eclLgdAssumptionRepository = eclLgdAssumptionRepository;
-            _eclPdAssumptionRepository = eclPdAssumptionRepository;
-            _eclPdAssumptionMacroeconomicInputsRepository = eclPdAssumptionMacroeconomicInputsRepository;
-            _eclPdAssumptionMacroeconomicProjectionRepository = eclPdAssumptionMacroeconomicProjectionRepository;
-            _eclPdAssumptionNonInternalModelRepository = eclPdAssumptionNonInternalModelRepository;
-            _eclPdAssumptionNplIndexRepository = eclPdAssumptionNplIndexRepository;
-            _eclPdSnPCummulativeDefaultRateRepository = eclPdSnPCummulativeDefaultRateRepository;
 
             _eadBehaviouralTermCalibrationRepository = eadBehaviouralTermCalibrationRepository;
             _eadCcfSummaryCalibrationRepository = eadCcfSummaryCalibrationRepository;
@@ -407,19 +377,19 @@ namespace TestDemo.BatchEcls
         private async Task<List<GetAllEclForWorkspaceDto>> GetSubEcls(Guid batchId)
         {
             var subEcls = (from w in _wholesaleEclRepository.GetAll().Where(e => e.BatchId == batchId)
-                          join ou in _organizationUnitRepository.GetAll() on w.OrganizationUnitId equals ou.Id
-                          join u in _lookup_userRepository.GetAll() on w.CreatorUserId equals u.Id into u1
-                          from u2 in u1.DefaultIfEmpty()
-                          select new GetAllEclForWorkspaceDto()
-                          {
-                              Framework = FrameworkEnum.Wholesale,
-                              CreatedByUserName = u2 == null ? "" : u2.FullName,
-                              DateCreated = w.CreationTime,
-                              ReportingDate = w.ReportingDate,
-                              OrganisationUnitName = ou == null ? "" : ou.DisplayName,
-                              Status = w.Status,
-                              Id = w.Id
-                          }
+                           join ou in _organizationUnitRepository.GetAll() on w.OrganizationUnitId equals ou.Id
+                           join u in _lookup_userRepository.GetAll() on w.CreatorUserId equals u.Id into u1
+                           from u2 in u1.DefaultIfEmpty()
+                           select new GetAllEclForWorkspaceDto()
+                           {
+                               Framework = FrameworkEnum.Wholesale,
+                               CreatedByUserName = u2 == null ? "" : u2.FullName,
+                               DateCreated = w.CreationTime,
+                               ReportingDate = w.ReportingDate,
+                               OrganisationUnitName = ou == null ? "" : ou.DisplayName,
+                               Status = w.Status,
+                               Id = w.Id
+                           }
                           ).Union(
                             from w in _retailEclRepository.GetAll().Where(e => e.BatchId == batchId)
                             join ou in _organizationUnitRepository.GetAll() on w.OrganizationUnitId equals ou.Id
@@ -452,7 +422,29 @@ namespace TestDemo.BatchEcls
                             }
                           );
 
-            return await subEcls.ToListAsync();
+            var subsEclList = await subEcls.ToListAsync();
+
+            await UpdateBatchStatus(batchId, subsEclList);
+
+            return subsEclList;
+        }
+
+        private async Task UpdateBatchStatus(Guid batchId, List<GetAllEclForWorkspaceDto> subEcls)
+        {
+            var batch = await _batchEclRepository.FirstOrDefaultAsync(batchId);
+            if (subEcls.All(x => x.Status == EclStatusEnum.Completed))
+            {
+                batch.Status = EclStatusEnum.Completed;
+            }
+            else if (subEcls.All(x => x.Status == EclStatusEnum.PostOverrideComplete || x.Status == EclStatusEnum.Completed))
+            {
+                batch.Status = EclStatusEnum.PostOverrideComplete;
+            }
+            else if (subEcls.All(x => x.Status == EclStatusEnum.PreOverrideComplete || x.Status == EclStatusEnum.PostOverrideComplete || x.Status == EclStatusEnum.Completed))
+            {
+                batch.Status = EclStatusEnum.PreOverrideComplete;
+            }
+            await _batchEclRepository.UpdateAsync(batch);
         }
 
         [AbpAuthorize(AppPermissions.Pages_Workspace_CreateEcl)]

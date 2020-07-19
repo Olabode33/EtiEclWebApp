@@ -4,7 +4,7 @@
 
         <div class="kt-subheader__main">
             <h3 class="kt-subheader__title">
-                <span>{{l(frameworkEnum[_eclFramework])}} ECL</span>
+                <span>{{l(frameworkEnum[ eclDto.isSingleBatch ? frameworkEnum.Batch : _eclFramework ])}} ECL</span>
             </h3>
             <span class="kt-subheader__separator kt-subheader__separator--v"></span>
             <span class="kt-subheader__desc">
@@ -13,7 +13,7 @@
         </div>
         <div class="kt-subheader__toolbar">
             <div class="kt-subheader__wrapper">
-                <button (click)="submitEcl()" class="btn btn-outline-primary" *ngIf="eclDto.status == eclStatusEnum.Draft && isGranted('Pages.EclView.Submit')">
+                <button (click)="submitEcl()" class="btn btn-outline-primary" *ngIf="(eclDto.status == eclStatusEnum.Draft || eclDto.status == eclStatusEnum.Failed) && isGranted('Pages.EclView.Submit')">
                     <i class="fa fa-check" style="font-size: 1.2rem !important;"></i>
                     {{l("Submit")}}
                 </button>
@@ -63,7 +63,7 @@
 
     </div>
     <div class="kt-content">
-        <div class="kt-portlet">
+        <div class="kt-portlet" [ngClass]="{'failedRun': eclDto.status === eclStatusEnum.Failed}">
             <div *ngIf="isLoading" class="progress">
                 <div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
             </div>
@@ -80,8 +80,9 @@
                                 <div class="kt-widget__action">
                                     <span class="kt-badge kt-badge--inline kt-badge--pill kt-badge--rounded
                                                kt-badge--{{eclDto.status == eclStatusEnum.Completed ? 'success' :
-                                                            ( eclDto.status === eclStatusEnum.Draft ? 'danger' :
-                                                            ( eclDto.status === eclStatusEnum.Closed ? 'primary' : 'warning'))}}">
+                                                            ( eclDto.status === eclStatusEnum.Draft ? 'info' :
+                                                            ( eclDto.status === eclStatusEnum.Closed ? 'primary' : 
+                                                            ( eclDto.status === eclStatusEnum.Failed ? 'danger': 'warning')))}}">
                                         {{l(eclStatusEnum[eclDto.status])}}
                                     </span>
                                 </div>
@@ -92,8 +93,8 @@
                                     <div class="col align-middle">
                                         <div class="kt-widget__label kt-widget__label-overwrite">
                                             {{l('ReportingDate')}}:
-                                            <span *ngIf="!isGranted('Pages.EclView.Edit') || eclDto.status != eclStatusEnum.Draft" class="btn btn-label-brand btn-sm btn-bold btn-upper">{{eclDto.reportingDate | momentFormat:'LL'}}</span>
-                                            <button *ngIf="isGranted('Pages.EclView.Edit') && eclDto.status == eclStatusEnum.Draft" class="btn btn-outline-primary btn-sm btn-pill" (click)="editReportDate()">
+                                            <span *ngIf="!(isGranted('Pages.EclView.Edit') && (eclDto.status == eclStatusEnum.Draft || eclDto.status == eclStatusEnum.Failed))" class="btn btn-label-brand btn-sm btn-bold btn-upper">{{eclDto.reportingDate | momentFormat:'LL'}}</span>
+                                            <button *ngIf="isGranted('Pages.EclView.Edit') && (eclDto.status == eclStatusEnum.Draft || eclDto.status == eclStatusEnum.Failed)" class="btn btn-outline-primary btn-sm btn-pill" (click)="editReportDate()">
                                                 {{ eclDto.reportingDate | momentFormat: 'll'}}
                                                 <i class="fa fa-edit hoverable"></i>
                                             </button>
@@ -116,19 +117,28 @@
 
                             <div class="kt-widget__info kt-widget__info-overwrite" *ngIf="eclDto.status == eclStatusEnum.Running || eclDto.status == eclStatusEnum.ComputedEAD || eclDto.status == eclStatusEnum.ComputedLGD || eclDto.status == eclStatusEnum.ComputedPD || eclDto.status == eclStatusEnum.Completed">
 
-                                <div class="kt-widget__progress kt-widget__progress-overwrite">
+                                <div *ngIf="eclDto.status === eclStatusEnum.Running || eclDto.status === eclStatusEnum.ComputedEAD  || eclDto.status ===  eclStatusEnum.ComputedLGD
+                                            || eclDto.status === eclStatusEnum.ComputedPD  || eclDto.status === eclStatusEnum.ComputedECL 
+                                            || eclDto.status === eclStatusEnum.PreOverrideComplete  || eclDto.status === eclStatusEnum.PostOverrideComplete
+                                            || eclDto.status === eclStatusEnum.Completed || eclDto.status === eclStatusEnum.Failed"  
+                                    class="kt-widget__progress kt-widget__progress-overwrite">
                                     <div class="kt-widget__text">
                                         Progress:
                                     </div>
                                     <div class="progress" style="height: 5px;width: 100%;">
-                                        <div class="progress-bar kt-bg-success" role="progressbar" [ngStyle]="{'width': getEclProgress() + '%'}"
+                                        <div class="progress-bar kt-bg-{{eclDto.status === eclStatusEnum.Failed ? 'danger' : 'success'}}" role="progressbar" [ngStyle]="{'width': getEclProgress() + '%'}"
                                             aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <div class="kt-widget__stats">
                                         {{ getEclProgress() }}%
                                     </div>
                                 </div>
+                                
                             </div>
+                            <p *ngIf="eclDto.status === eclStatusEnum.Failed"  class="lead mt-2 text-danger">
+                                <b>{{l('Reason')}}</b><br>
+                                {{eclDto.friendlyException}}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -161,7 +171,7 @@
                                 <i class="fa fa-sync"></i> {{"Refresh" | localize}}
                             </button>
                             <div *ngIf="isGranted('Pages.EclView.Upload')" class="btn-group" dropdown>
-                                <button dropdownToggle type="button" *ngIf="eclDto.status == eclStatusEnum.Draft"
+                                <button dropdownToggle type="button" *ngIf="eclDto.status == eclStatusEnum.Draft || eclDto.status == eclStatusEnum.Failed"
                                     class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fa fa-upload"></i> {{"Upload" | localize}}
                                 </button>
@@ -307,6 +317,9 @@
                                 {{l('Assumptions')}}
                             </h3>
                         </div>
+                    </div>
+                    <div *ngIf="isLoadingAssumptions" class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                     </div>
                     <div class="kt-portlet__body">
                         <tabset>

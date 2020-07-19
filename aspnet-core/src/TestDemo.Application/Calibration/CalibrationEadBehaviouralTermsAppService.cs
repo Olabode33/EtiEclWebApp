@@ -1,38 +1,34 @@
-﻿using TestDemo.Authorization.Users;
-using System.Collections.Generic;
-
-using TestDemo.EclShared;
-
+﻿using Abp.Application.Services.Dto;
+using Abp.Authorization;
+using Abp.BackgroundJobs;
+using Abp.Configuration;
+using Abp.Domain.Repositories;
+using Abp.Linq.Extensions;
+using Abp.Organizations;
+using Abp.UI;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using Abp.Linq.Extensions;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Abp.Domain.Repositories;
-using TestDemo.Calibration.Dtos;
-using TestDemo.Dto;
-using Abp.Application.Services.Dto;
 using TestDemo.Authorization;
-using Abp.Extensions;
-using Abp.Authorization;
-using Microsoft.EntityFrameworkCore;
+using TestDemo.Authorization.Users;
 using TestDemo.Calibration.Approvals;
+using TestDemo.Calibration.Dtos;
+using TestDemo.Calibration.Exporting;
+using TestDemo.Calibration.Jobs;
 using TestDemo.CalibrationInput;
 using TestDemo.CalibrationResult;
-using Abp.UI;
+using TestDemo.Configuration;
+using TestDemo.Dto;
 using TestDemo.Dto.Approvals;
 using TestDemo.EclConfig;
-using Abp.Configuration;
+using TestDemo.EclShared;
 using TestDemo.EclShared.Dtos;
-using Abp.Organizations;
-using TestDemo.Calibration.Exporting;
 using TestDemo.EclShared.Emailer;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using TestDemo.Configuration;
-using Abp.BackgroundJobs;
-using TestDemo.Calibration.Jobs;
 
 namespace TestDemo.Calibration
 {
@@ -303,6 +299,8 @@ namespace TestDemo.Calibration
             ObjectMapper.Map(input, calibrationEadBehaviouralTerm);
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_Calibration_Override)]
         public async Task UpdateCalibrationResult(ResultBehaviouralTermsDto input)
         {
             var result = ObjectMapper.Map<CalibrationResultEadBehaviouralTerms>(input);
@@ -396,6 +394,7 @@ namespace TestDemo.Calibration
             ObjectMapper.Map(calibration, calibration);
         }
 
+        [AbpAuthorize(AppPermissions.Pages_Calibration_ReviewOverride)]
         public async Task ApproveRejectCalibrationResult(CreateOrEditEclApprovalDto input)
         {
             var calibration = await _calibrationRepository.FirstOrDefaultAsync((Guid)input.EclId);

@@ -618,7 +618,7 @@ namespace TestDemo.EclLibrary.Workers
                             {
                                 SendEmailCompleted((long)register.CreatorUserId, type, register.OrganizationUnitId, link);
                             }
-                            _guidTrackreRepository.Delete(item.Id);
+                            _intTrackreRepository.Delete(item.Id);
                             Logger.Debug("RunningRegisterCheckWorker: " + type + ": " + item.RegisterId + " completed, Email sent & tracker deleted.");
                             break;
                         case CalibrationStatusEnum.Failed:
@@ -626,7 +626,7 @@ namespace TestDemo.EclLibrary.Workers
                             {
                                 SendEmailFailed((long)register.CreatorUserId, type, register.OrganizationUnitId, link, register.ExceptionComment);
                             }
-                            _guidTrackreRepository.Delete(item.Id);
+                            _intTrackreRepository.Delete(item.Id);
                             Logger.Debug("RunningRegisterCheckWorker: " + type + ": " + item.RegisterId + " Failed, Email sent & tracker deleted.");
                             break;
                         default:

@@ -177,12 +177,20 @@ export class EclListComponent extends AppComponentBase implements OnInit {
 
     createBatchEcl(ecl: CreateOrEditEclDto): void {
         this.loadingEclAssumption = true;
-        this._batchEclServiceProxy.createEclAndAssumption(ecl)
-            .pipe(finalize(() => this.loadingEclAssumption = false))
-            .subscribe(result => {
-                this.notify.success('EclSuccessfullyCreated');
-                this.viewBatchEcl(result);
-            });
+        ecl.isSingleBatch = true;
+        this._wholesaleEclServiceProxy.createEclAndAssumption(ecl)
+        .pipe(finalize(() => this.loadingEclAssumption = false))
+        .subscribe(result => {
+            this.notify.success('EclSuccessfullyCreated');
+            this.viewEcl(FrameworkEnum.Wholesale, result);
+        });
+        // this.loadingEclAssumption = true;
+        // this._batchEclServiceProxy.createEclAndAssumption(ecl)
+        //     .pipe(finalize(() => this.loadingEclAssumption = false))
+        //     .subscribe(result => {
+        //         this.notify.success('EclSuccessfullyCreated');
+        //         this.viewBatchEcl(result);
+        //     });
     }
 
     createRetailEcl(ecl: CreateOrEditEclDto): void {

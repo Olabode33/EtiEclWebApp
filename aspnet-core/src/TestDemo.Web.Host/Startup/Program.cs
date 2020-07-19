@@ -14,6 +14,10 @@ namespace TestDemo.Web.Startup
         {
             return new WebHostBuilder()
                 .UseKestrel(opt => opt.AddServerHeader = false)
+                .UseKestrel(options =>
+                {
+                    options.Limits.MaxRequestBodySize = 209715200; //200MB
+                })
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>();

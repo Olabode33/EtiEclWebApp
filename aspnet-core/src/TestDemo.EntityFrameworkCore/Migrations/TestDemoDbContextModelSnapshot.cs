@@ -1123,9 +1123,13 @@ namespace TestDemo.Migrations
 
                     b.Property<string>("ExceptionComment");
 
+                    b.Property<string>("FriendlyException");
+
                     b.Property<bool>("IsApproved");
 
                     b.Property<bool>("IsDeleted");
+
+                    b.Property<bool>("IsSingleBatch");
 
                     b.Property<DateTime?>("LastModificationTime");
 
@@ -4154,6 +4158,8 @@ namespace TestDemo.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<Guid?>("BatchId");
+
                     b.Property<long?>("ClosedByUserId");
 
                     b.Property<DateTime?>("ClosedDate");
@@ -4173,6 +4179,8 @@ namespace TestDemo.Migrations
                     b.Property<bool>("IsApproved");
 
                     b.Property<bool>("IsDeleted");
+
+                    b.Property<bool>("IsSingleBatch");
 
                     b.Property<DateTime?>("LastModificationTime");
 
@@ -5112,6 +5120,8 @@ namespace TestDemo.Migrations
                     b.Property<bool>("IsApproved");
 
                     b.Property<bool>("IsDeleted");
+
+                    b.Property<bool>("IsSingleBatch");
 
                     b.Property<DateTime?>("LastModificationTime");
 
@@ -7330,6 +7340,8 @@ namespace TestDemo.Migrations
 
                     b.Property<bool>("IsDeleted");
 
+                    b.Property<bool>("IsSingleBatch");
+
                     b.Property<DateTime?>("LastModificationTime");
 
                     b.Property<long?>("LastModifierUserId");
@@ -9159,6 +9171,8 @@ namespace TestDemo.Migrations
                     b.Property<bool>("IsApproved");
 
                     b.Property<bool>("IsDeleted");
+
+                    b.Property<bool>("IsSingleBatch");
 
                     b.Property<DateTime?>("LastModificationTime");
 

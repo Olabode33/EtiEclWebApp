@@ -184,6 +184,39 @@ namespace TestDemo.Investment
                 output.ClosedByUserName = _lookupUser.FullName.ToString();
             }
 
+            //output.EadInputAssumptions = await GetEadInputAssumption(input.Id);
+            //output.LgdInputAssumptions = await GetLgdInputAssumption(input.Id);
+            //output.PdInputAssumption = await GetPdInputAssumption(input.Id);
+            //output.PdInputAssumptionMacroeconomic = await GetPdMacroInputAssumption(input.Id);
+            //output.PdInputFitchCummulativeDefaultRate = await GetPdFitchAssumption(input.Id);
+
+            return output;
+        }
+
+        public async Task<GetEclForEditOutput> GetEclAssumptions(EntityDto<Guid> input)
+        {
+            var investmentEcl = await _investmentEclRepository.FirstOrDefaultAsync(input.Id);
+
+            var output = new GetEclForEditOutput { EclDto = ObjectMapper.Map<CreateOrEditEclDto>(investmentEcl) };
+
+            //if (investmentEcl.CreatorUserId != null)
+            //{
+            //    var _creatorUser = await _lookup_userRepository.FirstOrDefaultAsync((long)investmentEcl.CreatorUserId);
+            //    output.CreatedByUserName = _creatorUser.FullName.ToString();
+            //}
+
+            //if (investmentEcl.OrganizationUnitId != null)
+            //{
+            //    var ou = await _organizationUnitRepository.FirstOrDefaultAsync((long)investmentEcl.OrganizationUnitId);
+            //    output.Country = ou.DisplayName;
+            //}
+
+            //if (investmentEcl.ClosedByUserId != null)
+            //{
+            //    var _lookupUser = await _lookup_userRepository.FirstOrDefaultAsync((long)investmentEcl.ClosedByUserId);
+            //    output.ClosedByUserName = _lookupUser.FullName.ToString();
+            //}
+
             output.EadInputAssumptions = await GetEadInputAssumption(input.Id);
             output.LgdInputAssumptions = await GetLgdInputAssumption(input.Id);
             output.PdInputAssumption = await GetPdInputAssumption(input.Id);
@@ -192,6 +225,7 @@ namespace TestDemo.Investment
 
             return output;
         }
+
 
         protected virtual async Task<List<EadInputAssumptionDto>> GetEadInputAssumption(Guid eclId)
         {
