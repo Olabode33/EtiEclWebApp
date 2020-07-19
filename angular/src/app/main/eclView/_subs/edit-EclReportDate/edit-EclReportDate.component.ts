@@ -76,14 +76,16 @@ export class EditEclReportDateComponent extends AppComponentBase {
         this.message.confirm(
             this.l('UseReportDate'),
             (isConfirmed) => {
-                if (!this.eclDto.id) {
-                    this.submitReportDate.emit(this.eclDto);
-                } else {
-                    this.serviceProxy.createOrEdit(this.eclDto).subscribe(result => {
-                        this.notify.success('SubmittedSuccessfully');
-                        this.submitReportDate.emit(null);
-                        this.close();
-                    });
+                if (isConfirmed) {
+                    if (!this.eclDto.id) {
+                        this.submitReportDate.emit(this.eclDto);
+                    } else {
+                        this.serviceProxy.createOrEdit(this.eclDto).subscribe(result => {
+                            this.notify.success('SubmittedSuccessfully');
+                            this.submitReportDate.emit(null);
+                            this.close();
+                        });
+                    }
                 }
             });
     }

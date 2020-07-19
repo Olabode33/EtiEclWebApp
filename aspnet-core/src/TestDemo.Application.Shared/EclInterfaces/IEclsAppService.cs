@@ -14,6 +14,7 @@ namespace TestDemo.EclInterfaces
     public interface IEclsAppService: IApplicationService 
     {
         Task<GetEclForEditOutput> GetEclDetailsForEdit(EntityDto<Guid> input);
+        Task<GetEclForEditOutput> GetEclAssumptions(EntityDto<Guid> input);
         Task CreateOrEdit(CreateOrEditEclDto input);
         Task<Guid> CreateEclAndAssumption(CreateOrEditEclDto input);
         //Task<Guid> CreateAndGetId(long ouId);
