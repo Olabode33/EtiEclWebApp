@@ -273,14 +273,12 @@ export class ViewEclComponent extends AppComponentBase implements OnInit {
                 return 50;
             case this.eclStatusEnum.ComputedPD:
                 return 75;
-            case this.eclStatusEnum.PreOverrideComplete:
-                return 100;
-            case this.eclStatusEnum.PostOverrideComplete:
-                return 100;
             case this.eclStatusEnum.Completed:
                 return 100;
+            case this.eclStatusEnum.Running:
+                return 0;
             default:
-                return 1;
+                return 0;
         }
     }
 
