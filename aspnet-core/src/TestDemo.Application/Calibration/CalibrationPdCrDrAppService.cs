@@ -34,6 +34,8 @@ using Microsoft.AspNetCore.Hosting;
 using TestDemo.Configuration;
 using Abp.BackgroundJobs;
 using TestDemo.Calibration.Jobs;
+using TestDemo.EclShared.Calculations;
+using Abp.Runtime.Session;
 
 namespace TestDemo.Calibration
 {
@@ -497,6 +499,12 @@ namespace TestDemo.Calibration
                 await _backgroundJobManager.EnqueueAsync<SaveHistoricPdCdDrDataJob, ImportCalibrationDataFromExcelJobArgs>(new ImportCalibrationDataFromExcelJobArgs
                 {
                     CalibrationId = input.Id
+                });
+                await _backgroundJobManager.EnqueueAsync<UpdatePdSnPMappingBestFitJob, ImportAssumptionDataFromExcelJobArgs>(new ImportAssumptionDataFromExcelJobArgs
+                {
+                    AffiliateId = calibration.OrganizationUnitId,
+                    Framework = calibration.ModelType,
+                    User = AbpSession.ToUserIdentifier()
                 });
             }
             else

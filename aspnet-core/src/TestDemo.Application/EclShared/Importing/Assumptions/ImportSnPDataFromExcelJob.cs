@@ -20,6 +20,7 @@ using TestDemo.Calibration;
 using TestDemo.CalibrationInput;
 using TestDemo.Configuration;
 using TestDemo.Dto;
+using TestDemo.EclShared.Calculations;
 using TestDemo.EclShared.Dtos;
 using TestDemo.EclShared.Emailer;
 using TestDemo.EclShared.Importing.Assumptions.Dto;
@@ -49,6 +50,7 @@ namespace TestDemo.EclShared.Importing
         private readonly IConfigurationRoot _appConfiguration;
         private readonly IRepository<User, long> _userRepository;
         private readonly IRepository<OrganizationUnit, long> _ouRepository;
+        protected readonly IBackgroundJobManager _backgroundJobManager;
 
         public ImportSnPDataFromExcelJob(
             ISnPDataExcelDataReader excelDataReader,
@@ -63,6 +65,7 @@ namespace TestDemo.EclShared.Importing
             IHostingEnvironment env,
             IRepository<User, long> userRepository,
             IRepository<OrganizationUnit, long> ouRepository,
+            IBackgroundJobManager backgroundJobManager,
             IObjectMapper objectMapper)
         {
             _excelDataReader = excelDataReader;
@@ -78,6 +81,7 @@ namespace TestDemo.EclShared.Importing
             _appConfiguration = env.GetAppConfiguration();
             _userRepository = userRepository;
             _ouRepository = ouRepository;
+            _backgroundJobManager = backgroundJobManager;
         }
 
         [UnitOfWork]
@@ -92,6 +96,7 @@ namespace TestDemo.EclShared.Importing
 
             DeleteExistingDataAsync(args);
             CreateSnP(args, snp);
+            _backgroundJobManager.Enqueue<UpdatePdSnPMappingBestFitJob, ImportAssumptionDataFromExcelJobArgs>(args);
         }
 
         private List<ImportSnPDataDto> GetSnPFromExcelOrNull(ImportAssumptionDataFromExcelJobArgs args)

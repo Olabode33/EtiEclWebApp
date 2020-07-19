@@ -578,273 +578,284 @@ namespace TestDemo.EclShared
 
         public async Task<List<AssumptionDto>> GetAffiliateFrameworkAssumption(GetAffiliateAssumptionInputDto input)
         {
-            var assumptions = await _frameworkAssumptionRepository.GetAll()
-                                    .Join(_lookup_userRepository.GetAll(), a => a.LastModifierUserId, u => u.Id, (a,u) => new { Assumption = a, User = u })
-                                    .Where(x => x.Assumption.Framework == input.Framework && x.Assumption.OrganizationUnitId == input.AffiliateOuId )
-                                    .Select(x => new AssumptionDto
-                                    {
-                                        AssumptionGroup = x.Assumption.AssumptionGroup,
-                                        Key = x.Assumption.Key,
-                                        InputName = x.Assumption.InputName,
-                                        Value = x.Assumption.Value,
-                                        DataType = x.Assumption.DataType,
-                                        IsComputed = x.Assumption.IsComputed,
-                                        RequiresGroupApproval = x.Assumption.RequiresGroupApproval,
-                                        CanAffiliateEdit = x.Assumption.CanAffiliateEdit,
-                                        OrganizationUnitId = x.Assumption.OrganizationUnitId,
-                                        Status = x.Assumption.Status,
-                                        LastUpdated = x.Assumption.LastModificationTime,
-                                        LastUpdatedBy = x.User == null ? "" : x.User.FullName,
-                                        Id = x.Assumption.Id
-                                    }).ToListAsync();
+            var assumptions = (from a in _frameworkAssumptionRepository.GetAll().Where(x => x.Framework == input.Framework && x.OrganizationUnitId == input.AffiliateOuId)
+                               join u in _lookup_userRepository.GetAll() on a.LastModifierUserId equals u.Id into u1
+                               from u2 in u1.DefaultIfEmpty()
 
-            return assumptions;
+                               select new AssumptionDto()
+                               {
+                                   AssumptionGroup = a.AssumptionGroup,
+                                   Key = a.Key,
+                                   InputName = a.InputName,
+                                   Value = a.Value,
+                                   DataType = a.DataType,
+                                   IsComputed = a.IsComputed,
+                                   RequiresGroupApproval = a.RequiresGroupApproval,
+                                   CanAffiliateEdit = a.CanAffiliateEdit,
+                                   OrganizationUnitId = a.OrganizationUnitId,
+                                   Status = a.Status,
+                                   LastUpdated = a.LastModificationTime,
+                                   LastUpdatedBy = u2 == null ? "" : u2.FullName,
+                                   Id = a.Id
+                               }).ToListAsync();
+
+            return await assumptions;
         }
 
         public async Task<List<EadInputAssumptionDto>> GetAffiliateEadAssumption(GetAffiliateAssumptionInputDto input)
         {
-            var assumptions = await _eadAssumptionRepository.GetAll()
-                                    .Join(_lookup_userRepository.GetAll(), a => a.LastModifierUserId, u => u.Id, (a, u) => new { Assumption = a, User = u })
-                                    .Where(x => x.Assumption.Framework == input.Framework && x.Assumption.OrganizationUnitId == input.AffiliateOuId)
-                                    .Select(x => new EadInputAssumptionDto
-                                    {
-                                        AssumptionGroup = x.Assumption.EadGroup,
-                                        Key = x.Assumption.Key,
-                                        InputName = x.Assumption.InputName,
-                                        Value = x.Assumption.Value,
-                                        DataType = x.Assumption.Datatype,
-                                        IsComputed = x.Assumption.IsComputed,
-                                        RequiresGroupApproval = x.Assumption.RequiresGroupApproval,
-                                        CanAffiliateEdit = x.Assumption.CanAffiliateEdit,
-                                        OrganizationUnitId = x.Assumption.OrganizationUnitId,
-                                        Status = x.Assumption.Status,
-                                        LastUpdated = x.Assumption.LastModificationTime,
-                                        LastUpdatedBy = x.User == null ? "" : x.User.FullName,
-                                        Id = x.Assumption.Id
-                                    }).ToListAsync();
+            var assumptions = (from a in _eadAssumptionRepository.GetAll().Where(x => x.Framework == input.Framework && x.OrganizationUnitId == input.AffiliateOuId)
+                               join u in _lookup_userRepository.GetAll() on a.LastModifierUserId equals u.Id into u1
+                               from u2 in u1.DefaultIfEmpty()
 
-            return assumptions;
+                               select new EadInputAssumptionDto()
+                               {
+                                   AssumptionGroup = a.EadGroup,
+                                   Key = a.Key,
+                                   InputName = a.InputName,
+                                   Value = a.Value,
+                                   DataType = a.Datatype,
+                                   IsComputed = a.IsComputed,
+                                   RequiresGroupApproval = a.RequiresGroupApproval,
+                                   CanAffiliateEdit = a.CanAffiliateEdit,
+                                   OrganizationUnitId = a.OrganizationUnitId,
+                                   Status = a.Status,
+                                   LastUpdated = a.LastModificationTime,
+                                   LastUpdatedBy = u2 == null ? "" : u2.FullName,
+                                   Id = a.Id
+                               }).ToListAsync();
+
+            return await assumptions;
         }
 
         public async Task<List<LgdAssumptionDto>> GetAffiliateLgdAssumption(GetAffiliateAssumptionInputDto input)
         {
-            var assumptions = await _lgdAssumptionRepository.GetAll()
-                                    .Join(_lookup_userRepository.GetAll(), a => a.LastModifierUserId, u => u.Id, (a, u) => new { Assumption = a, User = u })
-                                    .Where(x => x.Assumption.Framework == input.Framework && x.Assumption.OrganizationUnitId == input.AffiliateOuId)
-                                    .Select(x => new LgdAssumptionDto
-                                    {
-                                        AssumptionGroup = x.Assumption.LgdGroup,
-                                        Key = x.Assumption.Key,
-                                        InputName = x.Assumption.InputName,
-                                        Value = x.Assumption.Value,
-                                        DataType = x.Assumption.DataType,
-                                        IsComputed = x.Assumption.IsComputed,
-                                        RequiresGroupApproval = x.Assumption.RequiresGroupApproval,
-                                        CanAffiliateEdit = x.Assumption.CanAffiliateEdit,
-                                        OrganizationUnitId = x.Assumption.OrganizationUnitId,
-                                        Status = x.Assumption.Status,
-                                        LastUpdated = x.Assumption.LastModificationTime,
-                                        LastUpdatedBy = x.User == null ? "" : x.User.FullName,
-                                        Id = x.Assumption.Id
-                                    }).ToListAsync();
+            var assumptions = (from a in _lgdAssumptionRepository.GetAll().Where(x => x.Framework == input.Framework && x.OrganizationUnitId == input.AffiliateOuId)
+                               join u in _lookup_userRepository.GetAll() on a.LastModifierUserId equals u.Id into u1
+                               from u2 in u1.DefaultIfEmpty()
 
-            return assumptions;
+                               select new LgdAssumptionDto()
+                               {
+                                   AssumptionGroup = a.LgdGroup,
+                                   Key = a.Key,
+                                   InputName = a.InputName,
+                                   Value = a.Value,
+                                   DataType = a.DataType,
+                                   IsComputed = a.IsComputed,
+                                   RequiresGroupApproval = a.RequiresGroupApproval,
+                                   CanAffiliateEdit = a.CanAffiliateEdit,
+                                   OrganizationUnitId = a.OrganizationUnitId,
+                                   Status = a.Status,
+                                   LastUpdated = a.LastModificationTime,
+                                   LastUpdatedBy = u2 == null ? "" : u2.FullName,
+                                   Id = a.Id
+                               }).ToListAsync();
+
+            return await assumptions;
         }
 
         public async Task<List<PdInputAssumptionDto>> GetAffiliatePdAssumption(GetAffiliateAssumptionInputDto input)
         {
-            var assumptions = await _pdAssumptionRepository.GetAll()
-                                    .Join(_lookup_userRepository.GetAll(), a => a.LastModifierUserId, u => u.Id, (a, u) => new { Assumption = a, User = u })
-                                    .Where(x => x.Assumption.Framework == input.Framework && x.Assumption.OrganizationUnitId == input.AffiliateOuId)
-                                    .Select(x => new PdInputAssumptionDto
-                                    {
-                                        AssumptionGroup = x.Assumption.PdGroup,
-                                        Key = x.Assumption.Key,
-                                        InputName = x.Assumption.InputName,
-                                        Value = x.Assumption.Value,
-                                        DataType = x.Assumption.DataType,
-                                        IsComputed = x.Assumption.IsComputed,
-                                        RequiresGroupApproval = x.Assumption.RequiresGroupApproval,
-                                        CanAffiliateEdit = x.Assumption.CanAffiliateEdit,
-                                        OrganizationUnitId = x.Assumption.OrganizationUnitId,
-                                        Status = x.Assumption.Status,
-                                        LastUpdated = x.Assumption.LastModificationTime,
-                                        LastUpdatedBy =  x.User == null ? "" : x.User.FullName,
-                                        Id = x.Assumption.Id
-                                    }).ToListAsync();
+            var assumptions = (from a in _pdAssumptionRepository.GetAll().Where(x => x.Framework == input.Framework && x.OrganizationUnitId == input.AffiliateOuId)
+                               join u in _lookup_userRepository.GetAll() on a.LastModifierUserId equals u.Id into u1
+                               from u2 in u1.DefaultIfEmpty()
 
-            return assumptions;
+                               select new PdInputAssumptionDto()
+                               {
+                                   AssumptionGroup = a.PdGroup,
+                                   Key = a.Key,
+                                   InputName = a.InputName,
+                                   Value = a.Value,
+                                   DataType = a.DataType,
+                                   IsComputed = a.IsComputed,
+                                   RequiresGroupApproval = a.RequiresGroupApproval,
+                                   CanAffiliateEdit = a.CanAffiliateEdit,
+                                   OrganizationUnitId = a.OrganizationUnitId,
+                                   Status = a.Status,
+                                   LastUpdated = a.LastModificationTime,
+                                   LastUpdatedBy = u2 == null ? "" : u2.FullName,
+                                   Id = a.Id
+                               }).ToListAsync();
+
+            return await assumptions;
         }
 
         public async Task<List<PdInputAssumptionMacroeconomicInputDto>> GetAffiliatePdMacroeconomicInputAssumption(GetAffiliateAssumptionInputDto input)
         {
-            var assumptions = await _pdAssumptionMacroEcoInputRepository.GetAll().Include(x => x.MacroeconomicVariable)
-                                    .Join(_lookup_userRepository.GetAll(), a => a.LastModifierUserId, u => u.Id, (a, u) => new { Assumption = a, User = u })
-                                    .Where(x => x.Assumption.Framework == input.Framework && x.Assumption.OrganizationUnitId == input.AffiliateOuId)
-                                    .Select(x => new PdInputAssumptionMacroeconomicInputDto
-                                    {
-                                        AssumptionGroup = x.Assumption.MacroeconomicVariableId,
-                                        Key = x.Assumption.Key,
-                                        InputName = x.Assumption.InputName,
-                                        MacroeconomicVariable = x.Assumption.MacroeconomicVariable == null ? "" : x.Assumption.MacroeconomicVariable.Name,
-                                        Value = x.Assumption.Value,
-                                        IsComputed = x.Assumption.IsComputed,
-                                        RequiresGroupApproval = x.Assumption.RequiresGroupApproval,
-                                        CanAffiliateEdit = x.Assumption.CanAffiliateEdit,
-                                        OrganizationUnitId = x.Assumption.OrganizationUnitId,
-                                        Status = x.Assumption.Status,
-                                        LastUpdated = x.Assumption.LastModificationTime,
-                                        LastUpdatedBy = x.User == null ? "" : x.User.FullName,
-                                        Id = x.Assumption.Id
-                                    }).ToListAsync();
+            var assumptions = (from a in _pdAssumptionMacroEcoInputRepository.GetAll().Where(x => x.Framework == input.Framework && x.OrganizationUnitId == input.AffiliateOuId)
+                               join u in _lookup_userRepository.GetAll() on a.LastModifierUserId equals u.Id into u1
+                               from u2 in u1.DefaultIfEmpty()
 
-            return assumptions;
+                               select new PdInputAssumptionMacroeconomicInputDto
+                               {
+                                   AssumptionGroup = a.MacroeconomicVariableId,
+                                   Key = a.Key,
+                                   InputName = a.InputName,
+                                   MacroeconomicVariable = a.MacroeconomicVariable == null ? "" : a.MacroeconomicVariable.Name,
+                                   Value = a.Value,
+                                   IsComputed = a.IsComputed,
+                                   RequiresGroupApproval = a.RequiresGroupApproval,
+                                   CanAffiliateEdit = a.CanAffiliateEdit,
+                                   OrganizationUnitId = a.OrganizationUnitId,
+                                   Status = a.Status,
+                                   LastUpdated = a.LastModificationTime,
+                                   LastUpdatedBy = u2 == null ? "" : u2.FullName,
+                                   Id = a.Id
+                               }).ToListAsync();
+
+            return await assumptions;
         }
 
         public async Task<List<PdInputAssumptionMacroeconomicProjectionDto>> GetAffiliatePdMacroeconomicProjectionAssumption(GetAffiliateAssumptionInputDto input)
         {
-            var assumptions = await _pdAssumptionMacroecoProjectionRepository.GetAll()
-                                    .Join(_lookup_userRepository.GetAll(), a => a.LastModifierUserId, u => u.Id, (a, u) => new { Assumption = a, User = u })
-                                    .Where(x => x.Assumption.Framework == input.Framework && x.Assumption.OrganizationUnitId == input.AffiliateOuId)
-                                    .Select(x => new PdInputAssumptionMacroeconomicProjectionDto
-                                    {
-                                        AssumptionGroup = x.Assumption.MacroeconomicVariableId,
-                                        Key = x.Assumption.Key,
-                                        Date = x.Assumption.Date,
-                                        InputName = x.Assumption.MacroeconomicVariable != null ? x.Assumption.MacroeconomicVariable.Name : "",
-                                        BestValue = x.Assumption.BestValue,
-                                        OptimisticValue = x.Assumption.OptimisticValue,
-                                        DownturnValue = x.Assumption.DownturnValue,
-                                        IsComputed = x.Assumption.IsComputed,
-                                        RequiresGroupApproval = x.Assumption.RequiresGroupApproval,
-                                        CanAffiliateEdit = x.Assumption.CanAffiliateEdit,
-                                        OrganizationUnitId = x.Assumption.OrganizationUnitId,
-                                        Status = x.Assumption.Status,
-                                        LastUpdated = x.Assumption.LastModificationTime,
-                                        LastUpdatedBy = x.User == null ? "" : x.User.FullName,
-                                        Id = x.Assumption.Id
-                                    }).ToListAsync();
+            var assumptions = (from a in _pdAssumptionMacroecoProjectionRepository.GetAll().Where(x => x.Framework == input.Framework && x.OrganizationUnitId == input.AffiliateOuId)
+                               join u in _lookup_userRepository.GetAll() on a.LastModifierUserId equals u.Id into u1
+                               from u2 in u1.DefaultIfEmpty()
 
-            return assumptions;
+                               select new PdInputAssumptionMacroeconomicProjectionDto
+                               {
+                                   AssumptionGroup = a.MacroeconomicVariableId,
+                                   Key = a.Key,
+                                   Date = a.Date,
+                                   InputName = a.MacroeconomicVariable != null ? a.MacroeconomicVariable.Name : "",
+                                   BestValue = a.BestValue,
+                                   OptimisticValue = a.OptimisticValue,
+                                   DownturnValue = a.DownturnValue,
+                                   IsComputed = a.IsComputed,
+                                   RequiresGroupApproval = a.RequiresGroupApproval,
+                                   CanAffiliateEdit = a.CanAffiliateEdit,
+                                   OrganizationUnitId = a.OrganizationUnitId,
+                                   Status = a.Status,
+                                   LastUpdated = a.LastModificationTime,
+                                   LastUpdatedBy = u2 == null ? "" : u2.FullName,
+                                   Id = a.Id
+                               }).ToListAsync();
+
+            return await assumptions;
         }
 
         public async Task<List<PdInputAssumptionNonInternalModelDto>> GetAffiliatePdNonInternalModelAssumption(GetAffiliateAssumptionInputDto input)
         {
-            var assumptions = await _pdAssumptionNonInternalModelRepository.GetAll()
-                                    .Join(_lookup_userRepository.GetAll(), a => a.LastModifierUserId, u => u.Id, (a, u) => new { Assumption = a, User = u })
-                                    .Where(x => x.Assumption.Framework == input.Framework && x.Assumption.OrganizationUnitId == input.AffiliateOuId)
-                                    .Select(x => new PdInputAssumptionNonInternalModelDto
-                                    {
-                                        Key = x.Assumption.Key,
-                                        PdGroup = x.Assumption.PdGroup,
-                                        Month = x.Assumption.Month,
-                                        MarginalDefaultRate = x.Assumption.MarginalDefaultRate,
-                                        CummulativeSurvival = x.Assumption.CummulativeSurvival,
-                                        IsComputed = x.Assumption.IsComputed,
-                                        RequiresGroupApproval = x.Assumption.RequiresGroupApproval,
-                                        CanAffiliateEdit = x.Assumption.CanAffiliateEdit,
-                                        OrganizationUnitId = x.Assumption.OrganizationUnitId,
-                                        Status = x.Assumption.Status,
-                                        LastUpdated = x.Assumption.LastModificationTime,
-                                        LastUpdatedBy = x.User == null ? "" : x.User.FullName,
-                                        Id = x.Assumption.Id
-                                    }).ToListAsync();
+            var assumptions = (from a in _pdAssumptionNonInternalModelRepository.GetAll().Where(x => x.Framework == input.Framework && x.OrganizationUnitId == input.AffiliateOuId)
+                               join u in _lookup_userRepository.GetAll() on a.LastModifierUserId equals u.Id into u1
+                               from u2 in u1.DefaultIfEmpty()
 
-            return assumptions;
+                               select new PdInputAssumptionNonInternalModelDto
+                               {
+                                   Key = a.Key,
+                                   PdGroup = a.PdGroup,
+                                   Month = a.Month,
+                                   MarginalDefaultRate = a.MarginalDefaultRate,
+                                   CummulativeSurvival = a.CummulativeSurvival,
+                                   IsComputed = a.IsComputed,
+                                   RequiresGroupApproval = a.RequiresGroupApproval,
+                                   CanAffiliateEdit = a.CanAffiliateEdit,
+                                   OrganizationUnitId = a.OrganizationUnitId,
+                                   Status = a.Status,
+                                   LastUpdated = a.LastModificationTime,
+                                   LastUpdatedBy = u2 == null ? "" : u2.FullName,
+                                   Id = a.Id
+                               }).ToListAsync();
+
+            return await assumptions;
         }
 
         public async Task<List<PdInputAssumptionNplIndexDto>> GetAffiliatePdNplIndexAssumption(GetAffiliateAssumptionInputDto input)
         {
-            var assumptions = await _pdAssumptionNplIndexRepository.GetAll()
-                                    .Join(_lookup_userRepository.GetAll(), a => a.LastModifierUserId, u => u.Id, (a, u) => new { Assumption = a, User = u })
-                                    .Where(x => x.Assumption.Framework == input.Framework && x.Assumption.OrganizationUnitId == input.AffiliateOuId)
-                                    .Select(x => new PdInputAssumptionNplIndexDto
-                                    {
-                                        Key = x.Assumption.Key,
-                                        Date = x.Assumption.Date,
-                                        Actual = x.Assumption.Actual,
-                                        Standardised = x.Assumption.Standardised,
-                                        EtiNplSeries = x.Assumption.EtiNplSeries,
-                                        IsComputed = x.Assumption.IsComputed,
-                                        RequiresGroupApproval = x.Assumption.RequiresGroupApproval,
-                                        CanAffiliateEdit = x.Assumption.CanAffiliateEdit,
-                                        OrganizationUnitId = x.Assumption.OrganizationUnitId,
-                                        Status = x.Assumption.Status,
-                                        LastUpdated = x.Assumption.LastModificationTime,
-                                        LastUpdatedBy = x.User == null ? "" : x.User.FullName,
-                                        Id = x.Assumption.Id
-                                    }).ToListAsync();
+            var assumptions = (from a in _pdAssumptionNplIndexRepository.GetAll().Where(x => x.Framework == input.Framework && x.OrganizationUnitId == input.AffiliateOuId)
+                               join u in _lookup_userRepository.GetAll() on a.LastModifierUserId equals u.Id into u1
+                               from u2 in u1.DefaultIfEmpty()
 
-            return assumptions;
+                               select new PdInputAssumptionNplIndexDto
+                               {
+                                   Key = a.Key,
+                                   Date = a.Date,
+                                   Actual = a.Actual,
+                                   Standardised = a.Standardised,
+                                   EtiNplSeries = a.EtiNplSeries,
+                                   IsComputed = a.IsComputed,
+                                   RequiresGroupApproval = a.RequiresGroupApproval,
+                                   CanAffiliateEdit = a.CanAffiliateEdit,
+                                   OrganizationUnitId = a.OrganizationUnitId,
+                                   Status = a.Status,
+                                   LastUpdated = a.LastModificationTime,
+                                   LastUpdatedBy = u2 == null ? "" : u2.FullName,
+                                   Id = a.Id
+                               }).ToListAsync();
+
+            return await assumptions;
         }
 
         public async Task<List<PdInputSnPCummulativeDefaultRateDto>> GetAffiliatePdSnpCummulativeAssumption(GetAffiliateAssumptionInputDto input)
         {
-            var assumptions = await _pdSnPCummulativeAssumptionRepository.GetAll()
-                                    .Join(_lookup_userRepository.GetAll(), a => a.LastModifierUserId, u => u.Id, (a, u) => new { Assumption = a, User = u })
-                                    .Where(x => x.Assumption.Framework == input.Framework && x.Assumption.OrganizationUnitId == input.AffiliateOuId)
-                                    .Select(x => new PdInputSnPCummulativeDefaultRateDto
-                                    {
-                                        Key = x.Assumption.Key,
-                                        Rating = x.Assumption.Rating,
-                                        Years = x.Assumption.Years,
-                                        Value = x.Assumption.Value,
-                                        RequiresGroupApproval = x.Assumption.RequiresGroupApproval,
-                                        OrganizationUnitId = x.Assumption.OrganizationUnitId,
-                                        Status = x.Assumption.Status,
-                                        LastUpdated = x.Assumption.LastModificationTime,
-                                        LastUpdatedBy = x.User == null ? "" : x.User.FullName,
-                                        Id = x.Assumption.Id
-                                    }).ToListAsync();
+            var assumptions = (from a in _pdSnPCummulativeAssumptionRepository.GetAll().Where(x => x.Framework == input.Framework && x.OrganizationUnitId == input.AffiliateOuId)
+                               join u in _lookup_userRepository.GetAll() on a.LastModifierUserId equals u.Id into u1
+                               from u2 in u1.DefaultIfEmpty()
 
-            return assumptions;
+                               select new PdInputSnPCummulativeDefaultRateDto
+                               {
+                                   Key = a.Key,
+                                   Rating = a.Rating,
+                                   Years = a.Years,
+                                   Value = a.Value,
+                                   RequiresGroupApproval = a.RequiresGroupApproval,
+                                   OrganizationUnitId = a.OrganizationUnitId,
+                                   Status = a.Status,
+                                   LastUpdated = a.LastModificationTime,
+                                   LastUpdatedBy = u2 == null ? "" : u2.FullName,
+                                   Id = a.Id
+                               }).ToListAsync();
+
+            return await assumptions;
         }
 
         public async Task<List<InvSecFitchCummulativeDefaultRateDto>> GetAffiliateInvSecPdFitchCummulativeAssumption(GetAffiliateAssumptionInputDto input)
         {
-            var assumptions = await _invsecFitchCummulativeAssumptionRepository.GetAll()
-                                    .Join(_lookup_userRepository.GetAll(), a => a.LastModifierUserId, u => u.Id, (a, u) => new { Assumption = a, User = u })
-                                    .Where(x => x.Assumption.OrganizationUnitId == input.AffiliateOuId)
-                                    .Select(x => new InvSecFitchCummulativeDefaultRateDto
-                                    {
-                                        Key = x.Assumption.Key,
-                                        Rating = x.Assumption.Rating,
-                                        Years = x.Assumption.Year,
-                                        Value = x.Assumption.Value,
-                                        RequiresGroupApproval = x.Assumption.RequiresGroupApproval,
-                                        OrganizationUnitId = x.Assumption.OrganizationUnitId,
-                                        Status = x.Assumption.Status,
-                                        LastUpdated = x.Assumption.LastModificationTime,
-                                        LastUpdatedBy = x.User == null ? "" : x.User.FullName,
-                                        Id = x.Assumption.Id
-                                    }).ToListAsync();
+            var assumptions = (from a in _invsecFitchCummulativeAssumptionRepository.GetAll().Where(x => x.OrganizationUnitId == input.AffiliateOuId)
+                               join u in _lookup_userRepository.GetAll() on a.LastModifierUserId equals u.Id into u1
+                               from u2 in u1.DefaultIfEmpty()
 
-            return assumptions;
+                               select new InvSecFitchCummulativeDefaultRateDto
+                               {
+                                   Key = a.Key,
+                                   Rating = a.Rating,
+                                   Years = a.Year,
+                                   Value = a.Value,
+                                   RequiresGroupApproval = a.RequiresGroupApproval,
+                                   OrganizationUnitId = a.OrganizationUnitId,
+                                   Status = a.Status,
+                                   LastUpdated = a.LastModificationTime,
+                                   LastUpdatedBy = u2 == null ? "" : u2.FullName,
+                                   Id = a.Id
+                               }).ToListAsync();
+
+            return await assumptions;
         }
 
         public async Task<List<InvSecMacroEconomicAssumptionDto>> GetAffiliateInvSecPdMacroEcoAssumption(GetAffiliateAssumptionInputDto input)
         {
-            var assumptions = await _invsecMacroEcoAssumptionRepository.GetAll()
-                                    .Join(_lookup_userRepository.GetAll(), a => a.LastModifierUserId, u => u.Id, (a, u) => new { Assumption = a, User = u })
-                                    .Where(x => x.Assumption.OrganizationUnitId == input.AffiliateOuId)
-                                    .Select(x => new InvSecMacroEconomicAssumptionDto
-                                    {
-                                        Key = x.Assumption.Key,
-                                        Month = x.Assumption.Month,
-                                        BestValue = x.Assumption.BestValue,
-                                        OptimisticValue = x.Assumption.OptimisticValue,
-                                        DownturnValue = x.Assumption.DownturnValue,
-                                        CanAffiliateEdit = x.Assumption.CanAffiliateEdit,
-                                        IsComputed = false,
-                                        RequiresGroupApproval = x.Assumption.RequiresGroupApproval,
-                                        OrganizationUnitId = x.Assumption.OrganizationUnitId,
-                                        Status = x.Assumption.Status,
-                                        LastUpdated = x.Assumption.LastModificationTime,
-                                        LastUpdatedBy = x.User == null ? "" : x.User.FullName,
-                                        Id = x.Assumption.Id
-                                    }).ToListAsync();
+            var assumptions = (from a in _invsecMacroEcoAssumptionRepository.GetAll().Where(x => x.OrganizationUnitId == input.AffiliateOuId)
+                               join u in _lookup_userRepository.GetAll() on a.LastModifierUserId equals u.Id into u1
+                               from u2 in u1.DefaultIfEmpty()
 
-            return assumptions;
+                               select new InvSecMacroEconomicAssumptionDto
+                               {
+                                   Key = a.Key,
+                                   Month = a.Month,
+                                   BestValue = a.BestValue,
+                                   OptimisticValue = a.OptimisticValue,
+                                   DownturnValue = a.DownturnValue,
+                                   CanAffiliateEdit = a.CanAffiliateEdit,
+                                   IsComputed = false,
+                                   RequiresGroupApproval = a.RequiresGroupApproval,
+                                   OrganizationUnitId = a.OrganizationUnitId,
+                                   Status = a.Status,
+                                   LastUpdated = a.LastModificationTime,
+                                   LastUpdatedBy = u2 == null ? "" : u2.FullName,
+                                   Id = a.Id
+                               }).ToListAsync();
+
+            return await assumptions;
         }
 
         public async Task<GetAllPdAssumptionsDto> GetAllPdAssumptionsForAffiliate(GetAffiliateAssumptionInputDto input)
