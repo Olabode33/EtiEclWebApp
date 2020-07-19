@@ -81,7 +81,7 @@
                                     <span class="kt-badge kt-badge--inline kt-badge--pill kt-badge--rounded
                                                kt-badge--{{eclDto.status == eclStatusEnum.Completed ? 'success' :
                                                             ( eclDto.status === eclStatusEnum.Draft ? 'info' :
-                                                            ( eclDto.status === eclStatusEnum.Closed ? 'primary' : 
+                                                            ( eclDto.status === eclStatusEnum.Closed ? 'primary' :
                                                             ( eclDto.status === eclStatusEnum.Failed ? 'danger': 'warning')))}}">
                                         {{l(eclStatusEnum[eclDto.status])}}
                                     </span>
@@ -115,13 +115,9 @@
                                 </div>
                             </div>
 
-                            <div class="kt-widget__info kt-widget__info-overwrite">
+                            <div class="kt-widget__info kt-widget__info-overwrite" *ngIf="eclDto.status == eclStatusEnum.Running || eclDto.status == eclStatusEnum.ComputedEAD || eclDto.status == eclStatusEnum.ComputedLGD || eclDto.status == eclStatusEnum.ComputedPD || eclDto.status == eclStatusEnum.Completed">
 
-                                <div *ngIf="eclDto.status === eclStatusEnum.Running || eclDto.status === eclStatusEnum.ComputedEAD  || eclDto.status ===  eclStatusEnum.ComputedLGD
-                                            || eclDto.status === eclStatusEnum.ComputedPD  || eclDto.status === eclStatusEnum.ComputedECL 
-                                            || eclDto.status === eclStatusEnum.PreOverrideComplete  || eclDto.status === eclStatusEnum.PostOverrideComplete
-                                            || eclDto.status === eclStatusEnum.Completed || eclDto.status === eclStatusEnum.Failed"  
-                                    class="kt-widget__progress kt-widget__progress-overwrite">
+                                <div class="kt-widget__progress kt-widget__progress-overwrite">
                                     <div class="kt-widget__text">
                                         Progress:
                                     </div>
@@ -133,7 +129,7 @@
                                         {{ getEclProgress() }}%
                                     </div>
                                 </div>
-                                
+
                             </div>
                             <p *ngIf="eclDto.status === eclStatusEnum.Failed"  class="lead mt-2 text-danger">
                                 <b>{{l('Reason')}}</b><br>
