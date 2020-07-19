@@ -20,7 +20,7 @@
         <div class="kt-subheader__toolbar">
             <div class="kt-subheader__wrapper">
                 <button (click)="submitEcl()" class="btn btn-outline-primary"
-                    *ngIf="calibration.status == calibrationStatusEnum.Draft && isGranted('Pages.Calibration.Submit')">
+                    *ngIf="(calibration.status == calibrationStatusEnum.Draft || calibration.status == calibrationStatusEnum.Failed) && isGranted('Pages.Calibration.Submit')">
                     <i class="fa fa-check" style="font-size: 1.2rem !important;"></i>
                     {{l("Submit")}}
                 </button>
@@ -149,7 +149,7 @@
                         {{l("DownloadFullData")}}
                     </button>
                     <div *ngIf="isGranted('Pages.Calibration.Upload')" class="btn-group" dropdown>
-                        <button dropdownToggle type="button" *ngIf="calibration.status == calibrationStatusEnum.Draft"
+                        <button dropdownToggle type="button" *ngIf="(calibration.status == calibrationStatusEnum.Draft || calibration.status == calibrationStatusEnum.Failed)"
                             class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-upload"></i> {{"Upload" | localize}}
                         </button>

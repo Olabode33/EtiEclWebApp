@@ -13,7 +13,7 @@
         </div>
         <div class="kt-subheader__toolbar">
             <div class="kt-subheader__wrapper">
-                <button (click)="submitEcl()" class="btn btn-outline-primary" *ngIf="eclDto.status == eclStatusEnum.Draft && isGranted('Pages.EclView.Submit')">
+                <button (click)="submitEcl()" class="btn btn-outline-primary" *ngIf="(eclDto.status == eclStatusEnum.Draft || eclDto.status == eclStatusEnum.Failed) && isGranted('Pages.EclView.Submit')">
                     <i class="fa fa-check" style="font-size: 1.2rem !important;"></i>
                     {{l("Submit")}}
                 </button>
@@ -93,8 +93,8 @@
                                     <div class="col align-middle">
                                         <div class="kt-widget__label kt-widget__label-overwrite">
                                             {{l('ReportingDate')}}:
-                                            <span *ngIf="!isGranted('Pages.EclView.Edit') || eclDto.status != eclStatusEnum.Draft" class="btn btn-label-brand btn-sm btn-bold btn-upper">{{eclDto.reportingDate | momentFormat:'LL'}}</span>
-                                            <button *ngIf="isGranted('Pages.EclView.Edit') && eclDto.status == eclStatusEnum.Draft" class="btn btn-outline-primary btn-sm btn-pill" (click)="editReportDate()">
+                                            <span *ngIf="!(isGranted('Pages.EclView.Edit') && (eclDto.status == eclStatusEnum.Draft || eclDto.status == eclStatusEnum.Failed))" class="btn btn-label-brand btn-sm btn-bold btn-upper">{{eclDto.reportingDate | momentFormat:'LL'}}</span>
+                                            <button *ngIf="isGranted('Pages.EclView.Edit') && (eclDto.status == eclStatusEnum.Draft || eclDto.status == eclStatusEnum.Failed)" class="btn btn-outline-primary btn-sm btn-pill" (click)="editReportDate()">
                                                 {{ eclDto.reportingDate | momentFormat: 'll'}}
                                                 <i class="fa fa-edit hoverable"></i>
                                             </button>
@@ -171,7 +171,7 @@
                                 <i class="fa fa-sync"></i> {{"Refresh" | localize}}
                             </button>
                             <div *ngIf="isGranted('Pages.EclView.Upload')" class="btn-group" dropdown>
-                                <button dropdownToggle type="button" *ngIf="eclDto.status == eclStatusEnum.Draft"
+                                <button dropdownToggle type="button" *ngIf="eclDto.status == eclStatusEnum.Draft || eclDto.status == eclStatusEnum.Failed"
                                     class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fa fa-upload"></i> {{"Upload" | localize}}
                                 </button>
