@@ -99,6 +99,58 @@ namespace TestDemo.EclShared
             await SumbitForApproval(input, lgdAssumptionUnsecuredRecovery);
 
             ObjectMapper.Map(input, lgdAssumptionUnsecuredRecovery);
+
+            await UpdateValues(input, lgdAssumptionUnsecuredRecovery);
+        }
+
+        private async Task UpdateValues(CreateOrEditLgdAssumptionUnsecuredRecoveryDto input, LgdInputAssumption lgdAssumptionUnsecuredRecovery)
+        {
+            try
+            {
+                await UpdateOnCollateralGrowthBest(input, lgdAssumptionUnsecuredRecovery);
+                await UpdateOnCollateralGrowthOptimistc(input, lgdAssumptionUnsecuredRecovery);
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Update LGD Assumptions values: " + e.Message);
+            }
+        }
+
+        private async Task UpdateOnCollateralGrowthBest(CreateOrEditLgdAssumptionUnsecuredRecoveryDto input, LgdInputAssumption lgdAssumptionUnsecuredRecovery)
+        {
+            if (lgdAssumptionUnsecuredRecovery.LgdGroup == LdgInputAssumptionGroupEnum.CollateralGrowthBest)
+            {
+                var collateralGrowthOptimistic = await _lgdAssumptionUnsecuredRecoveryRepository.FirstOrDefaultAsync(e => e.LgdGroup == LdgInputAssumptionGroupEnum.CollateralGrowthOptimistic
+                                                                                                                       && e.InputName == input.InputName
+                                                                                                                       && e.Framework == lgdAssumptionUnsecuredRecovery.Framework
+                                                                                                                       && e.OrganizationUnitId == lgdAssumptionUnsecuredRecovery.OrganizationUnitId);
+
+                collateralGrowthOptimistic.Value = input.Value;
+                await _lgdAssumptionUnsecuredRecoveryRepository.UpdateAsync(collateralGrowthOptimistic);
+
+
+                var collateralGrowthDownturn = await _lgdAssumptionUnsecuredRecoveryRepository.FirstOrDefaultAsync(e => e.LgdGroup == LdgInputAssumptionGroupEnum.CollateralGrowthDownturn
+                                                                                                                       && e.InputName == input.InputName
+                                                                                                                       && e.Framework == lgdAssumptionUnsecuredRecovery.Framework
+                                                                                                                       && e.OrganizationUnitId == lgdAssumptionUnsecuredRecovery.OrganizationUnitId);
+                collateralGrowthDownturn.Value = (Convert.ToDouble(input.Value) * 0.92 - 0.08).ToString();
+                await _lgdAssumptionUnsecuredRecoveryRepository.UpdateAsync(collateralGrowthDownturn);
+
+            }
+        }
+
+        private async Task UpdateOnCollateralGrowthOptimistc(CreateOrEditLgdAssumptionUnsecuredRecoveryDto input, LgdInputAssumption lgdAssumptionUnsecuredRecovery)
+        {
+            if (lgdAssumptionUnsecuredRecovery.LgdGroup == LdgInputAssumptionGroupEnum.CollateralGrowthOptimistic)
+            {
+                var collateralGrowthDownturn = await _lgdAssumptionUnsecuredRecoveryRepository.FirstOrDefaultAsync(e => e.LgdGroup == LdgInputAssumptionGroupEnum.CollateralGrowthDownturn
+                                                                                                                       && e.InputName == input.InputName
+                                                                                                                       && e.Framework == lgdAssumptionUnsecuredRecovery.Framework
+                                                                                                                       && e.OrganizationUnitId == lgdAssumptionUnsecuredRecovery.OrganizationUnitId);
+                collateralGrowthDownturn.Value = (Convert.ToDouble(input.Value) * 0.92 - 0.08).ToString();
+                await _lgdAssumptionUnsecuredRecoveryRepository.UpdateAsync(collateralGrowthDownturn);
+
+            }
         }
 
         private async Task SumbitForApproval(CreateOrEditLgdAssumptionUnsecuredRecoveryDto input, LgdInputAssumption assumption)

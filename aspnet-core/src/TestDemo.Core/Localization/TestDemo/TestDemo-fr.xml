@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="fr">
   <texts>
+    <text name="CollateralGrowthBest">Collateral Growth Best</text>
+    <text name="CollateralGrowthOptimistic">Collateral Growth Optimistic</text>
+    <text name="CollateralGrowthDownturn">Collateral Growth Downturn</text>
+    <text name="CollateralValueHigh">Collateral Value</text>
+    <text name="CollateralValueLow">Collateral Value</text>
+    <text name="CollateralValue">Collateral Value</text>
+    <text name="CostOfRecoveryHigh">Cost Of Recovery High</text>
+    <text name="CostOfRecoveryLow">Cost Of Recovery Low</text>
     <text name="Reason">Reason</text>
     <text name="EditEclRecord">Edit ECL</text>
     <text name="OverrideResult">Override calibration result</text>
@@ -616,15 +624,8 @@
     <text name = "VIRName"> Nom VIR </text>
     <text name = "ExchangeRateProjections"> Projections de taux de change </text>
     <text name = "UnsecuredRecoveriesTimeInDefault"> Récupérations non sécurisées: temps par défaut </text>
-    <text name = "CostOfRecoveryHigh"> Coût de récupération </text>
-    <text name = "CostOfRecoveryLow"> Coût de récupération </text>
-    <text name = "CollateralGrowthBest"> Croissance des garanties </text>
     <text name = "CollateralTTR"> Collateral TTR </text>
     <text name = "CollateralType"> Garantie </text>
-    <text name = "CollateralValueHigh">
-      <![CDATA[Collateral Value> = NGN1bn]]> 
-    </text>
-    <text name = "CollateralValueLow"> <![CDATA[Collateral Value <= NGN1bn]]> </text>
     <text name = "FrameworkAssumptions"> Hypothèses du cadre </text>
     <text name = "ApproveRetailEcl"> Approuver l'ECL de vente au détail </text>
     <text name = "ApprovalNote"> Les valeurs approuvées seraient utilisées pour les calculs ECL! </text>
