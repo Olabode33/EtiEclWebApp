@@ -35,7 +35,7 @@ namespace TestDemo.Migrations.Seed
             new TenantRoleAndUserBuilder(context, 1).Create();
 
             //Affiliate Assumptions Summary
-            new DefaultAffiliateAssumptionsBuilder(context).Create();
+            //new DefaultAffiliateAssumptionsBuilder(context).Create();
 
             //SeedAssumptionData(context);
         }

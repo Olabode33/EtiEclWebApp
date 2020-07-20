@@ -1137,7 +1137,7 @@ namespace TestDemo.OBE
                                                                                  .Select(e => e.Date).Distinct().CountAsync();
             if (macroProjection < 24)
             {
-                throw new UserFriendlyException(L("MacroProjectionAssumptionIncomplete", macroProjection));
+                throw new UserFriendlyException(L("MacroProjectionAssumptionIncomplete"));
             }
         }
 
