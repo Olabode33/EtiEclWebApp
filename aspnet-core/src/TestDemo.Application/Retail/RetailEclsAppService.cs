@@ -1122,7 +1122,7 @@ namespace TestDemo.Retail
                                                                                .Select(e => e.Month).Distinct().CountAsync();
             if (cons_comm != 240)
             {
-                throw new UserFriendlyException(L("PdAssumptionNonInternalModelMarginalDefaultRateCountError", cons_comm));
+                throw new UserFriendlyException(L("PdAssumptionNonInternalModelMarginalDefaultRateCountError"));
             }
             var snp = await _pdSnPCummulativeAssumptionRepository.GetAll().Where(e => e.OrganizationUnitId == ouId && e.Framework == FrameworkEnum.Retail)
                                                                         .Select(e => new { e.Rating, e.Years }).ToListAsync();
@@ -1130,12 +1130,12 @@ namespace TestDemo.Retail
             var snpRating = snp.Select(e => e.Rating).Distinct().Count();
             if (snpYears != 15 || snpRating != 7)
             {
-                throw new UserFriendlyException(L("SnPCummulativeAssumptionIncomplete", snpYears, snpRating));
+                throw new UserFriendlyException(L("SnPCummulativeAssumptionIncomplete"));
             }
 
             var macroProjection = await _pdAssumptionMacroecoProjectionRepository.GetAll().Where(e => e.OrganizationUnitId == ouId && e.Framework == FrameworkEnum.Retail && e.Date > reportDate)
                                                                                  .Select(e => e.Date).Distinct().CountAsync();
-            if (macroProjection < 24)
+            if (macroProjection < 15)
             {
                 throw new UserFriendlyException(L("MacroProjectionAssumptionIncomplete"));
             }
