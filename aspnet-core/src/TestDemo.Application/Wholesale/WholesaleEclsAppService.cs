@@ -1138,7 +1138,7 @@ namespace TestDemo.Wholesale
                                                                         .Select(e => new { e.Rating, e.Years }).ToListAsync();
             var snpYears = snp.Select(e => e.Years).Distinct().Count();
             var snpRating = snp.Select(e => e.Rating).Distinct().Count();
-            if (snpYears != 15 && snpRating != 7)
+            if (snpYears != 15 || snpRating != 7)
             {
                 throw new UserFriendlyException(L("SnPCummulativeAssumptionIncomplete", snpYears, snpRating));
             }

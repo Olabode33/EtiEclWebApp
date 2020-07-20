@@ -142,6 +142,7 @@ namespace TestDemo.EclShared.Importing
 
             if (cellValue == null)
             {
+                exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName));
                 return null;
             }
             else if (double.TryParse(cellValue.ToString(), out returnValue))

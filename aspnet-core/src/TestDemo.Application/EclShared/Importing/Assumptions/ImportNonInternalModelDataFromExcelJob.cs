@@ -84,9 +84,12 @@ namespace TestDemo.EclShared.Importing
                 SendInvalidExcelNotification(args, _localizationSource.GetString("FileCantBeConvertedToSnPList"));
                 return;
             }
-            if (nim.Count != 240)
+
+            var months = nim.Select(e => e.Month).Distinct().Count();
+            if (months != 240)
             {
-                SendInvalidExcelNotification(args, _localizationSource.GetString("PdAssumptionNonInternalModelMarginalDefaultRateCountError", nim.Count));
+                var message = _localizationSource.GetString("PdAssumptionNonInternalModelMarginalDefaultRateCountError");
+                SendInvalidExcelNotification(args, message);
                 return;
             }
 
@@ -110,13 +113,15 @@ namespace TestDemo.EclShared.Importing
         private void CreateNonInternalModel(ImportAssumptionDataFromExcelJobArgs args, List<ImportNonInternalModelDataDto> inputs)
         {
             var invalids = new List<ImportNonInternalModelDataDto>();
+            var nims = CalculateCummulative(inputs);
 
-            foreach (var input in inputs)
+            foreach (var input in nims)
             {
                 if (input.CanBeImported())
                 {
                     try
                     {
+                    
                         AsyncHelper.RunSync(() => CreateSnPAsync(input, args));
                     }
                     catch (UserFriendlyException exception)
@@ -139,6 +144,48 @@ namespace TestDemo.EclShared.Importing
             AsyncHelper.RunSync(() => ProcessImportPdCrDrResultAsync(args, invalids));
         }
 
+        private List<ImportNonInternalModelDataDto> CalculateCummulative(List<ImportNonInternalModelDataDto> inputs)
+        {
+            var nim = new List<ImportNonInternalModelDataDto>();
+
+
+            for (int i = 0; i < 4; i++)
+            {
+                string pdGroup = "";
+
+                switch (i)
+                {
+                    case 0:
+                        pdGroup = "CONS_STAGE_1";
+                        break;
+                    case 1:
+                        pdGroup = "CONS_STAGE_2";
+                        break;
+                    case 2:
+                        pdGroup = "COMM_STAGE_1";
+                        break;
+                    case 3:
+                        pdGroup = "COMM_STAGE_2";
+                        break;
+                    default:
+                        break;
+                }
+
+                var filtered = inputs.Where(e => e.PdGroup == pdGroup).OrderBy(e => e.Month);
+
+                var prevCummulative = 0.0;
+                foreach (var item in filtered)
+                {
+                    var currentCumulative = item.Month == 1 ? 1 - item.MarginalDefaultRate : (prevCummulative * (1 - item.MarginalDefaultRate));
+                    item.CummulativeSurvival = currentCumulative;
+                    nim.Add(item);
+                    prevCummulative = currentCumulative ?? 0;
+                }
+            }
+
+            return nim;
+        }
+
         private async Task CreateSnPAsync(ImportNonInternalModelDataDto input, ImportAssumptionDataFromExcelJobArgs args)
         {
             await _dataRepository.InsertAsync(new PdInputAssumptionNonInternalModel()
@@ -147,7 +194,7 @@ namespace TestDemo.EclShared.Importing
                 Month = input.Month == null ? -1 : (int)input.Month,
                 PdGroup = input.PdGroup,
                 MarginalDefaultRate = input.MarginalDefaultRate == null ? 0 : (double)input.MarginalDefaultRate,
-                CummulativeSurvival = input.MarginalDefaultRate == null ? 0 : 1 - (double)input.MarginalDefaultRate,
+                CummulativeSurvival = input.CummulativeSurvival == null ? 0 : (double)input.CummulativeSurvival,
                 IsComputed = true,
                 CanAffiliateEdit = false,
                 RequiresGroupApproval = true,

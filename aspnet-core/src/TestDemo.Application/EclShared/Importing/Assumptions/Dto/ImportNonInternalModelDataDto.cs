@@ -9,6 +9,7 @@ namespace TestDemo.EclShared.Importing.Assumptions.Dto
         public int? Month { get; set; }
         public string PdGroup { get; set; }
         public double? MarginalDefaultRate { get; set; }
+        public double? CummulativeSurvival { get; set; }
         public string Exception { get; set; }
         public bool CanBeImported()
         {

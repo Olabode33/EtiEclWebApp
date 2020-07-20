@@ -95,7 +95,7 @@ namespace TestDemo.EclShared.Importing
             }
             var snpYears = snp.Select(e => e.Years).Distinct().Count();
             var snpRating = snp.Select(e => e.Rating).Distinct().Count();
-            if (snpYears != 15 && snpRating != 7)
+            if (snpYears != 15 || snpRating != 7)
             {
                 SendInvalidExcelNotification(args, _localizationSource.GetString("SnPCummulativeAssumptionIncomplete", snpYears, snpRating));
                 return;
