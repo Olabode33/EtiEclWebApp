@@ -13,25 +13,16 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TestDemo.Authorization.Users;
-using TestDemo.Calibration;
-using TestDemo.CalibrationInput;
 using TestDemo.Configuration;
 using TestDemo.Dto;
 using TestDemo.EclShared.Dtos;
 using TestDemo.EclShared.Emailer;
 using TestDemo.EclShared.Importing.Assumptions.Dto;
-using TestDemo.EclShared.Importing.Calibration;
-using TestDemo.EclShared.Importing.Calibration.Dto;
-using TestDemo.EclShared.Importing.Dto;
 using TestDemo.InvestmentComputation;
 using TestDemo.Notifications;
-using TestDemo.ObeInputs;
-using TestDemo.RetailInputs;
 using TestDemo.Storage;
-using TestDemo.WholesaleInputs;
 
 namespace TestDemo.EclShared.Importing
 {
@@ -90,7 +81,12 @@ namespace TestDemo.EclShared.Importing
             var nim = GetNonInternalModalFromExcelOrNull(args);
             if (nim == null || !nim.Any())
             {
-                SendInvalidExcelNotification(args);
+                SendInvalidExcelNotification(args, _localizationSource.GetString("FileCantBeConvertedToSnPList"));
+                return;
+            }
+            if (nim.Count != 240)
+            {
+                SendInvalidExcelNotification(args, _localizationSource.GetString("PdAssumptionNonInternalModelMarginalDefaultRateCountError", nim.Count));
                 return;
             }
 
@@ -183,11 +179,11 @@ namespace TestDemo.EclShared.Importing
             }
         }
 
-        private void SendInvalidExcelNotification(ImportAssumptionDataFromExcelJobArgs args)
+        private void SendInvalidExcelNotification(ImportAssumptionDataFromExcelJobArgs args, string message)
         {
             AsyncHelper.RunSync(() => _appNotifier.SendMessageAsync(
                 args.User,
-                _localizationSource.GetString("FileCantBeConvertedToSnPList"),
+                message,
                 Abp.Notifications.NotificationSeverity.Warn));
         }
 

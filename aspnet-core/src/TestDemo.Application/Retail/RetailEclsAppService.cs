@@ -1,48 +1,42 @@
-using TestDemo.Authorization.Users;
-
-using TestDemo.EclShared;
-
+using Abp.Application.Services.Dto;
+using Abp.Authorization;
+using Abp.BackgroundJobs;
+using Abp.Configuration;
+using Abp.Domain.Repositories;
+using Abp.Linq.Extensions;
+using Abp.Organizations;
+using Abp.Runtime.Session;
+using Abp.UI;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using Abp.Linq.Extensions;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Abp.Domain.Repositories;
-using TestDemo.Retail.Dtos;
-using TestDemo.Dto;
-using Abp.Application.Services.Dto;
 using TestDemo.Authorization;
-using Abp.Extensions;
-using Abp.Authorization;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using TestDemo.RetailAssumption;
-using TestDemo.EclShared.Dtos;
-using TestDemo.RetailAssumption.Dtos;
-using Abp.Organizations;
-using Abp.BackgroundJobs;
-using TestDemo.EclLibrary.BaseEngine.PDInput;
-using Abp.UI;
-using TestDemo.RetailInputs;
-using TestDemo.RetailComputation;
-using TestDemo.EclInterfaces;
-using TestDemo.Dto.Ecls;
-using TestDemo.Dto.Approvals;
-using TestDemo.Reports.Jobs;
-using TestDemo.Reports;
-using Abp.Runtime.Session;
-using Abp.Configuration;
-using TestDemo.EclConfig;
-using TestDemo.EclLibrary.Jobs;
-using TestDemo.EclLibrary.BaseEngine.Dtos;
-using TestDemo.Common.Exporting;
-using TestDemo.Dto.Inputs;
-using TestDemo.EclShared.Emailer;
-using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Hosting;
-using TestDemo.Configuration;
+using TestDemo.Authorization.Users;
 using TestDemo.Calibration;
+using TestDemo.Common.Exporting;
+using TestDemo.Configuration;
+using TestDemo.Dto;
+using TestDemo.Dto.Approvals;
+using TestDemo.Dto.Ecls;
+using TestDemo.Dto.Inputs;
+using TestDemo.EclConfig;
+using TestDemo.EclInterfaces;
+using TestDemo.EclLibrary.BaseEngine.Dtos;
+using TestDemo.EclLibrary.Jobs;
+using TestDemo.EclShared;
+using TestDemo.EclShared.Dtos;
+using TestDemo.EclShared.Emailer;
+using TestDemo.Reports;
+using TestDemo.Reports.Jobs;
+using TestDemo.Retail.Dtos;
+using TestDemo.RetailAssumption;
+using TestDemo.RetailComputation;
+using TestDemo.RetailInputs;
 
 namespace TestDemo.Retail
 {
@@ -76,6 +70,10 @@ namespace TestDemo.Retail
         private readonly IRepository<CalibrationLgdRecoveryRate, Guid> _lgdRecoveryRateCalibrationRepository;
         private readonly IRepository<CalibrationPdCrDr, Guid> _pdcrdrCalibrationRepository;
         private readonly IRepository<MacroAnalysis> _macroCalibrationRepository;
+
+        private readonly IRepository<PdInputAssumptionNonInternalModel, Guid> _pdAssumptionNonInternalModelRepository;
+        private readonly IRepository<PdInputAssumptionSnPCummulativeDefaultRate, Guid> _pdSnPCummulativeAssumptionRepository;
+        private readonly IRepository<PdInputAssumptionMacroeconomicProjection, Guid> _pdAssumptionMacroecoProjectionRepository;
 
         private readonly IBackgroundJobManager _backgroundJobManager;
         private readonly IEclSharedAppService _eclSharedAppService;
@@ -111,6 +109,10 @@ namespace TestDemo.Retail
                                     IRepository<CalibrationLgdRecoveryRate, Guid> lgdRecoveryRateCalibrationRepository,
                                     IRepository<CalibrationPdCrDr, Guid> pdcrdrCalibrationRepository,
                                     IRepository<MacroAnalysis> macroCalibrationRepository,
+
+                                    IRepository<PdInputAssumptionNonInternalModel, Guid> pdAssumptionNonInternalModelRepository,
+                                    IRepository<PdInputAssumptionSnPCummulativeDefaultRate, Guid> pdSnPCummulativeAssumptionRepository,
+                                    IRepository<PdInputAssumptionMacroeconomicProjection, Guid> pdAssumptionMacroecoProjectionRepository,
 
                                     IBackgroundJobManager backgroundJobManager,
                                     IEclSharedAppService eclSharedAppService,
@@ -148,6 +150,10 @@ namespace TestDemo.Retail
             _lgdRecoveryRateCalibrationRepository = lgdRecoveryRateCalibrationRepository;
             _pdcrdrCalibrationRepository = pdcrdrCalibrationRepository;
             _macroCalibrationRepository = macroCalibrationRepository;
+
+            _pdAssumptionNonInternalModelRepository = pdAssumptionNonInternalModelRepository;
+            _pdSnPCummulativeAssumptionRepository = pdSnPCummulativeAssumptionRepository;
+            _pdAssumptionMacroecoProjectionRepository = pdAssumptionMacroecoProjectionRepository;
 
             _backgroundJobManager = backgroundJobManager;
             _eclSharedAppService = eclSharedAppService;
@@ -527,7 +533,7 @@ namespace TestDemo.Retail
 
             if (affiliateAssumption != null)
             {
-                await ValidateForCreation(ouId);
+                await ValidateForCreation(ouId, input.ReportingDate);
 
                 Guid eclId = await CreateAndGetId(ouId, input.ReportingDate);
 
@@ -1098,7 +1104,7 @@ namespace TestDemo.Retail
             return _paymentScheduleExporter.ExportToFile(items);
         }
 
-        protected async Task ValidateForCreation(long ouId)
+        protected async Task ValidateForCreation(long ouId, DateTime reportDate)
         {
             var submittedAssumptions = await _assumptionsApprovalRepository.CountAsync(x => x.OrganizationUnitId == ouId && (x.Status == GeneralStatusEnum.Submitted || x.Status == GeneralStatusEnum.AwaitngAdditionApproval));
             if (submittedAssumptions > 0)
@@ -1106,6 +1112,37 @@ namespace TestDemo.Retail
                 throw new UserFriendlyException(L("SubmittedAssumptionsYetToBeApproved"));
             }
 
+            await CheckForAppliedCalibration(ouId);
+            await CheckEclAssumption(ouId, reportDate);
+        }
+
+        private async Task CheckEclAssumption(long ouId, DateTime reportDate)
+        {
+            var cons_comm = await _pdAssumptionNonInternalModelRepository.GetAll().Where(e => e.OrganizationUnitId == ouId && e.Framework == FrameworkEnum.Retail)
+                                                                               .Select(e => e.Month).Distinct().CountAsync();
+            if (cons_comm != 240)
+            {
+                throw new UserFriendlyException(L("PdAssumptionNonInternalModelMarginalDefaultRateCountError", cons_comm));
+            }
+            var snp = await _pdSnPCummulativeAssumptionRepository.GetAll().Where(e => e.OrganizationUnitId == ouId && e.Framework == FrameworkEnum.Retail)
+                                                                        .Select(e => new { e.Rating, e.Years }).ToListAsync();
+            var snpYears = snp.Select(e => e.Years).Distinct().Count();
+            var snpRating = snp.Select(e => e.Rating).Distinct().Count();
+            if (snpYears != 15 && snpRating != 7)
+            {
+                throw new UserFriendlyException(L("SnPCummulativeAssumptionIncomplete", snpYears, snpRating));
+            }
+
+            var macroProjection = await _pdAssumptionMacroecoProjectionRepository.GetAll().Where(e => e.OrganizationUnitId == ouId && e.Framework == FrameworkEnum.Retail && e.Date > reportDate)
+                                                                                 .Select(e => e.Date).Distinct().CountAsync();
+            if (macroProjection < 24)
+            {
+                throw new UserFriendlyException(L("MacroProjectionAssumptionIncomplete", macroProjection));
+            }
+        }
+
+        private async Task CheckForAppliedCalibration(long ouId)
+        {
             //Behavioural Term Check
             var appliedBehaviouralTerm = await _eadBehaviouralTermCalibrationRepository.CountAsync(e => e.OrganizationUnitId == ouId
                                                                                                      && e.Status == CalibrationStatusEnum.AppliedToEcl

@@ -90,7 +90,14 @@ namespace TestDemo.EclShared.Importing
             var snp = GetSnPFromExcelOrNull(args);
             if (snp == null || !snp.Any())
             {
-                SendInvalidExcelNotification(args);
+                SendInvalidExcelNotification(args, _localizationSource.GetString("FileCantBeConvertedToSnPList"));
+                return;
+            }
+            var snpYears = snp.Select(e => e.Years).Distinct().Count();
+            var snpRating = snp.Select(e => e.Rating).Distinct().Count();
+            if (snpYears != 15 && snpRating != 7)
+            {
+                SendInvalidExcelNotification(args, _localizationSource.GetString("SnPCummulativeAssumptionIncomplete", snpYears, snpRating));
                 return;
             }
 
@@ -181,11 +188,11 @@ namespace TestDemo.EclShared.Importing
             }
         }
 
-        private void SendInvalidExcelNotification(ImportAssumptionDataFromExcelJobArgs args)
+        private void SendInvalidExcelNotification(ImportAssumptionDataFromExcelJobArgs args, string message)
         {
             AsyncHelper.RunSync(() => _appNotifier.SendMessageAsync(
                 args.User,
-                _localizationSource.GetString("FileCantBeConvertedToSnPList"),
+                message,
                 Abp.Notifications.NotificationSeverity.Warn));
         }
 

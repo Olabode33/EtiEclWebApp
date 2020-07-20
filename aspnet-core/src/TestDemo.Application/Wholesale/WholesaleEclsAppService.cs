@@ -77,6 +77,10 @@ namespace TestDemo.Wholesale
         private readonly IRepository<CalibrationPdCrDr, Guid> _pdcrdrCalibrationRepository;
         private readonly IRepository<MacroAnalysis> _macroCalibrationRepository;
 
+        private readonly IRepository<PdInputAssumptionNonInternalModel, Guid> _pdAssumptionNonInternalModelRepository;
+        private readonly IRepository<PdInputAssumptionSnPCummulativeDefaultRate, Guid> _pdSnPCummulativeAssumptionRepository;
+        private readonly IRepository<PdInputAssumptionMacroeconomicProjection, Guid> _pdAssumptionMacroecoProjectionRepository;
+
         private readonly IBackgroundJobManager _backgroundJobManager;
         private readonly IEclSharedAppService _eclSharedAppService;
         private readonly IEclLoanbookExporter _loanbookExporter;
@@ -114,6 +118,10 @@ namespace TestDemo.Wholesale
             IRepository<CalibrationPdCrDr, Guid> pdcrdrCalibrationRepository,
             IRepository<MacroAnalysis> macroCalibrationRepository,
 
+            IRepository<PdInputAssumptionNonInternalModel, Guid> pdAssumptionNonInternalModelRepository,
+            IRepository<PdInputAssumptionSnPCummulativeDefaultRate, Guid> pdSnPCummulativeAssumptionRepository,
+            IRepository<PdInputAssumptionMacroeconomicProjection, Guid> pdAssumptionMacroecoProjectionRepository,
+
             IBackgroundJobManager backgroundJobManager,
             IEclSharedAppService eclSharedAppService,
             IEclLoanbookExporter loanbookExporter,
@@ -150,6 +158,10 @@ namespace TestDemo.Wholesale
             _lgdRecoveryRateCalibrationRepository = lgdRecoveryRateCalibrationRepository;
             _pdcrdrCalibrationRepository = pdcrdrCalibrationRepository;
             _macroCalibrationRepository = macroCalibrationRepository;
+
+            _pdAssumptionNonInternalModelRepository = pdAssumptionNonInternalModelRepository;
+            _pdSnPCummulativeAssumptionRepository = pdSnPCummulativeAssumptionRepository;
+            _pdAssumptionMacroecoProjectionRepository = pdAssumptionMacroecoProjectionRepository;
 
             _backgroundJobManager = backgroundJobManager;
             _eclSharedAppService = eclSharedAppService;
@@ -562,7 +574,7 @@ namespace TestDemo.Wholesale
 
             if (affiliateAssumption != null)
             {
-                await ValidateForCreation(ouId);
+                await ValidateForCreation(ouId, input.ReportingDate);
 
                 Guid eclId = await CreateAndGetId(ouId, input.ReportingDate, input.IsSingleBatch);
 
@@ -1102,7 +1114,7 @@ namespace TestDemo.Wholesale
             return _paymentScheduleExporter.ExportToFile(items);
         }
 
-        protected async Task ValidateForCreation(long ouId)
+        protected async Task ValidateForCreation(long ouId, DateTime reportDate)
         {
             var submittedAssumptions = await _assumptionsApprovalRepository.CountAsync(x => x.OrganizationUnitId == ouId && (x.Status == GeneralStatusEnum.Submitted || x.Status == GeneralStatusEnum.AwaitngAdditionApproval));
             if (submittedAssumptions > 0)
@@ -1110,6 +1122,37 @@ namespace TestDemo.Wholesale
                 throw new UserFriendlyException(L("SubmittedAssumptionsYetToBeApproved"));
             }
 
+            await CheckForAppliedCalibration(ouId);
+            await CheckEclAssumption(ouId, reportDate);
+        }
+
+        private async Task CheckEclAssumption(long ouId, DateTime reportDate)
+        {
+            var cons_comm = await _pdAssumptionNonInternalModelRepository.GetAll().Where(e => e.OrganizationUnitId == ouId && e.Framework == FrameworkEnum.Wholesale)
+                                                                               .Select(e => e.Month).Distinct().CountAsync();
+            if (cons_comm != 240)
+            {
+                throw new UserFriendlyException(L("PdAssumptionNonInternalModelMarginalDefaultRateCountError", cons_comm));
+            }
+            var snp = await _pdSnPCummulativeAssumptionRepository.GetAll().Where(e => e.OrganizationUnitId == ouId && e.Framework == FrameworkEnum.Wholesale)
+                                                                        .Select(e => new { e.Rating, e.Years }).ToListAsync();
+            var snpYears = snp.Select(e => e.Years).Distinct().Count();
+            var snpRating = snp.Select(e => e.Rating).Distinct().Count();
+            if (snpYears != 15 && snpRating != 7)
+            {
+                throw new UserFriendlyException(L("SnPCummulativeAssumptionIncomplete", snpYears, snpRating));
+            }
+
+            var macroProjection = await _pdAssumptionMacroecoProjectionRepository.GetAll().Where(e => e.OrganizationUnitId == ouId && e.Framework == FrameworkEnum.Wholesale && e.Date > reportDate)
+                                                                                 .Select(e => e.Date).Distinct().CountAsync();
+            if (macroProjection < 24)
+            {
+                throw new UserFriendlyException(L("MacroProjectionAssumptionIncomplete", macroProjection));
+            }
+        }
+
+        private async Task CheckForAppliedCalibration(long ouId)
+        {
             //Behavioural Term Check
             var appliedBehaviouralTerm = await _eadBehaviouralTermCalibrationRepository.CountAsync(e => e.OrganizationUnitId == ouId
                                                                                                      && e.Status == CalibrationStatusEnum.AppliedToEcl

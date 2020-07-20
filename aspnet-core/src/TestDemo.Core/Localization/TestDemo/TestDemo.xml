@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+    <text name="MacroProjectionAssumptionIncomplete">Macro-economic Projection is incomplete. Expected projection after the reporting date is 24, found {0}</text>
+    <text name="SnPCummulativeAssumptionIncomplete">SnP Cummulative default rate assumption is incomplete. Expected 7 Ratings for 15 Years, Found {0} Ratings for {1} Years</text>
+    <text name="PdAssumptionNonInternalModelMarginalDefaultRateCountError">Non Internal model- Marginal Default Rate is incomplete, Expected for 240 months, found {0) months</text>
     <text name="Month0ValueOnly">Value is for Month 0 only, other months are computed</text>
     <text name="CollateralGrowthBest">Collateral Growth Best</text>
     <text name="CollateralGrowthOptimistic">Collateral Growth Optimistic</text>
