@@ -80,56 +80,6 @@
     <!-- Cost of Recovery -->
     <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
         <div class="card-header" id="heading3">
-            <div class="card-title" (click)="toggleAccordion(2)"
-                [ngClass]="{collapsed: !accordionList[2].isActive}">
-                <i class="flaticon-pie-chart-1"></i>
-                {{l(accordionList[2].key)}}
-            </div>
-        </div>
-        <div id="collapse3" class="collapse" [ngClass]="{show: accordionList[2].isActive}">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>{{l('CollateralType')}}</th>
-                                <th>{{l('Value')}}</th>
-                                <!-- <th>{{l('CollateralValueLow')}}</th> -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of corHighGroup; let i = index">
-                                <td>{{item.inputName}}</td>
-                                <td>
-                                    <span class="hoverable pull-right" *ngIf="!viewOnly && isGranted('Pages.Assumption.Affiliates.Edit')"
-                                        (click)="editAssumption(item, lgdAssumptionGroupEnum[lgdAssumptionGroupEnum.CostOfRecoveryHigh])">
-                                        <i class="fa fa-edit"></i>
-                                    </span>
-                                    <span class="kt-widget1__number kt-font-brand">
-                                        <span *ngIf="item.dataType == dataTypeEnum.DoublePercentage">{{item.value | percent:'1.2-2'}}</span>
-                                        <span *ngIf="item.dataType == dataTypeEnum.DoubleMoney">{{item.value | number:'1.0-0'}}</span>
-                                    </span>
-                                </td>
-                                <!-- <td>
-                                    <span class="hoverable pull-right" *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')"
-                                        (click)="editAssumption(corLowGroup[i], lgdAssumptionGroupEnum[lgdAssumptionGroupEnum.CostOfRecoveryLow])">
-                                        <i class="fa fa-edit"></i>
-                                    </span>
-                                    <span class="kt-widget1__number kt-font-brand">
-                                        <span *ngIf="item.dataType == dataTypeEnum.DoublePercentage">{{corLowGroup[i].value | percent:'1.2-2'}}</span>
-                                        <span *ngIf="item.dataType == dataTypeEnum.DoubleMoney">{{corLowGroup[i].value | number:'1.0-0'}}</span>
-                                    </span>
-                                </td> -->
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
-        <div class="card-header" id="heading3">
             <div class="card-title" (click)="toggleAccordion(9)"
                 [ngClass]="{collapsed: !accordionList[9].isActive}">
                 <i class="flaticon-pie-chart-1"></i>
@@ -178,6 +128,55 @@
         </div>
     </div>
 
+    <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
+        <div class="card-header" id="heading3">
+            <div class="card-title" (click)="toggleAccordion(2)"
+                [ngClass]="{collapsed: !accordionList[2].isActive}">
+                <i class="flaticon-pie-chart-1"></i>
+                {{l(accordionList[2].key)}}
+            </div>
+        </div>
+        <div id="collapse3" class="collapse" [ngClass]="{show: accordionList[2].isActive}">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>{{l('CollateralType')}}</th>
+                                <th>{{l('Value')}}</th>
+                                <!-- <th>{{l('CollateralValueLow')}}</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of corHighGroup; let i = index">
+                                <td>{{item.inputName}}</td>
+                                <td>
+                                    <span class="hoverable pull-right" *ngIf="!viewOnly && isGranted('Pages.Assumption.Affiliates.Edit')"
+                                        (click)="editAssumption(item, lgdAssumptionGroupEnum[lgdAssumptionGroupEnum.CostOfRecoveryHigh])">
+                                        <i class="fa fa-edit"></i>
+                                    </span>
+                                    <span class="kt-widget1__number kt-font-brand">
+                                        <span *ngIf="item.dataType == dataTypeEnum.DoublePercentage">{{item.value | percent:'1.2-2'}}</span>
+                                        <span *ngIf="item.dataType == dataTypeEnum.DoubleMoney">{{item.value | number:'1.0-0'}}</span>
+                                    </span>
+                                </td>
+                                <!-- <td>
+                                    <span class="hoverable pull-right" *ngIf="!viewOnly  && isGranted('Pages.Assumption.Affiliates.Edit')"
+                                        (click)="editAssumption(corLowGroup[i], lgdAssumptionGroupEnum[lgdAssumptionGroupEnum.CostOfRecoveryLow])">
+                                        <i class="fa fa-edit"></i>
+                                    </span>
+                                    <span class="kt-widget1__number kt-font-brand">
+                                        <span *ngIf="item.dataType == dataTypeEnum.DoublePercentage">{{corLowGroup[i].value | percent:'1.2-2'}}</span>
+                                        <span *ngIf="item.dataType == dataTypeEnum.DoubleMoney">{{corLowGroup[i].value | number:'1.0-0'}}</span>
+                                    </span>
+                                </td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Collateral Growth -->
     <div *ngIf="affiliateFramework !== frameworkEnum.Investments" class="card">
         <div class="card-header" id="heading4">

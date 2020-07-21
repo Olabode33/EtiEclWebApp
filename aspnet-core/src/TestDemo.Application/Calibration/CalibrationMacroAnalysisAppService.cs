@@ -559,6 +559,11 @@ namespace TestDemo.Calibration
         public async Task ApplyToEcl(EntityDto input)
         {
             var calibration = await _macroAnalysisRepository.FirstOrDefaultAsync(input.Id);
+            var selectedMacro = await _macroResultEconomicVariableRepository.GetAllListAsync(e => e.AffiliateId == calibration.OrganizationUnitId);
+            if (selectedMacro.Count <= 0)
+            {
+                throw new UserFriendlyException(L("NoSelectedMacroVariablesFromResultError"));
+            }
 
             if (calibration.Status == CalibrationStatusEnum.Completed)
             {

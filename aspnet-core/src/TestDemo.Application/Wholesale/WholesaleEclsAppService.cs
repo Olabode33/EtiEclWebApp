@@ -43,6 +43,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using TestDemo.Configuration;
 using TestDemo.Calibration;
+using TestDemo.CalibrationResult;
 
 namespace TestDemo.Wholesale
 {
@@ -76,6 +77,7 @@ namespace TestDemo.Wholesale
         private readonly IRepository<CalibrationLgdRecoveryRate, Guid> _lgdRecoveryRateCalibrationRepository;
         private readonly IRepository<CalibrationPdCrDr, Guid> _pdcrdrCalibrationRepository;
         private readonly IRepository<MacroAnalysis> _macroCalibrationRepository;
+        private readonly IRepository<MacroResult_SelectedMacroEconomicVariables> _macroResultSecltedEconomicVariableRepository;
 
         private readonly IRepository<PdInputAssumptionNonInternalModel, Guid> _pdAssumptionNonInternalModelRepository;
         private readonly IRepository<PdInputAssumptionSnPCummulativeDefaultRate, Guid> _pdSnPCummulativeAssumptionRepository;
@@ -117,6 +119,7 @@ namespace TestDemo.Wholesale
             IRepository<CalibrationLgdRecoveryRate, Guid> lgdRecoveryRateCalibrationRepository,
             IRepository<CalibrationPdCrDr, Guid> pdcrdrCalibrationRepository,
             IRepository<MacroAnalysis> macroCalibrationRepository,
+            IRepository<MacroResult_SelectedMacroEconomicVariables> macroResultSecltedEconomicVariableRepository,
 
             IRepository<PdInputAssumptionNonInternalModel, Guid> pdAssumptionNonInternalModelRepository,
             IRepository<PdInputAssumptionSnPCummulativeDefaultRate, Guid> pdSnPCummulativeAssumptionRepository,
@@ -158,6 +161,7 @@ namespace TestDemo.Wholesale
             _lgdRecoveryRateCalibrationRepository = lgdRecoveryRateCalibrationRepository;
             _pdcrdrCalibrationRepository = pdcrdrCalibrationRepository;
             _macroCalibrationRepository = macroCalibrationRepository;
+            _macroResultSecltedEconomicVariableRepository = macroResultSecltedEconomicVariableRepository;
 
             _pdAssumptionNonInternalModelRepository = pdAssumptionNonInternalModelRepository;
             _pdSnPCummulativeAssumptionRepository = pdSnPCummulativeAssumptionRepository;
@@ -1142,6 +1146,17 @@ namespace TestDemo.Wholesale
             {
                 throw new UserFriendlyException(L("SnPCummulativeAssumptionIncomplete"));
             }
+
+            var selectedMacro = await _macroResultSecltedEconomicVariableRepository.GetAllListAsync(e => e.AffiliateId == ouId);
+            var macrosInProjection = await _pdAssumptionMacroecoProjectionRepository.GetAll().Where(e => e.OrganizationUnitId == ouId && e.Framework == FrameworkEnum.OBE && e.Date > reportDate)
+                                                                                    .Select(e => e.MacroeconomicVariableId).Distinct().ToListAsync();
+
+            var notInPorjection = selectedMacro.Select(e => e.MacroeconomicVariableId).Except(macrosInProjection).Any();
+            if (notInPorjection)
+            {
+                throw new UserFriendlyException(L("NoProjectionForSelectedMacroVariableError"));
+            }
+
 
             var macroProjection = await _pdAssumptionMacroecoProjectionRepository.GetAll().Where(e => e.OrganizationUnitId == ouId && e.Framework == FrameworkEnum.Wholesale && e.Date > reportDate)
                                                                                  .Select(e => e.Date).Distinct().CountAsync();

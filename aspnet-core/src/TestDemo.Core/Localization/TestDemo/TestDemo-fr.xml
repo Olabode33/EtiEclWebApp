@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="fr">
   <texts>
+    <text name="NoSelectedMacroVariablesFromResultError">Error Applying calibration: There's no selected macro-variables for the selected affiliate, Please re-run the macro analysis</text>
+    <text name="CollateralGrowthOptimisticUpdateNote">Note: Updating this would also update the values for collateral growth downturn</text>
+    <text name="CollateralGrowthBestUpdateNote">Note: Updating this would also update the values for collateral growth optimistics and downturn</text>
     <text name="MacroProjectionAssumptionIncomplete">Macro-economic Projection is incomplete. Expected projection after the reporting date is 24, found {0}</text>
     <text name="SnPCummulativeAssumptionIncomplete">SnP Cummulative default rate assumption is incomplete. Expected 7 Ratings for 15 Years, Found {0} Ratings for {1} Years</text>
     <text name="PdAssumptionNonInternalModelMarginalDefaultRateCountError">Non Internal model- Marginal Default Rate is incomplete, Expected for 240 months, found {0) months</text>

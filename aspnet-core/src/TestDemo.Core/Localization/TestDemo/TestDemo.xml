@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+    <text name="NoProjectionForSelectedMacroVariableError">Macro-economic Projection is incomplete. There are some missing projection data for selected macro-variables. Please download the template and re-upload</text>
+    <text name="NoSelectedMacroVariablesFromResultError">Error Applying calibration: There's no selected macro-variables for the selected affiliate, Please re-run the macro analysis</text>
     <text name="CollateralGrowthOptimisticUpdateNote">Note: Updating this would also update the values for collateral growth downturn</text>
     <text name="CollateralGrowthBestUpdateNote">Note: Updating this would also update the values for collateral growth optimistics and downturn</text>
     <text name="MacroProjectionAssumptionIncomplete">Macro-economic Projection is incomplete. Expected a minimum of 15 projection after the reporting date</text>
@@ -13,8 +15,8 @@
     <text name="CollateralValueHigh">Collateral Value</text>
     <text name="CollateralValueLow">Collateral Value</text>
     <text name="CollateralValue">Collateral Value</text>
-    <text name="CostOfRecoveryHigh">Cost Of Recovery High</text>
-    <text name="CostOfRecoveryLow">Cost Of Recovery Low</text>
+    <text name="CostOfRecoveryHigh"><![CDATA[ Cost Of Recovery ( > Collateral Value) ]]></text>
+    <text name="CostOfRecoveryLow"><![CDATA[ Cost Of Recovery ( <= Collateral Value) ]]></text>
     <text name="Reason">Reason</text>
     <text name="EditEclRecord">Edit ECL</text>
     <text name="OverrideResult">Override calibration result</text>
