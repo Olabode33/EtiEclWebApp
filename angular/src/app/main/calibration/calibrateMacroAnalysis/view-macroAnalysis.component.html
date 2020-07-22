@@ -71,6 +71,12 @@
                                 {{l('MacroEconomicVariables')}}
                             </h3>
                         </div>
+                        <div class="kt-portlet__head-toolbar">
+                            <button *ngIf="isGranted('Pages.Calibration.Override')" (click)="editSelectedMacroResultModal.show(macroEconomicVariables, _calibrationId)" class="btn btn-outline-primary mr-2">
+                                <i class="fa fa-edit" style="font-size: 1.2rem !important;"></i>
+                                Override Result
+                            </button>
+                        </div>
                     </div>
                     <div class="kt-portlet__body">
                         <!-- <div *ngIf="periods.length > 0">
@@ -91,7 +97,7 @@
                                 <tbody>
                                     <tr *ngFor="let varirable of macroEconomicVariables; let i = index;">
                                         <td class="align-middle">{{ i + 1 }}</td>
-                                        <td class="align-middle">{{ varirable.name }}</td>
+                                        <td class="align-middle">{{ varirable.macroeconomicVariable.name }}</td>
                                     </tr>
         
                                 </tbody>
@@ -466,5 +472,6 @@
     <editPrincipalComponentResultModal #editPrincipalComponentResultModal (modalSave)="show(_calibrationId)"></editPrincipalComponentResultModal>
     <editPrincipalSummaryResultModal #editPrincipalSummaryResultModal (modalSave)="show(_calibrationId)"></editPrincipalSummaryResultModal>
     <editStatisticsResultModal #editStatisticsResultModal (modalSave)="show(_calibrationId)"></editStatisticsResultModal>
+    <editSelectedMacroResultModal #editSelectedMacroResultModal (modalSave)="show(_calibrationId)"></editSelectedMacroResultModal>
     <app-approve-ecl-modal #approvalModal (approved)="reloadPage()"></app-approve-ecl-modal>
 </div>

@@ -1,4 +1,4 @@
-﻿import { InputBehaviouralTermsDto, ResultBehaviouralTermsDto, CalibrationEadCcfSummaryServiceProxy, InputCcfSummaryDto, ResultEadCcfSummaryDto, CalibrationLgdHairCutServiceProxy, InputLgdHaircutDto, ResultLgdHairCutSummaryDto, CalibrationLgdRecoveryRateServiceProxy, InputLgdRecoveryRateDto, ResultLgdRecoveryRateDto, CalibrationPdCrDrServiceProxy, InputPdCrDrDto, ResultPd12MonthsDto, ResultPd12MonthsSummaryDto, CalibrationMacroAnalysisServiceProxy, CreateOrEditMacroAnalysisApprovalDto, CreateOrEditMacroAnalysisRunDto, MacroResultPrincipalComponentDto, MacroResultStatisticsDto, MacroResultCorMatDto, MacroResultIndexDataDto, MacroResultPrincipalComponentSummaryDto, EntityDto, MacroeconomicVariableDto, GetMacroUploadSummaryDto, CommonLookupServiceProxy } from '../../../../shared/service-proxies/service-proxies';
+﻿import { InputBehaviouralTermsDto, ResultBehaviouralTermsDto, CalibrationEadCcfSummaryServiceProxy, InputCcfSummaryDto, ResultEadCcfSummaryDto, CalibrationLgdHairCutServiceProxy, InputLgdHaircutDto, ResultLgdHairCutSummaryDto, CalibrationLgdRecoveryRateServiceProxy, InputLgdRecoveryRateDto, ResultLgdRecoveryRateDto, CalibrationPdCrDrServiceProxy, InputPdCrDrDto, ResultPd12MonthsDto, ResultPd12MonthsSummaryDto, CalibrationMacroAnalysisServiceProxy, CreateOrEditMacroAnalysisApprovalDto, CreateOrEditMacroAnalysisRunDto, MacroResultPrincipalComponentDto, MacroResultStatisticsDto, MacroResultCorMatDto, MacroResultIndexDataDto, MacroResultPrincipalComponentSummaryDto, EntityDto, MacroeconomicVariableDto, GetMacroUploadSummaryDto, CommonLookupServiceProxy, GetSelectedMacroeconomicVariableDto } from '../../../../shared/service-proxies/service-proxies';
 import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
@@ -58,7 +58,7 @@ export class ViewMacroAnalysisComponent extends AppComponentBase implements OnIn
     resultCor: MacroResultCorMatDto[] = new Array();
     resultIndex: MacroResultIndexDataDto[] = new Array();
     resultPrincipalSummary: MacroResultPrincipalComponentSummaryDto[] = new Array();
-    macroEconomicVariables = new Array<MacroeconomicVariableDto>();
+    macroEconomicVariables = new Array<GetSelectedMacroeconomicVariableDto>();
     autoReloadSub: Subscription;
 
     uploadSummary: GetMacroUploadSummaryDto = new GetMacroUploadSummaryDto();

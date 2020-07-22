@@ -421,17 +421,45 @@ namespace TestDemo.Calibration
             });
         }
 
-        public List<MacroeconomicVariableDto> GetMacroEconomicVariables(EntityDto input)
+        public List<GetSelectedMacroeconomicVariableDto> GetMacroEconomicVariables(EntityDto input)
         {
-            var output = new List<MacroeconomicVariableDto>();
+            var output = new List<GetSelectedMacroeconomicVariableDto>();
             var macroResult_SelectedMacros = _macroResultEconomicVariableRepository.GetAll().Where(r => r.AffiliateId == input.Id).ToList();
 
             foreach (var item in macroResult_SelectedMacros)
             {
-                output.Add(ObjectMapper.Map<MacroeconomicVariableDto>(_macroeconomicVariableRepository.FirstOrDefault(i => i.Id == item.MacroeconomicVariableId)));
+                output.Add(new GetSelectedMacroeconomicVariableDto
+                {
+                    MacroeconomicVariable = ObjectMapper.Map<MacroeconomicVariableDto>(_macroeconomicVariableRepository.FirstOrDefault(i => i.Id == item.MacroeconomicVariableId)),
+                    SelectedMacroeconomicVariable = ObjectMapper.Map<OverrideSelectedMacroeconomicVariableDto>(item)
+                });
             }
 
             return output;
+        }
+
+        [AbpAuthorize(AppPermissions.Pages_Calibration_Override)]
+        public async Task UpdateSelectedMacroVariablesResult(OverrideMacroeconomicVariableDto input)
+        {
+            var result = ObjectMapper.Map<List<MacroResult_SelectedMacroEconomicVariables>>(input.MacroeconomicVariables);
+
+            var mac = _macroAnalysisRepository.FirstOrDefault(input.MacroId);
+            mac.Status = CalibrationStatusEnum.AppliedOverride;
+            await _macroAnalysisRepository.UpdateAsync(mac);
+
+            foreach (var item in result)
+            {
+                await _macroResultEconomicVariableRepository.UpdateAsync(item);
+            }
+
+            await _calibrationApprovalRepository.InsertAsync(new MacroAnalysisApproval
+            {
+                MacroId = input.MacroId,
+                ReviewComment = "",
+                ReviewedByUserId = AbpSession.UserId,
+                ReviewedDate = DateTime.Now,
+                Status = GeneralStatusEnum.Override
+            });
         }
 
         public async Task Delete(EntityDto input)
