@@ -241,8 +241,8 @@ namespace TestDemo.Calibration
 
         public async Task<GetAllResultLgdHaircutDto> GetResult(EntityDto<Guid> input)
         {
-            var item = await _calibrationResultRepository.FirstOrDefaultAsync(x => x.CalibrationId == input.Id);
-            var summary = await _calibrationResultRepository.FirstOrDefaultAsync(x => x.CalibrationId == input.Id);
+            var item = await _haircutSummaryResultRepository.FirstOrDefaultAsync(x => x.CalibrationId == input.Id);
+            var summary = await _haircutSummaryResultRepository.FirstOrDefaultAsync(x => x.CalibrationId == input.Id);
 
             return new GetAllResultLgdHaircutDto
             {
