@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+    <text name="AssumptionAlreadyExists">Assumptions already exists!</text>
     <text name="NoProjectionForSelectedMacroVariableError">Macro-economic Projection is incomplete. There are some missing projection data for selected macro-variables. Please download the template and re-upload</text>
     <text name="NoSelectedMacroVariablesFromResultError">Error Applying calibration: There's no selected macro-variables for the selected affiliate, Please re-run the macro analysis</text>
     <text name="CollateralGrowthOptimisticUpdateNote">Note: Updating this would also update the values for collateral growth downturn</text>

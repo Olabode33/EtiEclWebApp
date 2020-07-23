@@ -17,6 +17,7 @@ using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
+using Abp.UI;
 
 namespace TestDemo.EclShared
 {
@@ -90,10 +91,11 @@ namespace TestDemo.EclShared
             EadInputAssumptionGroupEnum eadgroup = (EadInputAssumptionGroupEnum)input.EadGroup;
 
 
-            ////if (AbpSession.TenantId != null)
-            ////{
-            ////	eadInputAssumption.TenantId = (int?) AbpSession.TenantId;
-            ////}
+            var exists = _eadInputAssumptionRepository.FirstOrDefaultAsync(e => e.EadGroup == input.EadGroup && e.InputName == input.InputName && e.Framework == input.Framework && e.OrganizationUnitId == input.OrganizationUnitId);
+            if (exists != null)
+            {
+                throw new UserFriendlyException(L("AssumptionAlreadyExists"));
+            }
 
             await _eadInputAssumptionRepository.InsertAsync(new EadInputAssumption
             {
