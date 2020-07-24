@@ -683,12 +683,22 @@ namespace TestDemo.Calibration
         [AbpAuthorize(AppPermissions.Pages_Calibration_Erase)]
         public async Task Erase(EntityDto input)
         {
-            await _macroAnalysisRepository.DeleteAsync(input.Id);
-            await _backgroundJobManager.EnqueueAsync<EraseCalibrationJob, EraserJobArgs>(new EraserJobArgs
+            var calibration = await _macroAnalysisRepository.FirstOrDefaultAsync(input.Id);
+
+            if (calibration.Status != CalibrationStatusEnum.AppliedToEcl)
             {
-                EraseType = TrackTypeEnum.MacroAnalysis,
-                IntId = input.Id
-            });
+                //Call apply to ecl job
+                await _macroAnalysisRepository.DeleteAsync(input.Id);
+                await _backgroundJobManager.EnqueueAsync<EraseCalibrationJob, EraserJobArgs>(new EraserJobArgs
+                {
+                    EraseType = TrackTypeEnum.MacroAnalysis,
+                    IntId = input.Id
+                });
+            }
+            else
+            {
+                throw new UserFriendlyException(L("ApplyCalibrationToEclError"));
+            }
         }
 
         protected virtual async Task<ValidationMessageDto> ValidateForSubmission(int calibrationId)

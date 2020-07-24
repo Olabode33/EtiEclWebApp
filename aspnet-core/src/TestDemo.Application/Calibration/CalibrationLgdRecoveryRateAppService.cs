@@ -499,12 +499,22 @@ namespace TestDemo.Calibration
         [AbpAuthorize(AppPermissions.Pages_Calibration_Erase)]
         public async Task Erase(EntityDto<Guid> input)
         {
-            await _calibrationRepository.DeleteAsync(input.Id);
-            await _backgroundJobManager.EnqueueAsync<EraseCalibrationJob, EraserJobArgs>(new EraserJobArgs
+            var calibration = await _calibrationRepository.FirstOrDefaultAsync(input.Id);
+
+            if (calibration.Status != CalibrationStatusEnum.AppliedToEcl)
             {
-                EraseType = TrackTypeEnum.CalibrateRecoveryRate,
-                GuidId = input.Id
-            });
+                //Call apply to ecl job
+                await _calibrationRepository.DeleteAsync(input.Id);
+                await _backgroundJobManager.EnqueueAsync<EraseCalibrationJob, EraserJobArgs>(new EraserJobArgs
+                {
+                    EraseType = TrackTypeEnum.CalibrateRecoveryRate,
+                    GuidId = input.Id
+                });
+            }
+            else
+            {
+                throw new UserFriendlyException(L("ApplyCalibrationToEclError"));
+            }
         }
 
 

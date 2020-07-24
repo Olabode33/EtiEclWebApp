@@ -1033,8 +1033,9 @@ namespace TestDemo.Reports
             var postOverrideOverlay = string.Format("{0:N}", rd.Post_Impairment_ModelOutput);
             var PortfoliOverlay = 0;
             var totalImpairment = string.Format("{0:N}", PortfoliOverlay + rd.Post_Impairment_ModelOutput);
+            var preCoverage = ((PortfoliOverlay + rd.Pre_Impairment_ModelOutput / rd.OutStandingBalance) * 100).ToString();
             var finalCoverage = ((PortfoliOverlay + rd.Post_Impairment_ModelOutput / rd.OutStandingBalance) * 100).ToString();
-            rs.Overrall.Add(new ReportBreakdown { Field1 = totalExposure, Exposure_Pre = preOverrideOverlay, Impairment_Pre = postOverrideOverlay, CoverageRatio_Pre = "", Exposure_Post = totalImpairment, Impairment_Post = finalCoverage, CoverageRatio_Post = "" });
+            rs.Overrall.Add(new ReportBreakdown { Field1 = "Overall", Exposure_Pre = totalExposure, Impairment_Pre = preOverrideOverlay, CoverageRatio_Pre = preCoverage, Exposure_Post = totalExposure, Impairment_Post = postOverrideOverlay, CoverageRatio_Post = finalCoverage });
             #endregion
 
             #region Scenerio
