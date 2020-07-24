@@ -16,6 +16,7 @@
         public const string Pages_Calibration_Apply = "Pages.Calibration.Apply";
         public const string Pages_Calibration_Override = "Pages.Calibration.Override";
         public const string Pages_Calibration_ReviewOverride = "Pages.Calibration.Override.Review";
+        public const string Pages_Calibration_Erase = "Pages.Calibration.Erase";
 
         //Final 
         //Assumptions
@@ -41,6 +42,7 @@
         public const string Pages_EclView_Close = "Pages.EclView.Close";
         public const string Pages_EclView_Reopen = "Pages.EclView.Reopen";
         public const string Pages_EclView_Delete = "Pages.EclView.Delete";
+        public const string Pages_EclView_Erase = "Pages.EclView.Erase";
 
         //Configuration
         public const string Pages_Configuration = "Pages.Configurations";

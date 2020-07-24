@@ -108,7 +108,7 @@ namespace TestDemo.EclShared
 
     public enum TrackTypeEnum
     {
-        None, Wholesale, Retail, Obe, CalibrateBehaviouralTerm, CalibrateCcfSummary, CalibrateHaircut, CalibrateRecoveryRate, CalibratePdCrDr, MacroAnalysis
+        None, Wholesale, Retail, Obe, CalibrateBehaviouralTerm, CalibrateCcfSummary, CalibrateHaircut, CalibrateRecoveryRate, CalibratePdCrDr, MacroAnalysis, Investment
     }
 
     

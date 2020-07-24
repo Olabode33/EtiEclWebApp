@@ -42,6 +42,7 @@ using TestDemo.EclShared.Emailer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using TestDemo.Configuration;
+using TestDemo.EclShared.Jobs;
 
 namespace TestDemo.Investment
 {
@@ -791,6 +792,17 @@ namespace TestDemo.Investment
                                                          .ToListAsync();
 
             return _dataExporter.ExportToFile(items);
+        }
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Erase)]
+        public async Task Erase(EntityDto<Guid> input)
+        {
+            await _investmentEclRepository.DeleteAsync(input.Id);
+            await _backgroundJobManager.EnqueueAsync<EraseEclJob, EraserJobArgs>(new EraserJobArgs
+            {
+                EraseType = TrackTypeEnum.Investment,
+                GuidId = input.Id
+            });
         }
 
         protected async Task ValidateForCreation(long ouId)

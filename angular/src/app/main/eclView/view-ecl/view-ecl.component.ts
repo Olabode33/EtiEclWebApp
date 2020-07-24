@@ -857,4 +857,26 @@ export class ViewEclComponent extends AppComponentBase implements OnInit, AfterV
     }
     //#endregion
 
+    eraseEcl(): void {
+        if (typeof this._eclServiceProxy.erase === 'function') {
+            this.message.confirm(
+                '<span style="color: red">' + this.l('NoteEclErasingThisIsNotReversible') + '</span>',
+                this.l('AreYouSurePermanentDeleteEcl?'),
+                (isConfirmed) => {
+                    if (isConfirmed) {
+                        let dto = new EntityDtoOfGuid();
+                        dto.id = this._eclId;
+                        this._eclServiceProxy.erase(dto)
+                            .subscribe(() => {
+                                this.notify.success(this.l('SuccessfullyDeleted'));
+                                this.goBack();
+                            });
+                    }
+                }, true
+            );
+        } else {
+            this.notify.error('Error: Function not available!');
+        }
+    }
+
 }

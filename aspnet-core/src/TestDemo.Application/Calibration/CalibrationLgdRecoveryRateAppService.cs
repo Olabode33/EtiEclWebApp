@@ -496,6 +496,17 @@ namespace TestDemo.Calibration
             return _inputDataExporter.ExportToFile(items);
         }
 
+        [AbpAuthorize(AppPermissions.Pages_Calibration_Erase)]
+        public async Task Erase(EntityDto<Guid> input)
+        {
+            await _calibrationRepository.DeleteAsync(input.Id);
+            await _backgroundJobManager.EnqueueAsync<EraseCalibrationJob, EraserJobArgs>(new EraserJobArgs
+            {
+                EraseType = TrackTypeEnum.CalibrateRecoveryRate,
+                GuidId = input.Id
+            });
+        }
+
 
         protected virtual async Task<ValidationMessageDto> ValidateForSubmission(Guid calibrationId, long affiliateId)
         {

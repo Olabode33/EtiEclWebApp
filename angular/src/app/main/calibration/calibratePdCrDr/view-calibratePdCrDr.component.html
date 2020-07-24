@@ -48,6 +48,19 @@
                     <i class="fa fa-reply" style="font-size: 1.2rem !important;"></i>
                     {{l("GoBack")}}
                 </button>
+                <div *ngIf="isGranted('Pages.Calibration.Erase') &&
+                            (calibration.status == calibrationStatusEnum.Draft || calibration.status == calibrationStatusEnum.Completed)" class="btn-group" dropdown>
+                    <button dropdownToggle type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-cog" style="font-size: 1.2rem !important;"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-excel-operations" *dropdownMenu>
+                        <a class="dropdown-item text-danger" (click)="eraseCalibration()"
+                            href="javascript:;">
+                            <b>{{'Erase' | localize}}</b>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
 

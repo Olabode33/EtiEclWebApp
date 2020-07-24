@@ -310,4 +310,22 @@ export class ViewMacroAnalysisComponent extends AppComponentBase implements OnIn
                             });
     }
 
+    eraseCalibration(): void {
+        this.message.confirm(
+            '<span style="color: red">' + this.l('NoteCalibrationErasingThisIsNotReversible') + '</span>',
+            this.l('AreYouSurePermanentDeleteCalibration?'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    let dto = new EntityDto();
+                    dto.id = this._calibrationId;
+                    this._calibrationServiceProxy.erase(dto)
+                        .subscribe(() => {
+                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.goBack();
+                        });
+                }
+            }, true
+        );
+    }
+
 }

@@ -65,4 +65,13 @@ namespace TestDemo.EclShared.Dtos
         public long UserId { get; set; }
     }
 
+
+    [Serializable]
+    public class EraserJobArgs
+    {
+        public Guid GuidId { get; set; }
+        public TrackTypeEnum EraseType { get; set; }
+        public int IntId { get; set; }
+    }
+
 }

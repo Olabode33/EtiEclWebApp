@@ -41,6 +41,7 @@ using Microsoft.AspNetCore.Hosting;
 using TestDemo.Configuration;
 using TestDemo.Calibration;
 using TestDemo.CalibrationResult;
+using TestDemo.EclShared.Jobs;
 
 namespace TestDemo.OBE
 {
@@ -1205,6 +1206,17 @@ namespace TestDemo.OBE
             {
                 throw new UserFriendlyException(L("NoAppliedCalibrationForAffiliate", L("MacroAnalysis")));
             }
+        }
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Erase)]
+        public async Task Erase(EntityDto<Guid> input)
+        {
+            await _obeEclRepository.DeleteAsync(input.Id);
+            await _backgroundJobManager.EnqueueAsync<EraseEclJob, EraserJobArgs>(new EraserJobArgs
+            {
+                EraseType = TrackTypeEnum.Obe,
+                GuidId = input.Id
+            });
         }
 
         protected virtual async Task<ValidationMessageDto> ValidateForSubmission(Guid eclId)

@@ -1,6 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+    <text name="EraseAppliedCalibrationError">Cannot erase applied calibration.</text>
+    <text name="AreYouSurePermanentDeleteEcl?">Are you should you want to permanently delete this ECL?</text>
+    <text name="AreYouSurePermanentDeleteCalibration?">Are you should you want to permanently delete this calibration?</text>
+    <text name="NoteEclErasingThisIsNotReversible">Note: This action is not reversible. All data related to this ECL would be permanently deleted</text>
+    <text name="NoteCalibrationErasingThisIsNotReversible">Note: This action is not reversible. All data related to this Calibration would be permanently deleted</text>
+    <text name="Erase">Erase</text>
     <text name="AssumptionAlreadyExists">Assumptions already exists!</text>
     <text name="NoProjectionForSelectedMacroVariableError">Macro-economic Projection is incomplete. There are some missing projection data for selected macro-variables. Please download the template and re-upload</text>
     <text name="NoSelectedMacroVariablesFromResultError">Error Applying calibration: There's no selected macro-variables for the selected affiliate, Please re-run the macro analysis</text>

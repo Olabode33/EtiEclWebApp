@@ -44,6 +44,7 @@ using Microsoft.AspNetCore.Hosting;
 using TestDemo.Configuration;
 using TestDemo.Calibration;
 using TestDemo.CalibrationResult;
+using TestDemo.EclShared.Jobs;
 
 namespace TestDemo.Wholesale
 {
@@ -1216,6 +1217,17 @@ namespace TestDemo.Wholesale
             {
                 throw new UserFriendlyException(L("NoAppliedCalibrationForAffiliate", L("MacroAnalysis")));
             }
+        }
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Erase)]
+        public async Task Erase(EntityDto<Guid> input)
+        {
+            await _wholesaleEclRepository.DeleteAsync(input.Id);
+            await _backgroundJobManager.EnqueueAsync<EraseEclJob, EraserJobArgs>(new EraserJobArgs
+            {
+                EraseType = TrackTypeEnum.Wholesale,
+                GuidId = input.Id
+            });
         }
 
         protected virtual async Task<ValidationMessageDto> ValidateForSubmission(Guid eclId)

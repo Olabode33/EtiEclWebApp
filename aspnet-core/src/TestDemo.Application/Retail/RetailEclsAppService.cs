@@ -32,6 +32,7 @@ using TestDemo.EclLibrary.Jobs;
 using TestDemo.EclShared;
 using TestDemo.EclShared.Dtos;
 using TestDemo.EclShared.Emailer;
+using TestDemo.EclShared.Jobs;
 using TestDemo.Reports;
 using TestDemo.Reports.Jobs;
 using TestDemo.Retail.Dtos;
@@ -1237,6 +1238,17 @@ namespace TestDemo.Retail
             }
 
             return output;
+        }
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Erase)]
+        public async Task Erase(EntityDto<Guid> input)
+        {
+            await _retailEclRepository.DeleteAsync(input.Id);
+            await _backgroundJobManager.EnqueueAsync<EraseEclJob, EraserJobArgs>(new EraserJobArgs
+            {
+                EraseType = TrackTypeEnum.Retail,
+                GuidId = input.Id
+            });
         }
 
         protected virtual async Task<ValidationMessageDto> ValidateForPostRun(Guid eclId)

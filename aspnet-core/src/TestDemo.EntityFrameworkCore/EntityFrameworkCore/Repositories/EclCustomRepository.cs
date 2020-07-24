@@ -89,6 +89,15 @@ namespace TestDemo.EntityFrameworkCore.Repositories
             };
             await ExecuteQuery(query, parameters);
         }
+        public async Task DeleteExistingRecordsCustomInvestmentAssetBooks(string value)
+        {
+            var query = $"Delete from InvestmentAssetBooks where InvestmentEclUploadId in (select Id from InvestmentEclUploads where InvestmentEclId =  @Id)";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("Id", value)
+            };
+            await ExecuteQuery(query, parameters);
+        }
 
         private async Task RunEclProcedure(string procedureName, Guid eclId)
         {

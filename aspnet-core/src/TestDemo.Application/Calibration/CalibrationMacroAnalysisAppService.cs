@@ -34,6 +34,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using TestDemo.Configuration;
 using Abp.AutoMapper;
+using TestDemo.Calibration.Jobs;
+using Abp.BackgroundJobs;
 
 namespace TestDemo.Calibration
 {
@@ -56,6 +58,7 @@ namespace TestDemo.Calibration
         private readonly IMacroAnalysisDataTemplateExporter _templateExporter;
         private readonly IEclEngineEmailer _emailer;
         private readonly IConfigurationRoot _appConfiguration;
+        private readonly IBackgroundJobManager _backgroundJobManager;
 
 
         public CalibrationMacroAnalysisAppService(
@@ -74,6 +77,7 @@ namespace TestDemo.Calibration
             IRepository<MacroResult_SelectedMacroEconomicVariables> macroResultEconomicVariableRepository,
             IEclEngineEmailer emailer,
             IHostingEnvironment env,
+            IBackgroundJobManager backgroundJobManager,
         IMacroAnalysisDataTemplateExporter templateeExporter)
         {
             _macroAnalysisRepository = calibrationRepository;
@@ -92,6 +96,7 @@ namespace TestDemo.Calibration
             _templateExporter = templateeExporter;
             _emailer = emailer;
             _appConfiguration = env.GetAppConfiguration();
+            _backgroundJobManager = backgroundJobManager;
         }
 
         public async Task<PagedResultDto<GetMacroAnalysisRunForViewDto>> GetAll(GetAllCalibrationRunInput input)
@@ -673,6 +678,17 @@ namespace TestDemo.Calibration
                                                                .ToListAsync();
 
             return _templateExporter.ExportTemplateToFile(items);
+        }
+
+        [AbpAuthorize(AppPermissions.Pages_Calibration_Erase)]
+        public async Task Erase(EntityDto input)
+        {
+            await _macroAnalysisRepository.DeleteAsync(input.Id);
+            await _backgroundJobManager.EnqueueAsync<EraseCalibrationJob, EraserJobArgs>(new EraserJobArgs
+            {
+                EraseType = TrackTypeEnum.MacroAnalysis,
+                IntId = input.Id
+            });
         }
 
         protected virtual async Task<ValidationMessageDto> ValidateForSubmission(int calibrationId)

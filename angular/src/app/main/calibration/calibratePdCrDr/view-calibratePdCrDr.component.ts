@@ -311,4 +311,22 @@ export class ViewCalibrationPdCrDrComponent extends AppComponentBase implements 
                             });
     }
 
+    eraseCalibration(): void {
+        this.message.confirm(
+            '<span style="color: red">' + this.l('NoteCalibrationErasingThisIsNotReversible') + '</span>',
+            this.l('AreYouSurePermanentDeleteCalibration?'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    let dto = new EntityDtoOfGuid();
+                    dto.id = this._calibrationId;
+                    this._calibrationServiceProxy.erase(dto)
+                        .subscribe(() => {
+                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.goBack();
+                        });
+                }
+            }, true
+        );
+    }
+
 }
