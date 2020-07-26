@@ -36,9 +36,9 @@ namespace TestDemo.EclLibrary.BaseEngine.InputBase
 
 		public virtual string RatingModel { get; set; }
 
-		public virtual int? OriginalRating { get; set; }
+		public virtual string OriginalRating { get; set; }
 
-		public virtual int? CurrentRating { get; set; }
+		public virtual string CurrentRating { get; set; }
 
 		public virtual double? LifetimePD { get; set; }
 

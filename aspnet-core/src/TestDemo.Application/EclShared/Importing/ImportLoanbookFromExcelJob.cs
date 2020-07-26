@@ -183,8 +183,8 @@ namespace TestDemo.EclShared.Importing
                     loanbook.ProductMapping = loanbookArray[i].ProductMapping;
                     loanbook.SpecialisedLending = loanbookArray[i].SpecialisedLending;
                     loanbook.RatingModel = loanbookArray[i].RatingModel;
-                    loanbook.OriginalRating = ValidateIntegerValueFromRowOrNull(loanbookArray[i].OriginalRating, nameof(loanbook.OriginalRating), exceptionMessage);
-                    loanbook.CurrentRating = ValidateIntegerValueFromRowOrNull(loanbookArray[i].CurrentRating, nameof(loanbook.CurrentRating), exceptionMessage);
+                    loanbook.OriginalRating = loanbookArray[i].OriginalRating;
+                    loanbook.CurrentRating = loanbookArray[i].CurrentRating;
                     loanbook.LifetimePD = ValidateDoubleValueFromRowOrNull(loanbookArray[i].LifetimePD, nameof(loanbook.LifetimePD), exceptionMessage);
                     loanbook.Month12PD = ValidateDoubleValueFromRowOrNull(loanbookArray[i].Month12PD, nameof(loanbook.Month12PD), exceptionMessage);
                     loanbook.DaysPastDue = ValidateIntegerValueFromRowOrNull(loanbookArray[i].DaysPastDue, nameof(loanbook.DaysPastDue), exceptionMessage);

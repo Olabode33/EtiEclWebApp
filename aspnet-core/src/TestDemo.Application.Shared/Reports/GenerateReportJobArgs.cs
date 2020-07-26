@@ -13,4 +13,15 @@ namespace TestDemo.Reports
         public Guid eclId { get; set; }
         public UserIdentifier userIdentifier { get; set; }
     }
+
+    public class ReportProperties
+    {
+        public string OuName { get; set; }
+        public DateTime ReportDate { get; set; }
+
+        public string FileName()
+        {
+            return OuName + "-ECL-Report-" + ReportDate.ToString("dd-MMM-yyyy");
+        }
+    }
 }

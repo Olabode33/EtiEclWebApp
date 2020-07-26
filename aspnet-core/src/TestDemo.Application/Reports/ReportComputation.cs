@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -22,7 +23,7 @@ namespace TestDemo.Reports
         public static int workbookFontSize = 11;
         public static int workbookZoomSize = 80;
         public static int startCellIndex = 0;
-        public ExcelPackage GenerateEclReport(EclType eclType, Guid eclId, ResultDetail rd)
+        public ExcelPackage GenerateEclReport(EclType eclType, Guid eclId, ResultDetail rd, ReportProperties reportProps)
         {
             //var rd=GetResultDetail(eclType, eclId);
             var rs=GetResultSummary(eclType, eclId, rd);
@@ -36,14 +37,14 @@ namespace TestDemo.Reports
             //{
                 //Set some properties of the Excel document
                 excelPackage.Workbook.Properties.Author = "PwC";
-                excelPackage.Workbook.Properties.Title = $"ECL Report for {eclType.ToString()}";
-                excelPackage.Workbook.Properties.Subject = $"{eclType.ToString()} ECL";
+                excelPackage.Workbook.Properties.Title = (string.IsNullOrWhiteSpace(reportProps.OuName) ? "" : reportProps.OuName + " " ) +  "ECL Report" + (" for " + reportProps.ReportDate.ToString("dd-MMM-yyyy")) ;
+                excelPackage.Workbook.Properties.Subject = $"ECL Engine Report";
                 excelPackage.Workbook.Properties.Created = DateTime.Now;
 
                 //ChangeTitle(excelPackage, eclType.ToString());
                 ResultSheet(dataTable, excelPackage, rd);
                 SummarySheet(dataTable, excelPackage, rs);
-                StartSheet(eclType, excelPackage);
+                StartSheet(eclType, excelPackage, reportProps);
 
                 return excelPackage;
                 //excelPackage.SaveAs(new FileInfo(@"C:\Users\Dev-Sys\Desktop\ETI_template2.xlsx"));//@"C:\Users\tarokodare001\Documents\WORK\ECOBANK\My Sample Excel\Retail Report Template_wholesale.xlsx"));
@@ -51,11 +52,11 @@ namespace TestDemo.Reports
             //return true;
         }
 
-        private void StartSheet(EclType eclType, ExcelPackage excelPackage)
+        private void StartSheet(EclType eclType, ExcelPackage excelPackage, ReportProperties reportProps)
         {
             ExcelWorksheet startSheet = excelPackage.Workbook.Worksheets["Start"];
             startSheet.View.ZoomScale = workbookZoomSize;
-            startSheet.Cells["C4"].Value = eclType.ToString();
+            startSheet.Cells["C4"].Value = (string.IsNullOrWhiteSpace(reportProps.OuName) ? "" : reportProps.OuName + " ") + "ECL Report" + (" for " + reportProps.ReportDate.ToString("dd-MMM-yyyy"));
         }
 
         private void SummarySheet(DataTable dataTable, ExcelPackage excelPackage, ResultSummary rs)
@@ -120,7 +121,7 @@ namespace TestDemo.Reports
             // summarySheet.Cells["F" + (startCellIndex + 1).ToString() + ":F" + (startCellIndex + 2).ToString()].Merge = true;
             summarySheet.Cells["F" + (startCellIndex + 1).ToString()].Value = "Porfolio Overlay";
             summarySheet.Cells["F" + (startCellIndex + 1).ToString()].Style.Font.Bold = true;
-            summarySheet.Cells["F" + (startCellIndex + 2).ToString()].Value = "(Amount in Naira)";
+            summarySheet.Cells["F" + (startCellIndex + 2).ToString()].Value = "(Amount)";
             summarySheet.Cells["F" + (startCellIndex + 2).ToString()].Style.Font.Bold = true;
 
             //summarySheet.Cells["G" + (startCellIndex + 1).ToString() + ":G" + (startCellIndex + 2).ToString()].Merge = true;
@@ -163,10 +164,10 @@ namespace TestDemo.Reports
             //inserting the inputs
             summarySheet.Cells["C" + (startCellIndex + 3).ToString()].Value = rs.Overrall[0].Exposure_Pre;
             summarySheet.Cells["D" + (startCellIndex + 3).ToString()].Value = rs.Overrall[0].Impairment_Pre;
-            summarySheet.Cells["E" + (startCellIndex + 3).ToString()].Value = rs.Overrall[0].CoverageRatio_Pre;
-            summarySheet.Cells["F" + (startCellIndex + 3).ToString()].Value = rs.Overrall[0].Exposure_Post;
-            summarySheet.Cells["G" + (startCellIndex + 3).ToString()].Value = rs.Overrall[0].Impairment_Post;
-            summarySheet.Cells["H" + (startCellIndex + 3).ToString()].Value = rs.Overrall[0].CoverageRatio_Post;
+            summarySheet.Cells["E" + (startCellIndex + 3).ToString()].Value = rs.Overrall[0].Impairment_Post;
+            summarySheet.Cells["F" + (startCellIndex + 3).ToString()].Value = "";
+            summarySheet.Cells["G" + (startCellIndex + 3).ToString()].Formula = "=$F$" + (startCellIndex + 3).ToString() + " + $E$"+ (startCellIndex + 3).ToString(); 
+            summarySheet.Cells["H" + (startCellIndex + 3).ToString()].Formula = "=$G$" + (startCellIndex + 3).ToString() + " / $C$" + (startCellIndex + 3).ToString();
 
 
             // summarySheet.Cells["C6:H8"].Style.WrapText = true;
@@ -243,10 +244,10 @@ namespace TestDemo.Reports
             {
                 summarySheet.Cells["C" + (startCellIndex + 3 + i).ToString()].Style.Font.Bold = true;
                 summarySheet.Cells["C" + (startCellIndex + 3 + i).ToString()].Value = rs.Scenario[i].Field1;
-                summarySheet.Cells["D" + (startCellIndex + 3 + i).ToString()].Value = rs.Scenario[i].Exposure_Pre;
-                summarySheet.Cells["E" + (startCellIndex + 3 + i).ToString()].Value = rs.Scenario[i].Impairment_Pre;
-                summarySheet.Cells["F" + (startCellIndex + 3 + i).ToString()].Value = rs.Scenario[i].Exposure_Post;
-                summarySheet.Cells["G" + (startCellIndex + 3 + i).ToString()].Value = rs.Scenario[i].Impairment_Post;
+                summarySheet.Cells["D" + (startCellIndex + 3 + i).ToString()].Value = rs.Scenario[i].Impairment_Pre;
+                summarySheet.Cells["E" + (startCellIndex + 3 + i).ToString()].Value = rs.Scenario[i].CoverageRatio_Pre;
+                summarySheet.Cells["F" + (startCellIndex + 3 + i).ToString()].Value = rs.Scenario[i].Impairment_Post;
+                summarySheet.Cells["G" + (startCellIndex + 3 + i).ToString()].Value = rs.Scenario[i].CoverageRatio_Post;
             }
 
 
@@ -1020,7 +1021,7 @@ namespace TestDemo.Reports
         private ResultSummary GetResultSummary(EclType eclType, Guid eclId, ResultDetail rd)
         {
             var rs= new ResultSummary();
-
+            NumberFormatInfo percentageFormat = new NumberFormatInfo { PercentPositivePattern = 1, PercentNegativePattern = 1 };
             ///////////
             /////Oversall
             /////
@@ -1033,8 +1034,8 @@ namespace TestDemo.Reports
             var postOverrideOverlay = string.Format("{0:N}", rd.Post_Impairment_ModelOutput);
             var PortfoliOverlay = 0;
             var totalImpairment = string.Format("{0:N}", PortfoliOverlay + rd.Post_Impairment_ModelOutput);
-            var preCoverage = ((PortfoliOverlay + rd.Pre_Impairment_ModelOutput / rd.OutStandingBalance) * 100).ToString();
-            var finalCoverage = ((PortfoliOverlay + rd.Post_Impairment_ModelOutput / rd.OutStandingBalance) * 100).ToString();
+            var preCoverage = ((PortfoliOverlay + rd.Pre_Impairment_ModelOutput / rd.OutStandingBalance) * 100).ToString("P2", percentageFormat);
+            var finalCoverage = ((PortfoliOverlay + rd.Post_Impairment_ModelOutput / rd.OutStandingBalance) * 100).ToString("P2", percentageFormat);
             rs.Overrall.Add(new ReportBreakdown { Field1 = "Overall", Exposure_Pre = totalExposure, Impairment_Pre = preOverrideOverlay, CoverageRatio_Pre = preCoverage, Exposure_Post = totalExposure, Impairment_Post = postOverrideOverlay, CoverageRatio_Post = finalCoverage });
             #endregion
 
@@ -1042,35 +1043,35 @@ namespace TestDemo.Reports
             rs.Scenario = new List<ReportBreakdown>();
             var ECL_BE = new ReportBreakdown();
             ECL_BE.Field1 = "ECL - Best Estimate";
-            ECL_BE.Exposure_Pre = string.Format("{0:N}", rd.Pre_ECL_Best_Estimate);
-            ECL_BE.Impairment_Pre = string.Format("{0:N}", rd.Pre_ECL_Best_Estimate / rd.OutStandingBalance);
-            ECL_BE.Exposure_Post = string.Format("{0:N}", rd.Post_ECL_Best_Estimate);
-            ECL_BE.Impairment_Post = string.Format("{0:N}", rd.Post_ECL_Best_Estimate / rd.OutStandingBalance);
+            ECL_BE.Impairment_Pre = string.Format("{0:N}", rd.Pre_ECL_Best_Estimate);
+            ECL_BE.CoverageRatio_Pre = string.Format("{0:P2}", (rd.Pre_ECL_Best_Estimate / rd.OutStandingBalance).ToString());
+            ECL_BE.Impairment_Post = string.Format("{0:N}", rd.Post_ECL_Best_Estimate);
+            ECL_BE.CoverageRatio_Post = string.Format("{0:N}", rd.Post_ECL_Best_Estimate / rd.OutStandingBalance);
             rs.Scenario.Add(ECL_BE);
 
             var ECL_O = new ReportBreakdown();
             ECL_O.Field1 = "ECL - Optimistic";
-            ECL_O.Exposure_Pre = string.Format("{0:N}", rd.Pre_ECL_Optimistic);
-            ECL_O.Impairment_Pre = string.Format("{0:N}", rd.Pre_ECL_Optimistic / rd.OutStandingBalance);
-            ECL_O.Exposure_Post = string.Format("{0:N}", rd.Post_ECL_Optimistic);
-            ECL_O.Impairment_Post = string.Format("{0:N}", rd.Post_ECL_Optimistic / rd.OutStandingBalance);
+            ECL_O.Impairment_Pre = string.Format("{0:N}", rd.Pre_ECL_Optimistic);
+            ECL_O.CoverageRatio_Pre = string.Format("{0:N}", (rd.Pre_ECL_Optimistic / rd.OutStandingBalance).ToString());
+            ECL_O.Impairment_Post = string.Format("{0:N}", rd.Post_ECL_Optimistic);
+            ECL_O.CoverageRatio_Post = string.Format("{0:N}", (rd.Post_ECL_Optimistic / rd.OutStandingBalance).ToString());
             rs.Scenario.Add(ECL_O);
 
             var ECL_D = new ReportBreakdown();
             ECL_D.Field1 = "ECL - Downturn";
-            ECL_D.Exposure_Pre = string.Format("{0:N}", rd.Pre_ECL_Downturn);
-            ECL_D.Impairment_Pre = string.Format("{0:N}", rd.Pre_ECL_Downturn / rd.OutStandingBalance);
-            ECL_D.Exposure_Post = string.Format("{0:N}", rd.Post_ECL_Downturn);
-            ECL_D.Impairment_Post = string.Format("{0:N}", rd.Post_ECL_Downturn / rd.OutStandingBalance);
+            ECL_D.Impairment_Pre = string.Format("{0:N}", rd.Pre_ECL_Downturn);
+            ECL_D.CoverageRatio_Pre = string.Format("{0:N}", (rd.Pre_ECL_Downturn / rd.OutStandingBalance).ToString());
+            ECL_D.Impairment_Post = string.Format("{0:N}", rd.Post_ECL_Downturn);
+            ECL_D.CoverageRatio_Post = string.Format("{0:N}", (rd.Post_ECL_Downturn / rd.OutStandingBalance).ToString());
             rs.Scenario.Add(ECL_D);
 
 
             var ECL_Impairment = new ReportBreakdown();
             ECL_Impairment.Field1 = "Impairment";
-            ECL_Impairment.Exposure_Pre = string.Format("{0:N}", rd.Pre_Impairment_ModelOutput);
-            ECL_Impairment.Impairment_Pre = string.Format("{0:N}", rd.Pre_Impairment_ModelOutput / rd.OutStandingBalance);
-            ECL_Impairment.Exposure_Post = string.Format("{0:N}", rd.Post_Impairment_ModelOutput);
-            ECL_Impairment.Impairment_Post = string.Format("{0:N}", rd.Post_Impairment_ModelOutput / rd.OutStandingBalance);
+            ECL_Impairment.Impairment_Pre = string.Format("{0:N}", rd.Pre_Impairment_ModelOutput);
+            ECL_Impairment.CoverageRatio_Pre = string.Format("{0:N}", (rd.Pre_Impairment_ModelOutput / rd.OutStandingBalance).ToString());
+            ECL_Impairment.Impairment_Post = string.Format("{0:N}", rd.Post_Impairment_ModelOutput);
+            ECL_Impairment.CoverageRatio_Post = string.Format("{0:N}", (rd.Post_Impairment_ModelOutput / rd.OutStandingBalance).ToString());
             rs.Scenario.Add(ECL_Impairment);
             #endregion
 
@@ -1079,49 +1080,49 @@ namespace TestDemo.Reports
             rs.Stage = new List<ReportBreakdown>();
             var stage1 = new ReportBreakdown();
             stage1.Field1 = "Stage 1";
-            var s1_exposure_pre = rd.ResultDetailDataMore.Where(o => o.Stage == 1).Sum(p => p.Outstanding_Balance);
+            var s1_exposure_pre = rd.ResultDetailDataMore.Where(o => o.Stage == 1).Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             stage1.Exposure_Pre = string.Format("{0:N}", s1_exposure_pre);
-            var s1_impairment_pre = rd.ResultDetailDataMore.Where(o => o.Stage == 1).Sum(p => p.Impairment_ModelOutput);
+            var s1_impairment_pre = rd.ResultDetailDataMore.Where(o => o.Stage == 1).Select(e => e.Impairment_ModelOutput).DefaultIfEmpty(0).Sum();
             stage1.Impairment_Pre = string.Format("{0:N}", s1_impairment_pre);
-            try { stage1.CoverageRatio_Pre = ((s1_impairment_pre / s1_exposure_pre)).ToString(); } catch { stage1.CoverageRatio_Pre = "0.00"; };
+            try { stage1.CoverageRatio_Pre = ((s1_impairment_pre / s1_exposure_pre)).ToString("P2", percentageFormat); } catch { stage1.CoverageRatio_Pre = "0.00"; };
 
-            var s1_exposure_post = rd.ResultDetailDataMore.Where(o => o.Overrides_Stage == 1).Sum(p => p.Outstanding_Balance);
+            var s1_exposure_post = rd.ResultDetailDataMore.Where(o => o.Overrides_Stage == 1).Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             stage1.Exposure_Post = string.Format("{0:N}", s1_exposure_post);
-            var s1_impairment_post = rd.ResultDetailDataMore.Where(o => o.Overrides_Stage == 1).Sum(p => p.Overrides_Impairment_Manual);
+            var s1_impairment_post = rd.ResultDetailDataMore.Where(o => o.Overrides_Stage == 1).Select(e => e.Overrides_Impairment_Manual).DefaultIfEmpty(0).Sum();
             stage1.Impairment_Post = string.Format("{0:N}", s1_impairment_post);
             try { stage1.CoverageRatio_Post = ((s1_impairment_post / s1_exposure_post)*100).ToString(); } catch { stage1.CoverageRatio_Post = "0.00"; };
             rs.Stage.Add(stage1);
 
             var stage2 = new ReportBreakdown();
             stage2.Field1 = "Stage 2";
-            var s2_exposure_pre = rd.ResultDetailDataMore.Where(o => o.Stage == 2).Sum(p => p.Outstanding_Balance);
+            var s2_exposure_pre = rd.ResultDetailDataMore.Where(o => o.Stage == 2).Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             stage2.Exposure_Pre = string.Format("{0:N}", s2_exposure_pre);
-            var s2_impairment_pre = rd.ResultDetailDataMore.Where(o => o.Stage == 2).Sum(p => p.Impairment_ModelOutput);
+            var s2_impairment_pre = rd.ResultDetailDataMore.Where(o => o.Stage == 2).Select(e => e.Impairment_ModelOutput).DefaultIfEmpty(0).Sum();
             stage2.Impairment_Pre = string.Format("{0:N}", s2_impairment_pre);
             try { stage2.CoverageRatio_Pre = ((s2_impairment_pre / s2_exposure_pre) * 100).ToString(); } catch { stage2.CoverageRatio_Pre = "0.00"; };
 
-            var s2_exposure_post = rd.ResultDetailDataMore.Where(o => o.Overrides_Stage == 2).Sum(p => p.Outstanding_Balance);
+            var s2_exposure_post = rd.ResultDetailDataMore.Where(o => o.Overrides_Stage == 2).Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             stage2.Exposure_Post = string.Format("{0:N}", s2_exposure_post);
-            var s2_impairment_post = rd.ResultDetailDataMore.Where(o => o.Overrides_Stage == 2).Sum(p => p.Overrides_Impairment_Manual);
+            var s2_impairment_post = rd.ResultDetailDataMore.Where(o => o.Overrides_Stage == 2).Select(e => e.Overrides_Impairment_Manual).DefaultIfEmpty(0).Sum();
             stage2.Impairment_Post = string.Format("{0:N}", s2_impairment_post);
-            try { stage2.CoverageRatio_Post = ((s2_impairment_post / s2_exposure_post) * 100).ToString(); } catch { stage2.CoverageRatio_Post = "0.00"; };
+            try { stage2.CoverageRatio_Post = ((s2_impairment_post / s2_exposure_post)).ToString("P2", percentageFormat); } catch { stage2.CoverageRatio_Post = "0.00"; };
             rs.Stage.Add(stage2);
 
 
 
             var stage3 = new ReportBreakdown();
             stage3.Field1 = "Stage 3";
-            var s3_exposure_pre = rd.ResultDetailDataMore.Where(o => o.Stage == 3).Sum(p => p.Outstanding_Balance);
+            var s3_exposure_pre = rd.ResultDetailDataMore.Where(o => o.Stage == 3).Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             stage3.Exposure_Pre = string.Format("{0:N}", s3_exposure_pre);
-            var s3_impairment_pre = rd.ResultDetailDataMore.Where(o => o.Stage == 3).Sum(p => p.Impairment_ModelOutput);
+            var s3_impairment_pre = rd.ResultDetailDataMore.Where(o => o.Stage == 3).Select(e => e.Impairment_ModelOutput).DefaultIfEmpty(0).Sum();
             stage3.Impairment_Pre = string.Format("{0:N}", s3_impairment_pre);
             try { stage3.CoverageRatio_Pre = ((s3_impairment_pre / s3_exposure_pre) * 100).ToString(); } catch { stage3.CoverageRatio_Pre = "0.00"; };
 
-            var s3_exposure_post = rd.ResultDetailDataMore.Where(o => o.Overrides_Stage == 3).Sum(p => p.Outstanding_Balance);
+            var s3_exposure_post = rd.ResultDetailDataMore.Where(o => o.Overrides_Stage == 3).Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             stage3.Exposure_Post = string.Format("{0:N}", s3_exposure_post);
-            var s3_impairment_post = rd.ResultDetailDataMore.Where(o => o.Overrides_Stage == 3).Sum(p => p.Overrides_Impairment_Manual);
+            var s3_impairment_post = rd.ResultDetailDataMore.Where(o => o.Overrides_Stage == 3).Select(e => e.Overrides_Impairment_Manual).DefaultIfEmpty(0).Sum();
             stage3.Impairment_Post = string.Format("{0:N}", s3_impairment_post);
-            try { stage3.CoverageRatio_Post = ((s3_impairment_post / s3_exposure_post) * 100).ToString(); } catch { stage3.CoverageRatio_Post = "0.00"; };
+            try { stage3.CoverageRatio_Post = (s3_exposure_post==0 || s3_impairment_post==0) ?"0.00" : ((s3_impairment_post / s3_exposure_post)).ToString(); } catch { stage3.CoverageRatio_Post = "0.00"; };
             rs.Stage.Add(stage3);
 
 
@@ -1145,33 +1146,33 @@ namespace TestDemo.Reports
             rs.ProductType = new List<ReportBreakdown>();
             var card = new ReportBreakdown();
             card.Field1 = "CARD";
-            var p1_exposure_pre = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "card").Sum(p => p.Outstanding_Balance);
+            var p1_exposure_pre = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "card").Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             try { card.Exposure_Pre = string.Format("{0:N}", p1_exposure_pre); } catch { card.Exposure_Pre = "0.00"; };
             
-            var p1_impairment_pre = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "card").Sum(p => p.Impairment_ModelOutput);
+            var p1_impairment_pre = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "card").Select(e => e.Impairment_ModelOutput).DefaultIfEmpty(0).Sum();
             try { card.Impairment_Pre = string.Format("{0:N}", p1_impairment_pre); } catch { card.Impairment_Pre = "0.00"; };
             try { card.CoverageRatio_Pre = ((p1_impairment_pre / p1_exposure_pre) * 100).ToString(); } catch { card.CoverageRatio_Pre = "0.00"; };
 
-            var p1_exposure_post = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "card").Sum(p => p.Outstanding_Balance);
+            var p1_exposure_post = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "card").Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             try { card.Exposure_Post = string.Format("{0:N}", p1_exposure_post); } catch { card.Exposure_Post = "0.00"; };
-            var p1_impairment_post = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "card").Sum(p => p.Overrides_Impairment_Manual);
+            var p1_impairment_post = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "card").Select(e => e.Overrides_Impairment_Manual).DefaultIfEmpty(0).Sum();
             try { card.Impairment_Post = string.Format("{0:N}", p1_impairment_post); } catch { card.Impairment_Post = "0.00"; };
             try { card.CoverageRatio_Post = ((p1_impairment_post / p1_exposure_post) * 100).ToString(); } catch { card.CoverageRatio_Post = "0.00"; };
             rs.ProductType.Add(card);
 
             var lease = new ReportBreakdown();
             lease.Field1 = "LEASE";
-            var p2_exposure_pre = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "lease").Sum(p => p.Outstanding_Balance);
+            var p2_exposure_pre = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "lease").Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             try { lease.Exposure_Pre = string.Format("{0:N}", p2_exposure_pre); } catch { lease.Exposure_Pre = "0.00"; };
 
-            var p2_impairment_pre = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "lease").Sum(p => p.Impairment_ModelOutput);
+            var p2_impairment_pre = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "lease").Select(e => e.Impairment_ModelOutput).DefaultIfEmpty(0).Sum();
             try { lease.Impairment_Pre = string.Format("{0:N}", p2_impairment_pre); } catch { lease.Impairment_Pre = "0.00"; };
             try { lease.CoverageRatio_Pre = ((p2_impairment_pre / p2_exposure_pre) * 100).ToString(); } catch { lease.CoverageRatio_Pre = "0.00"; };
 
-            var p2_exposure_post = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "lease").Sum(p => p.Outstanding_Balance);
+            var p2_exposure_post = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "lease").Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             try { lease.Exposure_Post = string.Format("{0:N}", p2_exposure_post); } catch { lease.Exposure_Post = "0.00"; };
 
-            var p2_impairment_post = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "lease").Sum(p => p.Overrides_Impairment_Manual);
+            var p2_impairment_post = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "lease").Select(e => e.Overrides_Impairment_Manual).DefaultIfEmpty(0).Sum();
             try { lease.Impairment_Post = string.Format("{0:N}", p2_impairment_post); } catch { lease.Impairment_Post = "0.00"; };
             try { lease.CoverageRatio_Post = ((p2_impairment_post / p2_exposure_post) * 100).ToString(); } catch { lease.CoverageRatio_Post = "0.00"; };
             rs.ProductType.Add(lease);
@@ -1179,50 +1180,50 @@ namespace TestDemo.Reports
 
             var loan = new ReportBreakdown();
             loan.Field1 = "LOAN";
-            var p3_exposure_pre = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "loan").Sum(p => p.Outstanding_Balance);
+            var p3_exposure_pre = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "loan").Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             try { loan.Exposure_Pre = string.Format("{0:N}", p3_exposure_pre); } catch { loan.Exposure_Pre = "0.00"; };
 
-            var p3_impairment_pre = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "loan").Sum(p => p.Impairment_ModelOutput);
+            var p3_impairment_pre = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "loan").Select(e => e.Impairment_ModelOutput).DefaultIfEmpty(0).Sum();
             try { loan.Impairment_Pre = string.Format("{0:N}", p3_impairment_pre); } catch { loan.Impairment_Pre = "0.00"; };
             try { loan.CoverageRatio_Pre = ((p3_impairment_pre / p3_exposure_pre) * 100).ToString(); } catch { loan.CoverageRatio_Pre = "0.00"; };
 
-            var p3_exposure_post = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "loan").Sum(p => p.Outstanding_Balance);
+            var p3_exposure_post = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "loan").Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             try { loan.Exposure_Post = string.Format("{0:N}", p3_exposure_post); } catch { loan.Exposure_Post = "0.00"; };
 
-            var p3_impairment_post = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "loan").Sum(p => p.Overrides_Impairment_Manual);
+            var p3_impairment_post = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "loan").Select(e => e.Overrides_Impairment_Manual).DefaultIfEmpty(0).Sum();
             try { loan.Impairment_Post = string.Format("{0:N}", p3_impairment_post); } catch { loan.Impairment_Post = "0.00"; };
             try { loan.CoverageRatio_Post = ((p3_impairment_post / p3_exposure_post) * 100).ToString(); } catch { loan.CoverageRatio_Post = "0.00"; };
             rs.ProductType.Add(loan);
 
             var mortgage = new ReportBreakdown();
             mortgage.Field1 = "MORTGAGE";
-            var p4_exposure_pre = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "mortgage").Sum(p => p.Outstanding_Balance);
+            var p4_exposure_pre = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "mortgage").Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             try { mortgage.Exposure_Pre = string.Format("{0:N}", p4_exposure_pre); } catch { mortgage.Exposure_Pre = "0.00"; };
 
-            var p4_impairment_pre = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "mortgage").Sum(p => p.Impairment_ModelOutput);
+            var p4_impairment_pre = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "mortgage").Select(e => e.Impairment_ModelOutput).DefaultIfEmpty(0).Sum();
             try { mortgage.Impairment_Pre = string.Format("{0:N}", p4_impairment_pre); } catch { mortgage.Impairment_Pre = "0.00"; };
             try { mortgage.CoverageRatio_Pre = ((p4_impairment_pre / p4_exposure_pre) * 100).ToString(); } catch { mortgage.CoverageRatio_Pre = "0.00"; };
 
-            var p4_exposure_post = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "mortgage").Sum(p => p.Outstanding_Balance);
+            var p4_exposure_post = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "mortgage").Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             try { mortgage.Exposure_Post = string.Format("{0:N}", p4_exposure_post); } catch { mortgage.Exposure_Post = "0.00"; };
-            var p4_impairment_post = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "mortgage").Sum(p => p.Overrides_Impairment_Manual);
+            var p4_impairment_post = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "mortgage").Select(e => e.Overrides_Impairment_Manual).DefaultIfEmpty(0).Sum();
             try { mortgage.Impairment_Post = string.Format("{0:N}", p4_impairment_post); } catch { mortgage.Impairment_Post = "0.00"; };
             try { mortgage.CoverageRatio_Post = ((p4_impairment_post / p4_exposure_post) * 100).ToString(); } catch { mortgage.CoverageRatio_Post = "0.00"; };
             rs.ProductType.Add(mortgage);
 
             var od = new ReportBreakdown();
             od.Field1 = "OD";
-            var p5_exposure_pre = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "od").Sum(p => p.Outstanding_Balance);
+            var p5_exposure_pre = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "od").Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             try { od.Exposure_Pre = string.Format("{0:N}", p5_exposure_pre); } catch { od.Exposure_Pre = "0.00"; };
 
-            var p5_impairment_pre = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "od").Sum(p => p.Impairment_ModelOutput);
+            var p5_impairment_pre = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "od").Select(e => e.Impairment_ModelOutput).DefaultIfEmpty(0).Sum();
             try { od.Impairment_Pre = string.Format("{0:N}", p5_impairment_pre); } catch { od.Impairment_Pre = "0.00"; };
             try { od.CoverageRatio_Pre = ((p5_impairment_pre / p5_exposure_pre) * 100).ToString(); } catch { od.CoverageRatio_Pre = "0.00"; };
 
-            var p5_exposure_post = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "od").Sum(p => p.Outstanding_Balance);
+            var p5_exposure_post = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "od").Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             try { od.Exposure_Post = string.Format("{0:N}", p5_exposure_post); } catch { od.Exposure_Post = "0.00"; };
 
-            var p5_impairment_post = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "od").Sum(p => p.Overrides_Impairment_Manual);
+            var p5_impairment_post = rd.ResultDetailDataMore.Where(o => o.ProductType.ToLower() == "od").Select(e => e.Overrides_Impairment_Manual).DefaultIfEmpty(0).Sum();
             try { od.Impairment_Post = string.Format("{0:N}", p5_impairment_post); } catch { od.Exposure_Post = "0.00"; };
             try { od.CoverageRatio_Post = ((p5_impairment_post / p5_exposure_post) * 100).ToString(); } catch { od.CoverageRatio_Post = "0.00"; };
             rs.ProductType.Add(od);
@@ -1250,34 +1251,34 @@ namespace TestDemo.Reports
             rs.Segment = new List<ReportBreakdown>();
             var commercial = new ReportBreakdown();
             commercial.Field1 = "COMMERCIAL";
-            var sg1_exposure_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial").Sum(p => p.Outstanding_Balance);
+            var sg1_exposure_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial").Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             try { commercial.Exposure_Pre = string.Format("{0:N}", sg1_exposure_pre); } catch { commercial.Exposure_Pre = "0.00"; };
 
-            var sg1_impairment_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial").Sum(p => p.Impairment_ModelOutput);
+            var sg1_impairment_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial").Select(e => e.Impairment_ModelOutput).DefaultIfEmpty(0).Sum();
             try { commercial.Impairment_Pre = string.Format("{0:N}", sg1_impairment_pre); } catch { commercial.Impairment_Pre = "0.00"; };
             try { commercial.CoverageRatio_Pre = ((sg1_impairment_pre / sg1_exposure_pre) * 100).ToString(); } catch { commercial.CoverageRatio_Pre = "0.00"; };
 
-            var sg1_exposure_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial").Sum(p => p.Outstanding_Balance);
+            var sg1_exposure_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial").Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             try { commercial.Exposure_Post = string.Format("{0:N}", sg1_exposure_post); } catch { commercial.Exposure_Post = "0.00"; };
 
-            var sg1_impairment_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial").Sum(p => p.Overrides_Impairment_Manual);
+            var sg1_impairment_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial").Select(e => e.Overrides_Impairment_Manual).DefaultIfEmpty(0).Sum();
             try { commercial.Impairment_Post = string.Format("{0:N}", sg1_impairment_post); } catch { commercial.Impairment_Post = "0.00"; };
             try { commercial.CoverageRatio_Post = ((sg1_impairment_post / sg1_exposure_post) * 100).ToString(); } catch { commercial.CoverageRatio_Post = "0.00"; };
             rs.Segment.Add(commercial);
 
             var corporate = new ReportBreakdown();
             corporate.Field1 = "CORPORATE";
-            var sg2_exposure_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate").Sum(p => p.Outstanding_Balance);
+            var sg2_exposure_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate").Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             try { corporate.Exposure_Pre = string.Format("{0:N}", sg2_exposure_pre); } catch { corporate.Exposure_Pre = "0.00"; };
 
-            var sg2_impairment_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate").Sum(p => p.Impairment_ModelOutput);
+            var sg2_impairment_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate").Select(e => e.Impairment_ModelOutput).DefaultIfEmpty(0).Sum();
             try { corporate.Impairment_Pre = string.Format("{0:N}", sg2_impairment_pre); } catch { corporate.Impairment_Pre = "0.00"; };
             try { lease.CoverageRatio_Pre = ((sg2_impairment_pre / sg2_exposure_pre) * 100).ToString(); } catch { corporate.CoverageRatio_Pre = "0.00"; };
 
-            var sg2_exposure_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate").Sum(p => p.Outstanding_Balance);
+            var sg2_exposure_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate").Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             try { corporate.Exposure_Post = string.Format("{0:N}", sg2_exposure_post); } catch { corporate.Exposure_Post = "0.00"; };
 
-            var sg2_impairment_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate").Sum(p => p.Overrides_Impairment_Manual);
+            var sg2_impairment_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate").Select(e => e.Overrides_Impairment_Manual).DefaultIfEmpty(0).Sum();
             try { corporate.Impairment_Post = string.Format("{0:N}", sg2_impairment_post); } catch { corporate.Impairment_Post = "0.00"; };
             try { corporate.CoverageRatio_Post = ((sg2_impairment_post / sg2_exposure_post) * 100).ToString(); } catch { corporate.CoverageRatio_Post = "0.00"; };
             rs.Segment.Add(corporate);
@@ -1305,30 +1306,30 @@ namespace TestDemo.Reports
             rs.SegmentAndStage = new List<ReportBreakdown>();
             var COMMERCIAL_STAGE_1 = new ReportBreakdown();
             COMMERCIAL_STAGE_1.Field1 = "COMMERCIAL_STAGE_1";
-            var ss1_exposure_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial" & o.Stage==1).Sum(p => p.Outstanding_Balance);
+            var ss1_exposure_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial" & o.Stage==1).Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             COMMERCIAL_STAGE_1.Exposure_Pre = string.Format("{0:N}", ss1_exposure_pre);
-            var ss1_impairment_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial" & o.Stage == 1).Sum(p => p.Impairment_ModelOutput);
+            var ss1_impairment_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial" & o.Stage == 1).Select(e => e.Impairment_ModelOutput).DefaultIfEmpty(0).Sum();
             COMMERCIAL_STAGE_1.Impairment_Pre = string.Format("{0:N}", ss1_impairment_pre);
             try { COMMERCIAL_STAGE_1.CoverageRatio_Pre = ((ss1_impairment_pre / ss1_exposure_pre) * 100).ToString(); } catch { COMMERCIAL_STAGE_1.CoverageRatio_Pre = "0.00"; };
 
-            var ss1_exposure_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial" & o.Stage == 1).Sum(p => p.Outstanding_Balance);
+            var ss1_exposure_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial" & o.Stage == 1).Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             COMMERCIAL_STAGE_1.Exposure_Post = string.Format("{0:N}", ss1_exposure_post);
-            var ss1_impairment_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial" & o.Stage == 1).Sum(p => p.Overrides_Impairment_Manual);
+            var ss1_impairment_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial" & o.Stage == 1).Select(e => e.Overrides_Impairment_Manual).DefaultIfEmpty(0).Sum();
             COMMERCIAL_STAGE_1.Impairment_Post = string.Format("{0:N}", ss1_impairment_post);
             try { COMMERCIAL_STAGE_1.CoverageRatio_Post = ((ss1_impairment_post / ss1_exposure_post) * 100).ToString(); } catch { COMMERCIAL_STAGE_1.CoverageRatio_Post = "0.00"; };
             rs.SegmentAndStage.Add(COMMERCIAL_STAGE_1);
 
             var COMMERCIAL_STAGE_2 = new ReportBreakdown();
             COMMERCIAL_STAGE_2.Field1 = "COMMERCIAL_STAGE_2";
-            var ss2_exposure_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial" & o.Stage == 2).Sum(p => p.Outstanding_Balance);
+            var ss2_exposure_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial" & o.Stage == 2).Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             COMMERCIAL_STAGE_2.Exposure_Pre = string.Format("{0:N}", ss2_exposure_pre);
-            var ss2_impairment_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial" & o.Stage == 2).Sum(p => p.Impairment_ModelOutput);
+            var ss2_impairment_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial" & o.Stage == 2).Select(e => e.Impairment_ModelOutput).DefaultIfEmpty(0).Sum();
             COMMERCIAL_STAGE_2.Impairment_Pre = string.Format("{0:N}", ss2_impairment_pre);
             try { COMMERCIAL_STAGE_2.CoverageRatio_Pre = ((ss2_impairment_pre / ss2_exposure_pre) * 100).ToString(); } catch { COMMERCIAL_STAGE_2.CoverageRatio_Pre = "0.00"; };
 
-            var ss2_exposure_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial" & o.Stage == 2).Sum(p => p.Outstanding_Balance);
+            var ss2_exposure_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial" & o.Stage == 2).Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             COMMERCIAL_STAGE_2.Exposure_Post = string.Format("{0:N}", ss2_exposure_post);
-            var ss2_impairment_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial" & o.Stage == 2).Sum(p => p.Overrides_Impairment_Manual);
+            var ss2_impairment_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial" & o.Stage == 2).Select(e => e.Overrides_Impairment_Manual).DefaultIfEmpty(0).Sum();
             COMMERCIAL_STAGE_2.Impairment_Post = string.Format("{0:N}", ss2_impairment_post);
             try { COMMERCIAL_STAGE_2.CoverageRatio_Post = ((ss2_impairment_post / ss2_exposure_post) * 100).ToString(); } catch { COMMERCIAL_STAGE_2.CoverageRatio_Post = "0.00"; };
             rs.SegmentAndStage.Add(COMMERCIAL_STAGE_2);
@@ -1336,15 +1337,15 @@ namespace TestDemo.Reports
 
             var COMMERCIAL_STAGE_3 = new ReportBreakdown();
             COMMERCIAL_STAGE_3.Field1 = "COMMERCIAL_STAGE_3";
-            var ss3_exposure_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial" & o.Stage == 3).Sum(p => p.Outstanding_Balance);
+            var ss3_exposure_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial" & o.Stage == 3).Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             COMMERCIAL_STAGE_3.Exposure_Pre = string.Format("{0:N}", ss3_exposure_pre);
-            var ss3_impairment_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial" & o.Stage == 3).Sum(p => p.Impairment_ModelOutput);
+            var ss3_impairment_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial" & o.Stage == 3).Select(e => e.Impairment_ModelOutput).DefaultIfEmpty(0).Sum();
             COMMERCIAL_STAGE_3.Impairment_Pre = string.Format("{0:N}", ss3_impairment_pre);
             try { COMMERCIAL_STAGE_3.CoverageRatio_Pre = ((ss3_impairment_pre / ss3_exposure_pre) * 100).ToString(); } catch { COMMERCIAL_STAGE_3.CoverageRatio_Pre = "0.00"; };
 
-            var ss3_exposure_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial" & o.Stage == 3).Sum(p => p.Outstanding_Balance);
+            var ss3_exposure_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial" & o.Stage == 3).Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             COMMERCIAL_STAGE_3.Exposure_Post = string.Format("{0:N}", ss3_exposure_post);
-            var ss3_impairment_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial" & o.Stage == 3).Sum(p => p.Overrides_Impairment_Manual);
+            var ss3_impairment_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "commercial" & o.Stage == 3).Select(e => e.Overrides_Impairment_Manual).DefaultIfEmpty(0).Sum();
             COMMERCIAL_STAGE_3.Impairment_Post = string.Format("{0:N}", ss3_impairment_post);
             try { COMMERCIAL_STAGE_3.CoverageRatio_Post = ((ss3_impairment_post / ss3_exposure_post) * 100).ToString(); } catch { COMMERCIAL_STAGE_3.CoverageRatio_Post = "0.00"; };
             rs.SegmentAndStage.Add(COMMERCIAL_STAGE_3);
@@ -1352,30 +1353,30 @@ namespace TestDemo.Reports
 
             var CORPORATE_STAGE_1 = new ReportBreakdown();
             CORPORATE_STAGE_1.Field1 = "CORPORATE_STAGE_1";
-            var ss4_exposure_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate" & o.Stage == 1).Sum(p => p.Outstanding_Balance);
+            var ss4_exposure_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate" & o.Stage == 1).Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             CORPORATE_STAGE_1.Exposure_Pre = string.Format("{0:N}", ss4_exposure_pre);
-            var ss4_impairment_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate" & o.Stage == 1).Sum(p => p.Impairment_ModelOutput);
+            var ss4_impairment_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate" & o.Stage == 1).Select(e => e.Impairment_ModelOutput).DefaultIfEmpty(0).Sum();
             CORPORATE_STAGE_1.Impairment_Pre = string.Format("{0:N}", ss4_impairment_pre);
             try { CORPORATE_STAGE_1.CoverageRatio_Pre = ((ss4_impairment_pre / ss4_exposure_pre) * 100).ToString(); } catch { CORPORATE_STAGE_1.CoverageRatio_Pre = "0.00"; };
 
-            var ss4_exposure_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate" & o.Stage == 1).Sum(p => p.Outstanding_Balance);
+            var ss4_exposure_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate" & o.Stage == 1).Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             CORPORATE_STAGE_1.Exposure_Post = string.Format("{0:N}", ss4_exposure_post);
-            var ss4_impairment_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate" & o.Stage == 1).Sum(p => p.Overrides_Impairment_Manual);
+            var ss4_impairment_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate" & o.Stage == 1).Select(e => e.Overrides_Impairment_Manual).DefaultIfEmpty(0).Sum();
             CORPORATE_STAGE_1.Impairment_Post = string.Format("{0:N}", ss4_impairment_post);
             try { CORPORATE_STAGE_1.CoverageRatio_Post = ((ss4_impairment_post / ss4_exposure_post) * 100).ToString(); } catch { CORPORATE_STAGE_1.CoverageRatio_Post = "0.00"; };
             rs.SegmentAndStage.Add(CORPORATE_STAGE_1);
 
             var CORPORATE_STAGE_2 = new ReportBreakdown();
             CORPORATE_STAGE_2.Field1 = "CORPORATE_STAGE_2";
-            var ss5_exposure_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate" & o.Stage == 2).Sum(p => p.Outstanding_Balance);
+            var ss5_exposure_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate" & o.Stage == 2).Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             CORPORATE_STAGE_2.Exposure_Pre = string.Format("{0:N}", ss5_exposure_pre);
-            var ss5_impairment_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate" & o.Stage == 2).Sum(p => p.Impairment_ModelOutput);
+            var ss5_impairment_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate" & o.Stage == 2).Select(e => e.Impairment_ModelOutput).DefaultIfEmpty(0).Sum();
             CORPORATE_STAGE_2.Impairment_Pre = string.Format("{0:N}", ss5_impairment_pre);
             try { CORPORATE_STAGE_2.CoverageRatio_Pre = ((ss5_impairment_pre / ss5_exposure_pre) * 100).ToString(); } catch { CORPORATE_STAGE_2.CoverageRatio_Pre = "0.00"; };
 
-            var ss5_exposure_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate" & o.Stage == 2).Sum(p => p.Outstanding_Balance);
+            var ss5_exposure_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate" & o.Stage == 2).Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             CORPORATE_STAGE_2.Exposure_Post = string.Format("{0:N}", ss5_exposure_post);
-            var ss5_impairment_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate" & o.Stage == 2).Sum(p => p.Overrides_Impairment_Manual);
+            var ss5_impairment_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate" & o.Stage == 2).Select(e => e.Overrides_Impairment_Manual).DefaultIfEmpty(0).Sum();
             CORPORATE_STAGE_2.Impairment_Post = string.Format("{0:N}", ss5_impairment_post);
             try { CORPORATE_STAGE_2.CoverageRatio_Post = ((ss5_impairment_post / ss5_exposure_post) * 100).ToString(); } catch { CORPORATE_STAGE_2.CoverageRatio_Post = "0.00"; };
             rs.SegmentAndStage.Add(CORPORATE_STAGE_2);
@@ -1383,15 +1384,15 @@ namespace TestDemo.Reports
 
             var CORPORATE_STAGE_3 = new ReportBreakdown();
             CORPORATE_STAGE_3.Field1 = "CORPORATE_STAGE_3";
-            var ss6_exposure_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate" & o.Stage == 3).Sum(p => p.Outstanding_Balance);
+            var ss6_exposure_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate" & o.Stage == 3).Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             CORPORATE_STAGE_3.Exposure_Pre = string.Format("{0:N}", ss6_exposure_pre);
-            var ss6_impairment_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate" & o.Stage == 3).Sum(p => p.Impairment_ModelOutput);
+            var ss6_impairment_pre = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate" & o.Stage == 3).Select(e => e.Impairment_ModelOutput).DefaultIfEmpty(0).Sum();
             CORPORATE_STAGE_3.Impairment_Pre = string.Format("{0:N}", ss6_impairment_pre);
             try { CORPORATE_STAGE_3.CoverageRatio_Pre = ((ss6_impairment_pre / ss6_exposure_pre) * 100).ToString(); } catch { CORPORATE_STAGE_3.CoverageRatio_Pre = "0.00"; };
 
-            var ss6_exposure_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate" & o.Stage == 3).Sum(p => p.Outstanding_Balance);
+            var ss6_exposure_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate" & o.Stage == 3).Select(e => e.Outstanding_Balance).DefaultIfEmpty(0).Sum();
             CORPORATE_STAGE_3.Exposure_Post = string.Format("{0:N}", ss6_exposure_post);
-            var ss6_impairment_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate" & o.Stage == 3).Sum(p => p.Overrides_Impairment_Manual);
+            var ss6_impairment_post = rd.ResultDetailDataMore.Where(o => o.Segment.ToLower() == "corporate" & o.Stage == 3).Select(e => e.Overrides_Impairment_Manual).DefaultIfEmpty(0).Sum();
             CORPORATE_STAGE_3.Impairment_Post = string.Format("{0:N}", ss6_impairment_post);
             try { CORPORATE_STAGE_3.CoverageRatio_Post = ((ss6_impairment_post / ss6_exposure_post) * 100).ToString(); } catch { CORPORATE_STAGE_3.CoverageRatio_Post = "0.00"; };
             rs.SegmentAndStage.Add(CORPORATE_STAGE_3);

@@ -12,12 +12,12 @@
             </span>
         </div>
         <div class="kt-subheader__toolbar">
-            <!-- <div class="kt-subheader__wrapper">
-                <button *ngIf="isGranted('Pages.Calibration.Create')" (click)="create()"
+            <div class="kt-subheader__wrapper">
+                <button *ngIf="isGranted('Pages.Calibration.Create')" (click)="create(frameworkEnum.All)"
                     class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("New")}}</button>
-            </div> -->
+            </div>
 
-            <div *ngIf="isGranted('Pages.Calibration.Create')" class="btn-group" dropdown>
+            <!-- <div *ngIf="isGranted('Pages.Calibration.Create')" class="btn-group" dropdown>
                 <button dropdownToggle type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-plus"></i> {{"New" | localize}}
@@ -69,7 +69,7 @@
                     </a>
                     
                 </div>
-            </div>
+            </div> -->
         </div>
 
     </div>

@@ -24,9 +24,9 @@ namespace TestDemo.WholesaleInputs.Dtos
 
 		public string RatingModel { get; set; }
 
-		public int? OriginalRating { get; set; }
+		public string OriginalRating { get; set; }
 
-		public int? CurrentRating { get; set; }
+		public string CurrentRating { get; set; }
 
 		public double? LifetimePD { get; set; }
 

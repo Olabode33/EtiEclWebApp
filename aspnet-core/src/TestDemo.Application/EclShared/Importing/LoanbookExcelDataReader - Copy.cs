@@ -47,8 +47,8 @@ namespace TestDemo.EclShared.Importing
                 loanbook.ProductMapping = GetRequiredValueFromRowOrNull(worksheet, row, 10, nameof(loanbook.ProductMapping), exceptionMessage);
                 loanbook.SpecialisedLending = GetRequiredValueFromRowOrNull(worksheet, row, 11, nameof(loanbook.SpecialisedLending), exceptionMessage);
                 loanbook.RatingModel = GetRequiredValueFromRowOrNull(worksheet, row, 12, nameof(loanbook.RatingModel), exceptionMessage);
-                loanbook.OriginalRating = GetIntegerValueFromRowOrNull(worksheet, row, 13, nameof(loanbook.OriginalRating), exceptionMessage);
-                loanbook.CurrentRating = GetIntegerValueFromRowOrNull(worksheet, row, 14, nameof(loanbook.CurrentRating), exceptionMessage);
+                loanbook.OriginalRating = GetRequiredValueFromRowOrNull(worksheet, row, 13, nameof(loanbook.OriginalRating), exceptionMessage);
+                loanbook.CurrentRating = GetRequiredValueFromRowOrNull(worksheet, row, 14, nameof(loanbook.CurrentRating), exceptionMessage);
                 loanbook.LifetimePD = GetDoubleValueFromRowOrNull(worksheet, row, 15, nameof(loanbook.LifetimePD), exceptionMessage);
                 loanbook.Month12PD = GetDoubleValueFromRowOrNull(worksheet, row, 16, nameof(loanbook.Month12PD), exceptionMessage);
                 loanbook.DaysPastDue = GetIntegerValueFromRowOrNull(worksheet, row, 17, nameof(loanbook.DaysPastDue), exceptionMessage);

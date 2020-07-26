@@ -167,8 +167,8 @@ namespace TestDemo.EclShared.Importing
                     loanbook.ProductMapping = loanbookNew.ProductMapping;
                     loanbook.SpecialisedLending = loanbookNew.SpecialisedLending;
                     loanbook.RatingModel = loanbookNew.RatingModel;
-                    loanbook.OriginalRating = _validator.HackValidateIntegerValueFromRowOrNull(loanbookNew.OriginalRating, nameof(loanbook.OriginalRating), exceptionMessage); //TODO: Convert column to string instead of int
-                    loanbook.CurrentRating = _validator.HackValidateIntegerValueFromRowOrNull(loanbookNew.CurrentRating, nameof(loanbook.CurrentRating), exceptionMessage); //TODO: Convert column to string instead of int
+                    loanbook.OriginalRating = loanbookNew.OriginalRating; //  _validator.HackValidateIntegerValueFromRowOrNull(loanbookNew.OriginalRating, nameof(loanbook.OriginalRating), exceptionMessage); //TODO: Convert column to string instead of int
+                    loanbook.CurrentRating = loanbookNew.CurrentRating; // _validator.HackValidateIntegerValueFromRowOrNull(loanbookNew.CurrentRating, nameof(loanbook.CurrentRating), exceptionMessage); //TODO: Convert column to string instead of int
                     loanbook.LifetimePD = _validator.ValidateDoubleValueFromRowOrNull(loanbookNew.LifetimePD, nameof(loanbook.LifetimePD), exceptionMessage);
                     loanbook.Month12PD = _validator.ValidateDoubleValueFromRowOrNull(loanbookNew.Month12PD, nameof(loanbook.Month12PD), exceptionMessage);
                     loanbook.DaysPastDue = _validator.ValidateDoubleValueFromRowOrNull(loanbookNew.DaysPastDue, nameof(loanbook.DaysPastDue), exceptionMessage);

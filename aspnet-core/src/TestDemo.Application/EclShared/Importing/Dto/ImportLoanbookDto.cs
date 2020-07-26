@@ -18,8 +18,8 @@ namespace TestDemo.EclShared.Importing.Dto
         public string ProductMapping { get; set; }
         public string SpecialisedLending { get; set; }
         public string RatingModel { get; set; }
-        public int? OriginalRating { get; set; }
-        public int? CurrentRating { get; set; }
+        public string OriginalRating { get; set; }
+        public string CurrentRating { get; set; }
         public double? LifetimePD { get; set; }
         public double? Month12PD { get; set; }
         public double? DaysPastDue { get; set; }

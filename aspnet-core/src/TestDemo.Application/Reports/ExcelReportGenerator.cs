@@ -70,15 +70,16 @@ namespace TestDemo.Reports
 
         public FileDto DownloadExcelReport(GenerateReportJobArgs args)
         {
+            var reportProperties = GetReportProperties(args); 
             var excelPackage = GenerateExcelReport(args);
-            var fileName = GetReportName(args);
-            var file = Save(excelPackage, fileName);
+            var file = Save(excelPackage, reportProperties.FileName() + ".xlsx");
             return file;
         }
 
         public ExcelPackage GenerateExcelReport(GenerateReportJobArgs args)
         {
             ResultDetail rd = new ResultDetail();
+            var reportProps = GetReportProperties(args);
 
             if (args.eclType == EclType.Investment)
                 rd = GetInvestmentResultDetail(args.eclType, args.eclId);
@@ -86,7 +87,7 @@ namespace TestDemo.Reports
                 rd = GetResultDetail(args.eclType, args.eclId);
 
             var rc = new ReportComputation();
-            var excelPackage = rc.GenerateEclReport(args.eclType, args.eclId, rd);
+            var excelPackage = rc.GenerateEclReport(args.eclType, args.eclId, rd, reportProps);
 
             return excelPackage;
         }
@@ -424,7 +425,7 @@ namespace TestDemo.Reports
 
 
             qry = $"Select asset.AssetDescription ContractNo, asset.AssetDescription AccountNo, asset.AssetDescription CustomerNo, asset.AssetDescription Segment, asset.AssetType ProductType, asset.CounterParty Sector, " +
-                  $" pre.Stage, asset.CarryingAmountIFRS Outstanding_Balance, pre.BestValue ECL_Best_Estimate, pre.OptimisticValue ECL_Optimistic, pre.DownturnValue ECL_Downturn, pre.Impairment Impairment_ModelOutput, " +
+                  $" pre.Stage, pre.Exposure Outstanding_Balance, pre.BestValue ECL_Best_Estimate, pre.OptimisticValue ECL_Optimistic, pre.DownturnValue ECL_Downturn, pre.Impairment Impairment_ModelOutput, " +
                   $" post.Stage Overrides_Stage, ISNULL(post.BestValue, pre.BestValue) Overrides_ECL_Best_Estimate, isnull(post.OptimisticValue, pre.OptimisticValue) Overrides_ECL_Optimistic, isnull(post.DownturnValue, pre.DownturnValue) Overrides_ECL_Downturn, isnull(post.Impairment, pre.Impairment) Overrides_Impairment_Manual " +
                   $" ,o.OverrideComment Reason, o.OverrideType " +
                   $"from {_eclTypeTable}EclFinalResult pre " +
@@ -475,29 +476,51 @@ namespace TestDemo.Reports
         }
         #endregion ExcelSaver
 
-        private string GetReportName(GenerateReportJobArgs args)
+        private ReportProperties GetReportProperties(GenerateReportJobArgs args)
         {
+            var reportProperties = new ReportProperties();
+            long ouId = -1;
             switch (args.eclType)
             {
                 case EclType.Retail:
                     var retailEcl = _retailEclRepository.FirstOrDefault(args.eclId);
-                    return args.eclType.ToString() + "-ECL-Report-" + retailEcl.ReportingDate.ToString("dd-MMM-yyyy") + ".xlsx";
+                    reportProperties.ReportDate = retailEcl.ReportingDate;
+                    ouId = retailEcl.OrganizationUnitId;
+                    break;
 
                 case EclType.Wholesale:
                     var wEcl = _wholesaleRepository.FirstOrDefault(args.eclId);
-                    return args.eclType.ToString() + "-ECL-Report-" + wEcl.ReportingDate.ToString("dd-MMM-yyyy") + ".xlsx";
+                    reportProperties.ReportDate = wEcl.ReportingDate;
+                    ouId = wEcl.OrganizationUnitId;
+                    break;
 
                 case EclType.Obe:
                     var oEcl = _obeEclRepository.FirstOrDefault(args.eclId);
-                    return args.eclType.ToString() + "-ECL-Report-" + oEcl.ReportingDate.ToString("dd-MMM-yyyy") + ".xlsx";
+                    reportProperties.ReportDate = oEcl.ReportingDate;
+                    ouId = oEcl.OrganizationUnitId;
+                    break;
 
                 case EclType.Investment:
                     var iEcl = _investmentEclRepository.FirstOrDefault(args.eclId);
-                    return args.eclType.ToString() + "-ECL-Report-" + iEcl.ReportingDate.ToString("dd-MMM-yyyy") + ".xlsx";
+                    reportProperties.ReportDate = iEcl.ReportingDate;
+                    ouId = iEcl.OrganizationUnitId;
+                    break;
 
                 default:
-                    return "ECL-Report";
+                    reportProperties.ReportDate = new DateTime(1, 1, 1);
+                    reportProperties.OuName = "";
+                    break;
             }
+
+            if (ouId != -1)
+            {
+                var ou = _ouRepository.FirstOrDefault(ouId);
+                reportProperties.OuName = ou == null ? "" : ou.DisplayName;
+            }
+
+            return reportProperties;
         }
     }
+
+
 }
