@@ -175,6 +175,10 @@
                                         {{l('Framework')}}
                                         <p-sortIcon field="framework"></p-sortIcon>
                                     </th>
+                                    <th style="width: 150px" pSortableColumn="creationTime">
+                                        {{l('DateCreated')}}
+                                        <p-sortIcon field="creationTime"></p-sortIcon>
+                                    </th>
                                     <th style="width: 150px" pSortableColumn="createdByUserName">
                                         {{l('CreatedBy')}}
                                         <p-sortIcon field="createdByUserName"></p-sortIcon>
@@ -230,6 +234,13 @@
                                                 {{l( record.isSingleBatch ? frameworkEnum[frameworkEnum.Batch] : frameworkEnum[record.framework]) }}
                                             </span>
                                         </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('DateCreated')}}</span>
+                                        <span *ngIf="record.dateCreated">
+                                            {{record.dateCreated | momentFormat:'LL LT'}}
+                                        </span>
+                                        <span *ngIf="!record.dateCreated">-</span>
+                                    </td>
                                     <td style="width:150px">
                                             <span class="ui-column-title"> {{l('CreatedBy')}}</span>
                                             {{record.createdByUserName}}

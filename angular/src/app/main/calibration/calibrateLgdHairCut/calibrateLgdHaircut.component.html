@@ -193,7 +193,7 @@
                                     <td style="width:150px">
                                         <span class="ui-column-title"> {{l('DateCreated')}}</span>
                                         <span *ngIf="record.dateCreated">
-                                            {{record.dateCreated | momentFormat:'L'}}
+                                            {{record.dateCreated | momentFormat:'LL LT'}}
                                         </span>
                                         <span *ngIf="!record.dateCreated">-</span>
                                     </td>
