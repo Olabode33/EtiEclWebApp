@@ -1273,56 +1273,56 @@ namespace TestDemo.Retail
 
         public async Task SendSubmittedEmail(Guid eclId)
         {
-            var users = await UserManager.GetUsersInRoleAsync("Affiliate Reviewer");
-            if (users.Count > 0)
-            {
-                var ecl = _retailEclRepository.FirstOrDefault((Guid)eclId);
-                var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
-                foreach (var user in users)
-                {
-                    if (await UserManager.IsInOrganizationUnitAsync(user.Id, ecl.OrganizationUnitId))
-                    {
-                        int frameworkId = (int)FrameworkEnum.Retail;
-                        var baseUrl = _appConfiguration["App:ClientRootAddress"];
-                        var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
-                        var type = "Retail ECL";
-                        await _emailer.SendEmailSubmittedForApprovalAsync(user, type, ou.DisplayName, link);
-                    }
-                }
-            }
-        }
-
-        public async Task SendAdditionalApprovalEmail(Guid eclId)
-        {
-            var users = await UserManager.GetUsersInRoleAsync("Affiliate Reviewer");
-            if (users.Count > 0)
-            {
-                var ecl = _retailEclRepository.FirstOrDefault((Guid)eclId);
-                var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
-                foreach (var user in users)
-                {
-                    if (await UserManager.IsInOrganizationUnitAsync(user.Id, ecl.OrganizationUnitId))
-                    {
-                        int frameworkId = (int)FrameworkEnum.Retail;
-                        var baseUrl = _appConfiguration["App:ClientRootAddress"];
-                        var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
-                        var type = "Retail ECL";
-                        await _emailer.SendEmailSubmittedForAdditionalApprovalAsync(user, type, ou.DisplayName, link);
-                    }
-                }
-            }
-        }
-
-        public async Task SendApprovedEmail(Guid eclId)
-        {
+            var ecl = _retailEclRepository.FirstOrDefault((Guid)eclId);
             int frameworkId = (int)FrameworkEnum.Retail;
             var baseUrl = _appConfiguration["App:ClientRootAddress"];
             var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
             var type = "Retail ECL";
+
+            await _backgroundJobManager.EnqueueAsync<SendEmailJob, SendEmailJobArgs>(new SendEmailJobArgs()
+            {
+                AffiliateId = ecl.OrganizationUnitId,
+                Link = link,
+                Type = type,
+                UserId = ecl.CreatorUserId == null ? (long)AbpSession.UserId : (long)ecl.CreatorUserId,
+                SendEmailType = SendEmailTypeEnum.EclSubmittedEmail
+            });
+        }
+
+        public async Task SendAdditionalApprovalEmail(Guid eclId)
+        {
             var ecl = _retailEclRepository.FirstOrDefault((Guid)eclId);
-            var user = _lookup_userRepository.FirstOrDefault(ecl.CreatorUserId == null ? (long)AbpSession.UserId : (long)ecl.CreatorUserId);
-            var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
-            await _emailer.SendEmailApprovedAsync(user, type, ou.DisplayName, link);
+            int frameworkId = (int)FrameworkEnum.Retail;
+            var baseUrl = _appConfiguration["App:ClientRootAddress"];
+            var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+            var type = "Retail ECL";
+
+            await _backgroundJobManager.EnqueueAsync<SendEmailJob, SendEmailJobArgs>(new SendEmailJobArgs()
+            {
+                AffiliateId = ecl.OrganizationUnitId,
+                Link = link,
+                Type = type,
+                UserId = ecl.CreatorUserId == null ? (long)AbpSession.UserId : (long)ecl.CreatorUserId,
+                SendEmailType = SendEmailTypeEnum.EclAwaitingApprovalEmail
+            });
+        }
+
+        public async Task SendApprovedEmail(Guid eclId)
+        {
+            var ecl = _retailEclRepository.FirstOrDefault((Guid)eclId);
+            int frameworkId = (int)FrameworkEnum.Retail;
+            var baseUrl = _appConfiguration["App:ClientRootAddress"];
+            var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+            var type = "Retail ECL";
+
+            await _backgroundJobManager.EnqueueAsync<SendEmailJob, SendEmailJobArgs>(new SendEmailJobArgs()
+            {
+                AffiliateId = ecl.OrganizationUnitId,
+                Link = link,
+                Type = type,
+                UserId = ecl.CreatorUserId == null ? (long)AbpSession.UserId : (long)ecl.CreatorUserId,
+                SendEmailType = SendEmailTypeEnum.EclApprovedEmail
+            });
         }
     }
 }

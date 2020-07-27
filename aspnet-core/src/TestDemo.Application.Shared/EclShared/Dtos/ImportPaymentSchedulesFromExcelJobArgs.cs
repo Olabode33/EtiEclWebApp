@@ -74,4 +74,14 @@ namespace TestDemo.EclShared.Dtos
         public int IntId { get; set; }
     }
 
+    [Serializable]
+    public class SendEmailJobArgs
+    {
+        public long UserId { get; set; }
+        public string Type { get; set; }
+        public long AffiliateId { get; set; }
+        public string Link { get; set; }
+        public SendEmailTypeEnum SendEmailType { get; set; }
+    }
+
 }

@@ -29,6 +29,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using TestDemo.Configuration;
 using TestDemo.RetailResults;
+using TestDemo.EclShared.Jobs;
+using TestDemo.EclShared.Dtos;
+using Abp.BackgroundJobs;
 
 namespace TestDemo.RetailComputation
 {
@@ -44,6 +47,7 @@ namespace TestDemo.RetailComputation
         private readonly IRepository<Affiliate, long> _affiliateRepository;
         private readonly IEclEngineEmailer _emailer;
         private readonly IConfigurationRoot _appConfiguration;
+        private readonly IBackgroundJobManager _backgroundJobManager;
 
 
         public RetailEclOverridesAppService(
@@ -55,7 +59,8 @@ namespace TestDemo.RetailComputation
             IRepository<User, long> lookup_userRepository,
             IRepository<OrganizationUnit, long> organizationUnitRepository,
             IRepository<Affiliate, long> affiliateRepository,
-            IEclEngineEmailer emailer,
+            IEclEngineEmailer emailer, 
+            IBackgroundJobManager backgroundJobManager,
             IHostingEnvironment env)
         {
             _retailEclOverrideRepository = retailEclOverrideRepository;
@@ -68,6 +73,7 @@ namespace TestDemo.RetailComputation
             _affiliateRepository = affiliateRepository;
             _emailer = emailer;
             _appConfiguration = env.GetAppConfiguration();
+            _backgroundJobManager = backgroundJobManager;
         }
 
         public async Task<PagedResultDto<GetEclOverrideForViewDto>> GetAll(GetAllEclOverrideInput input)
@@ -469,57 +475,56 @@ namespace TestDemo.RetailComputation
 
         public async Task SendSubmittedEmail(Guid eclId)
         {
-            var users = await UserManager.GetUsersInRoleAsync("Affiliate Reviewer");
-            if (users.Count > 0)
-            {
-                var ecl = _retailEclRepository.FirstOrDefault((Guid)eclId);
-                var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
-
-                foreach (var user in users)
-                {
-                    if (await UserManager.IsInOrganizationUnitAsync(user.Id, ecl.OrganizationUnitId))
-                    {
-                        int frameworkId = (int)FrameworkEnum.Retail;
-                        var baseUrl = _appConfiguration["App:ClientRootAddress"];
-                        var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
-                        var type = "Retail ECL Override";
-                        await _emailer.SendEmailSubmittedForApprovalAsync(user, type, ou.DisplayName, link);
-                    }
-                }
-            }
-        }
-
-        public async Task SendAdditionalApprovalEmail(Guid eclId)
-        {
-            var users = await UserManager.GetUsersInRoleAsync("Affiliate Reviewer");
-            if (users.Count > 0)
-            {
-                var ecl = _retailEclRepository.FirstOrDefault((Guid)eclId);
-                var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
-                foreach (var user in users)
-                {
-                    if (await UserManager.IsInOrganizationUnitAsync(user.Id, ecl.OrganizationUnitId))
-                    {
-                        int frameworkId = (int)FrameworkEnum.Retail;
-                        var baseUrl = _appConfiguration["App:ClientRootAddress"];
-                        var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
-                        var type = "Retail ECL Override";
-                        await _emailer.SendEmailSubmittedForAdditionalApprovalAsync(user, type, ou.DisplayName, link);
-                    }
-                }
-            }
-        }
-
-        public async Task SendApprovedEmail(Guid eclId)
-        {
+            var ecl = _retailEclRepository.FirstOrDefault((Guid)eclId);
             int frameworkId = (int)FrameworkEnum.Retail;
             var baseUrl = _appConfiguration["App:ClientRootAddress"];
             var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
             var type = "Retail ECL Override";
+
+            await _backgroundJobManager.EnqueueAsync<SendEmailJob, SendEmailJobArgs>(new SendEmailJobArgs()
+            {
+                AffiliateId = ecl.OrganizationUnitId,
+                Link = link,
+                Type = type,
+                UserId = ecl.CreatorUserId == null ? (long)AbpSession.UserId : (long)ecl.CreatorUserId,
+                SendEmailType = SendEmailTypeEnum.EclOverrideSubmittedEmail
+            });
+        }
+
+        public async Task SendAdditionalApprovalEmail(Guid eclId)
+        {
             var ecl = _retailEclRepository.FirstOrDefault((Guid)eclId);
-            var user = _lookup_userRepository.FirstOrDefault(ecl.CreatorUserId == null ? (long)AbpSession.UserId : (long)ecl.CreatorUserId);
-            var ou = _organizationUnitRepository.FirstOrDefault(ecl.OrganizationUnitId);
-            await _emailer.SendEmailApprovedAsync(user, type, ou.DisplayName, link);
+            int frameworkId = (int)FrameworkEnum.Retail;
+            var baseUrl = _appConfiguration["App:ClientRootAddress"];
+            var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+            var type = "Retail ECL Override";
+
+            await _backgroundJobManager.EnqueueAsync<SendEmailJob, SendEmailJobArgs>(new SendEmailJobArgs()
+            {
+                AffiliateId = ecl.OrganizationUnitId,
+                Link = link,
+                Type = type,
+                UserId = ecl.CreatorUserId == null ? (long)AbpSession.UserId : (long)ecl.CreatorUserId,
+                SendEmailType = SendEmailTypeEnum.EclOverrideAwaitingApprovalEmail
+            });
+        }
+
+        public async Task SendApprovedEmail(Guid eclId)
+        {
+            var ecl = _retailEclRepository.FirstOrDefault((Guid)eclId);
+            int frameworkId = (int)FrameworkEnum.Retail;
+            var baseUrl = _appConfiguration["App:ClientRootAddress"];
+            var link = baseUrl + "/app/main/ecl/view/" + frameworkId.ToString() + "/" + eclId;
+            var type = "Retail ECL Override";
+
+            await _backgroundJobManager.EnqueueAsync<SendEmailJob, SendEmailJobArgs>(new SendEmailJobArgs()
+            {
+                AffiliateId = ecl.OrganizationUnitId,
+                Link = link,
+                Type = type,
+                UserId = ecl.CreatorUserId == null ? (long)AbpSession.UserId : (long)ecl.CreatorUserId,
+                SendEmailType = SendEmailTypeEnum.EclOverrideApprovedEmail
+            });
         }
     }
 }

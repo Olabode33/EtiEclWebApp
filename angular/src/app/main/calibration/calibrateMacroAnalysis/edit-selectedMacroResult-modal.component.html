@@ -28,7 +28,7 @@
                                             <input type="number" name="{{'Average'+ i}}" class="form-control" disabled readonly
                                                 [(ngModel)]="item.macroeconomicVariable.name">
                                         </td> -->
-                                        <td class="align-middle">
+                                        <td *ngIf="item.macroeconomicVariable" class="align-middle">
                                             <label>{{item.macroeconomicVariable.name}}</label>
                                             <input type="number" name="{{'StandardDev'+ i}}" class="form-control"
                                                 [(ngModel)]="item.selectedMacroeconomicVariable.backwardOffset">

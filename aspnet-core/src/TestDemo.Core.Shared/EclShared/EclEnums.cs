@@ -111,6 +111,13 @@ namespace TestDemo.EclShared
         None, Wholesale, Retail, Obe, CalibrateBehaviouralTerm, CalibrateCcfSummary, CalibrateHaircut, CalibrateRecoveryRate, CalibratePdCrDr, MacroAnalysis, Investment
     }
 
+    public enum SendEmailTypeEnum
+    {
+        EclSubmittedEmail, EclAwaitingApprovalEmail, EclApprovedEmail, 
+        CalibrationSubmittedEmail, CalibrationAwaitingApprovalEmail, CalibrationApprovedEmail, 
+        EclOverrideSubmittedEmail, EclOverrideAwaitingApprovalEmail, EclOverrideApprovedEmail
+    }
+
     
 
     public static class EclEnums

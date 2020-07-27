@@ -91,10 +91,10 @@
 													<a href="javascript:;" *ngIf="permission.isGranted('Pages.Configurations.Update')"
 														(click)="createOrEditMacroeconomicVariableModal.show(record.macroeconomicVariable.id)">{{l('Edit')}}</a>
 												</li>
-												<li>
+												<!-- <li>
 											        <a href="javascript:;" *ngIf="permission.isGranted('Pages.Configurations.Update')"
 														(click)="deleteMacroeconomicVariable(record.macroeconomicVariable)">{{l('Delete')}}</a>
-												</li>
+												</li> -->
                                                 <li>
                                                     <a href="javascript:;" *ngIf="entityHistoryEnabled"
                                                        (click)="showHistory(record.macroeconomicVariable)">{{l('History')}}</a>

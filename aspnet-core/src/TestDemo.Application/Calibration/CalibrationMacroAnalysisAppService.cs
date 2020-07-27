@@ -36,6 +36,7 @@ using TestDemo.Configuration;
 using Abp.AutoMapper;
 using TestDemo.Calibration.Jobs;
 using Abp.BackgroundJobs;
+using TestDemo.EclShared.Jobs;
 
 namespace TestDemo.Calibration
 {
@@ -724,49 +725,53 @@ namespace TestDemo.Calibration
 
         public async Task SendSubmittedEmail(int calibrationId)
         {
-            var users = await UserManager.GetUsersInRoleAsync("Group Reviewer");
-            if (users.Count > 0)
+            var calibration = _macroAnalysisRepository.FirstOrDefault(calibrationId);
+            var baseUrl = _appConfiguration["App:ClientRootAddress"];
+            var link = baseUrl + "/app/main/calibration/macroAnalysis/view/" + calibrationId;
+            var type = "Macro analysis";
+
+            await _backgroundJobManager.EnqueueAsync<SendEmailJob, SendEmailJobArgs>(new SendEmailJobArgs()
             {
-                foreach (var user in users)
-                {
-                    //var user = await _lookup_userRepository.FirstOrDefaultAsync((long)AbpSession.UserId);
-                    var baseUrl = _appConfiguration["App:ClientRootAddress"];
-                    var link = baseUrl + "/app/main/calibration/macroAnalysis/view/" + calibrationId;
-                    var type = "Macro analysis";
-                    var calibration = _macroAnalysisRepository.FirstOrDefault(calibrationId);
-                    var ou = _organizationUnitRepository.FirstOrDefault(calibration.OrganizationUnitId);
-                    await _emailer.SendEmailSubmittedForApprovalAsync(user, type, ou.DisplayName, link);
-                }
-            }
+                AffiliateId = calibration.OrganizationUnitId,
+                Link = link,
+                Type = type,
+                UserId = calibration.CreatorUserId == null ? (long)AbpSession.UserId : (long)calibration.CreatorUserId,
+                SendEmailType = SendEmailTypeEnum.CalibrationSubmittedEmail
+            });
         }
 
         public async Task SendAdditionalApprovalEmail(int calibrationId)
         {
-            var users = await UserManager.GetUsersInRoleAsync("Group Reviewer");
-            if (users.Count > 0)
+            var calibration = _macroAnalysisRepository.FirstOrDefault(calibrationId);
+            var baseUrl = _appConfiguration["App:ClientRootAddress"];
+            var link = baseUrl + "/app/main/calibration/macroAnalysis/view/" + calibrationId;
+            var type = "Macro analysis";
+
+            await _backgroundJobManager.EnqueueAsync<SendEmailJob, SendEmailJobArgs>(new SendEmailJobArgs()
             {
-                foreach (var user in users)
-                {
-                    //var user = await _lookup_userRepository.FirstOrDefaultAsync((long)AbpSession.UserId);
-                    var baseUrl = _appConfiguration["App:ClientRootAddress"];
-                    var link = baseUrl + "/app/main/calibration/macroAnalysis/view/" + calibrationId;
-                    var type = "Macro analysis";
-                    var calibration = _macroAnalysisRepository.FirstOrDefault(calibrationId);
-                    var ou = _organizationUnitRepository.FirstOrDefault(calibration.OrganizationUnitId);
-                    await _emailer.SendEmailSubmittedForAdditionalApprovalAsync(user, type, ou.DisplayName, link);
-                }
-            }
+                AffiliateId = calibration.OrganizationUnitId,
+                Link = link,
+                Type = type,
+                UserId = calibration.CreatorUserId == null ? (long)AbpSession.UserId : (long)calibration.CreatorUserId,
+                SendEmailType = SendEmailTypeEnum.CalibrationAwaitingApprovalEmail
+            });
         }
 
         public async Task SendApprovedEmail(int calibrationId)
         {
             var calibration = _macroAnalysisRepository.FirstOrDefault(calibrationId);
-            var user = _lookup_userRepository.FirstOrDefault(calibration.CreatorUserId == null ? (long)AbpSession.UserId : (long)calibration.CreatorUserId);
             var baseUrl = _appConfiguration["App:ClientRootAddress"];
             var link = baseUrl + "/app/main/calibration/macroAnalysis/view/" + calibrationId;
             var type = "Macro analysis";
-            var ou = _organizationUnitRepository.FirstOrDefault(calibration.OrganizationUnitId);
-            await _emailer.SendEmailApprovedAsync(user, type, ou.DisplayName, link);
+
+            await _backgroundJobManager.EnqueueAsync<SendEmailJob, SendEmailJobArgs>(new SendEmailJobArgs()
+            {
+                AffiliateId = calibration.OrganizationUnitId,
+                Link = link,
+                Type = type,
+                UserId = calibration.CreatorUserId == null ? (long)AbpSession.UserId : (long)calibration.CreatorUserId,
+                SendEmailType = SendEmailTypeEnum.CalibrationApprovedEmail
+            });
         }
 
     }

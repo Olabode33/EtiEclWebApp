@@ -34,6 +34,7 @@ using Microsoft.AspNetCore.Hosting;
 using TestDemo.Configuration;
 using Abp.BackgroundJobs;
 using TestDemo.Calibration.Jobs;
+using TestDemo.EclShared.Jobs;
 
 namespace TestDemo.Calibration
 {
@@ -542,49 +543,53 @@ namespace TestDemo.Calibration
 
         public async Task SendSubmittedEmail(Guid calibrationId)
         {
-            var users = await UserManager.GetUsersInRoleAsync("Group Reviewer");
-            if (users.Count > 0)
+            var calibration = _calibrationRepository.FirstOrDefault((Guid)calibrationId);
+            var baseUrl = _appConfiguration["App:ClientRootAddress"];
+            var link = baseUrl + "/app/main/calibration/recovery/view/" + calibrationId;
+            var type = "LGD Recovery rate calibration";
+
+            await _backgroundJobManager.EnqueueAsync<SendEmailJob, SendEmailJobArgs>(new SendEmailJobArgs()
             {
-                foreach (var user in users)
-                {
-                    //var user = await _lookup_userRepository.FirstOrDefaultAsync((long)AbpSession.UserId);
-                    var baseUrl = _appConfiguration["App:ClientRootAddress"];
-                    var link = baseUrl + "/app/main/calibration/recovery/view/" + calibrationId;
-                    var type = "LGD Recovery rate calibration";
-                    var calibration = _calibrationRepository.FirstOrDefault((Guid)calibrationId);
-                    var ou = _organizationUnitRepository.FirstOrDefault(calibration.OrganizationUnitId);
-                    await _emailer.SendEmailSubmittedForApprovalAsync(user, type, ou.DisplayName, link);
-                }
-            }
+                AffiliateId = calibration.OrganizationUnitId,
+                Link = link,
+                Type = type,
+                UserId = calibration.CreatorUserId == null ? (long)AbpSession.UserId : (long)calibration.CreatorUserId,
+                SendEmailType = SendEmailTypeEnum.CalibrationSubmittedEmail
+            });
         }
 
         public async Task SendAdditionalApprovalEmail(Guid calibrationId)
         {
-            var users = await UserManager.GetUsersInRoleAsync("Group Reviewer");
-            if (users.Count > 0)
+            var calibration = _calibrationRepository.FirstOrDefault((Guid)calibrationId);
+            var baseUrl = _appConfiguration["App:ClientRootAddress"];
+            var link = baseUrl + "/app/main/calibration/recovery/view/" + calibrationId;
+            var type = "LGD Recovery rate calibration";
+
+            await _backgroundJobManager.EnqueueAsync<SendEmailJob, SendEmailJobArgs>(new SendEmailJobArgs()
             {
-                foreach (var user in users)
-                {
-                    //var user = await _lookup_userRepository.FirstOrDefaultAsync((long)AbpSession.UserId);
-                    var baseUrl = _appConfiguration["App:ClientRootAddress"];
-                    var link = baseUrl + "/app/main/calibration/recovery/view/" + calibrationId;
-                    var type = "LGD Recovery rate calibration";
-                    var calibration = _calibrationRepository.FirstOrDefault((Guid)calibrationId);
-                    var ou = _organizationUnitRepository.FirstOrDefault(calibration.OrganizationUnitId);
-                    await _emailer.SendEmailSubmittedForAdditionalApprovalAsync(user, type, ou.DisplayName, link);
-                }
-            }
+                AffiliateId = calibration.OrganizationUnitId,
+                Link = link,
+                Type = type,
+                UserId = calibration.CreatorUserId == null ? (long)AbpSession.UserId : (long)calibration.CreatorUserId,
+                SendEmailType = SendEmailTypeEnum.CalibrationAwaitingApprovalEmail
+            });
         }
 
         public async Task SendApprovedEmail(Guid calibrationId)
         {
             var calibration = _calibrationRepository.FirstOrDefault((Guid)calibrationId);
-            var user = _lookup_userRepository.FirstOrDefault(calibration.CreatorUserId == null ? (long)AbpSession.UserId : (long)calibration.CreatorUserId);
             var baseUrl = _appConfiguration["App:ClientRootAddress"];
             var link = baseUrl + "/app/main/calibration/recovery/view/" + calibrationId;
             var type = "LGD Recovery rate calibration";
-            var ou = _organizationUnitRepository.FirstOrDefault(calibration.OrganizationUnitId);
-            await _emailer.SendEmailApprovedAsync(user, type, ou.DisplayName, link);
+
+            await _backgroundJobManager.EnqueueAsync<SendEmailJob, SendEmailJobArgs>(new SendEmailJobArgs()
+            {
+                AffiliateId = calibration.OrganizationUnitId,
+                Link = link,
+                Type = type,
+                UserId = calibration.CreatorUserId == null ? (long)AbpSession.UserId : (long)calibration.CreatorUserId,
+                SendEmailType = SendEmailTypeEnum.CalibrationApprovedEmail
+            });
         }
 
     }

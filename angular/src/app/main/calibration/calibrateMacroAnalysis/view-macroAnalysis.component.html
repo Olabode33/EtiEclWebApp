@@ -110,7 +110,7 @@
                                 <tbody>
                                     <tr *ngFor="let varirable of macroEconomicVariables; let i = index;">
                                         <td class="align-middle">{{ i + 1 }}</td>
-                                        <td class="align-middle">{{ varirable.macroeconomicVariable.name }}</td>
+                                        <td class="align-middle">{{ varirable.macroeconomicVariable ? varirable.macroeconomicVariable.name : '' }}</td>
                                     </tr>
         
                                 </tbody>
