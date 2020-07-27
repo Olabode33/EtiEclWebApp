@@ -1149,7 +1149,7 @@ namespace TestDemo.Wholesale
             }
 
             var selectedMacro = await _macroResultSecltedEconomicVariableRepository.GetAllListAsync(e => e.AffiliateId == ouId);
-            var macrosInProjection = await _pdAssumptionMacroecoProjectionRepository.GetAll().Where(e => e.OrganizationUnitId == ouId && e.Framework == FrameworkEnum.OBE && e.Date > reportDate)
+            var macrosInProjection = await _pdAssumptionMacroecoProjectionRepository.GetAll().Where(e => e.OrganizationUnitId == ouId && e.Framework == FrameworkEnum.Wholesale && e.Date > reportDate)
                                                                                     .Select(e => e.MacroeconomicVariableId).Distinct().ToListAsync();
 
             var notInPorjection = selectedMacro.Select(e => e.MacroeconomicVariableId).Except(macrosInProjection).Any();
