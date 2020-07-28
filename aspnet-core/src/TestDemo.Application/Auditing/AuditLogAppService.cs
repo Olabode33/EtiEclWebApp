@@ -35,6 +35,7 @@ namespace TestDemo.Auditing
         private readonly INamespaceStripper _namespaceStripper;
         private readonly IAbpStartupConfiguration _abpStartupConfiguration;
         private readonly IEclCustomRepository _customRepository;
+        private readonly IAuditLogListPdfExporter _auditLogLisPdfExporter;
 
         public AuditLogAppService(
             IRepository<AuditLog, long> auditLogRepository,
@@ -45,6 +46,7 @@ namespace TestDemo.Auditing
             IRepository<EntityChangeSet, long> entityChangeSetRepository,
             IRepository<EntityPropertyChange, long> entityPropertyChangeRepository,
             IAbpStartupConfiguration abpStartupConfiguration,
+            IAuditLogListPdfExporter auditLogLisPdfExporter,
             IEclCustomRepository customRepository)
         {
             _auditLogRepository = auditLogRepository;
@@ -56,6 +58,7 @@ namespace TestDemo.Auditing
             _entityPropertyChangeRepository = entityPropertyChangeRepository;
             _abpStartupConfiguration = abpStartupConfiguration;
             _customRepository = customRepository;
+            _auditLogLisPdfExporter = auditLogLisPdfExporter;
         }
 
         #region audit logs
@@ -209,11 +212,11 @@ namespace TestDemo.Auditing
             return ObjectMapper.Map<List<EntityPropertyChangeDto>>(entityPropertyChanges);
         }
 
-        public async Task<List<PrintAuditLogDto>> ExportAuditLogToFile(GetAuditLogForPrintInput input)
+        public async Task<FileDto> ExportAuditLogToFile(GetAuditLogForPrintInput input)
         {
             var log = await _customRepository.GetAuditLogForPrint(input);
 
-            return log;
+            return _auditLogLisPdfExporter.ExportToPdf(log);
         }
 
         private List<EntityChangeListDto> ConvertToEntityChangeListDtos(List<EntityChangeAndUser> results)

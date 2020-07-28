@@ -33,6 +33,8 @@ using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
 using TestDemo.Configure;
 using TestDemo.Schemas;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 
 namespace TestDemo.Web.Startup
 {
@@ -129,7 +131,13 @@ namespace TestDemo.Web.Startup
             {
                 services.AddAndConfigureGraphQL();
             }
-            
+
+            var architectureFolder = (IntPtr.Size == 8) ? "64 bit" : "32 bit";
+            var wkHtmlToPdfPath = Path.Combine(_hostingEnvironment.ContentRootPath, $"wkhtmltox\\v0.12.4\\{architectureFolder}\\libwkhtmltox");
+            CustomAssemblyLoadContext context = new CustomAssemblyLoadContext();
+            context.LoadUnmanagedLibrary(wkHtmlToPdfPath);
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+
             //Configure Abp and Dependency Injection
             return services.AddAbp<TestDemoWebHostModule>(options =>
             {

@@ -164,7 +164,7 @@ export class AuditLogsComponent extends AppComponentBase {
         dto.userId = null;
 
         this._auditLogService.exportAuditLogToFile(dto).subscribe(result => {
-            console.log(result);
+            this._fileDownloadService.downloadTempFile(result);
         });
     }
 }
