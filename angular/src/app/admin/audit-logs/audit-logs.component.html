@@ -209,6 +209,7 @@
                     <tab heading="{{'ChangeLogs' | localize}}">
                         <div class="row mb-2">
                             <div class="col-sm-12 text-right">
+                                <button type="button" class="btn btn-success" (click)="exportLog()"><i class="far fa-file-pdf"></i> {{"ExportToPdf" | localize}}</button>
                                 <button type="button" class="btn btn-success" (click)="exportToExcelEntityChanges()"><i class="far fa-file-excel"></i> {{"ExportToExcel" | localize}}</button>
                                 <button type="button" class="btn btn-primary" (click)="getEntityChanges()"><i class="fa fa-sync"></i> {{"Refresh" | localize}}</button>
                             </div>

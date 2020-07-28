@@ -3,7 +3,7 @@ import { AuditLogDetailModalComponent } from '@app/admin/audit-logs/audit-log-de
 import { EntityChangeDetailModalComponent } from '@app/shared/common/entityHistory/entity-change-detail-modal.component';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { AuditLogListDto, AuditLogServiceProxy, EntityChangeListDto, NameValueDto } from '@shared/service-proxies/service-proxies';
+import { AuditLogListDto, AuditLogServiceProxy, EntityChangeListDto, NameValueDto, GetAuditLogForPrintInput } from '@shared/service-proxies/service-proxies';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import * as moment from 'moment';
 import { LazyLoadEvent } from 'primeng/components/common/lazyloadevent';
@@ -155,5 +155,16 @@ export class AuditLogsComponent extends AppComponentBase {
 
     truncateStringWithPostfix(text: string, length: number): string {
         return abp.utils.truncateStringWithPostfix(text, length);
+    }
+
+    exportLog(): void {
+        let dto = new GetAuditLogForPrintInput();
+        dto.startDate = moment(this.dateRange[0]);
+        dto.endDate = moment(this.dateRange[1]).endOf('day'),
+        dto.userId = null;
+
+        this._auditLogService.exportAuditLogToFile(dto).subscribe(result => {
+            console.log(result);
+        });
     }
 }

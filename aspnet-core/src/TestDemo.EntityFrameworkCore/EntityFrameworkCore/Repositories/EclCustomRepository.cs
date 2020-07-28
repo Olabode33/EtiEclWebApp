@@ -1,6 +1,9 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.Data;
 using Abp.EntityFrameworkCore;
+using Abp.Events.Bus.Entities;
+using Abp.Localization;
+using Abp.Localization.Sources;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,6 +13,7 @@ using System.Data.SqlClient;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TestDemo.Auditing.Dto;
 using TestDemo.Investment;
 using TestDemo.InvestmentComputation;
 
@@ -18,6 +22,7 @@ namespace TestDemo.EntityFrameworkCore.Repositories
     public class EclCustomRepository : TestDemoRepositoryBase<InvestmentEcl, Guid>, IEclCustomRepository
     {
         private readonly IActiveTransactionProvider _transactionProvider;
+        private readonly ILocalizationSource _localizationSource;
         private const string InvestmentPreOverrideEclProcedure = "InvSec_proc_PreOverrideEclCompution";
         private const string InvestmentPostOverrideEclProcedure = "InvSec_proc_PostOverrideEclCompution";
         private const string InvestmentCloseEclProcedure = "ECL_Investment_Archive";
@@ -29,10 +34,12 @@ namespace TestDemo.EntityFrameworkCore.Repositories
         private const string ObeCloseEclProcedure = "ECL_Obe_Archive";
         private const string ObeReopenEclProcedure = "ECL_Obe_Restore";
 
-        public EclCustomRepository(IDbContextProvider<TestDemoDbContext> dbContextProvider, IActiveTransactionProvider transactionProvider)
+        public EclCustomRepository(IDbContextProvider<TestDemoDbContext> dbContextProvider, IActiveTransactionProvider transactionProvider,
+            ILocalizationManager localizationManager)
             : base(dbContextProvider)
         {
             _transactionProvider = transactionProvider;
+            _localizationSource = localizationManager.GetSource(TestDemoConsts.LocalizationSourceName);
         }
 
         public async Task RunInvestmentPreOverrideEclStoredProcedure(Guid eclId)
@@ -115,6 +122,65 @@ namespace TestDemo.EntityFrameworkCore.Repositories
                                                           };
 
             await RunProcedure(procedureName, parameters);
+        }
+
+        public async Task<List<PrintAuditLogDto>> GetAuditLogForPrint(GetAuditLogForPrintInput input)
+        {
+            string startDateFilter = input.StartDate != null ? " and s.CreationTime >= '" + input.StartDate.Value.Date.ToString("yyyy-MM-dd h:mm tt") + "' " : "";
+            string endDateFilter = input.EndDate != null ? " and s.CreationTime <= '" + input.EndDate.Value.Date.ToString("yyyy-MM-dd h:mm tt") + "' " : "";
+            string userIdFilter = input.UserId != null ? " and s.UserId = " + input.UserId : "";
+
+            var query = $"Select p.id, p.PropertyName, p.PropertyTypeFullName, p.OriginalValue, p.NewValue, " +
+                        $"c.ChangeTime, s.CreationTime, c.ChangeType, c.EntityId, c.EntityTypeFullName, " +
+                        $"s.BrowserInfo, s.ClientIpAddress, s.ClientName, s.UserId, s.ImpersonatorUserId, " +
+                        $"u.Name + ' ' + u.Surname UserName, i.Name + ' ' + i.Surname ImpersonatorUser " +
+                        $"from AbpEntityPropertyChanges p " +
+                        $"left join AbpEntityChanges c on p.EntityChangeId = c.Id " +
+                        $"left join AbpEntityChangeSets s on c.EntityChangeSetId = s.Id " +
+                        $"left join AbpUsers u on s.UserId = u.Id " +
+                        $"left join AbpUsers i on s.ImpersonatorUserId = s.ImpersonatorUserId " +
+                        $"where 1=1 " +
+                        $"{ startDateFilter } " +
+                        $"{ endDateFilter } " +
+                        $"{ userIdFilter }";
+
+            await EnsureConnectionOpenAsync();
+            using (var command = CreateCommand(query, CommandType.Text))
+            {
+                using (var dataReader = await command.ExecuteReaderAsync())
+                {
+                    var result = new List<PrintAuditLogDto>();
+                    while (dataReader.Read())
+                    {
+                        var log = new PrintAuditLogDto();
+                        var t = dataReader["ImpersonatorUserId"];
+
+                        if (dataReader["PropertyTypeFullName"].ToString() == "TestDemo.EclShared.CalibrationStatusEnum")
+                        {
+                            ///
+                        }
+
+                        log.PropertyName = dataReader["PropertyName"] == null || dataReader["PropertyName"] == DBNull.Value ? "" : dataReader["PropertyName"].ToString(); 
+                        log.PropertyTypeFullName = dataReader["PropertyTypeFullName"] == null || dataReader["PropertyTypeFullName"] == DBNull.Value ? "" : dataReader["PropertyTypeFullName"].ToString(); 
+                        log.OriginalValue = dataReader["OriginalValue"] == null || dataReader["OriginalValue"] == DBNull.Value ? "" : CustomRepositoryHelper.GetEnumValue(log.PropertyTypeFullName, dataReader["OriginalValue"].ToString()); 
+                        log.NewValue = dataReader["NewValue"] == null || dataReader["NewValue"] == DBNull.Value ? "" : CustomRepositoryHelper.GetEnumValue(log.PropertyTypeFullName, dataReader["NewValue"].ToString()); 
+                        log.ChangeTime = dataReader["ChangeTime"] == null || dataReader["ChangeTime"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["ChangeTime"].ToString()); 
+                        log.CreationTime = dataReader["CreationTime"] == null || dataReader["CreationTime"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["CreationTime"].ToString());
+                        log.ChangeType = dataReader["ChangeType"] == null || dataReader["ChangeType"] == DBNull.Value ? (EntityChangeType?)null : (EntityChangeType)Convert.ToInt32(dataReader["ChangeType"].ToString());
+                        log.EntityId = dataReader["EntityId"] == null || dataReader["EntityId"] == DBNull.Value ? "" : dataReader["EntityId"].ToString();
+                        log.EntityTypeFullName = dataReader["EntityTypeFullName"] == null || dataReader["EntityTypeFullName"] == DBNull.Value ? "" : _localizationSource.GetString(dataReader["EntityTypeFullName"].ToString());
+                        log.BrowserInfo = dataReader["BrowserInfo"] == null || dataReader["BrowserInfo"] == DBNull.Value ? "" : dataReader["BrowserInfo"].ToString();
+                        log.ClientIpAddress = dataReader["ClientIpAddress"] == null || dataReader["ClientIpAddress"] == DBNull.Value ? "" : dataReader["ClientIpAddress"].ToString();
+                        log.UserName = dataReader["UserName"] == null || dataReader["UserName"] == DBNull.Value ? "" : dataReader["UserName"].ToString();
+                        log.ImpersonatorUser = dataReader["ImpersonatorUser"] == null || dataReader["ImpersonatorUser"] == DBNull.Value ? "" : dataReader["ImpersonatorUser"].ToString();
+                        log.UserId = dataReader["UserId"] == null || dataReader["UserId"] == DBNull.Value ? (long?)null : Convert.ToInt64(dataReader["UserId"].ToString());
+                        log.ImpersonatorUserId = dataReader["ImpersonatorUserId"] == null || dataReader["ImpersonatorUserId"] == DBNull.Value ? (long?)null : Convert.ToInt64(dataReader["ImpersonatorUserId"].ToString());
+                        
+                        result.Add(log);
+                    }
+                    return result;
+                }
+            }
         }
 
         private async Task RunProcedure(string procedureName, SqlParameter[] parameters)

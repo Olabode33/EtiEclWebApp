@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using TestDemo.Auditing.Dto;
 using TestDemo.Investment;
 
 namespace TestDemo.InvestmentComputation
@@ -22,5 +23,6 @@ namespace TestDemo.InvestmentComputation
         Task RunObeReopenEclStoredProcedure(Guid eclId);
         Task DeleteExistingInputRecords(string tableName, string columnName, string value);
         Task DeleteExistingRecordsCustomInvestmentAssetBooks(string value);
+        Task<List<PrintAuditLogDto>> GetAuditLogForPrint(GetAuditLogForPrintInput input);
     }
 }

@@ -17,6 +17,7 @@ using TestDemo.Authorization;
 using TestDemo.Authorization.Users;
 using TestDemo.Dto;
 using TestDemo.EntityHistory;
+using TestDemo.InvestmentComputation;
 using EntityHistoryHelper = TestDemo.EntityHistory.EntityHistoryHelper;
 
 namespace TestDemo.Auditing
@@ -33,6 +34,7 @@ namespace TestDemo.Auditing
         private readonly IAuditLogListExcelExporter _auditLogListExcelExporter;
         private readonly INamespaceStripper _namespaceStripper;
         private readonly IAbpStartupConfiguration _abpStartupConfiguration;
+        private readonly IEclCustomRepository _customRepository;
 
         public AuditLogAppService(
             IRepository<AuditLog, long> auditLogRepository,
@@ -42,7 +44,8 @@ namespace TestDemo.Auditing
             IRepository<EntityChange, long> entityChangeRepository,
             IRepository<EntityChangeSet, long> entityChangeSetRepository,
             IRepository<EntityPropertyChange, long> entityPropertyChangeRepository,
-            IAbpStartupConfiguration abpStartupConfiguration)
+            IAbpStartupConfiguration abpStartupConfiguration,
+            IEclCustomRepository customRepository)
         {
             _auditLogRepository = auditLogRepository;
             _userRepository = userRepository;
@@ -52,6 +55,7 @@ namespace TestDemo.Auditing
             _entityChangeSetRepository = entityChangeSetRepository;
             _entityPropertyChangeRepository = entityPropertyChangeRepository;
             _abpStartupConfiguration = abpStartupConfiguration;
+            _customRepository = customRepository;
         }
 
         #region audit logs
@@ -203,6 +207,13 @@ namespace TestDemo.Auditing
                 .Where(epc => epc.EntityChangeId == entityChangeId);
 
             return ObjectMapper.Map<List<EntityPropertyChangeDto>>(entityPropertyChanges);
+        }
+
+        public async Task<List<PrintAuditLogDto>> ExportAuditLogToFile(GetAuditLogForPrintInput input)
+        {
+            var log = await _customRepository.GetAuditLogForPrint(input);
+
+            return log;
         }
 
         private List<EntityChangeListDto> ConvertToEntityChangeListDtos(List<EntityChangeAndUser> results)
