@@ -10,6 +10,7 @@ using Abp.Extensions;
 using Abp.Linq.Extensions;
 using Abp.Organizations;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.Authorization.Users;
 using TestDemo.Common.Dto;
 using TestDemo.Dto.Inputs;
 using TestDemo.EclConfig;
@@ -39,6 +40,7 @@ namespace TestDemo.Common
         private readonly IRepository<TrackRunningUploadJobs> _uploadJobsTrackerRepository;
         private readonly IRepository<TrackCalibrationUploadSummary> _calibrationUploadSummaryRepository;
         private readonly IRepository<TrackMacroUploadSummary> _macroUploadSummaryRepository;
+        private readonly IRepository<User, long> _userRepository;
 
         public CommonLookupAppService(EditionManager editionManager,
                                       IRepository<OrganizationUnit, long> organizationUnitRepository,
@@ -51,6 +53,7 @@ namespace TestDemo.Common
                                       IRepository<TrackRunningUploadJobs> uploadJobsTrackerRepository,
                                       IRepository<TrackMacroUploadSummary> macroUploadSummaryRepository,
                                       IRepository<TrackCalibrationUploadSummary> calibrationUploadSummaryRepository,
+                                      IRepository<User, long> userRepository,
                                       IRepository<TrackFacilityStage> facilityStageTrackerRepository)
         {
             _editionManager = editionManager;
@@ -65,6 +68,7 @@ namespace TestDemo.Common
             _uploadJobsTrackerRepository = uploadJobsTrackerRepository;
             _calibrationUploadSummaryRepository = calibrationUploadSummaryRepository;
             _macroUploadSummaryRepository = macroUploadSummaryRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<ListResultDto<SubscribableEditionComboboxItemDto>> GetEditionsForCombobox(bool onlyFreeItems = false)
@@ -307,9 +311,11 @@ namespace TestDemo.Common
             }
         }
 
-        public async Task UploadLoanbookData(List<EclDataLoanBookDto> input)
+        [AbpAllowAnonymous]
+        public async Task<bool> CheckUserExist(string userNameOrEmail)
         {
-            
+            var user = await _userRepository.GetAll().AnyAsync(e => e.UserName.ToLower() == userNameOrEmail.ToLower() || e.EmailAddress == userNameOrEmail.ToLower());
+            return user;
         }
     }
 }

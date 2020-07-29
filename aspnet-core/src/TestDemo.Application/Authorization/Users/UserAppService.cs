@@ -29,6 +29,9 @@ using TestDemo.Dto;
 using TestDemo.Notifications;
 using TestDemo.Url;
 using TestDemo.Organizations.Dto;
+using System.DirectoryServices.AccountManagement;
+using Abp.Zero.Ldap.Configuration;
+using Abp;
 
 namespace TestDemo.Authorization.Users
 {
@@ -52,6 +55,7 @@ namespace TestDemo.Authorization.Users
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
         private readonly IRoleManagementConfig _roleManagementConfig;
         private readonly UserManager _userManager;
+        private readonly ILdapSettings _settings;
 
         public UserAppService(
             RoleManager roleManager,
@@ -68,6 +72,7 @@ namespace TestDemo.Authorization.Users
             IPasswordHasher<User> passwordHasher,
             IRepository<OrganizationUnit, long> organizationUnitRepository,
             IRoleManagementConfig roleManagementConfig,
+            ILdapSettings settings,
             UserManager userManager)
         {
             _roleManager = roleManager;
@@ -85,6 +90,7 @@ namespace TestDemo.Authorization.Users
             _roleManagementConfig = roleManagementConfig;
             _userManager = userManager;
             _roleRepository = roleRepository;
+            _settings = settings;
 
             AppUrlService = NullAppUrlService.Instance;
         }
@@ -428,6 +434,61 @@ namespace TestDemo.Authorization.Users
             }
 
             return query;
+        }
+
+        public async Task<UserEditDto> CheckUserOnLdap(string userNameOrEmailAddress)
+        {
+            var user = new UserEditDto();
+
+            try
+            {
+                using (var principalContext = await CreatePrincipalContext())
+                {
+                    var userPrincipal = UserPrincipal.FindByIdentity(principalContext, userNameOrEmailAddress);
+
+                    if (userPrincipal == null)
+                    {
+                        throw new UserFriendlyException("Unknown LDAP user: " + userNameOrEmailAddress);
+                    }
+
+                    user.UserName = userPrincipal.SamAccountName;
+                    user.Name = userPrincipal.GivenName;
+                    user.Surname = userPrincipal.Surname;
+                    user.EmailAddress = userPrincipal.EmailAddress;
+
+                    if (userPrincipal.Enabled.HasValue)
+                    {
+                        user.IsActive = userPrincipal.Enabled.Value;
+                    }
+
+                    //user.IsEmailConfirmed = true;
+                    user.IsActive = true;
+
+                    return user;
+                }
+            } catch(Exception e)
+            {
+                throw new UserFriendlyException("Error Checking for user on AD: " + e.Message);
+            }
+        }
+
+        protected virtual async Task<PrincipalContext> CreatePrincipalContext()
+        {
+            var tenantId = 1;
+            return new PrincipalContext(
+                await _settings.GetContextType(tenantId),
+                ConvertToNullIfEmpty(await _settings.GetDomain(tenantId)),
+                ConvertToNullIfEmpty(await _settings.GetContainer(tenantId)),
+                ConvertToNullIfEmpty(await _settings.GetUserName(tenantId)),
+                ConvertToNullIfEmpty(await _settings.GetPassword(tenantId))
+                );
+        }
+
+        private static string ConvertToNullIfEmpty(string str)
+        {
+            return str.IsNullOrWhiteSpace()
+                ? null
+                : str;
         }
     }
 }

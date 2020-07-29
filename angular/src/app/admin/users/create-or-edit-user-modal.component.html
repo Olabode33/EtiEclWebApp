@@ -48,9 +48,13 @@
                                 <input id="UserName" #userNameInput="ngModel" type="text" [disabled]="!canChangeUserName" name="UserName" class="form-control" [(ngModel)]="user.userName" required maxlength="32">
                                 <span class="help-block" *ngIf="!canChangeUserName">{{"CanNotChangeAdminUserName" | localize}}</span>
                                 <validation-messages [formCtrl]="userNameInput"></validation-messages>
+                                <button *ngIf="!user.id && user.userName" type="button" class="btn btn-warning" (click)="checkAdForUser()">
+                                    <i class="fa fa-search"></i>
+                                    Check LDAP
+                                </button>
                             </div>
 
-                            <div class="kt-checkbox-list">
+                            <div *ngIf="!useLdap" class="kt-checkbox-list">
                                 <label for="EditUser_SetRandomPassword" class="kt-checkbox">
                                     <input id="EditUser_SetRandomPassword" type="checkbox" name="SetRandomPassword" [(ngModel)]="setRandomPassword">
                                     {{"SetRandomPassword" | localize}}

@@ -39,6 +39,8 @@ export class CreateOrEditUserModalComponent extends AppComponentBase {
     allOrganizationUnits: OrganizationUnitDto[];
     memberedOrganizationUnits: string[];
 
+    useLdap = false;
+
     constructor(
         injector: Injector,
         private _userService: UserServiceProxy,
@@ -163,5 +165,22 @@ export class CreateOrEditUserModalComponent extends AppComponentBase {
 
     getAssignedRoleCount(): number {
         return _.filter(this.roles, { isAssigned: true }).length;
+    }
+
+    checkAdForUser(): void {
+        this._userService.checkUserOnLdap(this.user.userName).subscribe(result => {
+            if (result) {
+                this.user.userName = result.userName;
+                this.user.surname = result.surname;
+                this.user.name = result.name;
+                this.user.emailAddress = result.emailAddress;
+                this.user.isActive = result.isActive;
+                this.user.isActive = true;
+                this.user.shouldChangePasswordOnNextLogin = false;
+                this.setRandomPassword = true;
+                this.sendActivationEmail = false;
+                this.useLdap = true;
+            }
+        });
     }
 }

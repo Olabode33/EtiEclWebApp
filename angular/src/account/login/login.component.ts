@@ -3,7 +3,7 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { SessionServiceProxy, UpdateUserSignInTokenOutput } from '@shared/service-proxies/service-proxies';
+import { SessionServiceProxy, UpdateUserSignInTokenOutput, CommonLookupServiceProxy } from '@shared/service-proxies/service-proxies';
 import { UrlHelper } from 'shared/helpers/UrlHelper';
 import { ExternalLoginProvider, LoginService } from './login.service';
 
@@ -21,7 +21,8 @@ export class LoginComponent extends AppComponentBase implements OnInit {
         public loginService: LoginService,
         private _router: Router,
         private _sessionService: AbpSessionService,
-        private _sessionAppService: SessionServiceProxy
+        private _sessionAppService: SessionServiceProxy,
+        private _commonLookupService: CommonLookupServiceProxy
     ) {
         super(injector);
     }
@@ -65,12 +66,22 @@ export class LoginComponent extends AppComponentBase implements OnInit {
     login(): void {
         abp.ui.setBusy(undefined, '', 1);
         this.submitting = true;
-        this.loginService.authenticate(
-            () => {
+
+        this._commonLookupService.checkUserExist(this.loginService.authenticateModel.userNameOrEmailAddress).subscribe(result => {
+            if (!result) {
                 this.submitting = false;
                 abp.ui.clearBusy();
+                this.message.warn('User does not exist. Please contact your administrator!');
+                return;
+            } else {
+                this.loginService.authenticate(
+                    () => {
+                        this.submitting = false;
+                        abp.ui.clearBusy();
+                    }
+                );
             }
-        );
+        });
     }
 
     externalLogin(provider: ExternalLoginProvider) {
