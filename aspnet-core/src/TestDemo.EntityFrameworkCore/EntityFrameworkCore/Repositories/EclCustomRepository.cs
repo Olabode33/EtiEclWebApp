@@ -126,23 +126,16 @@ namespace TestDemo.EntityFrameworkCore.Repositories
 
         public async Task<List<PrintAuditLogDto>> GetAuditLogForPrint(GetAuditLogForPrintInput input)
         {
-            string startDateFilter = input.StartDate != null ? " and s.CreationTime >= '" + input.StartDate.Value.Date.ToString("yyyy-MM-dd h:mm tt") + "' " : "";
-            string endDateFilter = input.EndDate != null ? " and s.CreationTime <= '" + input.EndDate.Value.Date.ToString("yyyy-MM-dd h:mm tt") + "' " : "";
-            string userIdFilter = input.UserId != null ? " and s.UserId = " + input.UserId : "";
+            string startDateFilter = input.StartDate != null ? " and CreationTime >= '" + input.StartDate.Value.Date.ToString("yyyy-MM-dd h:mm tt") + "' " : "";
+            string endDateFilter = input.EndDate != null ? " and CreationTime <= '" + input.EndDate.Value.Date.ToString("yyyy-MM-dd h:mm tt") + "' " : "";
+            string userIdFilter = input.UserNameFilter != null ? " and (UserName like '%" + input.UserNameFilter + "%' or checkerName like '%" + input.UserNameFilter + "%')" : "";
 
-            var query = $"Select p.id, p.PropertyName, p.PropertyTypeFullName, p.OriginalValue, p.NewValue, " +
-                        $"c.ChangeTime, s.CreationTime, c.ChangeType, c.EntityId, c.EntityTypeFullName, " +
-                        $"s.BrowserInfo, s.ClientIpAddress, s.ClientName, s.UserId, s.ImpersonatorUserId, " +
-                        $"u.Name + ' ' + u.Surname UserName, i.Name + ' ' + i.Surname ImpersonatorUser " +
-                        $"from AbpEntityPropertyChanges p " +
-                        $"left join AbpEntityChanges c on p.EntityChangeId = c.Id " +
-                        $"left join AbpEntityChangeSets s on c.EntityChangeSetId = s.Id " +
-                        $"left join AbpUsers u on s.UserId = u.Id " +
-                        $"left join AbpUsers i on s.ImpersonatorUserId = s.ImpersonatorUserId " +
+            var query = $"Select * from vw_AuditLogList " +
                         $"where 1=1 " +
                         $"{ startDateFilter } " +
                         $"{ endDateFilter } " +
-                        $"{ userIdFilter }";
+                        $"{ userIdFilter } " +
+                        $"order by CreationTime ";
 
             await EnsureConnectionOpenAsync();
             using (var command = CreateCommand(query, CommandType.Text))
@@ -153,12 +146,6 @@ namespace TestDemo.EntityFrameworkCore.Repositories
                     while (dataReader.Read())
                     {
                         var log = new PrintAuditLogDto();
-                        var t = dataReader["ImpersonatorUserId"];
-
-                        if (dataReader["PropertyTypeFullName"].ToString() == "TestDemo.EclShared.CalibrationStatusEnum")
-                        {
-                            ///
-                        }
 
                         log.PropertyName = dataReader["PropertyName"] == null || dataReader["PropertyName"] == DBNull.Value ? "" : dataReader["PropertyName"].ToString(); 
                         log.PropertyTypeFullName = dataReader["PropertyTypeFullName"] == null || dataReader["PropertyTypeFullName"] == DBNull.Value ? "" : dataReader["PropertyTypeFullName"].ToString(); 
@@ -175,6 +162,10 @@ namespace TestDemo.EntityFrameworkCore.Repositories
                         log.ImpersonatorUser = dataReader["ImpersonatorUser"] == null || dataReader["ImpersonatorUser"] == DBNull.Value ? "" : dataReader["ImpersonatorUser"].ToString();
                         log.UserId = dataReader["UserId"] == null || dataReader["UserId"] == DBNull.Value ? (long?)null : Convert.ToInt64(dataReader["UserId"].ToString());
                         log.ImpersonatorUserId = dataReader["ImpersonatorUserId"] == null || dataReader["ImpersonatorUserId"] == DBNull.Value ? (long?)null : Convert.ToInt64(dataReader["ImpersonatorUserId"].ToString());
+                        log.CheckerId = dataReader["CheckerId"] == null || dataReader["CheckerId"] == DBNull.Value ? (long?)null : Convert.ToInt64(dataReader["CheckerId"].ToString());
+                        log.CheckerName = dataReader["CheckerName"] == null || dataReader["CheckerName"] == DBNull.Value ? null : dataReader["CheckerName"].ToString();
+                        log.CheckerDate = dataReader["CheckerDate"] == null || dataReader["CheckerDate"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["CheckerDate"].ToString());
+                        log.CheckerIp = dataReader["CheckerIp"] == null || dataReader["CheckerIp"] == DBNull.Value ? null : dataReader["CheckerIp"].ToString();
                         
                         result.Add(log);
                     }

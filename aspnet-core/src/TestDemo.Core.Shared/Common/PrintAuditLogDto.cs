@@ -24,12 +24,16 @@ namespace TestDemo.Auditing.Dto
         public string ImpersonatorUser { get; set; }
         public long? UserId { get; set; }
         public long? ImpersonatorUserId { get; set; }
+        public long? CheckerId { get; set; }
+        public string CheckerName { get; set; }
+        public DateTime? CheckerDate { get; set; }
+        public string CheckerIp { get; set; }
     }
 
     public class GetAuditLogForPrintInput
     {
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public long? UserId { get; set; }
+        public string UserNameFilter { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+    <text name="ExportToPdf">Export to PDF</text>
     <text name="EraseAppliedCalibrationError">Cannot erase applied calibration.</text>
     <text name="AreYouSurePermanentDeleteEcl?">Are you should you want to permanently delete this ECL?</text>
     <text name="AreYouSurePermanentDeleteCalibration?">Are you should you want to permanently delete this calibration?</text>

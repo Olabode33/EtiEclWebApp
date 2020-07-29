@@ -161,7 +161,7 @@ export class AuditLogsComponent extends AppComponentBase {
         let dto = new GetAuditLogForPrintInput();
         dto.startDate = moment(this.dateRange[0]);
         dto.endDate = moment(this.dateRange[1]).endOf('day'),
-        dto.userId = null;
+        dto.userNameFilter = this.usernameEntityChange;
 
         this._auditLogService.exportAuditLogToFile(dto).subscribe(result => {
             this._fileDownloadService.downloadTempFile(result);
