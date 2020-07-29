@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Abp.Auditing;
 using Abp.Authorization.Users;
 using Abp.Domain.Entities;
@@ -45,6 +46,11 @@ namespace TestDemo.Authorization.Users.Dto
         public virtual bool IsTwoFactorEnabled { get; set; }
 
         public virtual bool IsLockoutEnabled { get; set; }
+
+
+        public bool IsApproved { get; set; }
+        public long? ApprovedBy { get; set; }
+        public DateTime? DateApproved { get; set; }
 
     }
 }

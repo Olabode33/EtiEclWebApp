@@ -74,5 +74,9 @@ namespace TestDemo.Authorization.Users
             SignInToken = Guid.NewGuid().ToString();
             SignInTokenExpireTimeUtc = Clock.Now.AddMinutes(1).ToUniversalTime();
         }
+
+        public virtual bool IsApproved { get; set; }
+        public virtual long? ApprovedBy { get; set; }
+        public virtual DateTime? DateApproved { get; set; }
     }
 }

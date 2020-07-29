@@ -188,6 +188,12 @@ namespace TestDemo.Authorization.Users
 
                 var organizationUnits = await UserManager.GetOrganizationUnitsAsync(user);
                 output.MemberedOrganizationUnits = organizationUnits.Select(ou => ou.Code).ToList();
+
+                if (user.IsApproved && user.ApprovedBy != null)
+                {
+                    var approvedBy = await UserManager.GetUserByIdAsync(user.ApprovedBy.Value);
+                    output.ApprovedByUserName = approvedBy.FullName;
+                }
             }
 
             return output;
@@ -435,6 +441,15 @@ namespace TestDemo.Authorization.Users
 
             return query;
         }
+
+        public async Task ApproveUser(EntityDto<long> input)
+        {
+            var user = await UserManager.GetUserByIdAsync(input.Id);
+            user.IsApproved = true;
+            user.ApprovedBy = AbpSession.UserId;
+            user.DateApproved = DateTime.Now;
+        }
+
 
         public async Task<UserEditDto> CheckUserOnLdap(string userNameOrEmailAddress)
         {

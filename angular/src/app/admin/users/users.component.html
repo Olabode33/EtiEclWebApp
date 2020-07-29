@@ -143,9 +143,13 @@
                                         {{'Active' | localize}}
                                         <p-sortIcon field="isActive"></p-sortIcon>
                                     </th>
-                                    <th style="width: 200px" pSortableColumn="creationTime">
+                                    <th style="width: 150px" pSortableColumn="creationTime">
                                         {{'CreationTime' | localize}}
                                         <p-sortIcon field="creationTime"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 200px" pSortableColumn="isApproved">
+                                        {{'Approve' | localize}}
+                                        <p-sortIcon field="isApproved"></p-sortIcon>
                                     </th>
                                 </tr>
                             </ng-template>
@@ -169,6 +173,10 @@
                                                 <li>
                                                     <a href="javascript:;" *ngIf="'Pages.Administration.Users.ChangePermissions' | permission"
                                                        (click)="editUserPermissionsModal.show(record.id, record.userName)">{{'Permissions' | localize}}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="('Pages.Administration.Users.Approve' | permission) && !record.isApproved"
+                                                       (click)="approvedUser(record)">{{'Approve' | localize}}</a>
                                                 </li>
                                                 <li>
                                                     <a href="javascript:;" *ngIf="'Pages.Administration.Users.ChangePermissions' | permission"
@@ -211,9 +219,14 @@
                                         <span class="kt-badge kt-badge--success kt-badge--inline" *ngIf="record.isActive">{{'Yes' | localize}}</span>
                                         <span class="kt-badge kt-badge--dark kt-badge--inline" *ngIf="!record.isActive">{{'No' | localize}}</span>
                                     </td>
-                                    <td style="width: 200px">
+                                    <td style="width: 150px">
                                         <span class="ui-column-title"> {{'CreationTime' | localize}}</span>
                                         {{record.creationTime | momentFormat:'L'}}
+                                    </td>
+                                    <td style="width: 100px">
+                                        <span class="ui-column-title"> {{'Approved' | localize}}</span>
+                                        <span class="kt-badge kt-badge--success kt-badge--inline" *ngIf="record.isApproved">{{'Yes' | localize}}</span>
+                                        <span class="kt-badge kt-badge--danger kt-badge--inline" *ngIf="!record.isApproved">{{'No' | localize}}</span>
                                     </td>
                                 </tr>
                             </ng-template>

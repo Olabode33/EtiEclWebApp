@@ -40,6 +40,7 @@ export class CreateOrEditUserModalComponent extends AppComponentBase {
     memberedOrganizationUnits: string[];
 
     useLdap = false;
+    approver = '';
 
     constructor(
         injector: Injector,
@@ -63,6 +64,8 @@ export class CreateOrEditUserModalComponent extends AppComponentBase {
 
             this.allOrganizationUnits = userResult.allOrganizationUnits;
             this.memberedOrganizationUnits = userResult.memberedOrganizationUnits;
+
+            this.approver = userResult.approvedByUserName;
 
             this.getProfilePicture(userResult.profilePictureId);
 

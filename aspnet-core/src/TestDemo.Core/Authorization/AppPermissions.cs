@@ -68,6 +68,7 @@
         public const string Pages_Administration_Users_Delete = "Pages.Administration.Users.Delete";
         public const string Pages_Administration_Users_ChangePermissions = "Pages.Administration.Users.ChangePermissions";
         public const string Pages_Administration_Users_Impersonation = "Pages.Administration.Users.Impersonation";
+        public const string Pages_Administration_Users_Approve = "Pages.Administration.Users.Approve";
 
         public const string Pages_Administration_Languages = "Pages.Administration.Languages";
         public const string Pages_Administration_Languages_Create = "Pages.Administration.Languages.Create";

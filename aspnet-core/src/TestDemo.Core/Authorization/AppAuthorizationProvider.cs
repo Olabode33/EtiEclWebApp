@@ -83,6 +83,7 @@ namespace TestDemo.Authorization
             users.CreateChildPermission(AppPermissions.Pages_Administration_Users_Delete, L("DeletingUser"));
             users.CreateChildPermission(AppPermissions.Pages_Administration_Users_ChangePermissions, L("ChangingPermissions"));
             users.CreateChildPermission(AppPermissions.Pages_Administration_Users_Impersonation, L("LoginForUsers"));
+            users.CreateChildPermission(AppPermissions.Pages_Administration_Users_Approve, L("Approve"));
 
             var languages = administration.CreateChildPermission(AppPermissions.Pages_Administration_Languages, L("Languages"));
             languages.CreateChildPermission(AppPermissions.Pages_Administration_Languages_Create, L("CreatingNewLanguage"));

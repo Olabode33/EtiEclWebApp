@@ -1004,6 +1004,8 @@ namespace TestDemo.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
+                    b.Property<long?>("ApprovedBy");
+
                     b.Property<string>("AuthenticationSource")
                         .HasMaxLength(64);
 
@@ -1014,6 +1016,8 @@ namespace TestDemo.Migrations
                     b.Property<DateTime>("CreationTime");
 
                     b.Property<long?>("CreatorUserId");
+
+                    b.Property<DateTime?>("DateApproved");
 
                     b.Property<long?>("DeleterUserId");
 
@@ -1029,6 +1033,8 @@ namespace TestDemo.Migrations
                     b.Property<string>("GoogleAuthenticatorKey");
 
                     b.Property<bool>("IsActive");
+
+                    b.Property<bool>("IsApproved");
 
                     b.Property<bool>("IsDeleted");
 

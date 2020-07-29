@@ -15,5 +15,6 @@ namespace TestDemo.Authorization.Users.Dto
         public List<OrganizationUnitDto> AllOrganizationUnits { get; set; }
 
         public List<string> MemberedOrganizationUnits { get; set; }
+        public string ApprovedByUserName { get; set; }
     }
 }

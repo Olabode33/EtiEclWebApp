@@ -27,5 +27,9 @@ namespace TestDemo.Authorization.Users.Dto
         public bool IsActive { get; set; }
 
         public DateTime CreationTime { get; set; }
+
+        public bool IsApproved { get; set; }
+        public long? ApprovedBy { get; set; }
+        public DateTime? DateApproved { get; set; }
     }
 }

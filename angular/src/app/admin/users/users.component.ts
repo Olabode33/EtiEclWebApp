@@ -156,4 +156,22 @@ export class UsersComponent extends AppComponentBase {
             }
         );
     }
+
+    approvedUser(user: UserListDto): void {
+        this.message.confirm(
+            this.l('UserApproveWarningMessage', user.userName),
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    let dto = new EntityDtoOfInt64();
+                    dto.id = user.id;
+                    this._userServiceProxy.approveUser(dto)
+                        .subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('SuccessfullyApproved'));
+                        });
+                }
+            }
+        );
+    }
 }

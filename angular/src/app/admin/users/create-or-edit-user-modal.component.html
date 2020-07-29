@@ -146,6 +146,26 @@
                             <organization-unit-tree #organizationUnitTree></organization-unit-tree>
                         </tab>
                     </tabset>
+
+                    <br>
+                    <div *ngIf="user.isApproved" class="kt-divider">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <table *ngIf="user.isApproved" class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <td>{{l('DateApproved')}}:</td>
+                                <td><span class="kt-font-bold">{{user.dateApproved | momentFormat: 'lll'}}</span></td>
+                            </tr>
+                            <tr>
+                                <td>{{l('ApprovedBy')}}:</td>
+                                <td><span class="kt-font-bold">{{approver}}</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
                 </div>
                 <div class="modal-footer">
                     <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{"Cancel" | localize}}</button>
