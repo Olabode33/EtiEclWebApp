@@ -314,7 +314,7 @@ namespace TestDemo.Common
         [AbpAllowAnonymous]
         public async Task<bool> CheckUserExist(string userNameOrEmail)
         {
-            var user = await _userRepository.GetAll().AnyAsync(e => e.UserName.ToLower() == userNameOrEmail.ToLower() || e.EmailAddress == userNameOrEmail.ToLower());
+            var user = await _userRepository.GetAll().AnyAsync(e => (e.UserName.ToLower() == userNameOrEmail.ToLower() || e.EmailAddress == userNameOrEmail.ToLower()));// && e.IsApproved == true);
             return user;
         }
     }

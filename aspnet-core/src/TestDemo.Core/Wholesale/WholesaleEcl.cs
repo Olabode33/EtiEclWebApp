@@ -32,6 +32,7 @@ namespace TestDemo.Wholesale
 
         public virtual Guid? BatchId { get; set; }
         public virtual bool IsSingleBatch { get; set; }
+        public virtual int ServiceId { get; set; }
 
         public virtual long? ClosedByUserId { get; set; }
 

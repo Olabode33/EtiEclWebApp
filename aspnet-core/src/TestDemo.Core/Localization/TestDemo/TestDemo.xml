@@ -2,6 +2,8 @@
 <localizationDictionary culture="en">
   <texts>
 
+    <text name="ApprovedBy">Approved By</text>
+    <text name="DateApproved">Date Approved</text>
     <text name="UserApproveWarningMessage">User {0} will be approved.</text>
     <text name="ExportToPdf">Export to PDF</text>
     <text name="EraseAppliedCalibrationError">Cannot erase applied calibration.</text>
