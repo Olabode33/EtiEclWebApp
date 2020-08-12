@@ -20,7 +20,7 @@ namespace TestDemo.CalibrationInput
         public virtual DateTime? Contract_Start_Date { get; set; }
         public virtual DateTime? Contract_End_Date { get; set; }
         public virtual int? RAPP_Date { get; set; }
-        public virtual int? Current_Rating { get; set; }
+        public virtual string Current_Rating { get; set; }
         public virtual DateTime? DateCreated { get; set; }
         public virtual Guid? CalibrationId { get; set; }
     }

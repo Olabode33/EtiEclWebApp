@@ -528,9 +528,9 @@ namespace TestDemo.Calibration
         {
             ValidationMessageDto output = new ValidationMessageDto();
 
-            var uploads = await _calibrationInputRepository.GetAllListAsync(x => x.CalibrationId == calibrationId);
-            var historic = await _calibrationHistoryRepository.GetAllListAsync(x => x.AffiliateId == affiliateId);
-            if (uploads.Count > 0 || historic.Count > 0)
+            var uploads = await _calibrationInputRepository.CountAsync(x => x.CalibrationId == calibrationId);
+            var historic = await _calibrationHistoryRepository.CountAsync(x => x.AffiliateId == affiliateId);
+            if (uploads > 0 || historic > 0)
             {
                 var calibration = await _calibrationRepository.FirstOrDefaultAsync(calibrationId);
                 var notCompleted = calibration.Status == CalibrationStatusEnum.Uploading;

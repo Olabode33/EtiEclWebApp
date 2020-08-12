@@ -19,7 +19,7 @@ namespace TestDemo.EclLibrary.Workers.Trackers
         public DateTime? Contract_Start_Date { get; set; }
         public DateTime? Contract_End_Date { get; set; }
         public int? RAPP_Date { get; set; }
-        public int? Current_Rating { get; set; }
+        public string Current_Rating { get; set; }
         public Guid? CalibrationId { get; set; }
         public string Exception { get; set; }
 

@@ -304,13 +304,12 @@ namespace TestDemo.Calibration
         [AbpAuthorize(AppPermissions.Pages_Calibration_Override)]
         public async Task UpdateCalibrationResult(ResultLgdHairCutSummaryDto input)
         {
-            var result = ObjectMapper.Map<CalibrationResultLgdHairCut>(input);
+            var result = ObjectMapper.Map<CalibrationResultLgdHairCutSummary>(input);
+            await _haircutSummaryResultRepository.UpdateAsync(result);
 
-            var cal = _calibrationRepository.FirstOrDefault((Guid)input.CalibrationId);
+            var cal = await _calibrationRepository.FirstOrDefaultAsync((Guid)input.CalibrationId);
             cal.Status = CalibrationStatusEnum.AppliedOverride;
             await _calibrationRepository.UpdateAsync(cal);
-
-            await _calibrationResultRepository.UpdateAsync(result);
 
             await _calibrationApprovalRepository.InsertAsync(new CalibrationLgdHairCutApproval
             {
@@ -537,9 +536,9 @@ namespace TestDemo.Calibration
         {
             ValidationMessageDto output = new ValidationMessageDto();
 
-            var uploads = await _calibrationInputRepository.GetAllListAsync(x => x.CalibrationId == calibrationId);
-            var historic = await _calibrationHistoryRepository.GetAllListAsync(x => x.AffiliateId == affiliateId);
-            if (uploads.Count > 0 || historic.Count > 0)
+            var uploads = await _calibrationInputRepository.CountAsync(x => x.CalibrationId == calibrationId);
+            var historic = await _calibrationHistoryRepository.CountAsync(x => x.AffiliateId == affiliateId);
+            if (uploads > 0 || historic > 0)
             {
                 var calibration = await _calibrationRepository.FirstOrDefaultAsync(calibrationId);
                 var notCompleted = calibration.Status == CalibrationStatusEnum.Uploading;

@@ -706,8 +706,8 @@ namespace TestDemo.Calibration
         {
             ValidationMessageDto output = new ValidationMessageDto();
 
-            var uploads = await _calibrationInputRepository.GetAllListAsync(x => x.MacroId == calibrationId);
-            if (uploads.Count > 0)
+            var uploads = await _calibrationInputRepository.CountAsync(x => x.MacroId == calibrationId);
+            if (uploads > 0)
             {
                 var calibration = await _macroAnalysisRepository.FirstOrDefaultAsync(calibrationId);
                 var notCompleted = calibration.Status == CalibrationStatusEnum.Uploading;

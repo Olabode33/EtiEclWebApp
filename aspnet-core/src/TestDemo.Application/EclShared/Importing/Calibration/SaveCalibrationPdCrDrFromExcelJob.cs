@@ -123,7 +123,7 @@ namespace TestDemo.EclShared.Importing
                     record.Contract_Start_Date = _validator.ValidateDateTimeValueFromRowOrNull(item.Contract_Start_Date, nameof(record.Contract_Start_Date), exceptionMessage);
                     record.Contract_End_Date = _validator.ValidateDateTimeValueFromRowOrNull(item.Contract_End_Date, nameof(record.Contract_End_Date), exceptionMessage);
                     record.RAPP_Date = _validator.ValidateIntegerValueFromRowOrNull(item.RAPP_Date, nameof(record.RAPP_Date), exceptionMessage);
-                    record.Current_Rating = _validator.ValidateIntegerValueFromRowOrNull(item.Current_Rating, nameof(record.Current_Rating), exceptionMessage);
+                    record.Current_Rating = item.Current_Rating;
 
                     if (exceptionMessage.Length > 0)
                     {
