@@ -38,7 +38,7 @@ namespace TestDemo.EclShared.Importing.Utils
                 return Convert.ToInt32(doubleValue);
             }
 
-            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "ExpectingWholeNumber"));
+            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "ExpectingWholeNumber", value));
             return null;
         }
 
@@ -78,7 +78,7 @@ namespace TestDemo.EclShared.Importing.Utils
                     return null;
             }
 
-            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "ExpectingWholeNumber"));
+            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "ExpectingWholeNumber", value));
             return null;
         }
 
@@ -94,7 +94,7 @@ namespace TestDemo.EclShared.Importing.Utils
                 return returnValue;
             }
 
-            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "ExpectingNumber"));
+            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "ExpectingNumber", value));
             return null;
         }
 
@@ -118,12 +118,15 @@ namespace TestDemo.EclShared.Importing.Utils
                 return returnValue;
             }
 
-            if (DateTime.TryParseExact(value, "d/M/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out returnValue))
+
+            string[] dateformats = { "d/M/yyyy", "M/d/yyyy", "MM/dd/yyyy", "MM/d/yyyy" };
+
+            if (DateTime.TryParseExact(value, dateformats, CultureInfo.InvariantCulture, DateTimeStyles.None, out returnValue))
             {
                 return returnValue;
             }
 
-            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "ExpectingDateTime"));
+            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "ExpectingDateTime", value));
             return null;
         }
 
@@ -145,7 +148,7 @@ namespace TestDemo.EclShared.Importing.Utils
                 return returnValue;
             }
 
-            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "Expecting1or0"));
+            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "Expecting1or0", value));
             return false;
         }
 
@@ -158,7 +161,7 @@ namespace TestDemo.EclShared.Importing.Utils
                 return cellValue.ToString();
             }
 
-            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "Required"));
+            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "Required", cellValue.ToString()));
             return null;
         }
 
@@ -195,7 +198,7 @@ namespace TestDemo.EclShared.Importing.Utils
             }
 
 
-            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "ExpectingWholeNumber"));
+            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "ExpectingWholeNumber", cellValue.ToString()));
             return null;
         }
 
@@ -213,7 +216,7 @@ namespace TestDemo.EclShared.Importing.Utils
                 return returnValue;
             }
 
-            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "ExpectingNumber"));
+            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "ExpectingNumber", cellValue.ToString()));
             return null;
         }
 
@@ -221,23 +224,39 @@ namespace TestDemo.EclShared.Importing.Utils
         {
             var cellValue = worksheet.Cells[row, column].Value;
             DateTime returnValue;
+            int dateSerial;
 
             if (cellValue == null)
             {
                 return null;
             }
-            else if (DateTime.TryParse(cellValue.ToString(), out returnValue))
+
+
+            if (int.TryParse(cellValue.ToString(), out dateSerial))
+            {
+                return DateTime.FromOADate(dateSerial);
+            }
+
+
+            if (DateTime.TryParse(cellValue.ToString(), out returnValue))
             {
                 return returnValue;
             }
 
-            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "ExpectingDateTime"));
+            string[] dateformats = { "d/M/yyyy", "M/d/yyyy", "MM/dd/yyyy", "MM/d/yyyy" };
+
+            if (DateTime.TryParseExact(cellValue.ToString(), dateformats, CultureInfo.InvariantCulture, DateTimeStyles.None, out returnValue))
+            {
+                return returnValue;
+            }
+
+            exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "ExpectingDateTime", cellValue.ToString()));
             return null;
         }
 
-        private string GetLocalizedExceptionMessagePart(string parameter, string required)
+        private string GetLocalizedExceptionMessagePart(string parameter, string required, string originalValue= "")
         {
-            return _localizationSource.GetString("{0}IsInvalid", parameter) + " " + _localizationSource.GetString(required) + "; ";
+            return _localizationSource.GetString("{0}IsInvalid", parameter) + " " + _localizationSource.GetString(required) + originalValue != "" ? " Found: " + originalValue : "" + "; ";
         }
     }
 }
