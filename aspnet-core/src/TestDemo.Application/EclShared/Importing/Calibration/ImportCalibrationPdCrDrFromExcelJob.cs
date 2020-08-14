@@ -177,6 +177,7 @@ namespace TestDemo.EclShared.Importing
                 Contract_Start_Date = input.Contract_Start_Date,
                 Contract_End_Date = input.Contract_End_Date,
                 RAPP_Date = input.RAPP_Date,
+                Segment = input.Segment,
                 Current_Rating = input.Current_Rating,
                 CalibrationId = args.CalibrationId,
                 DateCreated = DateTime.Now

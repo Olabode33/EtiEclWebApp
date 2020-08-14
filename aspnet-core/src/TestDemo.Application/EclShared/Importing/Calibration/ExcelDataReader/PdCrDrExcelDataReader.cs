@@ -47,6 +47,7 @@ namespace TestDemo.EclShared.Importing
                 data.Contract_Start_Date = GetRequiredValueFromRowOrNull(worksheet, row, 9, nameof(data.Contract_Start_Date), exceptionMessage);
                 data.Contract_End_Date = GetRequiredValueFromRowOrNull(worksheet, row, 10, nameof(data.Contract_End_Date), exceptionMessage);
                 data.RAPP_Date = GetRequiredValueFromRowOrNull(worksheet, row, 11, nameof(data.RAPP_Date), exceptionMessage);
+                data.Segment = GetRequiredValueFromRowOrNull(worksheet, row, 12, nameof(data.Segment), exceptionMessage);
             }
             catch (Exception exception)
             {

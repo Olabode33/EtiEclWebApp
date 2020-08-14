@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestDemo.EntityFrameworkCore;
 
 namespace TestDemo.Migrations
 {
     [DbContext(typeof(TestDemoDbContext))]
-    partial class TestDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200814100203_Updated_PdCalibrationInput")]
+    partial class Updated_PdCalibrationInput
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2192,8 +2194,6 @@ namespace TestDemo.Migrations
 
                     b.Property<int?>("RAPP_Date");
 
-                    b.Property<string>("Segment");
-
                     b.HasKey("Id");
 
                     b.ToTable("CalibrationHistory_PD_CR_DR");
@@ -2699,14 +2699,6 @@ namespace TestDemo.Migrations
 
                     b.Property<string>("Comment");
 
-                    b.Property<double?>("Commercial_CureRate");
-
-                    b.Property<double?>("Commercial_RedefaultRate");
-
-                    b.Property<double?>("Consumer_CureRate");
-
-                    b.Property<double?>("Consumer_RedefaultRate");
-
                     b.Property<double?>("Cure_Rate");
 
                     b.Property<double?>("CuredLoansA");
@@ -2738,35 +2730,6 @@ namespace TestDemo.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CalibrationResult_PD_12Months_Summary");
-                });
-
-            modelBuilder.Entity("TestDemo.CalibrationResult.CalibrationResultPdCommsConsMarginalDefaultRate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<Guid?>("CalibrationId");
-
-                    b.Property<double?>("Comm1");
-
-                    b.Property<double?>("Comm2");
-
-                    b.Property<string>("Comment");
-
-                    b.Property<double?>("Cons1");
-
-                    b.Property<double?>("Cons2");
-
-                    b.Property<DateTime?>("DateCreated");
-
-                    b.Property<int>("Month");
-
-                    b.Property<int?>("Status");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CalibrationResult_PD_CommsCons_MarginalDefaultRate");
                 });
 
             modelBuilder.Entity("TestDemo.CalibrationResult.MacroResult_CorMat", b =>

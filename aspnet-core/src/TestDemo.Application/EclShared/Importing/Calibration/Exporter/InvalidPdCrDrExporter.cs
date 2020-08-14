@@ -38,6 +38,7 @@ namespace TestDemo.EclShared.Importing
                         "Contract_Start_Date",
                         "Contract_End_Date",
                         "RAPP_Date",
+                        "Segment",
                         L("RefuseReason")
                         );
 
@@ -54,6 +55,7 @@ namespace TestDemo.EclShared.Importing
                         _ => _.Contract_Start_Date,
                         _ => _.Contract_End_Date,
                         _ => _.RAPP_Date,
+                        _ => _.Segment,
                         _ => _.Exception
                         );
 

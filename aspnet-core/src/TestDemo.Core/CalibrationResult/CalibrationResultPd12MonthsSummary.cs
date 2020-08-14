@@ -22,6 +22,10 @@ namespace TestDemo.CalibrationResult
         public virtual double? RedefaultedLoansB { get; set; }
         public virtual double? Redefault_Rate { get; set; }
         public virtual double? Redefault_Factor { get; set; }
+        public virtual double? Commercial_CureRate { get; set; }
+        public virtual double? Commercial_RedefaultRate { get; set; }
+        public virtual double? Consumer_CureRate { get; set; }
+        public virtual double? Consumer_RedefaultRate { get; set; }
         public virtual string Comment { get; set; }
         public virtual int? Status { get; set; }
         public virtual DateTime? DateCreated { get; set; }

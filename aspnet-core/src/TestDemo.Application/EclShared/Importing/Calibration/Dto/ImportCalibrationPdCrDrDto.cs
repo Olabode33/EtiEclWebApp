@@ -18,6 +18,7 @@ namespace TestDemo.EclShared.Importing.Calibration.Dto
         public DateTime? Contract_End_Date { get; set; }
         public int? RAPP_Date { get; set; }
         public string Current_Rating { get; set; }
+        public string Segment { get; set; }
         public Guid? CalibrationId { get; set; }
         public DateTime? DateCreated { get; set; }
         public string Exception { get; set; }
@@ -40,6 +41,7 @@ namespace TestDemo.EclShared.Importing.Calibration.Dto
         public string Contract_End_Date { get; set; }
         public string RAPP_Date { get; set; }
         public string Current_Rating { get; set; }
+        public string Segment { get; set; }
         public string Exception { get; set; }
         public bool CanBeImported()
         {

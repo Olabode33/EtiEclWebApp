@@ -226,7 +226,7 @@ namespace TestDemo.Calibration
                                                                    Name = e.MacroeconomicVariableFk == null ? "" : e.MacroeconomicVariableFk.Name
                                                                })
                                                                .ToListAsync();
-            var inputs = await _calibrationInputRepository.GetAllListAsync(e => e.MacroId == input.Id);
+            var inputs = await _calibrationInputRepository.GetAll().Where(e => e.MacroId == input.Id).OrderBy(e => e.Period).ToListAsync();
 
 
             List<string> columns = new List<string>();

@@ -107,6 +107,7 @@ namespace TestDemo.EntityFrameworkCore
         public virtual DbSet<CalibrationResultLgdRecoveryRate> CalibrationResultLgdRecoveryRate { get; set; }
         public virtual DbSet<CalibrationResultPd12Months> CalibrationResult12MonthPd { get; set; }
         public virtual DbSet<CalibrationResultPd12MonthsSummary> CalibrationResultPd12MonthsSummary { get; set; }
+        public virtual DbSet<CalibrationResultPdCommsConsMarginalDefaultRate> CalibrationResultPdCommsConsMarginalDefaultRate { get; set; }
         public virtual DbSet<MacroResult_PrincipalComponent> MacroResult_PrincipalComponent { get; set; }
         public virtual DbSet<MacroResult_Statistics> MacroResult_Statistics { get; set; }
         public virtual DbSet<MacroResult_CorMat> MacroResult_CorMat { get; set; }
