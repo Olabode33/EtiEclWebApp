@@ -21,6 +21,10 @@ namespace TestDemo.Calibration.Dtos
         public double? RedefaultedLoansB { get; set; }
         public double? Redefault_Rate { get; set; }
         public double? Redefault_Factor { get; set; }
+        public double? Commercial_CureRate { get; set; }
+        public double? Commercial_RedefaultRate { get; set; }
+        public double? Consumer_CureRate { get; set; }
+        public double? Consumer_RedefaultRate { get; set; }
         public string Comment { get; set; }
         public int? Status { get; set; }
         public DateTime? DateCreated { get; set; }
@@ -31,5 +35,6 @@ namespace TestDemo.Calibration.Dtos
     {
         public List<ResultPd12MonthsDto> Pd12Months { get; set; }
         public ResultPd12MonthsSummaryDto Pd12MonthsSummary { get; set; }
+        public List<ResultPdCommsConsDto> PdCommsCons { get; set; }
     }
 }

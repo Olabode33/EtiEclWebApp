@@ -1,4 +1,4 @@
-﻿import { InputBehaviouralTermsDto, ResultBehaviouralTermsDto, CalibrationEadCcfSummaryServiceProxy, InputCcfSummaryDto, ResultEadCcfSummaryDto, CalibrationLgdHairCutServiceProxy, InputLgdHaircutDto, ResultLgdHairCutSummaryDto, CalibrationLgdRecoveryRateServiceProxy, InputLgdRecoveryRateDto, ResultLgdRecoveryRateDto, CalibrationPdCrDrServiceProxy, InputPdCrDrDto, ResultPd12MonthsDto, ResultPd12MonthsSummaryDto, GetCalibrationUploadSummaryDto, CommonLookupServiceProxy } from '../../../../shared/service-proxies/service-proxies';
+﻿import { InputBehaviouralTermsDto, ResultBehaviouralTermsDto, CalibrationEadCcfSummaryServiceProxy, InputCcfSummaryDto, ResultEadCcfSummaryDto, CalibrationLgdHairCutServiceProxy, InputLgdHaircutDto, ResultLgdHairCutSummaryDto, CalibrationLgdRecoveryRateServiceProxy, InputLgdRecoveryRateDto, ResultLgdRecoveryRateDto, CalibrationPdCrDrServiceProxy, InputPdCrDrDto, ResultPd12MonthsDto, ResultPd12MonthsSummaryDto, GetCalibrationUploadSummaryDto, CommonLookupServiceProxy, ResultPdCommsConsDto } from '../../../../shared/service-proxies/service-proxies';
 import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, AfterViewInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
@@ -36,6 +36,7 @@ export class ViewCalibrationPdCrDrComponent extends AppComponentBase implements 
 
     showUploadCard = true;
     showHistoricCard = true;
+    showCommCons = true;
 
     _calibrationId = '';
     calibration: CreateOrEditCalibrationRunDto = new CreateOrEditCalibrationRunDto();
@@ -56,6 +57,7 @@ export class ViewCalibrationPdCrDrComponent extends AppComponentBase implements 
     historic: InputPdCrDrDto[] = new Array();
     result: ResultPd12MonthsDto[] = new Array();
     resultSummary: ResultPd12MonthsSummaryDto = new ResultPd12MonthsSummaryDto();
+    commsCons: ResultPdCommsConsDto[] = new Array();
 
     autoReloadSub: Subscription;
     uploadSummary: GetCalibrationUploadSummaryDto = new GetCalibrationUploadSummaryDto();
@@ -164,6 +166,7 @@ export class ViewCalibrationPdCrDrComponent extends AppComponentBase implements 
         this._calibrationServiceProxy.getResult(this._calibrationId).subscribe(result => {
             this.result = result.pd12Months;
             this.resultSummary = result.pd12MonthsSummary;
+            this.commsCons = result.pdCommsCons;
         });
     }
 

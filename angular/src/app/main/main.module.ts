@@ -105,6 +105,7 @@ import { AddEadAssumptionModalComponent } from './assumptions/_subs/add-ead-assu
 import { ViewBatchEclComponent } from './eclView/view-batchEcl/view-batchEcl.component';
 import { ContextMenuModule } from 'primeng/primeng';
 import { EditSelectedMacroResultModalComponent } from './calibration/calibrateMacroAnalysis/edit-selectedMacroResult-modal.component';
+import { EditCalibrateCommConsResultModalComponent } from './calibration/calibratePdCrDr/edit-calibrateCommCons-result-modal.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -131,6 +132,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+        EditCalibrateCommConsResultModalComponent,
         EditSelectedMacroResultModalComponent,
         ViewBatchEclComponent,
         AddEadAssumptionModalComponent,

@@ -20,4 +20,17 @@ namespace TestDemo.Calibration.Dtos
         public DateTime? DateCreated { get; set; }
         public Guid? CalibrationId { get; set; }
     }
+
+    public class ResultPdCommsConsDto : EntityDto
+    {
+        public int Month { get; set; }
+        public double? Comm1 { get; set; }
+        public double? Cons1 { get; set; }
+        public double? Comm2 { get; set; }
+        public double? Cons2 { get; set; }
+        public string Comment { get; set; }
+        public int? Status { get; set; }
+        public DateTime? DateCreated { get; set; }
+        public Guid? CalibrationId { get; set; }
+    }
 }

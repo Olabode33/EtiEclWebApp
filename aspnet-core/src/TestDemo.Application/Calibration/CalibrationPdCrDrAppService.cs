@@ -48,6 +48,7 @@ namespace TestDemo.Calibration
         private readonly IRepository<CalibrationInputPdCrDr> _calibrationInputRepository;
         private readonly IRepository<CalibrationResultPd12MonthsSummary> _calibrationResultRepository;
         private readonly IRepository<CalibrationResultPd12Months> _pd12MonthsResultRepository;
+        private readonly IRepository<CalibrationResultPdCommsConsMarginalDefaultRate> _pdCommsConsResultRepository;
         private readonly IRepository<CalibrationHistoryPdCrDr> _calibrationHistoryRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
@@ -64,6 +65,7 @@ namespace TestDemo.Calibration
             IRepository<CalibrationInputPdCrDr> calibrationInputRepository,
             IRepository<OrganizationUnit, long> organizationUnitRepository,
             IRepository<CalibrationResultPd12MonthsSummary> calibrationResultRepository,
+            IRepository<CalibrationResultPdCommsConsMarginalDefaultRate> pdCommsConsResultRepository,
             IRepository<CalibrationResultPd12Months> pd12MonthsResultRepository,
             IRepository<CalibrationHistoryPdCrDr> calibrationHistoryRepository,
             IEclEngineEmailer emailer,
@@ -77,6 +79,7 @@ namespace TestDemo.Calibration
             _calibrationInputRepository = calibrationInputRepository;
             _calibrationResultRepository = calibrationResultRepository;
             _pd12MonthsResultRepository = pd12MonthsResultRepository;
+            _pdCommsConsResultRepository = pdCommsConsResultRepository;
             _calibrationHistoryRepository = calibrationHistoryRepository;
             _organizationUnitRepository = organizationUnitRepository;
             _inputDataExporter = inputDataExporter;
@@ -244,14 +247,21 @@ namespace TestDemo.Calibration
         public async Task<GetAllResultPdCrDrDto> GetResult(EntityDto<Guid> input)
         {
             var summary = await _calibrationResultRepository.FirstOrDefaultAsync(x => x.CalibrationId == input.Id);
+
             var items = await _pd12MonthsResultRepository.GetAll().Where(x => x.CalibrationId == input.Id)
-                                                        .Select(x => ObjectMapper.Map<ResultPd12MonthsDto>(x))
-                                                        .ToListAsync();
+                                                         .Select(x => ObjectMapper.Map<ResultPd12MonthsDto>(x))
+                                                         .ToListAsync();
+
+            var commsCons = await _pdCommsConsResultRepository.GetAll().Where(x => x.CalibrationId == input.Id)
+                                                              .Select(x => ObjectMapper.Map<ResultPdCommsConsDto>(x))
+                                                              .OrderBy(x => x.Month)
+                                                              .ToListAsync();
 
             return new GetAllResultPdCrDrDto
             {
                 Pd12Months = items,
-                Pd12MonthsSummary = ObjectMapper.Map<ResultPd12MonthsSummaryDto>(summary)
+                Pd12MonthsSummary = ObjectMapper.Map<ResultPd12MonthsSummaryDto>(summary),
+                PdCommsCons = commsCons
             };
         }
 
@@ -341,6 +351,30 @@ namespace TestDemo.Calibration
             await _calibrationApprovalRepository.InsertAsync(new CalibrationPdCrDrApproval
             {
                 CalibrationId = input.CalibrationId,
+                ReviewComment = "",
+                ReviewedByUserId = AbpSession.UserId,
+                ReviewedDate = DateTime.Now,
+                Status = GeneralStatusEnum.Override
+            });
+        }
+
+        [AbpAuthorize(AppPermissions.Pages_Calibration_Override)]
+        public async Task UpdateCalibrationResultCommCons(List<ResultPdCommsConsDto> input)
+        {
+            var result = ObjectMapper.Map<List<CalibrationResultPdCommsConsMarginalDefaultRate>>(input);
+
+            var cal = _calibrationRepository.FirstOrDefault((Guid)input[0].CalibrationId);
+            cal.Status = CalibrationStatusEnum.AppliedOverride;
+            await _calibrationRepository.UpdateAsync(cal);
+
+            foreach (var item in result)
+            {
+                await _pdCommsConsResultRepository.UpdateAsync(item);
+            }
+
+            await _calibrationApprovalRepository.InsertAsync(new CalibrationPdCrDrApproval
+            {
+                CalibrationId = input[0].CalibrationId,
                 ReviewComment = "",
                 ReviewedByUserId = AbpSession.UserId,
                 ReviewedDate = DateTime.Now,

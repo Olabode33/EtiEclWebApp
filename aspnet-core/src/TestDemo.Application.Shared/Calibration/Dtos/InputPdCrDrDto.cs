@@ -18,6 +18,7 @@ namespace TestDemo.EclShared.Importing.Calibration.Dto
         public DateTime? Contract_End_Date { get; set; }
         public int? RAPP_Date { get; set; }
         public int? Current_Rating { get; set; }
+        public string Segment { get; set; }
         public Guid? CalibrationId { get; set; }
         public DateTime? DateCreated { get; set; }
 

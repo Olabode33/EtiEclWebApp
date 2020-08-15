@@ -96,21 +96,24 @@
                         <thead>
                             <tr>
                                 <th>{{l('CureRate')}}</th>
-                                <th>{{l('RedefaultRate')}}</th>
-                                <th>{{l('RedefaultFactor')}}</th>
-                                <th>{{l('MonthPd12')}}</th>
+                                <th>{{l('Commercial Cure rate')}}</th>
+                                <th>{{l('Consumer Cure rate')}}</th>
+                                <th>{{l('Redefault rate')}}</th>
+                                <th>{{l('Redefault factor')}}</th>
+                                <th>{{l('12 Month PD')}}</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="align-middle">{{ resultSummary.cure_Rate | number: '1.2-2' }}</td>
-                                <td class="align-middle">{{ resultSummary.redefault_Rate | number: '1.2-2' }}</td>
-                                <td class="align-middle">{{ resultSummary.redefault_Factor | number: '1.2-2' }}</td>
+                                <td class="align-middle">{{ resultSummary.cure_Rate | percent: '1.2-2' }}</td>
+                                <td class="align-middle">{{ resultSummary.commercial_CureRate | percent: '1.2-2' }}</td>
+                                <td class="align-middle">{{ resultSummary.consumer_CureRate | percent: '1.2-2'}}</td>
+                                <td class="align-middle">{{ resultSummary.redefault_Rate | percent: '1.2-2' }}</td>
+                                <td class="align-middle">{{ resultSummary.redefault_Factor | percent: '1.2-2' }}</td>
                                 <td class="align-middle">{{ resultSummary.normal_12_Months_PD | percent: '1.2-2'}}</td>
                             </tr>
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>
@@ -152,6 +155,52 @@
                                 <td class="align-middle">{{ item.redefaulted_Balance | number: '1.2-2' }}</td>
                                 <td class="align-middle">{{ item.total_Redefault | number: '1.2-2'}}</td>
                                 <td class="align-middle">{{ item.months_PDs_12 | percent: '1.2-2'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+        
+        <div *ngIf="calibration.status == calibrationStatusEnum.Completed || calibration.status == calibrationStatusEnum.AppliedOverride  || calibration.status == calibrationStatusEnum.AppliedToEcl"
+            class="kt-portlet kt-portlet--height-fluid">
+            <div class="kt-portlet__head">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">
+                        Monthly Marginal Default Rate Result
+                    </h3>
+                </div>
+                <div class="kt-portlet__head-toolbar">
+                    <button *ngIf="isGranted('Pages.Calibration.Override')" (click)="editCalibrateCommConsModal.show(commsCons)" class="btn btn-outline-primary mr-2">
+                        <i class="fa fa-edit" style="font-size: 1.2rem !important;"></i>
+                        Override Result
+                    </button>
+                    <button (click)="showCommCons = !showCommCons" class="btn btn-primary mr-2">
+                        {{ showCommCons ? 'Hide' : 'Show' }}
+                    </button>
+                </div>
+            </div>
+            <div *ngIf="showCommCons" class="kt-portlet__body kt-portlet__body--fluid">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>{{l('Month')}}</th>
+                                <th>{{l('Comm_Stage_1')}}</th>
+                                <th>{{l('Cons_Stage_1')}}</th>
+                                <th>{{l('Comm_Stage_2')}}</th>
+                                <th>{{l('Cons_Stage_2')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of commsCons">
+                                <td class="align-middle">{{ item.month }}</td>
+                                <td class="align-middle">{{ item.comm1 | percent: '1.2-2' }}</td>
+                                <td class="align-middle">{{ item.cons1 | percent: '1.2-2' }}</td>
+                                <td class="align-middle">{{ item.comm2 | percent: '1.2-2' }}</td>
+                                <td class="align-middle">{{ item.cons2 | percent: '1.2-2'}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -232,6 +281,7 @@
                                 <th>{{l('Classification')}}</th>
                                 <th>{{l('OutstandingBalanceLcy')}}</th>
                                 <th>{{l('RPT_Date')}}</th>
+                                <th>{{l('Segment')}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -245,6 +295,7 @@
                                 <td class="align-right">{{item.classification }}</td>
                                 <td class="align-right">{{item.outstanding_Balance_Lcy | number: '1.2-2' }}</td>
                                 <td class="align-right">{{item.rapP_Date }}</td>
+                                <td class="align-right">{{item.segment }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -290,6 +341,7 @@
                                 <th>{{l('Classification')}}</th>
                                 <th>{{l('OutstandingBalanceLcy')}}</th>
                                 <th>{{l('RPT_Date')}}</th>
+                                <th>{{l('Segment')}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -303,6 +355,7 @@
                                 <td class="align-right">{{hist.classification }}</td>
                                 <td class="align-right">{{hist.outstanding_Balance_Lcy | number: '1.2-2' }}</td>
                                 <td class="align-right">{{hist.rapP_Date }}</td>
+                                <td class="align-right">{{hist.segment }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -383,6 +436,7 @@
 
     <editCalibratePdCrDrModal #editCalibratePdCrDrModal (modalSave)="show(_calibrationId)"></editCalibratePdCrDrModal>
     <editCalibratePdCrDrSummaryModal #editCalibratePdCrDrSummaryModal (modalSave)="show(_calibrationId)"></editCalibratePdCrDrSummaryModal>
+    <editCalibrateCommConsModal #editCalibrateCommConsModal (modalSave)="show(_calibrationId)"></editCalibrateCommConsModal>
 
     <app-approve-ecl-modal #approvalModal (approved)="reloadPage()"></app-approve-ecl-modal>
 </div>
