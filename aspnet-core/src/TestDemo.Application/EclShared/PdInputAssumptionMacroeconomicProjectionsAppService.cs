@@ -135,13 +135,13 @@ namespace TestDemo.EclShared
 
         public async Task<FileDto> GetProjectionTemplate(EntityDto input)
         {
-            var filter = _selectedMacroVariablesRepository.GetAll().Where(e => e.AffiliateId == input.Id);
+            var filter = _selectedMacroVariablesRepository.GetAll().Where(e => e.AffiliateId == input.Id).OrderBy(e => e.Id);
             var query = from s in filter
                         join m in _macroVariablesRepository.GetAll() on s.MacroeconomicVariableId equals m.Id into m1
                         from m2 in m1.DefaultIfEmpty()
                         select m2 == null ? "" : m2.Name;
 
-            var items = await query.OrderBy(e => e).ToListAsync();
+            var items = await query.ToListAsync();
 
             return _templateExporter.ExportProjectionTemplateToFile(items);
         }

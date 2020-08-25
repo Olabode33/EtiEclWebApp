@@ -118,7 +118,7 @@ namespace TestDemo.EclShared.Importing
             {
                 var file = AsyncHelper.RunSync(() => _binaryObjectManager.GetOrNullAsync(args.BinaryObjectId));
 
-                var filter = _selectedMacroVariableRepository.GetAll().Where(x => x.AffiliateId == args.AffiliateId);
+                var filter = _selectedMacroVariableRepository.GetAll().Where(x => x.AffiliateId == args.AffiliateId).OrderBy(e => e.Id);
                 var query = from s in filter
                             join m in _macroVariableRepository.GetAll() on s.MacroeconomicVariableId equals m.Id into m1
                             from m2 in m1.DefaultIfEmpty()
@@ -126,7 +126,7 @@ namespace TestDemo.EclShared.Importing
                                 Value = s.MacroeconomicVariableId,
                                 Name = m2 == null ? "" : m2.Name };
 
-                var items = query.OrderBy(e => e.Name).ToList();
+                var items = query.ToList();
 
 
                 return _excelDataReader.GetImportMacroProjectionDataFromExcel(file.Bytes, items);
@@ -198,7 +198,7 @@ namespace TestDemo.EclShared.Importing
             if (invalids.Any())
             {
 
-                var filter = _selectedMacroVariableRepository.GetAll().Where(x => x.AffiliateId == args.AffiliateId);
+                var filter = _selectedMacroVariableRepository.GetAll().Where(x => x.AffiliateId == args.AffiliateId).OrderBy(e => e.Id);
                 var query = from s in filter
                             join m in _macroVariableRepository.GetAll() on s.MacroeconomicVariableId equals m.Id into m1
                             from m2 in m1.DefaultIfEmpty()
@@ -208,7 +208,7 @@ namespace TestDemo.EclShared.Importing
                                 Name = m2 == null ? "" : m2.Name
                             };
 
-                var items = query.OrderBy(e => e.Name).ToList();
+                var items = query.ToList();
 
                 var file = _invalidExporter.ExportToFile(invalids, items);
                 await _appNotifier.SomeDataCouldntBeImported(args.User, file.FileToken, file.FileType, file.FileName);
@@ -250,12 +250,12 @@ namespace TestDemo.EclShared.Importing
                 OrganizationUnitId = args.AffiliateId,
                 Framework = args.Framework,
                 AssumptionType = AssumptionTypeEnum.PdSnPAssumption,
-                AssumptionGroup = "SnP Cummulative Default Rate",
-                InputName = "SnP Cummulative Default Rate",
+                AssumptionGroup = "Macro-economic Projection",
+                InputName = "Macro-economic Projection",
                 OldValue = "-",
                 NewValue = _localizationSource.GetString("CheckAssumptionsPage"),
                 AssumptionId = assumption.Id,
-                AssumptionEntity = EclEnums.PdSnpAssumption,
+                AssumptionEntity = EclEnums.PdMacroProjectionAssumption,
                 Status = GeneralStatusEnum.Submitted,
                 CreationTime = DateTime.Now,
                 CreatorUserId = args.User.UserId,
