@@ -259,7 +259,7 @@ namespace TestDemo.EclShared.Importing.Utils
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append(_localizationSource.GetString("{0}IsInvalid", parameter) + " " + _localizationSource.GetString(required));
             
-            if (string.IsNullOrWhiteSpace(originalValue))
+            if (!string.IsNullOrWhiteSpace(originalValue))
             {
                 stringBuilder.Append( " Found: " + originalValue  + "; ");
             }
