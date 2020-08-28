@@ -256,7 +256,15 @@ namespace TestDemo.EclShared.Importing.Utils
 
         private string GetLocalizedExceptionMessagePart(string parameter, string required, string originalValue= "")
         {
-            return _localizationSource.GetString("{0}IsInvalid", parameter) + " " + _localizationSource.GetString(required) + originalValue != "" ? " Found: " + originalValue : "" + "; ";
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append(_localizationSource.GetString("{0}IsInvalid", parameter) + " " + _localizationSource.GetString(required));
+            
+            if (string.IsNullOrWhiteSpace(originalValue))
+            {
+                stringBuilder.Append( " Found: " + originalValue  + "; ");
+            }
+
+            return stringBuilder.ToString();
         }
     }
 }
