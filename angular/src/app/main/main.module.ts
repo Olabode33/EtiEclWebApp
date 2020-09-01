@@ -2,6 +2,18 @@
 import { FrameworkAssumptionsComponent } from './assumptions/_subs/frameworkAssumptions/frameworkAssumptions.component';
 import { ViewAffiliateAssumptionsComponent } from './assumptions/view-affiliateAssumptions/view-affiliateAssumptions.component';
 import { CommonModule } from '@angular/common';
+import { ResultSummaryByStagesComponent } from './holdCoResult/resultSummaryByStages/resultSummaryByStages.component';
+import { ViewResultSummaryByStageModalComponent } from './holdCoResult/resultSummaryByStages/view-resultSummaryByStage-modal.component';
+import { CreateOrEditResultSummaryByStageModalComponent } from './holdCoResult/resultSummaryByStages/create-or-edit-resultSummaryByStage-modal.component';
+
+import { HoldCoResultSummariesComponent } from './holdCoResult/holdCoResultSummaries/holdCoResultSummaries.component';
+import { ViewHoldCoResultSummaryModalComponent } from './holdCoResult/holdCoResultSummaries/view-holdCoResultSummary-modal.component';
+import { CreateOrEditHoldCoResultSummaryModalComponent } from './holdCoResult/holdCoResultSummaries/create-or-edit-holdCoResultSummary-modal.component';
+
+import { HoldCoRegistersComponent } from './ivModels/holdCoRegisters/holdCoRegisters.component';
+import { ViewHoldCoRegisterComponent } from './ivModels/holdCoRegisters/view-holdCoRegister.component';
+import { CreateOrEditHoldCoRegisterComponent } from './ivModels/holdCoRegisters/create-or-edit-holdCoRegister.component';
+
 import { OverrideTypesComponent } from './eclConfig/overrideTypes/overrideTypes.component';
 import { CreateOrEditOverrideTypeModalComponent } from './eclConfig/overrideTypes/create-or-edit-overrideType-modal.component';
 
@@ -132,6 +144,18 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+		ResultSummaryByStagesComponent,
+
+		ViewResultSummaryByStageModalComponent,
+		CreateOrEditResultSummaryByStageModalComponent,
+		HoldCoResultSummariesComponent,
+
+		ViewHoldCoResultSummaryModalComponent,
+		CreateOrEditHoldCoResultSummaryModalComponent,
+		HoldCoRegistersComponent,
+
+		ViewHoldCoRegisterComponent,
+		CreateOrEditHoldCoRegisterComponent,
         EditCalibrateCommConsResultModalComponent,
         EditSelectedMacroResultModalComponent,
         ViewBatchEclComponent,

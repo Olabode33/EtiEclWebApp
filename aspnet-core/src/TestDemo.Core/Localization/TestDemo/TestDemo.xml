@@ -1,6 +1,76 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>
+  <texts>    <text name="ResultSummaryByStage">Result summary by stage</text>
+    <text name="TestDemo.HoldCoResult.ResultSummaryByStage">ResultSummaryByStage</text>
+    <text name="StageOneExposure">Stage one exposure</text>
+    <text name="StageTwoExposure">Stage two exposure</text>
+    <text name="StageThreeExposure">Stage three exposure</text>
+    <text name="StageOneImpairment">Stage one impairment</text>
+    <text name="StageTwoImpairment">Stage two impairment</text>
+    <text name="StageThreeImpairment">Stage three impairment</text>
+    <text name="StageOneImpairmentRatio">Stage one impairment ratio</text>
+    <text name="StageTwoImpairmentRatio">Stage two impairment ratio</text>
+    <text name="TotalImpairment">Total impairment</text>
+    <text name="StageThreeImpairmentRatio">Stage three impairment ratio</text>
+    <text name="TotalImpairmentRatio">Total impairment ratio</text>
+    <text name="ResultSummaryByStagesHeaderInfo">Result summary by stages header info</text>
+    <text name="CreateNewResultSummaryByStage">Create new result summary by stage</text>
+    <text name="EditResultSummaryByStage">Edit result summary by stage</text>
+    <text name="DeleteResultSummaryByStage">Delete result summary by stage</text>
+    <text name="ResultSummaryByStages">Result summary by stages</text>
+    <text name="HoldCoInterCompanyResults">Hold co inter company results</text>
+    <text name="HoldCoInterCompanyResult">Hold co inter company result</text>
+    <text name="CreateNewHoldCoInterCompanyResult">Create new hold co inter company result</text>
+    <text name="EditHoldCoInterCompanyResult">Edit hold co inter company result</text>
+    <text name="DeleteHoldCoInterCompanyResult">Delete hold co inter company result</text>
+    <text name="HoldCoIntercompanyResult">Hold co intercompany result</text>
+    <text name="HoldCoResultSummary">Hold co result summary</text>
+    <text name="TestDemo.HoldCoResult.HoldCoResultSummary">HoldCoResultSummary</text>
+    <text name="BestEstimateExposure">Best estimate exposure</text>
+    <text name="OptimisticExposure">Optimistic exposure</text>
+    <text name="DownturnExposure">Downturn exposure</text>
+    <text name="BestEstimateTotal">Best estimate total</text>
+    <text name="OptimisticTotal">Optimistic total</text>
+    <text name="DownturnTotal">Downturn total</text>
+    <text name="BestEstimateImpairmentRatio">Best estimate impairment ratio</text>
+    <text name="OptimisticImpairmentRatio">Optimistic impairment ratio</text>
+    <text name="DownturnImpairmentRatio">Downturn impairment ratio</text>
+    <text name="ImpairmentRatio">Impairment ratio</text>
+    <text name="Check">Check</text>
+    <text name="NotCheck">Not check</text>
+    <text name="Diff">Diff</text>
+    <text name="HoldCoResultSummariesHeaderInfo">Hold co result summaries header info</text>
+    <text name="CreateNewHoldCoResultSummary">Create new hold co result summary</text>
+    <text name="EditHoldCoResultSummary">Edit hold co result summary</text>
+    <text name="DeleteHoldCoResultSummary">Delete hold co result summary</text>
+    <text name="HoldCoResultSummaries">Hold co result summaries</text>
+    <text name="HoldCoResults">Hold co results</text>
+    <text name="HoldCoResult">Hold co result</text>
+    <text name="CreateNewHoldCoResult">Create new hold co result</text>
+    <text name="EditHoldCoResult">Edit hold co result</text>
+    <text name="DeleteHoldCoResult">Delete hold co result</text>
+    <text name="HoldCoAssetBook">Hold co asset book</text>
+    <text name="CreateNewAssetBook">Create new asset book</text>
+    <text name="EditAssetBook">Edit asset book</text>
+    <text name="DeleteAssetBook">Delete asset book</text>
+    <text name="MacroEconomicCreditIndex">Macro economic credit index</text>
+    <text name="CreateNewMacroEconomicCreditIndex">Create new macro economic credit index</text>
+    <text name="EditMacroEconomicCreditIndex">Edit macro economic credit index</text>
+    <text name="DeleteMacroEconomicCreditIndex">Delete macro economic credit index</text>
+    <text name="HoldCoInputParameter">Hold co input parameter</text>
+    <text name="CreateNewHoldCoInputParameter">Create new hold co input parameter</text>
+    <text name="EditHoldCoInputParameter">Edit hold co input parameter</text>
+    <text name="DeleteHoldCoInputParameter">Delete hold co input parameter</text>
+    <text name="IVModels">I v models</text>
+    <text name="HoldCoRegister">Hold co register</text>
+    <text name="TestDemo.IVModels.HoldCoRegister">HoldCoRegister</text>
+    <text name="RegistrationId">Registration id</text>
+    <text name="HoldCoRegistersHeaderInfo">Hold co registers header info</text>
+    <text name="CreateNewHoldCoRegister">New</text>
+    <text name="EditHoldCoRegister">Edit hold co register</text>
+    <text name="DeleteHoldCoRegister">Delete hold co register</text>
+    <text name="HoldCoRegisters">Hold co registers</text>
+
 
     <text name="ApprovedBy">Approved By</text>
     <text name="DateApproved">Date Approved</text>
@@ -2060,5 +2130,17 @@
     <text name="EnterTenancyName">Enter tenancy name...</text>
     <text name="SwitchToTheTenant">Switch to the tenant</text>
     <text name="SwitchToTheHost">Switch to the host</text>
+
+    <text name="IVModel">IV Model</text>
+    <text name="NewIVModel">New IV Model</text>
+    <text name="EditIVModel">Edit IV Model</text>
+    <text name="DeleteIVModel">Delete IV Model</text>
+    <text name="UploadIVModel">Upload IV Model</text>
+    <text name="SubmitIVModel">Submit IV Model</text>
+    <text name="ReviewIVModel">Review IV Model</text>
+    <text name="ApplyIVModel">Apply IV Model</text>
+    <text name="HoldCoIntercompany">HoldCo Intercompany</text>
+    <text name="ETIReceivables">ETI Receivables</text>
+
   </texts>
 </localizationDictionary>

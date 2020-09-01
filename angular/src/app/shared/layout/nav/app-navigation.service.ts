@@ -30,6 +30,10 @@ export class AppNavigationService {
                 new AppMenuItem('CalibrationPdCrDr', 'Pages.Calibration', 'flaticon-more', '/app/main/calibration/pdcrdr'),
                 new AppMenuItem('MacroAnalysis', 'Pages.Calibration', 'flaticon-more', '/app/main/calibration/macroAnalysis'),
             ]),
+            new AppMenuItem('IV Models', 'Pages.IVModels', 'fa fa-bezier-curve', '', [
+                new AppMenuItem('HoldCoIntercompany', 'Pages.HoldCoRegisters', 'flaticon-more', '/app/main/ivModels/holdCoRegisters'),
+                new AppMenuItem('ETIReceivables', 'Pages.IVModels', 'flaticon-more', '/app/main/calibration/ccfSummary'),
+            ]),
             new AppMenuItem('Assumptions', 'Pages.Assumption.Affiliates', 'fa fa-list-ul', '/app/main/assumption/affiliates'),
             new AppMenuItem('ECL', 'Pages.EclView', 'fa fa-suitcase', '/app/main/ecl'),
             new AppMenuItem('Configuration', 'Pages.Configurations', 'fa fa-wrench', '', [
@@ -39,7 +43,7 @@ export class AppNavigationService {
                 new AppMenuItem('AffiliateMacroEconomicVariableOffsets', 'Pages.Configurations', 'flaticon-more', '/app/main/affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets'),
                 new AppMenuItem('OverrideTypes', 'Pages.Configurations', 'flaticon-more', '/app/main/eclConfig/overrideTypes'),
             ]),
-            new AppMenuItem('Administration', '', 'fa fa-cogs', '', [
+             new AppMenuItem('Administration', '', 'fa fa-cogs', '', [
                 new AppMenuItem('OrganizationUnits', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),
                 new AppMenuItem('Users', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),

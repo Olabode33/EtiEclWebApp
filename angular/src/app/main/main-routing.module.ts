@@ -1,5 +1,10 @@
 ﻿import { MacroAnalysisComponent } from './calibration/calibrateMacroAnalysis/macroAnalysis.component';
 import { ViewCalibrationEadCcfSummaryComponent } from './calibration/calibrateEadCcfSummary/view-calibrateEadCcfSummary.component';
+import { ResultSummaryByStagesComponent } from './holdCoResult/resultSummaryByStages/resultSummaryByStages.component';
+import { HoldCoResultSummariesComponent } from './holdCoResult/holdCoResultSummaries/holdCoResultSummaries.component';
+import { HoldCoRegistersComponent } from './ivModels/holdCoRegisters/holdCoRegisters.component';
+import { CreateOrEditHoldCoRegisterComponent } from './ivModels/holdCoRegisters/create-or-edit-holdCoRegister.component';
+import { ViewHoldCoRegisterComponent } from './ivModels/holdCoRegisters/view-holdCoRegister.component';
 import { OverrideTypesComponent } from './eclConfig/overrideTypes/overrideTypes.component';
 import { CalibrationEadCcfSummaryComponent } from './calibration/calibrateEadCcfSummary/calibrateEadCcfSummary.component';
 import { ViewRetailEclComponent } from './retail/view-retailEcl/view-retailEcl.component';
@@ -42,6 +47,11 @@ import { ViewBatchEclComponent } from './eclView/view-batchEcl/view-batchEcl.com
             {
                 path: '',
                 children: [
+                    { path: 'holdCoResult/resultSummaryByStages', component: ResultSummaryByStagesComponent, data: { permission: 'Pages.ResultSummaryByStages' }  },
+                    { path: 'holdCoResult/holdCoResultSummaries', component: HoldCoResultSummariesComponent, data: { permission: 'Pages.HoldCoResultSummaries' }  },
+                    { path: 'ivModels/holdCoRegisters', component: HoldCoRegistersComponent, data: { permission: 'Pages.HoldCoRegisters' }  },
+                    { path: 'ivModels/holdCoRegisters/createOrEdit', component: CreateOrEditHoldCoRegisterComponent, data: { permission: 'Pages.HoldCoRegisters.Create' }  },
+                    { path: 'ivModels/holdCoRegisters/view', component: ViewHoldCoRegisterComponent, data: { permission: 'Pages.HoldCoRegisters' }  },
                     { path: 'eclConfig/overrideTypes', component: OverrideTypesComponent, data: { permission: 'Pages.Configurations' }  },
                     { path: 'calibration/behavioralTerms', component: CalibrationEadBehaviouralTermsComponent, data: { permission: 'Pages.Calibration' }  },
                     { path: 'calibration/behavioralTerms/view/:calibrationId', component: CreateOrEditCalibrationEadBehaviouralTermComponent, data: { permission: 'Pages.Calibration' }  },

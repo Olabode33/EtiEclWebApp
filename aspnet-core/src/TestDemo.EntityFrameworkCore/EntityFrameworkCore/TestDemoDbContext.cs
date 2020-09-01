@@ -1,4 +1,10 @@
-﻿using TestDemo.Calibration;
+﻿using TestDemo.HoldCoInterCompanyResults;
+using TestDemo.HoldCoIntercompanyResult;
+using TestDemo.HoldCoResult;
+using TestDemo.HoldCoResults;
+using TestDemo.HoldCoAssetBook;
+using TestDemo.IVModels;
+using TestDemo.Calibration;
 using TestDemo.AffiliateMacroEconomicVariable;
 using TestDemo.InvestmentInputs;
 using TestDemo.InvestmentAssumption;
@@ -50,6 +56,20 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<ResultSummaryByStage> ResultSummaryByStages { get; set; }
+
+        public virtual DbSet<HoldCoInterCompanyResult> HoldCoInterCompanyResults { get; set; }
+
+        public virtual DbSet<HoldCoResultSummary> HoldCoResultSummaries { get; set; }
+
+        public virtual DbSet<AssetBook> AssetBooks { get; set; }
+
+        public virtual DbSet<MacroEconomicCreditIndex> MacroEconomicCreditIndices { get; set; }
+
+        public virtual DbSet<HoldCoInputParameter> HoldCoInputParameters { get; set; }
+
+        public virtual DbSet<HoldCoRegister> HoldCoRegisters { get; set; }
+
         public virtual DbSet<TrackUploadedLoanBook> TrackUploadedLoanBook { get; set; }
         public virtual DbSet<BatchEcl> BatchEcl { get; set; }
         public virtual DbSet<BatchEclApproval> BatchEclApproval { get; set; }

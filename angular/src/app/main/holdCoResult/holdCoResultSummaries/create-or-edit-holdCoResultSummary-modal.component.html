@@ -1,0 +1,106 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #holdCoResultSummaryForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="holdCoResultSummary.id">{{l("EditHoldCoResultSummary")}}</span>
+                        <span *ngIf="!holdCoResultSummary.id">{{l("CreateNewHoldCoResultSummary")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="HoldCoResultSummary_BestEstimateExposure">{{l("BestEstimateExposure")}}</label>
+									<input type="number" id="HoldCoResultSummary_BestEstimateExposure" class="form-control" [(ngModel)]="holdCoResultSummary.bestEstimateExposure" name="BestEstimateExposure"   />
+								</div>
+					
+								<div class="form-group">
+									<label for="HoldCoResultSummary_OptimisticExposure">{{l("OptimisticExposure")}}</label>
+									<input type="number" id="HoldCoResultSummary_OptimisticExposure" class="form-control" [(ngModel)]="holdCoResultSummary.optimisticExposure" name="OptimisticExposure"   />
+								</div>
+					
+								<div class="form-group">
+									<label for="HoldCoResultSummary_DownturnExposure">{{l("DownturnExposure")}}</label>
+									<input type="number" id="HoldCoResultSummary_DownturnExposure" class="form-control" [(ngModel)]="holdCoResultSummary.downturnExposure" name="DownturnExposure"   />
+								</div>
+					
+								<div class="form-group">
+									<label for="HoldCoResultSummary_BestEstimateTotal">{{l("BestEstimateTotal")}}</label>
+									<input type="number" id="HoldCoResultSummary_BestEstimateTotal" class="form-control" [(ngModel)]="holdCoResultSummary.bestEstimateTotal" name="BestEstimateTotal"   />
+								</div>
+					
+								<div class="form-group">
+									<label for="HoldCoResultSummary_OptimisticTotal">{{l("OptimisticTotal")}}</label>
+									<input type="number" id="HoldCoResultSummary_OptimisticTotal" class="form-control" [(ngModel)]="holdCoResultSummary.optimisticTotal" name="OptimisticTotal"   />
+								</div>
+					
+								<div class="form-group">
+									<label for="HoldCoResultSummary_DownturnTotal">{{l("DownturnTotal")}}</label>
+									<input type="text" id="HoldCoResultSummary_DownturnTotal" class="form-control" [(ngModel)]="holdCoResultSummary.downturnTotal" name="DownturnTotal"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="HoldCoResultSummary_BestEstimateImpairmentRatio">{{l("BestEstimateImpairmentRatio")}}</label>
+									<input type="number" id="HoldCoResultSummary_BestEstimateImpairmentRatio" class="form-control" [(ngModel)]="holdCoResultSummary.bestEstimateImpairmentRatio" name="BestEstimateImpairmentRatio"   />
+								</div>
+					
+								<div class="form-group">
+									<label for="HoldCoResultSummary_OptimisticImpairmentRatio">{{l("OptimisticImpairmentRatio")}}</label>
+									<input type="number" id="HoldCoResultSummary_OptimisticImpairmentRatio" class="form-control" [(ngModel)]="holdCoResultSummary.optimisticImpairmentRatio" name="OptimisticImpairmentRatio"   />
+								</div>
+					
+								<div class="form-group">
+									<label for="HoldCoResultSummary_DownturnImpairmentRatio">{{l("DownturnImpairmentRatio")}}</label>
+									<input type="number" id="HoldCoResultSummary_DownturnImpairmentRatio" class="form-control" [(ngModel)]="holdCoResultSummary.downturnImpairmentRatio" name="DownturnImpairmentRatio"   />
+								</div>
+					
+								<div class="form-group">
+									<label for="HoldCoResultSummary_Exposure">{{l("Exposure")}}</label>
+									<input type="number" id="HoldCoResultSummary_Exposure" class="form-control" [(ngModel)]="holdCoResultSummary.exposure" name="Exposure"   />
+								</div>
+					
+								<div class="form-group">
+									<label for="HoldCoResultSummary_Total">{{l("Total")}}</label>
+									<input type="number" id="HoldCoResultSummary_Total" class="form-control" [(ngModel)]="holdCoResultSummary.total" name="Total"   />
+								</div>
+					
+								<div class="form-group">
+									<label for="HoldCoResultSummary_ImpairmentRatio">{{l("ImpairmentRatio")}}</label>
+									<input type="number" id="HoldCoResultSummary_ImpairmentRatio" class="form-control" [(ngModel)]="holdCoResultSummary.impairmentRatio" name="ImpairmentRatio"   />
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="HoldCoResultSummary_Check" class="kt-checkbox">
+										<input id="HoldCoResultSummary_Check" type="checkbox" name="Check" [(ngModel)]="holdCoResultSummary.check"> 
+										{{l("Check")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<div class="form-group">
+									<label for="HoldCoResultSummary_Diff">{{l("Diff")}}</label>
+									<input type="text" id="HoldCoResultSummary_Diff" class="form-control" [(ngModel)]="holdCoResultSummary.diff" name="Diff"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="HoldCoResultSummary_RegistrationId">{{l("RegistrationId")}}</label>
+									<input type="text" id="HoldCoResultSummary_RegistrationId" class="form-control" [(ngModel)]="holdCoResultSummary.registrationId" name="RegistrationId"    />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!holdCoResultSummaryForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

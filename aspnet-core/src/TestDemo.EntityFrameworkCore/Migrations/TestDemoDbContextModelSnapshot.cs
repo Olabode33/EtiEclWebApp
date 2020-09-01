@@ -4212,6 +4212,324 @@ namespace TestDemo.Migrations
                     b.ToTable("AppFriendships");
                 });
 
+            modelBuilder.Entity("TestDemo.HoldCoAssetBook.AssetBook", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AssetDescription");
+
+                    b.Property<string>("AssetType");
+
+                    b.Property<double>("Coupon");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<string>("CurrentCreditRating");
+
+                    b.Property<int>("DaysPastDue");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<double>("EIR");
+
+                    b.Property<string>("Entity");
+
+                    b.Property<string>("ForebearanceFlag");
+
+                    b.Property<string>("InterestRepaymentTerms");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<DateTime>("LoanMaturityDate");
+
+                    b.Property<DateTime>("LoanOriginationDate");
+
+                    b.Property<double>("NominalAmountACY");
+
+                    b.Property<double>("NominalAmountLCY");
+
+                    b.Property<double>("OutstandingBalanceACY");
+
+                    b.Property<double>("OutstandingBalanceLCY");
+
+                    b.Property<string>("PrincipalAmortisation");
+
+                    b.Property<string>("PrincipalRepaymentTerms");
+
+                    b.Property<string>("PrudentialClassification");
+
+                    b.Property<string>("PurchaseDateCreditRating");
+
+                    b.Property<string>("RatingAgency");
+
+                    b.Property<Guid>("RegistrationId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AssetBooks");
+                });
+
+            modelBuilder.Entity("TestDemo.HoldCoInterCompanyResults.HoldCoInterCompanyResult", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AssetDescription");
+
+                    b.Property<string>("AssetType");
+
+                    b.Property<double>("BestEstimate");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<double>("Downturn");
+
+                    b.Property<double>("Impairment");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<double>("Optimistic");
+
+                    b.Property<double>("OutstandingBalance");
+
+                    b.Property<Guid>("RegistrationId");
+
+                    b.Property<int>("Stage");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HoldCoInterCompanyResults");
+                });
+
+            modelBuilder.Entity("TestDemo.HoldCoResult.HoldCoResultSummary", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("BestEstimateExposure");
+
+                    b.Property<double>("BestEstimateImpairmentRatio");
+
+                    b.Property<double>("BestEstimateTotal");
+
+                    b.Property<bool>("Check");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<string>("Diff");
+
+                    b.Property<double>("DownturnExposure");
+
+                    b.Property<double>("DownturnImpairmentRatio");
+
+                    b.Property<string>("DownturnTotal");
+
+                    b.Property<double>("Exposure");
+
+                    b.Property<double>("ImpairmentRatio");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<double>("OptimisticExposure");
+
+                    b.Property<double>("OptimisticImpairmentRatio");
+
+                    b.Property<double>("OptimisticTotal");
+
+                    b.Property<Guid>("RegistrationId");
+
+                    b.Property<double>("Total");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HoldCoResultSummaries");
+                });
+
+            modelBuilder.Entity("TestDemo.HoldCoResult.ResultSummaryByStage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<Guid>("RegistrationId");
+
+                    b.Property<double>("StageOneExposure");
+
+                    b.Property<double>("StageOneImpairment");
+
+                    b.Property<double>("StageOneImpairmentRatio");
+
+                    b.Property<double>("StageThreeExposure");
+
+                    b.Property<double>("StageThreeImpairment");
+
+                    b.Property<double>("StageThreeImpairmentRatio");
+
+                    b.Property<double>("StageTwoExposure");
+
+                    b.Property<double>("StageTwoImpairment");
+
+                    b.Property<double>("StageTwoImpairmentRatio");
+
+                    b.Property<double>("TotalExposure");
+
+                    b.Property<double>("TotalImpairment");
+
+                    b.Property<double>("TotalImpairmentRatio");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ResultSummaryByStages");
+                });
+
+            modelBuilder.Entity("TestDemo.IVModels.HoldCoInputParameter", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("AssumedMaturityDate");
+
+                    b.Property<string>("AssumedRating");
+
+                    b.Property<DateTime>("AssumedStartDate");
+
+                    b.Property<double>("BestEstimate");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<string>("DefaultLoanRating");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<double>("Downturn");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<double>("Optimistic");
+
+                    b.Property<double>("RecoveryRate");
+
+                    b.Property<Guid>("RegistrationId");
+
+                    b.Property<DateTime>("ValuationDate");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HoldCoInputParameters");
+                });
+
+            modelBuilder.Entity("TestDemo.IVModels.HoldCoRegister", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<Guid>("RegistrationId");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HoldCoRegisters");
+                });
+
+            modelBuilder.Entity("TestDemo.IVModels.MacroEconomicCreditIndex", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("BestEstimate");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<double>("Downturn");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<int>("Month");
+
+                    b.Property<double>("Optimistic");
+
+                    b.Property<Guid>("RegistrationId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MacroEconomicCreditIndices");
+                });
+
             modelBuilder.Entity("TestDemo.Investment.InvestmentEcl", b =>
                 {
                     b.Property<Guid>("Id")

@@ -1,0 +1,93 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #resultSummaryByStageForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="resultSummaryByStage.id">{{l("EditResultSummaryByStage")}}</span>
+                        <span *ngIf="!resultSummaryByStage.id">{{l("CreateNewResultSummaryByStage")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="ResultSummaryByStage_StageOneExposure">{{l("StageOneExposure")}}</label>
+									<input type="number" id="ResultSummaryByStage_StageOneExposure" class="form-control" [(ngModel)]="resultSummaryByStage.stageOneExposure" name="StageOneExposure"   />
+								</div>
+					
+								<div class="form-group">
+									<label for="ResultSummaryByStage_StageTwoExposure">{{l("StageTwoExposure")}}</label>
+									<input type="number" id="ResultSummaryByStage_StageTwoExposure" class="form-control" [(ngModel)]="resultSummaryByStage.stageTwoExposure" name="StageTwoExposure"   />
+								</div>
+					
+								<div class="form-group">
+									<label for="ResultSummaryByStage_StageThreeExposure">{{l("StageThreeExposure")}}</label>
+									<input type="number" id="ResultSummaryByStage_StageThreeExposure" class="form-control" [(ngModel)]="resultSummaryByStage.stageThreeExposure" name="StageThreeExposure"   />
+								</div>
+					
+								<div class="form-group">
+									<label for="ResultSummaryByStage_TotalExposure">{{l("TotalExposure")}}</label>
+									<input type="number" id="ResultSummaryByStage_TotalExposure" class="form-control" [(ngModel)]="resultSummaryByStage.totalExposure" name="TotalExposure"   />
+								</div>
+					
+								<div class="form-group">
+									<label for="ResultSummaryByStage_StageOneImpairment">{{l("StageOneImpairment")}}</label>
+									<input type="number" id="ResultSummaryByStage_StageOneImpairment" class="form-control" [(ngModel)]="resultSummaryByStage.stageOneImpairment" name="StageOneImpairment"   />
+								</div>
+					
+								<div class="form-group">
+									<label for="ResultSummaryByStage_StageTwoImpairment">{{l("StageTwoImpairment")}}</label>
+									<input type="number" id="ResultSummaryByStage_StageTwoImpairment" class="form-control" [(ngModel)]="resultSummaryByStage.stageTwoImpairment" name="StageTwoImpairment"   />
+								</div>
+					
+								<div class="form-group">
+									<label for="ResultSummaryByStage_StageThreeImpairment">{{l("StageThreeImpairment")}}</label>
+									<input type="number" id="ResultSummaryByStage_StageThreeImpairment" class="form-control" [(ngModel)]="resultSummaryByStage.stageThreeImpairment" name="StageThreeImpairment"   />
+								</div>
+					
+								<div class="form-group">
+									<label for="ResultSummaryByStage_StageOneImpairmentRatio">{{l("StageOneImpairmentRatio")}}</label>
+									<input type="number" id="ResultSummaryByStage_StageOneImpairmentRatio" class="form-control" [(ngModel)]="resultSummaryByStage.stageOneImpairmentRatio" name="StageOneImpairmentRatio"   />
+								</div>
+					
+								<div class="form-group">
+									<label for="ResultSummaryByStage_StageTwoImpairmentRatio">{{l("StageTwoImpairmentRatio")}}</label>
+									<input type="number" id="ResultSummaryByStage_StageTwoImpairmentRatio" class="form-control" [(ngModel)]="resultSummaryByStage.stageTwoImpairmentRatio" name="StageTwoImpairmentRatio"   />
+								</div>
+					
+								<div class="form-group">
+									<label for="ResultSummaryByStage_TotalImpairment">{{l("TotalImpairment")}}</label>
+									<input type="number" id="ResultSummaryByStage_TotalImpairment" class="form-control" [(ngModel)]="resultSummaryByStage.totalImpairment" name="TotalImpairment"   />
+								</div>
+					
+								<div class="form-group">
+									<label for="ResultSummaryByStage_StageThreeImpairmentRatio">{{l("StageThreeImpairmentRatio")}}</label>
+									<input type="number" id="ResultSummaryByStage_StageThreeImpairmentRatio" class="form-control" [(ngModel)]="resultSummaryByStage.stageThreeImpairmentRatio" name="StageThreeImpairmentRatio"   />
+								</div>
+					
+								<div class="form-group">
+									<label for="ResultSummaryByStage_TotalImpairmentRatio">{{l("TotalImpairmentRatio")}}</label>
+									<input type="number" id="ResultSummaryByStage_TotalImpairmentRatio" class="form-control" [(ngModel)]="resultSummaryByStage.totalImpairmentRatio" name="TotalImpairmentRatio"   />
+								</div>
+					
+								<div class="form-group">
+									<label for="ResultSummaryByStage_RegistrationId">{{l("RegistrationId")}}</label>
+									<input type="text" id="ResultSummaryByStage_RegistrationId" class="form-control" [(ngModel)]="resultSummaryByStage.registrationId" name="RegistrationId"    />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!resultSummaryByStageForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

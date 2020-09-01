@@ -1,4 +1,12 @@
-﻿using TestDemo.Calibration.Dtos;
+﻿using TestDemo.HoldCoInterCompanyResults.Dtos;
+using TestDemo.HoldCoInterCompanyResults;
+using TestDemo.HoldCoResult.Dtos;
+using TestDemo.HoldCoResult;
+using TestDemo.HoldCoAssetBook.Dtos;
+using TestDemo.HoldCoAssetBook;
+using TestDemo.IVModels.Dtos;
+using TestDemo.IVModels;
+using TestDemo.Calibration.Dtos;
 using TestDemo.Calibration;
 using TestDemo.AffiliateMacroEconomicVariable.Dtos;
 using TestDemo.AffiliateMacroEconomicVariable;
@@ -94,6 +102,20 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditResultSummaryByStageDto, ResultSummaryByStage>().ReverseMap();
+            configuration.CreateMap<ResultSummaryByStageDto, ResultSummaryByStage>().ReverseMap();
+            configuration.CreateMap<CreateOrEditHoldCoInterCompanyResultDto, HoldCoInterCompanyResult>().ReverseMap();
+            configuration.CreateMap<HoldCoInterCompanyResultDto, HoldCoInterCompanyResult>().ReverseMap();
+            configuration.CreateMap<CreateOrEditHoldCoResultSummaryDto, HoldCoResultSummary>().ReverseMap();
+            configuration.CreateMap<HoldCoResultSummaryDto, HoldCoResultSummary>().ReverseMap();
+            configuration.CreateMap<CreateOrEditAssetBookDto, AssetBook>().ReverseMap();
+            configuration.CreateMap<AssetBookDto, AssetBook>().ReverseMap();
+            configuration.CreateMap<CreateOrEditMacroEconomicCreditIndexDto, MacroEconomicCreditIndex>().ReverseMap();
+            configuration.CreateMap<MacroEconomicCreditIndexDto, MacroEconomicCreditIndex>().ReverseMap();
+            configuration.CreateMap<CreateOrEditHoldCoInputParameterDto, HoldCoInputParameter>().ReverseMap();
+            configuration.CreateMap<HoldCoInputParameterDto, HoldCoInputParameter>().ReverseMap();
+            configuration.CreateMap<CreateOrEditHoldCoRegisterDto, HoldCoRegister>().ReverseMap();
+            configuration.CreateMap<HoldCoRegisterDto, HoldCoRegister>().ReverseMap();
             configuration.CreateMap<CreateOrEditOverrideTypeDto, OverrideType>().ReverseMap();
             configuration.CreateMap<OverrideTypeDto, OverrideType>().ReverseMap();
             configuration.CreateMap<EclDataAssetBookDto, InvestmentAssetBook>().ReverseMap();

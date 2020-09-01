@@ -1,0 +1,214 @@
+﻿<div [@routerTransition]>
+
+
+
+                <div class="kt-subheader kt-grid__item">
+
+                    <div class="kt-subheader__main">
+                        <h3 class="kt-subheader__title">
+            				<span *ngIf="active && holdCoRegister.id">{{"EditHoldCoRegister" }}</span>
+            				<span *ngIf="active && !holdCoRegister.id">{{l("CreateHoldCoRegister")}}</span>
+            			</h3>
+            			<span class="kt-subheader__separator kt-subheader__separator--v"></span>
+            			<div class="kt-subheader__breadcrumbs">
+            				<a [routerLink]="['/app/main/ivModels/holdCoRegisters']"
+            					class="kt-subheader__breadcrumbs-home"><i
+            						class="flaticon2-shelter"></i>{{l("HoldCoRegister")}}</a>
+            				<span class="kt-subheader__breadcrumbs-separator"></span>
+            				<a
+            					class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">
+            					<span *ngIf="active && holdCoRegister.id">{{l("Edit")}}</span>
+            					<span *ngIf="active && !holdCoRegister.id">{{l("Create")}}</span>
+            				</a>
+            			</div>
+                    </div>
+
+                </div>
+
+
+    <div class="kt-content">
+
+        <div class="kt-portlet kt-portlet--height-fluid">
+            <div class="kt-portlet__head ">
+                <div class="kt-portlet__head-label hoverable" (click)="showIntercompanyCard = !showIntercompanyCard;">
+                    <h3 class="kt-portlet__head-title">
+                        ETI Intercompany Loans Model
+                    </h3>
+                </div>
+            </div>
+
+
+
+            <div [hidden]="!showIntercompanyCard" class="kt-portlet__body">
+
+            </div>
+        </div>
+
+            <div class="kt-portlet kt-portlet--height-fluid">
+                <div class="kt-portlet__head ">
+                    <div class="kt-portlet__head-label hoverable" (click)="showMacroCard = !showMacroCard;">
+                        <h3 class="kt-portlet__head-title">
+                            {{l('MacroEconomicCreditIndex')}}
+                        </h3>
+                    </div>
+
+                    <div class="kt-portlet__head-toolbar">
+                        <button *ngIf="totalUploads > 0" (click)="exportToExcel()" class="btn btn-outline-primary mr-2">
+                            <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
+                            {{l("DownloadFullData")}}
+                        </button>
+
+                        <!-- *ngIf="(calibration.status == calibrationStatusEnum.Draft || calibration.status == calibrationStatusEnum.Failed) " -->
+                        <div class="btn-group" dropdown>
+                            <button dropdownToggle type="button"
+                                class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-upload"></i> {{"Upload" | localize}}
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-excel-operations" *dropdownMenu>
+                                <a href="javascript:;" class="no-padding">
+                                    <span class="fileinput-button">
+                                        <p-fileUpload customUpload="true"
+                                                name="excelFileUpload"
+                                                #excelFileUpload
+                                                maxFileSize="100000000"
+                                                auto="auto"
+                                                accept=".xls,.xlsx"
+                                                (uploadHandler)="uploadData($event)"
+                                                (onError)="onUploadExcelError()"
+                                                chooseLabel="{{'CalibrationRawData' | localize}}">
+                                        </p-fileUpload>
+                                    </span>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <span class="dropdown-item-text text-muted pl-3" href="#">
+                                    <small [innerHTML]="l('ImportToExcelSampleFileDownloadInfo', '<a href=/assets/sampleFiles/Calibration/CalibrationInput_PD_CR_DR.xlsx>' + l('ClickHere') + '</a>')"></small>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <div [hidden]="!showMacroCard" class="kt-portlet__body">
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>{{l('Scenario/Month')}}</th>
+                                    <th>{{l('BestEstimate')}}</th>
+                                    <th>{{l('Optimistic')}}</th>
+                                    <th>{{l('Downturn')}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="kt-portlet kt-portlet--height-fluid">
+                <div class="kt-portlet__head ">
+                    <div class="kt-portlet__head-label hoverable" (click)="showAssetCard = !showAssetCard;">
+                        <h3 class="kt-portlet__head-title">
+                            {{l('AssetBook')}}
+                        </h3>
+                    </div>
+
+                    <div class="kt-portlet__head-toolbar">
+                        <button *ngIf="totalUploads > 0" (click)="exportToExcel()" class="btn btn-outline-primary mr-2">
+                            <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
+                            {{l("DownloadFullData")}}
+                        </button>
+
+                        <!-- *ngIf="(calibration.status == calibrationStatusEnum.Draft || calibration.status == calibrationStatusEnum.Failed) " -->
+                        <div class="btn-group" dropdown>
+                            <button dropdownToggle type="button"
+                                class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-upload"></i> {{"Upload" | localize}}
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-excel-operations" *dropdownMenu>
+                                <a href="javascript:;" class="no-padding">
+                                    <span class="fileinput-button">
+                                        <p-fileUpload customUpload="true"
+                                                name="excelFileUpload"
+                                                #excelFileUpload
+                                                maxFileSize="100000000"
+                                                auto="auto"
+                                                accept=".xls,.xlsx"
+                                                (uploadHandler)="uploadData($event)"
+                                                (onError)="onUploadExcelError()"
+                                                chooseLabel="{{'CalibrationRawData' | localize}}">
+                                        </p-fileUpload>
+                                    </span>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <span class="dropdown-item-text text-muted pl-3" href="#">
+                                    <small [innerHTML]="l('ImportToExcelSampleFileDownloadInfo', '<a href=/assets/sampleFiles/Calibration/CalibrationInput_PD_CR_DR.xlsx>' + l('ClickHere') + '</a>')"></small>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div [hidden]="!showAssetCard" class="kt-portlet__body">
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>{{l('Entity')}}</th>
+                                    <th>{{l('AssetDescription')}}</th>
+                                    <th>{{l('AssetType')}}</th>
+                                    <th>{{l('RatingAgency')}}</th>
+                                    <th>{{l('CreditRatingAtPurchaseDate')}}</th>
+                                    <th>{{l('CurrentCreditRating')}}</th>
+                                    <th>{{l('NominalAccountACY')}}</th>
+                                    <th>{{l('NominalAccountLCY')}}</th>
+                                    <th>{{l('PrincipalAmortisation')}}</th>
+                                    <th>{{l('PrincipalRepaymentTerms')}}</th>
+                                    <th>{{l('InterestRepaymentTerms')}}</th>
+                                    <th>{{l('OutstandingBalanceACY')}}</th>
+                                    <th>{{l('OutstandingBalanceLCY')}}</th>
+                                    <th>{{l('Coupon')}}</th>
+                                    <th>{{l('EIR')}}</th>
+                                    <th>{{l('LoanOriginationDate')}}</th>
+                                    <th>{{l('LoanMaturityDate')}}</th>
+                                    <th>{{l('DaysPastDue')}}</th>
+                                    <th>{{l('PrudentialClassification')}}</th>
+                                    <th>{{l('ForebearanceFlag')}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+
+            </div>
+              <div class="kt-portlet__foot">
+				<div class="col-lg-12">
+					<button (click)="save()" class="btn btn-primary blue float-right"
+                        [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
+                        <span>{{l("Save")}}</span>
+                    </button>
+                    <button *ngIf="!this.holdCoRegister.id" (click)="saveAndNew()" class="btn btn-primary blue float-right"
+                        [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
+                        <span>{{l("SaveAndNew")}}</span>
+                    </button>
+				</div>
+		    </div>
+
+</div>

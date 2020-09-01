@@ -1,0 +1,138 @@
+﻿<div [@routerTransition]>
+
+
+
+                <div class="kt-subheader kt-grid__item">
+
+                    <div class="kt-subheader__main">
+                        <h3 class="kt-subheader__title">
+            				<span>{{l("Entity_Name_Plural_Here")}} {{l("Details")}}</span>
+            			</h3>
+            			<span class="kt-subheader__separator kt-subheader__separator--v"></span>
+            			<div class="kt-subheader__breadcrumbs">
+            				<a [routerLink]="['/app/main/ivModels/holdCoRegisters']"
+            					class="kt-subheader__breadcrumbs-home"><i
+            						class="flaticon2-shelter"></i>{{l("HoldCoRegister")}}</a>
+            				<span class="kt-subheader__breadcrumbs-separator"></span>
+            				<a
+            					class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">
+            					<span>{{l("Details")}}</span>
+            				</a>
+            			</div>
+                    </div>
+
+                </div>
+
+    <div class="kt-content">
+        <div class="kt-portlet kt-portlet--mobile">
+            <div class="kt-portlet__body">
+                <div class="row align-items-center">
+
+
+
+
+                    <!-- <div class="kt-portlet kt-portlet--height-fluid">
+                        <div class="kt-portlet__head ">
+                            <div class="kt-portlet__head-label hoverable" (click)="showUploadCard = !showUploadCard;">
+                                <h3 class="kt-portlet__head-title">
+                                    {{l('InputSummary')}}
+                                </h3>
+                            </div>
+                            <div class="kt-portlet__head-toolbar">
+                                <div *ngIf="uploadSummary && uploadSummary.status === genStatusEnum.Processing">
+                                    {{l('Validating')}}:
+                                    <div class="progress" style="height: 10px;">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="uploadSummary && uploadSummary.status === genStatusEnum.Failed">
+                                    <span class="text-danger mr-3" [innerHTML]="uploadSummary.comment"></span>
+                                </div>
+                                <button *ngIf="totalUploads > 0" (click)="exportToExcel()" class="btn btn-outline-primary mr-2">
+                                    <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
+                                    {{l("DownloadFullData")}}
+                                </button>
+                                <div *ngIf="isGranted('Pages.Calibration.Upload')" class="btn-group" dropdown>
+                                    <button dropdownToggle type="button" *ngIf="(calibration.status == calibrationStatusEnum.Draft || calibration.status == calibrationStatusEnum.Failed) "
+                                        class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-upload"></i> {{"Upload" | localize}}
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right dropdown-excel-operations" *dropdownMenu>
+                                        <a href="javascript:;" class="no-padding">
+                                            <span class="fileinput-button">
+                                                <p-fileUpload customUpload="true"
+                                                        name="excelFileUpload"
+                                                        #excelFileUpload
+                                                        maxFileSize="100000000"
+                                                        auto="auto"
+                                                        accept=".xls,.xlsx"
+                                                        (uploadHandler)="uploadData($event)"
+                                                        (onError)="onUploadExcelError()"
+                                                        chooseLabel="{{'CalibrationRawData' | localize}}">
+                                                </p-fileUpload>
+                                            </span>
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                        <span class="dropdown-item-text text-muted pl-3" href="#">
+                                            <small [innerHTML]="l('ImportToExcelSampleFileDownloadInfo', '<a href=/assets/sampleFiles/Calibration/CalibrationInput_PD_CR_DR.xlsx>' + l('ClickHere') + '</a>')"></small>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div [hidden]="!showUploadCard" class="kt-portlet__body">
+                            <div *ngIf="uploads.length > 0">
+                                {{l('TotalUploadsCount')}} <b>{{totalUploads}}</b>
+                                <hr>
+                            </div>
+                            <div class="table-responsive">
+                                <p *ngIf="uploads.length <= 0" class="">
+                                    {{l('NoUploadedRecordFoundForCalibration')}}
+                                </p>
+                                <table *ngIf="uploads.length > 0" class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>{{l('CustomerNo')}}</th>
+                                            <th>{{l('AccountNo')}}</th>
+                                            <th>{{l('ContractNo')}}</th>
+                                            <th>{{l('ProductType')}}</th>
+                                            <th>{{l('CurrentRating')}}</th>
+                                            <th>{{l('DaysPastDue')}}</th>
+                                            <th>{{l('Classification')}}</th>
+                                            <th>{{l('OutstandingBalanceLcy')}}</th>
+                                            <th>{{l('RPT_Date')}}</th>
+                                            <th>{{l('Segment')}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of uploads">
+                                            <td class="align-middle">{{ item.customer_No }}</td>
+                                            <td class="align-middle">{{ item.account_No }}</td>
+                                            <td class="align-middle">{{ item.contract_No }}</td>
+                                            <td class="align-middle">{{ item.product_Type }}</td>
+                                            <td class="align-middle">{{ item.current_Rating }}</td>
+                                            <td class="align-middle">{{ item.days_Past_Due }}</td>
+                                            <td class="align-right">{{item.classification }}</td>
+                                            <td class="align-right">{{item.outstanding_Balance_Lcy | number: '1.2-2' }}</td>
+                                            <td class="align-right">{{item.rapP_Date }}</td>
+                                            <td class="align-right">{{item.segment }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div> -->
+
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

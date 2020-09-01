@@ -6,6 +6,46 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_ResultSummaryByStages = "Pages.ResultSummaryByStages";
+        public const string Pages_ResultSummaryByStages_Create = "Pages.ResultSummaryByStages.Create";
+        public const string Pages_ResultSummaryByStages_Edit = "Pages.ResultSummaryByStages.Edit";
+        public const string Pages_ResultSummaryByStages_Delete = "Pages.ResultSummaryByStages.Delete";
+
+        public const string Pages_HoldCoInterCompanyResults = "Pages.HoldCoInterCompanyResults";
+        public const string Pages_HoldCoInterCompanyResults_Create = "Pages.HoldCoInterCompanyResults.Create";
+        public const string Pages_HoldCoInterCompanyResults_Edit = "Pages.HoldCoInterCompanyResults.Edit";
+        public const string Pages_HoldCoInterCompanyResults_Delete = "Pages.HoldCoInterCompanyResults.Delete";
+
+        public const string Pages_HoldCoResultSummaries = "Pages.HoldCoResultSummaries";
+        public const string Pages_HoldCoResultSummaries_Create = "Pages.HoldCoResultSummaries.Create";
+        public const string Pages_HoldCoResultSummaries_Edit = "Pages.HoldCoResultSummaries.Edit";
+        public const string Pages_HoldCoResultSummaries_Delete = "Pages.HoldCoResultSummaries.Delete";
+
+        public const string Pages_HoldCoResults = "Pages.HoldCoResults";
+        public const string Pages_HoldCoResults_Create = "Pages.HoldCoResults.Create";
+        public const string Pages_HoldCoResults_Edit = "Pages.HoldCoResults.Edit";
+        public const string Pages_HoldCoResults_Delete = "Pages.HoldCoResults.Delete";
+
+        public const string Pages_AssetBooks = "Pages.AssetBooks";
+        public const string Pages_AssetBooks_Create = "Pages.AssetBooks.Create";
+        public const string Pages_AssetBooks_Edit = "Pages.AssetBooks.Edit";
+        public const string Pages_AssetBooks_Delete = "Pages.AssetBooks.Delete";
+
+        public const string Pages_MacroEconomicCreditIndices = "Pages.MacroEconomicCreditIndices";
+        public const string Pages_MacroEconomicCreditIndices_Create = "Pages.MacroEconomicCreditIndices.Create";
+        public const string Pages_MacroEconomicCreditIndices_Edit = "Pages.MacroEconomicCreditIndices.Edit";
+        public const string Pages_MacroEconomicCreditIndices_Delete = "Pages.MacroEconomicCreditIndices.Delete";
+
+        public const string Pages_HoldCoInputParameters = "Pages.HoldCoInputParameters";
+        public const string Pages_HoldCoInputParameters_Create = "Pages.HoldCoInputParameters.Create";
+        public const string Pages_HoldCoInputParameters_Edit = "Pages.HoldCoInputParameters.Edit";
+        public const string Pages_HoldCoInputParameters_Delete = "Pages.HoldCoInputParameters.Delete";
+
+        public const string Pages_HoldCoRegisters = "Pages.HoldCoRegisters";
+        public const string Pages_HoldCoRegisters_Create = "Pages.HoldCoRegisters.Create";
+        public const string Pages_HoldCoRegisters_Edit = "Pages.HoldCoRegisters.Edit";
+        public const string Pages_HoldCoRegisters_Delete = "Pages.HoldCoRegisters.Delete";
+
         public const string Pages_Calibration = "Pages.Calibration";
         public const string Pages_Calibration_Create = "Pages.Calibration.Create";
         public const string Pages_Calibration_Edit = "Pages.Calibration.Edit";
@@ -17,6 +57,18 @@
         public const string Pages_Calibration_Override = "Pages.Calibration.Override";
         public const string Pages_Calibration_ReviewOverride = "Pages.Calibration.Override.Review";
         public const string Pages_Calibration_Erase = "Pages.Calibration.Erase";
+
+        public const string Pages_IVModels = "Pages.IVModels";
+        public const string Pages_IVModels_Create = "Pages.IVModels.Create";
+        public const string Pages_IVModels_Edit = "Pages.IVModels.Edit";
+        public const string Pages_IVModels_Delete = "Pages.IVModels.Delete";
+        public const string Pages_IVModels_Upload = "Pages.IVModels.Upload";
+        public const string Pages_IVModels_Submit = "Pages.IVModels.Submit";
+        public const string Pages_IVModels_Review = "Pages.IVModels.Review";
+        public const string Pages_IVModels_Apply = "Pages.IVModels.Apply";
+        public const string Pages_IVModels_Override = "Pages.IVModels.Override";
+        public const string Pages_IVModels_ReviewOverride = "Pages.IVModels.Override.Review";
+        public const string Pages_IVModels_Erase = "Pages.IVModels.Erase";
 
         //Final 
         //Assumptions
