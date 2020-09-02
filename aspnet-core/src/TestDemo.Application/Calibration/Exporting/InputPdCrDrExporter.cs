@@ -6,6 +6,8 @@ using TestDemo.Dto;
 using TestDemo.EclShared.Importing.Calibration.Dto;
 using TestDemo.EclShared.Importing.Dto;
 using TestDemo.HoldCoAssetBook.Dtos;
+using TestDemo.HoldCoInterCompanyResults.Dtos;
+using TestDemo.HoldCoResult.Dtos;
 using TestDemo.IVModels.Dtos;
 using TestDemo.Storage;
 
@@ -154,6 +156,142 @@ namespace TestDemo.Calibration.Exporting
                          );
 
                      for (var i = 1; i <= 20; i++)
+                     {
+                         sheet.Column(i).AutoFit();
+                     }
+                 });
+        }
+
+        public FileDto ExportToFile(List<InputHoldCoInterCompanyResultDto> inputDtos)
+        {
+            return CreateExcelPackage(
+                 "ResultsImportList.xlsx",
+                 excelPackage =>
+                 {
+                     var sheet = excelPackage.Workbook.Worksheets.Add(L("ResultsImportList"));
+                     sheet.OutLineApplyStyle = true;
+
+                     AddHeader(
+                         sheet,
+                         "Asset Type",
+                         "Asset Description",
+                         "Stage",
+                         "Outstanding Balance(LCY)",
+                         "Best Estimate",
+                         "Optimistic",
+                         "Downturn",
+                         "Impairment"
+                         );
+
+                     AddObjects(
+                         sheet, 2, inputDtos,
+                         _ => _.AssetType,
+                         _ => _.AssetDescription,
+                         _ => _.Stage,
+                         _ => _.OutstandingBalance,
+                         _ => _.BestEstimate,
+                         _ => _.Optimistic,
+                         _ => _.Downturn,
+                         _ => _.Impairment
+                         );
+
+                     for (var i = 1; i <= 8; i++)
+                     {
+                         sheet.Column(i).AutoFit();
+                     }
+                 });
+        }
+
+        public FileDto ExportToFile(List<InputHoldCoResultSummaryDto> inputDtos)
+        {
+            return CreateExcelPackage(
+                 "ResultSummaryImportList.xlsx",
+                 excelPackage =>
+                 {
+                     var sheet = excelPackage.Workbook.Worksheets.Add(L("ResultSummaryImportList"));
+                     sheet.OutLineApplyStyle = true;
+
+                     AddHeader(
+                         sheet,
+                         "BestEstimateExposure",
+                         "OptimisticExposure",
+                         "DownturnExposure",
+                         "BestEstimateTotal",
+                         "OptimisticTotal",
+                         "DownturnTotal",
+                         "BestEstimateImpairmentRatio",
+                         "OptimisticImpairmentRatio",
+                         "DownturnImpairmentRatio",
+                         "Exposure",
+                         "Total",
+                         "ImpairmentRatio"
+                         );
+
+                     AddObjects(
+                         sheet, 2, inputDtos,
+                         _ => _.BestEstimateExposure,
+                         _ => _.OptimisticExposure,
+                         _ => _.DownturnExposure,
+                         _ => _.BestEstimateTotal,
+                         _ => _.OptimisticTotal,
+                         _ => _.DownturnTotal,
+                         _ => _.BestEstimateImpairmentRatio,
+                         _ => _.OptimisticImpairmentRatio,
+                         _ => _.DownturnImpairmentRatio,
+                         _ => _.Exposure,
+                         _ => _.Total,
+                         _ => _.ImpairmentRatio
+                         );
+
+                     for (var i = 1; i <= 12; i++)
+                     {
+                         sheet.Column(i).AutoFit();
+                     }
+                 });
+        }
+
+        public FileDto ExportToFile(List<InputResultSummaryByStageDto> inputDtos)
+        {
+            return CreateExcelPackage(
+                 "ResultSummaryByStageImportList.xlsx",
+                 excelPackage =>
+                 {
+                     var sheet = excelPackage.Workbook.Worksheets.Add(L("ResultSummaryByStageImportList"));
+                     sheet.OutLineApplyStyle = true;
+
+                     AddHeader(
+                         sheet,
+                         "StageOneExposure",
+                         "StageTwoExposure",
+                         "StageThreeExposure",
+                         "TotalExposure",
+                         "StageOneImpairment",
+                         "StageTwoImpairment",
+                         "StageThreeImpairment",
+                         "StageOneImpairmentRatio",
+                         "StageTwoImpairmentRatio",
+                         "TotalImpairment",
+                         "StageThreeImpairmentRatio",
+                         "TotalImpairmentRatio"
+                         );
+
+                     AddObjects(
+                         sheet, 2, inputDtos,
+                         _ => _.StageOneExposure,
+                         _ => _.StageTwoExposure,
+                         _ => _.StageThreeExposure,
+                         _ => _.TotalExposure,
+                         _ => _.StageOneImpairment,
+                         _ => _.StageTwoImpairment,
+                         _ => _.StageThreeImpairment,
+                         _ => _.StageOneImpairmentRatio,
+                         _ => _.StageTwoImpairmentRatio,
+                         _ => _.TotalImpairment,
+                         _ => _.StageThreeImpairmentRatio,
+                         _ => _.TotalImpairmentRatio
+                         );
+
+                     for (var i = 1; i <= 12; i++)
                      {
                          sheet.Column(i).AutoFit();
                      }

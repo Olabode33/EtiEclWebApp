@@ -14,20 +14,24 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.Calibration.Exporting;
 
 namespace TestDemo.HoldCoInterCompanyResults
 {
 	[AbpAuthorize(AppPermissions.Pages_HoldCoInterCompanyResults)]
     public class HoldCoInterCompanyResultsAppService : TestDemoAppServiceBase, IHoldCoInterCompanyResultsAppService
     {
-		 private readonly IRepository<HoldCoInterCompanyResult, Guid> _holdCoInterCompanyResultRepository;
-		 
+		private readonly IRepository<HoldCoInterCompanyResult, Guid> _holdCoInterCompanyResultRepository;
+        private readonly IInputPdCrDrExporter _inputDataExporter;
 
-		  public HoldCoInterCompanyResultsAppService(IRepository<HoldCoInterCompanyResult, Guid> holdCoInterCompanyResultRepository ) 
+
+        public HoldCoInterCompanyResultsAppService(IRepository<HoldCoInterCompanyResult, Guid> holdCoInterCompanyResultRepository, IInputPdCrDrExporter inputDataExporter) 
 		  {
 			_holdCoInterCompanyResultRepository = holdCoInterCompanyResultRepository;
-			
-		  }
+            _inputDataExporter = inputDataExporter;
+
+
+          }
 
         public async Task<List<CreateOrEditHoldCoInterCompanyResultDto>> GetResults(Guid id)
         {
@@ -111,6 +115,16 @@ namespace TestDemo.HoldCoInterCompanyResults
          public async Task Delete(EntityDto<Guid> input)
          {
             await _holdCoInterCompanyResultRepository.DeleteAsync(input.Id);
-         } 
+         }
+
+        public async Task<FileDto> ExportToExcel(EntityDto<Guid> input)
+        {
+
+            var items = await _holdCoInterCompanyResultRepository.GetAll().Where(x => x.RegistrationId == input.Id)
+                                                         .Select(x => ObjectMapper.Map<InputHoldCoInterCompanyResultDto>(x))
+                                                         .ToListAsync();
+
+            return _inputDataExporter.ExportToFile(items);
+        }
     }
 }

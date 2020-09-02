@@ -50,7 +50,7 @@
                 </div>
 
                 <div class="kt-portlet__head-toolbar">
-                    <button *ngIf="holdCoInterCompanyResults.length > 0" (click)="exportMacroToExcel()" class="btn btn-outline-primary mr-2">
+                    <button *ngIf="holdCoInterCompanyResults.length > 0" (click)="exportResultToExcel()" class="btn btn-outline-primary mr-2">
                         <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
                         {{l("DownloadFullData")}}
                     </button>
@@ -106,7 +106,7 @@
                 </div>
 
                 <div class="kt-portlet__head-toolbar">
-                    <button *ngIf="holdCoInterCompanyResults.length > 0" (click)="exportMacroToExcel()" class="btn btn-outline-primary mr-2">
+                    <button *ngIf="holdCoInterCompanyResults.length > 0" (click)="exportResultSummaryToExcel()" class="btn btn-outline-primary mr-2">
                         <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
                         {{l("DownloadFullData")}}
                     </button>
@@ -172,7 +172,7 @@
                 </div>
 
                 <div class="kt-portlet__head-toolbar">
-                    <button *ngIf="holdCoInterCompanyResults.length > 0" (click)="exportMacroToExcel()" class="btn btn-outline-primary mr-2">
+                    <button *ngIf="holdCoInterCompanyResults.length > 0" (click)="exportResultSummaryByStageToExcel()" class="btn btn-outline-primary mr-2">
                         <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
                         {{l("DownloadFullData")}}
                     </button>

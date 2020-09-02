@@ -49,7 +49,7 @@ export class ViewHoldCoRegisterComponent extends AppComponentBase implements OnI
         private _holdCoResultSummariesServiceProxy: HoldCoResultSummariesServiceProxy,
 
         private _assetBookServiceProxy: AssetBooksServiceProxy,
-         private _holdCoRegistersServiceProxy: HoldCoRegistersServiceProxy
+        private _holdCoRegistersServiceProxy: HoldCoRegistersServiceProxy
     ) {
         super(injector);
         this.item = new GetHoldCoRegisterForViewDto();
@@ -66,37 +66,60 @@ export class ViewHoldCoRegisterComponent extends AppComponentBase implements OnI
 
     show(holdCoRegisterId: string): void {
 
-            this._holdCoRegistersServiceProxy.getHoldCoRegisterForEdit(holdCoRegisterId).subscribe(result => {
-                this.holdCoRegister = result.holdCoRegister;
-                this.inputParameter = this.holdCoRegister.inputParameter;
-                this.inputParameter.valuationDate = this.inputParameter.valuationDate.toDate() as any;
-                this.inputParameter.assumedMaturityDate = this.inputParameter.assumedMaturityDate.toDate() as any;
-                this.inputParameter.assumedStartDate = this.inputParameter.assumedStartDate.toDate() as any;
-                this.macroEconomicCreditIndex = this.holdCoRegister.macroEconomicCreditIndex;
-                this.assetBook = this.holdCoRegister.assetBook;
-                this.active = true;
-                if(this.holdCoRegister.status == CalibrationStatusEnum.Completed) {
-                    this._resultSummaryByStagesServiceProxy.getResults(this.holdCoRegister.id).subscribe(res => {
-                        this.holdCoResultSummariesByStage = res;
-                    });
-                    this._holdCoInterCompanyResultsServiceProxy.getResults(this.holdCoRegister.id).subscribe(res => {
-                        this.holdCoInterCompanyResults = res;
-                    });
-                    this._holdCoResultSummariesServiceProxy.getResults(this.holdCoRegister.id).subscribe(res => {
-                        this.holdCoResultSummaries = res;
-                    });
-                }
-            });
-        }
+        this._holdCoRegistersServiceProxy.getHoldCoRegisterForEdit(holdCoRegisterId).subscribe(result => {
+            this.holdCoRegister = result.holdCoRegister;
+            this.inputParameter = this.holdCoRegister.inputParameter;
+            this.inputParameter.valuationDate = this.inputParameter.valuationDate.toDate() as any;
+            this.inputParameter.assumedMaturityDate = this.inputParameter.assumedMaturityDate.toDate() as any;
+            this.inputParameter.assumedStartDate = this.inputParameter.assumedStartDate.toDate() as any;
+            this.macroEconomicCreditIndex = this.holdCoRegister.macroEconomicCreditIndex;
+            this.assetBook = this.holdCoRegister.assetBook;
+            this.active = true;
+            if (this.holdCoRegister.status == CalibrationStatusEnum.Completed) {
+                this._resultSummaryByStagesServiceProxy.getResults(this.holdCoRegister.id).subscribe(res => {
+                    this.holdCoResultSummariesByStage = res;
+                });
+                this._holdCoInterCompanyResultsServiceProxy.getResults(this.holdCoRegister.id).subscribe(res => {
+                    this.holdCoInterCompanyResults = res;
+                });
+                this._holdCoResultSummariesServiceProxy.getResults(this.holdCoRegister.id).subscribe(res => {
+                    this.holdCoResultSummaries = res;
+                });
+            }
+        });
+    }
 
-        goBack(): void {
-            this._location.back();
-        }
+    goBack(): void {
+        this._location.back();
+    }
 
-        approve() {
-            this.approvalModal.show();
-        }
+    approve() {
+        this.approvalModal.show();
+    }
 
+    exportResultSummaryByStageToExcel(): void {
+        let dto = new EntityDtoOfGuid();
+        dto.id = this.holdCoRegister.id;
+        this._resultSummaryByStagesServiceProxy.exportToExcel(dto).subscribe(result => {
+            this._fileDownloadService.downloadTempFile(result);
+        });
+    }
+
+    exportResultSummaryToExcel(): void {
+        let dto = new EntityDtoOfGuid();
+        dto.id = this.holdCoRegister.id;
+        this._holdCoResultSummariesServiceProxy.exportToExcel(dto).subscribe(result => {
+            this._fileDownloadService.downloadTempFile(result);
+        });
+    }
+
+    exportResultToExcel(): void {
+        let dto = new EntityDtoOfGuid();
+        dto.id = this.holdCoRegister.id;
+        this._holdCoInterCompanyResultsServiceProxy.exportToExcel(dto).subscribe(result => {
+            this._fileDownloadService.downloadTempFile(result);
+        });
+    }
 
     exportMacroToExcel(): void {
         let dto = new EntityDtoOfGuid();
@@ -114,22 +137,22 @@ export class ViewHoldCoRegisterComponent extends AppComponentBase implements OnI
         });
     }
 
-        getStatusLabelClass(uploadStatus: CalibrationStatusEnum): string {
-            switch (uploadStatus) {
-                case CalibrationStatusEnum.Draft:
-                    return 'primary';
-                case CalibrationStatusEnum.Submitted:
-                case CalibrationStatusEnum.Processing:
-                case CalibrationStatusEnum.AwaitngAdditionApproval:
-                    return 'warning';
-                case CalibrationStatusEnum.Completed:
-                case CalibrationStatusEnum.Approved:
-                    return 'success';
-                case CalibrationStatusEnum.Rejected:
-                case CalibrationStatusEnum.Failed:
-                    return 'danger';
-                default:
-                    return 'dark';
-            }
+    getStatusLabelClass(uploadStatus: CalibrationStatusEnum): string {
+        switch (uploadStatus) {
+            case CalibrationStatusEnum.Draft:
+                return 'primary';
+            case CalibrationStatusEnum.Submitted:
+            case CalibrationStatusEnum.Processing:
+            case CalibrationStatusEnum.AwaitngAdditionApproval:
+                return 'warning';
+            case CalibrationStatusEnum.Completed:
+            case CalibrationStatusEnum.Approved:
+                return 'success';
+            case CalibrationStatusEnum.Rejected:
+            case CalibrationStatusEnum.Failed:
+                return 'danger';
+            default:
+                return 'dark';
         }
+    }
 }

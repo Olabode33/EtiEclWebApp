@@ -14,20 +14,23 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.HoldCoInterCompanyResults.Dtos;
+using TestDemo.Calibration.Exporting;
 
 namespace TestDemo.HoldCoResult
 {
 	[AbpAuthorize(AppPermissions.Pages_HoldCoResultSummaries)]
     public class HoldCoResultSummariesAppService : TestDemoAppServiceBase, IHoldCoResultSummariesAppService
     {
-		 private readonly IRepository<HoldCoResultSummary, Guid> _holdCoResultSummaryRepository;
-		 
+	    private readonly IRepository<HoldCoResultSummary, Guid> _holdCoResultSummaryRepository;
+        private readonly IInputPdCrDrExporter _inputDataExporter;
 
-		  public HoldCoResultSummariesAppService(IRepository<HoldCoResultSummary, Guid> holdCoResultSummaryRepository ) 
+
+        public HoldCoResultSummariesAppService(IRepository<HoldCoResultSummary, Guid> holdCoResultSummaryRepository, IInputPdCrDrExporter inputDataExporter) 
 		  {
 			_holdCoResultSummaryRepository = holdCoResultSummaryRepository;
-			
-		  }
+            _inputDataExporter = inputDataExporter;
+        }
 
         public async Task<List<CreateOrEditHoldCoResultSummaryDto>> GetResults(Guid id)
         {
@@ -102,6 +105,15 @@ namespace TestDemo.HoldCoResult
          public async Task Delete(EntityDto<Guid> input)
          {
             await _holdCoResultSummaryRepository.DeleteAsync(input.Id);
-         } 
+         }
+        public async Task<FileDto> ExportToExcel(EntityDto<Guid> input)
+        {
+
+            var items = await _holdCoResultSummaryRepository.GetAll().Where(x => x.RegistrationId == input.Id)
+                                                         .Select(x => ObjectMapper.Map<InputHoldCoResultSummaryDto>(x))
+                                                         .ToListAsync();
+
+            return _inputDataExporter.ExportToFile(items);
+        }
     }
 }

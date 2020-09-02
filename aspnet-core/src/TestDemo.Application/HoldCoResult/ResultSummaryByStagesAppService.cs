@@ -14,6 +14,7 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.Calibration.Exporting;
 
 namespace TestDemo.HoldCoResult
 {
@@ -21,13 +22,13 @@ namespace TestDemo.HoldCoResult
     public class ResultSummaryByStagesAppService : TestDemoAppServiceBase, IResultSummaryByStagesAppService
     {
 		 private readonly IRepository<ResultSummaryByStage, Guid> _resultSummaryByStageRepository;
-		 
+        private readonly IInputPdCrDrExporter _inputDataExporter;
 
-		  public ResultSummaryByStagesAppService(IRepository<ResultSummaryByStage, Guid> resultSummaryByStageRepository ) 
+        public ResultSummaryByStagesAppService(IRepository<ResultSummaryByStage, Guid> resultSummaryByStageRepository , IInputPdCrDrExporter inputDataExporter) 
 		  {
 			_resultSummaryByStageRepository = resultSummaryByStageRepository;
-			
-		  }
+            _inputDataExporter = inputDataExporter;
+        }
 
         public async Task<List<CreateOrEditResultSummaryByStageDto>> GetResults(Guid id)
         {
@@ -111,6 +112,16 @@ namespace TestDemo.HoldCoResult
          public async Task Delete(EntityDto<Guid> input)
          {
             await _resultSummaryByStageRepository.DeleteAsync(input.Id);
-         } 
+         }
+
+        public async Task<FileDto> ExportToExcel(EntityDto<Guid> input)
+        {
+
+            var items = await _resultSummaryByStageRepository.GetAll().Where(x => x.RegistrationId == input.Id)
+                                                         .Select(x => ObjectMapper.Map<InputResultSummaryByStageDto>(x))
+                                                         .ToListAsync();
+
+            return _inputDataExporter.ExportToFile(items);
+        }
     }
 }
