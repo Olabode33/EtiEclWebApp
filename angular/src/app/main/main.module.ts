@@ -117,7 +117,8 @@ import { AddEadAssumptionModalComponent } from './assumptions/_subs/add-ead-assu
 import { ViewBatchEclComponent } from './eclView/view-batchEcl/view-batchEcl.component';
 import { ContextMenuModule } from 'primeng/primeng';
 import { EditSelectedMacroResultModalComponent } from './calibration/calibrateMacroAnalysis/edit-selectedMacroResult-modal.component';
-import { EditCalibrateCommConsResultModalComponent } from './calibration/calibratePdCrDr/edit-calibrateCommCons-result-modal.component';
+import { EditCalibrateCommConsResultModalComponent } from './calibration/calibratePdCrDr/edit-calibrateCommCons-result-modal.component';;
+import { ApproveIvmodelModalComponent } from './ivmodels/approve-ivmodel-modal/approve-ivmodel-modal.component'
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -233,7 +234,8 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         EditPrincipalSummaryResultModalComponent,
         EditIndexResultModalComponent,
         EditPrincipalComponentResultModalComponent
-    ],
+,
+        ApproveIvmodelModalComponent    ],
     providers: [
         { provide: BsDatepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDatepickerConfig },
         { provide: BsDaterangepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDaterangepickerConfig },

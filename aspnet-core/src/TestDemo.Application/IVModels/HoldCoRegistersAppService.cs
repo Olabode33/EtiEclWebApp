@@ -173,6 +173,24 @@ namespace TestDemo.IVModels
             await _assetBookRepository.DeleteAsync(a => a.RegistrationId == input.Id);
             await _macroEconomicCreditIndexRepository.DeleteAsync(a => a.RegistrationId == input.Id);
             await _holdCoInputParameterRepository.DeleteAsync(a => a.RegistrationId == input.Id);
-        } 
+        }
+
+        public async Task ApproveRejectModel(CreateOrEditHoldCoRegisterApprovalDto input)
+        {
+            var reg = await _holdCoRegisterRepository.FirstOrDefaultAsync(input.RegistrationId);
+
+            reg.Status = input.Status;
+            await _holdCoRegisterRepository.UpdateAsync(reg);
+
+
+            //await _calibrationApprovalRepository.InsertAsync(new CalibrationEadBehaviouralTermApproval
+            //{
+            //    CalibrationId = input.EclId,
+            //    ReviewComment = input.ReviewComment,
+            //    ReviewedByUserId = AbpSession.UserId,
+            //    ReviewedDate = DateTime.Now,
+            //    Status = input.Status
+            //});
+        }
     }
 }
