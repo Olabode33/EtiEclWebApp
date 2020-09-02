@@ -29,7 +29,13 @@ namespace TestDemo.HoldCoResult
 			
 		  }
 
-		 public async Task<PagedResultDto<GetHoldCoResultSummaryForViewDto>> GetAll(GetAllHoldCoResultSummariesInput input)
+        public async Task<List<CreateOrEditHoldCoResultSummaryDto>> GetResults(Guid id)
+        {
+            return ObjectMapper.Map<List<CreateOrEditHoldCoResultSummaryDto>>(await _holdCoResultSummaryRepository.GetAll().Where(a => a.RegistrationId == id).ToListAsync());
+
+        }
+
+        public async Task<PagedResultDto<GetHoldCoResultSummaryForViewDto>> GetAll(GetAllHoldCoResultSummariesInput input)
          {
 			
 			var filteredHoldCoResultSummaries = _holdCoResultSummaryRepository.GetAll()

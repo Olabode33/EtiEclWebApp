@@ -53,10 +53,10 @@ namespace TestDemo.HoldCoAssetBook.Dtos
 		public double EIR { get; set; }
 		
 		
-		public DateTime LoanOriginationDate { get; set; }
+		public string LoanOriginationDate { get; set; }
 		
 		
-		public DateTime LoanMaturityDate { get; set; }
+		public string LoanMaturityDate { get; set; }
 		
 		
 		public int DaysPastDue { get; set; }
@@ -66,8 +66,8 @@ namespace TestDemo.HoldCoAssetBook.Dtos
 		
 		
 		public string ForebearanceFlag { get; set; }
-		
-		
 
-    }
+		public Guid RegistrationId { get; set; }
+
+	}
 }

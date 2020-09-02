@@ -4249,9 +4249,9 @@ namespace TestDemo.Migrations
 
                     b.Property<long?>("LastModifierUserId");
 
-                    b.Property<DateTime>("LoanMaturityDate");
+                    b.Property<string>("LoanMaturityDate");
 
-                    b.Property<DateTime>("LoanOriginationDate");
+                    b.Property<string>("LoanOriginationDate");
 
                     b.Property<double>("NominalAmountACY");
 
@@ -4486,8 +4486,6 @@ namespace TestDemo.Migrations
                     b.Property<DateTime?>("LastModificationTime");
 
                     b.Property<long?>("LastModifierUserId");
-
-                    b.Property<Guid>("RegistrationId");
 
                     b.Property<int>("Status");
 

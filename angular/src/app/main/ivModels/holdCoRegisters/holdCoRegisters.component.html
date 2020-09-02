@@ -1,28 +1,28 @@
 ﻿<div [@routerTransition]>
-  
-  
-  
-                <div class="kt-subheader kt-grid__item">
-                  
-                    <div class="kt-subheader__main">
-                        <h3 class="kt-subheader__title">
-                            <span>{{l("HoldCoRegisters")}}</span>
-                        </h3>
-                        <span class="kt-subheader__separator kt-subheader__separator--v"></span>
-                        <span class="kt-subheader__desc">
-                            {{l("HoldCoRegistersHeaderInfo")}}
-                        </span>
-                    </div>
-                    <div class="kt-subheader__toolbar">
-                        <div class="kt-subheader__wrapper">
-            				<button *ngIf="isGranted('Pages.HoldCoRegisters.Create')" (click)="createHoldCoRegister()" 
-            			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewHoldCoRegister")}}</button>
-                        </div>
-                    </div>
-                  
-                </div>
-            
-    
+
+
+
+    <div class="kt-subheader kt-grid__item">
+
+        <div class="kt-subheader__main">
+            <h3 class="kt-subheader__title">
+                <span>{{l("HoldCoRegisters")}}</span>
+            </h3>
+            <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+            <span class="kt-subheader__desc">
+                {{l("HoldCoRegistersHeaderInfo")}}
+            </span>
+        </div>
+        <div class="kt-subheader__toolbar">
+            <div class="kt-subheader__wrapper">
+                <button *ngIf="isGranted('Pages.HoldCoRegisters.Create')" (click)="createHoldCoRegister()"
+                    class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewHoldCoRegister")}}</button>
+            </div>
+        </div>
+
+    </div>
+
+
     <div class="kt-content">
         <div class="kt-portlet kt-portlet--mobile">
             <div class="kt-portlet__body">
@@ -32,57 +32,65 @@
                             <div class="col-xl-12">
                                 <div class="form-group m-form__group align-items-center">
                                     <div class="input-group">
-                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus
+                                            class="form-control m-input" [placeholder]="l('SearchWithThreeDot')"
+                                            type="text">
                                         <span class="input-group-btn">
-                                            <button (click)="getHoldCoRegisters()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                            <button (click)="getHoldCoRegisters()" class="btn btn-primary"
+                                                type="submit"><i class="flaticon-search-1"></i></button>
                                         </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-						 <div class="row" [hidden]="!advancedFiltersAreShown">
-						 	<div class="col-md-12">
-						         <div class="kt-separator kt-separator--border-dashed"></div>
-						     </div>
+                        <div class="row" [hidden]="!advancedFiltersAreShown">
+                            <div class="col-md-12">
+                                <div class="kt-separator kt-separator--border-dashed"></div>
+                            </div>
 
 
-							<div class="col-md-3">
-								<label for="StatusFilterSelect">{{l("Status")}}</label>
-								<select class="form-control" name="StatusFilter" id="StatusFilterSelect" [(ngModel)]="statusFilter">
-								<option value="-1">{{l("All")}}</option>
-																			<option value="0">{{l('Draft')}}</option>
+                            <div class="col-md-3">
+                                <label for="StatusFilterSelect">{{l("Status")}}</label>
+                                <select class="form-control" name="StatusFilter" id="StatusFilterSelect"
+                                    [(ngModel)]="statusFilter">
+                                    <option value="-1">{{l("All")}}</option>
+                                    <option value="0">{{l('Draft')}}</option>
 
-										<option value="1">{{l('Submitted')}}</option>
+                                    <option value="1">{{l('Submitted')}}</option>
 
-										<option value="2">{{l('Approved')}}</option>
+                                    <option value="2">{{l('Approved')}}</option>
 
-										<option value="3">{{l('Rejected')}}</option>
+                                    <option value="3">{{l('Rejected')}}</option>
 
-										<option value="4">{{l('Processing')}}</option>
+                                    <option value="4">{{l('Processing')}}</option>
 
-										<option value="5">{{l('Completed')}}</option>
+                                    <option value="5">{{l('Completed')}}</option>
 
-										<option value="6">{{l('AwaitngAdditionApproval')}}</option>
+                                    <option value="6">{{l('AwaitngAdditionApproval')}}</option>
 
-										<option value="7">{{l('AppliedToEcl')}}</option>
+                                    <option value="7">{{l('AppliedToEcl')}}</option>
 
-										<option value="8">{{l('QueuedForProcessing')}}</option>
+                                    <option value="8">{{l('QueuedForProcessing')}}</option>
 
-										<option value="9">{{l('Uploading')}}</option>
+                                    <option value="9">{{l('Uploading')}}</option>
 
-										<option value="10">{{l('Failed')}}</option>
+                                    <option value="10">{{l('Failed')}}</option>
 
-										<option value="11">{{l('AppliedOverride')}}</option>
+                                    <option value="11">{{l('AppliedOverride')}}</option>
 
 
-								</select>
+                                </select>
                             </div>
 
                         </div>
                         <div class="row mb-2">
                             <div class="col-sm-12">
-                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
-                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown"
+                                    (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
+                                        class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown"
+                                    (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
+                                        class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
                             </div>
                         </div>
                     </div>
@@ -90,65 +98,95 @@
 
                 <div class="row align-items-center">
                     <!--<Primeng-Datatable-Start>-->
-                    <div class="primeng-datatable-container col-12"
-                         [busyIf]="primengTableHelper.isLoading">
-                        <p-table #dataTable
-                                     (onLazyLoad)="getHoldCoRegisters($event)"
-                                     [value]="primengTableHelper.records"
-                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
-                                     [paginator]="false"
-                                     [lazy]="true"
-                                     [scrollable]="true"
-                                     ScrollWidth="100%"
-                                     [responsive]="primengTableHelper.isResponsive"
-                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                    <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable (onLazyLoad)="getHoldCoRegisters($event)"
+                            [value]="primengTableHelper.records"
+                            rows="{{primengTableHelper.defaultRecordsCountPerPage}}" [paginator]="false" [lazy]="true"
+                            [scrollable]="true" ScrollWidth="100%" [responsive]="primengTableHelper.isResponsive"
+                            [resizableColumns]="primengTableHelper.resizableColumns">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.HoldCoRegisters.Edit', 'Pages.HoldCoRegisters.Delete')">{{l('Actions')}}</th>
-
-                                </tr>
-                            </ng-template>                           
-							<ng-template pTemplate="body" let-record="$implicit">
-                                <tr>
-                                    <td style="width: 130px"
+                                    <th style="width: 150px"
                                         [hidden]="!isGrantedAny('Pages.HoldCoRegisters.Edit', 'Pages.HoldCoRegisters.Delete')">
-                                       <div class="btn-group dropdown" dropdown container="body">
+                                        {{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="creationTime">
+                                        {{l('DateCreated')}}
+                                        <p-sortIcon field="calibration.creationTime"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="creatorUserId">
+                                        {{l('CreatedBy')}}
+                                        <p-sortIcon field="calibration.creatorUserId"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="status">
+                                        {{l('Status')}}
+                                        <p-sortIcon field="calibration.status"></p-sortIcon>
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 150px"
+                                        [hidden]="!isGrantedAny('Pages.HoldCoRegisters.Edit', 'Pages.HoldCoRegisters.Delete')">
+                                        <div class="btn-group dropdown" dropdown container="body">
                                             <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
                                                 <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
                                             </button>
-												<ul class="dropdown-menu"  *dropdownMenu>
-										    <li>
-                                                <a *ngIf="permission.isGranted('Pages.HoldCoRegisters.Edit')" 
-			[routerLink]="['/app/main/ivModels/holdCoRegisters/view']" [queryParams]="{id: record.holdCoRegister.id}">
-  {{l('View')}}	
-</a>
-                                            </li>
-												<li>
-                                                 <a *ngIf="permission.isGranted('Pages.HoldCoRegisters.Edit')" 
-			[routerLink]="['/app/main/ivModels/holdCoRegisters/createOrEdit']" [queryParams]="{id: record.holdCoRegister.id}">
-  {{l('Edit')}}	
-</a>												
+                                            <ul class="dropdown-menu" *dropdownMenu>
+                                                <li>
+                                                    <a *ngIf="permission.isGranted('Pages.HoldCoRegisters.Edit')"
+                                                        [routerLink]="['/app/main/ivModels/holdCoRegisters/view']"
+                                                        [queryParams]="{id: record.holdCoRegister.id}">
+                                                        {{l('View')}}
+                                                    </a>
                                                 </li>
-												<li>
-											        <a  href="javascript:;" *ngIf="permission.isGranted('Pages.HoldCoRegisters.Delete')"
-														(click)="deleteHoldCoRegister(record.holdCoRegister)">{{l('Delete')}}</a>
-												</li>
+                                                <!-- <li>
+                                                    <a *ngIf="permission.isGranted('Pages.HoldCoRegisters.Edit')"
+                                                        [routerLink]="['/app/main/ivModels/holdCoRegisters/createOrEdit']"
+                                                        [queryParams]="{id: record.holdCoRegister.id}">
+                                                        {{l('Edit')}}
+                                                    </a>
+                                                </li> -->
+                                                <li>
+                                                    <a href="javascript:;"
+                                                        *ngIf="permission.isGranted('Pages.HoldCoRegisters.Delete')"
+                                                        (click)="deleteHoldCoRegister(record.holdCoRegister)">{{l('Delete')}}</a>
+                                                </li>
                                             </ul>
                                         </div>
+                                    </td>
+
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('DateCreated')}}</span>
+                                        <span *ngIf="record.dateCreated">
+                                            {{record.dateCreated | momentFormat:'LL LT'}}
+                                        </span>
+                                        <span *ngIf="!record.dateCreated">-</span>
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('Name')}}</span>
+                                        {{record.createdBy}}
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('Status')}}</span>
+                                        <span
+                                            class="kt-badge kt-badge--bolder kt-badge kt-badge--inline
+                                                     kt-badge--unified-{{ getStatusLabelClass(record.holdCoRegister.status) }}">
+                                            {{l( calibrationStatusEnum[record.holdCoRegister.status])}}
+                                        </span>
+
                                     </td>
 
                                 </tr>
                             </ng-template>
                         </p-table>
-						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                        <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
                             {{l('NoData')}}
                         </div>
                         <div class="primeng-paging-container">
-                            <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage"
-                                         #paginator
-                                         (onPageChange)="getHoldCoRegisters($event)"
-                                         [totalRecords]="primengTableHelper.totalRecordsCount"
-                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage" #paginator
+                                (onPageChange)="getHoldCoRegisters($event)"
+                                [totalRecords]="primengTableHelper.totalRecordsCount"
+                                [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
                             </p-paginator>
                             <span class="total-records-count">
                                 {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
@@ -160,8 +198,8 @@
             </div>
         </div>
     </div>
-        
-    
-    
-  
+
+
+
+
 </div>

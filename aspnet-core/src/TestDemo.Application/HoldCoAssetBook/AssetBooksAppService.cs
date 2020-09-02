@@ -14,6 +14,7 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.Calibration.Exporting;
 
 namespace TestDemo.HoldCoAssetBook
 {
@@ -21,13 +22,14 @@ namespace TestDemo.HoldCoAssetBook
     public class AssetBooksAppService : TestDemoAppServiceBase, IAssetBooksAppService
     {
 		 private readonly IRepository<AssetBook, Guid> _assetBookRepository;
-		 
+         private readonly IInputPdCrDrExporter _inputDataExporter;
 
-		  public AssetBooksAppService(IRepository<AssetBook, Guid> assetBookRepository ) 
+
+        public AssetBooksAppService(IRepository<AssetBook, Guid> assetBookRepository, IInputPdCrDrExporter inputDataExporter) 
 		  {
 			_assetBookRepository = assetBookRepository;
-			
-		  }
+            _inputDataExporter = inputDataExporter;
+        }
 
 		 public async Task<PagedResultDto<GetAssetBookForViewDto>> GetAll(GetAllAssetBooksInput input)
          {
@@ -96,6 +98,16 @@ namespace TestDemo.HoldCoAssetBook
          public async Task Delete(EntityDto<Guid> input)
          {
             await _assetBookRepository.DeleteAsync(input.Id);
-         } 
+         }
+
+        public async Task<FileDto> ExportToExcel(EntityDto<Guid> input)
+        {
+
+            var items = await _assetBookRepository.GetAll().Where(x => x.RegistrationId == input.Id)
+                                                         .Select(x => ObjectMapper.Map<InputAssetBookDto>(x))
+                                                         .ToListAsync();
+
+            return _inputDataExporter.ExportToFile(items);
+        }
     }
 }

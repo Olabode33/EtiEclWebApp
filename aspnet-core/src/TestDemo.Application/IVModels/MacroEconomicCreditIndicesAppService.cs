@@ -14,6 +14,7 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.Calibration.Exporting;
 
 namespace TestDemo.IVModels
 {
@@ -21,15 +22,18 @@ namespace TestDemo.IVModels
     public class MacroEconomicCreditIndicesAppService : TestDemoAppServiceBase, IMacroEconomicCreditIndicesAppService
     {
 		 private readonly IRepository<MacroEconomicCreditIndex, Guid> _macroEconomicCreditIndexRepository;
-		 
+        private readonly IInputPdCrDrExporter _inputDataExporter;
 
-		  public MacroEconomicCreditIndicesAppService(IRepository<MacroEconomicCreditIndex, Guid> macroEconomicCreditIndexRepository ) 
+
+        public MacroEconomicCreditIndicesAppService(IRepository<MacroEconomicCreditIndex, Guid> macroEconomicCreditIndexRepository, IInputPdCrDrExporter inputDataExporter) 
 		  {
 			_macroEconomicCreditIndexRepository = macroEconomicCreditIndexRepository;
-			
-		  }
+            _inputDataExporter = inputDataExporter;
 
-		 public async Task<PagedResultDto<GetMacroEconomicCreditIndexForViewDto>> GetAll(GetAllMacroEconomicCreditIndicesInput input)
+
+    }
+
+    public async Task<PagedResultDto<GetMacroEconomicCreditIndexForViewDto>> GetAll(GetAllMacroEconomicCreditIndicesInput input)
          {
 			
 			var filteredMacroEconomicCreditIndices = _macroEconomicCreditIndexRepository.GetAll()
@@ -105,6 +109,16 @@ namespace TestDemo.IVModels
          public async Task Delete(EntityDto<Guid> input)
          {
             await _macroEconomicCreditIndexRepository.DeleteAsync(input.Id);
-         } 
+         }
+
+        public async Task<FileDto> ExportToExcel(EntityDto<Guid> input)
+        {
+
+            var items = await _macroEconomicCreditIndexRepository.GetAll().Where(x => x.RegistrationId == input.Id)
+                                                         .Select(x => ObjectMapper.Map<InputMacroEconomicCreditIndexDto>(x))
+                                                         .ToListAsync();
+
+            return _inputDataExporter.ExportToFile(items);
+        }
     }
 }

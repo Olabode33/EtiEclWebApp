@@ -43,6 +43,7 @@
 
         public const string Pages_HoldCoRegisters = "Pages.HoldCoRegisters";
         public const string Pages_HoldCoRegisters_Create = "Pages.HoldCoRegisters.Create";
+        public const string Pages_HoldCoRegisters_Approve = "Pages.HoldCoRegisters.Approve";
         public const string Pages_HoldCoRegisters_Edit = "Pages.HoldCoRegisters.Edit";
         public const string Pages_HoldCoRegisters_Delete = "Pages.HoldCoRegisters.Delete";
 

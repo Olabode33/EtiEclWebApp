@@ -13,8 +13,6 @@ namespace TestDemo.IVModels
 
 		public virtual CalibrationStatusEnum Status { get; set; }
 		
-		public virtual Guid RegistrationId { get; set; }
-		
 
     }
 }

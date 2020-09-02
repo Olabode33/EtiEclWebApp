@@ -5,6 +5,8 @@ using TestDemo.DataExporting.Excel.EpPlus;
 using TestDemo.Dto;
 using TestDemo.EclShared.Importing.Calibration.Dto;
 using TestDemo.EclShared.Importing.Dto;
+using TestDemo.HoldCoAssetBook.Dtos;
+using TestDemo.IVModels.Dtos;
 using TestDemo.Storage;
 
 namespace TestDemo.Calibration.Exporting
@@ -60,6 +62,102 @@ namespace TestDemo.Calibration.Exporting
                         sheet.Column(i).AutoFit();
                     }
                 });
+        }
+
+        public FileDto ExportToFile(List<InputMacroEconomicCreditIndexDto> inputDtos)
+        {
+            return CreateExcelPackage(
+                 "MacroEconomicCreditIndexImportList.xlsx",
+                 excelPackage =>
+                 {
+                     var sheet = excelPackage.Workbook.Worksheets.Add(L("MacroEconomicCreditIndexImportList"));
+                     sheet.OutLineApplyStyle = true;
+
+                     AddHeader(
+                         sheet,
+                         "Month",
+                         "Best Estimate",
+                         "Optimistic",
+                         "Downturn"
+                         );
+
+                     AddObjects(
+                         sheet, 2, inputDtos,
+                         _ => _.Month,
+                         _ => _.BestEstimate,
+                         _ => _.Optimistic,
+                         _ => _.Downturn
+                         );
+
+                     for (var i = 1; i <= 4; i++)
+                     {
+                         sheet.Column(i).AutoFit();
+                     }
+                 });
+        }
+
+        public FileDto ExportToFile(List<InputAssetBookDto> inputDtos)
+        {
+            return CreateExcelPackage(
+                 "AssetBooksImportList.xlsx",
+                 excelPackage =>
+                 {
+                     var sheet = excelPackage.Workbook.Worksheets.Add(L("AssetBooksImportList"));
+                     sheet.OutLineApplyStyle = true;
+
+                     AddHeader(
+                         sheet,
+                         "Entity",
+                         "Asset_Description",
+                         "Asset_Type",
+                         "Rating_Agency",
+                         "Credit_Rating_At_Purchase_Date",
+                         "Current_Credit_Rating",
+                         "Nominal_Amount(ACY)",
+                         "Nominal_Amount(LCY)",
+                         "Principal_Amortisation",
+                         "Principal_Repayment_Terms",
+                         "Interest_Repayment_Terms",
+                         "Outstanding_Balance(ACY)",
+                         "Outstanding_Balance(LCY)",
+                         "Coupon(%)",
+                         "EIR(%)",
+                         "Loan_Origination_Date",
+                         "Loan_Maturity_Date",
+                         "Days_Past_Due",
+                         "Prudential_Classification",
+                         "Forebearance_Flag"
+                         );
+
+                     AddObjects(
+                         sheet, 2, inputDtos,
+                         _ => _.Entity,
+                         _ => _.AssetDescription,
+                         _ => _.AssetType,
+                         _ => _.RatingAgency,
+                         _ => _.PurchaseDateCreditRating,
+                         _ => _.CurrentCreditRating,
+                         _ => _.NominalAmountACY,
+                         _ => _.NominalAmountLCY,
+                         _ => _.PrincipalAmortisation,
+                         _ => _.PrincipalRepaymentTerms,
+                         _ => _.InterestRepaymentTerms,
+                         _ => _.OutstandingBalanceACY,
+                         _ => _.OutstandingBalanceLCY,
+                         _ => _.Coupon,
+                         _ => _.EIR,
+                         _ => _.LoanOriginationDate,
+                         _ => _.LoanMaturityDate,
+                         _ => _.DaysPastDue,
+                         _ => _.PrudentialClassification,
+                         _ => _.ForebearanceFlag
+                         );
+
+                     for (var i = 1; i <= 20; i++)
+                     {
+                         sheet.Column(i).AutoFit();
+                     }
+                 });
         }
     }
 }

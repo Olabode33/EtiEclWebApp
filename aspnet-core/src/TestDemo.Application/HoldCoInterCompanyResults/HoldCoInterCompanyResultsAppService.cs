@@ -29,7 +29,13 @@ namespace TestDemo.HoldCoInterCompanyResults
 			
 		  }
 
-		 public async Task<PagedResultDto<GetHoldCoInterCompanyResultForViewDto>> GetAll(GetAllHoldCoInterCompanyResultsInput input)
+        public async Task<List<CreateOrEditHoldCoInterCompanyResultDto>> GetResults(Guid id)
+        {
+            return ObjectMapper.Map<List<CreateOrEditHoldCoInterCompanyResultDto>>(await _holdCoInterCompanyResultRepository.GetAll().Where(a => a.RegistrationId == id).ToListAsync());
+
+        }
+
+            public async Task<PagedResultDto<GetHoldCoInterCompanyResultForViewDto>> GetAll(GetAllHoldCoInterCompanyResultsInput input)
          {
 			
 			var filteredHoldCoInterCompanyResults = _holdCoInterCompanyResultRepository.GetAll()

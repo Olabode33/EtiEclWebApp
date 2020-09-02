@@ -29,7 +29,13 @@ namespace TestDemo.HoldCoResult
 			
 		  }
 
-		 public async Task<PagedResultDto<GetResultSummaryByStageForViewDto>> GetAll(GetAllResultSummaryByStagesInput input)
+        public async Task<List<CreateOrEditResultSummaryByStageDto>> GetResults(Guid id)
+        {
+            return ObjectMapper.Map<List<CreateOrEditResultSummaryByStageDto>>(await _resultSummaryByStageRepository.GetAll().Where(a => a.RegistrationId == id).ToListAsync());
+
+        }
+
+        public async Task<PagedResultDto<GetResultSummaryByStageForViewDto>> GetAll(GetAllResultSummaryByStagesInput input)
          {
 			
 			var filteredResultSummaryByStages = _resultSummaryByStageRepository.GetAll()

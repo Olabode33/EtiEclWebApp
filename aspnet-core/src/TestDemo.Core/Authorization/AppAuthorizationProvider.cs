@@ -83,6 +83,7 @@ namespace TestDemo.Authorization
             holdCoRegisters.CreateChildPermission(AppPermissions.Pages_HoldCoRegisters_Create, L("CreateNewHoldCoRegister"));
             holdCoRegisters.CreateChildPermission(AppPermissions.Pages_HoldCoRegisters_Edit, L("EditHoldCoRegister"));
             holdCoRegisters.CreateChildPermission(AppPermissions.Pages_HoldCoRegisters_Delete, L("DeleteHoldCoRegister"));
+            holdCoRegisters.CreateChildPermission(AppPermissions.Pages_HoldCoRegisters_Approve, L("ApproveHoldCoRegister"));
 
 
 

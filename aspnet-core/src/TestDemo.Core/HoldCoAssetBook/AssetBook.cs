@@ -40,9 +40,9 @@ namespace TestDemo.HoldCoAssetBook
 		
 		public virtual double EIR { get; set; }
 		
-		public virtual DateTime LoanOriginationDate { get; set; }
+		public virtual string LoanOriginationDate { get; set; }
 		
-		public virtual DateTime LoanMaturityDate { get; set; }
+		public virtual string LoanMaturityDate { get; set; }
 		
 		public virtual int DaysPastDue { get; set; }
 		

@@ -2141,6 +2141,7 @@
     <text name="ApplyIVModel">Apply IV Model</text>
     <text name="HoldCoIntercompany">HoldCo Intercompany</text>
     <text name="ETIReceivables">ETI Receivables</text>
+    <text name="ApproveHoldCoRegister">Approve</text>
 
   </texts>
 </localizationDictionary>

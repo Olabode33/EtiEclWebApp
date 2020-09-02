@@ -34,26 +34,7 @@
       "Regex": "",
       "UserInterface": {
         "AdvancedFilter": true,
-        "List": false,
-        "CreateOrUpdate": false
-      }
-    },
-    {
-      "Name": "RegistrationId",
-      "Type": "Guid",
-      "MaxLength": -1,
-      "MinLength": -1,
-      "Range": {
-        "IsRangeSet": false,
-        "MinimumValue": 0.0,
-        "MaximumValue": 0.0
-      },
-      "Required": false,
-      "Nullable": false,
-      "Regex": "",
-      "UserInterface": {
-        "AdvancedFilter": false,
-        "List": false,
+        "List": true,
         "CreateOrUpdate": false
       }
     }

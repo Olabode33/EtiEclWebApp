@@ -33,8 +33,8 @@ namespace TestDemo.IVModels.Dtos
 		
 		
 		public DateTime AssumedMaturityDate { get; set; }
-		
-		
 
-    }
+		public Guid RegistrationId { get; set; }
+
+	}
 }
