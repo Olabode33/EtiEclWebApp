@@ -85,9 +85,9 @@ namespace TestDemo.HoldCoApprovals
             {
                 DateCreated = register.CreationTime,
                 LastUpdated = register.LastModificationTime,
-                UpdatedBy = _lookup_userRepository.FirstOrDefault((long)register.LastModifierUserId).FullName,
+                UpdatedBy = register.LastModifierUserId == null ? "" : _lookup_userRepository.FirstOrDefault((long)register.LastModifierUserId)?.FullName,
                 Approvals = approvals.ToList(),
-                CreatedBy = _lookup_userRepository.FirstOrDefault((long)register.CreatorUserId).FullName
+                CreatedBy = _lookup_userRepository.FirstOrDefault((long)register.CreatorUserId)?.FullName
             };
 
             return auditInfo;

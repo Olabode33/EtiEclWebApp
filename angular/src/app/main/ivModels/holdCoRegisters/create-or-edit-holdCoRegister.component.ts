@@ -161,10 +161,12 @@ export class CreateOrEditHoldCoRegisterComponent extends AppComponentBase implem
                     this._holdCoRegistersServiceProxy.createOrEdit(this.holdCoRegister)
                         .pipe(finalize(() => {
                             this.saving = false;
+
+
+                        })).subscribe(() => {
                             this.notify.info(this.l('SavedSuccessfully'));
                             this._router.navigate(['/app/main/ivModels/holdCoRegisters']);
-
-                        }));
+                        });
                 }
             }, true
         );
