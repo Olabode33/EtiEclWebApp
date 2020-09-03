@@ -30,6 +30,13 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var holdCoApprovals = pages.CreateChildPermission(AppPermissions.Pages_HoldCoApprovals, L("HoldCoApprovals"));
+            holdCoApprovals.CreateChildPermission(AppPermissions.Pages_HoldCoApprovals_Create, L("CreateNewHoldCoApproval"));
+            holdCoApprovals.CreateChildPermission(AppPermissions.Pages_HoldCoApprovals_Edit, L("EditHoldCoApproval"));
+            holdCoApprovals.CreateChildPermission(AppPermissions.Pages_HoldCoApprovals_Delete, L("DeleteHoldCoApproval"));
+
+
+
             var resultSummaryByStages = pages.CreateChildPermission(AppPermissions.Pages_ResultSummaryByStages, L("ResultSummaryByStages"));
             resultSummaryByStages.CreateChildPermission(AppPermissions.Pages_ResultSummaryByStages_Create, L("CreateNewResultSummaryByStage"));
             resultSummaryByStages.CreateChildPermission(AppPermissions.Pages_ResultSummaryByStages_Edit, L("EditResultSummaryByStage"));

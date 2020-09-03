@@ -1,4 +1,6 @@
-﻿using TestDemo.HoldCoInterCompanyResults.Dtos;
+﻿using TestDemo.HoldCoApprovals.Dtos;
+using TestDemo.HoldCoApprovals;
+using TestDemo.HoldCoInterCompanyResults.Dtos;
 using TestDemo.HoldCoInterCompanyResults;
 using TestDemo.HoldCoResult.Dtos;
 using TestDemo.HoldCoResult;
@@ -102,6 +104,8 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditHoldCoApprovalDto, HoldCoApproval>().ReverseMap();
+            configuration.CreateMap<HoldCoApprovalDto, HoldCoApproval>().ReverseMap();
             configuration.CreateMap<CreateOrEditResultSummaryByStageDto, ResultSummaryByStage>().ReverseMap();
             configuration.CreateMap<ResultSummaryByStageDto, ResultSummaryByStage>().ReverseMap();
             configuration.CreateMap<CreateOrEditHoldCoInterCompanyResultDto, HoldCoInterCompanyResult>().ReverseMap();

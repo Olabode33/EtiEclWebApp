@@ -6,6 +6,11 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_HoldCoApprovals = "Pages.HoldCoApprovals";
+        public const string Pages_HoldCoApprovals_Create = "Pages.HoldCoApprovals.Create";
+        public const string Pages_HoldCoApprovals_Edit = "Pages.HoldCoApprovals.Edit";
+        public const string Pages_HoldCoApprovals_Delete = "Pages.HoldCoApprovals.Delete";
+
         public const string Pages_ResultSummaryByStages = "Pages.ResultSummaryByStages";
         public const string Pages_ResultSummaryByStages_Create = "Pages.ResultSummaryByStages.Create";
         public const string Pages_ResultSummaryByStages_Edit = "Pages.ResultSummaryByStages.Edit";

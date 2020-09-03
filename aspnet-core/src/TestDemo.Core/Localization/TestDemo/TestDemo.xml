@@ -1,6 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="ResultSummaryByStage">Result summary by stage</text>
+  <texts>    <text name="HoldCoApprovals">Hold co approvals</text>
+    <text name="HoldCoApproval">Hold co approval</text>
+    <text name="CreateNewHoldCoApproval">Create new hold co approval</text>
+    <text name="EditHoldCoApproval">Edit hold co approval</text>
+    <text name="DeleteHoldCoApproval">Delete hold co approval</text>
+    <text name="ResultSummaryByStage">Result summary by stage</text>
     <text name="TestDemo.HoldCoResult.ResultSummaryByStage">ResultSummaryByStage</text>
     <text name="StageOneExposure">Stage one exposure</text>
     <text name="StageTwoExposure">Stage two exposure</text>

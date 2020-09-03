@@ -1,4 +1,4 @@
-﻿import { AssetBooksServiceProxy, HoldCoInterCompanyResultsServiceProxy, HoldCoResultSummariesServiceProxy, CreateOrEditHoldCoInterCompanyResultDto, CreateOrEditHoldCoResultSummaryDto, CreateOrEditResultSummaryByStageDto } from './../../../../shared/service-proxies/service-proxies';
+﻿import { AssetBooksServiceProxy, HoldCoInterCompanyResultsServiceProxy, HoldCoResultSummariesServiceProxy, CreateOrEditHoldCoInterCompanyResultDto, CreateOrEditHoldCoResultSummaryDto, CreateOrEditResultSummaryByStageDto, HoldCoApprovalsServiceProxy, GetHoldCoApprovalForViewDto, CreateOrEditHoldCoApprovalDto, HoldCoApprovalAuditInfoDto, HoldCoAuditInfoDto } from './../../../../shared/service-proxies/service-proxies';
 import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { HoldCoRegistersServiceProxy, GetHoldCoRegisterForViewDto, HoldCoRegisterDto, CalibrationStatusEnum, CreateOrEditHoldCoRegisterDto, CreateOrEditHoldCoInputParameterDto, CreateOrEditMacroEconomicCreditIndexDto, CreateOrEditAssetBookDto, EntityDtoOfGuid, MacroEconomicCreditIndicesServiceProxy, ResultSummaryByStagesServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -37,6 +37,7 @@ export class ViewHoldCoRegisterComponent extends AppComponentBase implements OnI
     holdCoInterCompanyResults = new Array<CreateOrEditHoldCoInterCompanyResultDto>();
     holdCoResultSummaries = new Array<CreateOrEditHoldCoResultSummaryDto>();
     holdCoResultSummariesByStage = new Array<CreateOrEditResultSummaryByStageDto>();
+    auditInfo = new HoldCoAuditInfoDto();
 
     constructor(
         injector: Injector,
@@ -47,6 +48,7 @@ export class ViewHoldCoRegisterComponent extends AppComponentBase implements OnI
         private _resultSummaryByStagesServiceProxy: ResultSummaryByStagesServiceProxy,
         private _holdCoInterCompanyResultsServiceProxy: HoldCoInterCompanyResultsServiceProxy,
         private _holdCoResultSummariesServiceProxy: HoldCoResultSummariesServiceProxy,
+        private _holdCoApprovalsServiceProxy: HoldCoApprovalsServiceProxy,
 
         private _assetBookServiceProxy: AssetBooksServiceProxy,
         private _holdCoRegistersServiceProxy: HoldCoRegistersServiceProxy
@@ -86,6 +88,10 @@ export class ViewHoldCoRegisterComponent extends AppComponentBase implements OnI
                     this.holdCoResultSummaries = res;
                 });
             }
+
+            this._holdCoApprovalsServiceProxy.getHoldCoApprovals(holdCoRegisterId).subscribe(result => {
+                this.auditInfo = result;
+            });
         });
     }
 

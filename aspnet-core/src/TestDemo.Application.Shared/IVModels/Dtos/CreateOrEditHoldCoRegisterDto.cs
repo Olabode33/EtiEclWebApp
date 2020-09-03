@@ -12,8 +12,6 @@ namespace TestDemo.IVModels.Dtos
     {
         public virtual CalibrationStatusEnum Status { get; set; }
 
-        public virtual Guid RegistrationId { get; set; }
-
         public virtual CreateOrEditHoldCoInputParameterDto InputParameter { get; set; }
         public virtual List<CreateOrEditMacroEconomicCreditIndexDto> MacroEconomicCreditIndex { get; set; }
         public virtual List<CreateOrEditAssetBookDto> AssetBook { get; set; }

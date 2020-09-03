@@ -4212,6 +4212,41 @@ namespace TestDemo.Migrations
                     b.ToTable("AppFriendships");
                 });
 
+            modelBuilder.Entity("TestDemo.HoldCoApprovals.HoldCoApproval", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<Guid>("RegistrationId");
+
+                    b.Property<string>("ReviewComment");
+
+                    b.Property<long>("ReviewedByUserId");
+
+                    b.Property<DateTime>("ReviewedDate");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HoldCoApprovals");
+                });
+
             modelBuilder.Entity("TestDemo.HoldCoAssetBook.AssetBook", b =>
                 {
                     b.Property<Guid>("Id")

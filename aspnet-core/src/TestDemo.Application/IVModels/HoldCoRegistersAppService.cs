@@ -18,6 +18,7 @@ using Microsoft.EntityFrameworkCore;
 using TestDemo.Authorization.Users;
 using TestDemo.HoldCoAssetBook;
 using TestDemo.HoldCoAssetBook.Dtos;
+using TestDemo.HoldCoApprovals;
 
 namespace TestDemo.IVModels
 {
@@ -28,15 +29,17 @@ namespace TestDemo.IVModels
         private readonly IRepository<AssetBook, Guid> _assetBookRepository;
         private readonly IRepository<MacroEconomicCreditIndex, Guid> _macroEconomicCreditIndexRepository;
         private readonly IRepository<HoldCoInputParameter, Guid> _holdCoInputParameterRepository;
+        private readonly IRepository<HoldCoApproval> _holdCoApprovalRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
 
-        public HoldCoRegistersAppService(IRepository<HoldCoRegister, Guid> holdCoRegisterRepository, IRepository<AssetBook, Guid> assetBookRepository, IRepository<MacroEconomicCreditIndex, Guid> macroEconomicCreditIndexRepository, IRepository<HoldCoInputParameter, Guid> holdCoInputParameterRepository, IRepository<User, long> lookup_userRepository)
+        public HoldCoRegistersAppService(IRepository<HoldCoRegister, Guid> holdCoRegisterRepository, IRepository<AssetBook, Guid> assetBookRepository, IRepository<MacroEconomicCreditIndex, Guid> macroEconomicCreditIndexRepository, IRepository<HoldCoInputParameter, Guid> holdCoInputParameterRepository, IRepository<User, long> lookup_userRepository, IRepository<HoldCoApproval> holdCoApprovalRepository)
         {
             _holdCoRegisterRepository = holdCoRegisterRepository;
             _assetBookRepository = assetBookRepository;
             _macroEconomicCreditIndexRepository = macroEconomicCreditIndexRepository;
             _holdCoInputParameterRepository = holdCoInputParameterRepository;
             _lookup_userRepository = lookup_userRepository;
+            _holdCoApprovalRepository = holdCoApprovalRepository;
         }
 
         public async Task<PagedResultDto<GetHoldCoRegisterForViewDto>> GetAll(GetAllHoldCoRegistersInput input)
@@ -140,6 +143,15 @@ namespace TestDemo.IVModels
             input.InputParameter.RegistrationId = registrationId;
             var inp = ObjectMapper.Map<HoldCoInputParameter>(input.InputParameter);
             _holdCoInputParameterRepository.Insert(inp);
+
+            await _holdCoApprovalRepository.InsertAsync(new HoldCoApproval
+            {
+                RegistrationId = registrationId,
+                ReviewComment = "",
+                ReviewedByUserId = (long)AbpSession.UserId,
+                ReviewedDate = DateTime.Now,
+                Status = input.Status
+            });
         }
 
         [AbpAuthorize(AppPermissions.Pages_HoldCoRegisters_Edit)]
@@ -183,14 +195,14 @@ namespace TestDemo.IVModels
             await _holdCoRegisterRepository.UpdateAsync(reg);
 
 
-            //await _calibrationApprovalRepository.InsertAsync(new CalibrationEadBehaviouralTermApproval
-            //{
-            //    CalibrationId = input.EclId,
-            //    ReviewComment = input.ReviewComment,
-            //    ReviewedByUserId = AbpSession.UserId,
-            //    ReviewedDate = DateTime.Now,
-            //    Status = input.Status
-            //});
+            await _holdCoApprovalRepository.InsertAsync(new HoldCoApproval
+            {
+                RegistrationId = input.RegistrationId,
+                ReviewComment = input.ReviewComment,
+                ReviewedByUserId = (long)AbpSession.UserId,
+                ReviewedDate = DateTime.Now,
+                Status = input.Status
+            });
         }
     }
 }

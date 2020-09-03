@@ -446,6 +446,72 @@
         </div>
 
 
+        <div class="kt-portlet kt-portlet--height-fluid">
+            <div class="kt-portlet__head">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">
+                        {{l('AuditInfo')}}
+                    </h3>
+                </div>
+            </div>
+            <div class="kt-portlet__body">
+                <table class="table table-borderless">
+                    <tbody>
+                        <tr>
+                            <td>{{l('DateCreated')}}:</td>
+                            <td><span class="kt-font-bold">{{auditInfo.dateCreated | momentFormat: 'lll'}}</span></td>
+                            <td>{{l('LastUpdated')}}: </td>
+                            <td><span class="kt-font-bold">{{auditInfo.lastUpdated | momentFormat: 'lll'}}</span></td>
+                        </tr>
+                        <tr>
+                            <td>{{l('By')}}:</td>
+                            <td><span class="kt-font-bold">{{auditInfo.createdBy}}</span></td>
+                            <td>{{l('By')}}: </td>
+                            <td><span class="kt-font-bold">{{auditInfo.updatedBy}}</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <div class="kt-divider">
+                    <span></span>
+                    <span>Reviews</span>
+                    <span></span>
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <td>{{l('Date')}}</td>
+                            <td>{{l('By')}}</td>
+                            <td>{{l('Status')}}</td>
+                            <td>{{l('Comment')}}</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of auditInfo.approvals;">
+                            <td>{{item.reviewedDate | momentFormat: 'lll'}}</td>
+                            <td>{{item.reviewedBy}}</td>
+                            <td>
+                                <span *ngIf="item.status === calibrationStatusEnum.Approved" class="kt-badge kt-badge--bolder kt-badge kt-badge--inline
+                                                kt-badge--unified-success">
+                                                {{l(calibrationStatusEnum[item.status])}}
+                                </span>
+                                <span *ngIf="item.status === calibrationStatusEnum.Rejected" class="kt-badge kt-badge--bolder kt-badge kt-badge--inline
+                                                kt-badge--unified-danger">
+                                                {{l(calibrationStatusEnum[item.status])}}
+                                </span>
+                                <span *ngIf="item.status === calibrationStatusEnum.Submitted" class="kt-badge kt-badge--bolder kt-badge kt-badge--inline
+                                                kt-badge--unified-warning">
+                                                {{l(calibrationStatusEnum[item.status])}}
+                                </span>
+
+                            </td>
+                            <td>{{item.reviewComment}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
     <app-approve-ivmodel-modal #approvalModal (approved)="reloadPage()" [holdCoRegister]="holdCoRegister"></app-approve-ivmodel-modal>
 

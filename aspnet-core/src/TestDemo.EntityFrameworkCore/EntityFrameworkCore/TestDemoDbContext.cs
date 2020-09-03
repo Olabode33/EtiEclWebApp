@@ -1,4 +1,5 @@
-﻿using TestDemo.HoldCoInterCompanyResults;
+﻿using TestDemo.HoldCoApprovals;
+using TestDemo.HoldCoInterCompanyResults;
 using TestDemo.HoldCoIntercompanyResult;
 using TestDemo.HoldCoResult;
 using TestDemo.HoldCoResults;
@@ -56,6 +57,8 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<HoldCoApproval> HoldCoApprovals { get; set; }
+
         public virtual DbSet<ResultSummaryByStage> ResultSummaryByStages { get; set; }
 
         public virtual DbSet<HoldCoInterCompanyResult> HoldCoInterCompanyResults { get; set; }
