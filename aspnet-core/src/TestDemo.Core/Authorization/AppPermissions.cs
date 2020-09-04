@@ -6,6 +6,11 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_ReceivablesApprovals = "Pages.ReceivablesApprovals";
+        public const string Pages_ReceivablesApprovals_Create = "Pages.ReceivablesApprovals.Create";
+        public const string Pages_ReceivablesApprovals_Edit = "Pages.ReceivablesApprovals.Edit";
+        public const string Pages_ReceivablesApprovals_Delete = "Pages.ReceivablesApprovals.Delete";
+
         public const string Pages_ReceivablesResults = "Pages.ReceivablesResults";
         public const string Pages_ReceivablesResults_Create = "Pages.ReceivablesResults.Create";
         public const string Pages_ReceivablesResults_Edit = "Pages.ReceivablesResults.Edit";

@@ -1,4 +1,5 @@
-﻿using TestDemo.ReceivablesResults;
+﻿using TestDemo.ReceivablesApprovals;
+using TestDemo.ReceivablesResults;
 using TestDemo.ReceivablesForecasts;
 using TestDemo.ReceivablesCurrentPeriodDates;
 using TestDemo.ReceivablesInputs;
@@ -62,6 +63,8 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<ReceivablesApproval> ReceivablesApprovals { get; set; }
+
         public virtual DbSet<ReceivablesResult> ReceivablesResults { get; set; }
 
         public virtual DbSet<ReceivablesForecast> ReceivablesForecasts { get; set; }

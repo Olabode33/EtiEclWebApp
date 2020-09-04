@@ -2,223 +2,229 @@
 
 
 
-                <div class="kt-subheader kt-grid__item">
+    <div class="kt-subheader kt-grid__item">
 
-                    <div class="kt-subheader__main">
-                        <h3 class="kt-subheader__title">
-            				<span *ngIf="active && receivablesRegister.id">{{"EditReceivablesRegister" }}</span>
-            				<span *ngIf="active && !receivablesRegister.id">{{l("CreateReceivablesRegister")}}</span>
-            			</h3>
-            			<span class="kt-subheader__separator kt-subheader__separator--v"></span>
-            			<div class="kt-subheader__breadcrumbs">
-                            <span class="kt-badge kt-badge--inline kt-badge--pill kt-badge--rounded
+        <div class="kt-subheader__main">
+            <h3 class="kt-subheader__title">
+                <span *ngIf="active && receivablesRegister.id">{{"EditReceivablesRegister" }}</span>
+                <span *ngIf="active && !receivablesRegister.id">{{l("CreateReceivablesRegister")}}</span>
+            </h3>
+            <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+            <div class="kt-subheader__breadcrumbs">
+                <span class="kt-badge kt-badge--inline kt-badge--pill kt-badge--rounded
                                         kt-badge--{{ getStatusLabelClass(receivablesRegister.status) }}">
-                                {{l(statusEnum[receivablesRegister.status])}}
-                            </span>
-                        </div>
-                    </div>
+                    {{l(statusEnum[receivablesRegister.status])}}
+                </span>
+            </div>
+        </div>
 
-                    <div class="kt-subheader__toolbar">
-                        <div class="kt-subheader__wrapper">
-                            <button (click)="save()" class="btn btn-outline-primary" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"
-                                *ngIf="receivablesRegister.status == statusEnum.Draft  && isGranted('Pages.ReceivablesRegisters.Create')">
-                                <i class="fa fa-check" style="font-size: 1.2rem !important;"></i>
-                                {{l("Submit")}}
-                            </button>
-                            <button (click)="goBack()" class="btn btn-outline-danger">
-                                <i class="fa fa-reply" style="font-size: 1.2rem !important;"></i>
-                                {{l("GoBack")}}
-                            </button>
+        <div class="kt-subheader__toolbar">
+            <div class="kt-subheader__wrapper">
+                <button (click)="save()" class="btn btn-outline-primary" [buttonBusy]="saving"
+                    [busyText]="l('SavingWithThreeDot')"
+                    *ngIf="receivablesRegister.status == statusEnum.Draft  && isGranted('Pages.ReceivablesRegisters.Create')">
+                    <i class="fa fa-check" style="font-size: 1.2rem !important;"></i>
+                    {{l("Submit")}}
+                </button>
+                <button (click)="goBack()" class="btn btn-outline-danger">
+                    <i class="fa fa-reply" style="font-size: 1.2rem !important;"></i>
+                    {{l("GoBack")}}
+                </button>
 
-                        </div>
-                    </div>
+            </div>
+        </div>
 
-                </div>
+    </div>
 
 
     <div class="kt-content">
         <!-- <div class="kt-portlet kt-portlet--mobile"> -->
-            <div class="kt-portlet kt-portlet--height-fluid">
-                <div class="kt-portlet__head ">
-                    <div class="kt-portlet__head-label hoverable" (click)="showInputCard = !showInputCard;">
-                        <h3 class="kt-portlet__head-title">
-                            ETI Receivables Input
-                        </h3>
-                    </div>
-                </div>
-
-
-
-                <div [hidden]="!showInputCard" class="kt-portlet__body">
-
-
-
-
-                    <div class="form-row">
-                        <div class="form-group  col-6">
-                            <label for="reportingDate">{{l("ReportingDate")}}</label>
-                            <input id="reportingDate" class="form-control col-lg-6"
-                                [(ngModel)]="inputParameter.reportingDate" name="reportingDate" type="datetime"
-                                bsDatepicker />
-
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group col-3">
-                            <label for="scenarioOptimistic">{{l("Optimistic")}}(%)</label>
-
-                            <input type="number" step="0.1" id="scenarioOptimistic" class="form-control" [(ngModel)]="inputParameter.scenarioOptimistic"
-                                name="scenarioOptimistic" />
-                        </div>
-
-                        <div class="form-group col-3">
-                            <label for="scenarioBase">{{l("Base")}}(%)</label>
-                            <input type="number" step="0.1" id="scenarioBase" class="form-control"
-                                [(ngModel)]="inputParameter.scenarioBase" name="scenarioBase" />
-
-                        </div>
-
-                        <div class="form-group col-3">
-                            <label for="lossDefinition">{{l("LossDefinition")}}(%)</label>
-                            <input type="number" step="0.1" id="lossDefinition" class="form-control" [(ngModel)]="inputParameter.lossDefinition"
-                                name="lossDefinition" />
-
-                        </div>
-
-                        <div class="form-group col-3">
-                            <label for="lossRate">{{l("AssumedLossRate")}}(%)</label>
-                            <input type="number" step="0.1" id="lossRate" class="form-control" [(ngModel)]="inputParameter.lossRate"
-                                name="lossRate" />
-
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group col-6">
-                            <label for="fliOverlay">{{l("FLIOverlay")}}</label>
-
-                            <input type="text" id="fliOverlay" class="form-control"
-                                [(ngModel)]="inputParameter.fliOverlay" name="fliOverlay" />
-                        </div>
-
-                        <div class="form-group col-6">
-                            <label for="overlayOptimistic">{{l("OverlayOptimistic")}}</label>
-                            <input type="text" id="overlayOptimistic" class="form-control"
-                                [(ngModel)]="inputParameter.overlayOptimistic" name="overlayOptimistic" />
-
-                        </div>
-
-                        <div class="form-group col-6">
-                            <label for="overlayBase">{{l("OverlayBase")}}</label>
-                            <input type="text" id="overlayBase" class="form-control"
-                                [(ngModel)]="inputParameter.overlayBase" name="overlayBase" />
-
-                        </div>
-
-                        <div class="form-group col-6">
-                            <label for="overlayDownturn">{{l("OverlayDownturn")}}</label>
-                            <input type="text" id="overlayDownturn" class="form-control"
-                                [(ngModel)]="inputParameter.overlayDownturn" name="overlayDownturn" />
-
-                        </div>
-
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group  col-6">
-                            <label for="interceptCoefficient">{{l("InterceptCoefficient")}}</label>
-                            <input id="interceptCoefficient" class="form-control" [(ngModel)]="inputParameter.interceptCoefficient"
-                                name="interceptCoefficient" type="number" />
-
-                        </div>
-
-                        <div class="form-group col-6">
-                            <label for="indexCoefficient">{{l("IndexCoefficient")}}</label>
-                            <input type="number"  id="indexCoefficient" class="form-control"
-                                [(ngModel)]="inputParameter.indexCoefficient" name="indexCoefficient" />
-
-                        </div>
-
-                        <div class="form-group col-6">
-                            <label for="lossRateCoefficient">{{l("LossRateCoefficient")}}</label>
-                            <input type="number" id="lossRateCoefficient" class="form-control"
-                                [(ngModel)]="inputParameter.lossRateCoefficient" name="lossRateCoefficient" />
-
-                        </div>
-                    </div>
+        <div class="kt-portlet kt-portlet--height-fluid">
+            <div class="kt-portlet__head ">
+                <div class="kt-portlet__head-label hoverable" (click)="showInputCard = !showInputCard;">
+                    <h3 class="kt-portlet__head-title">
+                        ETI Receivables Input
+                    </h3>
                 </div>
             </div>
 
 
-            <div class="kt-portlet kt-portlet--height-fluid">
-                <div class="kt-portlet__head ">
-                    <div class="kt-portlet__head-label hoverable" (click)="showCurrentPeriodDataCard = !showCurrentPeriodDataCard;">
-                        <h3 class="kt-portlet__head-title">
-                            {{l('CurrentPeriodData')}}
-                        </h3>
+
+            <div [hidden]="!showInputCard" class="kt-portlet__body">
+
+
+
+
+                <div class="form-row">
+                    <div class="form-group  col-6">
+                        <label for="reportingDate">{{l("ReportingDate")}}</label>
+                        <input id="reportingDate" class="form-control col-lg-6"
+                            [(ngModel)]="inputParameter.reportingDate" name="reportingDate" type="datetime"
+                            bsDatepicker />
+
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-3">
+                        <label for="scenarioOptimistic">{{l("Optimistic")}}(%)</label>
+
+                        <input type="number" step="0.1" id="scenarioOptimistic" class="form-control"
+                            [(ngModel)]="inputParameter.scenarioOptimistic" name="scenarioOptimistic" />
                     </div>
 
-                    <div class="kt-portlet__head-toolbar">
+                    <div class="form-group col-3">
+                        <label for="scenarioBase">{{l("Base")}}(%)</label>
+                        <input type="number" step="0.1" id="scenarioBase" class="form-control"
+                            [(ngModel)]="inputParameter.scenarioBase" name="scenarioBase" />
 
-                        <!-- *ngIf="(calibration.status == calibrationStatusEnum.Draft || calibration.status == calibrationStatusEnum.Failed) " -->
-                        <div class="btn-group" dropdown>
-                            <button dropdownToggle type="button" class="btn btn-outline-success dropdown-toggle"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-upload"></i> {{"Upload" | localize}}
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right dropdown-excel-operations" *dropdownMenu>
-                                <a href="javascript:;" class="no-padding">
-                                    <span class="fileinput-button">
-                                        <p-fileUpload customUpload="true" name="excelFileUpload" #excelFileUpload
-                                            maxFileSize="100000000" auto="auto" accept=".xls,.xlsx"
-                                            (uploadHandler)="uploadData($event, 'CurrentPeriodData')" (onError)="onUploadExcelError()"
-                                            chooseLabel="{{'CurrentPeriodData' | localize}}">
-                                        </p-fileUpload>
-                                    </span>
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <span class="dropdown-item-text text-muted pl-3" href="#">
-                                    <small
-                                        [innerHTML]="l('ImportToExcelSampleFileDownloadInfo', '<a href=/assets/sampleFiles/IVModels/CurrentPeriodDataTemplate.xlsx>' + l('ClickHere') + '</a>')"></small>
+                    </div>
+
+                    <div class="form-group col-3">
+                        <label for="lossDefinition">{{l("LossDefinition")}}(%)</label>
+                        <input type="number" step="0.1" id="lossDefinition" class="form-control"
+                            [(ngModel)]="inputParameter.lossDefinition" name="lossDefinition" />
+
+                    </div>
+
+                    <div class="form-group col-3">
+                        <label for="lossRate">{{l("AssumedLossRate")}}(%)</label>
+                        <input type="number" step="0.1" id="lossRate" class="form-control"
+                            [(ngModel)]="inputParameter.lossRate" name="lossRate" />
+
+                    </div>
+                </div>
+
+                <div class="form-row">
+
+                    <div class="form-group col-3">
+                        <label for="overlayOptimistic">{{l("OverlayOptimistic")}}</label>
+                        <input type="text" id="overlayOptimistic" class="form-control"
+                            [(ngModel)]="inputParameter.overlayOptimistic" name="overlayOptimistic" />
+
+                    </div>
+
+                    <div class="form-group col-3">
+                        <label for="overlayBase">{{l("OverlayBase")}}</label>
+                        <input type="text" id="overlayBase" class="form-control"
+                            [(ngModel)]="inputParameter.overlayBase" name="overlayBase" />
+
+                    </div>
+
+                    <div class="form-group col-3">
+                        <label for="overlayDownturn">{{l("OverlayDownturn")}}</label>
+                        <input type="text" id="overlayDownturn" class="form-control"
+                            [(ngModel)]="inputParameter.overlayDownturn" name="overlayDownturn" />
+
+                    </div>
+
+                    <div class="kt-checkbox-list form-group col-1">
+                        <label class="kt-checkbox">
+                            <input class="form-control" [(ngModel)]="inputParameter.fliOverlay"
+                                type="checkbox" name="rememberClient" value="true" />  {{l("FLIOverlay")}}
+                            <span></span>
+                        </label>
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group  col-4">
+                        <label for="interceptCoefficient">{{l("InterceptCoefficient")}}</label>
+                        <input id="interceptCoefficient" class="form-control"
+                            [(ngModel)]="inputParameter.interceptCoefficient" name="interceptCoefficient"
+                            type="number" />
+
+                    </div>
+
+                    <div class="form-group col-4">
+                        <label for="indexCoefficient">{{l("IndexCoefficient")}}</label>
+                        <input type="number" id="indexCoefficient" class="form-control"
+                            [(ngModel)]="inputParameter.indexCoefficient" name="indexCoefficient" />
+
+                    </div>
+
+                    <div class="form-group col-4">
+                        <label for="lossRateCoefficient">{{l("LossRateCoefficient")}}</label>
+                        <input type="number" id="lossRateCoefficient" class="form-control"
+                            [(ngModel)]="inputParameter.lossRateCoefficient" name="lossRateCoefficient" />
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="kt-portlet kt-portlet--height-fluid">
+            <div class="kt-portlet__head ">
+                <div class="kt-portlet__head-label hoverable"
+                    (click)="showCurrentPeriodDataCard = !showCurrentPeriodDataCard;">
+                    <h3 class="kt-portlet__head-title">
+                        {{l('CurrentPeriodData')}}
+                    </h3>
+                </div>
+
+                <div class="kt-portlet__head-toolbar">
+
+                    <!-- *ngIf="(calibration.status == calibrationStatusEnum.Draft || calibration.status == calibrationStatusEnum.Failed) " -->
+                    <div class="btn-group" dropdown>
+                        <button dropdownToggle type="button" class="btn btn-outline-success dropdown-toggle"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-upload"></i> {{"Upload" | localize}}
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-excel-operations" *dropdownMenu>
+                            <a href="javascript:;" class="no-padding">
+                                <span class="fileinput-button">
+                                    <p-fileUpload customUpload="true" name="excelFileUpload" #excelFileUpload
+                                        maxFileSize="100000000" auto="auto" accept=".xls,.xlsx"
+                                        (uploadHandler)="uploadData($event, 'CurrentPeriodData')"
+                                        (onError)="onUploadExcelError()"
+                                        chooseLabel="{{'CurrentPeriodData' | localize}}">
+                                    </p-fileUpload>
                                 </span>
-                            </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <span class="dropdown-item-text text-muted pl-3" href="#">
+                                <small
+                                    [innerHTML]="l('ImportToExcelSampleFileDownloadInfo', '<a href=/assets/sampleFiles/IVModels/CurrentPeriodDataTemplate.xlsx>' + l('ClickHere') + '</a>')"></small>
+                            </span>
                         </div>
                     </div>
-
                 </div>
 
+            </div>
 
 
-                <div [hidden]="!showCurrentPeriodDataCard" class="kt-portlet__body">
 
-                    <div class="table-responsive">
+            <div [hidden]="!showCurrentPeriodDataCard" class="kt-portlet__body">
 
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>{{l('Account')}}</th>
-                                    <th>{{l('0-90Days')}}</th>
-                                    <th>{{l('90-180ays')}}</th>
-                                    <th>{{l('181-365Days')}}</th>
-                                    <th>{{l('>365Days')}}</th>
+                <div class="table-responsive">
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let item of currentPeriodData">
-                                    <td class="align-middle">{{ item.account }}</td>
-                                    <td class="align-middle">{{ item.zeroTo90 }}</td>
-                                    <td class="align-middle">{{ item.ninetyOneTo180 }}</td>
-                                    <td class="align-middle">{{ item.oneEightyOneTo365 }}</td>
-                                    <td class="align-middle">{{ item.over365 }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>{{l('Account')}}</th>
+                                <th>{{l('0-90Days')}}</th>
+                                <th>{{l('90-180ays')}}</th>
+                                <th>{{l('181-365Days')}}</th>
+                                <th>{{l('>365Days')}}</th>
 
-                    </div>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of currentPeriodData">
+                                <td class="align-middle">{{ item.account }}</td>
+                                <td class="align-middle">{{ item.zeroTo90 }}</td>
+                                <td class="align-middle">{{ item.ninetyOneTo180 }}</td>
+                                <td class="align-middle">{{ item.oneEightyOneTo365 }}</td>
+                                <td class="align-middle">{{ item.over365 }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
                 </div>
             </div>
+        </div>
         <!-- </div> -->
 
 
@@ -245,8 +251,8 @@
                                 <span class="fileinput-button">
                                     <p-fileUpload customUpload="true" name="excelFileUpload" #excelFileUpload
                                         maxFileSize="100000000" auto="auto" accept=".xls,.xlsx"
-                                        (uploadHandler)="uploadData($event, 'ForecastData')" (onError)="onUploadExcelError()"
-                                        chooseLabel="{{'ForecastData' | localize}}">
+                                        (uploadHandler)="uploadData($event, 'ForecastData')"
+                                        (onError)="onUploadExcelError()" chooseLabel="{{'ForecastData' | localize}}">
                                     </p-fileUpload>
                                 </span>
                             </a>

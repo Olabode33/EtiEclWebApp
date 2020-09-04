@@ -1,5 +1,5 @@
 {
-  "IsRegenerate": false,
+  "IsRegenerate": true,
   "MenuPosition": "main",
   "RelativeNamespace": "ReceivablesRegisters",
   "EntityName": "ReceivablesRegister",
@@ -11,7 +11,7 @@
   "AutoMigration": true,
   "UpdateDatabase": true,
   "CreateUserInterface": true,
-  "CreateViewOnly": false,
+  "CreateViewOnly": true,
   "CreateExcelExport": false,
   "IsNonModalCRUDPage": true,
   "PagePermission": {
@@ -22,8 +22,8 @@
     {
       "Name": "Status",
       "Type": "CalibrationStatusEnum",
-      "MaxLength": 0,
-      "MinLength": 0,
+      "MaxLength": -1,
+      "MinLength": -1,
       "Range": {
         "IsRangeSet": false,
         "MinimumValue": 0.0,

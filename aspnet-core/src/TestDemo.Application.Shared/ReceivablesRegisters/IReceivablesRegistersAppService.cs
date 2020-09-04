@@ -12,6 +12,8 @@ namespace TestDemo.ReceivablesRegisters
     {
         Task<PagedResultDto<GetReceivablesRegisterForViewDto>> GetAll(GetAllReceivablesRegistersInput input);
 
+        Task<GetReceivablesRegisterForViewDto> GetReceivablesRegisterForView(Guid id);
+
 		Task<GetReceivablesRegisterForEditOutput> GetReceivablesRegisterForEdit(EntityDto<Guid> input);
 
 		Task CreateOrEdit(CreateOrEditReceivablesRegisterDto input);

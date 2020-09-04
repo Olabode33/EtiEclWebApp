@@ -19,9 +19,6 @@ namespace TestDemo.ReceivablesForecasts
 		Task CreateOrEdit(CreateOrEditReceivablesForecastDto input);
 
 		Task Delete(EntityDto<Guid> input);
-
-		Task<FileDto> GetReceivablesForecastsToExcel(GetAllReceivablesForecastsForExcelInput input);
-
 		
     }
 }

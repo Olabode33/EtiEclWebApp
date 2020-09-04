@@ -1,4 +1,6 @@
-﻿using TestDemo.ReceivablesResults.Dtos;
+﻿using TestDemo.ReceivablesApprovals.Dtos;
+using TestDemo.ReceivablesApprovals;
+using TestDemo.ReceivablesResults.Dtos;
 using TestDemo.ReceivablesResults;
 using TestDemo.ReceivablesForecasts.Dtos;
 using TestDemo.ReceivablesForecasts;
@@ -114,6 +116,8 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditReceivablesApprovalDto, ReceivablesApproval>().ReverseMap();
+            configuration.CreateMap<ReceivablesApprovalDto, ReceivablesApproval>().ReverseMap();
             configuration.CreateMap<CreateOrEditReceivablesResultDto, ReceivablesResult>().ReverseMap();
             configuration.CreateMap<ReceivablesResultDto, ReceivablesResult>().ReverseMap();
             configuration.CreateMap<CreateOrEditReceivablesForecastDto, ReceivablesForecast>().ReverseMap();

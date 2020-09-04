@@ -15,6 +15,7 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.Calibration.Exporting;
 
 namespace TestDemo.ReceivablesForecasts
 {
@@ -23,14 +24,18 @@ namespace TestDemo.ReceivablesForecasts
     {
 		 private readonly IRepository<ReceivablesForecast, Guid> _receivablesForecastRepository;
 		 private readonly IReceivablesForecastsExcelExporter _receivablesForecastsExcelExporter;
-		 
+        private readonly IInputPdCrDrExporter _inputDataExporter;
 
-		  public ReceivablesForecastsAppService(IRepository<ReceivablesForecast, Guid> receivablesForecastRepository, IReceivablesForecastsExcelExporter receivablesForecastsExcelExporter ) 
+
+        public ReceivablesForecastsAppService(IRepository<ReceivablesForecast, Guid> receivablesForecastRepository, IReceivablesForecastsExcelExporter receivablesForecastsExcelExporter,
+            IInputPdCrDrExporter inputDataExporter) 
 		  {
 			_receivablesForecastRepository = receivablesForecastRepository;
 			_receivablesForecastsExcelExporter = receivablesForecastsExcelExporter;
-			
-		  }
+            _inputDataExporter = inputDataExporter;
+
+
+          }
 
 		 public async Task<PagedResultDto<GetReceivablesForecastForViewDto>> GetAll(GetAllReceivablesForecastsInput input)
          {
@@ -108,27 +113,17 @@ namespace TestDemo.ReceivablesForecasts
          public async Task Delete(EntityDto<Guid> input)
          {
             await _receivablesForecastRepository.DeleteAsync(input.Id);
-         } 
-
-		public async Task<FileDto> GetReceivablesForecastsToExcel(GetAllReceivablesForecastsForExcelInput input)
-         {
-			
-			var filteredReceivablesForecasts = _receivablesForecastRepository.GetAll()
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.Period.Contains(input.Filter));
-
-			var query = (from o in filteredReceivablesForecasts
-                         select new GetReceivablesForecastForViewDto() { 
-							ReceivablesForecast = new ReceivablesForecastDto
-							{
-                                Id = o.Id
-							}
-						 });
-
-
-            var receivablesForecastListDtos = await query.ToListAsync();
-
-            return _receivablesForecastsExcelExporter.ExportToFile(receivablesForecastListDtos);
          }
+
+        public async Task<FileDto> ExportToExcel(EntityDto<Guid> input)
+        {
+
+            var items = await _receivablesForecastRepository.GetAll().Where(x => x.RegisterId == input.Id)
+                                                         .Select(x => ObjectMapper.Map<InputReceivablesForecastDto>(x))
+                                                         .ToListAsync();
+
+            return _inputDataExporter.ExportToFile(items);
+        }
 
 
     }

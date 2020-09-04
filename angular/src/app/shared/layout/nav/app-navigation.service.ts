@@ -44,10 +44,6 @@ export class AppNavigationService {
                 new AppMenuItem('OverrideTypes', 'Pages.Configurations', 'flaticon-more', '/app/main/eclConfig/overrideTypes'),
             ]),
 
-            new AppMenuItem('HoldCoRegisters', 'Pages.HoldCoRegisters', 'flaticon-more', '/app/main/ivModels/holdCoRegisters'),
-
-
-            // new AppMenuItem('ReceivablesResults', 'Pages.ReceivablesResults', 'flaticon-more', '/app/main/receivablesResults/receivablesResults'),
              new AppMenuItem('Administration', '', 'fa fa-cogs', '', [
                 new AppMenuItem('OrganizationUnits', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),

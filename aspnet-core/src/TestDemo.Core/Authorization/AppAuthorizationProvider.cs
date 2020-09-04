@@ -30,6 +30,13 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var receivablesApprovals = pages.CreateChildPermission(AppPermissions.Pages_ReceivablesApprovals, L("ReceivablesApprovals"));
+            receivablesApprovals.CreateChildPermission(AppPermissions.Pages_ReceivablesApprovals_Create, L("CreateNewReceivablesApproval"));
+            receivablesApprovals.CreateChildPermission(AppPermissions.Pages_ReceivablesApprovals_Edit, L("EditReceivablesApproval"));
+            receivablesApprovals.CreateChildPermission(AppPermissions.Pages_ReceivablesApprovals_Delete, L("DeleteReceivablesApproval"));
+
+
+
             var receivablesResults = pages.CreateChildPermission(AppPermissions.Pages_ReceivablesResults, L("ReceivablesResults"));
             receivablesResults.CreateChildPermission(AppPermissions.Pages_ReceivablesResults_Create, L("CreateNewReceivablesResult"));
             receivablesResults.CreateChildPermission(AppPermissions.Pages_ReceivablesResults_Edit, L("EditReceivablesResult"));

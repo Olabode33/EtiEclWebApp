@@ -21,11 +21,11 @@ import * as moment from 'moment';
     animations: [appModuleAnimation()]
 })
 export class ReceivablesResultsComponent extends AppComponentBase {
-    
-    
+
+
     @ViewChild('createOrEditReceivablesResultModal', { static: true }) createOrEditReceivablesResultModal: CreateOrEditReceivablesResultModalComponent;
-    @ViewChild('viewReceivablesResultModalComponent', { static: true }) viewReceivablesResultModal: ViewReceivablesResultModalComponent;   
-    
+    @ViewChild('viewReceivablesResultModalComponent', { static: true }) viewReceivablesResultModal: ViewReceivablesResultModalComponent;
+
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
@@ -71,7 +71,7 @@ export class ReceivablesResultsComponent extends AppComponentBase {
     }
 
     createReceivablesResult(): void {
-        this.createOrEditReceivablesResultModal.show();        
+        this.createOrEditReceivablesResultModal.show();
     }
 
 
@@ -89,14 +89,5 @@ export class ReceivablesResultsComponent extends AppComponentBase {
                 }
             }
         );
-    }
-
-    exportToExcel(): void {
-        this._receivablesResultsServiceProxy.getReceivablesResultsToExcel(
-        this.filterText,
-        )
-        .subscribe(result => {
-            this._fileDownloadService.downloadTempFile(result);
-         });
     }
 }

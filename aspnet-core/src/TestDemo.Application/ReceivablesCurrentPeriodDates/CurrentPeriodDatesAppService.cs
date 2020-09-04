@@ -15,6 +15,7 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.Calibration.Exporting;
 
 namespace TestDemo.ReceivablesCurrentPeriodDates
 {
@@ -23,14 +24,18 @@ namespace TestDemo.ReceivablesCurrentPeriodDates
     {
 		 private readonly IRepository<CurrentPeriodDate, Guid> _currentPeriodDateRepository;
 		 private readonly ICurrentPeriodDatesExcelExporter _currentPeriodDatesExcelExporter;
-		 
+        private readonly IInputPdCrDrExporter _inputDataExporter;
 
-		  public CurrentPeriodDatesAppService(IRepository<CurrentPeriodDate, Guid> currentPeriodDateRepository, ICurrentPeriodDatesExcelExporter currentPeriodDatesExcelExporter ) 
+
+        public CurrentPeriodDatesAppService(IRepository<CurrentPeriodDate, Guid> currentPeriodDateRepository, ICurrentPeriodDatesExcelExporter currentPeriodDatesExcelExporter,
+            IInputPdCrDrExporter inputDataExporter) 
 		  {
 			_currentPeriodDateRepository = currentPeriodDateRepository;
 			_currentPeriodDatesExcelExporter = currentPeriodDatesExcelExporter;
-			
-		  }
+            _inputDataExporter = inputDataExporter;
+
+
+          }
 
 		 public async Task<PagedResultDto<GetCurrentPeriodDateForViewDto>> GetAll(GetAllCurrentPeriodDatesInput input)
          {
@@ -110,25 +115,16 @@ namespace TestDemo.ReceivablesCurrentPeriodDates
             await _currentPeriodDateRepository.DeleteAsync(input.Id);
          } 
 
-		public async Task<FileDto> GetCurrentPeriodDatesToExcel(GetAllCurrentPeriodDatesForExcelInput input)
-         {
-			
-			var filteredCurrentPeriodDates = _currentPeriodDateRepository.GetAll()
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.Account.Contains(input.Filter));
 
-			var query = (from o in filteredCurrentPeriodDates
-                         select new GetCurrentPeriodDateForViewDto() { 
-							CurrentPeriodDate = new CurrentPeriodDateDto
-							{
-                                Id = o.Id
-							}
-						 });
+        public async Task<FileDto> ExportToExcel(EntityDto<Guid> input)
+        {
 
+            var items = await _currentPeriodDateRepository.GetAll().Where(x => x.RegisterId == input.Id)
+                                                         .Select(x => ObjectMapper.Map<InputCurrentPeriodDateDto>(x))
+                                                         .ToListAsync();
 
-            var currentPeriodDateListDtos = await query.ToListAsync();
-
-            return _currentPeriodDatesExcelExporter.ExportToFile(currentPeriodDateListDtos);
-         }
+            return _inputDataExporter.ExportToFile(items);
+        }
 
 
     }

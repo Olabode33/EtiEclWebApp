@@ -19,9 +19,6 @@ namespace TestDemo.ReceivablesCurrentPeriodDates
 		Task CreateOrEdit(CreateOrEditCurrentPeriodDateDto input);
 
 		Task Delete(EntityDto<Guid> input);
-
-		Task<FileDto> GetCurrentPeriodDatesToExcel(GetAllCurrentPeriodDatesForExcelInput input);
-
 		
     }
 }

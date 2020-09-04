@@ -9,6 +9,9 @@ using TestDemo.HoldCoAssetBook.Dtos;
 using TestDemo.HoldCoInterCompanyResults.Dtos;
 using TestDemo.HoldCoResult.Dtos;
 using TestDemo.IVModels.Dtos;
+using TestDemo.ReceivablesCurrentPeriodDates.Dtos;
+using TestDemo.ReceivablesForecasts.Dtos;
+using TestDemo.ReceivablesResults.Dtos;
 using TestDemo.Storage;
 
 namespace TestDemo.Calibration.Exporting
@@ -296,6 +299,128 @@ namespace TestDemo.Calibration.Exporting
                          sheet.Column(i).AutoFit();
                      }
                  });
+        }
+
+        public FileDto ExportToFile(List<InputCurrentPeriodDateDto> inputDtos)
+        {
+            return CreateExcelPackage(
+                 "CurrentPeriodDataImportList.xlsx",
+                 excelPackage =>
+                 {
+                     var sheet = excelPackage.Workbook.Worksheets.Add(L("CurrentPeriodDataImportList"));
+                     sheet.OutLineApplyStyle = true;
+
+                     AddHeader(
+                         sheet,
+                         "Account",
+                         "0-90 Days",
+                         "91-180 Days",
+                         "180-365 Days",
+                         "> 365 Days"
+                         );
+
+                     AddObjects(
+                         sheet, 2, inputDtos,
+                         _ => _.Account,
+                         _ => _.ZeroTo90,
+                         _ => _.NinetyOneTo180,
+                         _ => _.OneEightyOneTo365,
+                         _ => _.Over365
+                         );
+
+                     for (var i = 1; i <= 5; i++)
+                     {
+                         sheet.Column(i).AutoFit();
+                     }
+                 });
+        }
+
+        public FileDto ExportToFile(List<InputReceivablesForecastDto> inputDtos)
+        {
+            return CreateExcelPackage(
+                 "ForecastImport.xlsx",
+                 excelPackage =>
+                 {
+                     var sheet = excelPackage.Workbook.Worksheets.Add(L("Forecast"));
+                     sheet.OutLineApplyStyle = true;
+
+                     AddHeader(
+                         sheet,
+                         "Period",
+                         "Optimistic",
+                         "Base",
+                         "Downturn"
+                         );
+
+                     AddObjects(
+                         sheet, 2, inputDtos,
+                         _ => _.Period,
+                         _ => _.Optimistic,
+                         _ => _.Base,
+                         _ => _.Downturn
+                         );
+
+                     for (var i = 1; i <= 4; i++)
+                     {
+                         sheet.Column(i).AutoFit();
+                     }
+                 });
+        }
+
+        public FileDto ExportToFile(List<InputReceivablesResultDto> inputDtos)
+        {
+            return CreateExcelPackage(
+                "ReceivablesResults.xlsx",
+                excelPackage =>
+                {
+                    var sheet = excelPackage.Workbook.Worksheets.Add(L("ReceivablesResults"));
+                    sheet.OutLineApplyStyle = true;
+
+                    AddHeader(
+                        sheet,
+                        "TotalExposure",
+                        "TotalImpairment",
+                        "AdditionalProvision",
+                        "Coverage",
+                        "OptimisticExposure",
+                        "OptimisticImpairment",
+                        "OptimisticCoverageRatio",
+                        "BaseExposure",
+                        "BaseImpairment",
+                        "BaseCoverageRatio",
+                        "DownturnExposure",
+                        "DownturnImpairment",
+                        "DownturnCoverageRatio",
+                        "EclTotalExposure",
+                        "EclTotalImpairment",
+                        "TotalCoverageRatio"
+                        );
+
+                    AddObjects(
+                        sheet, 2, inputDtos,
+                        _ => _.TotalExposure,
+                        _ => _.TotalImpairment,
+                        _ => _.AdditionalProvision,
+                        _ => _.Coverage,
+                        _ => _.OptimisticExposure,
+                        _ => _.OptimisticImpairment,
+                        _ => _.OptimisticCoverageRatio,
+                        _ => _.BaseExposure,
+                        _ => _.BaseImpairment,
+                        _ => _.BaseCoverageRatio, 
+                        _ => _.DownturnExposure,
+                        _ => _.DownturnImpairment,
+                        _ => _.DownturnCoverageRatio, 
+                        _ => _.ECLTotalExposure,
+                        _ => _.ECLTotalImpairment,
+                        _ => _.TotalCoverageRatio
+                        );
+
+                    for (var i = 1; i <= 4; i++)
+                    {
+                        sheet.Column(i).AutoFit();
+                    }
+                });
         }
     }
 }

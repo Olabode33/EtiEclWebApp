@@ -5,6 +5,9 @@ using TestDemo.HoldCoAssetBook.Dtos;
 using TestDemo.HoldCoInterCompanyResults.Dtos;
 using TestDemo.HoldCoResult.Dtos;
 using TestDemo.IVModels.Dtos;
+using TestDemo.ReceivablesCurrentPeriodDates.Dtos;
+using TestDemo.ReceivablesForecasts.Dtos;
+using TestDemo.ReceivablesResults.Dtos;
 
 namespace TestDemo.Calibration.Exporting
 {
@@ -21,6 +24,12 @@ namespace TestDemo.Calibration.Exporting
         FileDto ExportToFile(List<InputHoldCoResultSummaryDto> inputDtos);
 
         FileDto ExportToFile(List<InputResultSummaryByStageDto> inputDtos);
+
+        FileDto ExportToFile(List<InputCurrentPeriodDateDto> inputDtos);
+
+        FileDto ExportToFile(List<InputReceivablesForecastDto> inputDtos);
+
+        FileDto ExportToFile(List<InputReceivablesResultDto> inputDtos);
 
     }
 }

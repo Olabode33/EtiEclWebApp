@@ -2,6 +2,7 @@
 import { FrameworkAssumptionsComponent } from './assumptions/_subs/frameworkAssumptions/frameworkAssumptions.component';
 import { ViewAffiliateAssumptionsComponent } from './assumptions/view-affiliateAssumptions/view-affiliateAssumptions.component';
 import { CommonModule } from '@angular/common';
+
 import { ReceivablesResultsComponent } from './receivablesResults/receivablesResults/receivablesResults.component';
 import { ViewReceivablesResultModalComponent } from './receivablesResults/receivablesResults/view-receivablesResult-modal.component';
 import { CreateOrEditReceivablesResultModalComponent } from './receivablesResults/receivablesResults/create-or-edit-receivablesResult-modal.component';
@@ -126,6 +127,7 @@ import { ContextMenuModule } from 'primeng/primeng';
 import { EditSelectedMacroResultModalComponent } from './calibration/calibrateMacroAnalysis/edit-selectedMacroResult-modal.component';
 import { EditCalibrateCommConsResultModalComponent } from './calibration/calibratePdCrDr/edit-calibrateCommCons-result-modal.component';;
 import { ApproveIvmodelModalComponent } from './ivmodels/approve-ivmodel-modal/approve-ivmodel-modal.component'
+import { ViewReceivablesRegisterComponent } from './ivModels/receivablesRegisters/view-receivablesRegister.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -152,6 +154,9 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+		ReceivablesRegistersComponent,
+
+		ViewReceivablesRegisterComponent,
 		ReceivablesResultsComponent,
 
 		ViewReceivablesResultModalComponent,

@@ -15,22 +15,26 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.Calibration.Exporting;
 
 namespace TestDemo.ReceivablesResults
 {
 	[AbpAuthorize(AppPermissions.Pages_ReceivablesResults)]
     public class ReceivablesResultsAppService : TestDemoAppServiceBase, IReceivablesResultsAppService
     {
-		 private readonly IRepository<ReceivablesResult, Guid> _receivablesResultRepository;
-		 private readonly IReceivablesResultsExcelExporter _receivablesResultsExcelExporter;
-		 
+	    private readonly IRepository<ReceivablesResult, Guid> _receivablesResultRepository;
+		private readonly IReceivablesResultsExcelExporter _receivablesResultsExcelExporter;
+        private readonly IInputPdCrDrExporter _inputDataExporter;
 
-		  public ReceivablesResultsAppService(IRepository<ReceivablesResult, Guid> receivablesResultRepository, IReceivablesResultsExcelExporter receivablesResultsExcelExporter ) 
+
+        public ReceivablesResultsAppService(IRepository<ReceivablesResult, Guid> receivablesResultRepository, IReceivablesResultsExcelExporter receivablesResultsExcelExporter,
+            IInputPdCrDrExporter inputDataExporter) 
 		  {
 			_receivablesResultRepository = receivablesResultRepository;
 			_receivablesResultsExcelExporter = receivablesResultsExcelExporter;
-			
-		  }
+            _inputDataExporter = inputDataExporter;
+
+          }
 
 		 public async Task<PagedResultDto<GetReceivablesResultForViewDto>> GetAll(GetAllReceivablesResultsInput input)
          {
@@ -57,8 +61,14 @@ namespace TestDemo.ReceivablesResults
                 await receivablesResults.ToListAsync()
             );
          }
-		 
-		 public async Task<GetReceivablesResultForViewDto> GetReceivablesResultForView(Guid id)
+
+		public async Task<List<CreateOrEditReceivablesResultDto>> GetResults(Guid id)
+		{
+			return ObjectMapper.Map<List<CreateOrEditReceivablesResultDto>>(await _receivablesResultRepository.GetAll().Where(a => a.RegisterId == id).ToListAsync());
+
+		}
+
+		public async Task<GetReceivablesResultForViewDto> GetReceivablesResultForView(Guid id)
          {
             var receivablesResult = await _receivablesResultRepository.GetAsync(id);
 
@@ -108,27 +118,17 @@ namespace TestDemo.ReceivablesResults
          public async Task Delete(EntityDto<Guid> input)
          {
             await _receivablesResultRepository.DeleteAsync(input.Id);
-         } 
-
-		public async Task<FileDto> GetReceivablesResultsToExcel(GetAllReceivablesResultsForExcelInput input)
-         {
-			
-			var filteredReceivablesResults = _receivablesResultRepository.GetAll()
-						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false );
-
-			var query = (from o in filteredReceivablesResults
-                         select new GetReceivablesResultForViewDto() { 
-							ReceivablesResult = new ReceivablesResultDto
-							{
-                                Id = o.Id
-							}
-						 });
-
-
-            var receivablesResultListDtos = await query.ToListAsync();
-
-            return _receivablesResultsExcelExporter.ExportToFile(receivablesResultListDtos);
          }
+
+        public async Task<FileDto> ExportToExcel(EntityDto<Guid> input)
+        {
+
+            var items = await _receivablesResultRepository.GetAll().Where(x => x.RegisterId == input.Id)
+                                                         .Select(x => ObjectMapper.Map<InputReceivablesResultDto>(x))
+                                                         .ToListAsync();
+
+            return _inputDataExporter.ExportToFile(items);
+        }
 
 
     }

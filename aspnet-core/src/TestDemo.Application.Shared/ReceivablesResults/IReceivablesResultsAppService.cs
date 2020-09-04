@@ -19,9 +19,6 @@ namespace TestDemo.ReceivablesResults
 		Task CreateOrEdit(CreateOrEditReceivablesResultDto input);
 
 		Task Delete(EntityDto<Guid> input);
-
-		Task<FileDto> GetReceivablesResultsToExcel(GetAllReceivablesResultsForExcelInput input);
-
 		
     }
 }

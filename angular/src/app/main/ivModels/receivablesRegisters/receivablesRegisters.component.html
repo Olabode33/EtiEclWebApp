@@ -1,9 +1,9 @@
 ﻿<div [@routerTransition]>
-  
-  
-  
+
+
+
                 <div class="kt-subheader kt-grid__item">
-                  
+
                     <div class="kt-subheader__main">
                         <h3 class="kt-subheader__title">
                             <span>{{l("ReceivablesRegisters")}}</span>
@@ -15,14 +15,14 @@
                     </div>
                     <div class="kt-subheader__toolbar">
                         <div class="kt-subheader__wrapper">
-            				<button *ngIf="isGranted('Pages.ReceivablesRegisters.Create')" (click)="createReceivablesRegister()" 
+            				<button *ngIf="isGranted('Pages.ReceivablesRegisters.Create')" (click)="createReceivablesRegister()"
             			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewReceivablesRegister")}}</button>
                         </div>
                     </div>
-                  
+
                 </div>
-            
-    
+
+
     <div class="kt-content">
         <div class="kt-portlet kt-portlet--mobile">
             <div class="kt-portlet__body">
@@ -104,14 +104,22 @@
                                      [resizableColumns]="primengTableHelper.resizableColumns">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.ReceivablesRegisters.Edit', 'Pages.ReceivablesRegisters.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" [hidden]="!isGrantedAny('Pages.ReceivablesRegisters.Edit', 'Pages.ReceivablesRegisters.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="creationTime">
+                                        {{l('DateCreated')}}
+                                        <p-sortIcon field="receivablesRegister.creationTime"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="creatorUserId">
+                                        {{l('CreatedBy')}}
+                                        <p-sortIcon field="receivablesRegister.creatorUserId"></p-sortIcon>
+                                    </th>
                                     <th style="width: 150px" pSortableColumn="status">
                                         {{l('Status')}}
                                         <p-sortIcon field="receivablesRegister.status"></p-sortIcon>
                                     </th>
 
                                 </tr>
-                            </ng-template>                           
+                            </ng-template>
 							<ng-template pTemplate="body" let-record="$implicit">
                                 <tr>
                                     <td style="width: 130px"
@@ -122,11 +130,12 @@
                                             </button>
 												<ul class="dropdown-menu"  *dropdownMenu>
 
-												<li>
-                                                 <a *ngIf="permission.isGranted('Pages.ReceivablesRegisters.Edit')" 
-			[routerLink]="['/app/main/receivablesRegisters/receivablesRegisters/createOrEdit']" [queryParams]="{id: record.receivablesRegister.id}">
-  {{l('Edit')}}	
-</a>												
+                                                <li>
+                                                    <a *ngIf="permission.isGranted('Pages.ReceivablesRegisters.Edit')"
+                                                        [routerLink]="['/app/main/receivablesRegisters/receivablesRegisters/view']"
+                                                        [queryParams]="{id: record.receivablesRegister.id}">
+                                                        {{l('View')}}
+                                                    </a>
                                                 </li>
 												<li>
 											        <a  href="javascript:;" *ngIf="permission.isGranted('Pages.ReceivablesRegisters.Delete')"
@@ -136,8 +145,25 @@
                                         </div>
                                     </td>
                                     <td style="width:150px">
-										<span class="ui-column-title"> {{l('Status')}}</span>
-										{{l( calibrationStatusEnum[record.receivablesRegister.status])}}
+                                        <span class="ui-column-title"> {{l('DateCreated')}}</span>
+                                        <span *ngIf="record.dateCreated">
+                                            {{record.dateCreated | momentFormat:'LL LT'}}
+                                        </span>
+                                        <span *ngIf="!record.dateCreated">-</span>
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('Name')}}</span>
+                                        {{record.createdBy}}
+                                    </td>
+
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('Status')}}</span>
+                                        <span
+                                            class="kt-badge kt-badge--bolder kt-badge kt-badge--inline
+                                                     kt-badge--unified-{{ getStatusLabelClass(record.receivablesRegister.status) }}">
+                                            {{l( calibrationStatusEnum[record.receivablesRegister.status])}}
+                                        </span>
+
                                     </td>
 
                                 </tr>
@@ -163,8 +189,8 @@
             </div>
         </div>
     </div>
-        
-    
-    
-  
+
+
+
+
 </div>

@@ -20,10 +20,10 @@ import * as moment from 'moment';
     animations: [appModuleAnimation()]
 })
 export class ReceivablesRegistersComponent extends AppComponentBase {
-    
-    
-       
-    
+
+
+
+
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
@@ -68,12 +68,31 @@ export class ReceivablesRegistersComponent extends AppComponentBase {
         });
     }
 
+    getStatusLabelClass(uploadStatus: CalibrationStatusEnum): string {
+        switch (uploadStatus) {
+            case CalibrationStatusEnum.Draft:
+                return 'primary';
+            case CalibrationStatusEnum.Submitted:
+            case CalibrationStatusEnum.Processing:
+            case CalibrationStatusEnum.AwaitngAdditionApproval:
+                return 'warning';
+            case CalibrationStatusEnum.Completed:
+            case CalibrationStatusEnum.Approved:
+                return 'success';
+            case CalibrationStatusEnum.Rejected:
+            case CalibrationStatusEnum.Failed:
+                return 'danger';
+            default:
+                return 'dark';
+        }
+    }
+
     reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());
     }
 
     createReceivablesRegister(): void {
-        this._router.navigate(['/app/main/receivablesRegisters/receivablesRegisters/createOrEdit']);        
+        this._router.navigate(['/app/main/receivablesRegisters/receivablesRegisters/createOrEdit']);
     }
 
 

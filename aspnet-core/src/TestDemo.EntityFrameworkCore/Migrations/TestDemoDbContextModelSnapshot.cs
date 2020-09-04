@@ -7727,6 +7727,40 @@ namespace TestDemo.Migrations
                     b.ToTable("CalibrationResultPdUpperbounds");
                 });
 
+            modelBuilder.Entity("TestDemo.ReceivablesApprovals.ReceivablesApproval", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<Guid>("RegisterId");
+
+                    b.Property<string>("ReviewComment");
+
+                    b.Property<long>("ReviewedByUserId");
+
+                    b.Property<DateTime>("ReviewedDate");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ReceivablesApprovals");
+                });
+
             modelBuilder.Entity("TestDemo.ReceivablesCurrentPeriodDates.CurrentPeriodDate", b =>
                 {
                     b.Property<Guid>("Id")

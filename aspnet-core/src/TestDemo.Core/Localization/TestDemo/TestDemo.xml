@@ -1,6 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="RegisterId">Register id</text>
+  <texts>    <text name="ReceivablesApprovals">Receivables approvals</text>
+    <text name="ReceivablesApproval">Receivables approval</text>
+    <text name="CreateNewReceivablesApproval">Create new receivables approval</text>
+    <text name="EditReceivablesApproval">Edit receivables approval</text>
+    <text name="DeleteReceivablesApproval">Delete receivables approval</text>
+    <text name="RegisterId">Register id</text>
     <text name="ReceivablesResults">Receivables results</text>
     <text name="ReceivablesResult">Receivables result</text>
     <text name="TestDemo.ReceivablesResults.ReceivablesResult">ReceivablesResult</text>

@@ -1,5 +1,6 @@
 ﻿import { MacroAnalysisComponent } from './calibration/calibrateMacroAnalysis/macroAnalysis.component';
 import { ViewCalibrationEadCcfSummaryComponent } from './calibration/calibrateEadCcfSummary/view-calibrateEadCcfSummary.component';
+import { ViewReceivablesRegisterComponent } from './ivModels/receivablesRegisters/view-receivablesRegister.component';
 import { ReceivablesResultsComponent } from './receivablesResults/receivablesResults/receivablesResults.component';
 import { ReceivablesRegistersComponent } from './ivModels/receivablesRegisters/receivablesRegisters.component';
 import { CreateOrEditReceivablesRegisterComponent } from './ivModels/receivablesRegisters/create-or-edit-receivablesRegister.component';
@@ -50,6 +51,7 @@ import { ViewBatchEclComponent } from './eclView/view-batchEcl/view-batchEcl.com
             {
                 path: '',
                 children: [
+                    { path: 'receivablesRegisters/receivablesRegisters/view', component: ViewReceivablesRegisterComponent, data: { permission: 'Pages.ReceivablesRegisters' }  },
                     { path: 'receivablesResults/receivablesResults', component: ReceivablesResultsComponent, data: { permission: 'Pages.ReceivablesResults' }  },
                     { path: 'receivablesRegisters/receivablesRegisters', component: ReceivablesRegistersComponent, data: { permission: 'Pages.ReceivablesRegisters' }  },
                     { path: 'receivablesRegisters/receivablesRegisters/createOrEdit', component: CreateOrEditReceivablesRegisterComponent, data: { permission: 'Pages.ReceivablesRegisters.Create' }  },

@@ -5,8 +5,11 @@ import * as ApiServiceProxies from './service-proxies';
 
 @NgModule({
     providers: [
-        ApiServiceProxies.ReceivablesResultsServiceProxy,        
-        ApiServiceProxies.ReceivablesRegistersServiceProxy,        
+        ApiServiceProxies.ReceivablesApprovalsServiceProxy,
+        ApiServiceProxies.ReceivablesForecastsServiceProxy,
+        ApiServiceProxies.CurrentPeriodDatesServiceProxy,
+        ApiServiceProxies.ReceivablesResultsServiceProxy,
+        ApiServiceProxies.ReceivablesRegistersServiceProxy,
         ApiServiceProxies.HoldCoApprovalsServiceProxy,
         ApiServiceProxies.ResultSummaryByStagesServiceProxy,
         ApiServiceProxies.HoldCoInterCompanyResultsServiceProxy,

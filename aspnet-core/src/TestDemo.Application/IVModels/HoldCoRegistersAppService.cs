@@ -68,7 +68,7 @@ namespace TestDemo.IVModels
                                           Id = o.Id
                                       },
                                       DateCreated = o.CreationTime,
-                                      CreatedBy = s1 == null ? "" : s1.FullName,
+                                      CreatedBy = s1 == null ? "" : s1.FullName
                                   };
 
             var totalCount = await filteredHoldCoRegisters.CountAsync();
