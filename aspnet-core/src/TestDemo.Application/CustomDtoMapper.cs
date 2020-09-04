@@ -1,4 +1,14 @@
-﻿using TestDemo.HoldCoApprovals.Dtos;
+﻿using TestDemo.ReceivablesResults.Dtos;
+using TestDemo.ReceivablesResults;
+using TestDemo.ReceivablesForecasts.Dtos;
+using TestDemo.ReceivablesForecasts;
+using TestDemo.ReceivablesCurrentPeriodDates.Dtos;
+using TestDemo.ReceivablesCurrentPeriodDates;
+using TestDemo.ReceivablesInputs.Dtos;
+using TestDemo.ReceivablesInputs;
+using TestDemo.ReceivablesRegisters.Dtos;
+using TestDemo.ReceivablesRegisters;
+using TestDemo.HoldCoApprovals.Dtos;
 using TestDemo.HoldCoApprovals;
 using TestDemo.HoldCoInterCompanyResults.Dtos;
 using TestDemo.HoldCoInterCompanyResults;
@@ -104,6 +114,16 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditReceivablesResultDto, ReceivablesResult>().ReverseMap();
+            configuration.CreateMap<ReceivablesResultDto, ReceivablesResult>().ReverseMap();
+            configuration.CreateMap<CreateOrEditReceivablesForecastDto, ReceivablesForecast>().ReverseMap();
+            configuration.CreateMap<ReceivablesForecastDto, ReceivablesForecast>().ReverseMap();
+            configuration.CreateMap<CreateOrEditCurrentPeriodDateDto, CurrentPeriodDate>().ReverseMap();
+            configuration.CreateMap<CurrentPeriodDateDto, CurrentPeriodDate>().ReverseMap();
+            configuration.CreateMap<CreateOrEditReceivablesInputDto, ReceivablesInput>().ReverseMap();
+            configuration.CreateMap<ReceivablesInputDto, ReceivablesInput>().ReverseMap();
+            configuration.CreateMap<CreateOrEditReceivablesRegisterDto, ReceivablesRegister>().ReverseMap();
+            configuration.CreateMap<ReceivablesRegisterDto, ReceivablesRegister>().ReverseMap();
             configuration.CreateMap<CreateOrEditHoldCoApprovalDto, HoldCoApproval>().ReverseMap();
             configuration.CreateMap<HoldCoApprovalDto, HoldCoApproval>().ReverseMap();
             configuration.CreateMap<CreateOrEditResultSummaryByStageDto, ResultSummaryByStage>().ReverseMap();

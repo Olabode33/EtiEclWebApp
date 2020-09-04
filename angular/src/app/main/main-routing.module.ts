@@ -1,5 +1,8 @@
 ﻿import { MacroAnalysisComponent } from './calibration/calibrateMacroAnalysis/macroAnalysis.component';
 import { ViewCalibrationEadCcfSummaryComponent } from './calibration/calibrateEadCcfSummary/view-calibrateEadCcfSummary.component';
+import { ReceivablesResultsComponent } from './receivablesResults/receivablesResults/receivablesResults.component';
+import { ReceivablesRegistersComponent } from './ivModels/receivablesRegisters/receivablesRegisters.component';
+import { CreateOrEditReceivablesRegisterComponent } from './ivModels/receivablesRegisters/create-or-edit-receivablesRegister.component';
 import { ResultSummaryByStagesComponent } from './holdCoResult/resultSummaryByStages/resultSummaryByStages.component';
 import { HoldCoResultSummariesComponent } from './holdCoResult/holdCoResultSummaries/holdCoResultSummaries.component';
 import { HoldCoRegistersComponent } from './ivModels/holdCoRegisters/holdCoRegisters.component';
@@ -47,6 +50,9 @@ import { ViewBatchEclComponent } from './eclView/view-batchEcl/view-batchEcl.com
             {
                 path: '',
                 children: [
+                    { path: 'receivablesResults/receivablesResults', component: ReceivablesResultsComponent, data: { permission: 'Pages.ReceivablesResults' }  },
+                    { path: 'receivablesRegisters/receivablesRegisters', component: ReceivablesRegistersComponent, data: { permission: 'Pages.ReceivablesRegisters' }  },
+                    { path: 'receivablesRegisters/receivablesRegisters/createOrEdit', component: CreateOrEditReceivablesRegisterComponent, data: { permission: 'Pages.ReceivablesRegisters.Create' }  },
                     { path: 'holdCoResult/resultSummaryByStages', component: ResultSummaryByStagesComponent, data: { permission: 'Pages.ResultSummaryByStages' }  },
                     { path: 'holdCoResult/holdCoResultSummaries', component: HoldCoResultSummariesComponent, data: { permission: 'Pages.HoldCoResultSummaries' }  },
                     { path: 'ivModels/holdCoRegisters', component: HoldCoRegistersComponent, data: { permission: 'Pages.HoldCoRegisters' }  },

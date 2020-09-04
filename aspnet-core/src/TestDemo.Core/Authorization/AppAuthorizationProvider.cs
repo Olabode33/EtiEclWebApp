@@ -30,6 +30,42 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var receivablesResults = pages.CreateChildPermission(AppPermissions.Pages_ReceivablesResults, L("ReceivablesResults"));
+            receivablesResults.CreateChildPermission(AppPermissions.Pages_ReceivablesResults_Create, L("CreateNewReceivablesResult"));
+            receivablesResults.CreateChildPermission(AppPermissions.Pages_ReceivablesResults_Edit, L("EditReceivablesResult"));
+            receivablesResults.CreateChildPermission(AppPermissions.Pages_ReceivablesResults_Delete, L("DeleteReceivablesResult"));
+
+
+
+            var receivablesForecasts = pages.CreateChildPermission(AppPermissions.Pages_ReceivablesForecasts, L("ReceivablesForecasts"));
+            receivablesForecasts.CreateChildPermission(AppPermissions.Pages_ReceivablesForecasts_Create, L("CreateNewReceivablesForecast"));
+            receivablesForecasts.CreateChildPermission(AppPermissions.Pages_ReceivablesForecasts_Edit, L("EditReceivablesForecast"));
+            receivablesForecasts.CreateChildPermission(AppPermissions.Pages_ReceivablesForecasts_Delete, L("DeleteReceivablesForecast"));
+
+
+
+            var currentPeriodDates = pages.CreateChildPermission(AppPermissions.Pages_CurrentPeriodDates, L("CurrentPeriodDates"));
+            currentPeriodDates.CreateChildPermission(AppPermissions.Pages_CurrentPeriodDates_Create, L("CreateNewCurrentPeriodDate"));
+            currentPeriodDates.CreateChildPermission(AppPermissions.Pages_CurrentPeriodDates_Edit, L("EditCurrentPeriodDate"));
+            currentPeriodDates.CreateChildPermission(AppPermissions.Pages_CurrentPeriodDates_Delete, L("DeleteCurrentPeriodDate"));
+
+
+
+            var receivablesInputs = pages.CreateChildPermission(AppPermissions.Pages_ReceivablesInputs, L("ReceivablesInputs"));
+            receivablesInputs.CreateChildPermission(AppPermissions.Pages_ReceivablesInputs_Create, L("CreateNewReceivablesInput"));
+            receivablesInputs.CreateChildPermission(AppPermissions.Pages_ReceivablesInputs_Edit, L("EditReceivablesInput"));
+            receivablesInputs.CreateChildPermission(AppPermissions.Pages_ReceivablesInputs_Delete, L("DeleteReceivablesInput"));
+
+
+
+            var receivablesRegisters = pages.CreateChildPermission(AppPermissions.Pages_ReceivablesRegisters, L("ReceivablesRegisters"));
+            receivablesRegisters.CreateChildPermission(AppPermissions.Pages_ReceivablesRegisters_Create, L("CreateNewReceivablesRegister"));
+            receivablesRegisters.CreateChildPermission(AppPermissions.Pages_ReceivablesRegisters_Edit, L("EditReceivablesRegister"));
+            receivablesRegisters.CreateChildPermission(AppPermissions.Pages_ReceivablesRegisters_Delete, L("DeleteReceivablesRegister"));
+            receivablesRegisters.CreateChildPermission(AppPermissions.Pages_ReceivablesRegisters_Approve, L("ApproveReceivablesRegister"));
+
+
+
             var holdCoApprovals = pages.CreateChildPermission(AppPermissions.Pages_HoldCoApprovals, L("HoldCoApprovals"));
             holdCoApprovals.CreateChildPermission(AppPermissions.Pages_HoldCoApprovals_Create, L("CreateNewHoldCoApproval"));
             holdCoApprovals.CreateChildPermission(AppPermissions.Pages_HoldCoApprovals_Edit, L("EditHoldCoApproval"));

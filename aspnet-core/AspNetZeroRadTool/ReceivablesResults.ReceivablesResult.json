@@ -1,0 +1,349 @@
+{
+  "IsRegenerate": true,
+  "MenuPosition": "main",
+  "RelativeNamespace": "ReceivablesResults",
+  "EntityName": "ReceivablesResult",
+  "EntityNamePlural": "ReceivablesResults",
+  "TableName": "ReceivablesResults",
+  "PrimaryKeyType": "Guid",
+  "BaseClass": "Entity",
+  "EntityHistory": false,
+  "AutoMigration": true,
+  "UpdateDatabase": true,
+  "CreateUserInterface": false,
+  "CreateViewOnly": true,
+  "CreateExcelExport": true,
+  "IsNonModalCRUDPage": false,
+  "PagePermission": {
+    "Host": false,
+    "Tenant": false
+  },
+  "Properties": [
+    {
+      "Name": "TotalExposure",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "TotalImpairment",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "AdditionalProvision",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "Coverage",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "OptimisticExposure",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "BaseExposure",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "DownturnExposure",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "ECLTotalExposure",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "OptimisticImpairment",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "BaseImpairment",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "DownturnImpairment",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "ECLTotalImpairment",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "OptimisticCoverageRatio",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "BaseCoverageRatio",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "DownturnCoverageRatio",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "TotalCoverageRatio",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "RegisterId",
+      "Type": "Guid",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    }
+  ],
+  "NavigationProperties": [],
+  "EnumDefinitions": [],
+  "DbContext": null
+}

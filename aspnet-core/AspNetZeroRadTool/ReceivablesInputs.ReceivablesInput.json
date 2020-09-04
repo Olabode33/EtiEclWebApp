@@ -1,0 +1,273 @@
+{
+  "IsRegenerate": true,
+  "MenuPosition": "",
+  "RelativeNamespace": "ReceivablesInputs",
+  "EntityName": "ReceivablesInput",
+  "EntityNamePlural": "ReceivablesInputs",
+  "TableName": "ReceivablesInputs",
+  "PrimaryKeyType": "Guid",
+  "BaseClass": "Entity",
+  "EntityHistory": false,
+  "AutoMigration": true,
+  "UpdateDatabase": true,
+  "CreateUserInterface": false,
+  "CreateViewOnly": true,
+  "CreateExcelExport": false,
+  "IsNonModalCRUDPage": false,
+  "PagePermission": {
+    "Host": false,
+    "Tenant": false
+  },
+  "Properties": [
+    {
+      "Name": "ReportingDate",
+      "Type": "DateTime",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "ScenarioOptimistic",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "LossDefinition",
+      "Type": "int",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "LossRate",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "FLIOverlay",
+      "Type": "bool",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "OverlayOptimistic",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "OverlayBase",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "OverlayDownturn",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "InterceptCoefficient",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "IndexCoefficient",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "LossRateCoefficient",
+      "Type": "double",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "RegisterId",
+      "Type": "Guid",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "ScenarioBase",
+      "Type": "double",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    }
+  ],
+  "NavigationProperties": [],
+  "EnumDefinitions": [],
+  "DbContext": null
+}

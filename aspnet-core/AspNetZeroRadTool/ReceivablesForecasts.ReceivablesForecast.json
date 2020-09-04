@@ -1,0 +1,121 @@
+{
+  "IsRegenerate": false,
+  "MenuPosition": null,
+  "RelativeNamespace": "ReceivablesForecasts",
+  "EntityName": "ReceivablesForecast",
+  "EntityNamePlural": "ReceivablesForecasts",
+  "TableName": "ReceivablesForecasts",
+  "PrimaryKeyType": "Guid",
+  "BaseClass": "Entity",
+  "EntityHistory": false,
+  "AutoMigration": true,
+  "UpdateDatabase": true,
+  "CreateUserInterface": false,
+  "CreateViewOnly": true,
+  "CreateExcelExport": true,
+  "IsNonModalCRUDPage": false,
+  "PagePermission": {
+    "Host": false,
+    "Tenant": false
+  },
+  "Properties": [
+    {
+      "Name": "Period",
+      "Type": "string",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "Optimistic",
+      "Type": "double",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "Base",
+      "Type": "double",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "Downturn",
+      "Type": "double",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "RegisterId",
+      "Type": "Guid",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": false,
+        "CreateOrUpdate": true
+      }
+    }
+  ],
+  "NavigationProperties": [],
+  "EnumDefinitions": [],
+  "DbContext": null
+}

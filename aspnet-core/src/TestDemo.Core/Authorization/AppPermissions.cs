@@ -6,6 +6,32 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_ReceivablesResults = "Pages.ReceivablesResults";
+        public const string Pages_ReceivablesResults_Create = "Pages.ReceivablesResults.Create";
+        public const string Pages_ReceivablesResults_Edit = "Pages.ReceivablesResults.Edit";
+        public const string Pages_ReceivablesResults_Delete = "Pages.ReceivablesResults.Delete";
+
+        public const string Pages_ReceivablesForecasts = "Pages.ReceivablesForecasts";
+        public const string Pages_ReceivablesForecasts_Create = "Pages.ReceivablesForecasts.Create";
+        public const string Pages_ReceivablesForecasts_Edit = "Pages.ReceivablesForecasts.Edit";
+        public const string Pages_ReceivablesForecasts_Delete = "Pages.ReceivablesForecasts.Delete";
+
+        public const string Pages_CurrentPeriodDates = "Pages.CurrentPeriodDates";
+        public const string Pages_CurrentPeriodDates_Create = "Pages.CurrentPeriodDates.Create";
+        public const string Pages_CurrentPeriodDates_Edit = "Pages.CurrentPeriodDates.Edit";
+        public const string Pages_CurrentPeriodDates_Delete = "Pages.CurrentPeriodDates.Delete";
+
+        public const string Pages_ReceivablesInputs = "Pages.ReceivablesInputs";
+        public const string Pages_ReceivablesInputs_Create = "Pages.ReceivablesInputs.Create";
+        public const string Pages_ReceivablesInputs_Edit = "Pages.ReceivablesInputs.Edit";
+        public const string Pages_ReceivablesInputs_Delete = "Pages.ReceivablesInputs.Delete";
+
+        public const string Pages_ReceivablesRegisters = "Pages.ReceivablesRegisters";
+        public const string Pages_ReceivablesRegisters_Create = "Pages.ReceivablesRegisters.Create";
+        public const string Pages_ReceivablesRegisters_Edit = "Pages.ReceivablesRegisters.Edit";
+        public const string Pages_ReceivablesRegisters_Delete = "Pages.ReceivablesRegisters.Delete";
+        public const string Pages_ReceivablesRegisters_Approve = "Pages.ReceivablesRegisters.Approve";
+
         public const string Pages_HoldCoApprovals = "Pages.HoldCoApprovals";
         public const string Pages_HoldCoApprovals_Create = "Pages.HoldCoApprovals.Create";
         public const string Pages_HoldCoApprovals_Edit = "Pages.HoldCoApprovals.Edit";

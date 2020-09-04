@@ -30,11 +30,9 @@ export class CreateOrEditHoldCoRegisterComponent extends AppComponentBase implem
     showIntercompanyCard = true;
     showMacroCard = true;
     holdCoRegister: CreateOrEditHoldCoRegisterDto = new CreateOrEditHoldCoRegisterDto();
-    totalUploads = 0;
     statusEnum = CalibrationStatusEnum;
     inputParameter = new CreateOrEditHoldCoInputParameterDto();
     macroEconomicCreditIndex = new Array<CreateOrEditMacroEconomicCreditIndexDto>();
-    registrationId: any;
     assetBook = new Array<CreateOrEditAssetBookDto>();
 
 

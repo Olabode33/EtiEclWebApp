@@ -32,7 +32,7 @@ export class AppNavigationService {
             ]),
             new AppMenuItem('IV Models', 'Pages.IVModels', 'fa fa-bezier-curve', '', [
                 new AppMenuItem('HoldCoIntercompany', 'Pages.HoldCoRegisters', 'flaticon-more', '/app/main/ivModels/holdCoRegisters'),
-                new AppMenuItem('ETIReceivables', 'Pages.IVModels', 'flaticon-more', '/app/main/calibration/ccfSummary'),
+                new AppMenuItem('ETIReceivables', 'Pages.ReceivablesRegisters', 'flaticon-more', '/app/main/receivablesRegisters/receivablesRegisters'),
             ]),
             new AppMenuItem('Assumptions', 'Pages.Assumption.Affiliates', 'fa fa-list-ul', '/app/main/assumption/affiliates'),
             new AppMenuItem('ECL', 'Pages.EclView', 'fa fa-suitcase', '/app/main/ecl'),
@@ -43,8 +43,11 @@ export class AppNavigationService {
                 new AppMenuItem('AffiliateMacroEconomicVariableOffsets', 'Pages.Configurations', 'flaticon-more', '/app/main/affiliateMacroEconomicVariable/affiliateMacroEconomicVariableOffsets'),
                 new AppMenuItem('OverrideTypes', 'Pages.Configurations', 'flaticon-more', '/app/main/eclConfig/overrideTypes'),
             ]),
-            
+
             new AppMenuItem('HoldCoRegisters', 'Pages.HoldCoRegisters', 'flaticon-more', '/app/main/ivModels/holdCoRegisters'),
+
+
+            // new AppMenuItem('ReceivablesResults', 'Pages.ReceivablesResults', 'flaticon-more', '/app/main/receivablesResults/receivablesResults'),
              new AppMenuItem('Administration', '', 'fa fa-cogs', '', [
                 new AppMenuItem('OrganizationUnits', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),

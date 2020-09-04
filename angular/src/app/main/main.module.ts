@@ -2,6 +2,13 @@
 import { FrameworkAssumptionsComponent } from './assumptions/_subs/frameworkAssumptions/frameworkAssumptions.component';
 import { ViewAffiliateAssumptionsComponent } from './assumptions/view-affiliateAssumptions/view-affiliateAssumptions.component';
 import { CommonModule } from '@angular/common';
+import { ReceivablesResultsComponent } from './receivablesResults/receivablesResults/receivablesResults.component';
+import { ViewReceivablesResultModalComponent } from './receivablesResults/receivablesResults/view-receivablesResult-modal.component';
+import { CreateOrEditReceivablesResultModalComponent } from './receivablesResults/receivablesResults/create-or-edit-receivablesResult-modal.component';
+
+import { ReceivablesRegistersComponent } from './ivModels/receivablesRegisters/receivablesRegisters.component';
+import { CreateOrEditReceivablesRegisterComponent } from './ivModels/receivablesRegisters/create-or-edit-receivablesRegister.component';
+
 import { ResultSummaryByStagesComponent } from './holdCoResult/resultSummaryByStages/resultSummaryByStages.component';
 import { ViewResultSummaryByStageModalComponent } from './holdCoResult/resultSummaryByStages/view-resultSummaryByStage-modal.component';
 import { CreateOrEditResultSummaryByStageModalComponent } from './holdCoResult/resultSummaryByStages/create-or-edit-resultSummaryByStage-modal.component';
@@ -145,6 +152,13 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+		ReceivablesResultsComponent,
+
+		ViewReceivablesResultModalComponent,
+		CreateOrEditReceivablesResultModalComponent,
+		ReceivablesRegistersComponent,
+
+		CreateOrEditReceivablesRegisterComponent,
 		ResultSummaryByStagesComponent,
 
 		ViewResultSummaryByStageModalComponent,

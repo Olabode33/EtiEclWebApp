@@ -7727,6 +7727,154 @@ namespace TestDemo.Migrations
                     b.ToTable("CalibrationResultPdUpperbounds");
                 });
 
+            modelBuilder.Entity("TestDemo.ReceivablesCurrentPeriodDates.CurrentPeriodDate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Account");
+
+                    b.Property<double>("NinetyOneTo180");
+
+                    b.Property<double>("OneEightyOneTo365");
+
+                    b.Property<double>("Over365");
+
+                    b.Property<Guid>("RegisterId");
+
+                    b.Property<double>("ZeroTo90");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CurrentPeriodDates");
+                });
+
+            modelBuilder.Entity("TestDemo.ReceivablesForecasts.ReceivablesForecast", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("Base");
+
+                    b.Property<double>("Downturn");
+
+                    b.Property<double>("Optimistic");
+
+                    b.Property<string>("Period");
+
+                    b.Property<Guid>("RegisterId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ReceivablesForecasts");
+                });
+
+            modelBuilder.Entity("TestDemo.ReceivablesInputs.ReceivablesInput", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("FLIOverlay");
+
+                    b.Property<double>("IndexCoefficient");
+
+                    b.Property<double>("InterceptCoefficient");
+
+                    b.Property<int>("LossDefinition");
+
+                    b.Property<double>("LossRate");
+
+                    b.Property<double>("LossRateCoefficient");
+
+                    b.Property<double>("OverlayBase");
+
+                    b.Property<double>("OverlayDownturn");
+
+                    b.Property<double>("OverlayOptimistic");
+
+                    b.Property<Guid>("RegisterId");
+
+                    b.Property<DateTime>("ReportingDate");
+
+                    b.Property<double>("ScenarioBase");
+
+                    b.Property<double>("ScenarioOptimistic");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ReceivablesInputs");
+                });
+
+            modelBuilder.Entity("TestDemo.ReceivablesRegisters.ReceivablesRegister", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ReceivablesRegisters");
+                });
+
+            modelBuilder.Entity("TestDemo.ReceivablesResults.ReceivablesResult", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("AdditionalProvision");
+
+                    b.Property<double>("BaseCoverageRatio");
+
+                    b.Property<double>("BaseExposure");
+
+                    b.Property<double>("BaseImpairment");
+
+                    b.Property<double>("Coverage");
+
+                    b.Property<double>("DownturnCoverageRatio");
+
+                    b.Property<double>("DownturnExposure");
+
+                    b.Property<double>("DownturnImpairment");
+
+                    b.Property<double>("ECLTotalExposure");
+
+                    b.Property<double>("ECLTotalImpairment");
+
+                    b.Property<double>("OptimisticCoverageRatio");
+
+                    b.Property<double>("OptimisticExposure");
+
+                    b.Property<double>("OptimisticImpairment");
+
+                    b.Property<Guid>("RegisterId");
+
+                    b.Property<double>("TotalCoverageRatio");
+
+                    b.Property<double>("TotalExposure");
+
+                    b.Property<double>("TotalImpairment");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ReceivablesResults");
+                });
+
             modelBuilder.Entity("TestDemo.Retail.RetailEcl", b =>
                 {
                     b.Property<Guid>("Id")

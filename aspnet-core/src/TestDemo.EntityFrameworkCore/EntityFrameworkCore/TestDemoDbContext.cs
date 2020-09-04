@@ -1,4 +1,9 @@
-﻿using TestDemo.HoldCoApprovals;
+﻿using TestDemo.ReceivablesResults;
+using TestDemo.ReceivablesForecasts;
+using TestDemo.ReceivablesCurrentPeriodDates;
+using TestDemo.ReceivablesInputs;
+using TestDemo.ReceivablesRegisters;
+using TestDemo.HoldCoApprovals;
 using TestDemo.HoldCoInterCompanyResults;
 using TestDemo.HoldCoIntercompanyResult;
 using TestDemo.HoldCoResult;
@@ -57,6 +62,16 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<ReceivablesResult> ReceivablesResults { get; set; }
+
+        public virtual DbSet<ReceivablesForecast> ReceivablesForecasts { get; set; }
+
+        public virtual DbSet<CurrentPeriodDate> CurrentPeriodDates { get; set; }
+
+        public virtual DbSet<ReceivablesInput> ReceivablesInputs { get; set; }
+
+        public virtual DbSet<ReceivablesRegister> ReceivablesRegisters { get; set; }
+
         public virtual DbSet<HoldCoApproval> HoldCoApprovals { get; set; }
 
         public virtual DbSet<ResultSummaryByStage> ResultSummaryByStages { get; set; }
