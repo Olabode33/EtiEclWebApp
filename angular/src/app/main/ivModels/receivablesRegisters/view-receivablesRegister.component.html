@@ -40,7 +40,7 @@
 <div class="kt-content">
 <!-- <div class="kt-portlet kt-portlet--mobile"> -->
 
-    <div class="kt-portlet kt-portlet--height-fluid">
+    <div class="kt-portlet kt-portlet--height-fluid" *ngIf="receivablesRegister.status == statusEnum.Completed">
         <div class="kt-portlet__head ">
             <div class="kt-portlet__head-label hoverable" (click)="showResultsCard = !showResultsCard;">
                 <h3 class="kt-portlet__head-title">

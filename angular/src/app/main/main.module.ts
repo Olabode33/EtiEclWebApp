@@ -3,20 +3,13 @@ import { FrameworkAssumptionsComponent } from './assumptions/_subs/frameworkAssu
 import { ViewAffiliateAssumptionsComponent } from './assumptions/view-affiliateAssumptions/view-affiliateAssumptions.component';
 import { CommonModule } from '@angular/common';
 
-import { ReceivablesResultsComponent } from './receivablesResults/receivablesResults/receivablesResults.component';
-import { ViewReceivablesResultModalComponent } from './receivablesResults/receivablesResults/view-receivablesResult-modal.component';
-import { CreateOrEditReceivablesResultModalComponent } from './receivablesResults/receivablesResults/create-or-edit-receivablesResult-modal.component';
-
 import { ReceivablesRegistersComponent } from './ivModels/receivablesRegisters/receivablesRegisters.component';
 import { CreateOrEditReceivablesRegisterComponent } from './ivModels/receivablesRegisters/create-or-edit-receivablesRegister.component';
 
-import { ResultSummaryByStagesComponent } from './holdCoResult/resultSummaryByStages/resultSummaryByStages.component';
-import { ViewResultSummaryByStageModalComponent } from './holdCoResult/resultSummaryByStages/view-resultSummaryByStage-modal.component';
-import { CreateOrEditResultSummaryByStageModalComponent } from './holdCoResult/resultSummaryByStages/create-or-edit-resultSummaryByStage-modal.component';
+import { ResultSummaryByStagesComponent } from './ivModels/resultSummaryByStages/resultSummaryByStages.component';
+import { ViewResultSummaryByStageModalComponent } from './ivModels/resultSummaryByStages/view-resultSummaryByStage-modal.component';
+import { CreateOrEditResultSummaryByStageModalComponent } from './ivModels/resultSummaryByStages/create-or-edit-resultSummaryByStage-modal.component';
 
-import { HoldCoResultSummariesComponent } from './holdCoResult/holdCoResultSummaries/holdCoResultSummaries.component';
-import { ViewHoldCoResultSummaryModalComponent } from './holdCoResult/holdCoResultSummaries/view-holdCoResultSummary-modal.component';
-import { CreateOrEditHoldCoResultSummaryModalComponent } from './holdCoResult/holdCoResultSummaries/create-or-edit-holdCoResultSummary-modal.component';
 
 import { HoldCoRegistersComponent } from './ivModels/holdCoRegisters/holdCoRegisters.component';
 import { ViewHoldCoRegisterComponent } from './ivModels/holdCoRegisters/view-holdCoRegister.component';
@@ -128,6 +121,9 @@ import { EditSelectedMacroResultModalComponent } from './calibration/calibrateMa
 import { EditCalibrateCommConsResultModalComponent } from './calibration/calibratePdCrDr/edit-calibrateCommCons-result-modal.component';;
 import { ApproveIvmodelModalComponent } from './ivmodels/approve-ivmodel-modal/approve-ivmodel-modal.component'
 import { ViewReceivablesRegisterComponent } from './ivModels/receivablesRegisters/view-receivablesRegister.component';
+import { HoldCoResultSummariesComponent } from './ivModels/holdCoResultSummaries/holdCoResultSummaries.component';
+import { ViewHoldCoResultSummaryModalComponent } from './ivModels/holdCoResultSummaries/view-holdCoResultSummary-modal.component';
+import { CreateOrEditHoldCoResultSummaryModalComponent } from './ivModels/holdCoResultSummaries/create-or-edit-holdCoResultSummary-modal.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -157,10 +153,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 		ReceivablesRegistersComponent,
 
 		ViewReceivablesRegisterComponent,
-		ReceivablesResultsComponent,
 
-		ViewReceivablesResultModalComponent,
-		CreateOrEditReceivablesResultModalComponent,
 		ReceivablesRegistersComponent,
 
 		CreateOrEditReceivablesRegisterComponent,
