@@ -40,6 +40,99 @@
 
 
 <div class="kt-content">
+
+    <div class="kt-portlet kt-portlet--height-fluid" *ngIf="loanImpairmentRegister.status == statusEnum.Completed">
+        <div class="kt-portlet__head ">
+            <div class="kt-portlet__head-label hoverable" (click)="showResultCard = !showResultCard;">
+                <h3 class="kt-portlet__head-title">
+                    {{l('Results')}}
+                </h3>
+            </div>
+
+            <div class="kt-portlet__head-toolbar">
+                <button *ngIf="results.length > 0" (click)="exportImpairmentScenarios()" class="btn btn-outline-primary mr-2">
+                    <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
+                    {{l("DownloadFullData")}}
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <div [hidden]="!showResultCard" class="kt-portlet__body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>{{l('BaseScenarioExposure')}}</th>
+                            <th>{{l('OptimisticScenarioExposure')}}</th>
+                            <th>{{l('DownturnScenarioExposure')}}</th>
+                            <th>{{l('WeightedECLResultExposure')}}</th>
+                            <th>{{l('BestScenarioPreOverlay')}}</th>
+                            <th>{{l('OptimisticScenarioPreOverlay')}}</th>
+                            <th>{{l('DownturnScenarioPreOverlay')}}</th>
+                            <th>{{l('WeightedECLResultPreOverlay')}}</th>
+                            <th>{{l('BaseScenarioOverrideImpact')}}</th>
+                            <th>{{l('OptimisticScenarioOverrideImpact')}}</th>
+                            <th>{{l('DownturnScenarioOverrideImpact')}}</th>
+                            <th>{{l('WeightedECLResultOverrideImpact')}}</th>
+                            <th>{{l('BaseScenarioImpairmentPostOverride')}}</th>
+                            <th>{{l('OptimisticScenarioImpairmentPostOverride')}}</th>
+                            <th>{{l('DownturnScenarioImpairmentPostOverride')}}</th>
+                            <th>{{l('WeightedECLResultImpairmentPostOverride')}}</th>
+                            <th>{{l('BaseScenarioOverlay')}}</th>
+                            <th>{{l('OptimisticScenarioOverlay')}}</th>
+                            <th>{{l('DownturnScenarioOverlay')}}</th>
+                            <th>{{l('WeightedECLResultOverlay')}}</th>
+                            <th>{{l('BaseScenarioFinalImpairment')}}</th>
+                            <th>{{l('OptimisticScenarioFinalImpairnment')}}</th>
+                            <th>{{l('DownturnScenarioFinalImpairment')}}</th>
+                            <th>{{l('WeightedECLResultFinalImpairment')}}</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of results">
+                            <td class="align-middle">{{ item.baseScenarioExposure }}</td>
+                            <td class="align-middle">{{ item.optimisticScenarioExposure }}</td>
+                            <td class="align-middle">{{ item.downturnScenarioExposure }}</td>
+                            <td class="align-middle">{{ item.resultsExposure }}</td>
+                            <td class="align-middle">{{ item.baseScenarioPreOverlay }}</td>
+                            <td class="align-middle">{{ item.optimisticScenarioPreOverlay }}</td>
+                            <td class="align-middle">{{ item.downturnScenarioPreOverlay }}</td>
+                            <td class="align-middle">{{ item.resultPreOverlay }}</td>
+                            <td class="align-middle">{{ item.baseScenarioOverrideImpact }}</td>
+                            <td class="align-middle">{{ item.optimisticScenarioOverrideImpact }}</td>
+                            <td class="align-middle">{{ item.downturnScenarioOverrideImpact }}</td>
+                            <td class="align-middle">{{ item.resultOverrideImpact }}</td>
+                            <td class="align-middle">{{ item.baseScenarioIPO }}</td>
+                            <td class="align-middle">{{ item.optimisticScenarioIPO }}</td>
+                            <td class="align-middle">{{ item.downturnScenarioIPO }}</td>
+                            <td class="align-middle">{{ item.resultIPO }}</td>
+                            <td class="align-middle">{{ item.baseScenarioOverlay }}</td>
+                            <td class="align-middle">{{ item.optimisticScenarioOverlay }}</td>
+                            <td class="align-middle">{{ item.downturnScenarioOverlay }}</td>
+                            <td class="align-middle">{{ item.resultOverlay }}</td>
+                            <td class="align-middle">{{ item.baseScenarioFinalImpairment }}</td>
+                            <td class="align-middle">{{ item.optimisticScenarioFinalImpairment }}</td>
+                            <td class="align-middle">{{ item.downturnScenarioFinalImpairment }}</td>
+                            <td class="align-middle">{{ item.resultFinalImpairment }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        </div>
+
+
+
+
 <div class="kt-portlet kt-portlet--height-fluid">
 <div class="kt-portlet__head ">
     <div class="kt-portlet__head-label hoverable" (click)="showInputCard = !showInputCard;">
@@ -138,9 +231,10 @@
     </div>
 
     <div class="kt-portlet__head-toolbar">
-
-
-        <!-- *ngIf="(calibration.status == calibrationStatusEnum.Draft || calibration.status == calibrationStatusEnum.Failed) " -->
+        <button *ngIf="loanImpairmentRecovery.length > 0" (click)="exportImpairmentRecovery()" class="btn btn-outline-primary mr-2">
+            <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
+            {{l("DownloadFullData")}}
+        </button>
 
     </div>
 
@@ -187,7 +281,10 @@
     </div>
 
     <div class="kt-portlet__head-toolbar">
-
+        <button *ngIf="loanImpairmentScenarios.length > 0" (click)="exportImpairmentScenarios()" class="btn btn-outline-primary mr-2">
+            <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
+            {{l("DownloadFullData")}}
+        </button>
 
     </div>
 
@@ -242,7 +339,10 @@
     </div>
 
     <div class="kt-portlet__head-toolbar">
-
+        <button *ngIf="calibrationOfKeyParameters.length > 0" (click)="exportKeyParameters()" class="btn btn-outline-primary mr-2">
+            <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
+            {{l("DownloadFullData")}}
+        </button>
 
     </div>
 

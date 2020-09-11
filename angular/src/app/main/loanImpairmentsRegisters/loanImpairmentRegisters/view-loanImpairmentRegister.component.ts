@@ -1,11 +1,12 @@
-﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
-import { ModalDirective } from 'ngx-bootstrap';
-import { LoanImpairmentRegistersServiceProxy, GetLoanImpairmentRegisterForViewDto, LoanImpairmentRegisterDto , CalibrationStatusEnum, CreateOrEditLoanImpairmentRegisterDto, CreateOrEditLoanImpairmentInputParameterDto, CreateOrEditLoanImpairmentHaircutDto, CreateOrEditLoanImpairmentRecoveryDto, CreateOrEditLoanImpairmentScenarioDto, CreateOrEditLoanImpairmentKeyParameterDto, GetLoanImpairmentRegisterForEditOutput, LoanImpairmentApprovalsServiceProxy, LoanImpairmentAuditInfoDto} from '@shared/service-proxies/service-proxies';
+﻿import { LoanImpairmentModelResultsServiceProxy } from './../../../../shared/service-proxies/service-proxies';
+import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
+import { LoanImpairmentRegistersServiceProxy, CalibrationStatusEnum, CreateOrEditLoanImpairmentRegisterDto, CreateOrEditLoanImpairmentInputParameterDto, CreateOrEditLoanImpairmentHaircutDto, CreateOrEditLoanImpairmentRecoveryDto, CreateOrEditLoanImpairmentScenarioDto, CreateOrEditLoanImpairmentKeyParameterDto, GetLoanImpairmentRegisterForEditOutput, LoanImpairmentApprovalsServiceProxy, LoanImpairmentAuditInfoDto, EntityDtoOfGuid, LoanImpairmentScenariosServiceProxy, LoanImpairmentRecoveriesServiceProxy, LoanImpairmentKeyParametersServiceProxy, CreateOrEditLoanImpairmentModelResultDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { Location } from '@angular/common';
 import { ApprovalModalComponent } from '@app/main/eclShared/approve-ecl-modal/approve-ecl-modal.component';
+import { FileDownloadService } from '@shared/utils/file-download.service';
 
 @Component({
     templateUrl: './view-loanImpairmentRegister.component.html',
@@ -26,8 +27,9 @@ export class ViewLoanImpairmentRegisterComponent extends AppComponentBase implem
     showRecoveryCard = true;
     showCalibrationCard = true;
     showScenarioCard = true;
+    showResultCard = true;
     inputParameter = new CreateOrEditLoanImpairmentInputParameterDto();
-
+    results = new Array<CreateOrEditLoanImpairmentModelResultDto>();
     haircutRecovery = new CreateOrEditLoanImpairmentHaircutDto();
     loanImpairmentRecovery = new Array<CreateOrEditLoanImpairmentRecoveryDto>();
     loanImpairmentScenarios = new Array<CreateOrEditLoanImpairmentScenarioDto>();
@@ -39,8 +41,14 @@ export class ViewLoanImpairmentRegisterComponent extends AppComponentBase implem
         injector: Injector,
         private _activatedRoute: ActivatedRoute,
          private _loanImpairmentRegistersServiceProxy: LoanImpairmentRegistersServiceProxy,
+         private _loanImpairmentScenariosServiceProxy: LoanImpairmentScenariosServiceProxy,
+         private _loanImpairmentRecoveriesServiceProxy: LoanImpairmentRecoveriesServiceProxy,
+         private _loanImpairmentKeyParametersServiceProxy: LoanImpairmentKeyParametersServiceProxy,
          private _loanImpairmentApprovalsServiceProxy: LoanImpairmentApprovalsServiceProxy,
-         private _location: Location
+         private _loanImpairmentResultsServiceProxy: LoanImpairmentModelResultsServiceProxy,
+
+         private _location: Location,
+         private _fileDownloadService: FileDownloadService
 
     ) {
         super(injector);
@@ -68,6 +76,11 @@ export class ViewLoanImpairmentRegisterComponent extends AppComponentBase implem
         this.loanImpairmentRecovery = result.loanImpairmentRegister.loanImpairmentRecovery;
         this.loanImpairmentScenarios = result.loanImpairmentRegister.loanImpairmentScenarios;
                 this.active = true;
+                if (this.loanImpairmentRegister.status == CalibrationStatusEnum.Completed) {
+                    this._loanImpairmentResultsServiceProxy.getResults(this.loanImpairmentRegister.id).subscribe(res => {
+                        this.results = res;
+                    });
+                }
                 this._loanImpairmentApprovalsServiceProxy.getLoanImpairmentApprovals(loanImpairmentRegisterId).subscribe(result => {
                     this.auditInfo = result;
                 });
@@ -95,5 +108,29 @@ export class ViewLoanImpairmentRegisterComponent extends AppComponentBase implem
             default:
                 return 'dark';
         }
+    }
+
+    exportImpairmentRecovery(): void {
+        let dto = new EntityDtoOfGuid();
+        dto.id = this.loanImpairmentRegister.id;
+        this._loanImpairmentRecoveriesServiceProxy.exportToExcel(dto).subscribe(result => {
+            this._fileDownloadService.downloadTempFile(result);
+        });
+    }
+
+    exportImpairmentScenarios(): void {
+        let dto = new EntityDtoOfGuid();
+        dto.id = this.loanImpairmentRegister.id;
+        this._loanImpairmentScenariosServiceProxy.exportToExcel(dto).subscribe(result => {
+            this._fileDownloadService.downloadTempFile(result);
+        });
+    }
+
+    exportKeyParameters(): void {
+        let dto = new EntityDtoOfGuid();
+        dto.id = this.loanImpairmentRegister.id;
+        this._loanImpairmentKeyParametersServiceProxy.exportToExcel(dto).subscribe(result => {
+            this._fileDownloadService.downloadTempFile(result);
+        });
     }
 }

@@ -6,6 +6,21 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_LoanImpairmentModelResults = "Pages.LoanImpairmentModelResults";
+        public const string Pages_LoanImpairmentModelResults_Create = "Pages.LoanImpairmentModelResults.Create";
+        public const string Pages_LoanImpairmentModelResults_Edit = "Pages.LoanImpairmentModelResults.Edit";
+        public const string Pages_LoanImpairmentModelResults_Delete = "Pages.LoanImpairmentModelResults.Delete";
+
+        public const string Pages_LoanImpairmentResults = "Pages.LoanImpairmentResults";
+        public const string Pages_LoanImpairmentResults_Create = "Pages.LoanImpairmentResults.Create";
+        public const string Pages_LoanImpairmentResults_Edit = "Pages.LoanImpairmentResults.Edit";
+        public const string Pages_LoanImpairmentResults_Delete = "Pages.LoanImpairmentResults.Delete";
+
+        public const string Pages_LoanImpairmentReults = "Pages.LoanImpairmentReults";
+        public const string Pages_LoanImpairmentReults_Create = "Pages.LoanImpairmentReults.Create";
+        public const string Pages_LoanImpairmentReults_Edit = "Pages.LoanImpairmentReults.Edit";
+        public const string Pages_LoanImpairmentReults_Delete = "Pages.LoanImpairmentReults.Delete";
+
         public const string Pages_LoanImpairmentApprovals = "Pages.LoanImpairmentApprovals";
         public const string Pages_LoanImpairmentApprovals_Create = "Pages.LoanImpairmentApprovals.Create";
         public const string Pages_LoanImpairmentApprovals_Edit = "Pages.LoanImpairmentApprovals.Edit";

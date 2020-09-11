@@ -14,6 +14,7 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.Calibration.Exporting;
 
 namespace TestDemo.LoanImpairmentRecoveries
 {
@@ -21,15 +22,17 @@ namespace TestDemo.LoanImpairmentRecoveries
     public class LoanImpairmentRecoveriesAppService : TestDemoAppServiceBase, ILoanImpairmentRecoveriesAppService
     {
 		 private readonly IRepository<LoanImpairmentRecovery, Guid> _loanImpairmentRecoveryRepository;
-		 
+        private readonly IInputPdCrDrExporter _inputDataExporter;
 
-		  public LoanImpairmentRecoveriesAppService(IRepository<LoanImpairmentRecovery, Guid> loanImpairmentRecoveryRepository ) 
+
+        public LoanImpairmentRecoveriesAppService(IRepository<LoanImpairmentRecovery, Guid> loanImpairmentRecoveryRepository, IInputPdCrDrExporter inputDataExporter) 
 		  {
 			_loanImpairmentRecoveryRepository = loanImpairmentRecoveryRepository;
-			
-		  }
+            _inputDataExporter = inputDataExporter;
 
-		 public async Task<PagedResultDto<GetLoanImpairmentRecoveryForViewDto>> GetAll(GetAllLoanImpairmentRecoveriesInput input)
+        }
+
+        public async Task<PagedResultDto<GetLoanImpairmentRecoveryForViewDto>> GetAll(GetAllLoanImpairmentRecoveriesInput input)
          {
 			
 			var filteredLoanImpairmentRecoveries = _loanImpairmentRecoveryRepository.GetAll()
@@ -105,6 +108,16 @@ namespace TestDemo.LoanImpairmentRecoveries
          public async Task Delete(EntityDto<Guid> input)
          {
             await _loanImpairmentRecoveryRepository.DeleteAsync(input.Id);
-         } 
+         }
+
+        public async Task<FileDto> ExportToExcel(EntityDto<Guid> input)
+        {
+
+            var items = await _loanImpairmentRecoveryRepository.GetAll().Where(x => x.RegisterId == input.Id)
+                                                         .Select(x => ObjectMapper.Map<InputLoanImpairmentRecoveryDto>(x))
+                                                         .ToListAsync();
+
+            return _inputDataExporter.ExportToFile(items);
+        }
     }
 }

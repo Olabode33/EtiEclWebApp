@@ -1,4 +1,7 @@
-﻿using TestDemo.LoanImpairmentApprovals;
+﻿using TestDemo.LoanImpairmentModelResults;
+using TestDemo.LoanImpairmentResults;
+using TestDemo.LoanImpairmentReults;
+using TestDemo.LoanImpairmentApprovals;
 using TestDemo.LoanImpairmentKeyParameters;
 using TestDemo.LoanImpairmentScenarios;
 using TestDemo.LoanImpairmentHaircuts;
@@ -70,6 +73,8 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<LoanImpairmentModelResult> LoanImpairmentModelResults { get; set; }
+
         public virtual DbSet<LoanImpairmentApproval> LoanImpairmentApprovals { get; set; }
 
         public virtual DbSet<LoanImpairmentKeyParameter> LoanImpairmentKeyParameters { get; set; }

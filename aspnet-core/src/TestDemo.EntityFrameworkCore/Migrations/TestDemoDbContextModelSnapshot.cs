@@ -5493,6 +5493,80 @@ namespace TestDemo.Migrations
                     b.ToTable("LoanImpairmentKeyParameters");
                 });
 
+            modelBuilder.Entity("TestDemo.LoanImpairmentModelResults.LoanImpairmentModelResult", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("BaseScenarioExposure");
+
+                    b.Property<double>("BaseScenarioFinalImpairment");
+
+                    b.Property<double>("BaseScenarioIPO");
+
+                    b.Property<double>("BaseScenarioOverlay");
+
+                    b.Property<double>("BaseScenarioOverrideImpact");
+
+                    b.Property<double>("BaseScenarioPreOverlay");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<double>("DownturnScenarioExposure");
+
+                    b.Property<double>("DownturnScenarioFinalImpairment");
+
+                    b.Property<double>("DownturnScenarioIPO");
+
+                    b.Property<double>("DownturnScenarioOverlay");
+
+                    b.Property<double>("DownturnScenarioOverrideImpact");
+
+                    b.Property<double>("DownturnScenarioPreOverlay");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<double>("OptimisticScenarioExposure");
+
+                    b.Property<double>("OptimisticScenarioFinalImpairment");
+
+                    b.Property<double>("OptimisticScenarioIPO");
+
+                    b.Property<double>("OptimisticScenarioOverlay");
+
+                    b.Property<double>("OptimisticScenarioOverrideImpact");
+
+                    b.Property<double>("OptimisticScenarioPreOverlay");
+
+                    b.Property<Guid>("RegisterId");
+
+                    b.Property<double>("ResultFinalImpairment");
+
+                    b.Property<double>("ResultIPO");
+
+                    b.Property<double>("ResultOverlay");
+
+                    b.Property<double>("ResultOverrideImpact");
+
+                    b.Property<double>("ResultPreOverlay");
+
+                    b.Property<double>("ResultsExposure");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LoanImpairmentModelResults");
+                });
+
             modelBuilder.Entity("TestDemo.LoanImpairmentRecoveries.LoanImpairmentRecovery", b =>
                 {
                     b.Property<Guid>("Id")

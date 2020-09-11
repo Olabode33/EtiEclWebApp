@@ -1,6 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>
+  <texts>    <text name="LoanImpairmentModelResults">Loan impairment model results</text>
+    <text name="LoanImpairmentModelResult">Loan impairment model result</text>
+    <text name="CreateNewLoanImpairmentModelResult">Create new loan impairment model result</text>
+    <text name="EditLoanImpairmentModelResult">Edit loan impairment model result</text>
+    <text name="DeleteLoanImpairmentModelResult">Delete loan impairment model result</text>
+    <text name="LoanImpairmentResults">Loan impairment results</text>
+    <text name="LoanImpairmentResult">Loan impairment result</text>
+    <text name="CreateNewLoanImpairmentResult">Create new loan impairment result</text>
+    <text name="EditLoanImpairmentResult">Edit loan impairment result</text>
+    <text name="DeleteLoanImpairmentResult">Delete loan impairment result</text>
+    <text name="LoanImpairmentReults">Loan impairment reults</text>
+    <text name="LoanImpairmentReult">Loan impairment reult</text>
+    <text name="CreateNewLoanImpairmentReult">Create new loan impairment reult</text>
+    <text name="EditLoanImpairmentReult">Edit loan impairment reult</text>
+    <text name="DeleteLoanImpairmentReult">Delete loan impairment reult</text>
+
     
     <text name="ApproveLoanImpairmentApproval">Approve loan impairment</text>
     <text name="LoanImpairmentApprovals">Loan impairment approvals</text>

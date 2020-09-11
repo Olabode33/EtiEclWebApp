@@ -14,6 +14,7 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.Calibration.Exporting;
 
 namespace TestDemo.LoanImpairmentScenarios
 {
@@ -21,15 +22,17 @@ namespace TestDemo.LoanImpairmentScenarios
     public class LoanImpairmentScenariosAppService : TestDemoAppServiceBase, ILoanImpairmentScenariosAppService
     {
 		 private readonly IRepository<LoanImpairmentScenario, Guid> _loanImpairmentScenarioRepository;
-		 
+        private readonly IInputPdCrDrExporter _inputDataExporter;
 
-		  public LoanImpairmentScenariosAppService(IRepository<LoanImpairmentScenario, Guid> loanImpairmentScenarioRepository ) 
+
+        public LoanImpairmentScenariosAppService(IRepository<LoanImpairmentScenario, Guid> loanImpairmentScenarioRepository, IInputPdCrDrExporter inputDataExporter) 
 		  {
 			_loanImpairmentScenarioRepository = loanImpairmentScenarioRepository;
-			
-		  }
+            _inputDataExporter = inputDataExporter;
 
-		 public async Task<PagedResultDto<GetLoanImpairmentScenarioForViewDto>> GetAll(GetAllLoanImpairmentScenariosInput input)
+        }
+
+        public async Task<PagedResultDto<GetLoanImpairmentScenarioForViewDto>> GetAll(GetAllLoanImpairmentScenariosInput input)
          {
 			
 			var filteredLoanImpairmentScenarios = _loanImpairmentScenarioRepository.GetAll()
@@ -105,6 +108,16 @@ namespace TestDemo.LoanImpairmentScenarios
          public async Task Delete(EntityDto<Guid> input)
          {
             await _loanImpairmentScenarioRepository.DeleteAsync(input.Id);
-         } 
+         }
+
+        public async Task<FileDto> ExportToExcel(EntityDto<Guid> input)
+        {
+
+            var items = await _loanImpairmentScenarioRepository.GetAll().Where(x => x.RegisterId == input.Id)
+                                                         .Select(x => ObjectMapper.Map<InputLoanImpairmentScenarioDto>(x))
+                                                         .ToListAsync();
+
+            return _inputDataExporter.ExportToFile(items);
+        }
     }
 }

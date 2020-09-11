@@ -9,6 +9,9 @@ using TestDemo.HoldCoAssetBook.Dtos;
 using TestDemo.HoldCoInterCompanyResults.Dtos;
 using TestDemo.HoldCoResult.Dtos;
 using TestDemo.IVModels.Dtos;
+using TestDemo.LoanImpairmentKeyParameters.Dtos;
+using TestDemo.LoanImpairmentRecoveries.Dtos;
+using TestDemo.LoanImpairmentScenarios.Dtos;
 using TestDemo.ReceivablesCurrentPeriodDates.Dtos;
 using TestDemo.ReceivablesForecasts.Dtos;
 using TestDemo.ReceivablesResults.Dtos;
@@ -421,6 +424,113 @@ namespace TestDemo.Calibration.Exporting
                         sheet.Column(i).AutoFit();
                     }
                 });
+        }
+
+        public FileDto ExportToFile(List<InputLoanImpairmentRecoveryDto> inputDtos)
+        {
+            return CreateExcelPackage(
+                 "ImpairmentRecoveryImport.xlsx",
+                 excelPackage =>
+                 {
+                     var sheet = excelPackage.Workbook.Worksheets.Add(L("ImpairmentRecovery"));
+                     sheet.OutLineApplyStyle = true;
+
+                     AddHeader(
+                         sheet,
+                         "Recovery",
+                         "Cash_Recovery",
+                         "Property",
+                         "Shares",
+                         "Loan_Sale"
+                         );
+
+                     AddObjects(
+                         sheet, 2, inputDtos,
+                         _ => _.Recovery,
+                         _ => _.CashRecovery,
+                         _ => _.Property,
+                         _ => _.Shares,
+                         _ => _.LoanSale
+                         );
+
+                     for (var i = 1; i <= 5; i++)
+                     {
+                         sheet.Column(i).AutoFit();
+                     }
+                 });
+        }
+
+        public FileDto ExportToFile(List<InputLoanImpairmentScenarioDto> inputDtos)
+        {
+            return CreateExcelPackage(
+                "ImpairmentScenarioOptionsImport.xlsx",
+                excelPackage =>
+                {
+                    var sheet = excelPackage.Workbook.Worksheets.Add(L("ImpairmentScenarioOptions"));
+                    sheet.OutLineApplyStyle = true;
+
+                    AddHeader(
+                        sheet,
+                        "Apply_Overrides_Base_Scenario",
+                        "Apply_Overrides_Downturn_Scenario",
+                        "Apply_Overrides_Optimistic_Scenario",
+                        "Base_Scenario",
+                        "Best_Scenario_Overrides_Value",
+                        "Downturn_Scenario_Overrides_Value",
+                        "Optimistic_Scenario",
+                        "Optimistic_Scenario_Overrides_Value",
+                        "Scenario_Option"
+                        );
+
+                    AddObjects(
+                        sheet, 2, inputDtos,
+                        _ => _.ApplyOverridesBaseScenario,
+                        _ => _.ApplyOverridesDownturnScenario,
+                        _ => _.ApplyOverridesOptimisticScenario,
+                        _ => _.BaseScenario,
+                        _ => _.BestScenarioOverridesValue,                  
+                        _ => _.DownturnScenarioOverridesValue,
+                        _ => _.OptimisticScenario,
+                        _ => _.OptimisticScenarioOverridesValue,
+                        _ => _.ScenarioOption
+                        );
+
+                    for (var i = 1; i <= 9; i++)
+                    {
+                        sheet.Column(i).AutoFit();
+                    }
+                });
+        }
+
+        public FileDto ExportToFile(List<InputLoanImpairmentKeyParameterDto> inputDtos)
+        {
+            return CreateExcelPackage(
+                 "CalibrationOfKeyParametersImport.xlsx",
+                 excelPackage =>
+                 {
+                     var sheet = excelPackage.Workbook.Worksheets.Add(L("CalibrationOfKeyParameters"));
+                     sheet.OutLineApplyStyle = true;
+
+                     AddHeader(
+                         sheet,
+                         "Year",
+                         "Expected_Cash_Flow",
+                         "Revised_Cash_Flow"
+                         
+                         );
+
+                     AddObjects(
+                         sheet, 2, inputDtos,
+                         _ => _.Year,
+                         _ => _.ExpectedCashFlow,
+                         _ => _.RevisedCashFlow
+                         );
+
+                     for (var i = 1; i <= 3; i++)
+                     {
+                         sheet.Column(i).AutoFit();
+                     }
+                 });
         }
     }
 }

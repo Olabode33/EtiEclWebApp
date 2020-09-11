@@ -1,4 +1,7 @@
-﻿using TestDemo.LoanImpairmentApprovals.Dtos;
+﻿using TestDemo.LoanImpairmentModelResults.Dtos;
+using TestDemo.LoanImpairmentModelResults;
+using TestDemo.LoanImpairmentResults;
+using TestDemo.LoanImpairmentApprovals.Dtos;
 using TestDemo.LoanImpairmentApprovals;
 using TestDemo.LoanImpairmentKeyParameters.Dtos;
 using TestDemo.LoanImpairmentKeyParameters;
@@ -130,6 +133,8 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditLoanImpairmentModelResultDto, LoanImpairmentModelResult>().ReverseMap();
+            configuration.CreateMap<LoanImpairmentModelResultDto, LoanImpairmentModelResult>().ReverseMap();
             configuration.CreateMap<CreateOrEditLoanImpairmentApprovalDto, LoanImpairmentApproval>().ReverseMap();
             configuration.CreateMap<LoanImpairmentApprovalDto, LoanImpairmentApproval>().ReverseMap();
             configuration.CreateMap<CreateOrEditLoanImpairmentKeyParameterDto, LoanImpairmentKeyParameter>().ReverseMap();

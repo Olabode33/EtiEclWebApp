@@ -24,18 +24,21 @@
     <Compile Remove="EclLibrary\Investment\Calculations\**" />
     <Compile Remove="EclLibrary\Investment\Utils\**" />
     <Compile Remove="EclLibrary\WholesaleEngine\**" />
+    <Compile Remove="LoanImpairmentResults\**" />
     <EmbeddedResource Remove="EclLibrary\BaseEngine\EadInput\**" />
     <EmbeddedResource Remove="EclLibrary\BaseEngine\Framework\**" />
     <EmbeddedResource Remove="EclLibrary\BaseEngine\LgdInput\**" />
     <EmbeddedResource Remove="EclLibrary\Investment\Calculations\**" />
     <EmbeddedResource Remove="EclLibrary\Investment\Utils\**" />
     <EmbeddedResource Remove="EclLibrary\WholesaleEngine\**" />
+    <EmbeddedResource Remove="LoanImpairmentResults\**" />
     <None Remove="EclLibrary\BaseEngine\EadInput\**" />
     <None Remove="EclLibrary\BaseEngine\Framework\**" />
     <None Remove="EclLibrary\BaseEngine\LgdInput\**" />
     <None Remove="EclLibrary\Investment\Calculations\**" />
     <None Remove="EclLibrary\Investment\Utils\**" />
     <None Remove="EclLibrary\WholesaleEngine\**" />
+    <None Remove="LoanImpairmentResults\**" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ExcelFinancialFunctions" Version="2.4.1" />
