@@ -1,3 +1,4 @@
+import { CreateOrEditLoanImpairmentRegisterDto, LoanImpairmentRegistersServiceProxy } from './../../../../shared/service-proxies/service-proxies';
 import { Component, ViewChild, Injector, Output, EventEmitter, ViewEncapsulation, Input } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { GeneralStatusEnum, CalibrationStatusEnum, HoldCoRegistersServiceProxy, CreateOrEditHoldCoRegisterApprovalDto, CreateOrEditHoldCoRegisterDto, CreateOrEditReceivablesRegisterDto, ReceivablesRegistersServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -27,6 +28,8 @@ export class ApproveIvmodelModalComponent extends AppComponentBase {
 
     @Input() holdCoRegister: CreateOrEditHoldCoRegisterDto;
     @Input() receivablesRegister: CreateOrEditReceivablesRegisterDto;
+    @Input() loanImpairmentRegister: CreateOrEditLoanImpairmentRegisterDto;
+
 
     @Output() approved: EventEmitter<any> = new EventEmitter<any>();
     active = false;
@@ -44,7 +47,9 @@ export class ApproveIvmodelModalComponent extends AppComponentBase {
     constructor(
         injector: Injector,
         private _holdCoRegistersServiceProxy: HoldCoRegistersServiceProxy,
-        private _receivablesRegistersServiceProxy: ReceivablesRegistersServiceProxy
+        private _receivablesRegistersServiceProxy: ReceivablesRegistersServiceProxy,
+        private _loanImpairmentRegistersServiceProxy: LoanImpairmentRegistersServiceProxy
+
 
     ) {
         super(injector);
@@ -81,6 +86,19 @@ export class ApproveIvmodelModalComponent extends AppComponentBase {
                     });
 
                 }
+
+                else if (this.loanImpairmentRegister) {
+                    this.dataSource.registerId = this.loanImpairmentRegister.id;
+                    this._loanImpairmentRegistersServiceProxy
+                    .approveRejectModel(this.dataSource)
+                    .subscribe(() => {
+                        this.notify.success(this.l("ApprovedSuccessfully"));
+                        this.approved.emit(this.dataSource);
+                        this.close();
+                        this.approving = false;
+                    });
+                }
+
                 else {
                     this.dataSource.registerId = this.receivablesRegister.id;
                     this._receivablesRegistersServiceProxy
@@ -99,7 +117,7 @@ export class ApproveIvmodelModalComponent extends AppComponentBase {
     reject(): void {
         this.message.confirm('', (isConfirmed) => {
             if (isConfirmed) {
-                this.approving = true;
+                this.rejecting = true;
                 this.dataSource.status = CalibrationStatusEnum.Rejected;
                 if (this.holdCoRegister) {
                     this.dataSource.registrationId = this.holdCoRegister.id;
@@ -109,7 +127,18 @@ export class ApproveIvmodelModalComponent extends AppComponentBase {
                         this.notify.success(this.l("RejectedSuccessfully"));
                         this.approved.emit(this.dataSource);
                         this.close();
-                        this.approving = false;
+                        this.rejecting = false;
+                    });
+                }
+                else if (this.loanImpairmentRegister) {
+                    this.dataSource.registerId = this.loanImpairmentRegister.id;
+                    this._loanImpairmentRegistersServiceProxy
+                    .approveRejectModel(this.dataSource)
+                    .subscribe(() => {
+                        this.notify.success(this.l("RejectedSuccessfully"));
+                        this.approved.emit(this.dataSource);
+                        this.close();
+                        this.rejecting = false;
                     });
                 }
                 else {
@@ -120,7 +149,7 @@ export class ApproveIvmodelModalComponent extends AppComponentBase {
                         this.notify.success(this.l("RejectedSuccessfully"));
                         this.approved.emit(this.dataSource);
                         this.close();
-                        this.approving = false;
+                        this.rejecting = false;
                     });
                 }
 

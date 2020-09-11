@@ -6,6 +6,43 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_LoanImpairmentApprovals = "Pages.LoanImpairmentApprovals";
+        public const string Pages_LoanImpairmentApprovals_Create = "Pages.LoanImpairmentApprovals.Create";
+        public const string Pages_LoanImpairmentApprovals_Edit = "Pages.LoanImpairmentApprovals.Edit";
+        public const string Pages_LoanImpairmentApprovals_Delete = "Pages.LoanImpairmentApprovals.Delete";
+
+        public const string Pages_LoanImpairmentKeyParameters = "Pages.LoanImpairmentKeyParameters";
+        public const string Pages_LoanImpairmentKeyParameters_Create = "Pages.LoanImpairmentKeyParameters.Create";
+        public const string Pages_LoanImpairmentKeyParameters_Edit = "Pages.LoanImpairmentKeyParameters.Edit";
+        public const string Pages_LoanImpairmentKeyParameters_Delete = "Pages.LoanImpairmentKeyParameters.Delete";
+
+        public const string Pages_LoanImpairmentScenarios = "Pages.LoanImpairmentScenarios";
+        public const string Pages_LoanImpairmentScenarios_Create = "Pages.LoanImpairmentScenarios.Create";
+        public const string Pages_LoanImpairmentScenarios_Edit = "Pages.LoanImpairmentScenarios.Edit";
+        public const string Pages_LoanImpairmentScenarios_Delete = "Pages.LoanImpairmentScenarios.Delete";
+
+        public const string Pages_LoanImpairmentHaircuts = "Pages.LoanImpairmentHaircuts";
+        public const string Pages_LoanImpairmentHaircuts_Create = "Pages.LoanImpairmentHaircuts.Create";
+        public const string Pages_LoanImpairmentHaircuts_Edit = "Pages.LoanImpairmentHaircuts.Edit";
+        public const string Pages_LoanImpairmentHaircuts_Delete = "Pages.LoanImpairmentHaircuts.Delete";
+
+        public const string Pages_LoanImpairmentRecoveries = "Pages.LoanImpairmentRecoveries";
+        public const string Pages_LoanImpairmentRecoveries_Create = "Pages.LoanImpairmentRecoveries.Create";
+        public const string Pages_LoanImpairmentRecoveries_Edit = "Pages.LoanImpairmentRecoveries.Edit";
+        public const string Pages_LoanImpairmentRecoveries_Delete = "Pages.LoanImpairmentRecoveries.Delete";
+
+        public const string Pages_LoanImpairmentInputParameters = "Pages.LoanImpairmentInputParameters";
+        public const string Pages_LoanImpairmentInputParameters_Create = "Pages.LoanImpairmentInputParameters.Create";
+        public const string Pages_LoanImpairmentInputParameters_Edit = "Pages.LoanImpairmentInputParameters.Edit";
+        public const string Pages_LoanImpairmentInputParameters_Delete = "Pages.LoanImpairmentInputParameters.Delete";
+
+        public const string Pages_LoanImpairmentRegisters = "Pages.LoanImpairmentRegisters";
+        public const string Pages_LoanImpairmentRegisters_Create = "Pages.LoanImpairmentRegisters.Create";
+        public const string Pages_LoanImpairmentRegisters_Edit = "Pages.LoanImpairmentRegisters.Edit";
+        public const string Pages_LoanImpairmentRegisters_Delete = "Pages.LoanImpairmentRegisters.Delete";
+        public const string Pages_LoanImpairmentRegisters_Approve = "Pages.LoanImpairmentRegisters.Approve";
+
+
         public const string Pages_ReceivablesApprovals = "Pages.ReceivablesApprovals";
         public const string Pages_ReceivablesApprovals_Create = "Pages.ReceivablesApprovals.Create";
         public const string Pages_ReceivablesApprovals_Edit = "Pages.ReceivablesApprovals.Edit";

@@ -5361,6 +5361,244 @@ namespace TestDemo.Migrations
                     b.ToTable("CalibrationResultLgds");
                 });
 
+            modelBuilder.Entity("TestDemo.LoanImpairmentApprovals.LoanImpairmentApproval", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<Guid>("RegisterId");
+
+                    b.Property<string>("ReviewComment");
+
+                    b.Property<long>("ReviewedByUserId");
+
+                    b.Property<DateTime>("ReviewedDate");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LoanImpairmentApprovals");
+                });
+
+            modelBuilder.Entity("TestDemo.LoanImpairmentHaircuts.LoanImpairmentHaircut", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("CashRecovery");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<double>("LoanSale");
+
+                    b.Property<double>("Property");
+
+                    b.Property<Guid>("RegisterId");
+
+                    b.Property<double>("Shares");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LoanImpairmentHaircuts");
+                });
+
+            modelBuilder.Entity("TestDemo.LoanImpairmentInputParameters.LoanImpairmentInputParameter", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("CostOfCapital");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<double>("LoanAmount");
+
+                    b.Property<Guid>("RegisterId");
+
+                    b.Property<DateTime>("ReportingDate");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LoanImpairmentInputParameters");
+                });
+
+            modelBuilder.Entity("TestDemo.LoanImpairmentKeyParameters.LoanImpairmentKeyParameter", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<double>("ExpectedCashFlow");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<Guid>("RegisterId");
+
+                    b.Property<double>("RevisedCashFlow");
+
+                    b.Property<int>("Year");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LoanImpairmentKeyParameters");
+                });
+
+            modelBuilder.Entity("TestDemo.LoanImpairmentRecoveries.LoanImpairmentRecovery", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("CashRecovery");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<double>("LoanSale");
+
+                    b.Property<double>("Property");
+
+                    b.Property<string>("Recovery");
+
+                    b.Property<Guid>("RegisterId");
+
+                    b.Property<double>("Shares");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LoanImpairmentRecoveries");
+                });
+
+            modelBuilder.Entity("TestDemo.LoanImpairmentScenarios.LoanImpairmentScenario", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ApplyOverridesBaseScenario");
+
+                    b.Property<string>("ApplyOverridesDownturnScenario");
+
+                    b.Property<string>("ApplyOverridesOptimisticScenario");
+
+                    b.Property<double>("BaseScenario");
+
+                    b.Property<double>("BestScenarioOverridesValue");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<double>("DownturnScenarioOverridesValue");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<double>("OptimisticScenario");
+
+                    b.Property<double>("OptimisticScenarioOverridesValue");
+
+                    b.Property<Guid>("RegisterId");
+
+                    b.Property<string>("ScenarioOption");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LoanImpairmentScenarios");
+                });
+
+            modelBuilder.Entity("TestDemo.LoanImpairmentsRegisters.LoanImpairmentRegister", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LoanImpairmentRegisters");
+                });
+
             modelBuilder.Entity("TestDemo.MultiTenancy.Accounting.Invoice", b =>
                 {
                     b.Property<int>("Id")

@@ -1,4 +1,11 @@
-﻿using TestDemo.ReceivablesApprovals;
+﻿using TestDemo.LoanImpairmentApprovals;
+using TestDemo.LoanImpairmentKeyParameters;
+using TestDemo.LoanImpairmentScenarios;
+using TestDemo.LoanImpairmentHaircuts;
+using TestDemo.LoanImpairmentRecoveries;
+using TestDemo.LoanImpairmentInputParameters;
+using TestDemo.LoanImpairmentsRegisters;
+using TestDemo.ReceivablesApprovals;
 using TestDemo.ReceivablesResults;
 using TestDemo.ReceivablesForecasts;
 using TestDemo.ReceivablesCurrentPeriodDates;
@@ -63,6 +70,20 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<LoanImpairmentApproval> LoanImpairmentApprovals { get; set; }
+
+        public virtual DbSet<LoanImpairmentKeyParameter> LoanImpairmentKeyParameters { get; set; }
+
+        public virtual DbSet<LoanImpairmentScenario> LoanImpairmentScenarios { get; set; }
+
+        public virtual DbSet<LoanImpairmentHaircut> LoanImpairmentHaircuts { get; set; }
+
+        public virtual DbSet<LoanImpairmentRecovery> LoanImpairmentRecoveries { get; set; }
+
+        public virtual DbSet<LoanImpairmentInputParameter> LoanImpairmentInputParameters { get; set; }
+
+        public virtual DbSet<LoanImpairmentRegister> LoanImpairmentRegisters { get; set; }
+
         public virtual DbSet<ReceivablesApproval> ReceivablesApprovals { get; set; }
 
         public virtual DbSet<ReceivablesResult> ReceivablesResults { get; set; }

@@ -33,6 +33,8 @@ export class AppNavigationService {
             new AppMenuItem('IV Models', 'Pages.IVModels', 'fas fa-spa', '', [
                 new AppMenuItem('HoldCoIntercompany', 'Pages.HoldCoRegisters', 'flaticon-more', '/app/main/ivModels/holdCoRegisters'),
                 new AppMenuItem('ETIReceivables', 'Pages.ReceivablesRegisters', 'flaticon-more', '/app/main/receivablesRegisters/receivablesRegisters'),
+                new AppMenuItem('LoanImpairmentRegisters', 'Pages.LoanImpairmentRegisters', 'flaticon-more', '/app/main/loanImpairmentsRegisters/loanImpairmentRegisters'),
+
             ]),
             new AppMenuItem('Assumptions', 'Pages.Assumption.Affiliates', 'fa fa-list-ul', '/app/main/assumption/affiliates'),
             new AppMenuItem('ECL', 'Pages.EclView', 'fa fa-suitcase', '/app/main/ecl'),
@@ -44,10 +46,14 @@ export class AppNavigationService {
                 new AppMenuItem('OverrideTypes', 'Pages.Configurations', 'flaticon-more', '/app/main/eclConfig/overrideTypes'),
             ]),
 
+
+            
+            new AppMenuItem('LoanImpairmentScenarios', 'Pages.LoanImpairmentScenarios', 'flaticon-more', '/app/main/loanImpairmentScenarios/loanImpairmentScenarios'),
              new AppMenuItem('Administration', '', 'fa fa-cogs', '', [
                 new AppMenuItem('OrganizationUnits', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),
                 new AppMenuItem('Users', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
+
                 new AppMenuItem('Languages', 'Pages.Administration.Languages', 'flaticon-tabs', '/app/admin/languages'),
                 new AppMenuItem('AuditLogs', 'Pages.Administration.AuditLogs', 'flaticon-folder-1', '/app/admin/auditLogs'),
                 new AppMenuItem('Maintenance', 'Pages.Administration.Host.Maintenance', 'flaticon-lock', '/app/admin/maintenance'),

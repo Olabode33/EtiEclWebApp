@@ -1,4 +1,18 @@
-﻿using TestDemo.ReceivablesApprovals.Dtos;
+﻿using TestDemo.LoanImpairmentApprovals.Dtos;
+using TestDemo.LoanImpairmentApprovals;
+using TestDemo.LoanImpairmentKeyParameters.Dtos;
+using TestDemo.LoanImpairmentKeyParameters;
+using TestDemo.LoanImpairmentScenarios.Dtos;
+using TestDemo.LoanImpairmentScenarios;
+using TestDemo.LoanImpairmentHaircuts.Dtos;
+using TestDemo.LoanImpairmentHaircuts;
+using TestDemo.LoanImpairmentRecoveries.Dtos;
+using TestDemo.LoanImpairmentRecoveries;
+using TestDemo.LoanImpairmentInputParameters.Dtos;
+using TestDemo.LoanImpairmentInputParameters;
+using TestDemo.LoanImpairmentsRegisters.Dtos;
+using TestDemo.LoanImpairmentsRegisters;
+using TestDemo.ReceivablesApprovals.Dtos;
 using TestDemo.ReceivablesApprovals;
 using TestDemo.ReceivablesResults.Dtos;
 using TestDemo.ReceivablesResults;
@@ -116,6 +130,20 @@ namespace TestDemo
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditLoanImpairmentApprovalDto, LoanImpairmentApproval>().ReverseMap();
+            configuration.CreateMap<LoanImpairmentApprovalDto, LoanImpairmentApproval>().ReverseMap();
+            configuration.CreateMap<CreateOrEditLoanImpairmentKeyParameterDto, LoanImpairmentKeyParameter>().ReverseMap();
+            configuration.CreateMap<LoanImpairmentKeyParameterDto, LoanImpairmentKeyParameter>().ReverseMap();
+            configuration.CreateMap<CreateOrEditLoanImpairmentScenarioDto, LoanImpairmentScenario>().ReverseMap();
+            configuration.CreateMap<LoanImpairmentScenarioDto, LoanImpairmentScenario>().ReverseMap();
+            configuration.CreateMap<CreateOrEditLoanImpairmentHaircutDto, LoanImpairmentHaircut>().ReverseMap();
+            configuration.CreateMap<LoanImpairmentHaircutDto, LoanImpairmentHaircut>().ReverseMap();
+            configuration.CreateMap<CreateOrEditLoanImpairmentRecoveryDto, LoanImpairmentRecovery>().ReverseMap();
+            configuration.CreateMap<LoanImpairmentRecoveryDto, LoanImpairmentRecovery>().ReverseMap();
+            configuration.CreateMap<CreateOrEditLoanImpairmentInputParameterDto, LoanImpairmentInputParameter>().ReverseMap();
+            configuration.CreateMap<LoanImpairmentInputParameterDto, LoanImpairmentInputParameter>().ReverseMap();
+            configuration.CreateMap<CreateOrEditLoanImpairmentRegisterDto, LoanImpairmentRegister>().ReverseMap();
+            configuration.CreateMap<LoanImpairmentRegisterDto, LoanImpairmentRegister>().ReverseMap();
             configuration.CreateMap<CreateOrEditReceivablesApprovalDto, ReceivablesApproval>().ReverseMap();
             configuration.CreateMap<ReceivablesApprovalDto, ReceivablesApproval>().ReverseMap();
             configuration.CreateMap<CreateOrEditReceivablesResultDto, ReceivablesResult>().ReverseMap();

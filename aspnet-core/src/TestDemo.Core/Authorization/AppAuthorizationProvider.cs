@@ -30,6 +30,56 @@ namespace TestDemo.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var loanImpairmentApprovals = pages.CreateChildPermission(AppPermissions.Pages_LoanImpairmentApprovals, L("LoanImpairmentApprovals"));
+            loanImpairmentApprovals.CreateChildPermission(AppPermissions.Pages_LoanImpairmentApprovals_Create, L("CreateNewLoanImpairmentApproval"));
+            loanImpairmentApprovals.CreateChildPermission(AppPermissions.Pages_LoanImpairmentApprovals_Edit, L("EditLoanImpairmentApproval"));
+            loanImpairmentApprovals.CreateChildPermission(AppPermissions.Pages_LoanImpairmentApprovals_Delete, L("DeleteLoanImpairmentApproval"));
+
+
+
+            var loanImpairmentKeyParameters = pages.CreateChildPermission(AppPermissions.Pages_LoanImpairmentKeyParameters, L("LoanImpairmentKeyParameters"));
+            loanImpairmentKeyParameters.CreateChildPermission(AppPermissions.Pages_LoanImpairmentKeyParameters_Create, L("CreateNewLoanImpairmentKeyParameter"));
+            loanImpairmentKeyParameters.CreateChildPermission(AppPermissions.Pages_LoanImpairmentKeyParameters_Edit, L("EditLoanImpairmentKeyParameter"));
+            loanImpairmentKeyParameters.CreateChildPermission(AppPermissions.Pages_LoanImpairmentKeyParameters_Delete, L("DeleteLoanImpairmentKeyParameter"));
+
+
+
+            var loanImpairmentScenarios = pages.CreateChildPermission(AppPermissions.Pages_LoanImpairmentScenarios, L("LoanImpairmentScenarios"));
+            loanImpairmentScenarios.CreateChildPermission(AppPermissions.Pages_LoanImpairmentScenarios_Create, L("CreateNewLoanImpairmentScenario"));
+            loanImpairmentScenarios.CreateChildPermission(AppPermissions.Pages_LoanImpairmentScenarios_Edit, L("EditLoanImpairmentScenario"));
+            loanImpairmentScenarios.CreateChildPermission(AppPermissions.Pages_LoanImpairmentScenarios_Delete, L("DeleteLoanImpairmentScenario"));
+
+
+
+            var loanImpairmentHaircuts = pages.CreateChildPermission(AppPermissions.Pages_LoanImpairmentHaircuts, L("LoanImpairmentHaircuts"));
+            loanImpairmentHaircuts.CreateChildPermission(AppPermissions.Pages_LoanImpairmentHaircuts_Create, L("CreateNewLoanImpairmentHaircut"));
+            loanImpairmentHaircuts.CreateChildPermission(AppPermissions.Pages_LoanImpairmentHaircuts_Edit, L("EditLoanImpairmentHaircut"));
+            loanImpairmentHaircuts.CreateChildPermission(AppPermissions.Pages_LoanImpairmentHaircuts_Delete, L("DeleteLoanImpairmentHaircut"));
+
+
+
+            var loanImpairmentRecoveries = pages.CreateChildPermission(AppPermissions.Pages_LoanImpairmentRecoveries, L("LoanImpairmentRecoveries"));
+            loanImpairmentRecoveries.CreateChildPermission(AppPermissions.Pages_LoanImpairmentRecoveries_Create, L("CreateNewLoanImpairmentRecovery"));
+            loanImpairmentRecoveries.CreateChildPermission(AppPermissions.Pages_LoanImpairmentRecoveries_Edit, L("EditLoanImpairmentRecovery"));
+            loanImpairmentRecoveries.CreateChildPermission(AppPermissions.Pages_LoanImpairmentRecoveries_Delete, L("DeleteLoanImpairmentRecovery"));
+
+
+
+            var loanImpairmentInputParameters = pages.CreateChildPermission(AppPermissions.Pages_LoanImpairmentInputParameters, L("LoanImpairmentInputParameters"));
+            loanImpairmentInputParameters.CreateChildPermission(AppPermissions.Pages_LoanImpairmentInputParameters_Create, L("CreateNewLoanImpairmentInputParameter"));
+            loanImpairmentInputParameters.CreateChildPermission(AppPermissions.Pages_LoanImpairmentInputParameters_Edit, L("EditLoanImpairmentInputParameter"));
+            loanImpairmentInputParameters.CreateChildPermission(AppPermissions.Pages_LoanImpairmentInputParameters_Delete, L("DeleteLoanImpairmentInputParameter"));
+
+
+
+            var loanImpairmentRegisters = pages.CreateChildPermission(AppPermissions.Pages_LoanImpairmentRegisters, L("LoanImpairmentRegisters"));
+            loanImpairmentRegisters.CreateChildPermission(AppPermissions.Pages_LoanImpairmentRegisters_Create, L("CreateNewLoanImpairmentRegister"));
+            loanImpairmentRegisters.CreateChildPermission(AppPermissions.Pages_LoanImpairmentRegisters_Edit, L("EditLoanImpairmentRegister"));
+            loanImpairmentRegisters.CreateChildPermission(AppPermissions.Pages_LoanImpairmentRegisters_Delete, L("DeleteLoanImpairmentRegister"));
+            loanImpairmentApprovals.CreateChildPermission(AppPermissions.Pages_LoanImpairmentRegisters_Approve, L("ApproveLoanImpairmentRegister"));
+
+
+
             var receivablesApprovals = pages.CreateChildPermission(AppPermissions.Pages_ReceivablesApprovals, L("ReceivablesApprovals"));
             receivablesApprovals.CreateChildPermission(AppPermissions.Pages_ReceivablesApprovals_Create, L("CreateNewReceivablesApproval"));
             receivablesApprovals.CreateChildPermission(AppPermissions.Pages_ReceivablesApprovals_Edit, L("EditReceivablesApproval"));
@@ -191,6 +241,7 @@ namespace TestDemo.Authorization
 
             var administration = pages.CreateChildPermission(AppPermissions.Pages_Administration, L("Administration"));
 
+ 
             var roles = administration.CreateChildPermission(AppPermissions.Pages_Administration_Roles, L("Roles"));
             roles.CreateChildPermission(AppPermissions.Pages_Administration_Roles_Create, L("CreatingNewRole"));
             roles.CreateChildPermission(AppPermissions.Pages_Administration_Roles_Edit, L("EditingRole"));

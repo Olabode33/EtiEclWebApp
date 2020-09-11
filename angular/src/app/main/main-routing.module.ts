@@ -1,5 +1,8 @@
 ﻿import { MacroAnalysisComponent } from './calibration/calibrateMacroAnalysis/macroAnalysis.component';
 import { ViewCalibrationEadCcfSummaryComponent } from './calibration/calibrateEadCcfSummary/view-calibrateEadCcfSummary.component';
+import { ViewLoanImpairmentRegisterComponent } from './loanImpairmentsRegisters/loanImpairmentRegisters/view-loanImpairmentRegister.component';
+import { LoanImpairmentRegistersComponent } from './loanImpairmentsRegisters/loanImpairmentRegisters/loanImpairmentRegisters.component';
+import { CreateOrEditLoanImpairmentRegisterComponent } from './loanImpairmentsRegisters/loanImpairmentRegisters/create-or-edit-loanImpairmentRegister.component';
 import { ViewReceivablesRegisterComponent } from './ivModels/receivablesRegisters/view-receivablesRegister.component';
 import { ReceivablesRegistersComponent } from './ivModels/receivablesRegisters/receivablesRegisters.component';
 import { CreateOrEditReceivablesRegisterComponent } from './ivModels/receivablesRegisters/create-or-edit-receivablesRegister.component';
@@ -50,6 +53,9 @@ import { HoldCoResultSummariesComponent } from './ivModels/holdCoResultSummaries
             {
                 path: '',
                 children: [
+                    { path: 'loanImpairmentsRegisters/loanImpairmentRegisters/view', component: ViewLoanImpairmentRegisterComponent, data: { permission: 'Pages.LoanImpairmentRegisters' }  },
+                    { path: 'loanImpairmentsRegisters/loanImpairmentRegisters', component: LoanImpairmentRegistersComponent, data: { permission: 'Pages.LoanImpairmentRegisters' }  },
+                    { path: 'loanImpairmentsRegisters/loanImpairmentRegisters/createOrEdit', component: CreateOrEditLoanImpairmentRegisterComponent, data: { permission: 'Pages.LoanImpairmentRegisters.Create' }  },
                     { path: 'receivablesRegisters/receivablesRegisters/view', component: ViewReceivablesRegisterComponent, data: { permission: 'Pages.ReceivablesRegisters' }  },
                     { path: 'receivablesRegisters/receivablesRegisters', component: ReceivablesRegistersComponent, data: { permission: 'Pages.ReceivablesRegisters' }  },
                     { path: 'receivablesRegisters/receivablesRegisters/createOrEdit', component: CreateOrEditReceivablesRegisterComponent, data: { permission: 'Pages.ReceivablesRegisters.Create' }  },

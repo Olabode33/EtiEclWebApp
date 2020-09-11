@@ -214,10 +214,10 @@
                         <tbody>
                             <tr *ngFor="let item of currentPeriodData">
                                 <td class="align-middle">{{ item.account }}</td>
-                                <td class="align-middle">{{ item.zeroTo90 }}</td>
-                                <td class="align-middle">{{ item.ninetyOneTo180 }}</td>
-                                <td class="align-middle">{{ item.oneEightyOneTo365 }}</td>
-                                <td class="align-middle">{{ item.over365 }}</td>
+                                <td class="align-middle">{{ item.zeroTo90  | number: '1.2-2'}}</td>
+                                <td class="align-middle">{{ item.ninetyOneTo180 | number: '1.2-2' }}</td>
+                                <td class="align-middle">{{ item.oneEightyOneTo365 | number: '1.2-2' }}</td>
+                                <td class="align-middle">{{ item.over365 | number: '1.2-2' }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -285,9 +285,9 @@
                         <tbody>
                             <tr *ngFor="let item of forecastData">
                                 <td class="align-middle">{{ item.period }}</td>
-                                <td class="align-middle">{{ item.optimistic }}</td>
-                                <td class="align-middle">{{ item.base }}</td>
-                                <td class="align-middle">{{ item.downturn }}</td>
+                                <td class="align-middle">{{ item.optimistic | number: '1.2-2' }}</td>
+                                <td class="align-middle">{{ item.base | number: '1.2-2' }}</td>
+                                <td class="align-middle">{{ item.downturn | number: '1.2-2' }}</td>
                             </tr>
                         </tbody>
                     </table>

@@ -1,0 +1,348 @@
+﻿<div [@routerTransition]>
+
+
+
+    <div class="kt-subheader kt-grid__item">
+
+        <div class="kt-subheader__main">
+            <h3 class="kt-subheader__title">
+                <span *ngIf="active && loanImpairmentRegister.id">{{"EditLoanImpairmentRegister" }}</span>
+                <span *ngIf="active && !loanImpairmentRegister.id">{{l("CreateLoanImpairmentRegister")}}</span>
+            </h3>
+            <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+            <div class="kt-subheader__breadcrumbs">
+                <span class="kt-badge kt-badge--inline kt-badge--pill kt-badge--rounded
+                            kt-badge--{{ getStatusLabelClass(loanImpairmentRegister.status) }}">
+                    {{l(statusEnum[loanImpairmentRegister.status])}}
+                </span>
+            </div>
+        </div>
+
+        <div class="kt-subheader__toolbar">
+            <div class="kt-subheader__wrapper">
+
+                <button (click)="approve()" class="btn btn-primary"
+                *ngIf="(loanImpairmentRegister.status == statusEnum.Submitted) && isGranted('Pages.LoanImpairmentRegisters.Approve')">
+                <i class="fa fa-check-double" style="font-size: 1.2rem !important;"></i>
+                {{l("Approve")}}
+            </button>
+
+
+                <button (click)="goBack()" class="btn btn-outline-danger">
+                    <i class="fa fa-reply" style="font-size: 1.2rem !important;"></i>
+                    {{l("GoBack")}}
+                </button>
+
+            </div>
+        </div>
+
+    </div>
+
+
+<div class="kt-content">
+<div class="kt-portlet kt-portlet--height-fluid">
+<div class="kt-portlet__head ">
+    <div class="kt-portlet__head-label hoverable" (click)="showInputCard = !showInputCard;">
+        <h3 class="kt-portlet__head-title">
+            Loan Impairment Input
+        </h3>
+    </div>
+</div>
+
+
+
+<div [hidden]="!showInputCard" class="kt-portlet__body">
+
+    <div class="form-row">
+        <div class="form-group  col-3">
+            <label for="reportingDate">{{l("ReportingDate")}}</label>
+            <input id="reportingDate" class="form-control"
+                [(ngModel)]="inputParameter.reportingDate" disabled name="reportingDate" type="datetime"
+                bsDatepicker />
+
+        </div>
+
+        <div class="form-group col-3">
+            <label for="costOfCapital">{{l("CostOfCapital")}}(%)</label>
+
+            <input type="number" step="0.1" id="costOfCapital" readonly class="form-control" [(ngModel)]="inputParameter.costOfCapital"
+                name="costOfCapital" />
+        </div>
+
+        <div class="form-group col-3">
+            <label for="loanAmount">{{l("LoanAmount")}}</label>
+            <input type="number" step="0.1" id="loanAmount" class="form-control"
+                [(ngModel)]="inputParameter.loanAmount" readonly name="loanAmount" />
+
+        </div>
+    </div>
+
+
+</div>
+</div>
+
+<div class="kt-portlet kt-portlet--height-fluid">
+<div class="kt-portlet__head ">
+    <div class="kt-portlet__head-label hoverable" (click)="showHaircutCard = !showHaircutCard;">
+        <h3 class="kt-portlet__head-title">
+            {{l("HaircutsOnRecovery")}}
+        </h3>
+    </div>
+</div>
+
+
+
+<div [hidden]="!showHaircutCard" class="kt-portlet__body">
+
+    <div class="form-row">
+        <div class="form-group col-3">
+            <label for="cashRecovery">{{l("CashOnRecovery")}}(%)</label>
+
+            <input type="number" step="0.1" id="cashRecovery" readonly class="form-control" [(ngModel)]="haircutRecovery.cashRecovery"
+                name="cashRecovery" />
+        </div>
+
+        <div class="form-group col-3">
+            <label for="property">{{l("Property")}}(%)</label>
+
+            <input type="number" step="0.1" id="property" readonly class="form-control" [(ngModel)]="haircutRecovery.property"
+                name="property" />
+        </div>
+
+        <div class="form-group col-3">
+            <label for="shares">{{l("Shares")}}(%)</label>
+
+            <input type="number" step="0.1" id="shares" readonly class="form-control" [(ngModel)]="haircutRecovery.shares"
+                name="shares" />
+        </div>
+
+        <div class="form-group col-3">
+            <label for="loanSale">{{l("LoanSale")}}(%)</label>
+            <input type="number" step="0.1" id="loanSale" class="form-control"
+                [(ngModel)]="haircutRecovery.loanSale" readonly name="loanSale" />
+
+        </div>
+    </div>
+
+
+</div>
+</div>
+
+
+<div class="kt-portlet kt-portlet--height-fluid">
+<div class="kt-portlet__head ">
+    <div class="kt-portlet__head-label hoverable" (click)="showRecoveryCard = !showRecoveryCard;">
+        <h3 class="kt-portlet__head-title">
+            {{l('LoanImpairmentRecovery')}}
+        </h3>
+    </div>
+
+    <div class="kt-portlet__head-toolbar">
+
+
+        <!-- *ngIf="(calibration.status == calibrationStatusEnum.Draft || calibration.status == calibrationStatusEnum.Failed) " -->
+
+    </div>
+
+</div>
+
+
+
+<div [hidden]="!showRecoveryCard" class="kt-portlet__body">
+
+    <div class="table-responsive">
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>{{l('Recovery')}}</th>
+                    <th>{{l('CashRecovery')}}</th>
+                    <th>{{l('Property')}}</th>
+                    <th>{{l('Shares')}}</th>
+                    <th>{{l('LoanSale')}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of loanImpairmentRecovery">
+                    <td class="align-middle">{{ item.recovery }}</td>
+                    <td class="align-middle">{{ item.cashRecovery | number: '1.2-2' }}</td>
+                    <td class="align-middle">{{ item.property | number: '1.2-2' }}</td>
+                    <td class="align-middle">{{ item.shares | number: '1.2-2' }}</td>
+                    <td class="align-middle">{{ item.loanSale | number: '1.2-2' }}</td>
+
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+</div>
+
+<div class="kt-portlet kt-portlet--height-fluid">
+<div class="kt-portlet__head ">
+    <div class="kt-portlet__head-label hoverable" (click)="showScenarioCard = !showScenarioCard;">
+        <h3 class="kt-portlet__head-title">
+            {{l('LoanImpairmentScenarioOptions')}}
+        </h3>
+    </div>
+
+    <div class="kt-portlet__head-toolbar">
+
+
+    </div>
+
+</div>
+
+
+
+<div [hidden]="!showScenarioCard" class="kt-portlet__body">
+
+    <div class="table-responsive">
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>{{l('ApplyOverridesBaseScenario')}}</th>
+                    <th>{{l('ApplyOverridesDownturnScenario')}}</th>
+                    <th>{{l('ApplyOverridesOptimisticScenario')}}</th>
+                    <th>{{l('BaseScenario')}} (%)</th>
+                    <th>{{l('OptimisticScenario')}} (%)</th>
+                    <th>{{l('BestScenarioOverridesValue')}}</th>
+                    <th>{{l('DownturnScenarioOverridesValue')}}</th>
+                    <th>{{l('OptimisticScenarioOverridesValue')}}</th>
+                    <th>{{l('ScenarioOption')}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of loanImpairmentScenarios">
+                    <td class="align-middle">{{ item.applyOverridesBaseScenario }}</td>
+                    <td class="align-middle">{{ item.applyOverridesDownturnScenario }}</td>
+                    <td class="align-middle">{{ item.applyOverridesOptimisticScenario }}</td>
+                    <td class="align-middle">{{ item.baseScenario }}</td>
+                    <td class="align-middle">{{ item.optimisticScenario }}</td>
+                    <td class="align-middle">{{ item.bestScenarioOverridesValue }}</td>
+                    <td class="align-middle">{{ item.downturnScenarioOverridesValue }}</td>
+                    <td class="align-middle">{{ item.optimisticScenarioOverridesValue }}</td>
+                    <td class="align-middle">{{ item.scenarioOption }}</td>
+
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+</div>
+
+<div class="kt-portlet kt-portlet--height-fluid">
+<div class="kt-portlet__head ">
+    <div class="kt-portlet__head-label hoverable" (click)="showCalibrationCard = !showCalibrationCard;">
+        <h3 class="kt-portlet__head-title">
+            {{l('calibrationOfKeyParameters')}}
+        </h3>
+    </div>
+
+    <div class="kt-portlet__head-toolbar">
+
+
+    </div>
+
+</div>
+
+
+
+<div [hidden]="!showCalibrationCard" class="kt-portlet__body">
+
+    <div class="table-responsive">
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>{{l('Year')}}</th>
+                    <th>{{l('RevisedCashFlow')}}</th>
+                    <th>{{l('ExpectedCashFlow')}}</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of calibrationOfKeyParameters">
+                    <td class="align-middle">{{ item.year }}</td>
+                    <td class="align-middle">{{ item.revisedCashFlow | number: '1.2-2' }}</td>
+                    <td class="align-middle">{{ item.expectedCashFlow | number: '1.2-2' }}</td>
+
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+</div>
+
+<div class="kt-portlet kt-portlet--height-fluid">
+    <div class="kt-portlet__head">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title">
+                {{l('AuditInfo')}}
+            </h3>
+        </div>
+    </div>
+    <div class="kt-portlet__body">
+        <table class="table table-borderless">
+            <tbody>
+                <tr>
+                    <td>{{l('DateCreated')}}:</td>
+                    <td><span class="kt-font-bold">{{auditInfo.dateCreated | momentFormat: 'lll'}}</span></td>
+                    <td>{{l('LastUpdated')}}: </td>
+                    <td><span class="kt-font-bold">{{auditInfo.lastUpdated | momentFormat: 'lll'}}</span></td>
+                </tr>
+                <tr>
+                    <td>{{l('By')}}:</td>
+                    <td><span class="kt-font-bold">{{auditInfo.createdBy}}</span></td>
+                    <td>{{l('By')}}: </td>
+                    <td><span class="kt-font-bold">{{auditInfo.updatedBy}}</span></td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <div class="kt-divider">
+            <span></span>
+            <span>Reviews</span>
+            <span></span>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <td>{{l('Date')}}</td>
+                    <td>{{l('By')}}</td>
+                    <td>{{l('Status')}}</td>
+                    <td>{{l('Comment')}}</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of auditInfo.approvals;">
+                    <td>{{item.reviewedDate | momentFormat: 'lll'}}</td>
+                    <td>{{item.reviewedBy}}</td>
+                    <td>
+                        <span *ngIf="item.status === calibrationStatusEnum.Approved" class="kt-badge kt-badge--bolder kt-badge kt-badge--inline
+                                        kt-badge--unified-success">
+                                        {{l(calibrationStatusEnum[item.status])}}
+                        </span>
+                        <span *ngIf="item.status === calibrationStatusEnum.Rejected" class="kt-badge kt-badge--bolder kt-badge kt-badge--inline
+                                        kt-badge--unified-danger">
+                                        {{l(calibrationStatusEnum[item.status])}}
+                        </span>
+                        <span *ngIf="item.status === calibrationStatusEnum.Submitted" class="kt-badge kt-badge--bolder kt-badge kt-badge--inline
+                                        kt-badge--unified-warning">
+                                        {{l(calibrationStatusEnum[item.status])}}
+                        </span>
+
+                    </td>
+                    <td>{{item.reviewComment}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+<app-approve-ivmodel-modal #approvalModal (approved)="reloadPage()" [loanImpairmentRegister]="loanImpairmentRegister"></app-approve-ivmodel-modal>
+
+</div>

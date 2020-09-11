@@ -3,6 +3,12 @@ import { FrameworkAssumptionsComponent } from './assumptions/_subs/frameworkAssu
 import { ViewAffiliateAssumptionsComponent } from './assumptions/view-affiliateAssumptions/view-affiliateAssumptions.component';
 import { CommonModule } from '@angular/common';
 
+import { ViewLoanImpairmentRegisterComponent } from './loanImpairmentsRegisters/loanImpairmentRegisters/view-loanImpairmentRegister.component';
+
+import { LoanImpairmentRegistersComponent } from './loanImpairmentsRegisters/loanImpairmentRegisters/loanImpairmentRegisters.component';
+import { CreateOrEditLoanImpairmentRegisterComponent } from './loanImpairmentsRegisters/loanImpairmentRegisters/create-or-edit-loanImpairmentRegister.component';
+
+
 import { ReceivablesRegistersComponent } from './ivModels/receivablesRegisters/receivablesRegisters.component';
 import { CreateOrEditReceivablesRegisterComponent } from './ivModels/receivablesRegisters/create-or-edit-receivablesRegister.component';
 
@@ -150,6 +156,10 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+		ViewLoanImpairmentRegisterComponent,
+		LoanImpairmentRegistersComponent,
+
+		CreateOrEditLoanImpairmentRegisterComponent,
 		ReceivablesRegistersComponent,
 
 		ViewReceivablesRegisterComponent,

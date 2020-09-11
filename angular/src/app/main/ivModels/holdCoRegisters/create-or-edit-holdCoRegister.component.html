@@ -279,13 +279,13 @@
 
                                 <td class="align-middle">{{ item.purchaseDateCreditRating }}</td>
                                 <td class="align-middle">{{ item.currentCreditRating }}</td>
-                                <td class="align-middle">{{ item.nominalAmountACY }}</td>
-                                <td class="align-middle">{{ item.nominalAmountLCY }}</td>
+                                <td class="align-middle">{{ item.nominalAmountACY | number: '1.2-2' }}</td>
+                                <td class="align-middle">{{ item.nominalAmountLCY | number: '1.2-2' }}</td>
                                 <td class="align-middle">{{ item.principalAmortisation }}</td>
                                 <td class="align-middle">{{ item.principalRepaymentTerms }}</td>
                                 <td class="align-middle">{{ item.interestRepaymentTerms }}</td>
-                                <td class="align-middle">{{ item.outstandingBalanceACY }}</td>
-                                <td class="align-middle">{{ item.outstandingBalanceLCY }}</td>
+                                <td class="align-middle">{{ item.outstandingBalanceACY | number: '1.2-2' }}</td>
+                                <td class="align-middle">{{ item.outstandingBalanceLCY | number: '1.2-2' }}</td>
                                 <td class="align-middle">{{ item.coupon }}</td>
                                 <td class="align-middle">{{ item.eir }}</td>
                                 <td class="align-middle">{{ item.loanOriginationDate }}</td>
