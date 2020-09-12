@@ -202,7 +202,14 @@ namespace TestDemo.LoanImpairmentsRegisters
             await _loanImpairmentHaircutRepository.DeleteAsync(a => a.RegisterId == input.Id);
         }
 
-        public async Task ApproveRejectModel(CreateOrEditLoanImpairmentApprovalDto input)
+        public async Task Rerun(CreateOrEditLoanImpairmentRegisterDto input)
+        {
+            input.Status = CalibrationStatusEnum.QueuedForRerun;
+            var loanImpairmentRegister = await _loanImpairmentRegisterRepository.FirstOrDefaultAsync((Guid)input.Id);
+            ObjectMapper.Map(input, loanImpairmentRegister);
+        }
+
+            public async Task ApproveRejectModel(CreateOrEditLoanImpairmentApprovalDto input)
         {
             var reg = await _loanImpairmentRegisterRepository.FirstOrDefaultAsync(input.RegisterId);
 

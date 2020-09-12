@@ -2,7 +2,7 @@
 import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
 import { LoanImpairmentRegistersServiceProxy, CalibrationStatusEnum, CreateOrEditLoanImpairmentRegisterDto, CreateOrEditLoanImpairmentInputParameterDto, CreateOrEditLoanImpairmentHaircutDto, CreateOrEditLoanImpairmentRecoveryDto, CreateOrEditLoanImpairmentScenarioDto, CreateOrEditLoanImpairmentKeyParameterDto, GetLoanImpairmentRegisterForEditOutput, LoanImpairmentApprovalsServiceProxy, LoanImpairmentAuditInfoDto, EntityDtoOfGuid, LoanImpairmentScenariosServiceProxy, LoanImpairmentRecoveriesServiceProxy, LoanImpairmentKeyParametersServiceProxy, CreateOrEditLoanImpairmentModelResultDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { Location } from '@angular/common';
 import { ApprovalModalComponent } from '@app/main/eclShared/approve-ecl-modal/approve-ecl-modal.component';
@@ -46,6 +46,7 @@ export class ViewLoanImpairmentRegisterComponent extends AppComponentBase implem
          private _loanImpairmentKeyParametersServiceProxy: LoanImpairmentKeyParametersServiceProxy,
          private _loanImpairmentApprovalsServiceProxy: LoanImpairmentApprovalsServiceProxy,
          private _loanImpairmentResultsServiceProxy: LoanImpairmentModelResultsServiceProxy,
+         private _router: Router,
 
          private _location: Location,
          private _fileDownloadService: FileDownloadService
@@ -131,6 +132,22 @@ export class ViewLoanImpairmentRegisterComponent extends AppComponentBase implem
         dto.id = this.loanImpairmentRegister.id;
         this._loanImpairmentKeyParametersServiceProxy.exportToExcel(dto).subscribe(result => {
             this._fileDownloadService.downloadTempFile(result);
+        });
+    }
+
+    exportResult() {
+        let dto = new EntityDtoOfGuid();
+        dto.id = this.loanImpairmentRegister.id;
+        this._loanImpairmentResultsServiceProxy.exportToExcel(dto).subscribe(result => {
+            this._fileDownloadService.downloadTempFile(result);
+        });
+    }
+
+    rerun() {
+        this._loanImpairmentRegistersServiceProxy.rerun(this.loanImpairmentRegister).subscribe(() => {
+            this.notify.success(this.l('Successful'));
+            this._router.navigate( ['/app/main/loanImpairmentsRegisters/loanImpairmentRegisters']);
+
         });
     }
 }

@@ -10,6 +10,7 @@ using TestDemo.HoldCoInterCompanyResults.Dtos;
 using TestDemo.HoldCoResult.Dtos;
 using TestDemo.IVModels.Dtos;
 using TestDemo.LoanImpairmentKeyParameters.Dtos;
+using TestDemo.LoanImpairmentModelResults.Dtos;
 using TestDemo.LoanImpairmentRecoveries.Dtos;
 using TestDemo.LoanImpairmentScenarios.Dtos;
 using TestDemo.ReceivablesCurrentPeriodDates.Dtos;
@@ -531,6 +532,79 @@ namespace TestDemo.Calibration.Exporting
                          sheet.Column(i).AutoFit();
                      }
                  });
+        }
+
+        public FileDto ExportToFile(List<InputLoanImpairmentModelResultDto> inputDtos)
+        {
+            return CreateExcelPackage(
+                "ResultsImport.xlsx",
+                excelPackage =>
+                {
+                    var sheet = excelPackage.Workbook.Worksheets.Add(L("LoanImpairmentModelResult"));
+                    sheet.OutLineApplyStyle = true;
+
+                    AddHeader(
+                        sheet,
+                        "BaseScenarioExposure",
+                        "OptimisticScenarioExposure",
+                        "DownturnScenarioExposure",
+                        "WeightedECLResultExposure",
+                        "BestScenarioPreOverlay",
+                        "OptimisticScenarioPreOverlay",
+                        "DownturnScenarioPreOverlay",
+                        "WeightedECLResultPreOverlay",
+                        "BaseScenarioOverrideImpact",
+                        "OptimisticScenarioOverrideImpact",
+                        "DownturnScenarioOverrideImpact",
+                        "WeightedECLResultOverrideImpact",
+                        "BaseScenarioImpairmentPostOverride",
+                        "OptimisticScenarioImpairmentPostOverride",
+                        "DownturnScenarioImpairmentPostOverride",
+                        "WeightedECLResultImpairmentPostOverride",
+                        "BaseScenarioOverlay",
+                        "OptimisticScenarioOverlay",
+                        "DownturnScenarioOverlay",
+                        "WeightedECLResultOverlay",
+                        "BaseScenarioFinalImpairment",
+                        "OptimisticScenarioFinalImpairnment",
+                        "DownturnScenarioFinalImpairment",
+                        "WeightedECLResultFinalImpairment"
+
+                        );
+
+                    AddObjects(
+                        sheet, 2, inputDtos,
+                        _ => _.BaseScenarioExposure,
+                        _ => _.OptimisticScenarioExposure,
+                        _ => _.DownturnScenarioExposure,
+                        _ => _.ResultsExposure,
+                        _ => _.BaseScenarioPreOverlay,
+                        _ => _.OptimisticScenarioPreOverlay,
+                        _ => _.DownturnScenarioPreOverlay,
+                        _ => _.ResultPreOverlay,
+                        _ => _.BaseScenarioOverrideImpact,
+                        _ => _.OptimisticScenarioOverrideImpact,
+                        _ => _.DownturnScenarioOverrideImpact,
+                        _ => _.ResultOverrideImpact,
+                        _ => _.BaseScenarioIPO,
+                        _ => _.OptimisticScenarioIPO,
+                        _ => _.DownturnScenarioIPO,
+                        _ => _.ResultIPO,
+                        _ => _.BaseScenarioOverlay,
+                        _ => _.OptimisticScenarioOverlay,
+                        _ => _.DownturnScenarioOverlay,
+                        _ => _.ResultOverlay,
+                        _ => _.BaseScenarioFinalImpairment,
+                        _ => _.OptimisticScenarioFinalImpairment,
+                        _ => _.DownturnScenarioFinalImpairment,
+                        _ => _.ResultFinalImpairment
+                        );
+
+                    for (var i = 1; i <= 3; i++)
+                    {
+                        sheet.Column(i).AutoFit();
+                    }
+                });
         }
     }
 }

@@ -50,7 +50,12 @@
             </div>
 
             <div class="kt-portlet__head-toolbar">
-                <button *ngIf="results.length > 0" (click)="exportImpairmentScenarios()" class="btn btn-outline-primary mr-2">
+                <button *ngIf="results.length > 0" (click)="rerun()" class="btn btn-outline-primary mr-2">
+                    <i class="fas fa-redo" style="font-size: 1.2rem !important;"></i>
+                    {{l("Rerun")}}
+                </button>
+
+                <button *ngIf="results.length > 0" (click)="exportResult()" class="btn btn-outline-primary mr-2">
                     <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
                     {{l("DownloadFullData")}}
                 </button>
@@ -72,7 +77,7 @@
                             <th>{{l('OptimisticScenarioExposure')}}</th>
                             <th>{{l('DownturnScenarioExposure')}}</th>
                             <th>{{l('WeightedECLResultExposure')}}</th>
-                            <th>{{l('BestScenarioPreOverlay')}}</th>
+                            <th>{{l('BaseScenarioPreOverlay')}}</th>
                             <th>{{l('OptimisticScenarioPreOverlay')}}</th>
                             <th>{{l('DownturnScenarioPreOverlay')}}</th>
                             <th>{{l('WeightedECLResultPreOverlay')}}</th>
@@ -304,7 +309,7 @@
                     <th>{{l('ApplyOverridesOptimisticScenario')}}</th>
                     <th>{{l('BaseScenario')}} (%)</th>
                     <th>{{l('OptimisticScenario')}} (%)</th>
-                    <th>{{l('BestScenarioOverridesValue')}}</th>
+                    <th>{{l('BaseScenarioOverridesValue')}}</th>
                     <th>{{l('DownturnScenarioOverridesValue')}}</th>
                     <th>{{l('OptimisticScenarioOverridesValue')}}</th>
                     <th>{{l('ScenarioOption')}}</th>

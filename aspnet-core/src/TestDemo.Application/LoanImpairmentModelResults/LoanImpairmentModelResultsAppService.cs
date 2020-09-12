@@ -14,6 +14,7 @@ using TestDemo.Authorization;
 using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using TestDemo.Calibration.Exporting;
 
 namespace TestDemo.LoanImpairmentModelResults
 {
@@ -21,15 +22,17 @@ namespace TestDemo.LoanImpairmentModelResults
     public class LoanImpairmentModelResultsAppService : TestDemoAppServiceBase, ILoanImpairmentModelResultsAppService
     {
 		 private readonly IRepository<LoanImpairmentModelResult, Guid> _loanImpairmentModelResultRepository;
-		 
+        private readonly IInputPdCrDrExporter _inputDataExporter;
 
-		  public LoanImpairmentModelResultsAppService(IRepository<LoanImpairmentModelResult, Guid> loanImpairmentModelResultRepository ) 
+
+        public LoanImpairmentModelResultsAppService(IRepository<LoanImpairmentModelResult, Guid> loanImpairmentModelResultRepository, IInputPdCrDrExporter inputDataExporter) 
 		  {
 			_loanImpairmentModelResultRepository = loanImpairmentModelResultRepository;
-			
-		  }
+            _inputDataExporter = inputDataExporter;
 
-		 public async Task<PagedResultDto<GetLoanImpairmentModelResultForViewDto>> GetAll(GetAllLoanImpairmentModelResultsInput input)
+        }
+
+        public async Task<PagedResultDto<GetLoanImpairmentModelResultForViewDto>> GetAll(GetAllLoanImpairmentModelResultsInput input)
          {
 			
 			var filteredLoanImpairmentModelResults = _loanImpairmentModelResultRepository.GetAll()
@@ -112,6 +115,16 @@ namespace TestDemo.LoanImpairmentModelResults
          public async Task Delete(EntityDto<Guid> input)
          {
             await _loanImpairmentModelResultRepository.DeleteAsync(input.Id);
-         } 
+         }
+
+        public async Task<FileDto> ExportToExcel(EntityDto<Guid> input)
+        {
+
+            var items = await _loanImpairmentModelResultRepository.GetAll().Where(x => x.RegisterId == input.Id)
+                                                         .Select(x => ObjectMapper.Map<InputLoanImpairmentModelResultDto>(x))
+                                                         .ToListAsync();
+
+            return _inputDataExporter.ExportToFile(items);
+        }
     }
 }

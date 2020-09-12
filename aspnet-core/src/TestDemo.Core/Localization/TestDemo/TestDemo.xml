@@ -454,6 +454,7 @@
     <text name="AppliedToEcl">Applied</text>
     <text name="AwaitngAdditionApproval">Awaiting Additional Approval</text>
     <text name="AppliedOverride">Applied Override</text>
+    <text name="QueuedForRerun">Queued For Rerun</text>
 
     <text name="ReOpenEcl">Re-open ECL</text>
     <text name="EclReopenSuccessfully">ECL successfully reopened!</text>

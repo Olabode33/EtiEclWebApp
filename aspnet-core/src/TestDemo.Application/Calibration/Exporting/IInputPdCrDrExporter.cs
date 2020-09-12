@@ -6,6 +6,7 @@ using TestDemo.HoldCoInterCompanyResults.Dtos;
 using TestDemo.HoldCoResult.Dtos;
 using TestDemo.IVModels.Dtos;
 using TestDemo.LoanImpairmentKeyParameters.Dtos;
+using TestDemo.LoanImpairmentModelResults.Dtos;
 using TestDemo.LoanImpairmentRecoveries.Dtos;
 using TestDemo.LoanImpairmentScenarios.Dtos;
 using TestDemo.ReceivablesCurrentPeriodDates.Dtos;
@@ -37,6 +38,7 @@ namespace TestDemo.Calibration.Exporting
 
         FileDto ExportToFile(List<InputLoanImpairmentKeyParameterDto> inputDtos);
         FileDto ExportToFile(List<InputLoanImpairmentScenarioDto> inputDtos);
+        FileDto ExportToFile(List<InputLoanImpairmentModelResultDto> inputDtos);
 
 
     }
