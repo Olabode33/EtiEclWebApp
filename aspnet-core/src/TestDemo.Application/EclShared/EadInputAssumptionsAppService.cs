@@ -91,7 +91,7 @@ namespace TestDemo.EclShared
             EadInputAssumptionGroupEnum eadgroup = (EadInputAssumptionGroupEnum)input.EadGroup;
 
 
-            var exists = _eadInputAssumptionRepository.FirstOrDefaultAsync(e => e.EadGroup == input.EadGroup && e.InputName == input.InputName && e.Framework == input.Framework && e.OrganizationUnitId == input.OrganizationUnitId);
+            var exists = await _eadInputAssumptionRepository.FirstOrDefaultAsync(e => e.EadGroup == input.EadGroup && e.InputName == input.InputName && e.Framework == input.Framework && e.OrganizationUnitId == input.OrganizationUnitId);
             if (exists != null)
             {
                 throw new UserFriendlyException(L("AssumptionAlreadyExists"));

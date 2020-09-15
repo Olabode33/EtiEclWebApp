@@ -148,9 +148,9 @@ export class CreateOrEditHoldCoRegisterComponent extends AppComponentBase implem
             (isConfirmed) => {
                 if (isConfirmed) {
                     this.saving = true;
-                    this.inputParameter.valuationDate = moment(this.inputParameter.valuationDate);
-                    this.inputParameter.assumedMaturityDate = moment(this.inputParameter.assumedMaturityDate);
-                    this.inputParameter.assumedStartDate = moment(this.inputParameter.assumedStartDate);
+                    this.inputParameter.valuationDate = moment(this.inputParameter.valuationDate).add(1, 'hour');
+                    this.inputParameter.assumedMaturityDate = moment(this.inputParameter.assumedMaturityDate).add(1, 'hour');
+                    this.inputParameter.assumedStartDate = moment(this.inputParameter.assumedStartDate).add(1, 'hour');
 
                     this.holdCoRegister.assetBook = this.assetBook;
                     this.holdCoRegister.inputParameter = this.inputParameter;

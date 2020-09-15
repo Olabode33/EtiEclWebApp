@@ -53,6 +53,9 @@ export class CreateOrEditLoanImpairmentRegisterComponent extends AppComponentBas
             this.loanImpairmentRegister = new CreateOrEditLoanImpairmentRegisterDto();
             this.loanImpairmentRegister.id = loanImpairmentRegisterId;
             this.loanImpairmentRegister.status = this.statusEnum.Draft;
+
+            this.inputParameter.reportingDate = moment().endOf('month');
+
             this.active = true;
         } else {
             this._loanImpairmentRegistersServiceProxy.getLoanImpairmentRegisterForEdit(loanImpairmentRegisterId).subscribe(result => {
@@ -84,7 +87,9 @@ export class CreateOrEditLoanImpairmentRegisterComponent extends AppComponentBas
             (isConfirmed) => {
                 if (isConfirmed) {
                     this.saving = true;
-                    this.inputParameter.reportingDate = moment(this.inputParameter.reportingDate);
+                    console.log(this.inputParameter.reportingDate);
+                    this.inputParameter.reportingDate = moment(this.inputParameter.reportingDate).add(1, 'hour');
+                    console.log(JSON.stringify(this.inputParameter.reportingDate));
 
                     this.loanImpairmentRegister.inputParameter = this.inputParameter;
                     this.loanImpairmentRegister.haircutRecovery = this.haircutRecovery;
@@ -95,8 +100,6 @@ export class CreateOrEditLoanImpairmentRegisterComponent extends AppComponentBas
                     this._loanImpairmentRegistersServiceProxy.createOrEdit(this.loanImpairmentRegister)
                         .pipe(finalize(() => {
                             this.saving = false;
-
-
                         })).subscribe(() => {
                             this.notify.info(this.l('SavedSuccessfully'));
                             this._router.navigate( ['/app/main/loanImpairmentsRegisters/loanImpairmentRegisters']);

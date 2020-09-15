@@ -35,6 +35,7 @@ using TestDemo.Configure;
 using TestDemo.Schemas;
 using DinkToPdf;
 using DinkToPdf.Contracts;
+using Abp.Timing;
 
 namespace TestDemo.Web.Startup
 {

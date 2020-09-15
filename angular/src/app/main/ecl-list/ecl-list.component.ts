@@ -128,7 +128,7 @@ export class EclListComponent extends AppComponentBase implements OnInit {
             this.ouLookupTableModal.show();
         } else {
             let ecl = new CreateOrEditEclDto();
-            ecl.reportingDate = moment().endOf('month');
+            ecl.reportingDate = moment().endOf('month').startOf('day');
             this.editEclReportDate.configure({
                 eclDto: ecl,
                 serviceProxy: null
@@ -140,7 +140,7 @@ export class EclListComponent extends AppComponentBase implements OnInit {
     createEclAsGroup(): void {
         let ecl = new CreateOrEditEclDto();
         ecl.organizationUnitId = this.ouLookupTableModal.id;
-        ecl.reportingDate = moment().endOf('month');
+        ecl.reportingDate = moment().endOf('month').startOf('day');
         this.editEclReportDate.configure({
             eclDto: ecl,
             serviceProxy: null
@@ -149,7 +149,7 @@ export class EclListComponent extends AppComponentBase implements OnInit {
     }
 
     createNewEclWithReportDate(event): void {
-        //console.log(event);
+        event.reportingDate = moment(event.reportingDate).add(1, 'hour');
         this.editEclReportDate.close();
         if (this.frameworkForNew) {
             switch (this.frameworkForNew) {

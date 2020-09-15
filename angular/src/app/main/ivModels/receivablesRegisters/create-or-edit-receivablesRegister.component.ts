@@ -68,7 +68,7 @@ export class CreateOrEditReceivablesRegisterComponent extends AppComponentBase i
                 if (isConfirmed) {
                     this.saving = true;
 
-                    this.inputParameter.reportingDate = moment(this.inputParameter.reportingDate);
+                    this.inputParameter.reportingDate = moment(this.inputParameter.reportingDate).add(1, 'hour');
 
                     this.receivablesRegister.inputParameter = this.inputParameter;
                     this.receivablesRegister.currentPeriodData = this.currentPeriodData;
