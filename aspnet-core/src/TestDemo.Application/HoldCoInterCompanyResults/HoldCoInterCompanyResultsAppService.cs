@@ -18,7 +18,7 @@ using TestDemo.Calibration.Exporting;
 
 namespace TestDemo.HoldCoInterCompanyResults
 {
-	[AbpAuthorize(AppPermissions.Pages_HoldCoInterCompanyResults)]
+	//[AbpAuthorize(AppPermissions.Pages_HoldCoInterCompanyResults)]
     public class HoldCoInterCompanyResultsAppService : TestDemoAppServiceBase, IHoldCoInterCompanyResultsAppService
     {
 		private readonly IRepository<HoldCoInterCompanyResult, Guid> _holdCoInterCompanyResultRepository;
@@ -74,7 +74,7 @@ namespace TestDemo.HoldCoInterCompanyResults
             return output;
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_HoldCoInterCompanyResults_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_HoldCoInterCompanyResults_Edit)]
 		 public async Task<GetHoldCoInterCompanyResultForEditOutput> GetHoldCoInterCompanyResultForEdit(EntityDto<Guid> input)
          {
             var holdCoInterCompanyResult = await _holdCoInterCompanyResultRepository.FirstOrDefaultAsync(input.Id);
@@ -94,7 +94,7 @@ namespace TestDemo.HoldCoInterCompanyResults
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_HoldCoInterCompanyResults_Create)]
+		 //[AbpAuthorize(AppPermissions.Pages_HoldCoInterCompanyResults_Create)]
 		 protected virtual async Task Create(CreateOrEditHoldCoInterCompanyResultDto input)
          {
             var holdCoInterCompanyResult = ObjectMapper.Map<HoldCoInterCompanyResult>(input);
@@ -104,14 +104,14 @@ namespace TestDemo.HoldCoInterCompanyResults
             await _holdCoInterCompanyResultRepository.InsertAsync(holdCoInterCompanyResult);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_HoldCoInterCompanyResults_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_HoldCoInterCompanyResults_Edit)]
 		 protected virtual async Task Update(CreateOrEditHoldCoInterCompanyResultDto input)
          {
             var holdCoInterCompanyResult = await _holdCoInterCompanyResultRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, holdCoInterCompanyResult);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_HoldCoInterCompanyResults_Delete)]
+		 //[AbpAuthorize(AppPermissions.Pages_HoldCoInterCompanyResults_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _holdCoInterCompanyResultRepository.DeleteAsync(input.Id);

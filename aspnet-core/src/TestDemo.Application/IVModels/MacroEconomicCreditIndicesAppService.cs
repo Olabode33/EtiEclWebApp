@@ -18,7 +18,7 @@ using TestDemo.Calibration.Exporting;
 
 namespace TestDemo.IVModels
 {
-	[AbpAuthorize(AppPermissions.Pages_MacroEconomicCreditIndices)]
+	//[AbpAuthorize(AppPermissions.Pages_MacroEconomicCreditIndices)]
     public class MacroEconomicCreditIndicesAppService : TestDemoAppServiceBase, IMacroEconomicCreditIndicesAppService
     {
 		 private readonly IRepository<MacroEconomicCreditIndex, Guid> _macroEconomicCreditIndexRepository;
@@ -68,7 +68,7 @@ namespace TestDemo.IVModels
             return output;
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_MacroEconomicCreditIndices_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_MacroEconomicCreditIndices_Edit)]
 		 public async Task<GetMacroEconomicCreditIndexForEditOutput> GetMacroEconomicCreditIndexForEdit(EntityDto<Guid> input)
          {
             var macroEconomicCreditIndex = await _macroEconomicCreditIndexRepository.FirstOrDefaultAsync(input.Id);
@@ -88,7 +88,7 @@ namespace TestDemo.IVModels
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_MacroEconomicCreditIndices_Create)]
+		 //[AbpAuthorize(AppPermissions.Pages_MacroEconomicCreditIndices_Create)]
 		 protected virtual async Task Create(CreateOrEditMacroEconomicCreditIndexDto input)
          {
             var macroEconomicCreditIndex = ObjectMapper.Map<MacroEconomicCreditIndex>(input);
@@ -98,14 +98,14 @@ namespace TestDemo.IVModels
             await _macroEconomicCreditIndexRepository.InsertAsync(macroEconomicCreditIndex);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_MacroEconomicCreditIndices_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_MacroEconomicCreditIndices_Edit)]
 		 protected virtual async Task Update(CreateOrEditMacroEconomicCreditIndexDto input)
          {
             var macroEconomicCreditIndex = await _macroEconomicCreditIndexRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, macroEconomicCreditIndex);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_MacroEconomicCreditIndices_Delete)]
+		 //[AbpAuthorize(AppPermissions.Pages_MacroEconomicCreditIndices_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _macroEconomicCreditIndexRepository.DeleteAsync(input.Id);

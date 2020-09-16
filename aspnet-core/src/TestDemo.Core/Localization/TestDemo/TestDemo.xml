@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="LoanImpairmentModelResults">Loan impairment model results</text>
+  <texts>    <text name="RvModels">Loan impairment model results</text>
+    <text name="LoanImpairmentModelResults">Loan impairment model results</text>
     <text name="LoanImpairmentModelResult">Loan impairment model result</text>
     <text name="CreateNewLoanImpairmentModelResult">Create new loan impairment model result</text>
     <text name="EditLoanImpairmentModelResult">Edit loan impairment model result</text>
@@ -63,13 +64,14 @@
     <text name="EditLoanImpairmentInputParameter">Edit loan impairment input parameter</text>
     <text name="DeleteLoanImpairmentInputParameter">Delete loan impairment input parameter</text>
     <text name="TestDemo.LoanImpairmentsRegisters.LoanImpairmentRegister">LoanImpairmentRegister</text>
-    <text name="LoanImpairmentRegistersHeaderInfo">Loan impairment registers header info</text>
-    <text name="LoanImpairmentRegisters">Impairment registers</text>
+    <text name="LoanImpairmentRegistersHeaderInfo">Manage RV Loan Impairment</text>
+    <text name="LoanImpairmentRegisters">RV Loan Impairment</text>
     <text name="LoanImpairmentsRegisters">Loan impairments registers</text>
     <text name="LoanImpairmentRegister">Loan impairment register</text>
     <text name="CreateNewLoanImpairmentRegister">New</text>
-    <text name="EditLoanImpairmentRegister">Edit loan impairment register</text>
-    <text name="DeleteLoanImpairmentRegister">Delete loan impairment register</text>
+    <text name="EditLoanImpairmentRegister">Edit</text>
+    <text name="ApproveLoanImpairmentRegister">Approve</text>
+    <text name="DeleteLoanImpairmentRegister">Delete</text>
     <text name="ReceivablesApprovals">Receivables approvals</text>
     <text name="ReceivablesApproval">Receivables approval</text>
     <text name="CreateNewReceivablesApproval">Create new receivables approval</text>
@@ -110,14 +112,14 @@
     <text name="CreateNewReceivablesInput">Create new receivables input</text>
     <text name="EditReceivablesInput">Edit receivables input</text>
     <text name="DeleteReceivablesInput">Delete receivables input</text>
-    <text name="ReceivablesRegisters">Receivables registers</text>
-    <text name="ReceivablesRegister">Receivables register</text>
+    <text name="ReceivablesRegisters">Receivables</text>
+    <text name="ReceivablesRegister">Receivables</text>
     <text name="TestDemo.ReceivablesRegisters.ReceivablesRegister">ReceivablesRegister</text>
-    <text name="ReceivablesRegistersHeaderInfo">Receivables registers header info</text>
+    <text name="ReceivablesRegistersHeaderInfo">Manage Receivables</text>
     <text name="CreateNewReceivablesRegister">New</text>
-    <text name="EditReceivablesRegister">Edit receivables register</text>
-    <text name="DeleteReceivablesRegister">Delete receivables register</text>
-    <text name="ApproveReceivablesRegister">Approve receivables register</text>
+    <text name="EditReceivablesRegister">Edit</text>
+    <text name="DeleteReceivablesRegister">Delete</text>
+    <text name="ApproveReceivablesRegister">Approve</text>
     <text name="HoldCoApprovals">Hold co approvals</text>
     <text name="HoldCoApproval">Hold co approval</text>
     <text name="CreateNewHoldCoApproval">Create new hold co approval</text>
@@ -184,15 +186,15 @@
     <text name="CreateNewHoldCoInputParameter">Create new hold co input parameter</text>
     <text name="EditHoldCoInputParameter">Edit hold co input parameter</text>
     <text name="DeleteHoldCoInputParameter">Delete hold co input parameter</text>
-    <text name="IVModels">I v models</text>
+    <text name="IVModels">IV models</text>
     <text name="HoldCoRegister">Hold co register</text>
     <text name="TestDemo.IVModels.HoldCoRegister">HoldCoRegister</text>
     <text name="RegistrationId">Registration id</text>
-    <text name="HoldCoRegistersHeaderInfo">Hold co registers header info</text>
+    <text name="HoldCoRegistersHeaderInfo">Manage Intercompany Loans</text>
     <text name="CreateNewHoldCoRegister">New</text>
-    <text name="EditHoldCoRegister">Edit hold co register</text>
-    <text name="DeleteHoldCoRegister">Delete hold co register</text>
-    <text name="HoldCoRegisters">Hold co registers</text>
+    <text name="EditHoldCoRegister">Edit</text>
+    <text name="DeleteHoldCoRegister">Delete</text>
+    <text name="HoldCoRegisters">Intercompany Loans</text>
 
 
     <text name="ApprovedBy">Approved By</text>

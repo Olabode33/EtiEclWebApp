@@ -17,7 +17,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.ReceivablesInputs
 {
-	[AbpAuthorize(AppPermissions.Pages_ReceivablesInputs)]
+	//[AbpAuthorize(AppPermissions.Pages_ReceivablesInputs)]
     public class ReceivablesInputsAppService : TestDemoAppServiceBase, IReceivablesInputsAppService
     {
 		 private readonly IRepository<ReceivablesInput, Guid> _receivablesInputRepository;
@@ -64,7 +64,7 @@ namespace TestDemo.ReceivablesInputs
             return output;
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_ReceivablesInputs_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_ReceivablesInputs_Edit)]
 		 public async Task<GetReceivablesInputForEditOutput> GetReceivablesInputForEdit(EntityDto<Guid> input)
          {
             var receivablesInput = await _receivablesInputRepository.FirstOrDefaultAsync(input.Id);
@@ -84,7 +84,7 @@ namespace TestDemo.ReceivablesInputs
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ReceivablesInputs_Create)]
+		 //[AbpAuthorize(AppPermissions.Pages_ReceivablesInputs_Create)]
 		 protected virtual async Task Create(CreateOrEditReceivablesInputDto input)
          {
             var receivablesInput = ObjectMapper.Map<ReceivablesInput>(input);
@@ -94,14 +94,14 @@ namespace TestDemo.ReceivablesInputs
             await _receivablesInputRepository.InsertAsync(receivablesInput);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ReceivablesInputs_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_ReceivablesInputs_Edit)]
 		 protected virtual async Task Update(CreateOrEditReceivablesInputDto input)
          {
             var receivablesInput = await _receivablesInputRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, receivablesInput);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ReceivablesInputs_Delete)]
+		 //[AbpAuthorize(AppPermissions.Pages_ReceivablesInputs_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _receivablesInputRepository.DeleteAsync(input.Id);

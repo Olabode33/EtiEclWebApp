@@ -19,7 +19,7 @@ using TestDemo.Calibration.Exporting;
 
 namespace TestDemo.ReceivablesForecasts
 {
-	[AbpAuthorize(AppPermissions.Pages_ReceivablesForecasts)]
+	//[AbpAuthorize(AppPermissions.Pages_ReceivablesForecasts)]
     public class ReceivablesForecastsAppService : TestDemoAppServiceBase, IReceivablesForecastsAppService
     {
 		 private readonly IRepository<ReceivablesForecast, Guid> _receivablesForecastRepository;
@@ -72,7 +72,7 @@ namespace TestDemo.ReceivablesForecasts
             return output;
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_ReceivablesForecasts_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_ReceivablesForecasts_Edit)]
 		 public async Task<GetReceivablesForecastForEditOutput> GetReceivablesForecastForEdit(EntityDto<Guid> input)
          {
             var receivablesForecast = await _receivablesForecastRepository.FirstOrDefaultAsync(input.Id);
@@ -92,7 +92,7 @@ namespace TestDemo.ReceivablesForecasts
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ReceivablesForecasts_Create)]
+		 //[AbpAuthorize(AppPermissions.Pages_ReceivablesForecasts_Create)]
 		 protected virtual async Task Create(CreateOrEditReceivablesForecastDto input)
          {
             var receivablesForecast = ObjectMapper.Map<ReceivablesForecast>(input);
@@ -102,14 +102,14 @@ namespace TestDemo.ReceivablesForecasts
             await _receivablesForecastRepository.InsertAsync(receivablesForecast);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ReceivablesForecasts_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_ReceivablesForecasts_Edit)]
 		 protected virtual async Task Update(CreateOrEditReceivablesForecastDto input)
          {
             var receivablesForecast = await _receivablesForecastRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, receivablesForecast);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ReceivablesForecasts_Delete)]
+		 //[AbpAuthorize(AppPermissions.Pages_ReceivablesForecasts_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _receivablesForecastRepository.DeleteAsync(input.Id);

@@ -19,7 +19,7 @@ using TestDemo.Calibration.Exporting;
 
 namespace TestDemo.ReceivablesCurrentPeriodDates
 {
-	[AbpAuthorize(AppPermissions.Pages_CurrentPeriodDates)]
+	//[AbpAuthorize(AppPermissions.Pages_CurrentPeriodDates)]
     public class CurrentPeriodDatesAppService : TestDemoAppServiceBase, ICurrentPeriodDatesAppService
     {
 		 private readonly IRepository<CurrentPeriodDate, Guid> _currentPeriodDateRepository;
@@ -72,7 +72,7 @@ namespace TestDemo.ReceivablesCurrentPeriodDates
             return output;
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_CurrentPeriodDates_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_CurrentPeriodDates_Edit)]
 		 public async Task<GetCurrentPeriodDateForEditOutput> GetCurrentPeriodDateForEdit(EntityDto<Guid> input)
          {
             var currentPeriodDate = await _currentPeriodDateRepository.FirstOrDefaultAsync(input.Id);
@@ -92,7 +92,7 @@ namespace TestDemo.ReceivablesCurrentPeriodDates
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_CurrentPeriodDates_Create)]
+		 //[AbpAuthorize(AppPermissions.Pages_CurrentPeriodDates_Create)]
 		 protected virtual async Task Create(CreateOrEditCurrentPeriodDateDto input)
          {
             var currentPeriodDate = ObjectMapper.Map<CurrentPeriodDate>(input);
@@ -102,14 +102,14 @@ namespace TestDemo.ReceivablesCurrentPeriodDates
             await _currentPeriodDateRepository.InsertAsync(currentPeriodDate);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_CurrentPeriodDates_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_CurrentPeriodDates_Edit)]
 		 protected virtual async Task Update(CreateOrEditCurrentPeriodDateDto input)
          {
             var currentPeriodDate = await _currentPeriodDateRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, currentPeriodDate);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_CurrentPeriodDates_Delete)]
+		 //[AbpAuthorize(AppPermissions.Pages_CurrentPeriodDates_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _currentPeriodDateRepository.DeleteAsync(input.Id);

@@ -18,7 +18,7 @@ using TestDemo.Calibration.Exporting;
 
 namespace TestDemo.LoanImpairmentScenarios
 {
-	[AbpAuthorize(AppPermissions.Pages_LoanImpairmentScenarios)]
+	//[AbpAuthorize(AppPermissions.Pages_LoanImpairmentScenarios)]
     public class LoanImpairmentScenariosAppService : TestDemoAppServiceBase, ILoanImpairmentScenariosAppService
     {
 		 private readonly IRepository<LoanImpairmentScenario, Guid> _loanImpairmentScenarioRepository;
@@ -67,7 +67,7 @@ namespace TestDemo.LoanImpairmentScenarios
             return output;
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_LoanImpairmentScenarios_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_LoanImpairmentScenarios_Edit)]
 		 public async Task<GetLoanImpairmentScenarioForEditOutput> GetLoanImpairmentScenarioForEdit(EntityDto<Guid> input)
          {
             var loanImpairmentScenario = await _loanImpairmentScenarioRepository.FirstOrDefaultAsync(input.Id);
@@ -87,7 +87,7 @@ namespace TestDemo.LoanImpairmentScenarios
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_LoanImpairmentScenarios_Create)]
+		 //[AbpAuthorize(AppPermissions.Pages_LoanImpairmentScenarios_Create)]
 		 protected virtual async Task Create(CreateOrEditLoanImpairmentScenarioDto input)
          {
             var loanImpairmentScenario = ObjectMapper.Map<LoanImpairmentScenario>(input);
@@ -97,14 +97,14 @@ namespace TestDemo.LoanImpairmentScenarios
             await _loanImpairmentScenarioRepository.InsertAsync(loanImpairmentScenario);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_LoanImpairmentScenarios_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_LoanImpairmentScenarios_Edit)]
 		 protected virtual async Task Update(CreateOrEditLoanImpairmentScenarioDto input)
          {
             var loanImpairmentScenario = await _loanImpairmentScenarioRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, loanImpairmentScenario);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_LoanImpairmentScenarios_Delete)]
+		 //[AbpAuthorize(AppPermissions.Pages_LoanImpairmentScenarios_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _loanImpairmentScenarioRepository.DeleteAsync(input.Id);

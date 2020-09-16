@@ -18,7 +18,7 @@ using TestDemo.Calibration.Exporting;
 
 namespace TestDemo.LoanImpairmentKeyParameters
 {
-	[AbpAuthorize(AppPermissions.Pages_LoanImpairmentKeyParameters)]
+	//[AbpAuthorize(AppPermissions.Pages_LoanImpairmentKeyParameters)]
     public class LoanImpairmentKeyParametersAppService : TestDemoAppServiceBase, ILoanImpairmentKeyParametersAppService
     {
 		 private readonly IRepository<LoanImpairmentKeyParameter, Guid> _loanImpairmentKeyParameterRepository;
@@ -67,7 +67,7 @@ namespace TestDemo.LoanImpairmentKeyParameters
             return output;
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_LoanImpairmentKeyParameters_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_LoanImpairmentKeyParameters_Edit)]
 		 public async Task<GetLoanImpairmentKeyParameterForEditOutput> GetLoanImpairmentKeyParameterForEdit(EntityDto<Guid> input)
          {
             var loanImpairmentKeyParameter = await _loanImpairmentKeyParameterRepository.FirstOrDefaultAsync(input.Id);
@@ -87,7 +87,7 @@ namespace TestDemo.LoanImpairmentKeyParameters
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_LoanImpairmentKeyParameters_Create)]
+		 //[AbpAuthorize(AppPermissions.Pages_LoanImpairmentKeyParameters_Create)]
 		 protected virtual async Task Create(CreateOrEditLoanImpairmentKeyParameterDto input)
          {
             var loanImpairmentKeyParameter = ObjectMapper.Map<LoanImpairmentKeyParameter>(input);
@@ -97,14 +97,14 @@ namespace TestDemo.LoanImpairmentKeyParameters
             await _loanImpairmentKeyParameterRepository.InsertAsync(loanImpairmentKeyParameter);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_LoanImpairmentKeyParameters_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_LoanImpairmentKeyParameters_Edit)]
 		 protected virtual async Task Update(CreateOrEditLoanImpairmentKeyParameterDto input)
          {
             var loanImpairmentKeyParameter = await _loanImpairmentKeyParameterRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, loanImpairmentKeyParameter);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_LoanImpairmentKeyParameters_Delete)]
+		 //[AbpAuthorize(AppPermissions.Pages_LoanImpairmentKeyParameters_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _loanImpairmentKeyParameterRepository.DeleteAsync(input.Id);

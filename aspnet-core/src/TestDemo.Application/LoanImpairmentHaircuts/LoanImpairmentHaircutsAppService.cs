@@ -17,7 +17,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.LoanImpairmentHaircuts
 {
-	[AbpAuthorize(AppPermissions.Pages_LoanImpairmentHaircuts)]
+	//[AbpAuthorize(AppPermissions.Pages_LoanImpairmentHaircuts)]
     public class LoanImpairmentHaircutsAppService : TestDemoAppServiceBase, ILoanImpairmentHaircutsAppService
     {
 		 private readonly IRepository<LoanImpairmentHaircut, Guid> _loanImpairmentHaircutRepository;
@@ -64,7 +64,7 @@ namespace TestDemo.LoanImpairmentHaircuts
             return output;
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_LoanImpairmentHaircuts_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_LoanImpairmentHaircuts_Edit)]
 		 public async Task<GetLoanImpairmentHaircutForEditOutput> GetLoanImpairmentHaircutForEdit(EntityDto<Guid> input)
          {
             var loanImpairmentHaircut = await _loanImpairmentHaircutRepository.FirstOrDefaultAsync(input.Id);
@@ -84,7 +84,7 @@ namespace TestDemo.LoanImpairmentHaircuts
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_LoanImpairmentHaircuts_Create)]
+		 //[AbpAuthorize(AppPermissions.Pages_LoanImpairmentHaircuts_Create)]
 		 protected virtual async Task Create(CreateOrEditLoanImpairmentHaircutDto input)
          {
             var loanImpairmentHaircut = ObjectMapper.Map<LoanImpairmentHaircut>(input);
@@ -94,14 +94,14 @@ namespace TestDemo.LoanImpairmentHaircuts
             await _loanImpairmentHaircutRepository.InsertAsync(loanImpairmentHaircut);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_LoanImpairmentHaircuts_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_LoanImpairmentHaircuts_Edit)]
 		 protected virtual async Task Update(CreateOrEditLoanImpairmentHaircutDto input)
          {
             var loanImpairmentHaircut = await _loanImpairmentHaircutRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, loanImpairmentHaircut);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_LoanImpairmentHaircuts_Delete)]
+		 //[AbpAuthorize(AppPermissions.Pages_LoanImpairmentHaircuts_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _loanImpairmentHaircutRepository.DeleteAsync(input.Id);

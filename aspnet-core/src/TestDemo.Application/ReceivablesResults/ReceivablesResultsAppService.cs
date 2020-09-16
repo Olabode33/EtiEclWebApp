@@ -19,7 +19,7 @@ using TestDemo.Calibration.Exporting;
 
 namespace TestDemo.ReceivablesResults
 {
-	[AbpAuthorize(AppPermissions.Pages_ReceivablesResults)]
+	//[AbpAuthorize(AppPermissions.Pages_ReceivablesResults)]
     public class ReceivablesResultsAppService : TestDemoAppServiceBase, IReceivablesResultsAppService
     {
 	    private readonly IRepository<ReceivablesResult, Guid> _receivablesResultRepository;
@@ -77,7 +77,7 @@ namespace TestDemo.ReceivablesResults
             return output;
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_ReceivablesResults_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_ReceivablesResults_Edit)]
 		 public async Task<GetReceivablesResultForEditOutput> GetReceivablesResultForEdit(EntityDto<Guid> input)
          {
             var receivablesResult = await _receivablesResultRepository.FirstOrDefaultAsync(input.Id);
@@ -97,7 +97,7 @@ namespace TestDemo.ReceivablesResults
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ReceivablesResults_Create)]
+		 //[AbpAuthorize(AppPermissions.Pages_ReceivablesResults_Create)]
 		 protected virtual async Task Create(CreateOrEditReceivablesResultDto input)
          {
             var receivablesResult = ObjectMapper.Map<ReceivablesResult>(input);
@@ -107,14 +107,14 @@ namespace TestDemo.ReceivablesResults
             await _receivablesResultRepository.InsertAsync(receivablesResult);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ReceivablesResults_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_ReceivablesResults_Edit)]
 		 protected virtual async Task Update(CreateOrEditReceivablesResultDto input)
          {
             var receivablesResult = await _receivablesResultRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, receivablesResult);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ReceivablesResults_Delete)]
+		 //[AbpAuthorize(AppPermissions.Pages_ReceivablesResults_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _receivablesResultRepository.DeleteAsync(input.Id);

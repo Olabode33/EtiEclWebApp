@@ -17,7 +17,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestDemo.IVModels
 {
-	[AbpAuthorize(AppPermissions.Pages_HoldCoInputParameters)]
+	//[AbpAuthorize(AppPermissions.Pages_HoldCoInputParameters)]
     public class HoldCoInputParametersAppService : TestDemoAppServiceBase, IHoldCoInputParametersAppService
     {
 		 private readonly IRepository<HoldCoInputParameter, Guid> _holdCoInputParameterRepository;
@@ -64,7 +64,7 @@ namespace TestDemo.IVModels
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_HoldCoInputParameters_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_HoldCoInputParameters_Edit)]
 		 public async Task<GetHoldCoInputParameterForEditOutput> GetHoldCoInputParameterForEdit(EntityDto<Guid> input)
          {
             var holdCoInputParameter = await _holdCoInputParameterRepository.FirstOrDefaultAsync(input.Id);
@@ -84,7 +84,7 @@ namespace TestDemo.IVModels
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_HoldCoInputParameters_Create)]
+		 //[AbpAuthorize(AppPermissions.Pages_HoldCoInputParameters_Create)]
 		 protected virtual async Task Create(CreateOrEditHoldCoInputParameterDto input)
          {
             var holdCoInputParameter = ObjectMapper.Map<HoldCoInputParameter>(input);
@@ -94,14 +94,14 @@ namespace TestDemo.IVModels
             await _holdCoInputParameterRepository.InsertAsync(holdCoInputParameter);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_HoldCoInputParameters_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_HoldCoInputParameters_Edit)]
 		 protected virtual async Task Update(CreateOrEditHoldCoInputParameterDto input)
          {
             var holdCoInputParameter = await _holdCoInputParameterRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, holdCoInputParameter);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_HoldCoInputParameters_Delete)]
+		 //[AbpAuthorize(AppPermissions.Pages_HoldCoInputParameters_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _holdCoInputParameterRepository.DeleteAsync(input.Id);

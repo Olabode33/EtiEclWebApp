@@ -20,7 +20,7 @@ using TestDemo.Authorization.Users;
 
 namespace TestDemo.ReceivablesApprovals
 {
-	[AbpAuthorize(AppPermissions.Pages_ReceivablesApprovals)]
+	//[AbpAuthorize(AppPermissions.Pages_ReceivablesApprovals)]
     public class ReceivablesApprovalsAppService : TestDemoAppServiceBase, IReceivablesApprovalsAppService
     {
 		private readonly IRepository<ReceivablesApproval, Guid> _receivablesApprovalRepository;
@@ -101,7 +101,7 @@ namespace TestDemo.ReceivablesApprovals
             return output;
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_ReceivablesApprovals_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_ReceivablesApprovals_Edit)]
 		 public async Task<GetReceivablesApprovalForEditOutput> GetReceivablesApprovalForEdit(EntityDto<Guid> input)
          {
             var receivablesApproval = await _receivablesApprovalRepository.FirstOrDefaultAsync(input.Id);
@@ -121,7 +121,7 @@ namespace TestDemo.ReceivablesApprovals
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ReceivablesApprovals_Create)]
+		 //[AbpAuthorize(AppPermissions.Pages_ReceivablesApprovals_Create)]
 		 protected virtual async Task Create(CreateOrEditReceivablesApprovalDto input)
          {
             var receivablesApproval = ObjectMapper.Map<ReceivablesApproval>(input);
@@ -131,14 +131,14 @@ namespace TestDemo.ReceivablesApprovals
             await _receivablesApprovalRepository.InsertAsync(receivablesApproval);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ReceivablesApprovals_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_ReceivablesApprovals_Edit)]
 		 protected virtual async Task Update(CreateOrEditReceivablesApprovalDto input)
          {
             var receivablesApproval = await _receivablesApprovalRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, receivablesApproval);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ReceivablesApprovals_Delete)]
+		 //[AbpAuthorize(AppPermissions.Pages_ReceivablesApprovals_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _receivablesApprovalRepository.DeleteAsync(input.Id);

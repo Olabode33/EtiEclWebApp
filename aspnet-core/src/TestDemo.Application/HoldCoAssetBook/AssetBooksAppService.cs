@@ -18,7 +18,7 @@ using TestDemo.Calibration.Exporting;
 
 namespace TestDemo.HoldCoAssetBook
 {
-	[AbpAuthorize(AppPermissions.Pages_AssetBooks)]
+	//[AbpAuthorize(AppPermissions.Pages_HoldCoRegisters)]
     public class AssetBooksAppService : TestDemoAppServiceBase, IAssetBooksAppService
     {
 		 private readonly IRepository<AssetBook, Guid> _assetBookRepository;
@@ -57,7 +57,7 @@ namespace TestDemo.HoldCoAssetBook
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_AssetBooks_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_AssetBooks_Edit)]
 		 public async Task<GetAssetBookForEditOutput> GetAssetBookForEdit(EntityDto<Guid> input)
          {
             var assetBook = await _assetBookRepository.FirstOrDefaultAsync(input.Id);
@@ -77,7 +77,7 @@ namespace TestDemo.HoldCoAssetBook
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_AssetBooks_Create)]
+		 //[AbpAuthorize(AppPermissions.Pages_AssetBooks_Create)]
 		 protected virtual async Task Create(CreateOrEditAssetBookDto input)
          {
             var assetBook = ObjectMapper.Map<AssetBook>(input);
@@ -87,14 +87,14 @@ namespace TestDemo.HoldCoAssetBook
             await _assetBookRepository.InsertAsync(assetBook);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_AssetBooks_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_AssetBooks_Edit)]
 		 protected virtual async Task Update(CreateOrEditAssetBookDto input)
          {
             var assetBook = await _assetBookRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, assetBook);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_AssetBooks_Delete)]
+		 //[AbpAuthorize(AppPermissions.Pages_AssetBooks_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _assetBookRepository.DeleteAsync(input.Id);

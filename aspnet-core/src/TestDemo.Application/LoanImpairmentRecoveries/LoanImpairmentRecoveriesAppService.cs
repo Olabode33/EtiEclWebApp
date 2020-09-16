@@ -18,7 +18,7 @@ using TestDemo.Calibration.Exporting;
 
 namespace TestDemo.LoanImpairmentRecoveries
 {
-	[AbpAuthorize(AppPermissions.Pages_LoanImpairmentRecoveries)]
+	//[AbpAuthorize(AppPermissions.Pages_LoanImpairmentRecoveries)]
     public class LoanImpairmentRecoveriesAppService : TestDemoAppServiceBase, ILoanImpairmentRecoveriesAppService
     {
 		 private readonly IRepository<LoanImpairmentRecovery, Guid> _loanImpairmentRecoveryRepository;
@@ -67,7 +67,7 @@ namespace TestDemo.LoanImpairmentRecoveries
             return output;
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_LoanImpairmentRecoveries_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_LoanImpairmentRecoveries_Edit)]
 		 public async Task<GetLoanImpairmentRecoveryForEditOutput> GetLoanImpairmentRecoveryForEdit(EntityDto<Guid> input)
          {
             var loanImpairmentRecovery = await _loanImpairmentRecoveryRepository.FirstOrDefaultAsync(input.Id);
@@ -87,7 +87,7 @@ namespace TestDemo.LoanImpairmentRecoveries
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_LoanImpairmentRecoveries_Create)]
+		 //[AbpAuthorize(AppPermissions.Pages_LoanImpairmentRecoveries_Create)]
 		 protected virtual async Task Create(CreateOrEditLoanImpairmentRecoveryDto input)
          {
             var loanImpairmentRecovery = ObjectMapper.Map<LoanImpairmentRecovery>(input);
@@ -97,14 +97,14 @@ namespace TestDemo.LoanImpairmentRecoveries
             await _loanImpairmentRecoveryRepository.InsertAsync(loanImpairmentRecovery);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_LoanImpairmentRecoveries_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_LoanImpairmentRecoveries_Edit)]
 		 protected virtual async Task Update(CreateOrEditLoanImpairmentRecoveryDto input)
          {
             var loanImpairmentRecovery = await _loanImpairmentRecoveryRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, loanImpairmentRecovery);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_LoanImpairmentRecoveries_Delete)]
+		 //[AbpAuthorize(AppPermissions.Pages_LoanImpairmentRecoveries_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _loanImpairmentRecoveryRepository.DeleteAsync(input.Id);

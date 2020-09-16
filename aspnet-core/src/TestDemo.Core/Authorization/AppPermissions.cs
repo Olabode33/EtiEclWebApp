@@ -6,50 +6,52 @@
     /// </summary>
     public static class AppPermissions
     {
-        public const string Pages_LoanImpairmentModelResults = "Pages.LoanImpairmentModelResults";
-        public const string Pages_LoanImpairmentModelResults_Create = "Pages.LoanImpairmentModelResults.Create";
-        public const string Pages_LoanImpairmentModelResults_Edit = "Pages.LoanImpairmentModelResults.Edit";
-        public const string Pages_LoanImpairmentModelResults_Delete = "Pages.LoanImpairmentModelResults.Delete";
+        //public const string Pages_LoanImpairmentModelResults = "Pages.LoanImpairmentModelResults";
+        //public const string Pages_LoanImpairmentModelResults_Create = "Pages.LoanImpairmentModelResults.Create";
+        //public const string Pages_LoanImpairmentModelResults_Edit = "Pages.LoanImpairmentModelResults.Edit";
+        //public const string Pages_LoanImpairmentModelResults_Delete = "Pages.LoanImpairmentModelResults.Delete";
 
-        public const string Pages_LoanImpairmentResults = "Pages.LoanImpairmentResults";
-        public const string Pages_LoanImpairmentResults_Create = "Pages.LoanImpairmentResults.Create";
-        public const string Pages_LoanImpairmentResults_Edit = "Pages.LoanImpairmentResults.Edit";
-        public const string Pages_LoanImpairmentResults_Delete = "Pages.LoanImpairmentResults.Delete";
+        //public const string Pages_LoanImpairmentResults = "Pages.LoanImpairmentResults";
+        //public const string Pages_LoanImpairmentResults_Create = "Pages.LoanImpairmentResults.Create";
+        //public const string Pages_LoanImpairmentResults_Edit = "Pages.LoanImpairmentResults.Edit";
+        //public const string Pages_LoanImpairmentResults_Delete = "Pages.LoanImpairmentResults.Delete";
 
-        public const string Pages_LoanImpairmentReults = "Pages.LoanImpairmentReults";
-        public const string Pages_LoanImpairmentReults_Create = "Pages.LoanImpairmentReults.Create";
-        public const string Pages_LoanImpairmentReults_Edit = "Pages.LoanImpairmentReults.Edit";
-        public const string Pages_LoanImpairmentReults_Delete = "Pages.LoanImpairmentReults.Delete";
+        //public const string Pages_LoanImpairmentReults = "Pages.LoanImpairmentReults";
+        //public const string Pages_LoanImpairmentReults_Create = "Pages.LoanImpairmentReults.Create";
+        //public const string Pages_LoanImpairmentReults_Edit = "Pages.LoanImpairmentReults.Edit";
+        //public const string Pages_LoanImpairmentReults_Delete = "Pages.LoanImpairmentReults.Delete";
 
-        public const string Pages_LoanImpairmentApprovals = "Pages.LoanImpairmentApprovals";
-        public const string Pages_LoanImpairmentApprovals_Create = "Pages.LoanImpairmentApprovals.Create";
-        public const string Pages_LoanImpairmentApprovals_Edit = "Pages.LoanImpairmentApprovals.Edit";
-        public const string Pages_LoanImpairmentApprovals_Delete = "Pages.LoanImpairmentApprovals.Delete";
+        //public const string Pages_LoanImpairmentApprovals = "Pages.LoanImpairmentApprovals";
+        //public const string Pages_LoanImpairmentApprovals_Create = "Pages.LoanImpairmentApprovals.Create";
+        //public const string Pages_LoanImpairmentApprovals_Edit = "Pages.LoanImpairmentApprovals.Edit";
+        //public const string Pages_LoanImpairmentApprovals_Delete = "Pages.LoanImpairmentApprovals.Delete";
 
-        public const string Pages_LoanImpairmentKeyParameters = "Pages.LoanImpairmentKeyParameters";
-        public const string Pages_LoanImpairmentKeyParameters_Create = "Pages.LoanImpairmentKeyParameters.Create";
-        public const string Pages_LoanImpairmentKeyParameters_Edit = "Pages.LoanImpairmentKeyParameters.Edit";
-        public const string Pages_LoanImpairmentKeyParameters_Delete = "Pages.LoanImpairmentKeyParameters.Delete";
+        //public const string Pages_LoanImpairmentKeyParameters = "Pages.LoanImpairmentKeyParameters";
+        //public const string Pages_LoanImpairmentKeyParameters_Create = "Pages.LoanImpairmentKeyParameters.Create";
+        //public const string Pages_LoanImpairmentKeyParameters_Edit = "Pages.LoanImpairmentKeyParameters.Edit";
+        //public const string Pages_LoanImpairmentKeyParameters_Delete = "Pages.LoanImpairmentKeyParameters.Delete";
 
-        public const string Pages_LoanImpairmentScenarios = "Pages.LoanImpairmentScenarios";
-        public const string Pages_LoanImpairmentScenarios_Create = "Pages.LoanImpairmentScenarios.Create";
-        public const string Pages_LoanImpairmentScenarios_Edit = "Pages.LoanImpairmentScenarios.Edit";
-        public const string Pages_LoanImpairmentScenarios_Delete = "Pages.LoanImpairmentScenarios.Delete";
+        //public const string Pages_LoanImpairmentScenarios = "Pages.LoanImpairmentScenarios";
+        //public const string Pages_LoanImpairmentScenarios_Create = "Pages.LoanImpairmentScenarios.Create";
+        //public const string Pages_LoanImpairmentScenarios_Edit = "Pages.LoanImpairmentScenarios.Edit";
+        //public const string Pages_LoanImpairmentScenarios_Delete = "Pages.LoanImpairmentScenarios.Delete";
 
-        public const string Pages_LoanImpairmentHaircuts = "Pages.LoanImpairmentHaircuts";
-        public const string Pages_LoanImpairmentHaircuts_Create = "Pages.LoanImpairmentHaircuts.Create";
-        public const string Pages_LoanImpairmentHaircuts_Edit = "Pages.LoanImpairmentHaircuts.Edit";
-        public const string Pages_LoanImpairmentHaircuts_Delete = "Pages.LoanImpairmentHaircuts.Delete";
+        //public const string Pages_LoanImpairmentHaircuts = "Pages.LoanImpairmentHaircuts";
+        //public const string Pages_LoanImpairmentHaircuts_Create = "Pages.LoanImpairmentHaircuts.Create";
+        //public const string Pages_LoanImpairmentHaircuts_Edit = "Pages.LoanImpairmentHaircuts.Edit";
+        //public const string Pages_LoanImpairmentHaircuts_Delete = "Pages.LoanImpairmentHaircuts.Delete";
 
-        public const string Pages_LoanImpairmentRecoveries = "Pages.LoanImpairmentRecoveries";
-        public const string Pages_LoanImpairmentRecoveries_Create = "Pages.LoanImpairmentRecoveries.Create";
-        public const string Pages_LoanImpairmentRecoveries_Edit = "Pages.LoanImpairmentRecoveries.Edit";
-        public const string Pages_LoanImpairmentRecoveries_Delete = "Pages.LoanImpairmentRecoveries.Delete";
+        //public const string Pages_LoanImpairmentRecoveries = "Pages.LoanImpairmentRecoveries";
+        //public const string Pages_LoanImpairmentRecoveries_Create = "Pages.LoanImpairmentRecoveries.Create";
+        //public const string Pages_LoanImpairmentRecoveries_Edit = "Pages.LoanImpairmentRecoveries.Edit";
+        //public const string Pages_LoanImpairmentRecoveries_Delete = "Pages.LoanImpairmentRecoveries.Delete";
 
-        public const string Pages_LoanImpairmentInputParameters = "Pages.LoanImpairmentInputParameters";
-        public const string Pages_LoanImpairmentInputParameters_Create = "Pages.LoanImpairmentInputParameters.Create";
-        public const string Pages_LoanImpairmentInputParameters_Edit = "Pages.LoanImpairmentInputParameters.Edit";
-        public const string Pages_LoanImpairmentInputParameters_Delete = "Pages.LoanImpairmentInputParameters.Delete";
+        //public const string Pages_LoanImpairmentInputParameters = "Pages.LoanImpairmentInputParameters";
+        //public const string Pages_LoanImpairmentInputParameters_Create = "Pages.LoanImpairmentInputParameters.Create";
+        //public const string Pages_LoanImpairmentInputParameters_Edit = "Pages.LoanImpairmentInputParameters.Edit";
+        //public const string Pages_LoanImpairmentInputParameters_Delete = "Pages.LoanImpairmentInputParameters.Delete";
+
+        public const string Pages_RvModels = "Pages.RvModels";
 
         public const string Pages_LoanImpairmentRegisters = "Pages.LoanImpairmentRegisters";
         public const string Pages_LoanImpairmentRegisters_Create = "Pages.LoanImpairmentRegisters.Create";
@@ -58,30 +60,30 @@
         public const string Pages_LoanImpairmentRegisters_Approve = "Pages.LoanImpairmentRegisters.Approve";
 
 
-        public const string Pages_ReceivablesApprovals = "Pages.ReceivablesApprovals";
-        public const string Pages_ReceivablesApprovals_Create = "Pages.ReceivablesApprovals.Create";
-        public const string Pages_ReceivablesApprovals_Edit = "Pages.ReceivablesApprovals.Edit";
-        public const string Pages_ReceivablesApprovals_Delete = "Pages.ReceivablesApprovals.Delete";
+        //public const string Pages_ReceivablesApprovals = "Pages.ReceivablesApprovals";
+        //public const string Pages_ReceivablesApprovals_Create = "Pages.ReceivablesApprovals.Create";
+        //public const string Pages_ReceivablesApprovals_Edit = "Pages.ReceivablesApprovals.Edit";
+        //public const string Pages_ReceivablesApprovals_Delete = "Pages.ReceivablesApprovals.Delete";
 
-        public const string Pages_ReceivablesResults = "Pages.ReceivablesResults";
-        public const string Pages_ReceivablesResults_Create = "Pages.ReceivablesResults.Create";
-        public const string Pages_ReceivablesResults_Edit = "Pages.ReceivablesResults.Edit";
-        public const string Pages_ReceivablesResults_Delete = "Pages.ReceivablesResults.Delete";
+        //public const string Pages_ReceivablesResults = "Pages.ReceivablesResults";
+        //public const string Pages_ReceivablesResults_Create = "Pages.ReceivablesResults.Create";
+        //public const string Pages_ReceivablesResults_Edit = "Pages.ReceivablesResults.Edit";
+        //public const string Pages_ReceivablesResults_Delete = "Pages.ReceivablesResults.Delete";
 
-        public const string Pages_ReceivablesForecasts = "Pages.ReceivablesForecasts";
-        public const string Pages_ReceivablesForecasts_Create = "Pages.ReceivablesForecasts.Create";
-        public const string Pages_ReceivablesForecasts_Edit = "Pages.ReceivablesForecasts.Edit";
-        public const string Pages_ReceivablesForecasts_Delete = "Pages.ReceivablesForecasts.Delete";
+        //public const string Pages_ReceivablesForecasts = "Pages.ReceivablesForecasts";
+        //public const string Pages_ReceivablesForecasts_Create = "Pages.ReceivablesForecasts.Create";
+        //public const string Pages_ReceivablesForecasts_Edit = "Pages.ReceivablesForecasts.Edit";
+        //public const string Pages_ReceivablesForecasts_Delete = "Pages.ReceivablesForecasts.Delete";
 
-        public const string Pages_CurrentPeriodDates = "Pages.CurrentPeriodDates";
-        public const string Pages_CurrentPeriodDates_Create = "Pages.CurrentPeriodDates.Create";
-        public const string Pages_CurrentPeriodDates_Edit = "Pages.CurrentPeriodDates.Edit";
-        public const string Pages_CurrentPeriodDates_Delete = "Pages.CurrentPeriodDates.Delete";
+        //public const string Pages_CurrentPeriodDates = "Pages.CurrentPeriodDates";
+        //public const string Pages_CurrentPeriodDates_Create = "Pages.CurrentPeriodDates.Create";
+        //public const string Pages_CurrentPeriodDates_Edit = "Pages.CurrentPeriodDates.Edit";
+        //public const string Pages_CurrentPeriodDates_Delete = "Pages.CurrentPeriodDates.Delete";
 
-        public const string Pages_ReceivablesInputs = "Pages.ReceivablesInputs";
-        public const string Pages_ReceivablesInputs_Create = "Pages.ReceivablesInputs.Create";
-        public const string Pages_ReceivablesInputs_Edit = "Pages.ReceivablesInputs.Edit";
-        public const string Pages_ReceivablesInputs_Delete = "Pages.ReceivablesInputs.Delete";
+        //public const string Pages_ReceivablesInputs = "Pages.ReceivablesInputs";
+        //public const string Pages_ReceivablesInputs_Create = "Pages.ReceivablesInputs.Create";
+        //public const string Pages_ReceivablesInputs_Edit = "Pages.ReceivablesInputs.Edit";
+        //public const string Pages_ReceivablesInputs_Delete = "Pages.ReceivablesInputs.Delete";
 
         public const string Pages_ReceivablesRegisters = "Pages.ReceivablesRegisters";
         public const string Pages_ReceivablesRegisters_Create = "Pages.ReceivablesRegisters.Create";
@@ -89,45 +91,45 @@
         public const string Pages_ReceivablesRegisters_Delete = "Pages.ReceivablesRegisters.Delete";
         public const string Pages_ReceivablesRegisters_Approve = "Pages.ReceivablesRegisters.Approve";
 
-        public const string Pages_HoldCoApprovals = "Pages.HoldCoApprovals";
-        public const string Pages_HoldCoApprovals_Create = "Pages.HoldCoApprovals.Create";
-        public const string Pages_HoldCoApprovals_Edit = "Pages.HoldCoApprovals.Edit";
-        public const string Pages_HoldCoApprovals_Delete = "Pages.HoldCoApprovals.Delete";
+        //public const string Pages_HoldCoApprovals = "Pages.HoldCoApprovals";
+        //public const string Pages_HoldCoApprovals_Create = "Pages.HoldCoApprovals.Create";
+        //public const string Pages_HoldCoApprovals_Edit = "Pages.HoldCoApprovals.Edit";
+        //public const string Pages_HoldCoApprovals_Delete = "Pages.HoldCoApprovals.Delete";
 
-        public const string Pages_ResultSummaryByStages = "Pages.ResultSummaryByStages";
-        public const string Pages_ResultSummaryByStages_Create = "Pages.ResultSummaryByStages.Create";
-        public const string Pages_ResultSummaryByStages_Edit = "Pages.ResultSummaryByStages.Edit";
-        public const string Pages_ResultSummaryByStages_Delete = "Pages.ResultSummaryByStages.Delete";
+        //public const string Pages_ResultSummaryByStages = "Pages.ResultSummaryByStages";
+        //public const string Pages_ResultSummaryByStages_Create = "Pages.ResultSummaryByStages.Create";
+        //public const string Pages_ResultSummaryByStages_Edit = "Pages.ResultSummaryByStages.Edit";
+        //public const string Pages_ResultSummaryByStages_Delete = "Pages.ResultSummaryByStages.Delete";
 
-        public const string Pages_HoldCoInterCompanyResults = "Pages.HoldCoInterCompanyResults";
-        public const string Pages_HoldCoInterCompanyResults_Create = "Pages.HoldCoInterCompanyResults.Create";
-        public const string Pages_HoldCoInterCompanyResults_Edit = "Pages.HoldCoInterCompanyResults.Edit";
-        public const string Pages_HoldCoInterCompanyResults_Delete = "Pages.HoldCoInterCompanyResults.Delete";
+        //public const string Pages_HoldCoInterCompanyResults = "Pages.HoldCoInterCompanyResults";
+        //public const string Pages_HoldCoInterCompanyResults_Create = "Pages.HoldCoInterCompanyResults.Create";
+        //public const string Pages_HoldCoInterCompanyResults_Edit = "Pages.HoldCoInterCompanyResults.Edit";
+        //public const string Pages_HoldCoInterCompanyResults_Delete = "Pages.HoldCoInterCompanyResults.Delete";
 
-        public const string Pages_HoldCoResultSummaries = "Pages.HoldCoResultSummaries";
-        public const string Pages_HoldCoResultSummaries_Create = "Pages.HoldCoResultSummaries.Create";
-        public const string Pages_HoldCoResultSummaries_Edit = "Pages.HoldCoResultSummaries.Edit";
-        public const string Pages_HoldCoResultSummaries_Delete = "Pages.HoldCoResultSummaries.Delete";
+        //public const string Pages_HoldCoResultSummaries = "Pages.HoldCoResultSummaries";
+        //public const string Pages_HoldCoResultSummaries_Create = "Pages.HoldCoResultSummaries.Create";
+        //public const string Pages_HoldCoResultSummaries_Edit = "Pages.HoldCoResultSummaries.Edit";
+        //public const string Pages_HoldCoResultSummaries_Delete = "Pages.HoldCoResultSummaries.Delete";
 
-        public const string Pages_HoldCoResults = "Pages.HoldCoResults";
-        public const string Pages_HoldCoResults_Create = "Pages.HoldCoResults.Create";
-        public const string Pages_HoldCoResults_Edit = "Pages.HoldCoResults.Edit";
-        public const string Pages_HoldCoResults_Delete = "Pages.HoldCoResults.Delete";
+        //public const string Pages_HoldCoResults = "Pages.HoldCoResults";
+        //public const string Pages_HoldCoResults_Create = "Pages.HoldCoResults.Create";
+        //public const string Pages_HoldCoResults_Edit = "Pages.HoldCoResults.Edit";
+        //public const string Pages_HoldCoResults_Delete = "Pages.HoldCoResults.Delete";
 
-        public const string Pages_AssetBooks = "Pages.AssetBooks";
-        public const string Pages_AssetBooks_Create = "Pages.AssetBooks.Create";
-        public const string Pages_AssetBooks_Edit = "Pages.AssetBooks.Edit";
-        public const string Pages_AssetBooks_Delete = "Pages.AssetBooks.Delete";
+        //public const string Pages_AssetBooks = "Pages.AssetBooks";
+        //public const string Pages_AssetBooks_Create = "Pages.AssetBooks.Create";
+        //public const string Pages_AssetBooks_Edit = "Pages.AssetBooks.Edit";
+        //public const string Pages_AssetBooks_Delete = "Pages.AssetBooks.Delete";
 
-        public const string Pages_MacroEconomicCreditIndices = "Pages.MacroEconomicCreditIndices";
-        public const string Pages_MacroEconomicCreditIndices_Create = "Pages.MacroEconomicCreditIndices.Create";
-        public const string Pages_MacroEconomicCreditIndices_Edit = "Pages.MacroEconomicCreditIndices.Edit";
-        public const string Pages_MacroEconomicCreditIndices_Delete = "Pages.MacroEconomicCreditIndices.Delete";
+        //public const string Pages_MacroEconomicCreditIndices = "Pages.MacroEconomicCreditIndices";
+        //public const string Pages_MacroEconomicCreditIndices_Create = "Pages.MacroEconomicCreditIndices.Create";
+        //public const string Pages_MacroEconomicCreditIndices_Edit = "Pages.MacroEconomicCreditIndices.Edit";
+        //public const string Pages_MacroEconomicCreditIndices_Delete = "Pages.MacroEconomicCreditIndices.Delete";
 
-        public const string Pages_HoldCoInputParameters = "Pages.HoldCoInputParameters";
-        public const string Pages_HoldCoInputParameters_Create = "Pages.HoldCoInputParameters.Create";
-        public const string Pages_HoldCoInputParameters_Edit = "Pages.HoldCoInputParameters.Edit";
-        public const string Pages_HoldCoInputParameters_Delete = "Pages.HoldCoInputParameters.Delete";
+        //public const string Pages_HoldCoInputParameters = "Pages.HoldCoInputParameters";
+        //public const string Pages_HoldCoInputParameters_Create = "Pages.HoldCoInputParameters.Create";
+        //public const string Pages_HoldCoInputParameters_Edit = "Pages.HoldCoInputParameters.Edit";
+        //public const string Pages_HoldCoInputParameters_Delete = "Pages.HoldCoInputParameters.Delete";
 
         public const string Pages_HoldCoRegisters = "Pages.HoldCoRegisters";
         public const string Pages_HoldCoRegisters_Create = "Pages.HoldCoRegisters.Create";

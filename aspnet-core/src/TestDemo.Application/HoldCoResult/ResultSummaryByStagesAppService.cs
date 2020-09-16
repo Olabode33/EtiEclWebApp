@@ -18,7 +18,7 @@ using TestDemo.Calibration.Exporting;
 
 namespace TestDemo.HoldCoResult
 {
-	[AbpAuthorize(AppPermissions.Pages_ResultSummaryByStages)]
+	//[AbpAuthorize(AppPermissions.Pages_ResultSummaryByStages)]
     public class ResultSummaryByStagesAppService : TestDemoAppServiceBase, IResultSummaryByStagesAppService
     {
 		 private readonly IRepository<ResultSummaryByStage, Guid> _resultSummaryByStageRepository;
@@ -71,7 +71,7 @@ namespace TestDemo.HoldCoResult
             return output;
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_ResultSummaryByStages_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_ResultSummaryByStages_Edit)]
 		 public async Task<GetResultSummaryByStageForEditOutput> GetResultSummaryByStageForEdit(EntityDto<Guid> input)
          {
             var resultSummaryByStage = await _resultSummaryByStageRepository.FirstOrDefaultAsync(input.Id);
@@ -91,7 +91,7 @@ namespace TestDemo.HoldCoResult
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ResultSummaryByStages_Create)]
+		 //[AbpAuthorize(AppPermissions.Pages_ResultSummaryByStages_Create)]
 		 protected virtual async Task Create(CreateOrEditResultSummaryByStageDto input)
          {
             var resultSummaryByStage = ObjectMapper.Map<ResultSummaryByStage>(input);
@@ -101,14 +101,14 @@ namespace TestDemo.HoldCoResult
             await _resultSummaryByStageRepository.InsertAsync(resultSummaryByStage);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ResultSummaryByStages_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_ResultSummaryByStages_Edit)]
 		 protected virtual async Task Update(CreateOrEditResultSummaryByStageDto input)
          {
             var resultSummaryByStage = await _resultSummaryByStageRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, resultSummaryByStage);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_ResultSummaryByStages_Delete)]
+		 //[AbpAuthorize(AppPermissions.Pages_ResultSummaryByStages_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _resultSummaryByStageRepository.DeleteAsync(input.Id);

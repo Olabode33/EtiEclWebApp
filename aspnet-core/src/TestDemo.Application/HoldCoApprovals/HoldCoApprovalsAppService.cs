@@ -20,7 +20,7 @@ using TestDemo.IVModels;
 
 namespace TestDemo.HoldCoApprovals
 {
-	[AbpAuthorize(AppPermissions.Pages_HoldCoApprovals)]
+	//[AbpAuthorize(AppPermissions.Pages_HoldCoApprovals)]
     public class HoldCoApprovalsAppService : TestDemoAppServiceBase, IHoldCoApprovalsAppService
     {
 		private readonly IRepository<HoldCoApproval> _holdCoApprovalRepository;
@@ -102,7 +102,7 @@ namespace TestDemo.HoldCoApprovals
             return output;
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_HoldCoApprovals_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_HoldCoApprovals_Edit)]
 		 public async Task<GetHoldCoApprovalForEditOutput> GetHoldCoApprovalForEdit(EntityDto input)
          {
             var holdCoApproval = await _holdCoApprovalRepository.FirstOrDefaultAsync(input.Id);
@@ -122,7 +122,7 @@ namespace TestDemo.HoldCoApprovals
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_HoldCoApprovals_Create)]
+		 //[AbpAuthorize(AppPermissions.Pages_HoldCoApprovals_Create)]
 		 protected virtual async Task Create(CreateOrEditHoldCoApprovalDto input)
          {
             var holdCoApproval = ObjectMapper.Map<HoldCoApproval>(input);
@@ -132,14 +132,14 @@ namespace TestDemo.HoldCoApprovals
             await _holdCoApprovalRepository.InsertAsync(holdCoApproval);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_HoldCoApprovals_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_HoldCoApprovals_Edit)]
 		 protected virtual async Task Update(CreateOrEditHoldCoApprovalDto input)
          {
             var holdCoApproval = await _holdCoApprovalRepository.FirstOrDefaultAsync((int)input.Id);
              ObjectMapper.Map(input, holdCoApproval);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_HoldCoApprovals_Delete)]
+		 //[AbpAuthorize(AppPermissions.Pages_HoldCoApprovals_Delete)]
          public async Task Delete(EntityDto input)
          {
             await _holdCoApprovalRepository.DeleteAsync(input.Id);

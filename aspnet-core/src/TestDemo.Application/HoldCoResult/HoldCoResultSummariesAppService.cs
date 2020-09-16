@@ -19,7 +19,7 @@ using TestDemo.Calibration.Exporting;
 
 namespace TestDemo.HoldCoResult
 {
-	[AbpAuthorize(AppPermissions.Pages_HoldCoResultSummaries)]
+	//[AbpAuthorize(AppPermissions.Pages_HoldCoResultSummaries)]
     public class HoldCoResultSummariesAppService : TestDemoAppServiceBase, IHoldCoResultSummariesAppService
     {
 	    private readonly IRepository<HoldCoResultSummary, Guid> _holdCoResultSummaryRepository;
@@ -64,7 +64,7 @@ namespace TestDemo.HoldCoResult
             );
          }
 		 
-		 [AbpAuthorize(AppPermissions.Pages_HoldCoResultSummaries_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_HoldCoResultSummaries_Edit)]
 		 public async Task<GetHoldCoResultSummaryForEditOutput> GetHoldCoResultSummaryForEdit(EntityDto<Guid> input)
          {
             var holdCoResultSummary = await _holdCoResultSummaryRepository.FirstOrDefaultAsync(input.Id);
@@ -84,7 +84,7 @@ namespace TestDemo.HoldCoResult
 			}
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_HoldCoResultSummaries_Create)]
+		 //[AbpAuthorize(AppPermissions.Pages_HoldCoResultSummaries_Create)]
 		 protected virtual async Task Create(CreateOrEditHoldCoResultSummaryDto input)
          {
             var holdCoResultSummary = ObjectMapper.Map<HoldCoResultSummary>(input);
@@ -94,14 +94,14 @@ namespace TestDemo.HoldCoResult
             await _holdCoResultSummaryRepository.InsertAsync(holdCoResultSummary);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_HoldCoResultSummaries_Edit)]
+		 //[AbpAuthorize(AppPermissions.Pages_HoldCoResultSummaries_Edit)]
 		 protected virtual async Task Update(CreateOrEditHoldCoResultSummaryDto input)
          {
             var holdCoResultSummary = await _holdCoResultSummaryRepository.FirstOrDefaultAsync((Guid)input.Id);
              ObjectMapper.Map(input, holdCoResultSummary);
          }
 
-		 [AbpAuthorize(AppPermissions.Pages_HoldCoResultSummaries_Delete)]
+		 //[AbpAuthorize(AppPermissions.Pages_HoldCoResultSummaries_Delete)]
          public async Task Delete(EntityDto<Guid> input)
          {
             await _holdCoResultSummaryRepository.DeleteAsync(input.Id);
