@@ -48,9 +48,9 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
     assumptionTypeEnum = AssumptionTypeEnum;
     portfolioList = [
         {key: FrameworkEnum.Wholesale, isActive: true, reportDate: moment().endOf('month')},
-        {key: FrameworkEnum.Retail, isActive: false, reportDate: moment().endOf('month')},
-        {key: FrameworkEnum.OBE, isActive: false, reportDate: moment().endOf('month')},
-        {key: FrameworkEnum.Investments, isActive: false, reportDate: moment().endOf('month')}
+        // {key: FrameworkEnum.Retail, isActive: false, reportDate: moment().endOf('month')},
+        // {key: FrameworkEnum.OBE, isActive: false, reportDate: moment().endOf('month')},
+        // {key: FrameworkEnum.Investments, isActive: false, reportDate: moment().endOf('month')}
     ];
     selectedAffiliate = '';
     selectedPortfolio = '';
