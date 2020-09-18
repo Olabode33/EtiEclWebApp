@@ -124,12 +124,12 @@ import { AddEadAssumptionModalComponent } from './assumptions/_subs/add-ead-assu
 import { ViewBatchEclComponent } from './eclView/view-batchEcl/view-batchEcl.component';
 import { ContextMenuModule } from 'primeng/primeng';
 import { EditSelectedMacroResultModalComponent } from './calibration/calibrateMacroAnalysis/edit-selectedMacroResult-modal.component';
-import { EditCalibrateCommConsResultModalComponent } from './calibration/calibratePdCrDr/edit-calibrateCommCons-result-modal.component';;
-import { ApproveIvmodelModalComponent } from './ivmodels/approve-ivmodel-modal/approve-ivmodel-modal.component'
+import { EditCalibrateCommConsResultModalComponent } from './calibration/calibratePdCrDr/edit-calibrateCommCons-result-modal.component';
 import { ViewReceivablesRegisterComponent } from './ivModels/receivablesRegisters/view-receivablesRegister.component';
 import { HoldCoResultSummariesComponent } from './ivModels/holdCoResultSummaries/holdCoResultSummaries.component';
 import { ViewHoldCoResultSummaryModalComponent } from './ivModels/holdCoResultSummaries/view-holdCoResultSummary-modal.component';
 import { CreateOrEditHoldCoResultSummaryModalComponent } from './ivModels/holdCoResultSummaries/create-or-edit-holdCoResultSummary-modal.component';
+import { ApproveIvmodelModalComponent } from './ivModels/approve-ivmodel-modal/approve-ivmodel-modal.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -156,29 +156,29 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
-		ViewLoanImpairmentRegisterComponent,
-		LoanImpairmentRegistersComponent,
+        ViewLoanImpairmentRegisterComponent,
+        LoanImpairmentRegistersComponent,
 
-		CreateOrEditLoanImpairmentRegisterComponent,
-		ReceivablesRegistersComponent,
+        CreateOrEditLoanImpairmentRegisterComponent,
+        ReceivablesRegistersComponent,
 
-		ViewReceivablesRegisterComponent,
+        ViewReceivablesRegisterComponent,
 
-		ReceivablesRegistersComponent,
+        ReceivablesRegistersComponent,
 
-		CreateOrEditReceivablesRegisterComponent,
-		ResultSummaryByStagesComponent,
+        CreateOrEditReceivablesRegisterComponent,
+        ResultSummaryByStagesComponent,
 
-		ViewResultSummaryByStageModalComponent,
-		CreateOrEditResultSummaryByStageModalComponent,
-		HoldCoResultSummariesComponent,
+        ViewResultSummaryByStageModalComponent,
+        CreateOrEditResultSummaryByStageModalComponent,
+        HoldCoResultSummariesComponent,
 
-		ViewHoldCoResultSummaryModalComponent,
-		CreateOrEditHoldCoResultSummaryModalComponent,
-		HoldCoRegistersComponent,
+        ViewHoldCoResultSummaryModalComponent,
+        CreateOrEditHoldCoResultSummaryModalComponent,
+        HoldCoRegistersComponent,
 
-		ViewHoldCoRegisterComponent,
-		CreateOrEditHoldCoRegisterComponent,
+        ViewHoldCoRegisterComponent,
+        CreateOrEditHoldCoRegisterComponent,
         EditCalibrateCommConsResultModalComponent,
         EditSelectedMacroResultModalComponent,
         ViewBatchEclComponent,
@@ -255,9 +255,9 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         EditStatisticsResultModalComponent,
         EditPrincipalSummaryResultModalComponent,
         EditIndexResultModalComponent,
-        EditPrincipalComponentResultModalComponent
-,
-        ApproveIvmodelModalComponent    ],
+        EditPrincipalComponentResultModalComponent,
+        ApproveIvmodelModalComponent
+    ],
     providers: [
         { provide: BsDatepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDatepickerConfig },
         { provide: BsDaterangepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDaterangepickerConfig },
