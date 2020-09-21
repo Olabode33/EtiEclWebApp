@@ -164,6 +164,7 @@ namespace TestDemo.EclShared.Importing
                 Amount_Recovered = input.Amount_Recovered,
                 Date_Of_Recovery = input.Date_Of_Recovery,
                 Type_Of_Recovery = input.Type_Of_Recovery,
+                Product_Type = input.Product_Type,
                 CalibrationId = args.CalibrationId,
                 DateCreated = DateTime.Now
             });
