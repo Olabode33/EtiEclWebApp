@@ -308,7 +308,7 @@ namespace TestDemo.Authorization.Users
             }
 
             var user = ObjectMapper.Map<User>(input.User); //Passwords is not mapped (see mapping configuration)
-            user.TenantId = AbpSession.TenantId;
+            user.TenantId = 1;
 
             //Set password
             if (input.SetRandomPassword)
@@ -342,8 +342,8 @@ namespace TestDemo.Authorization.Users
             await CurrentUnitOfWork.SaveChangesAsync(); //To get new user's Id.
 
             //Notifications
-            await _notificationSubscriptionManager.SubscribeToAllAvailableNotificationsAsync(user.ToUserIdentifier());
-            await _appNotifier.WelcomeToTheApplicationAsync(user);
+            //await _notificationSubscriptionManager.SubscribeToAllAvailableNotificationsAsync(user.ToUserIdentifier());
+            //await _appNotifier.WelcomeToTheApplicationAsync(user);
 
             //Organization Units
             await UserManager.SetOrganizationUnitsAsync(user, input.OrganizationUnits.ToArray());

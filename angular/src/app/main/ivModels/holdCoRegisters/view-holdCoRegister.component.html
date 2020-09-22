@@ -39,64 +39,6 @@
 
 
     <div class="kt-content">
-
-
-        <div class="kt-portlet kt-portlet--height-fluid" *ngIf="holdCoRegister.status == statusEnum.Completed">
-            <div class="kt-portlet__head ">
-                <div class="kt-portlet__head-label hoverable" (click)="showResultCard = !showResultCard;">
-                    <h3 class="kt-portlet__head-title">
-                        {{l('Results')}}
-                    </h3>
-                </div>
-
-                <div class="kt-portlet__head-toolbar">
-                    <button *ngIf="holdCoInterCompanyResults.length > 0" (click)="exportResultToExcel()" class="btn btn-outline-primary mr-2">
-                        <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
-                        {{l("DownloadFullData")}}
-                    </button>
-
-                </div>
-
-            </div>
-
-
-
-            <div [hidden]="!showResultCard" class="kt-portlet__body">
-
-                <div class="table-responsive">
-
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>{{l('AssetType')}}</th>
-                                <th>{{l('AssetDescription')}}</th>
-                                <th>{{l('Stage')}}</th>
-                                <th>{{l('OutstandingBalanceLCY')}}</th>
-                                <th>{{l('BestEstimate')}}</th>
-                                <th>{{l('Optimistic')}}</th>
-                                <th>{{l('Downturn')}}</th>
-                                <th>{{l('Impairment')}}</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of holdCoInterCompanyResults">
-                                <td class="align-middle">{{ item.assetType }}</td>
-                                <td class="align-middle">{{ item.assetDescription }}</td>
-                                <td class="align-middle">{{ item.stage }}</td>
-                                <td class="align-middle">{{ item.outstandingBalance }}</td>
-                                <td class="align-middle">{{ item.bestEstimate }}</td>
-                                <td class="align-middle">{{ item.optimistic }}</td>
-                                <td class="align-middle">{{ item.downturn }}</td>
-                                <td class="align-middle">{{ item.impairment }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                </div>
-            </div>
-        </div>
-
         <div class="kt-portlet kt-portlet--height-fluid" *ngIf="holdCoRegister.status == statusEnum.Completed">
             <div class="kt-portlet__head ">
                 <div class="kt-portlet__head-label hoverable" (click)="showResultSummaryCard = !showResultSummaryCard;">
@@ -104,7 +46,6 @@
                         {{l('ResultSummary')}}
                     </h3>
                 </div>
-
                 <div class="kt-portlet__head-toolbar">
                     <button *ngIf="holdCoInterCompanyResults.length > 0" (click)="exportResultSummaryToExcel()" class="btn btn-outline-primary mr-2">
                         <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
@@ -112,11 +53,7 @@
                     </button>
 
                 </div>
-
             </div>
-
-
-
             <div [hidden]="!showResultSummaryCard" class="kt-portlet__body">
 
                 <div class="table-responsive">
@@ -124,35 +61,36 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>{{l('BestEstimateExposure')}}</th>
-                                <th>{{l('OptimisticExposure')}}</th>
-                                <th>{{l('DownturnExposure')}}</th>
-                                <th>{{l('BestEstimateTotal')}}</th>
-                                <th>{{l('OptimisticTotal')}}</th>
-                                <th>{{l('DownturnTotal')}}</th>
-                                <th>{{l('BestEstimateImpairmentRatio')}}</th>
-                                <th>{{l('OptimisticImpairmentRatio')}}</th>
-                                <th>{{l('DownturnImpairmentRatio')}}</th>
+                                <th>{{l('Scenario')}}</th>
                                 <th>{{l('Exposure')}}</th>
                                 <th>{{l('Total')}}</th>
                                 <th>{{l('ImpairmentRatio')}}</th>
-
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr *ngFor="let item of holdCoResultSummaries">
-                                <td class="align-middle">{{ item.bestEstimateExposure }}</td>
-                                <td class="align-middle">{{ item.optimisticExposure }}</td>
-                                <td class="align-middle">{{ item.downturnExposure }}</td>
-                                <td class="align-middle">{{ item.bestEstimateTotal }}</td>
-                                <td class="align-middle">{{ item.optimisticTotal }}</td>
-                                <td class="align-middle">{{ item.downturnTotal }}</td>
-                                <td class="align-middle">{{ item.bestEstimateImpairmentRatio }}</td>
-                                <td class="align-middle">{{ item.optimisticImpairmentRatio }}</td>
-                                <td class="align-middle">{{ item.downturnImpairmentRatio }}</td>
-                                <td class="align-middle">{{ item.exposure }}</td>
-                                <td class="align-middle">{{ item.total }}</td>
-                                <td class="align-middle">{{ item.impairmentRatio }}</td>
+                        <tbody *ngFor="let item of holdCoResultSummaries">
+                            <tr>
+                                <td class="align-middle"> ECL - Best Estimate</td>
+                                <td class="align-middle">{{ item.bestEstimateExposure | number:'1.0-0' }}</td>
+                                <td class="align-middle">{{ item.bestEstimateTotal | number:'1.0-0' }}</td>
+                                <td class="align-middle">{{ item.bestEstimateImpairmentRatio | percent:'1.1-1'  }}</td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle"> ECL - Optimistic Estimate</td>
+                                <td class="align-middle">{{ item.optimisticExposure | number:'1.0-0'  }}</td>
+                                <td class="align-middle">{{ item.optimisticTotal | number:'1.0-0'  }}</td>
+                                <td class="align-middle">{{ item.optimisticImpairmentRatio | percent:'1.1-1' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle"> ECL - Downturn Estimate</td>
+                                <td class="align-middle">{{ item.downturnExposure | number:'1.0-0' }}</td>
+                                <td class="align-middle">{{ item.downturnTotal | number:'1.0-0' }}</td>
+                                <td class="align-middle">{{ item.downturnImpairmentRatio | percent:'1.1-1'  }}</td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle"> </td>
+                                <td class="align-middle">{{ item.exposure | number:'1.0-0' }}</td>
+                                <td class="align-middle">{{ item.total | number:'1.0-0' }}</td>
+                                <td class="align-middle">{{ item.impairmentRatio | percent:'1.1-1'  }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -160,8 +98,6 @@
                 </div>
             </div>
         </div>
-
-
 
         <div class="kt-portlet kt-portlet--height-fluid" *ngIf="holdCoRegister.status == statusEnum.Completed">
             <div class="kt-portlet__head ">
@@ -190,35 +126,86 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>{{l('StageOneExposure')}}</th>
-                                <th>{{l('StageTwoExposure')}}</th>
-                                <th>{{l('StageThreeExposure')}}</th>
-                                <th>{{l('TotalExposure')}}</th>
-                                <th>{{l('StageOneImpairment')}}</th>
-                                <th>{{l('StageTwoImpairment')}}</th>
-                                <th>{{l('StageThreeImpairment')}}</th>
-                                <th>{{l('StageOneImpairmentRatio')}}</th>
-                                <th>{{l('StageTwoImpairmentRatio')}}</th>
-                                <th>{{l('TotalImpairment')}}</th>
-                                <th>{{l('StageThreeImpairmentRatio')}}</th>
-                                <th>{{l('TotalImpairmentRatio')}}</th>
+                                <th></th>
+                                <th>{{l('Exposure')}}</th>
+                                <th>{{l('Impairment')}}</th>
+                                <th>{{l('ImpairmentRatio')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let item of holdCoResultSummariesByStage">
+                            <tr>
+                                <td class="align-middle">Stage 1</td>
+                                <td class="align-middle">{{ item.stageOneExposure | number:'1.0-0' }}</td>
+                                <td class="align-middle">{{ item.stageOneImpairment | number:'1.0-0' }}</td>
+                                <td class="align-middle">{{ item.stageOneImpairmentRatio | percent:'1.1-1'  }}</td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle">Stage 2</td>
+                                <td class="align-middle">{{ item.stageTwoExposure | number:'1.0-0' }}</td>
+                                <td class="align-middle">{{ item.stageTwoImpairment | number:'1.0-0' }}</td>
+                                <td class="align-middle">{{ item.stageTwoImpairmentRatio  | percent:'1.1-1'  }}</td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle">Stage 3</td>
+                                <td class="align-middle">{{ item.stageThreeExposure | number:'1.0-0' }}</td>
+                                <td class="align-middle">{{ item.stageThreeImpairment | number:'1.0-0' }}</td>
+                                <td class="align-middle">{{ item.stageThreeImpairmentRatio  | percent:'1.1-1'  }}</td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle">{{l('Total')}}</td>
+                                <td class="align-middle">{{ item.totalExposure | number:'1.0-0' }}</td>
+                                <td class="align-middle">{{ item.totalImpairment | number:'1.0-0' }}</td>
+                                <td class="align-middle">{{ item.totalImpairmentRatio | percent:'1.1-1' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="kt-portlet kt-portlet--height-fluid" *ngIf="holdCoRegister.status == statusEnum.Completed">
+            <div class="kt-portlet__head ">
+                <div class="kt-portlet__head-label hoverable" (click)="showResultCard = !showResultCard;">
+                    <h3 class="kt-portlet__head-title">
+                        {{l('ResultDetails')}}
+                    </h3>
+                </div>
+                <div class="kt-portlet__head-toolbar">
+                    <button *ngIf="holdCoInterCompanyResults.length > 0" (click)="exportResultToExcel()" class="btn btn-outline-primary mr-2">
+                        <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
+                        {{l("DownloadFullData")}}
+                    </button>
+                </div>
+            </div>
+            <div [hidden]="!showResultCard" class="kt-portlet__body">
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>{{l('AssetType')}}</th>
+                                <th>{{l('AssetDescription')}}</th>
+                                <th>{{l('Stage')}}</th>
+                                <th>{{l('OutstandingBalanceLCY')}}</th>
+                                <th>{{l('BestEstimate')}}</th>
+                                <th>{{l('Optimistic')}}</th>
+                                <th>{{l('Downturn')}}</th>
+                                <th>{{l('Impairment')}}</th>
 
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of holdCoResultSummariesByStage">
-                                <td class="align-middle">{{ item.stageOneExposure }}</td>
-                                <td class="align-middle">{{ item.stageTwoExposure }}</td>
-                                <td class="align-middle">{{ item.stageThreeExposure }}</td>
-                                <td class="align-middle">{{ item.totalExposure }}</td>
-                                <td class="align-middle">{{ item.stageOneImpairment }}</td>
-                                <td class="align-middle">{{ item.stageTwoImpairment }}</td>
-                                <td class="align-middle">{{ item.stageThreeImpairment }}</td>
-                                <td class="align-middle">{{ item.stageOneImpairmentRatio }}</td>
-                                <td class="align-middle">{{ item.stageTwoImpairmentRatio }}</td>
-                                <td class="align-middle">{{ item.totalImpairment }}</td>
-                                <td class="align-middle">{{ item.stageThreeImpairmentRatio }}</td>
-                                <td class="align-middle">{{ item.totalImpairmentRatio }}</td>
+                            <tr *ngFor="let item of holdCoInterCompanyResults">
+                                <td class="align-middle">{{ item.assetType }}</td>
+                                <td class="align-middle">{{ item.assetDescription }}</td>
+                                <td class="align-middle">{{ item.stage }}</td>
+                                <td class="align-middle">{{ item.outstandingBalance | number:'1.0-0'  }}</td>
+                                <td class="align-middle">{{ item.bestEstimate  | number:'1.0-0'  }}</td>
+                                <td class="align-middle">{{ item.optimistic | number:'1.0-0'  }}</td>
+                                <td class="align-middle">{{ item.downturn | number:'1.0-0'  }}</td>
+                                <td class="align-middle">{{ item.impairment | number:'1.0-0'  }}</td>
                             </tr>
                         </tbody>
                     </table>
