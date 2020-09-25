@@ -73,60 +73,51 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>{{l('BaseScenarioExposure')}}</th>
-                            <th>{{l('OptimisticScenarioExposure')}}</th>
-                            <th>{{l('DownturnScenarioExposure')}}</th>
-                            <th>{{l('WeightedECLResultExposure')}}</th>
-                            <th>{{l('BaseScenarioPreOverlay')}}</th>
-                            <th>{{l('OptimisticScenarioPreOverlay')}}</th>
-                            <th>{{l('DownturnScenarioPreOverlay')}}</th>
-                            <th>{{l('WeightedECLResultPreOverlay')}}</th>
-                            <th>{{l('BaseScenarioOverrideImpact')}}</th>
-                            <th>{{l('OptimisticScenarioOverrideImpact')}}</th>
-                            <th>{{l('DownturnScenarioOverrideImpact')}}</th>
-                            <th>{{l('WeightedECLResultOverrideImpact')}}</th>
-                            <th>{{l('BaseScenarioImpairmentPostOverride')}}</th>
-                            <th>{{l('OptimisticScenarioImpairmentPostOverride')}}</th>
-                            <th>{{l('DownturnScenarioImpairmentPostOverride')}}</th>
-                            <th>{{l('WeightedECLResultImpairmentPostOverride')}}</th>
-                            <th>{{l('BaseScenarioOverlay')}}</th>
-                            <th>{{l('OptimisticScenarioOverlay')}}</th>
-                            <th>{{l('DownturnScenarioOverlay')}}</th>
-                            <th>{{l('WeightedECLResultOverlay')}}</th>
-                            <th>{{l('BaseScenarioFinalImpairment')}}</th>
-                            <th>{{l('OptimisticScenarioFinalImpairnment')}}</th>
-                            <th>{{l('DownturnScenarioFinalImpairment')}}</th>
-                            <th>{{l('WeightedECLResultFinalImpairment')}}</th>
-
-
+                            <th>{{l('Scenario')}}</th>
+                            <th>{{l('Exposure')}}</th>
+                            <th>{{l('ImpairmentPreOverlay')}}</th>
+                            <th>{{l('OverrideImpact')}}</th>
+                            <th>{{l('ImpairmentPostOverlay')}}</th>
+                            <th>{{l('Overlay')}}</th>
+                            <th>{{l('FinalImpairment')}}</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr *ngFor="let item of results">
-                            <td class="align-middle">{{ item.baseScenarioExposure }}</td>
-                            <td class="align-middle">{{ item.optimisticScenarioExposure }}</td>
-                            <td class="align-middle">{{ item.downturnScenarioExposure }}</td>
-                            <td class="align-middle">{{ item.resultsExposure }}</td>
-                            <td class="align-middle">{{ item.baseScenarioPreOverlay }}</td>
-                            <td class="align-middle">{{ item.optimisticScenarioPreOverlay }}</td>
-                            <td class="align-middle">{{ item.downturnScenarioPreOverlay }}</td>
-                            <td class="align-middle">{{ item.resultPreOverlay }}</td>
-                            <td class="align-middle">{{ item.baseScenarioOverrideImpact }}</td>
-                            <td class="align-middle">{{ item.optimisticScenarioOverrideImpact }}</td>
-                            <td class="align-middle">{{ item.downturnScenarioOverrideImpact }}</td>
-                            <td class="align-middle">{{ item.resultOverrideImpact }}</td>
-                            <td class="align-middle">{{ item.baseScenarioIPO }}</td>
-                            <td class="align-middle">{{ item.optimisticScenarioIPO }}</td>
-                            <td class="align-middle">{{ item.downturnScenarioIPO }}</td>
-                            <td class="align-middle">{{ item.resultIPO }}</td>
-                            <td class="align-middle">{{ item.baseScenarioOverlay }}</td>
-                            <td class="align-middle">{{ item.optimisticScenarioOverlay }}</td>
-                            <td class="align-middle">{{ item.downturnScenarioOverlay }}</td>
-                            <td class="align-middle">{{ item.resultOverlay }}</td>
-                            <td class="align-middle">{{ item.baseScenarioFinalImpairment }}</td>
-                            <td class="align-middle">{{ item.optimisticScenarioFinalImpairment }}</td>
-                            <td class="align-middle">{{ item.downturnScenarioFinalImpairment }}</td>
-                            <td class="align-middle">{{ item.resultFinalImpairment }}</td>
+                    <tbody *ngFor="let item of results">
+                        <tr>
+                            <td class="align-middle">{{ l('BaseScenario')}} </td>
+                            <td class="align-middle">{{ item.baseScenarioExposure | number: '1.0-0' }}</td>
+                            <td class="align-middle">{{ item.baseScenarioPreOverlay | number: '1.0-0'  }}</td>
+                            <td class="align-middle">{{ item.baseScenarioOverrideImpact | number: '1.0-0'  }}</td>
+                            <td class="align-middle">{{ item.baseScenarioIPO | number: '1.0-0'  }}</td>
+                            <td class="align-middle">{{ item.baseScenarioOverlay | number: '1.0-0'  }}</td>
+                            <td class="align-middle">{{ item.baseScenarioFinalImpairment | number: '1.0-0'  }}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-middle">{{ l('OptimisticScenario')}} </td>
+                            <td class="align-middle">{{ item.optimisticScenarioExposure | number: '1.0-0'  }}</td>
+                            <td class="align-middle">{{ item.optimisticScenarioPreOverlay | number: '1.0-0'  }}</td>
+                            <td class="align-middle">{{ item.optimisticScenarioOverrideImpact | number: '1.0-0'  }}</td>
+                            <td class="align-middle">{{ item.optimisticScenarioIPO | number: '1.0-0'  }}</td>
+                            <td class="align-middle">{{ item.optimisticScenarioOverlay | number: '1.0-0'  }}</td>
+                            <td class="align-middle">{{ item.optimisticScenarioFinalImpairment | number: '1.0-0'  }}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-middle">{{ l('DownturnScenario')}} </td>
+                            <td class="align-middle">{{ item.downturnScenarioExposure | number: '1.0-0'  }}</td>
+                            <td class="align-middle">{{ item.downturnScenarioPreOverlay | number: '1.0-0'  }}</td>
+                            <td class="align-middle">{{ item.downturnScenarioOverrideImpact | number: '1.0-0'  }}</td>
+                            <td class="align-middle">{{ item.downturnScenarioIPO | number: '1.0-0'  }}</td>
+                            <td class="align-middle">{{ item.downturnScenarioOverlay | number: '1.0-0'  }}</td>
+                            <td class="align-middle">{{ item.downturnScenarioFinalImpairment | number: '1.0-0'  }}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-middle">{{ l('ProbabilityWeightedEclResults')}} </td>
+                            <td class="align-middle">{{ item.resultsExposure | number: '1.0-0'  }}</td>
+                            <td class="align-middle">{{ item.resultPreOverlay | number: '1.0-0'  }}</td>
+                            <td class="align-middle">{{ item.resultOverrideImpact | number: '1.0-0'  }}</td>
+                            <td class="align-middle">{{ item.resultIPO | number: '1.0-0'  }}</td>
+                            <td class="align-middle">{{ item.resultOverlay | number: '1.0-0'  }}</td>
+                            <td class="align-middle">{{ item.resultFinalImpairment | number: '1.0-0'  }}</td>
                         </tr>
                     </tbody>
                 </table>

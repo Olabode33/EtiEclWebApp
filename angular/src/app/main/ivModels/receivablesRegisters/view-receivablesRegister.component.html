@@ -44,7 +44,7 @@
         <div class="kt-portlet__head ">
             <div class="kt-portlet__head-label hoverable" (click)="showResultsCard = !showResultsCard;">
                 <h3 class="kt-portlet__head-title">
-                    {{l('ResultsSummary')}}
+                    {{l('ResultSummary')}}
                 </h3>
             </div>
 
@@ -71,20 +71,6 @@
                             <th>{{l('TotalImpairment')}}</th>
                             <th>{{l('AdditionalProvision')}}</th>
                             <th>{{l('Coverage')}}</th>
-                            <th>{{l('OptimisticExposure')}}</th>
-                            <th>{{l('OptimisticImpairment')}}</th>
-                            <th>{{l('OptimisticCoverageRatio')}}</th>
-                            <th>{{l('BaseExposure')}}</th>
-                            <th>{{l('BaseImpairment')}}</th>
-                            <th>{{l('BaseCoverageRatio')}}</th>
-                            <th>{{l('DownturnExposure')}}</th>
-                            <th>{{l('DownturnImpairment')}}</th>
-                            <th>{{l('DownturnCoverageRatio')}}</th>
-                            <th>{{l('TotalECLExposure')}}</th>
-                            <th>{{l('TotalECLImpairment')}}</th>
-                            <th>{{l('TotalCoverageRatio')}}</th>
-
-
                         </tr>
                     </thead>
                     <tbody>
@@ -106,6 +92,43 @@
                             <td class="align-middle">{{ item.eclTotalImpairment }}</td>
                             <td class="align-middle">{{ item.totalCoverageRatio }}</td>
 
+                        </tr>
+                    </tbody>
+                </table>
+                <hr class="mb-4">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>{{l('Scenario')}}</th>
+                            <th>{{l('Exposure')}}</th>
+                            <th>{{l('Impairment')}}</th>
+                            <th>{{l('CoverageRatio')}}</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let item of receivablesResults">
+                        <tr>
+                            <td class="align-middle">{{l('ECL Optimistic')}}</td>
+                            <td class="align-middle">{{ item.optimisticExposure }}</td>
+                            <td class="align-middle">{{ item.optimisticImpairment }}</td>
+                            <td class="align-middle">{{ item.optimisticCoverageRatio }}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-middle">{{l('ECL Base')}}</td>
+                            <td class="align-middle">{{ item.baseExposure }}</td>
+                            <td class="align-middle">{{ item.baseImpairment }}</td>
+                            <td class="align-middle">{{ item.baseCoverageRatio }}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-middle">{{l('ECL Downturn')}}</td>
+                            <td class="align-middle">{{ item.downturnExposure }}</td>
+                            <td class="align-middle">{{ item.downturnImpairment }}</td>
+                            <td class="align-middle">{{ item.downturnCoverageRatio }}</td>
+                        </tr>
+                        <tr>
+                            <td class="align-middle">{{l('Total')}}</td>
+                            <td class="align-middle">{{ item.eclTotalExposure }}</td>
+                            <td class="align-middle">{{ item.eclTotalImpairment }}</td>
+                            <td class="align-middle">{{ item.totalCoverageRatio }}</td>
                         </tr>
                     </tbody>
                 </table>
