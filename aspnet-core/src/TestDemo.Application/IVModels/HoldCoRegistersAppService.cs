@@ -53,7 +53,7 @@ namespace TestDemo.IVModels
                         .WhereIf(input.StatusFilter.HasValue && input.StatusFilter > -1, e => e.Status == statusFilter);
 
             var pagedAndFilteredHoldCoRegisters = filteredHoldCoRegisters
-                .OrderBy(input.Sorting ?? "id asc")
+                .OrderBy(input.Sorting ?? "creationTime desc")
                 .PageBy(input);
 
             var holdCoRegisters = from o in pagedAndFilteredHoldCoRegisters

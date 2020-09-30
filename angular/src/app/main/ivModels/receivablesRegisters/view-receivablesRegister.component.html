@@ -6,8 +6,8 @@
 
         <div class="kt-subheader__main">
             <h3 class="kt-subheader__title">
-                <span *ngIf="active && receivablesRegister.id">{{"EditReceivablesRegister" }}</span>
-                <span *ngIf="active && !receivablesRegister.id">{{l("CreateReceivablesRegister")}}</span>
+                <span *ngIf="active && receivablesRegister.id">{{l("ETIReceivables") }}</span>
+                <span *ngIf="active && !receivablesRegister.id">{{l("ETIReceivables")}}</span>
             </h3>
             <span class="kt-subheader__separator kt-subheader__separator--v"></span>
             <div class="kt-subheader__breadcrumbs">
@@ -51,7 +51,7 @@
             <div class="kt-portlet__head-toolbar">
                 <button *ngIf="receivablesResults.length > 0" (click)="exportResultsToExcel()" class="btn btn-outline-primary mr-2">
                     <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
-                    {{l("DownloadFullData")}}
+                    {{l("Download")}}
                 </button>
 
             </div>
@@ -73,13 +73,13 @@
                             <th>{{l('Coverage')}}</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="mb-5">
                         <tr *ngFor="let item of receivablesResults">
-                            <td class="align-middle">{{ item.totalExposure }}</td>
-                            <td class="align-middle">{{ item.totalImpairment }}</td>
-                            <td class="align-middle">{{ item.additionalProvision }}</td>
-                            <td class="align-middle">{{ item.coverage }}</td>
-                            <td class="align-middle">{{ item.optimisticExposure }}</td>
+                            <td class="align-middle">{{ item.totalExposure | number:'1.0-0' }}</td>
+                            <td class="align-middle">{{ item.totalImpairment | number:'1.0-0' }}</td>
+                            <td class="align-middle">{{ item.additionalProvision | number:'1.0-0' }}</td>
+                            <td class="align-middle">{{ item.coverage | percent:'1.0-0' }}</td>
+                            <!-- <td class="align-middle">{{ item.optimisticExposure }}</td>
                             <td class="align-middle">{{ item.optimisticImpairment }}</td>
                             <td class="align-middle">{{ item.optimisticCoverageRatio }}</td>
                             <td class="align-middle">{{ item.baseExposure }}</td>
@@ -90,13 +90,14 @@
                             <td class="align-middle">{{ item.downturnCoverageRatio }}</td>
                             <td class="align-middle">{{ item.eclTotalExposure }}</td>
                             <td class="align-middle">{{ item.eclTotalImpairment }}</td>
-                            <td class="align-middle">{{ item.totalCoverageRatio }}</td>
-
+                            <td class="align-middle">{{ item.totalCoverageRatio }}</td> -->
                         </tr>
                     </tbody>
-                </table>
-                <hr class="mb-4">
-                <table class="table table-hover">
+                    <thead>
+                        <tr class="mb-5">
+                            <th colspan="4"></th>
+                        </tr>
+                    </thead>
                     <thead>
                         <tr>
                             <th>{{l('Scenario')}}</th>
@@ -108,27 +109,27 @@
                     <tbody *ngFor="let item of receivablesResults">
                         <tr>
                             <td class="align-middle">{{l('ECL Optimistic')}}</td>
-                            <td class="align-middle">{{ item.optimisticExposure }}</td>
-                            <td class="align-middle">{{ item.optimisticImpairment }}</td>
-                            <td class="align-middle">{{ item.optimisticCoverageRatio }}</td>
+                            <td class="align-middle">{{ item.optimisticExposure | number:'1.0-0' }}</td>
+                            <td class="align-middle">{{ item.optimisticImpairment | number:'1.0-0' }}</td>
+                            <td class="align-middle">{{ item.optimisticCoverageRatio | percent:'1.0-0' }}</td>
                         </tr>
                         <tr>
                             <td class="align-middle">{{l('ECL Base')}}</td>
-                            <td class="align-middle">{{ item.baseExposure }}</td>
-                            <td class="align-middle">{{ item.baseImpairment }}</td>
-                            <td class="align-middle">{{ item.baseCoverageRatio }}</td>
+                            <td class="align-middle">{{ item.baseExposure | number:'1.0-0' }}</td>
+                            <td class="align-middle">{{ item.baseImpairment | number:'1.0-0' }}</td>
+                            <td class="align-middle">{{ item.baseCoverageRatio | percent:'1.0-0' }}</td>
                         </tr>
                         <tr>
                             <td class="align-middle">{{l('ECL Downturn')}}</td>
-                            <td class="align-middle">{{ item.downturnExposure }}</td>
-                            <td class="align-middle">{{ item.downturnImpairment }}</td>
-                            <td class="align-middle">{{ item.downturnCoverageRatio }}</td>
+                            <td class="align-middle">{{ item.downturnExposure | number:'1.0-0' }}</td>
+                            <td class="align-middle">{{ item.downturnImpairment | number:'1.0-0' }}</td>
+                            <td class="align-middle">{{ item.downturnCoverageRatio | percent:'1.0-0' }}</td>
                         </tr>
                         <tr>
-                            <td class="align-middle">{{l('Total')}}</td>
-                            <td class="align-middle">{{ item.eclTotalExposure }}</td>
-                            <td class="align-middle">{{ item.eclTotalImpairment }}</td>
-                            <td class="align-middle">{{ item.totalCoverageRatio }}</td>
+                            <td class="align-middle"><b>{{l('Total')}}</b></td>
+                            <td class="align-middle">{{ item.eclTotalExposure | number:'1.0-0' }}</td>
+                            <td class="align-middle">{{ item.eclTotalImpairment | number:'1.0-0' }}</td>
+                            <td class="align-middle">{{ item.totalCoverageRatio | percent:'1.0-0' }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -171,6 +172,7 @@
 
                 <input type="number" readonly step="0.1" id="scenarioOptimistic" class="form-control"
                     [(ngModel)]="inputParameter.scenarioOptimistic" name="scenarioOptimistic" />
+                <span class="note">{{l("InputPercentValueInDecimal")}}</span>
             </div>
 
             <div class="form-group col-3">
@@ -181,7 +183,7 @@
             </div>
 
             <div class="form-group col-3">
-                <label for="lossDefinition">{{l("LossDefinition")}}(%)</label>
+                <label for="lossDefinition">{{l("LossDefinition")}}({{l("Days")}})</label>
                 <input type="number" readonly step="0.1" id="lossDefinition" class="form-control"
                     [(ngModel)]="inputParameter.lossDefinition" name="lossDefinition" />
 
@@ -219,6 +221,7 @@
             </div>
 
             <div class="kt-checkbox-list form-group col-1">
+                <label for="overlayDownturn">&nbsp;</label>
                 <label class="kt-checkbox">
                     <input class="form-control" [(ngModel)]="inputParameter.fliOverlay"
                         type="checkbox" disabled name="rememberClient" value="true" />  {{l("FLIOverlay")}}

@@ -60,7 +60,7 @@ namespace TestDemo.ReceivablesRegisters
                         .WhereIf(input.StatusFilter.HasValue && input.StatusFilter > -1, e => e.Status == statusFilter);
 
             var pagedAndFilteredReceivablesRegisters = filteredReceivablesRegisters
-                .OrderBy(input.Sorting ?? "id asc")
+                .OrderBy(input.Sorting ?? "creationTime desc")
                 .PageBy(input);
 
             var receivablesRegisters = from o in pagedAndFilteredReceivablesRegisters

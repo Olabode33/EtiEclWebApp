@@ -6,8 +6,8 @@
 
         <div class="kt-subheader__main">
             <h3 class="kt-subheader__title">
-                <span *ngIf="active && holdCoRegister.id">{{"EditHoldCoRegister" }}</span>
-                <span *ngIf="active && !holdCoRegister.id">{{l("CreateHoldCoRegister")}}</span>
+                <span *ngIf="active && holdCoRegister.id">{{"HoldCoIntercompany" }}</span>
+                <span *ngIf="active && !holdCoRegister.id">{{l("HoldCoIntercompany")}}</span>
             </h3>
             <span class="kt-subheader__separator kt-subheader__separator--v"></span>
             <div class="kt-subheader__breadcrumbs">
@@ -49,7 +49,7 @@
                 <div class="kt-portlet__head-toolbar">
                     <button *ngIf="holdCoInterCompanyResults.length > 0" (click)="exportResultSummaryToExcel()" class="btn btn-outline-primary mr-2">
                         <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
-                        {{l("DownloadFullData")}}
+                        {{l("Download")}}
                     </button>
 
                 </div>
@@ -87,7 +87,7 @@
                                 <td class="align-middle">{{ item.downturnImpairmentRatio | percent:'1.1-1'  }}</td>
                             </tr>
                             <tr>
-                                <td class="align-middle"> </td>
+                                <td class="align-middle"><b>{{l('Total')}}</b> </td>
                                 <td class="align-middle">{{ item.exposure | number:'1.0-0' }}</td>
                                 <td class="align-middle">{{ item.total | number:'1.0-0' }}</td>
                                 <td class="align-middle">{{ item.impairmentRatio | percent:'1.1-1'  }}</td>
@@ -110,7 +110,7 @@
                 <div class="kt-portlet__head-toolbar">
                     <button *ngIf="holdCoInterCompanyResults.length > 0" (click)="exportResultSummaryByStageToExcel()" class="btn btn-outline-primary mr-2">
                         <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
-                        {{l("DownloadFullData")}}
+                        {{l("Download")}}
                     </button>
 
                 </div>
@@ -152,7 +152,7 @@
                                 <td class="align-middle">{{ item.stageThreeImpairmentRatio  | percent:'1.1-1'  }}</td>
                             </tr>
                             <tr>
-                                <td class="align-middle">{{l('Total')}}</td>
+                                <td class="align-middle"><b>{{l('Total')}}</b></td>
                                 <td class="align-middle">{{ item.totalExposure | number:'1.0-0' }}</td>
                                 <td class="align-middle">{{ item.totalImpairment | number:'1.0-0' }}</td>
                                 <td class="align-middle">{{ item.totalImpairmentRatio | percent:'1.1-1' }}</td>
@@ -174,7 +174,7 @@
                 <div class="kt-portlet__head-toolbar">
                     <button *ngIf="holdCoInterCompanyResults.length > 0" (click)="exportResultToExcel()" class="btn btn-outline-primary mr-2">
                         <i class="fa fa-file-excel" style="font-size: 1.2rem !important;"></i>
-                        {{l("DownloadFullData")}}
+                        {{l("Download")}}
                     </button>
                 </div>
             </div>

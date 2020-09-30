@@ -35,6 +35,8 @@ export class ViewLoanImpairmentRegisterComponent extends AppComponentBase implem
     loanImpairmentScenarios = new Array<CreateOrEditLoanImpairmentScenarioDto>();
     calibrationOfKeyParameters = new Array<CreateOrEditLoanImpairmentKeyParameterDto>();
 
+    loanImpairmentScenario = new CreateOrEditLoanImpairmentScenarioDto();
+
     auditInfo = new LoanImpairmentAuditInfoDto();
 
     constructor(
@@ -77,6 +79,9 @@ export class ViewLoanImpairmentRegisterComponent extends AppComponentBase implem
         this.loanImpairmentRecovery = result.loanImpairmentRegister.loanImpairmentRecovery;
         this.loanImpairmentScenarios = result.loanImpairmentRegister.loanImpairmentScenarios;
                 this.active = true;
+                if (result.loanImpairmentRegister.loanImpairmentScenarios.length > 0) {
+                    this.loanImpairmentScenario = result.loanImpairmentRegister.loanImpairmentScenarios[0];
+                }
                 if (this.loanImpairmentRegister.status == CalibrationStatusEnum.Completed) {
                     this._loanImpairmentResultsServiceProxy.getResults(this.loanImpairmentRegister.id).subscribe(res => {
                         this.results = res;

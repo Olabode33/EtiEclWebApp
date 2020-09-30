@@ -70,7 +70,7 @@ namespace TestDemo.LoanImpairmentsRegisters
 						.WhereIf(input.StatusFilter.HasValue && input.StatusFilter > -1, e => e.Status == statusFilter);
 
 			var pagedAndFilteredLoanImpairmentRegisters = filteredLoanImpairmentRegisters
-                .OrderBy(input.Sorting ?? "id asc")
+                .OrderBy(input.Sorting ?? "creationTime desc")
                 .PageBy(input);
 
 			var loanImpairmentRegisters = from o in pagedAndFilteredLoanImpairmentRegisters

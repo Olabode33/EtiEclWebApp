@@ -65,7 +65,7 @@
                         <label for="costOfCapital">{{l("CostOfCapital")}}(%)</label>
 
                         <input type="number" step="0.1" id="costOfCapital" class="form-control" [(ngModel)]="inputParameter.costOfCapital"
-                            name="costOfCapital" />
+                            name="costOfCapital" min="0" max="1"/>
                     </div>
 
                     <div class="form-group col-3">
@@ -98,26 +98,26 @@
                         <label for="cashRecovery">{{l("CashOnRecovery")}}(%)</label>
 
                         <input type="number" step="0.1" id="cashRecovery" class="form-control" [(ngModel)]="haircutRecovery.cashRecovery"
-                            name="cashRecovery" />
+                            name="cashRecovery" min="0.0" max="1"/>
                     </div>
 
                     <div class="form-group col-3">
                         <label for="property">{{l("Property")}}(%)</label>
 
                         <input type="number" step="0.1" id="property" class="form-control" [(ngModel)]="haircutRecovery.property"
-                            name="property" />
+                            name="property" min="0.0" max="1"/>
                     </div>
 
                     <div class="form-group col-3">
                         <label for="shares">{{l("Shares")}}(%)</label>
 
                         <input type="number" step="0.1" id="shares" class="form-control" [(ngModel)]="haircutRecovery.shares"
-                            name="shares" />
+                            name="shares" min="0.0" max="1"/>
                     </div>
 
                     <div class="form-group col-3">
                         <label for="loanSale">{{l("LoanSale")}}(%)</label>
-                        <input type="number" step="0.1" id="loanSale" class="form-control"
+                        <input type="number" step="0.1" id="loanSale" class="form-control" 
                             [(ngModel)]="haircutRecovery.loanSale" name="loanSale" />
 
                     </div>
@@ -209,7 +209,7 @@
                 <div class="kt-portlet__head-toolbar">
 
 
-                    <div class="btn-group" dropdown>
+                    <!-- <div class="btn-group" dropdown>
                         <button dropdownToggle type="button" class="btn btn-outline-success dropdown-toggle"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-upload"></i> {{"Upload" | localize}}
@@ -230,16 +230,85 @@
                                     [innerHTML]="l('ImportToExcelSampleFileDownloadInfo', '<a href=/assets/sampleFiles/IVModels/LoanImpairmentScenarioOptionsTemplate.xlsx>' + l('ClickHere') + '</a>')"></small>
                             </span>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
             </div>
-
-
-
             <div [hidden]="!showScenarioCard" class="kt-portlet__body">
 
-                <div class="table-responsive">
+                <div class="form-row">
+                    <div class="form-group  col-3">
+                        <label for="reportingDate">{{l("ScenarioOption")}}</label>
+                        <select id="ScenarioOption" class="form-control" [(ngModel)]="loanImpairmentScenario.scenarioOption" name="ScenarioOption">
+                            <option value="Normal Curve">Normal Curve</option>
+                            <option value="Historical Experience">Historical Experience</option>
+                        </select>
+
+                    </div>
+                </div>
+                    
+                <div class="form-row">
+                    <div class="form-group col-3">
+                        <label for="ApplyOverridesBaseScenario">{{l("ApplyOverridesBaseScenario")}}</label>
+                        <select id="ApplyOverridesBaseScenario" class="form-control" [(ngModel)]="loanImpairmentScenario.applyOverridesBaseScenario" name="ApplyOverridesBaseScenario">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-3">
+                        <label for="BaseScenarioOverridesValue">{{l('BestScenarioOverridesValue')}}</label>
+                        <input type="number" id="BaseScenarioOverridesValue" class="form-control"
+                            [(ngModel)]="loanImpairmentScenario.bestScenarioOverridesValue" name="BaseScenarioOverridesValue" />
+                    </div>
+                    
+                    <div class="form-group col-3">
+                        <label for="ApplyOverridesOptimisticScenario">{{l("ApplyOverridesOptimisticScenario")}}</label>
+                        <select id="ApplyOverridesOptimisticScenario" class="form-control" [(ngModel)]="loanImpairmentScenario.applyOverridesOptimisticScenario"
+                            name="ApplyOverridesOptimisticScenario">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-3">
+                        <label for="OptimisticScenarioOverridesValue">{{l('OptimisticScenarioOverridesValue')}}</label>
+                        <input type="number" id="OptimisticScenarioOverridesValue" class="form-control"
+                            [(ngModel)]="loanImpairmentScenario.optimisticScenarioOverridesValue" name="OptimisticScenarioOverridesValue" />
+                    </div>
+                    
+                    <div class="form-group col-3">
+                        <label for="ApplyOverridesDownturnScenario">{{l("ApplyOverridesDownturnScenario")}}</label>
+                        <select id="ApplyOverridesDownturnScenario" class="form-control" [(ngModel)]="loanImpairmentScenario.applyOverridesDownturnScenario"
+                            name="ApplyOverridesDownturnScenario">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-3">
+                        <label for="DownturnScenarioOverridesValue">{{l('DownturnScenarioOverridesValue')}}</label>
+                        <input type="number" id="DownturnScenarioOverridesValue" class="form-control"
+                            [(ngModel)]="loanImpairmentScenario.downturnScenarioOverridesValue" name="DownturnScenarioOverridesValue" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-3">
+                        <label for="BaseScenario">{{l('BaseScenario')}} (%)</label>
+                        <input type="number" id="BaseScenario" class="form-control" step="0.1" min="0.0" max="1"
+                            [(ngModel)]="loanImpairmentScenario.baseScenario" name="BaseScenario" />
+                    </div>
+
+                    <div class="form-group col-3">
+                        <label for="OptimisticScenario">{{l('OptimisticScenario')}} (%)</label>
+                        <input type="number" id="OptimisticScenario" class="form-control" step="0.1" min="0.0" max="1"
+                            [(ngModel)]="loanImpairmentScenario.optimisticScenario" name="OptimisticScenario" />
+                    </div>
+
+                </div>
+
+                <!-- <div class="table-responsive">
 
                     <table class="table table-hover">
                         <thead>
@@ -271,7 +340,7 @@
                         </tbody>
                     </table>
 
-                </div>
+                </div> -->
             </div>
         </div>
 

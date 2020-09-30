@@ -32,6 +32,7 @@ export class CreateOrEditLoanImpairmentRegisterComponent extends AppComponentBas
     loanImpairmentRecovery = new Array<CreateOrEditLoanImpairmentRecoveryDto>();
     loanImpairmentScenarios = new Array<CreateOrEditLoanImpairmentScenarioDto>();
     calibrationOfKeyParameters = new Array<CreateOrEditLoanImpairmentKeyParameterDto>();
+    loanImpairmentScenario = new CreateOrEditLoanImpairmentScenarioDto();
 
     constructor(
         injector: Injector,
@@ -53,14 +54,13 @@ export class CreateOrEditLoanImpairmentRegisterComponent extends AppComponentBas
             this.loanImpairmentRegister = new CreateOrEditLoanImpairmentRegisterDto();
             this.loanImpairmentRegister.id = loanImpairmentRegisterId;
             this.loanImpairmentRegister.status = this.statusEnum.Draft;
-
+            this.loanImpairmentScenario = new CreateOrEditLoanImpairmentScenarioDto();
             this.inputParameter.reportingDate = moment().endOf('month');
 
             this.active = true;
         } else {
             this._loanImpairmentRegistersServiceProxy.getLoanImpairmentRegisterForEdit(loanImpairmentRegisterId).subscribe(result => {
                 this.loanImpairmentRegister = result.loanImpairmentRegister;
-
 
                 this.active = true;
             });
@@ -94,8 +94,9 @@ export class CreateOrEditLoanImpairmentRegisterComponent extends AppComponentBas
                     this.loanImpairmentRegister.inputParameter = this.inputParameter;
                     this.loanImpairmentRegister.haircutRecovery = this.haircutRecovery;
                     this.loanImpairmentRegister.loanImpairmentRecovery = this.loanImpairmentRecovery;
-                    this.loanImpairmentRegister.loanImpairmentScenarios = this.loanImpairmentScenarios;
                     this.loanImpairmentRegister.calibrationOfKeyParameters = this.calibrationOfKeyParameters;
+                    this.loanImpairmentRegister.loanImpairmentScenarios = new Array();
+                    this.loanImpairmentRegister.loanImpairmentScenarios.push(this.loanImpairmentScenario);
 
                     this._loanImpairmentRegistersServiceProxy.createOrEdit(this.loanImpairmentRegister)
                         .pipe(finalize(() => {

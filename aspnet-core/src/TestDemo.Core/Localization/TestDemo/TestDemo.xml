@@ -1,6 +1,54 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="RvModels">Loan impairment model results</text>
+  <texts>
+    <text name="DownturnScenario">Downturn Scenario</text>
+    <text name="ProbabilityWeightedEclResults">Probability Weighted ECL Results</text>
+    <text name="InputPercentValueInDecimal">Note: Input percentage value in decimal (between 0 and 1)</text>
+    <text name="CurrentPeriodData">Current Period Data</text>
+    <text name="LossRateCoefficient">Loss Rate Coefficient</text>
+    <text name="IndexCoefficient">Index Coefficient</text>
+    <text name="InterceptCoefficient">Intercept Coefficient</text>
+    <text name="OverlayDownturn">Overlay downturn</text>
+    <text name="OverlayBase">Overlay base</text>
+    <text name="OverlayOptimistic">Overlay optimistic</text>
+    <text name="AssumedLossRate">Assumed loss rate</text>
+    <text name="LossDefinition">Loss definition</text>
+    <text name="Days">days</text>
+    <text name="AssumedMaturityDate">Assumed maturity date</text>
+    <text name="AssumedStartDate">Assumed start date</text>
+    <text name="RatingForDefaultedLoans">Rating for defaulted loans</text>
+    <text name="AssumedRatingForUnratedAssets">Assumed rating for unrated assets</text>
+    <text name="RecoveryRate">Recovery rate</text>
+    <text name="ValuationDate">Valuation date</text>
+    <text name="BestEstimate">Best estimate</text>
+    <text name="IVModel">RV Model</text>
+    <text name="NewIVModel">New RV Model</text>
+    <text name="EditIVModel">Edit RV Model</text>
+    <text name="DeleteIVModel">Delete RV Model</text>
+    <text name="UploadIVModel">Upload RV Model</text>
+    <text name="SubmitIVModel">Submit RV Model</text>
+    <text name="ReviewIVModel">Review RV Model</text>
+    <text name="ApplyIVModel">Apply RV Model</text>
+    <text name="HoldCoIntercompany">HoldCo Intercompany</text>
+    <text name="ETIReceivables">ETI Receivables</text>
+    <text name="ApproveHoldCoRegister">Approve</text>
+
+    <text name="LoanImpairmentScenarioOptions">Scenario Options</text>
+    <text name="HaircutsOnRecovery">Haircuts On Recovery</text>
+    <text name="calibrationOfKeyParameters">Calibration Parameters</text>
+    <text name="ImpairmentPreOverlay">Impairment Pre-overlay</text>
+    <text name="OverrideImpact">Override Impact</text>
+    <text name="ImpairmentPostOverlay">Impairment Post-overlay</text>
+    <text name="FinalImpairment">Final Impairment</text>
+    <text name="CostOfCapital">Cost Of capital</text>
+    <text name="LoanAmount">Loan amount</text>
+    <text name="CashOnRecovery">Cash on recovery</text>
+    <text name="LoanSale">Loan sale</text>
+    <text name="CashRecovery">Cash recovery</text>
+    <text name="CreateLoanImpairmentRegister">New Loan Impairment</text>
+    
+    
+    <text name="RvModels">Loan impairment model results</text>
     <text name="LoanImpairmentModelResults">Loan impairment model results</text>
     <text name="LoanImpairmentModelResult">Loan impairment model result</text>
     <text name="CreateNewLoanImpairmentModelResult">Create new loan impairment model result</text>
@@ -2256,18 +2304,6 @@
     <text name="EnterTenancyName">Enter tenancy name...</text>
     <text name="SwitchToTheTenant">Switch to the tenant</text>
     <text name="SwitchToTheHost">Switch to the host</text>
-
-    <text name="IVModel">IV Model</text>
-    <text name="NewIVModel">New IV Model</text>
-    <text name="EditIVModel">Edit IV Model</text>
-    <text name="DeleteIVModel">Delete IV Model</text>
-    <text name="UploadIVModel">Upload IV Model</text>
-    <text name="SubmitIVModel">Submit IV Model</text>
-    <text name="ReviewIVModel">Review IV Model</text>
-    <text name="ApplyIVModel">Apply IV Model</text>
-    <text name="HoldCoIntercompany">HoldCo Intercompany</text>
-    <text name="ETIReceivables">ETI Receivables</text>
-    <text name="ApproveHoldCoRegister">Approve</text>
 
   </texts>
 </localizationDictionary>
