@@ -13,7 +13,6 @@
     <text name="OverlayOptimistic">Overlay optimistic</text>
     <text name="AssumedLossRate">Assumed loss rate</text>
     <text name="LossDefinition">Loss definition</text>
-    <text name="Days">days</text>
     <text name="AssumedMaturityDate">Assumed maturity date</text>
     <text name="AssumedStartDate">Assumed start date</text>
     <text name="RatingForDefaultedLoans">Rating for defaulted loans</text>

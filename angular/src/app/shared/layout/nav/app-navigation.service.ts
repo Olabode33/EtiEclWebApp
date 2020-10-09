@@ -30,7 +30,7 @@ export class AppNavigationService {
                 new AppMenuItem('CalibrationPdCrDr', 'Pages.Calibration', 'flaticon-more', '/app/main/calibration/pdcrdr'),
                 new AppMenuItem('MacroAnalysis', 'Pages.Calibration', 'flaticon-more', '/app/main/calibration/macroAnalysis'),
             ]),
-            new AppMenuItem('IV Models', 'Pages.IVModels', 'fas fa-spa', '', [
+            new AppMenuItem('RV Models', 'Pages.IVModels', 'fas fa-spa', '', [
                 new AppMenuItem('HoldCoIntercompany', 'Pages.HoldCoRegisters', 'flaticon-more', '/app/main/ivModels/holdCoRegisters'),
                 new AppMenuItem('ETIReceivables', 'Pages.ReceivablesRegisters', 'flaticon-more', '/app/main/receivablesRegisters/receivablesRegisters'),
                 new AppMenuItem('LoanImpairmentRegisters', 'Pages.LoanImpairmentRegisters', 'flaticon-more', '/app/main/loanImpairmentsRegisters/loanImpairmentRegisters'),
