@@ -225,6 +225,11 @@ namespace TestDemo.EclShared.Importing
                     loanbook.GuaranteeValue = _validator.ValidateDoubleValueFromRowOrNull(loanbookNew.GuaranteeValue, nameof(loanbook.GuaranteeValue), exceptionMessage);
                     loanbook.GuaranteeLevel = _validator.ValidateDoubleValueFromRowOrNull(loanbookNew.GuaranteeLevel, nameof(loanbook.GuaranteeLevel), exceptionMessage);
 
+                    if (!string.IsNullOrWhiteSpace(loanbookNew.Exception))
+                    {
+                        exceptionMessage.Append(loanbookNew.Exception + "; ") ;
+                    }
+
                     if (exceptionMessage.Length > 0)
                     {
                         loanbook.Exception = exceptionMessage.ToString();

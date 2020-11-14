@@ -3,6 +3,7 @@ using Abp.Localization.Sources;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using TestDemo.DataExporting.Excel.EpPlus;
 using TestDemo.EclShared.Importing.Dto;
@@ -20,7 +21,27 @@ namespace TestDemo.EclShared.Importing
 
         public List<ImportLoanbookDtoNew> GetImportLoanbookFromExcel(byte[] fileBytes)
         {
-            return ProcessExcelFile(fileBytes, ProcessExcelRow);
+            var loanbook = ProcessExcelFile(fileBytes, ProcessExcelRow);
+
+            var duplicateContract = loanbook.GroupBy(e => e.ContractNo)
+                                      .Where(g => g.Count() > 1)
+                                      .Select(e => e.Key)
+                                      .ToList();
+
+            if (duplicateContract.Count > 0)
+            {
+                loanbook.ForEach(x =>
+                {
+                    if (duplicateContract.Contains(x.ContractNo))
+                    {
+                        x.Exception = _localizationSource.GetString("DuplicateContractError");
+                    }
+                    
+                });
+            }
+
+
+            return loanbook;
         }
 
         private ImportLoanbookDtoNew ProcessExcelRow(ExcelWorksheet worksheet, int row)
