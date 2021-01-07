@@ -811,12 +811,12 @@ namespace TestDemo.Reports
             ///
 
             //styling for the container that houses the total number of contracts etc  
-            resultSheet.Cells["B2:Y2"].Style.Border.Top.Style = ExcelBorderStyle.Thick;//////2,2,2,23
-            resultSheet.Cells["B5:Y5"].Style.Border.Bottom.Style = ExcelBorderStyle.Thick; ///5,2,5,23
+            resultSheet.Cells["B2:Z2"].Style.Border.Top.Style = ExcelBorderStyle.Thick;//////2,2,2,23
+            resultSheet.Cells["B5:Z5"].Style.Border.Bottom.Style = ExcelBorderStyle.Thick; ///5,2,5,23
             resultSheet.Cells["B2:B5"].Style.Border.Left.Style = ExcelBorderStyle.Thick; ////2,2,5,2
-            resultSheet.Cells["Y2:Y5"].Style.Border.Right.Style = ExcelBorderStyle.Thick; ///2,23,5,23
-            resultSheet.Cells["B2:Y5"].Style.Fill.PatternType = ExcelFillStyle.Solid; //2,2,5,23
-            resultSheet.Cells["B2:Y5"].Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_DARK_BLUE));//2,2,5,23
+            resultSheet.Cells["Z2:Z5"].Style.Border.Right.Style = ExcelBorderStyle.Thick; ///2,23,5,23
+            resultSheet.Cells["B2:Z5"].Style.Fill.PatternType = ExcelFillStyle.Solid; //2,2,5,23
+            resultSheet.Cells["B2:Z5"].Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_DARK_BLUE));//2,2,5,23
             /////***********///
             ///
 
@@ -879,23 +879,23 @@ namespace TestDemo.Reports
             ///
 
             //////styling the main body container//
-            resultSheet.Cells["C7:X7"].Merge = true;
-            resultSheet.Cells["C7:X9"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-            resultSheet.Cells["C7:X9"].Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_DARK_BLUE));
-            resultSheet.Cells["C7:X9"].Style.Font.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.WHITE));
-            resultSheet.Cells["C7:X9"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
-            resultSheet.Cells["C7:X9"].Style.Font.Bold = true;
-            resultSheet.Cells["C7:X9"].Style.Font.Italic = true;
+            resultSheet.Cells["C7:Y7"].Merge = true;
+            resultSheet.Cells["C7:Y9"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            resultSheet.Cells["C7:Y9"].Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_DARK_BLUE));
+            resultSheet.Cells["C7:Y9"].Style.Font.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.WHITE));
+            resultSheet.Cells["C7:Y9"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+            resultSheet.Cells["C7:Y9"].Style.Font.Bold = true;
+            resultSheet.Cells["C7:Y9"].Style.Font.Italic = true;
 
             //////styling the contract level results//
             resultSheet.Cells["C7"].Value = "CONTRACT LEVEL RESULTS";
             // resultSheet.Cells["C7"].Style.Font.Bold = true;
             resultSheet.Cells["C7"].Style.Font.Size = 16;
-            resultSheet.Cells["C7:X7"].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            resultSheet.Cells["C7:Y7"].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
 
 
             //styling for Contract Data - Snapshot Date////
-            resultSheet.Cells["C8:X8"].Style.Font.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+            resultSheet.Cells["C8:Y8"].Style.Font.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
             //resultSheet.Cells["C8:V8"].Style.Font.Italic = true;
             resultSheet.Cells["C8:J8"].Merge = true;
             resultSheet.Cells["C8"].Value = "Contract Data - Snapshot Date";
@@ -922,10 +922,10 @@ namespace TestDemo.Reports
             resultSheet.Cells["R8"].Style.Border.Right.Style = ExcelBorderStyle.Thin;
 
             //styling for Model Output (Post - Overrides and Overlays)////
-            resultSheet.Cells["S8:X8"].Merge = true;
+            resultSheet.Cells["S8:Y8"].Merge = true;
             resultSheet.Cells["S8"].Value = "Model Output (Post-Overrides and Overlays)";
-            resultSheet.Cells["S8:X8"].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-            resultSheet.Cells["S8:X8"].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+            resultSheet.Cells["S8:Y8"].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            resultSheet.Cells["S8:Y8"].Style.Border.Right.Style = ExcelBorderStyle.Thin;
             /////***********///
             ///
 
@@ -952,6 +952,7 @@ namespace TestDemo.Reports
             resultSheet.Cells["V9"].Value = "Impairment (Manual Overrides)";
             resultSheet.Cells["W9"].Value = "Reason";
             resultSheet.Cells["X9"].Value = "Override Type";
+            resultSheet.Cells["Y9"].Value = "Original Outstanding Balance";
 
             for (var i = 0; i < rd.ResultDetailDataMore.Count; i++)
             {
@@ -978,6 +979,7 @@ namespace TestDemo.Reports
                 resultSheet.Cells["V" + (10 + i).ToString()].Value = _rd.Overrides_Impairment_Manual;
                 resultSheet.Cells["W" + (10 + i).ToString()].Value = _rd.Reason;
                 resultSheet.Cells["X" + (10 + i).ToString()].Value = _rd.OverrideType;
+                resultSheet.Cells["Y" + (10 + i).ToString()].Value = _rd.OriginalOutstandingBalance;
             }
 
             int rowCount = resultSheet.Dimension.End.Row;
@@ -994,15 +996,15 @@ namespace TestDemo.Reports
             //    resultSheet.Column(i).Hidden = true;
             //}
 
-            resultSheet.Cells["C9:X" + rowCount.ToString()].Style.Border.Top.Style = ExcelBorderStyle.Dashed;
+            resultSheet.Cells["C9:Y" + rowCount.ToString()].Style.Border.Top.Style = ExcelBorderStyle.Dashed;
             resultSheet.Cells["C3:D3"].Style.Border.Top.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
 
-            resultSheet.Cells["C9:X" + rowCount.ToString()].Style.Border.Left.Style = ExcelBorderStyle.Thin;
-            resultSheet.Cells["C9:X" + rowCount.ToString()].Style.Border.Left.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
-            resultSheet.Cells["C9:X" + rowCount.ToString()].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-            resultSheet.Cells["C9:X" + rowCount.ToString()].Style.Border.Bottom.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
-            resultSheet.Cells["C9:X" + rowCount.ToString()].Style.Border.Right.Style = ExcelBorderStyle.Thin;
-            resultSheet.Cells["C9:X" + rowCount.ToString()].Style.Border.Right.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+            resultSheet.Cells["C9:Y" + rowCount.ToString()].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+            resultSheet.Cells["C9:Y" + rowCount.ToString()].Style.Border.Left.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+            resultSheet.Cells["C9:Y" + rowCount.ToString()].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            resultSheet.Cells["C9:Y" + rowCount.ToString()].Style.Border.Bottom.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
+            resultSheet.Cells["C9:Y" + rowCount.ToString()].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+            resultSheet.Cells["C9:Y" + rowCount.ToString()].Style.Border.Right.Color.SetColor(ColorTranslator.FromHtml(ETI_Colors.ETI_GREEN));
 
             //doing sums for total model output (pre overrides)
             resultSheet.Cells["J4"].Value = rd.OutStandingBalance;

@@ -50,6 +50,7 @@ namespace TestDemo.Reports
         public double Overrides_Impairment_Manual { get; set; }
         public string Reason { get; set; }
         public string OverrideType { get; set; }
+        public double OriginalOutstandingBalance { get; set; }
     }
 
     public class ReportDetailExtractor

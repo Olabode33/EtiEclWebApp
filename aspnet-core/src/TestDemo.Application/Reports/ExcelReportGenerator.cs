@@ -302,7 +302,7 @@ namespace TestDemo.Reports
             qry = $"Select ContractNo, AccountNo,CustomerNo, Segment, ProductType, Sector, " +
                   $"r.Stage, Outstanding_Balance, ECL_Best_Estimate, ECL_Optimistic, ECL_Downturn, Impairment_ModelOutput, " +
                   $"Overrides_Stage, Overrides_ECL_Best_Estimate, Overrides_ECL_Optimistic, Overrides_ECL_Downturn,Overrides_Impairment_Manual, " +
-                  $"o.Reason, o.OverrideType " +
+                  $"o.Reason, o.OverrideType, OriginalOutstandingBalance " +
                   $"from {_eclTypeTable}EclFramworkReportDetail r " +
                   $"left join {_eclTypeTable}EclOverrides o on r.ContractNo = o.ContractId and r.{_eclType}EclId = o.{_eclType}EclDataLoanBookId " +
                   $"where {_eclType}EclId = '{_eclId}'";
