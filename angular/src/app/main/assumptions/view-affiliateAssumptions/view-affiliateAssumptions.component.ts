@@ -22,6 +22,7 @@ import { PdInputAssumptionsComponent } from '../_subs/pdInputAssumptions/pdInput
 import { EditPortfolioReportDateComponent } from '../_subs/edit-portfolioReportDate/edit-portfolioReportDate.component';
 import { EditAssumptionModalComponent } from '../_subs/edit-assumption-modal/edit-assumption-modal.component';
 import { OuLookupTableModalComponent } from '@app/main/eclShared/ou-lookup-modal/ou-lookup-table-modal.component';
+import { finalize } from 'rxjs/operators';
 
 @Component({
     selector: 'app-view-affiliateAssumptions',
@@ -138,7 +139,9 @@ export class ViewAffiliateAssumptionsComponent extends AppComponentBase implemen
 
     getAffiliateAssumptionSummary(): void {
         this.loading = true;
-        this._eclSharedServiceProxy.getAffiliateAssumptionForEdit(this._affiliateId).subscribe(result => {
+        this._eclSharedServiceProxy.getAffiliateAssumptionForEdit(this._affiliateId)
+        .pipe(finalize(() => this.loading = false))
+        .subscribe(result => {
             this.affiliateAssumption = result;
             this.portfolioList.find(x => x.key === FrameworkEnum.Wholesale).reportDate = result.lastWholesaleReportingDate;
             this.portfolioList.find(x => x.key === FrameworkEnum.Retail).reportDate = result.lastRetailReportingDate;
