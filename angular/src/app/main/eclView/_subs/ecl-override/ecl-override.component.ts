@@ -331,6 +331,20 @@ export class EclOverrideComponent extends AppComponentBase {
         };
     }
 
+    deleteOverride(override): void {
+        this.message.confirm(
+            this.l('AreYouSure'),
+            isConfirmed => {
+                if (isConfirmed) {
+                    this._serviceProxy.delete(override.id).subscribe(() => {
+                        this.getEclOverrides();
+                        this.notify.success(this.l('SuccessfullyDeleted'));
+                    });
+                }
+            }
+        );
+    }
+
     onUploadExcelError(): void {
         this.notify.error(this.l("ImportUsersUploadFailed"));
     }

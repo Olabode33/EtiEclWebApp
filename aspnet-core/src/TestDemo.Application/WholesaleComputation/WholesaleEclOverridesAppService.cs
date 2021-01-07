@@ -32,6 +32,8 @@ using TestDemo.WholesaleResults;
 using TestDemo.EclShared.Dtos;
 using TestDemo.EclShared.Jobs;
 using Abp.BackgroundJobs;
+using Microsoft.EntityFrameworkCore.Query.Expressions;
+
 
 namespace TestDemo.WholesaleComputation
 {
@@ -163,13 +165,14 @@ namespace TestDemo.WholesaleComputation
 
         public async Task<GetPreResultForOverrideNewOutput> GetEclRecordDetails(EntityDto<Guid> input)
         {
-            var selectedRecord = await _lookup_wholesaleEclFrameworkRepository.FirstOrDefaultAsync(input.Id);
-            var overrideRecord = await _wholesaleEclOverrideRepository.FirstOrDefaultAsync(x => x.WholesaleEclDataLoanBookId == selectedRecord.WholesaleEclId && x.ContractId == selectedRecord.ContractNo);
+            var overrideRecord = await _wholesaleEclOverrideRepository.FirstOrDefaultAsync(x => x.Id==input.Id);
+            var selectedRecord = await _lookup_wholesaleEclFrameworkRepository.FirstOrDefaultAsync(o=>o.WholesaleEclId== overrideRecord.WholesaleEclDataLoanBookId && o.ContractNo==overrideRecord.ContractId);
+            
 
             var dto = new CreateOrEditEclOverrideNewDto()
             {
-                ContractId = selectedRecord.ContractNo,
-                EclId = (Guid)selectedRecord.WholesaleEclId
+                ContractId = overrideRecord.ContractId,
+                EclId = (Guid)overrideRecord.WholesaleEclDataLoanBookId
             };
 
             if (overrideRecord != null)
@@ -297,36 +300,47 @@ namespace TestDemo.WholesaleComputation
 
         public async Task UploadBulkOveride(List<CreateOrEditEclOverrideNewDto> uploadData, Guid eclId)
         {
-            foreach (var input in uploadData)
-            {
-                var wse = _wholesaleEclOverrideRepository.FirstOrDefault(o => o.ContractId == input.ContractId);
-                if (wse != null)
-                    _wholesaleEclOverrideRepository.Delete(wse);
+            var contractNos= uploadData.Select(o => o.ContractId).Distinct().ToList();
 
-                await _wholesaleEclOverrideRepository.InsertAsync(new WholesaleEclOverride
-                {
-                    Id = new Guid(),
-                    WholesaleEclDataLoanBookId = eclId,
-                    ContractId = input.ContractId,
-                    Reason = input.OverrideComment,
-                    Stage = input.Stage,
-                    TtrYears = input.TtrYears,
-                    FSV_Cash = input.FSV_Cash,
-                    FSV_CommercialProperty = input.FSV_CommercialProperty,
-                    FSV_Debenture = input.FSV_Debenture,
-                    FSV_Inventory = input.FSV_Inventory,
-                    FSV_PlantAndEquipment = input.FSV_PlantAndEquipment,
-                    FSV_Receivables = input.FSV_Receivables,
-                    FSV_ResidentialProperty = input.FSV_ResidentialProperty,
-                    FSV_Shares = input.FSV_Shares,
-                    FSV_Vehicle = input.FSV_Vehicle,
-                    OverlaysPercentage = input.OverlaysPercentage,
-                    Status = GeneralStatusEnum.Submitted,
-                    OverrideType = input.OverrideType
-                });
+            var chkCount= _lookup_wholesaleEclFrameworkRepository.Count(o => o.WholesaleEclId == eclId && contractNos.Contains(o.ContractNo));
+
+            if(chkCount< contractNos.Count)
+            {
+                throw new UserFriendlyException("One or more contracts are invalid");
             }
 
-            await SendSubmittedEmail(eclId);
+            foreach (var input in uploadData)
+            {
+
+                        var wse = _wholesaleEclOverrideRepository.FirstOrDefault(o => o.ContractId == input.ContractId && o.WholesaleEclDataLoanBookId == eclId);
+                        if (wse != null)
+                            _wholesaleEclOverrideRepository.Delete(wse);
+
+                        await _wholesaleEclOverrideRepository.InsertAsync(new WholesaleEclOverride
+                        {
+                            Id = new Guid(),
+                            WholesaleEclDataLoanBookId = eclId,
+                            ContractId = input.ContractId,
+                            Reason = input.OverrideComment,
+                            Stage = input.Stage,
+                            TtrYears = input.TtrYears,
+                            FSV_Cash = input.FSV_Cash,
+                            FSV_CommercialProperty = input.FSV_CommercialProperty,
+                            FSV_Debenture = input.FSV_Debenture,
+                            FSV_Inventory = input.FSV_Inventory,
+                            FSV_PlantAndEquipment = input.FSV_PlantAndEquipment,
+                            FSV_Receivables = input.FSV_Receivables,
+                            FSV_ResidentialProperty = input.FSV_ResidentialProperty,
+                            FSV_Shares = input.FSV_Shares,
+                            FSV_Vehicle = input.FSV_Vehicle,
+                            OverlaysPercentage = input.OverlaysPercentage,
+                            Status = GeneralStatusEnum.Submitted,
+                            OverrideType = input.OverrideType
+                        });
+
+            }
+
+                await SendSubmittedEmail(eclId);
         }
 
 
