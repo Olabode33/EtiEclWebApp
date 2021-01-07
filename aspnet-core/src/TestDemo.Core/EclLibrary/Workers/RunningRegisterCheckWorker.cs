@@ -27,7 +27,7 @@ namespace TestDemo.EclLibrary.Workers
 {
     public class RunningRegisterCheckWorker : PeriodicBackgroundWorkerBase, ISingletonDependency
     {
-        private const int CheckPeriodAsMilliseconds = 1 * 5 * 60 * 1000; //5 minutes
+        private const int CheckPeriodAsMilliseconds = 2 * 60 * 60 * 1000; //2 hours
 
         private readonly IRepository<TrackRunningGuidRegister> _guidTrackreRepository;
         private readonly IRepository<TrackRunningIntRegister> _intTrackreRepository;
@@ -320,12 +320,12 @@ namespace TestDemo.EclLibrary.Workers
                             _guidTrackreRepository.Delete(item.Id);
                             Logger.Debug("RunningRegisterCheckWorker: WholesaleEcl: " + item.RegisterId + " completed, Email sent & tracker deleted.");
 
-                            _backgroundJobManager.Enqueue<UpdateFacilityStageTrackerJob, UpdateFacilityStageTrackerJobArgs>(new UpdateFacilityStageTrackerJobArgs()
-                            {
-                                EclId = register.Id,
-                                EclType = FrameworkEnum.Wholesale,
-                                OrganizationUnitId = register.OrganizationUnitId
-                            });
+                            //_backgroundJobManager.Enqueue<UpdateFacilityStageTrackerJob, UpdateFacilityStageTrackerJobArgs>(new UpdateFacilityStageTrackerJobArgs()
+                            //{
+                            //    EclId = register.Id,
+                            //    EclType = FrameworkEnum.Wholesale,
+                            //    OrganizationUnitId = register.OrganizationUnitId
+                            //});
 
                             break;
                         case EclStatusEnum.Failed:
@@ -365,12 +365,12 @@ namespace TestDemo.EclLibrary.Workers
                             _guidTrackreRepository.Delete(item.Id);
                             Logger.Debug("RunningRegisterCheckWorker: RetailEcl: " + item.RegisterId + " completed, Email sent & tracker deleted.");
 
-                            _backgroundJobManager.Enqueue<UpdateFacilityStageTrackerJob, UpdateFacilityStageTrackerJobArgs>(new UpdateFacilityStageTrackerJobArgs()
-                            {
-                                EclId = register.Id,
-                                EclType = FrameworkEnum.Retail,
-                                OrganizationUnitId = register.OrganizationUnitId
-                            });
+                            //_backgroundJobManager.Enqueue<UpdateFacilityStageTrackerJob, UpdateFacilityStageTrackerJobArgs>(new UpdateFacilityStageTrackerJobArgs()
+                            //{
+                            //    EclId = register.Id,
+                            //    EclType = FrameworkEnum.Retail,
+                            //    OrganizationUnitId = register.OrganizationUnitId
+                            //});
 
                             break;
                         case EclStatusEnum.Failed:
@@ -410,12 +410,12 @@ namespace TestDemo.EclLibrary.Workers
                             _guidTrackreRepository.Delete(item.Id);
                             Logger.Debug("RunningRegisterCheckWorker: ObeEcl: " + item.RegisterId + " completed, Email sent & tracker deleted.");
 
-                            _backgroundJobManager.Enqueue<UpdateFacilityStageTrackerJob, UpdateFacilityStageTrackerJobArgs>(new UpdateFacilityStageTrackerJobArgs()
-                            {
-                                EclId = register.Id,
-                                EclType = FrameworkEnum.OBE,
-                                OrganizationUnitId = register.OrganizationUnitId
-                            });
+                            //_backgroundJobManager.Enqueue<UpdateFacilityStageTrackerJob, UpdateFacilityStageTrackerJobArgs>(new UpdateFacilityStageTrackerJobArgs()
+                            //{
+                            //    EclId = register.Id,
+                            //    EclType = FrameworkEnum.OBE,
+                            //    OrganizationUnitId = register.OrganizationUnitId
+                            //});
                             break;
                         case EclStatusEnum.Failed:
                             if (register.CreatorUserId != null)
