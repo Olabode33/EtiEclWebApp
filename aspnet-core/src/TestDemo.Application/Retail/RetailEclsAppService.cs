@@ -1139,22 +1139,22 @@ namespace TestDemo.Retail
                 throw new UserFriendlyException(L("SnPCummulativeAssumptionIncomplete"));
             }
 
-            var selectedMacro = await _macroResultSecltedEconomicVariableRepository.GetAllListAsync(e => e.AffiliateId == ouId);
-            var macrosInProjection = await _pdAssumptionMacroecoProjectionRepository.GetAll().Where(e => e.OrganizationUnitId == ouId && e.Framework == FrameworkEnum.Retail && e.Date > reportDate)
-                                                                                    .Select(e => e.MacroeconomicVariableId).Distinct().ToListAsync();
+            //var selectedMacro = await _macroResultSecltedEconomicVariableRepository.GetAllListAsync(e => e.AffiliateId == ouId);
+            //var macrosInProjection = await _pdAssumptionMacroecoProjectionRepository.GetAll().Where(e => e.OrganizationUnitId == ouId && e.Framework == FrameworkEnum.Retail && e.Date > reportDate)
+            //                                                                        .Select(e => e.MacroeconomicVariableId).Distinct().ToListAsync();
 
-            var notInPorjection = selectedMacro.Select(e => e.MacroeconomicVariableId).Except(macrosInProjection).Any();
-            if (notInPorjection)
-            {
-                throw new UserFriendlyException(L("NoProjectionForSelectedMacroVariableError"));
-            }
+            //var notInPorjection = selectedMacro.Select(e => e.MacroeconomicVariableId).Except(macrosInProjection).Any();
+            //if (notInPorjection)
+            //{
+            //    throw new UserFriendlyException(L("NoProjectionForSelectedMacroVariableError"));
+            //}
 
-            var macroProjection = await _pdAssumptionMacroecoProjectionRepository.GetAll().Where(e => e.OrganizationUnitId == ouId && e.Framework == FrameworkEnum.Retail && e.Date > reportDate)
-                                                                                 .Select(e => e.Date).Distinct().CountAsync();
-            if (macroProjection < 15)
-            {
-                throw new UserFriendlyException(L("MacroProjectionAssumptionIncomplete"));
-            }
+            //var macroProjection = await _pdAssumptionMacroecoProjectionRepository.GetAll().Where(e => e.OrganizationUnitId == ouId && e.Framework == FrameworkEnum.Retail && e.Date > reportDate)
+            //                                                                     .Select(e => e.Date).Distinct().CountAsync();
+            //if (macroProjection < 15)
+            //{
+            //    throw new UserFriendlyException(L("MacroProjectionAssumptionIncomplete"));
+            //}
         }
 
         private async Task CheckForAppliedCalibration(long ouId)

@@ -166,50 +166,82 @@ namespace TestDemo.WholesaleComputation
         public async Task<GetPreResultForOverrideNewOutput> GetEclRecordDetails(EntityDto<Guid> input)
         {
             var overrideRecord = await _wholesaleEclOverrideRepository.FirstOrDefaultAsync(x => x.Id==input.Id);
-            var selectedRecord = await _lookup_wholesaleEclFrameworkRepository.FirstOrDefaultAsync(o=>o.WholesaleEclId== overrideRecord.WholesaleEclDataLoanBookId && o.ContractNo==overrideRecord.ContractId);
             
-
-            var dto = new CreateOrEditEclOverrideNewDto()
-            {
-                ContractId = overrideRecord.ContractId,
-                EclId = (Guid)overrideRecord.WholesaleEclDataLoanBookId
-            };
-
             if (overrideRecord != null)
             {
-                dto.EclId = (Guid)overrideRecord.WholesaleEclDataLoanBookId;
-                dto.ContractId = overrideRecord.ContractId;
-                dto.Id = overrideRecord.Id;
-                dto.OverrideComment = overrideRecord.Reason;
-                dto.Stage = overrideRecord.Stage;
-                dto.Status = overrideRecord.Status;
-                dto.TtrYears = overrideRecord.TtrYears;
-                dto.FSV_Cash = overrideRecord.FSV_Cash;
-                dto.FSV_CommercialProperty = overrideRecord.FSV_CommercialProperty;
-                dto.FSV_Debenture = overrideRecord.FSV_Debenture;
-                dto.FSV_Inventory = overrideRecord.FSV_Inventory;
-                dto.FSV_PlantAndEquipment = overrideRecord.FSV_PlantAndEquipment;
-                dto.FSV_Receivables = overrideRecord.FSV_Receivables;
-                dto.FSV_ResidentialProperty = overrideRecord.FSV_ResidentialProperty;
-                dto.FSV_Shares = overrideRecord.FSV_Shares;
-                dto.FSV_Vehicle = overrideRecord.FSV_Vehicle;
-                dto.OverlaysPercentage = overrideRecord.OverlaysPercentage;
-                dto.OverrideType = overrideRecord.OverrideType;
-            }
+                var selectedRecord = await _lookup_wholesaleEclFrameworkRepository.FirstOrDefaultAsync(o => o.WholesaleEclId == overrideRecord.WholesaleEclDataLoanBookId && o.ContractNo == overrideRecord.ContractId);
 
-            return new GetPreResultForOverrideNewOutput()
+                var dto = new CreateOrEditEclOverrideNewDto()
+                {
+                    ContractId = overrideRecord.ContractId,
+                    EclId = (Guid)overrideRecord.WholesaleEclDataLoanBookId
+                };
+
+                if (overrideRecord != null)
+                {
+                    dto.EclId = (Guid)overrideRecord.WholesaleEclDataLoanBookId;
+                    dto.ContractId = overrideRecord.ContractId;
+                    dto.Id = overrideRecord.Id;
+                    dto.OverrideComment = overrideRecord.Reason;
+                    dto.Stage = overrideRecord.Stage;
+                    dto.Status = overrideRecord.Status;
+                    dto.TtrYears = overrideRecord.TtrYears;
+                    dto.FSV_Cash = overrideRecord.FSV_Cash;
+                    dto.FSV_CommercialProperty = overrideRecord.FSV_CommercialProperty;
+                    dto.FSV_Debenture = overrideRecord.FSV_Debenture;
+                    dto.FSV_Inventory = overrideRecord.FSV_Inventory;
+                    dto.FSV_PlantAndEquipment = overrideRecord.FSV_PlantAndEquipment;
+                    dto.FSV_Receivables = overrideRecord.FSV_Receivables;
+                    dto.FSV_ResidentialProperty = overrideRecord.FSV_ResidentialProperty;
+                    dto.FSV_Shares = overrideRecord.FSV_Shares;
+                    dto.FSV_Vehicle = overrideRecord.FSV_Vehicle;
+                    dto.OverlaysPercentage = overrideRecord.OverlaysPercentage;
+                    dto.OverrideType = overrideRecord.OverrideType;
+                }
+
+                return new GetPreResultForOverrideNewOutput()
+                {
+                    ContractNo = selectedRecord.ContractNo,
+                    AccountNo = selectedRecord.AccountNo,
+                    CustomerNo = selectedRecord.CustomerNo,
+                    ProductType = selectedRecord.ProductType,
+                    Sector = selectedRecord.Sector,
+                    Segment = selectedRecord.Segment,
+                    Outstanding_Balance = selectedRecord.Outstanding_Balance,
+                    Stage = selectedRecord.Stage,
+                    Impairment = selectedRecord.Impairment_ModelOutput,
+                    EclOverrides = dto
+                };
+            } 
+            else
             {
-                ContractNo = selectedRecord.ContractNo,
-                AccountNo = selectedRecord.AccountNo,
-                CustomerNo = selectedRecord.CustomerNo,
-                ProductType = selectedRecord.ProductType,
-                Sector = selectedRecord.Sector,
-                Segment = selectedRecord.Segment,
-                Outstanding_Balance = selectedRecord.Outstanding_Balance,
-                Stage = selectedRecord.Stage,
-                Impairment = selectedRecord.Impairment_ModelOutput,
-                EclOverrides = dto
-            };
+                var selectedRecord = await _lookup_wholesaleEclFrameworkRepository.FirstOrDefaultAsync(x => x.Id == input.Id);
+
+                if (selectedRecord == null)
+                {
+                    throw new UserFriendlyException("Invalid contract selected");
+                }
+
+                var dto = new CreateOrEditEclOverrideNewDto()
+                {
+                    ContractId = selectedRecord.ContractNo,
+                    EclId = (Guid)selectedRecord.WholesaleEclId
+                };
+
+                return new GetPreResultForOverrideNewOutput()
+                {
+                    ContractNo = selectedRecord.ContractNo,
+                    AccountNo = selectedRecord.AccountNo,
+                    CustomerNo = selectedRecord.CustomerNo,
+                    ProductType = selectedRecord.ProductType,
+                    Sector = selectedRecord.Sector,
+                    Segment = selectedRecord.Segment,
+                    Outstanding_Balance = selectedRecord.Outstanding_Balance,
+                    Stage = selectedRecord.Stage,
+                    Impairment = selectedRecord.Impairment_ModelOutput,
+                    EclOverrides = dto
+                };
+            }
         }
 
         public async Task<EclAuditInfoDto> GetEclAudit(EntityDto<Guid> input)
