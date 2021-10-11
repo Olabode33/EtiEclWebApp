@@ -51,7 +51,7 @@ export class AffiliateConfigurationComponent extends AppComponentBase implements
     ngOnInit() {
         this.fromAffiliateId = -1;
         this.menuItem = [
-            { label: 'View', icon: 'fa fa-search', command: (event) => this.newAffiliate(this.selectedAffiliate) },
+            // { label: 'View', icon: 'fa fa-search', command: (event) => this.viewAffiliate(this.selectedAffiliate) },
             { label: this.l('CopyToNew'), icon: 'fa fa-plus', command: (event) => this.newAffiliate(this.selectedAffiliate) }
         ];
     }
