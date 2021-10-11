@@ -20,6 +20,7 @@ namespace TestDemo.CalibrationInput
         public virtual double? Limit { get; set; }
         public virtual double? Outstanding_Balance { get; set; }
         public virtual string Classification { get; set; }
+        public virtual int Serial { get; set; }
         public virtual Guid? CalibrationId { get; set; }
         public virtual DateTime? DateCreated { get; set; }
     }

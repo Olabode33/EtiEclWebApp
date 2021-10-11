@@ -176,6 +176,7 @@ namespace TestDemo.EclShared.Importing
                 Vehicle_OMV = input.Vehicle_OMV,
                 Vehicle_FSV = input.Vehicle_FSV,
                 Guarantee_Value = input.Guarantee_Value,
+                Serial= input.Serial,
                 CalibrationId = args.CalibrationId,
                 DateCreated = DateTime.Now
             });

@@ -129,6 +129,7 @@ namespace TestDemo.EclShared.Importing
                     record.Restructure_Type = item.Restructure_Type;
                     record.Restructure_Start_Date = _validator.ValidateDateTimeValueFromRowOrNull(item.Restructure_Start_Date, nameof(record.Restructure_Start_Date), exceptionMessage);
                     record.Restructure_End_Date = _validator.ValidateDateTimeValueFromRowOrNull(item.Restructure_End_Date, nameof(record.Restructure_End_Date), exceptionMessage);
+                    record.Serial = item.Serial;
 
                     if (exceptionMessage.Length > 0)
                     {
@@ -198,6 +199,7 @@ namespace TestDemo.EclShared.Importing
                 Restructure_Type = input.Restructure_Type,
                 Restructure_Start_Date = input.Restructure_Start_Date,
                 Restructure_End_Date = input.Restructure_End_Date,
+                Serial = input.Serial,
                 CalibrationId = args.CalibrationId,
                 DateCreated = DateTime.Now,
             });

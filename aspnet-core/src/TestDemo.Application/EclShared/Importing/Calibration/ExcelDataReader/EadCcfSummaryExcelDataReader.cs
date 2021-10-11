@@ -50,6 +50,7 @@ namespace TestDemo.EclShared.Importing
                 data.Limit = _validator.GetDoubleValueFromRowOrNull(worksheet, row, 8, nameof(data.Limit), exceptionMessage);
                 data.Outstanding_Balance = _validator.GetDoubleValueFromRowOrNull(worksheet, row, 9, nameof(data.Outstanding_Balance), exceptionMessage);
                 data.Classification = _validator.GetTextValueFromRowOrNull(worksheet, row, 10, nameof(data.Classification), exceptionMessage);
+                data.Serial = row;// _validator.GetIntegerValueFromRowOrNull(worksheet, row, 11, nameof(data.Serial), exceptionMessage);
             }
             catch (Exception exception)
             {
@@ -77,14 +78,14 @@ namespace TestDemo.EclShared.Importing
             return null;
         }
 
-        private int? GetIntegerValueFromRowOrNull(ExcelWorksheet worksheet, int row, int column, string columnName, StringBuilder exceptionMessage)
+        private int GetIntegerValueFromRowOrNull(ExcelWorksheet worksheet, int row, int column, string columnName, StringBuilder exceptionMessage)
         {
             var cellValue = worksheet.Cells[row, column].Value;
             int returnValue;
 
             if (cellValue == null)
             {
-                return null;
+                return 0;
             }
             else if (int.TryParse(cellValue.ToString(), out returnValue))
             {
@@ -92,7 +93,7 @@ namespace TestDemo.EclShared.Importing
             }
 
             exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName));
-            return null;
+            return 0;
         }
 
         private double? GetDoubleValueFromRowOrNull(ExcelWorksheet worksheet, int row, int column, string columnName, StringBuilder exceptionMessage)

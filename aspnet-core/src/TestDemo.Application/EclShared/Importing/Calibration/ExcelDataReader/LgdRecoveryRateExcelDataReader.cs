@@ -54,6 +54,7 @@ namespace TestDemo.EclShared.Importing
                 data.Amount_Recovered = _validator.GetDoubleValueFromRowOrNull(worksheet, row, 12, nameof(data.Amount_Recovered), exceptionMessage);
                 data.Date_Of_Recovery = _validator.GetDateTimeValueFromRowOrNull(worksheet, row, 13, nameof(data.Date_Of_Recovery), exceptionMessage);
                 data.Type_Of_Recovery = _validator.GetTextValueFromRowOrNull(worksheet, row, 14, nameof(data.Type_Of_Recovery), exceptionMessage);
+                data.Serial = row;// _validator.GetIntegerValueFromRowOrNull(worksheet, row, 15, nameof(data.Serial), exceptionMessage);
 
             }
             catch (Exception exception)

@@ -42,14 +42,14 @@ namespace TestDemo.EclShared.Importing.Utils
             return null;
         }
 
-        public int? HackValidateIntegerValueFromRowOrNull(string value, string columnName, StringBuilder exceptionMessage)
+        public int HackValidateIntegerValueFromRowOrNull(string value, string columnName, StringBuilder exceptionMessage)
         {
             int returnValue;
             double doubleValue;
 
             if (string.IsNullOrWhiteSpace(value) || string.Equals(value.Trim(), "-"))
             {
-                return null;
+                return 0;
             }
 
             if (int.TryParse(value, out returnValue))
@@ -75,11 +75,11 @@ namespace TestDemo.EclShared.Importing.Utils
                 if (b.Length > 0)
                     return int.Parse(b);
                 else
-                    return null;
+                    return 0;
             }
 
             exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "ExpectingWholeNumber", value));
-            return null;
+            return 0;
         }
 
         public double? ValidateDoubleValueFromRowOrNull(string value, string columnName, StringBuilder exceptionMessage)
@@ -177,7 +177,7 @@ namespace TestDemo.EclShared.Importing.Utils
             return null;
         }
 
-        public int? GetIntegerValueFromRowOrNull(ExcelWorksheet worksheet, int row, int column, string columnName, StringBuilder exceptionMessage)
+        public int GetIntegerValueFromRowOrNull(ExcelWorksheet worksheet, int row, int column, string columnName, StringBuilder exceptionMessage)
         {
             var cellValue = worksheet.Cells[row, column].Value;
             int returnValue;
@@ -185,7 +185,7 @@ namespace TestDemo.EclShared.Importing.Utils
 
             if (cellValue == null)
             {
-                return null;
+                return 0;
             }
             else if (int.TryParse(cellValue.ToString(), out returnValue))
             {
@@ -199,7 +199,7 @@ namespace TestDemo.EclShared.Importing.Utils
 
 
             exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName, "ExpectingWholeNumber", cellValue.ToString()));
-            return null;
+            return 0;
         }
 
         public double? GetDoubleValueFromRowOrNull(ExcelWorksheet worksheet, int row, int column, string columnName, StringBuilder exceptionMessage)
@@ -266,5 +266,7 @@ namespace TestDemo.EclShared.Importing.Utils
 
             return stringBuilder.ToString();
         }
+
+
     }
 }

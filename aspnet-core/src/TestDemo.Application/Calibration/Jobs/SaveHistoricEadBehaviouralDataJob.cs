@@ -62,6 +62,7 @@ namespace TestDemo.Calibration.Jobs
                     Outstanding_Balance_Acy = item.Outstanding_Balance_Acy,
                     Outstanding_Balance_Lcy = item.Outstanding_Balance_Lcy,
                     Restructure_End_Date = item.Restructure_End_Date,
+                    Serial = item.Serial,
                     Restructure_Indicator = item.Restructure_Indicator,
                     Restructure_Start_Date = item.Restructure_Start_Date,
                     Restructure_Type = item.Restructure_Type,

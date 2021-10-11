@@ -65,6 +65,7 @@ namespace TestDemo.EclShared.Importing
                 data.Vehicle_FSV = _validator.GetDoubleValueFromRowOrNull(worksheet, row, 23, nameof(data.Vehicle_FSV), exceptionMessage);
                 data.Guarantee_Value = _validator.GetDoubleValueFromRowOrNull(worksheet, row, 24, nameof(data.Guarantee_Value), exceptionMessage);
                 data.Period = _validator.GetIntegerValueFromRowOrNull(worksheet, row, 25, nameof(data.Period), exceptionMessage);
+                data.Serial = row;// _validator.GetIntegerValueFromRowOrNull(worksheet, row, 26, nameof(data.Serial), exceptionMessage);
             }
             catch (Exception exception)
             {

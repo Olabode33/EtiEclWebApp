@@ -124,6 +124,7 @@ namespace TestDemo.EclShared.Importing
                     record.Contract_End_Date = _validator.ValidateDateTimeValueFromRowOrNull(item.Contract_End_Date, nameof(record.Contract_End_Date), exceptionMessage);
                     record.RAPP_Date = _validator.ValidateIntegerValueFromRowOrNull(item.RAPP_Date, nameof(record.RAPP_Date), exceptionMessage);
                     record.Current_Rating = item.Current_Rating;
+                    record.Serial = item.Serial;
                     record.Segment = item.Segment;
 
                     if (exceptionMessage.Length > 0)
@@ -192,6 +193,7 @@ namespace TestDemo.EclShared.Importing
                 RAPP_Date = input.RAPP_Date,
                 Current_Rating = input.Current_Rating,
                 Segment = input.Segment,
+                Serial=input.Serial,
                 CalibrationId = args.CalibrationId,
                 DateCreated = DateTime.Now
             });
@@ -219,6 +221,7 @@ namespace TestDemo.EclShared.Importing
                         Outstanding_Balance_Lcy = item.Outstanding_Balance_Lcy,
                         Product_Type = item.Product_Type,
                         Segment = item.Segment
+                        
                     });
                 }
             }

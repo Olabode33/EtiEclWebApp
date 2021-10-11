@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestDemo.EntityFrameworkCore;
 
 namespace TestDemo.Migrations
 {
     [DbContext(typeof(TestDemoDbContext))]
-    partial class TestDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211006121743_BehaviouralTermSerial")]
+    partial class BehaviouralTermSerial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2284,8 +2286,6 @@ namespace TestDemo.Migrations
 
                     b.Property<string>("Product_Type");
 
-                    b.Property<int>("Serial");
-
                     b.Property<string>("Settlement_Account");
 
                     b.Property<int?>("Snapshot_Date");
@@ -2345,8 +2345,6 @@ namespace TestDemo.Migrations
 
                     b.Property<double?>("Residential_Property_OMV");
 
-                    b.Property<int>("Serial");
-
                     b.Property<double?>("Shares_FSV");
 
                     b.Property<double?>("Shares_OMV");
@@ -2398,8 +2396,6 @@ namespace TestDemo.Migrations
 
                     b.Property<string>("Segment");
 
-                    b.Property<int>("Serial");
-
                     b.Property<string>("Type_Of_Recovery");
 
                     b.HasKey("Id");
@@ -2440,8 +2436,6 @@ namespace TestDemo.Migrations
                     b.Property<int?>("RAPP_Date");
 
                     b.Property<string>("Segment");
-
-                    b.Property<int>("Serial");
 
                     b.HasKey("Id");
 

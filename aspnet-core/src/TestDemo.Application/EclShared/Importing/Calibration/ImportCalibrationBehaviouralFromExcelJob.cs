@@ -183,6 +183,7 @@ namespace TestDemo.EclShared.Importing
                 Restructure_Type = input.Restructure_Type,
                 Restructure_Start_Date = input.Restructure_Start_Date,
                 Restructure_End_Date = input.Restructure_End_Date,
+                Serial = input.Serial,
                 CalibrationId = args.CalibrationId,
                 DateCreated = DateTime.Now
             });

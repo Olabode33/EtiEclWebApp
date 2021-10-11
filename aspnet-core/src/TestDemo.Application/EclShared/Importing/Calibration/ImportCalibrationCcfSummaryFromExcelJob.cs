@@ -161,6 +161,7 @@ namespace TestDemo.EclShared.Importing
                 Limit = input.Limit,
                 Outstanding_Balance = input.Outstanding_Balance,
                 Classification = input.Classification,
+                Serial= input.Serial,
                 CalibrationId = args.CalibrationId,
                 DateCreated = DateTime.Now
             });
