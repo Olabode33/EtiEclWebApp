@@ -48,6 +48,7 @@ namespace TestDemo.EclShared.Importing
                 data.Contract_End_Date = GetRequiredValueFromRowOrNull(worksheet, row, 10, nameof(data.Contract_End_Date), exceptionMessage);
                 data.RAPP_Date = GetRequiredValueFromRowOrNull(worksheet, row, 11, nameof(data.RAPP_Date), exceptionMessage);
                 data.Segment = GetRequiredValueFromRowOrNull(worksheet, row, 12, nameof(data.Segment), exceptionMessage);
+                data.Serial = row;// GetIntegerValueFromRowOrNull(worksheet, row, 13, nameof(data.Serial), exceptionMessage);
             }
             catch (Exception exception)
             {
@@ -70,14 +71,14 @@ namespace TestDemo.EclShared.Importing
             return null;
         }
 
-        private int? GetIntegerValueFromRowOrNull(ExcelWorksheet worksheet, int row, int column, string columnName, StringBuilder exceptionMessage)
+        private int GetIntegerValueFromRowOrNull(ExcelWorksheet worksheet, int row, int column, string columnName, StringBuilder exceptionMessage)
         {
             var cellValue = worksheet.Cells[row, column].Value;
             int returnValue;
 
             if (cellValue == null)
             {
-                return null;
+                return 0;
             }
             else if (int.TryParse(cellValue.ToString(), out returnValue))
             {
@@ -85,7 +86,7 @@ namespace TestDemo.EclShared.Importing
             }
 
             exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName));
-            return null;
+            return 0;
         }
 
         private double? GetDoubleValueFromRowOrNull(ExcelWorksheet worksheet, int row, int column, string columnName, StringBuilder exceptionMessage)

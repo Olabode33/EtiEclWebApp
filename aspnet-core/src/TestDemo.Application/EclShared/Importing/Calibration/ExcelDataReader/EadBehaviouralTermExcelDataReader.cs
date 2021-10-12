@@ -51,6 +51,7 @@ namespace TestDemo.EclShared.Importing
                 data.Restructure_Type = GetRequiredValueFromRowOrNull(worksheet, row, 13, nameof(data.Restructure_Type), exceptionMessage);
                 data.Restructure_Start_Date = GetRequiredValueFromRowOrNull(worksheet, row, 14, nameof(data.Restructure_Start_Date), exceptionMessage);
                 data.Restructure_End_Date = GetRequiredValueFromRowOrNull(worksheet, row, 15, nameof(data.Restructure_End_Date), exceptionMessage);
+                data.Serial = row;// GetIntegerValueFromRowOrNull(worksheet, row, 16, nameof(data.Serial), exceptionMessage);
                 
             }
             catch (Exception exception)
@@ -74,14 +75,14 @@ namespace TestDemo.EclShared.Importing
             return null;
         }
 
-        private int? GetIntegerValueFromRowOrNull(ExcelWorksheet worksheet, int row, int column, string columnName, StringBuilder exceptionMessage)
+        private int GetIntegerValueFromRowOrNull(ExcelWorksheet worksheet, int row, int column, string columnName, StringBuilder exceptionMessage)
         {
             var cellValue = worksheet.Cells[row, column].Value;
             int returnValue;
 
             if (cellValue == null)
             {
-                return null;
+                return 0;
             }
             else if (int.TryParse(cellValue.ToString(), out returnValue))
             {
@@ -89,7 +90,7 @@ namespace TestDemo.EclShared.Importing
             }
 
             exceptionMessage.Append(GetLocalizedExceptionMessagePart(columnName));
-            return null;
+            return 0;
         }
 
         private double? GetDoubleValueFromRowOrNull(ExcelWorksheet worksheet, int row, int column, string columnName, StringBuilder exceptionMessage)

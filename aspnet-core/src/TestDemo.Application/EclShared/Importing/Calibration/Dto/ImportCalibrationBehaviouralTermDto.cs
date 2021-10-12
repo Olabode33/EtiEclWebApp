@@ -22,6 +22,7 @@ namespace TestDemo.EclShared.Importing.Calibration.Dto
         public string Restructure_Type { get; set; }
         public DateTime? Restructure_Start_Date { get; set; }
         public DateTime? Restructure_End_Date { get; set; }
+        public int Serial { get; set; }
         public Guid? CalibrationId { get; set; }
         public DateTime? DateCreated { get; set; }
         //public string Assumption_NonExpired { get; set; }
@@ -53,6 +54,7 @@ namespace TestDemo.EclShared.Importing.Calibration.Dto
         public string Restructure_Type { get; set; }
         public string Restructure_Start_Date { get; set; }
         public string Restructure_End_Date { get; set; }
+        public int Serial { get; set; }
         public string Exception { get; set; }
         public bool CanBeImported()
         {

@@ -22,6 +22,7 @@ namespace TestDemo.CalibrationInput
         public virtual int? RAPP_Date { get; set; }
         public virtual string Current_Rating { get; set; }
         public virtual string Segment { get; set; }
+        public virtual int Serial { get; set; }
         public virtual DateTime? DateCreated { get; set; }
         public virtual Guid? CalibrationId { get; set; }
     }

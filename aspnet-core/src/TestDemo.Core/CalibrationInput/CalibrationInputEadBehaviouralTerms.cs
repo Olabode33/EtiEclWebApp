@@ -28,6 +28,7 @@ namespace TestDemo.CalibrationInput
         public virtual string Restructure_Type { get; set; }
         public virtual DateTime? Restructure_Start_Date { get; set; }
         public virtual DateTime? Restructure_End_Date { get; set; }
+        public virtual int Serial { get; set; }
         public virtual Guid? CalibrationId { get; set; }
         public virtual DateTime? DateCreated { get; set; }
         public virtual string Assumption_NonExpired { get; set; }

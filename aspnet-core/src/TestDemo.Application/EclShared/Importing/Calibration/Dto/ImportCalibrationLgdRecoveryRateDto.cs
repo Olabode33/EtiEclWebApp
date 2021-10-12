@@ -23,6 +23,7 @@ namespace TestDemo.EclShared.Importing.Calibration.Dto
         public Guid? CalibrationId { get; set; }
         public DateTime? DateCreated { get; set; }
         public string Exception { get; set; }
+        public int Serial { get; set; }
         public bool CanBeImported()
         {
             return string.IsNullOrEmpty(Exception);

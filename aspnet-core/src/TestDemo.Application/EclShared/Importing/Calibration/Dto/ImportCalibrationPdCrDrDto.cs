@@ -19,6 +19,7 @@ namespace TestDemo.EclShared.Importing.Calibration.Dto
         public int? RAPP_Date { get; set; }
         public string Current_Rating { get; set; }
         public string Segment { get; set; }
+        public int Serial { get; set; }
         public Guid? CalibrationId { get; set; }
         public DateTime? DateCreated { get; set; }
         public string Exception { get; set; }
@@ -42,6 +43,7 @@ namespace TestDemo.EclShared.Importing.Calibration.Dto
         public string RAPP_Date { get; set; }
         public string Current_Rating { get; set; }
         public string Segment { get; set; }
+        public int Serial { get; set; }
         public string Exception { get; set; }
         public bool CanBeImported()
         {

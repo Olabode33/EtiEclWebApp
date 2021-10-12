@@ -180,7 +180,8 @@ namespace TestDemo.EclShared.Importing
                 Segment = input.Segment,
                 Current_Rating = input.Current_Rating,
                 CalibrationId = args.CalibrationId,
-                DateCreated = DateTime.Now
+                DateCreated = DateTime.Now,
+                Serial=input.Serial
             });
         }
 
