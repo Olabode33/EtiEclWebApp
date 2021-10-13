@@ -1,0 +1,70 @@
+﻿<div bsModal #editModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal"
+    aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #assessmentForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span> Override PD Comm Cons Result</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="kt-portlet__body kt-portlet__body--fluid">
+                        <div class="table-responsive">
+
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>{{l('Months')}}</th>
+                                        <th>{{l('Comm_Stage_1')}}</th>
+                                        <th>{{l('Cons_Stage_1')}}</th>
+                                        <th>{{l('Comm_Stage_2')}}</th>
+                                        <th>{{l('Cons_Stage_2')}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of result; let i = index">
+                                        <td class="align-middle">
+                                            {{item.month}}
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="text" name="{{'comm1_'+ i}}" class="form-control"
+                                                [(ngModel)]="item.comm1">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="text" name="{{'cons1_'+ i}}" class="form-control"
+                                                [(ngModel)]="item.cons1">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="text" name="{{'comm2_'+ i}}" class="form-control"
+                                                [(ngModel)]="item.comm2"></td>
+
+                                        <td class="align-middle">
+                                            <input type="text" name="{{'cons2_'+ i}}" class="form-control"
+                                                [(ngModel)]="item.cons2">
+                                        </td>
+                                        
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default"
+                        (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!assessmentForm.form.valid"
+                        [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
+                        <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

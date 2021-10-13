@@ -108,7 +108,7 @@ namespace TestDemo.EclShared
 
     public enum TrackTypeEnum
     {
-        None, Wholesale, Retail, Obe, CalibrateBehaviouralTerm, CalibrateCcfSummary, CalibrateHaircut, CalibrateRecoveryRate, CalibratePdCrDr, MacroAnalysis, Investment
+        None, Wholesale, Retail, Obe, CalibrateBehaviouralTerm, CalibrateCcfSummary, CalibrateHaircut, CalibrateRecoveryRate, CalibratePdCrDr, MacroAnalysis, Investment, CalibratePdCommsCons
     }
 
     public enum SendEmailTypeEnum

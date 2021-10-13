@@ -205,6 +205,9 @@ namespace TestDemo
             configuration.CreateMap<ImportCalibrationPdCrDrDto, TrackCalibrationPdCrDrException>()
                 .ReverseMap()
                 .ForMember(dto => dto.DateCreated, opt => opt.Ignore());
+            configuration.CreateMap<ImportCalibrationPdCommsConsDto, TrackCalibrationPdCommsConsException>()
+                .ReverseMap()
+                .ForMember(dto => dto.DateCreated, opt => opt.Ignore());
             configuration.CreateMap<ImportCalibrationBehaviouralTermDto, TrackCalibrationBehaviouralTermException>()
                 .ReverseMap()
                 .ForMember(dto => dto.DateCreated, opt => opt.Ignore());
@@ -224,8 +227,12 @@ namespace TestDemo
             configuration.CreateMap<InputPdCrDrDto, CalibrationHistoryPdCrDr>()
                 .ReverseMap()
                 .ForMember(dto => dto.CalibrationId, opt => opt.Ignore());
+            configuration.CreateMap<InputPdCommsConsDto, CalibrationHistoryPdCommsCons>()
+                .ReverseMap()
+                .ForMember(dto => dto.CalibrationId, opt => opt.Ignore());
 
             configuration.CreateMap<CreateOrEditCalibrationRunDto, MacroAnalysis>().ReverseMap();
+            configuration.CreateMap<CreateOrEditCalibrationRunDto, CalibrationPdCommsCons>().ReverseMap();
             configuration.CreateMap<CreateOrEditCalibrationRunDto, CalibrationPdCrDr>().ReverseMap();
             configuration.CreateMap<CreateOrEditCalibrationRunDto, CalibrationLgdRecoveryRate>().ReverseMap();
             configuration.CreateMap<CreateOrEditCalibrationRunDto, CalibrationLgdHairCut>().ReverseMap();

@@ -7,6 +7,7 @@ namespace TestDemo.Common
     public class DbHelperConst
     {
         //Table Names
+        public const string TB_CalibrationInputPdCommsCons = "CalibrationInput_Comm_Cons_PD";
         public const string TB_CalibrationInputPdCrDr = "CalibrationInput_PD_CR_DR";
         public const string TB_CalibrationInputBehaviouralTerm = "CalibrationInput_EAD_Behavioural_Terms";
         public const string TB_CalibrationInputCcfSummary = "CalibrationInput_EAD_CCF_Summary";
@@ -40,6 +41,7 @@ namespace TestDemo.Common
         public const string TB_TrackEclDataLoanBookException = "TrackEclDataLoanBookException";
         public const string TB_TrackEclDataPaymentScheduleException = "TrackEclDataPaymentScheduleException";
         public const string TB_TrackCalibrationPdCrDrException = "TrackCalibrationPdCrDrException";
+        public const string TB_TrackCalibrationPdCommsConsException = "TrackCalibrationPdCommsConsException";
         public const string TB_TrackCalibrationBehaviouralTermException = "TrackCalibrationBehaviouralTermException";
 
         public const string TB_BatchEclDataLoanBooks = "BatchEclDataLoanBooks";

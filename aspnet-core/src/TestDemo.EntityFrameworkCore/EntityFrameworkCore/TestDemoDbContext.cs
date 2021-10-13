@@ -73,6 +73,13 @@ namespace TestDemo.EntityFrameworkCore
 {
     public class TestDemoDbContext : AbpZeroDbContext<Tenant, Role, User, TestDemoDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<TrackCalibrationPdCommsConsException> TrackCalibrationPdCommsConsException { get; set; }
+        public virtual DbSet<CalibrationResultPdCommsCons> CalibrationResultPdCommsCons { get; set; }
+        public virtual DbSet<CalibrationInputPdCommsCon> CalibrationInputPdCommsCon { get; set; }
+        public virtual DbSet<CalibrationHistoryPdCommsCons> CalibrationHistoryPdCommsCons { get; set; }
+        public virtual DbSet<CalibrationPdCommsConsApproval> CalibrationPdCommsConsApproval { get; set; }
+        public virtual DbSet<CalibrationPdCommsCons> CalibrationPdCommsCons { get; set; }
+
         public virtual DbSet<LoanImpairmentModelResult> LoanImpairmentModelResults { get; set; }
 
         public virtual DbSet<LoanImpairmentApproval> LoanImpairmentApprovals { get; set; }

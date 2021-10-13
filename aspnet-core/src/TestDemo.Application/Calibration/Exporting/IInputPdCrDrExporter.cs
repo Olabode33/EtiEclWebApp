@@ -17,6 +17,7 @@ namespace TestDemo.Calibration.Exporting
 {
     public interface IInputPdCrDrExporter
     {
+        FileDto ExportToFile(List<InputPdCommsConsDto> inputDtos);
         FileDto ExportToFile(List<InputPdCrDrDto> inputDtos);
 
         FileDto ExportToFile(List<InputMacroEconomicCreditIndexDto> inputDtos);

@@ -28,6 +28,7 @@ export class AppNavigationService {
                 new AppMenuItem('CalibrationLgdHairCut', 'Pages.Calibration', 'flaticon-more', '/app/main/calibration/haircut'),
                 new AppMenuItem('CalibrationLgdRecoveryRate', 'Pages.Calibration', 'flaticon-more', '/app/main/calibration/recovery'),
                 new AppMenuItem('CalibrationPdCrDr', 'Pages.Calibration', 'flaticon-more', '/app/main/calibration/pdcrdr'),
+                new AppMenuItem('CalibrationPdCommsCons', 'Pages.Calibration', 'flaticon-more', '/app/main/calibration/pdcommscons'),
                 new AppMenuItem('MacroAnalysis', 'Pages.Calibration', 'flaticon-more', '/app/main/calibration/macroAnalysis'),
             ]),
             new AppMenuItem('RV Models', 'Pages.IVModels', 'fas fa-spa', '', [

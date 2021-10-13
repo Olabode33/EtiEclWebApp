@@ -1620,6 +1620,46 @@ namespace TestDemo.Migrations
                     b.ToTable("CalibrationLgdRecoveryRateApprovals");
                 });
 
+            modelBuilder.Entity("TestDemo.Calibration.Approvals.CalibrationPdCommsConsApproval", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("CalibrationId");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<string>("ReviewComment");
+
+                    b.Property<long?>("ReviewedByUserId");
+
+                    b.Property<DateTime>("ReviewedDate");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CalibrationId");
+
+                    b.HasIndex("ReviewedByUserId");
+
+                    b.ToTable("CalibrationPdCommsConsApprovals");
+                });
+
             modelBuilder.Entity("TestDemo.Calibration.Approvals.CalibrationPdCrDrApproval", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1867,6 +1907,48 @@ namespace TestDemo.Migrations
                     b.HasIndex("CloseByUserId");
 
                     b.ToTable("CalibrationRunLgdRecoveryRate");
+                });
+
+            modelBuilder.Entity("TestDemo.Calibration.CalibrationPdCommsCons", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long?>("CloseByUserId");
+
+                    b.Property<DateTime?>("ClosedDate");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<string>("ExceptionComment");
+
+                    b.Property<string>("FriendlyException");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<int>("ModelType");
+
+                    b.Property<long>("OrganizationUnitId");
+
+                    b.Property<int>("ServiceId");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CloseByUserId");
+
+                    b.ToTable("CalibrationRunCommConsPD");
                 });
 
             modelBuilder.Entity("TestDemo.Calibration.CalibrationPdCrDr", b =>
@@ -2158,6 +2240,51 @@ namespace TestDemo.Migrations
                     b.ToTable("CalibrationHistory_LGD_RecoveryRate");
                 });
 
+            modelBuilder.Entity("TestDemo.CalibrationInput.CalibrationHistoryPdCommsCons", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Account_No");
+
+                    b.Property<long?>("AffiliateId");
+
+                    b.Property<string>("Classification");
+
+                    b.Property<DateTime?>("Contract_End_Date");
+
+                    b.Property<string>("Contract_No");
+
+                    b.Property<DateTime?>("Contract_Start_Date");
+
+                    b.Property<string>("Current_Rating");
+
+                    b.Property<string>("Customer_No");
+
+                    b.Property<DateTime?>("DateCreated");
+
+                    b.Property<int?>("Days_Past_Due");
+
+                    b.Property<int?>("ModelType");
+
+                    b.Property<double?>("Outstanding_Balance_Lcy");
+
+                    b.Property<string>("Product_Type");
+
+                    b.Property<string>("Segment");
+
+                    b.Property<int>("Serial");
+
+                    b.Property<DateTime?>("Snapshot_Date");
+
+                    b.Property<string>("WI");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CalibrationHistory_Comm_Cons_PD");
+                });
+
             modelBuilder.Entity("TestDemo.CalibrationInput.CalibrationHistoryPdCrDr", b =>
                 {
                     b.Property<int>("Id")
@@ -2405,6 +2532,49 @@ namespace TestDemo.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CalibrationInput_LGD_RecoveryRate");
+                });
+
+            modelBuilder.Entity("TestDemo.CalibrationInput.CalibrationInputPdCommsCon", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Account_No");
+
+                    b.Property<Guid?>("CalibrationId");
+
+                    b.Property<string>("Classification");
+
+                    b.Property<DateTime?>("Contract_End_Date");
+
+                    b.Property<string>("Contract_No");
+
+                    b.Property<DateTime?>("Contract_Start_Date");
+
+                    b.Property<string>("Current_Rating");
+
+                    b.Property<string>("Customer_No");
+
+                    b.Property<DateTime?>("DateCreated");
+
+                    b.Property<int?>("Days_Past_Due");
+
+                    b.Property<double?>("Outstanding_Balance_Lcy");
+
+                    b.Property<string>("Product_Type");
+
+                    b.Property<string>("Segment");
+
+                    b.Property<int>("Serial");
+
+                    b.Property<DateTime?>("Snapshot_Date");
+
+                    b.Property<string>("WI");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CalibrationInput_Comm_Cons_PD");
                 });
 
             modelBuilder.Entity("TestDemo.CalibrationInput.CalibrationInputPdCrDr", b =>
@@ -2752,6 +2922,31 @@ namespace TestDemo.Migrations
                     b.ToTable("CalibrationResult_PD_12Months_Summary");
                 });
 
+            modelBuilder.Entity("TestDemo.CalibrationResult.CalibrationResultPdCommsCons", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<Guid?>("CalibrationId");
+
+                    b.Property<double?>("Comm_1");
+
+                    b.Property<double?>("Comm_2");
+
+                    b.Property<double?>("Cons_1");
+
+                    b.Property<double?>("Cons_2");
+
+                    b.Property<DateTime?>("DateCreated");
+
+                    b.Property<int>("Month");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CalibrationResult_Comm_Cons_PD");
+                });
+
             modelBuilder.Entity("TestDemo.CalibrationResult.CalibrationResultPdCommsConsMarginalDefaultRate", b =>
                 {
                     b.Property<int>("Id")
@@ -3078,6 +3273,49 @@ namespace TestDemo.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TrackCalibrationBehaviouralTermException");
+                });
+
+            modelBuilder.Entity("TestDemo.EclLibrary.Workers.Trackers.TrackCalibrationPdCommsConsException", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Account_No");
+
+                    b.Property<Guid?>("CalibrationId");
+
+                    b.Property<string>("Classification");
+
+                    b.Property<DateTime?>("Contract_End_Date");
+
+                    b.Property<string>("Contract_No");
+
+                    b.Property<DateTime?>("Contract_Start_Date");
+
+                    b.Property<string>("Current_Rating");
+
+                    b.Property<string>("Customer_No");
+
+                    b.Property<int?>("Days_Past_Due");
+
+                    b.Property<string>("Exception");
+
+                    b.Property<double?>("Outstanding_Balance_Lcy");
+
+                    b.Property<string>("Product_Type");
+
+                    b.Property<string>("Segment");
+
+                    b.Property<int>("Serial");
+
+                    b.Property<DateTime?>("Snapshot_Date");
+
+                    b.Property<string>("WI");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TrackCalibrationPdCommsConsException");
                 });
 
             modelBuilder.Entity("TestDemo.EclLibrary.Workers.Trackers.TrackCalibrationPdCrDrException", b =>
@@ -12276,6 +12514,17 @@ namespace TestDemo.Migrations
                         .HasForeignKey("ReviewedByUserId");
                 });
 
+            modelBuilder.Entity("TestDemo.Calibration.Approvals.CalibrationPdCommsConsApproval", b =>
+                {
+                    b.HasOne("TestDemo.Calibration.CalibrationPdCommsCons", "CalibrationFk")
+                        .WithMany()
+                        .HasForeignKey("CalibrationId");
+
+                    b.HasOne("TestDemo.Authorization.Users.User", "ReviewedByUserFk")
+                        .WithMany()
+                        .HasForeignKey("ReviewedByUserId");
+                });
+
             modelBuilder.Entity("TestDemo.Calibration.Approvals.CalibrationPdCrDrApproval", b =>
                 {
                     b.HasOne("TestDemo.Calibration.CalibrationPdCrDr", "CalibrationFk")
@@ -12320,6 +12569,13 @@ namespace TestDemo.Migrations
                 });
 
             modelBuilder.Entity("TestDemo.Calibration.CalibrationLgdRecoveryRate", b =>
+                {
+                    b.HasOne("TestDemo.Authorization.Users.User", "CloseByUserFk")
+                        .WithMany()
+                        .HasForeignKey("CloseByUserId");
+                });
+
+            modelBuilder.Entity("TestDemo.Calibration.CalibrationPdCommsCons", b =>
                 {
                     b.HasOne("TestDemo.Authorization.Users.User", "CloseByUserFk")
                         .WithMany()

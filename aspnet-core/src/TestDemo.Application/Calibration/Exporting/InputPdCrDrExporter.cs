@@ -27,6 +27,55 @@ namespace TestDemo.Calibration.Exporting
         {
         }
 
+        public FileDto ExportToFile(List<InputPdCommsConsDto> inputDtos)
+        {
+            return CreateExcelPackage(
+                "PdCommsConsImportList.xlsx",
+                excelPackage =>
+                {
+                    var sheet = excelPackage.Workbook.Worksheets.Add(L("PdCommsConsImportList"));
+                    sheet.OutLineApplyStyle = true;
+
+                    AddHeader(
+                        sheet,
+                        "Customer_No",
+                        "Account_No",
+                        "Contract_No",
+                        "Product_Type",
+                        "Current_Rating",
+                        "Days_Past_Due",
+                        "Classification",
+                        "Outstanding_Balance_Lcy",
+                        "Contract_Start_Date",
+                        "Contract_End_Date",
+                        "SnapShot_Date",
+                        "WI"
+                        );
+
+                    AddObjects(
+                        sheet, 2, inputDtos,
+                        _ => _.Customer_No,
+                        _ => _.Account_No,
+                        _ => _.Contract_No,
+                        _ => _.Product_Type,
+                        _ => _.Current_Rating,
+                        _ => _.Days_Past_Due,
+                        _ => _.Classification,
+                        _ => _.Outstanding_Balance_Lcy,
+                        _ => _.Contract_Start_Date,
+                        _ => _.Contract_End_Date,
+                        _ => _.Snapshot_Date,
+                        _ => _.WI
+                        );
+
+                    for (var i = 1; i <= 11; i++)
+                    {
+                        sheet.Column(i).AutoFit();
+                    }
+                });
+        }
+
+
         public FileDto ExportToFile(List<InputPdCrDrDto> inputDtos)
         {
             return CreateExcelPackage(

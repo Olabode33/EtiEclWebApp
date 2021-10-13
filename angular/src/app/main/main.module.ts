@@ -1,4 +1,6 @@
-﻿import { AffiliateConfigurationComponent } from './eclConfig/affiliate-configuration/affiliate-configuration.component';
+﻿import { ViewCalibrationPdCommsConsComponent } from './calibration/calibratePdCommsCons/view-calibratePdCommsCons.component';
+import { CalibrationPdCommsConsComponent } from './calibration/calibratePdCommsCons/calibratePdCommsCons.component';
+import { AffiliateConfigurationComponent } from './eclConfig/affiliate-configuration/affiliate-configuration.component';
 import { FrameworkAssumptionsComponent } from './assumptions/_subs/frameworkAssumptions/frameworkAssumptions.component';
 import { ViewAffiliateAssumptionsComponent } from './assumptions/view-affiliateAssumptions/view-affiliateAssumptions.component';
 import { CommonModule } from '@angular/common';
@@ -130,6 +132,7 @@ import { HoldCoResultSummariesComponent } from './ivModels/holdCoResultSummaries
 import { ViewHoldCoResultSummaryModalComponent } from './ivModels/holdCoResultSummaries/view-holdCoResultSummary-modal.component';
 import { CreateOrEditHoldCoResultSummaryModalComponent } from './ivModels/holdCoResultSummaries/create-or-edit-holdCoResultSummary-modal.component';
 import { ApproveIvmodelModalComponent } from './ivModels/approve-ivmodel-modal/approve-ivmodel-modal.component';
+import { EditCalibratePdCommConsResultModalComponent } from './calibration/calibratePdCommsCons/edit-calibrateCommCons-result-modal.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -256,7 +259,10 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         EditPrincipalSummaryResultModalComponent,
         EditIndexResultModalComponent,
         EditPrincipalComponentResultModalComponent,
-        ApproveIvmodelModalComponent
+        ApproveIvmodelModalComponent,
+        CalibrationPdCommsConsComponent,
+        ViewCalibrationPdCommsConsComponent,
+        EditCalibratePdCommConsResultModalComponent
     ],
     providers: [
         { provide: BsDatepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDatepickerConfig },

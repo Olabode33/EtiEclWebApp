@@ -46,6 +46,8 @@ import { ViewCalibrationPdCrDrComponent } from './calibration/calibratePdCrDr/vi
 import { ViewMacroAnalysisComponent } from './calibration/calibrateMacroAnalysis/view-macroAnalysis.component';
 import { ViewBatchEclComponent } from './eclView/view-batchEcl/view-batchEcl.component';
 import { HoldCoResultSummariesComponent } from './ivModels/holdCoResultSummaries/holdCoResultSummaries.component';
+import { CalibrationPdCommsConsComponent } from './calibration/calibratePdCommsCons/calibratePdCommsCons.component';
+import { ViewCalibrationPdCommsConsComponent } from './calibration/calibratePdCommsCons/view-calibratePdCommsCons.component';
 
 @NgModule({
     imports: [
@@ -75,6 +77,8 @@ import { HoldCoResultSummariesComponent } from './ivModels/holdCoResultSummaries
                     { path: 'calibration/recovery/view/:calibrationId', component: ViewCalibrationLgdRecoveryComponent, data: { permission: 'Pages.Calibration' }  },
                     { path: 'calibration/pdcrdr', component: CalibrationPdCrDrComponent, data: { permission: 'Pages.Calibration' }  },
                     { path: 'calibration/pdcrdr/view/:calibrationId', component: ViewCalibrationPdCrDrComponent, data: { permission: 'Pages.Calibration' }  },
+                    { path: 'calibration/pdcommscons', component: CalibrationPdCommsConsComponent, data: { permission: 'Pages.Calibration' }  },
+                    { path: 'calibration/pdcommscons/view/:calibrationId', component: ViewCalibrationPdCommsConsComponent, data: { permission: 'Pages.Calibration' }  },
                     { path: 'calibration/macroAnalysis', component: MacroAnalysisComponent, data: { permission: 'Pages.Calibration' }  },
                     { path: 'calibration/macroAnalysis/view/:calibrationId', component: ViewMacroAnalysisComponent, data: { permission: 'Pages.Calibration' }  },
 

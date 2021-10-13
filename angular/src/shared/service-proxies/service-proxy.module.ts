@@ -5,6 +5,7 @@ import * as ApiServiceProxies from './service-proxies';
 
 @NgModule({
     providers: [
+        ApiServiceProxies.CalibrationPdCommsConsServiceProxy,
         ApiServiceProxies.LoanImpairmentModelResultsServiceProxy,
         ApiServiceProxies.LoanImpairmentKeyParametersServiceProxy,
         ApiServiceProxies.LoanImpairmentRecoveriesServiceProxy,
