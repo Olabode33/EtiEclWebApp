@@ -33,9 +33,11 @@ export class AppNavigationService {
             ]),
             new AppMenuItem('RV Models', 'Pages.IVModels', 'fas fa-spa', '', [
                 new AppMenuItem('HoldCoIntercompany', 'Pages.HoldCoRegisters', 'flaticon-more', '/app/main/ivModels/holdCoRegisters'),
-                new AppMenuItem('ETIReceivables', 'Pages.ReceivablesRegisters', 'flaticon-more', '/app/main/receivablesRegisters/receivablesRegisters'),
                 new AppMenuItem('LoanImpairmentRegisters', 'Pages.LoanImpairmentRegisters', 'flaticon-more', '/app/main/loanImpairmentsRegisters/loanImpairmentRegisters'),
 
+            ]),
+            new AppMenuItem('Receivables Models', 'Pages.IVModels', 'fas fa-spa', '', [
+                new AppMenuItem('ETIReceivables', 'Pages.ReceivablesRegisters', 'flaticon-more', '/app/main/receivablesRegisters/receivablesRegisters'),
             ]),
             new AppMenuItem('Assumptions', 'Pages.Assumption.Affiliates', 'fa fa-list-ul', '/app/main/assumption/affiliates'),
             new AppMenuItem('ECL', 'Pages.EclView', 'fa fa-suitcase', '/app/main/ecl'),

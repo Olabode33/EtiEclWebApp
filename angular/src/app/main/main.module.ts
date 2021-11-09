@@ -133,6 +133,7 @@ import { ViewHoldCoResultSummaryModalComponent } from './ivModels/holdCoResultSu
 import { CreateOrEditHoldCoResultSummaryModalComponent } from './ivModels/holdCoResultSummaries/create-or-edit-holdCoResultSummary-modal.component';
 import { ApproveIvmodelModalComponent } from './ivModels/approve-ivmodel-modal/approve-ivmodel-modal.component';
 import { EditCalibratePdCommConsResultModalComponent } from './calibration/calibratePdCommsCons/edit-calibrateCommCons-result-modal.component';
+import { CalibrationOuLookupTableModalComponent } from './eclShared/calibration-ou-lookup-table-modal/calibration-ou-lookup-table-modal.component'
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -262,8 +263,8 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         ApproveIvmodelModalComponent,
         CalibrationPdCommsConsComponent,
         ViewCalibrationPdCommsConsComponent,
-        EditCalibratePdCommConsResultModalComponent
-    ],
+        EditCalibratePdCommConsResultModalComponent,
+        CalibrationOuLookupTableModalComponent    ],
     providers: [
         { provide: BsDatepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDatepickerConfig },
         { provide: BsDaterangepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDaterangepickerConfig },

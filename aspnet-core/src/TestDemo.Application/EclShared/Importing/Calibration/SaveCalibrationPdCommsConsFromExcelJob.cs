@@ -122,7 +122,7 @@ namespace TestDemo.EclShared.Importing
                     record.Outstanding_Balance_Lcy = _validator.ValidateDoubleValueFromRowOrNull(item.Outstanding_Balance_Lcy, nameof(record.Outstanding_Balance_Lcy), exceptionMessage);
                     record.Contract_Start_Date = _validator.ValidateDateTimeValueFromRowOrNull(item.Contract_Start_Date, nameof(record.Contract_Start_Date), exceptionMessage);
                     record.Contract_End_Date = _validator.ValidateDateTimeValueFromRowOrNull(item.Contract_End_Date, nameof(record.Contract_End_Date), exceptionMessage);
-                    record.Snapshot_Date = _validator.ValidateDateTimeValueFromRowOrNull(item.Snapshot_Date, nameof(record.Snapshot_Date), exceptionMessage);
+                    record.Snapshot_Date = _validator.ValidateIntegerValueFromRowOrNull(item.Snapshot_Date, nameof(record.Snapshot_Date), exceptionMessage);
                     record.Current_Rating = _validator.ValidateIntegerValueFromRowOrNull(item.Current_Rating, nameof(record.Current_Rating), exceptionMessage);
                     record.Serial = item.Serial;
                     record.Segment = item.Segment;

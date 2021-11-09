@@ -64,7 +64,9 @@ namespace TestDemo.Calibration.Jobs
                     Default_Date = item.Default_Date,
                     Product_Type = item.Product_Type,
                     Segment = item.Segment,
-                    Type_Of_Recovery = item.Type_Of_Recovery
+                    Type_Of_Recovery = item.Type_Of_Recovery,
+                    Serial=item.Serial,
+                    CalibrationSourceId = item.Id
                 });
             }
         }

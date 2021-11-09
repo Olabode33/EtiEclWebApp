@@ -10,6 +10,8 @@ namespace TestDemo.Calibration.Dtos
     {
         public CalibrationStatusEnum Status { get; set; }
         public long? CloseByUserId { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public long? AffiliateId { get; set; }
         public FrameworkEnum ModelType { get; set; }
         public  string FriendlyException { get; set; }

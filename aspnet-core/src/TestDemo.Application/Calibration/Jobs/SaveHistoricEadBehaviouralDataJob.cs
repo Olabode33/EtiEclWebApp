@@ -66,7 +66,9 @@ namespace TestDemo.Calibration.Jobs
                     Restructure_Indicator = item.Restructure_Indicator,
                     Restructure_Start_Date = item.Restructure_Start_Date,
                     Restructure_Type = item.Restructure_Type,
-                    Snapshot_Date = item.Snapshot_Date
+                    Snapshot_Date = item.Snapshot_Date,
+                    SourceType = EclShared.SourceTypeEnum.CalibrationUpload,
+                    CalibrationSourceId = item.Id
                 });
             }
         }

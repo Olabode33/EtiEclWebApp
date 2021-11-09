@@ -35,9 +35,13 @@ namespace TestDemo.CalibrationInput
         public virtual double? Shares_FSV { get; set; }
         public virtual double? Vehicle_OMV { get; set; }
         public virtual double? Vehicle_FSV { get; set; }
+        public virtual int Serial { get; set; }
         public virtual double? Guarantee_Value { get; set; }
         public virtual FrameworkEnum? ModelType { get; set; }
         public virtual long? AffiliateId { get; set; }
         public virtual DateTime? DateCreated { get; set; }
+		        public virtual Guid? SourceId { get; set; }
+        public virtual SourceTypeEnum? SourceType { get; set; }
+        public virtual int? CalibrationSourceId { get; set; }
     }
 }

@@ -23,6 +23,10 @@ namespace TestDemo.CalibrationInput
         public virtual string Settlement_Account { get; set; }
         public virtual FrameworkEnum? ModelType { get; set; }
         public virtual long? AffiliateId { get; set; }
+        public virtual int Serial { get; set; }
         public virtual DateTime? DateCreated { get; set; }
+		        public virtual Guid? SourceId { get; set; }
+        public virtual SourceTypeEnum? SourceType { get; set; }
+        public virtual int? CalibrationSourceId { get; set; }
     }
 }

@@ -60,7 +60,10 @@ namespace TestDemo.Calibration.Jobs
                     Limit = item.Limit,
                     Outstanding_Balance = item.Outstanding_Balance,
                     Product_Type = item.Product_Type,
-                    Settlement_Account = item.Settlement_Account
+                    Settlement_Account = item.Settlement_Account,
+                    Serial=item.Serial,                   
+                    SourceType = EclShared.SourceTypeEnum.CalibrationUpload,
+                    CalibrationSourceId = item.Id
                 });
             }
         }

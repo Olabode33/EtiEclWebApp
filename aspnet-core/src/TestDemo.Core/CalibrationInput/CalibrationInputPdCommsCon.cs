@@ -20,7 +20,7 @@ namespace TestDemo.CalibrationInput
         public virtual double? Outstanding_Balance_Lcy { get; set; }
         public virtual DateTime? Contract_Start_Date { get; set; }
         public virtual DateTime? Contract_End_Date { get; set; }
-        public virtual DateTime? Snapshot_Date { get; set; }
+        public virtual int? Snapshot_Date { get; set; }
         public virtual string Segment { get; set; }
         public virtual string WI { get; set; }
         public virtual int Serial { get; set; }

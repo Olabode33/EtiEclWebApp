@@ -1,50 +1,47 @@
-using TestDemo.Authorization.Users;
-
-using TestDemo.EclShared;
-
+using Abp.Application.Services.Dto;
+using Abp.Authorization;
+using Abp.BackgroundJobs;
+using Abp.Configuration;
+using Abp.Domain.Repositories;
+using Abp.Linq.Extensions;
+using Abp.Organizations;
+using Abp.Runtime.Session;
+using Abp.UI;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using Abp.Linq.Extensions;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Abp.Domain.Repositories;
-using TestDemo.Wholesale.Dtos;
-using TestDemo.Dto;
-using Abp.Application.Services.Dto;
 using TestDemo.Authorization;
-using Abp.Extensions;
-using Abp.Authorization;
-using Microsoft.EntityFrameworkCore;
-using TestDemo.WholesaleInputs;
-using System.Data;
-using TestDemo.Utils;
-using TestDemo.WholesaleComputation;
-using Abp.Organizations;
-using TestDemo.WholesaleAssumption;
-using Abp.BackgroundJobs;
-using TestDemo.EclInterfaces;
-using TestDemo.Dto.Ecls;
-using TestDemo.Dto.Approvals;
-using Abp.UI;
-using TestDemo.EclShared.Dtos;
-using TestDemo.WholesaleAssumption.Dtos;
-using TestDemo.EclConfig;
-using Abp.Configuration;
-using TestDemo.Reports.Jobs;
-using TestDemo.Reports;
-using Abp.Runtime.Session;
-using TestDemo.EclLibrary.Jobs;
-using TestDemo.EclLibrary.BaseEngine.Dtos;
-using TestDemo.Common.Exporting;
-using TestDemo.Dto.Inputs;
-using TestDemo.EclShared.Emailer;
-using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Hosting;
-using TestDemo.Configuration;
+using TestDemo.Authorization.Users;
 using TestDemo.Calibration;
+using TestDemo.Calibration.Jobs;
+using TestDemo.CalibrationInput;
 using TestDemo.CalibrationResult;
+using TestDemo.Common.Exporting;
+using TestDemo.Configuration;
+using TestDemo.Dto;
+using TestDemo.Dto.Approvals;
+using TestDemo.Dto.Ecls;
+using TestDemo.Dto.Inputs;
+using TestDemo.EclConfig;
+using TestDemo.EclInterfaces;
+using TestDemo.EclLibrary.BaseEngine.Dtos;
+using TestDemo.EclLibrary.Jobs;
+using TestDemo.EclShared;
+using TestDemo.EclShared.Dtos;
+using TestDemo.EclShared.Emailer;
 using TestDemo.EclShared.Jobs;
+using TestDemo.Reports;
+using TestDemo.Reports.Jobs;
+using TestDemo.Wholesale.Dtos;
+using TestDemo.WholesaleAssumption;
+using TestDemo.WholesaleComputation;
+using TestDemo.WholesaleInputs;
 
 namespace TestDemo.Wholesale
 {
@@ -77,7 +74,10 @@ namespace TestDemo.Wholesale
         private readonly IRepository<CalibrationLgdHairCut, Guid> _lgdHaircutCalibrationRepository;
         private readonly IRepository<CalibrationLgdRecoveryRate, Guid> _lgdRecoveryRateCalibrationRepository;
         private readonly IRepository<CalibrationPdCrDr, Guid> _pdcrdrCalibrationRepository;
+        private readonly IRepository<CalibrationPdCommsCons, Guid> _pdCommConscalibrationRepository;
         private readonly IRepository<MacroAnalysis> _macroCalibrationRepository;
+
+
         private readonly IRepository<MacroResult_SelectedMacroEconomicVariables> _macroResultSecltedEconomicVariableRepository;
 
         private readonly IRepository<PdInputAssumptionNonInternalModel, Guid> _pdAssumptionNonInternalModelRepository;
@@ -92,9 +92,17 @@ namespace TestDemo.Wholesale
         private readonly IConfigurationRoot _appConfiguration;
         private readonly IExcelReportGenerator _reportGenerator;
 
+        private readonly IRepository<CalibrationHistoryEadBehaviouralTerms> _btHistoryRepository;
+        private readonly IRepository<CalibrationHistoryEadCcfSummary> _ccfHistoryRepository;
+        private readonly IRepository<CalibrationHistoryLgdRecoveryRate> _rrHistoryRepository;
+        private readonly IRepository<CalibrationHistoryLgdHairCut> _hcHistoryRepository;
+        private readonly IRepository<CalibrationHistoryPdCommsCons> _ccHistoryRepository;
+        private readonly IRepository<CalibrationHistoryPdCrDr> _pdHistoryRepository;
+
 
         public WholesaleEclsAppService(
-            IRepository<WholesaleEcl, Guid> wholesaleEclRepository, 
+
+        IRepository<WholesaleEcl, Guid> wholesaleEclRepository, 
             IRepository<User, long> lookup_userRepository, 
             IRepository<OrganizationUnit, long> organizationUnitRepository,
             IRepository<AffiliateAssumption, Guid> affiliateAssumptionRepository,
@@ -119,6 +127,7 @@ namespace TestDemo.Wholesale
             IRepository<CalibrationLgdHairCut, Guid> lgdHaircutCalibrationRepository,
             IRepository<CalibrationLgdRecoveryRate, Guid> lgdRecoveryRateCalibrationRepository,
             IRepository<CalibrationPdCrDr, Guid> pdcrdrCalibrationRepository,
+            IRepository<CalibrationPdCommsCons, Guid> pdCommConscalibrationRepository,
             IRepository<MacroAnalysis> macroCalibrationRepository,
             IRepository<MacroResult_SelectedMacroEconomicVariables> macroResultSecltedEconomicVariableRepository,
 
@@ -132,7 +141,14 @@ namespace TestDemo.Wholesale
             IEclEngineEmailer emailer,
             IHostingEnvironment env,
                                         IExcelReportGenerator reportGenerator,
-            IEclDataPaymentScheduleExporter paymentScheduleExporter
+            IEclDataPaymentScheduleExporter paymentScheduleExporter,
+
+            IRepository<CalibrationHistoryEadBehaviouralTerms> btHistoryRepository,
+            IRepository<CalibrationHistoryEadCcfSummary> ccfHistoryRepository,
+            IRepository<CalibrationHistoryLgdRecoveryRate> rrHistoryRepository,
+            IRepository<CalibrationHistoryLgdHairCut> hcHistoryRepository,
+            IRepository<CalibrationHistoryPdCommsCons> ccHistoryRepository,
+            IRepository<CalibrationHistoryPdCrDr> pdHistoryRepository
             )
         {
             _wholesaleEclRepository = wholesaleEclRepository;
@@ -161,6 +177,8 @@ namespace TestDemo.Wholesale
             _lgdHaircutCalibrationRepository = lgdHaircutCalibrationRepository;
             _lgdRecoveryRateCalibrationRepository = lgdRecoveryRateCalibrationRepository;
             _pdcrdrCalibrationRepository = pdcrdrCalibrationRepository;
+            _pdCommConscalibrationRepository = pdCommConscalibrationRepository;
+
             _macroCalibrationRepository = macroCalibrationRepository;
             _macroResultSecltedEconomicVariableRepository = macroResultSecltedEconomicVariableRepository;
 
@@ -175,6 +193,14 @@ namespace TestDemo.Wholesale
             _emailer = emailer;
             _appConfiguration = env.GetAppConfiguration();
             _reportGenerator = reportGenerator;
+
+            _btHistoryRepository = btHistoryRepository;
+            _ccfHistoryRepository = ccfHistoryRepository;
+            _rrHistoryRepository = rrHistoryRepository;
+            _hcHistoryRepository = hcHistoryRepository;
+            _ccHistoryRepository = ccHistoryRepository;
+            _pdHistoryRepository = pdHistoryRepository;
+
         }
 
         public async Task<PagedResultDto<GetWholesaleEclForViewDto>> GetAll(GetAllWholesaleEclsInput input)
@@ -349,6 +375,124 @@ namespace TestDemo.Wholesale
             output.PdInputAssumptionNonInternalModels = await GetPdNonInternalModelAssumption(input.Id);
             output.PdInputAssumptionNplIndex = await GetPdNplAssumption(input.Id);
             output.PdInputSnPCummulativeDefaultRate = await GetPdSnpAssumption(input.Id);
+            output.EclCalibration = await GetECLCalibration(wholesaleEcl);
+
+
+
+
+            return output;
+        }
+
+
+        private async Task<EclCalibrationDto> GetECLCalibration(WholesaleEcl wholesaleEcl)
+        {
+            var output = new EclCalibrationDto();
+            if (wholesaleEcl.CalibrationEadBehaviouralTermId.HasValue)
+            {
+                var bt = await _eadBehaviouralTermCalibrationRepository.GetAsync(wholesaleEcl.CalibrationEadBehaviouralTermId.Value);
+                var startDate = "";
+                var endDate = "";
+
+                if (bt.StartDate.HasValue)
+                {
+                    startDate = bt.StartDate.Value.ToString("dd-MMM-yyyy");
+                }
+                if (bt.EndDate.HasValue)
+                {
+                    endDate = bt.EndDate.Value.ToString("dd-MMM-yyyy");
+                }
+
+                output.BehaviouralTerm = $"{startDate} - {endDate}";
+            }
+
+            if (wholesaleEcl.CalibrationEadCcfSummaryId.HasValue)
+            {
+                var bt = await _eadCcfSummaryCalibrationRepository.GetAsync(wholesaleEcl.CalibrationEadCcfSummaryId.Value);
+                var startDate = "";
+                var endDate = "";
+
+                if (bt.StartDate.HasValue)
+                {
+                    startDate = bt.StartDate.Value.ToString("dd-MMM-yyyy");
+                }
+                if (bt.EndDate.HasValue)
+                {
+                    endDate = bt.EndDate.Value.ToString("dd-MMM-yyyy");
+                }
+
+                output.CCF = $"{startDate} - {endDate}";
+            }
+
+            if (wholesaleEcl.CalibrationLgdHairCutId.HasValue)
+            {
+                var bt = await _lgdHaircutCalibrationRepository.GetAsync(wholesaleEcl.CalibrationLgdHairCutId.Value);
+                var startDate = "";
+                var endDate = "";
+
+                if (bt.StartDate.HasValue)
+                {
+                    startDate = bt.StartDate.Value.ToString("dd-MMM-yyyy");
+                }
+                if (bt.EndDate.HasValue)
+                {
+                    endDate = bt.EndDate.Value.ToString("dd-MMM-yyyy");
+                }
+
+                output.Haircut = $"{startDate} - {endDate}";
+            }
+
+            if (wholesaleEcl.CalibrationLgdRecoveryRateId.HasValue)
+            {
+                var bt = await _lgdRecoveryRateCalibrationRepository.GetAsync(wholesaleEcl.CalibrationLgdRecoveryRateId.Value);
+                var startDate = "";
+                var endDate = "";
+
+                if (bt.StartDate.HasValue)
+                {
+                    startDate = bt.StartDate.Value.ToString("dd-MMM-yyyy");
+                }
+                if (bt.EndDate.HasValue)
+                {
+                    endDate = bt.EndDate.Value.ToString("dd-MMM-yyyy");
+                }
+
+                output.RecoveryRate = $"{startDate} - {endDate}";
+            }
+
+            if (wholesaleEcl.CalibrationPdCrDrId.HasValue)
+            {
+                var bt = await _pdcrdrCalibrationRepository.GetAsync(wholesaleEcl.CalibrationPdCrDrId.Value);
+                var startDate = "";
+                var endDate = "";
+
+                if (bt.StartDate.HasValue)
+                {
+                    startDate = bt.StartDate.Value.ToString("dd-MMM-yyyy");
+                }
+                if (bt.EndDate.HasValue)
+                {
+                    endDate = bt.EndDate.Value.ToString("dd-MMM-yyyy");
+                }
+
+                output.PDCrDr = $"{startDate} - {endDate}";
+            }
+            if (wholesaleEcl.CalibrationPdCommConsId.HasValue)
+            {
+                var bt = await _pdCommConscalibrationRepository.GetAsync(wholesaleEcl.CalibrationPdCommConsId.Value);
+                var startDate = "";
+                var endDate = "";
+
+                if (bt.StartDate.HasValue)
+                {
+                    startDate = bt.StartDate.Value.ToString("dd-MMM-yyyy");
+                }
+                if (bt.EndDate.HasValue)
+                {
+                    endDate = bt.EndDate.Value.ToString("dd-MMM-yyyy");
+                }
+
+                output.PDCommCons = $"{startDate} - {endDate}";
+            }
 
             return output;
         }
@@ -948,6 +1092,92 @@ namespace TestDemo.Wholesale
             }
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Submit)]
+        public async Task ExtractLoanBookDataToCalibration(EntityDto<Guid> input)
+        {
+            var ecl = await _wholesaleEclRepository.GetAsync(input.Id);
+            if (ecl.Status == EclStatusEnum.PreOverrideComplete || ecl.Status == EclStatusEnum.PostOverrideComplete)
+            {
+
+                if (ecl.DataExportedForCalibration == true)
+                {
+                    return;
+                }
+
+                var records = await _loanbookRepository.GetAllListAsync(o => o.WholesaleEclUploadId == ecl.Id);
+
+                await _backgroundJobManager.EnqueueAsync<GenerateCalibrationDataJob, GenerateCalibrationDataJobArgs>(new GenerateCalibrationDataJobArgs()
+                {
+                    LoanbookData = records
+                });
+
+                //foreach (var r in records)
+                //{
+                //    int? yyyyMMStapShotDate = null;
+                //    if (r.SnapshotDate != null && r.SnapshotDate != default)
+                //    {
+                //        yyyyMMStapShotDate = Convert.ToInt32(r.SnapshotDate.Value.ToString("yyyyMM"));
+                //    }
+                //    int? currentRating = null;
+                //    if (string.IsNullOrEmpty(r.CurrentRating))
+                //    {
+                //        currentRating = int.Parse(r.CurrentRating);
+                //    }
+                //    var bt = new CalibrationHistoryEadBehaviouralTerms { Account_No = r.AccountNo, AffiliateId = r.OrganizationUnitId, Classification = r.Classification, Contract_End_Date = r.ContractEndDate, Contract_No = r.ContractNo, Contract_Start_Date = r.ContractStartDate, Customer_Name = r.CustomerName, Customer_No = r.CustomerNo, DateCreated = DateTime.Now, ModelType = FrameworkEnum.Wholesale, Original_Balance_Lcy = r.OriginalBalanceLCY, Outstanding_Balance_Acy = r.OutstandingBalanceACY, Outstanding_Balance_Lcy = r.OutstandingBalanceLCY, Restructure_End_Date = r.RestructureEndDate, Restructure_Indicator = r.RestructureIndicator ? "1" : "0", Restructure_Start_Date = r.RestructureStartDate, Restructure_Type = r.RestructureType, Snapshot_Date = r.SnapshotDate, SourceType = SourceTypeEnum.Loanbook, SourceId = r.Id };
+                //    await _btHistoryRepository.InsertAsync(bt);
+
+                //    var ccf = new CalibrationHistoryEadCcfSummary { Account_No = r.AccountNo, AffiliateId = r.OrganizationUnitId, Classification = r.Classification, Contract_End_Date = r.ContractEndDate, Contract_Start_Date = r.ContractStartDate, Customer_No = r.CustomerNo, DateCreated = DateTime.Now, Limit = r.CreditLimit, ModelType = FrameworkEnum.Wholesale, Outstanding_Balance = r.OutstandingBalanceLCY, Product_Type = r.ProductType, Settlement_Account = r.AccountNo, Snapshot_Date = yyyyMMStapShotDate, SourceId = r.Id, SourceType = SourceTypeEnum.Loanbook };
+                //    await _ccfHistoryRepository.InsertAsync(ccf);
+
+                //    var hc = new CalibrationHistoryLgdHairCut { Account_No = r.AccountNo, AffiliateId = r.OrganizationUnitId, Cash_FSV = r.CashFSV, Cash_OMV = r.CashOMV, Commercial_Property_FSV = r.CommercialProperty, Commercial_Property_OMV = r.CommercialPropertyOMV, Contract_No = r.ContractNo, Customer_No = r.CustomerNo, DateCreated = DateTime.Now, Debenture_FSV = r.DebentureFSV, Debenture_OMV = r.DebentureFSV, Guarantee_Value = r.GuaranteeValue, Inventory_FSV = r.InventoryFSV, Inventory_OMV = r.InventoryOMV, ModelType = FrameworkEnum.Wholesale, Outstanding_Balance_Lcy = r.OutstandingBalanceLCY, Plant_And_Equipment_FSV = r.PlantEquipmentFSV, Plant_And_Equipment_OMV = r.PlantEquipmentOMV, Receivables_FSV = r.ReceivablesFSV, Receivables_OMV = r.ReceivablesOMV, Residential_Property_FSV = r.ResidentialPropertyFSV, Residential_Property_OMV = r.ResidentialPropertyOMV, Shares_FSV = r.SharesFSV, Shares_OMV = r.SharesOMV, Snapshot_Date = r.SnapshotDate, SourceId = r.Id, SourceType = SourceTypeEnum.Loanbook, Vehicle_FSV = r.VehicleFSV, Vehicle_OMV = r.VehicleOMV };
+                //    await _hcHistoryRepository.InsertAsync(hc);
+
+                //    var rr = new CalibrationHistoryLgdRecoveryRate { Account_Name = r.CustomerName, Account_No = r.AccountNo, AffiliateId = r.OrganizationUnitId, Amount_Recovered = r.OriginalBalanceLCY ?? 0 - r.OutstandingBalanceLCY ?? 0, Classification = r.Classification, Contractual_Interest_Rate = r.CurrentContractualInterestRate, Contract_No = r.ContractNo, Customer_No = r.CustomerNo, DateCreated = DateTime.Now, Date_Of_Recovery = r.ImpairedDate, Days_Past_Due = (int?)r.DaysPastDue, ModelType = FrameworkEnum.Wholesale, Outstanding_Balance_Lcy = r.OutstandingBalanceLCY, Default_Date = r.DefaultDate, Product_Type = r.ProductType, Segment = r.Segment, SourceId = r.Id, SourceType = SourceTypeEnum.Loanbook, Type_Of_Recovery = "CASH" };
+                //    await _rrHistoryRepository.InsertAsync(rr);
+
+                //    var cc = new CalibrationHistoryPdCommsCons { Account_No = r.AccountNo, AffiliateId = r.OrganizationUnitId, Classification = r.Classification, Contract_End_Date = r.ContractStartDate, Contract_No = r.ContractNo, Customer_No = r.CustomerNo, DateCreated = DateTime.Now, Days_Past_Due = (int?)r.DaysPastDue, ModelType = FrameworkEnum.Wholesale, Outstanding_Balance_Lcy = r.OutstandingBalanceLCY, Product_Type = r.ProductType, Segment = r.Segment, SourceId = r.Id, SourceType = SourceTypeEnum.Loanbook, Contract_Start_Date = r.ContractStartDate, Current_Rating = currentRating, Snapshot_Date = yyyyMMStapShotDate };
+                //    await _ccHistoryRepository.InsertAsync(cc);
+
+                //    var pd = new CalibrationHistoryPdCrDr { Account_No = r.AccountNo, AffiliateId = r.OrganizationUnitId, Classification = r.Classification, Contract_End_Date = r.ContractStartDate, Contract_No = r.ContractNo, Customer_No = r.CustomerNo, DateCreated = DateTime.Now, Days_Past_Due = (int?)r.DaysPastDue, ModelType = FrameworkEnum.Wholesale, Outstanding_Balance_Lcy = r.OutstandingBalanceLCY, Product_Type = r.ProductType, Segment = r.Segment, SourceId = r.Id, SourceType = SourceTypeEnum.Loanbook, Contract_Start_Date = r.ContractStartDate, Current_Rating = r.CurrentRating, RAPP_Date = yyyyMMStapShotDate };
+                //    await _pdHistoryRepository.InsertAsync(pd);
+                //}
+                
+                ecl.DataExportedForCalibration = true;
+                await _wholesaleEclRepository.UpdateAsync(ecl);
+
+            }
+            else
+            {
+                throw new UserFriendlyException(L("ValidationError") + "Not Allowed");
+            }
+        }
+
+
+        [AbpAuthorize(AppPermissions.Pages_EclView_Submit)]
+        public virtual async Task SubmitECLForApproval(SubmitEclDto input)
+        {
+            var validation = await ValidateForSubmission(input.Id);
+            if (validation.Status)
+            {
+                var ecl = await _wholesaleEclRepository.FirstOrDefaultAsync((Guid)input.Id);
+
+                ecl.Status = EclStatusEnum.Submitted;
+                ecl.CalibrationEadBehaviouralTermId = input.CalibrationEadBehaviouralTermId;
+                ecl.CalibrationEadCcfSummaryId = input.CalibrationEadCcfSummaryId;
+                ecl.CalibrationPdCommConsId = input.CalibrationPdCommConsId;
+                ecl.CalibrationPdCrDrId = input.CalibrationPdCrDrId;
+                ecl.CalibrationLgdHairCutId = input.CalibrationLgdHairCutId;
+                ecl.CalibrationLgdRecoveryRateId = input.CalibrationLgdRecoveryRateId;
+                //await _wholesaleEclRepository.UpdateAsync(ecl);
+                ObjectMapper.Map(ecl, ecl);
+                await SendSubmittedEmail(input.Id);
+            }
+            else
+            {
+                throw new UserFriendlyException(L("ValidationError") + validation.Message);
+            }
+        }
 
         [AbpAuthorize(AppPermissions.Pages_EclView_Review)]
         public async Task ApproveReject(CreateOrEditEclApprovalDto input)

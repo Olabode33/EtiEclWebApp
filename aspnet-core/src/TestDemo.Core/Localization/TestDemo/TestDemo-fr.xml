@@ -48,8 +48,37 @@
     <text name = "ComputedLGD"> En cours d'exécution </text>
     <text name = "ComputedECL"> En cours d'exécution </text>
     <text name = "Done"> Terminé  </text>
-    
-    <text name = "Uploading"> Téléchargement </text>
+	  <text name="CalibrationStartDate">Date de début de l'étalonnage</text>
+	  <text name="CalibrationEndDate">Date de fin d'étalonnage</text>
+	  <text name="DataRange">Plage de données</text>
+
+	  <text name="BehaviouralTerm">Terme comportemental</text>
+	  <text name="RecoveryRate"> Taux de récupération</text>
+	  <text name="Haircut">la Coupe de cheveux</text>
+	  <text name="CCF">CCF</text>
+	  <text name="PDCrDr">Pd Cr Dr</text>
+	  <text name="PDCommCons">PD Comm Cons</text>
+
+
+	  <text name="StartDateIsRequired">
+		  La date de début est requise
+	  </text>
+	  <text name="EndDateIsRequired">
+		  La date de fin est requise
+	  </text>
+
+
+	  <text name="BehaviouralTermCalibrationRequired">L'étalonnage de BehaviouralTerm est requis</text>
+	  <text name="HaircutCalibrationRequired">L'étalonnage de la coupe de cheveux est requis</text>
+	  <text name="CCFCalibrationRequired">
+		  L'étalonnage CCF est requis
+	  </text>
+	  <text name="RecoveryRateCalibrationRequired">L'étalonnage du taux de récupération est requis</text>
+	  <text name="PDCrDrCalibrationRequired">L'étalonnage PDCrDr est requis</text>
+	  <text name="CommConsCalibrationRequired">L'étalonnage CommCons est requis</text>
+    <text name="ExtractToCalibration">Extraire à l'étalonnage</text>
+
+	  <text name = "Uploading"> Téléchargement </text>
     <text name = "Validating"> Validation </text>
     <text name = "ApplyCalibrationNote"> Remarque: L'application de ce résultat ajoutera les données téléchargées aux données historiques. Ce processus n'est pas réversible. </text>
     <text name = "TotalHistoricData"> Nombre total de données historiques: </text>
@@ -193,6 +222,7 @@
     <text name = "CalibrationLgdHairCut"> LGD Haircut </text>
     <text name = "CalibrationLgdRecoveryRate"> Taux de récupération LGD </text>
     <text name = "CalibrationPdCrDr"> PD CR DR </text>
+	  <text name = "CalibrationPdCommCons"> PD Comm Cons</text>
     <text name = "MacroAnalysis"> Analyse de macro </text>
     <text name = "TestDemo.Calibration.CalibrationEadBehaviouralTerm"> CalibrationEadBehaviouralTerm </text>
     <text name = "CalibrationEadBehaviouralTermsHeaderInfo"> Calibration ead comportemental header header info </text>
@@ -1074,6 +1104,8 @@
     <text name = "ReportingDateRange"> Plage de dates de rapport </text>
     <text name = "ClosedDateRange"> Plage de dates fermée </text>
     <text name = "Assumption"> Hypothèse </text>
+    <text name = "AssumptionAndCalibration"> Hypothèses &amp; Étalonnages </text>
+	  <text name = "Calibrations"> Étalonnages </text>
     <text name = "InputName"> Nom d'entrée </text>
     <text name = "DataType"> Type de données </text>
     <text name = "IsComputed"> Est calculé </text>

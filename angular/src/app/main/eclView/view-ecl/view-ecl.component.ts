@@ -1,4 +1,4 @@
-import { GetEclForEditOutput, CreateOrEditEclDto, EclUploadDto, CreateOrEditEclApprovalDto, GetEclUploadForViewDto, CommonLookupServiceProxy } from './../../../../shared/service-proxies/service-proxies';
+import { GetEclForEditOutput, CreateOrEditEclDto, EclUploadDto, CreateOrEditEclApprovalDto, GetEclUploadForViewDto, CommonLookupServiceProxy, CalibrationEadBehaviouralTermsServiceProxy, PagedResultDtoOfGetCalibrationRunForViewDto, GetCalibrationRunForViewDto, CalibrationEadCcfSummaryServiceProxy, CalibrationLgdHairCutServiceProxy, CalibrationLgdRecoveryRateServiceProxy, CalibrationPdCrDrServiceProxy, CalibrationPdCommsConsServiceProxy, BatchEclsServiceProxy } from './../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, ViewEncapsulation, ViewChild, Injector, AfterViewInit } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
@@ -24,6 +24,7 @@ import { EclAuditInfoComponent } from '../_subs/ecl-audit-info/ecl-audit-info.co
 import { EditEclReportDateComponent } from '../_subs/edit-EclReportDate/edit-EclReportDate.component';
 import { OuLookupTableModalComponent } from '@app/main/eclShared/ou-lookup-modal/ou-lookup-table-modal.component';
 import { LoanbookReaderComponent } from '../_subs/loanbook-reader/loanbook-reader.component';
+import { SubmitEclDto } from '../model/SubmitEclDto';
 
 const secondsCounter = interval(1000);
 
@@ -68,6 +69,12 @@ export class ViewEclComponent extends AppComponentBase implements OnInit, AfterV
     eclDto: CreateOrEditEclDto = new CreateOrEditEclDto();
     eclUploads: GetEclUploadForViewDto[] = new Array<GetEclUploadForViewDto>();
     approvalDto: CreateOrEditEclApprovalDto = new CreateOrEditEclApprovalDto();
+    btCalibrationResult:GetCalibrationRunForViewDto[]= new Array<GetCalibrationRunForViewDto>();
+    ccfCalibrationResult:GetCalibrationRunForViewDto[]= new Array<GetCalibrationRunForViewDto>();
+    hcCalibrationResult:GetCalibrationRunForViewDto[]= new Array<GetCalibrationRunForViewDto>();
+    rcCalibrationResult:GetCalibrationRunForViewDto[]= new Array<GetCalibrationRunForViewDto>();
+    pdCrDrCalibrationResult:GetCalibrationRunForViewDto[]= new Array<GetCalibrationRunForViewDto>();
+    ccCalibrationResult:GetCalibrationRunForViewDto[]= new Array<GetCalibrationRunForViewDto>();
 
     frameworkEnum = FrameworkEnum;
     uploadDocEnum = UploadDocTypeEnum;
@@ -78,6 +85,13 @@ export class ViewEclComponent extends AppComponentBase implements OnInit, AfterV
     eadAssumptionGroupEnum = EadInputAssumptionGroupEnum;
     lgdAssumptionGroupEnum = LdgInputAssumptionGroupEnum;
 
+    CalibrationEadBehaviouralTermId:string;
+    CalibrationEadCcfSummaryId:string;
+    CalibrationLgdHairCutId:string;
+    CalibrationLgdRecoveryRateId:string;
+    CalibrationPdCrDrId:string;
+    CalibrationPdCommConsId:string;
+
     fakeResultData: FakeResultData = new FakeResultData();
     showFakeTopExposure = false;
 
@@ -85,6 +99,12 @@ export class ViewEclComponent extends AppComponentBase implements OnInit, AfterV
 
     constructor(
         injector: Injector,
+        private _calibrationBTServiceProxy: CalibrationEadBehaviouralTermsServiceProxy,
+        private _calibrationCCFServiceProxy: CalibrationEadCcfSummaryServiceProxy,
+        private _calibrationHCServiceProxy: CalibrationLgdHairCutServiceProxy,
+        private _calibrationRCServiceProxy: CalibrationLgdRecoveryRateServiceProxy,
+        private _calibrationPDCrDrServiceProxy: CalibrationPdCrDrServiceProxy,
+        private _calibrationCCServiceProxy: CalibrationPdCommsConsServiceProxy,
         private _wholesaleEclServiceProxy: WholesaleEclsServiceProxy,
         private _wholesaleUploadServiceProxy: WholesaleEclUploadsServiceProxy,
         private _retailEcLsServiceProxy: RetailEclsServiceProxy,
@@ -122,11 +142,13 @@ export class ViewEclComponent extends AppComponentBase implements OnInit, AfterV
             this.configureEclAuditInfoSubComponent();
             this.getEclDetails();
             this.getEclUploadSummary();
+            this.getEclAssumptions();
         });
     }
 
     ngAfterViewInit() {
         this.getEclAssumptions();
+        
     }
 
     configureServiceProxies(): void {
@@ -240,6 +262,88 @@ export class ViewEclComponent extends AppComponentBase implements OnInit, AfterV
         }
     }
 
+    GetApprovedCalibration(){
+    console.log("calibration fetching");
+        this.GetBehaviouralTerm();
+        this.GetCCFSumary();
+        this.GetHaircut();
+        this.GetRecoveryRate();
+        this.GetPDCrDr();
+        this.GetPDCommCons();
+    }
+
+    GetBehaviouralTerm(){
+        this._calibrationBTServiceProxy.getAll(
+            undefined,
+            7,
+            this.eclDto.organizationUnitId,
+            "CreationTime DESC",
+            0,
+            1000
+        ).subscribe(result => {
+            this.btCalibrationResult=result.items;
+        });
+    }
+    GetCCFSumary(){
+        this._calibrationCCFServiceProxy.getAll(
+            undefined,
+            7,
+            this.eclDto.organizationUnitId,
+            "CreationTime DESC",
+            0,
+            1000
+        ).subscribe(result => {
+            this.ccfCalibrationResult=result.items;
+        });
+    }
+    GetHaircut(){
+        this._calibrationHCServiceProxy.getAll(
+            undefined,
+            7,
+            this.eclDto.organizationUnitId,
+            "CreationTime DESC",
+            0,
+            1000
+        ).subscribe(result => {
+            this.hcCalibrationResult=result.items;
+        });
+    }
+    GetRecoveryRate(){
+        this._calibrationRCServiceProxy.getAll(
+            undefined,
+            7,
+            this.eclDto.organizationUnitId,
+            "CreationTime DESC",
+            0,
+            1000
+        ).subscribe(result => {
+            this.rcCalibrationResult=result.items;
+        });
+    }
+    GetPDCrDr(){
+        this._calibrationPDCrDrServiceProxy.getAll(
+            undefined,
+            7,
+            this.eclDto.organizationUnitId,
+            "CreationTime DESC",
+            0,
+            1000
+        ).subscribe(result => {
+            this.pdCrDrCalibrationResult=result.items;
+        });
+    }
+    GetPDCommCons(){
+        this._calibrationCCServiceProxy.getAll(
+            undefined,
+            7,
+            this.eclDto.organizationUnitId,
+            "CreationTime DESC",
+            0,
+            1000
+        ).subscribe(result => {
+            this.ccCalibrationResult=result.items;
+        });
+    }
     getEclDetails() {
         if (typeof this._eclServiceProxy.getEclDetailsForEdit === 'function') {
             this.isLoading = true;
@@ -250,6 +354,7 @@ export class ViewEclComponent extends AppComponentBase implements OnInit, AfterV
                     if (this.checkDtoProp('eclDto', result)) {
                         this.eclDto = result.eclDto;
                         this.configureEclReportDateSubComponent(result.eclDto);
+                        this.GetApprovedCalibration();
                     }
                     // if (this.hasProp('frameworkAssumption', result)) {
                     //     this.loadGeneralAssumptionComponent(result.frameworkAssumption);
@@ -292,6 +397,8 @@ export class ViewEclComponent extends AppComponentBase implements OnInit, AfterV
                         this.loadLgdAssumptionComponent(result.lgdInputAssumptions);
                     }
                     this.loadPdAssumptionComponent(result);
+                    console.log(result);
+                    this.eclDetails.eclCalibration=result.eclCalibration;
                     //console.log(this.showOverride());
                     // this.eclOverrideTag.display(this.showOverride());
                     // this.eclResultTag.displayResult(this.eclDto.status);
@@ -358,14 +465,47 @@ export class ViewEclComponent extends AppComponentBase implements OnInit, AfterV
     }
 
     submitEcl(): void {
-        if (typeof this._eclServiceProxy.submitForApproval === 'function') {
+
+        if(this.CalibrationEadCcfSummaryId==undefined){
+            this.notify.error(this.l('CCFCalibrationRequired'));
+            return;
+        }
+        if(this.CalibrationPdCommConsId==undefined){
+            this.notify.error(this.l('CommConsCalibrationRequired'));
+            return;
+        }
+        if(this.CalibrationLgdHairCutId==undefined){
+            this.notify.error(this.l('HaircutCalibrationRequired'));
+            return;
+        }
+        if(this.CalibrationPdCrDrId==undefined){
+            this.notify.error(this.l('PDCrDrCalibrationRequired'));
+            return;
+        }
+        if(this.CalibrationEadBehaviouralTermId==undefined){
+            this.notify.error(this.l('BehaviouralTermCalibrationRequired'));
+            return;
+        }
+        if(this.CalibrationLgdRecoveryRateId==undefined){
+            this.notify.error(this.l('RecoveryRateCalibrationRequired'));
+            return;
+        }
+
+        if (typeof this._eclServiceProxy.SubmitECLForApproval === 'function') {
             this.message.confirm(
-                this.l('SubmitForApproval') + '?',
+                this.l('SubmitECLForApproval') + '?',
                 (isConfirmed) => {
                     if (isConfirmed) {
-                        let dto = new EntityDtoOfGuid();
+                        let dto = new SubmitEclDto();
                         dto.id = this._eclId;
-                        this._eclServiceProxy.submitForApproval(dto)
+                        dto.calibrationEadCcfSummaryId= this.CalibrationEadCcfSummaryId;
+                        dto.calibrationPdCommConsId= this.CalibrationPdCommConsId;
+                        dto.calibrationLgdHairCutId= this.CalibrationLgdHairCutId;
+                        dto.calibrationPdCrDrId= this.CalibrationPdCrDrId;
+                        dto.calibrationEadBehaviouralTermId= this.CalibrationEadBehaviouralTermId;
+                        dto.calibrationLgdRecoveryRateId= this.CalibrationLgdRecoveryRateId;
+
+                        this._eclServiceProxy.SubmitECLForApproval(dto)
                             .subscribe(() => {
                                 this.getEclDetails();
                                 this.notify.success(this.l('SubmittedSuccessfully'));
@@ -378,6 +518,29 @@ export class ViewEclComponent extends AppComponentBase implements OnInit, AfterV
         }
     }
 
+    
+    ExtractLoanBookDataToCalibration(): void {
+
+        if (typeof this._eclServiceProxy.ExtractLoanBookDataToCalibration === 'function') {
+            this.message.confirm(
+                this.l('ExtractLoanBookDataToCalibration') + '?',
+                (isConfirmed) => {
+                    if (isConfirmed) {
+                        let dto = new EntityDtoOfGuid();
+                        dto.id = this._eclId;
+                        
+                        this._eclServiceProxy.ExtractLoanBookDataToCalibration(dto)
+                            .subscribe(() => {
+                                this.getEclDetails();
+                                this.notify.success(this.l('ExtractionStartedSuccessfully'));
+                            });
+                    }
+                }
+            );
+        } else {
+            this.notify.error('Error: Function not available!');
+        }
+    }
     approveEcl() {
         this.approvalModal.show();
     }

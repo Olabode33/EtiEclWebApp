@@ -16,6 +16,7 @@ import { EntityTypeHistoryModalComponent } from '@app/shared/common/entityHistor
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { OuLookupTableModalComponent } from '@app/main/eclShared/ou-lookup-modal/ou-lookup-table-modal.component';
+import { CalibrationOuLookupTableModalComponent } from '@app/main/eclShared/calibration-ou-lookup-table-modal/calibration-ou-lookup-table-modal.component';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class CalibrationPdCrDrComponent extends AppComponentBase implements OnIn
 
 
     @ViewChild('entityTypeHistoryModal', { static: true }) entityTypeHistoryModal: EntityTypeHistoryModalComponent;
-    @ViewChild('ouLookupTableModal', { static: true }) ouLookupTableModal: OuLookupTableModalComponent;
+    @ViewChild('calibrationOuLookupTableModal', { static: true }) ouLookupTableModal: CalibrationOuLookupTableModalComponent;
 
 
     @ViewChild('dataTable', { static: true }) dataTable: Table;
@@ -128,6 +129,8 @@ export class CalibrationPdCrDrComponent extends AppComponentBase implements OnIn
     createForAffiliate() {
         let c = new CreateOrEditCalibrationRunDto();
         c.affiliateId = this.ouLookupTableModal.id;
+        c.startDate = this.ouLookupTableModal.startDate;
+        c.endDate = this.ouLookupTableModal.endDate;
         c.modelType=this.selectFramework;
         this._calibrationServiceProxy.createOrEdit(c).subscribe(result => {
             this.reloadPage();

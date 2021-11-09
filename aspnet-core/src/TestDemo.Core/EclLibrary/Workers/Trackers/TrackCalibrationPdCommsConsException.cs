@@ -19,7 +19,7 @@ namespace TestDemo.EclLibrary.Workers.Trackers
         public double? Outstanding_Balance_Lcy { get; set; }
         public DateTime? Contract_Start_Date { get; set; }
         public DateTime? Contract_End_Date { get; set; }
-        public DateTime? Snapshot_Date { get; set; }
+        public int? Snapshot_Date { get; set; }
         public string Segment { get; set; }
         public string WI { get; set; }
         public int Serial { get; set; }

@@ -1758,6 +1758,8 @@ namespace TestDemo.Migrations
 
                     b.Property<DateTime?>("DeletionTime");
 
+                    b.Property<DateTime?>("EndDate");
+
                     b.Property<string>("ExceptionComment");
 
                     b.Property<string>("FriendlyException");
@@ -1773,6 +1775,8 @@ namespace TestDemo.Migrations
                     b.Property<long>("OrganizationUnitId");
 
                     b.Property<int>("ServiceId");
+
+                    b.Property<DateTime?>("StartDate");
 
                     b.Property<int>("Status");
 
@@ -1800,6 +1804,8 @@ namespace TestDemo.Migrations
 
                     b.Property<DateTime?>("DeletionTime");
 
+                    b.Property<DateTime?>("EndDate");
+
                     b.Property<string>("ExceptionComment");
 
                     b.Property<string>("FriendlyException");
@@ -1815,6 +1821,8 @@ namespace TestDemo.Migrations
                     b.Property<long>("OrganizationUnitId");
 
                     b.Property<int>("ServiceId");
+
+                    b.Property<DateTime?>("StartDate");
 
                     b.Property<int>("Status");
 
@@ -1842,6 +1850,8 @@ namespace TestDemo.Migrations
 
                     b.Property<DateTime?>("DeletionTime");
 
+                    b.Property<DateTime?>("EndDate");
+
                     b.Property<string>("ExceptionComment");
 
                     b.Property<string>("FriendlyException");
@@ -1857,6 +1867,8 @@ namespace TestDemo.Migrations
                     b.Property<long>("OrganizationUnitId");
 
                     b.Property<int>("ServiceId");
+
+                    b.Property<DateTime?>("StartDate");
 
                     b.Property<int>("Status");
 
@@ -1884,6 +1896,8 @@ namespace TestDemo.Migrations
 
                     b.Property<DateTime?>("DeletionTime");
 
+                    b.Property<DateTime?>("EndDate");
+
                     b.Property<string>("ExceptionComment");
 
                     b.Property<string>("FriendlyException");
@@ -1899,6 +1913,8 @@ namespace TestDemo.Migrations
                     b.Property<long>("OrganizationUnitId");
 
                     b.Property<int>("ServiceId");
+
+                    b.Property<DateTime?>("StartDate");
 
                     b.Property<int>("Status");
 
@@ -1926,6 +1942,8 @@ namespace TestDemo.Migrations
 
                     b.Property<DateTime?>("DeletionTime");
 
+                    b.Property<DateTime?>("EndDate");
+
                     b.Property<string>("ExceptionComment");
 
                     b.Property<string>("FriendlyException");
@@ -1941,6 +1959,8 @@ namespace TestDemo.Migrations
                     b.Property<long>("OrganizationUnitId");
 
                     b.Property<int>("ServiceId");
+
+                    b.Property<DateTime?>("StartDate");
 
                     b.Property<int>("Status");
 
@@ -1968,6 +1988,8 @@ namespace TestDemo.Migrations
 
                     b.Property<DateTime?>("DeletionTime");
 
+                    b.Property<DateTime?>("EndDate");
+
                     b.Property<string>("ExceptionComment");
 
                     b.Property<string>("FriendlyException");
@@ -1983,6 +2005,8 @@ namespace TestDemo.Migrations
                     b.Property<long>("OrganizationUnitId");
 
                     b.Property<int>("ServiceId");
+
+                    b.Property<DateTime?>("StartDate");
 
                     b.Property<int>("Status");
 
@@ -2044,6 +2068,8 @@ namespace TestDemo.Migrations
 
                     b.Property<long?>("AffiliateId");
 
+                    b.Property<int?>("CalibrationSourceId");
+
                     b.Property<string>("Classification");
 
                     b.Property<DateTime?>("Contract_End_Date");
@@ -2080,7 +2106,15 @@ namespace TestDemo.Migrations
 
                     b.Property<DateTime?>("Snapshot_Date");
 
+                    b.Property<Guid?>("SourceId");
+
+                    b.Property<int?>("SourceType");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("SourceId", "CalibrationSourceId")
+                        .IsUnique()
+                        .HasFilter("[SourceId] IS NOT NULL AND [CalibrationSourceId] IS NOT NULL");
 
                     b.ToTable("CalibrationHistory_EAD_Behavioural_Terms");
                 });
@@ -2094,6 +2128,8 @@ namespace TestDemo.Migrations
                     b.Property<string>("Account_No");
 
                     b.Property<long?>("AffiliateId");
+
+                    b.Property<int?>("CalibrationSourceId");
 
                     b.Property<string>("Classification");
 
@@ -2115,11 +2151,21 @@ namespace TestDemo.Migrations
 
                     b.Property<string>("Product_Type");
 
+                    b.Property<int>("Serial");
+
                     b.Property<string>("Settlement_Account");
 
                     b.Property<int?>("Snapshot_Date");
 
+                    b.Property<Guid?>("SourceId");
+
+                    b.Property<int?>("SourceType");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("SourceId", "CalibrationSourceId")
+                        .IsUnique()
+                        .HasFilter("[SourceId] IS NOT NULL AND [CalibrationSourceId] IS NOT NULL");
 
                     b.ToTable("CalibrationHistory_EAD_CCF_Summary");
                 });
@@ -2133,6 +2179,8 @@ namespace TestDemo.Migrations
                     b.Property<string>("Account_No");
 
                     b.Property<long?>("AffiliateId");
+
+                    b.Property<int?>("CalibrationSourceId");
 
                     b.Property<double?>("Cash_FSV");
 
@@ -2178,17 +2226,27 @@ namespace TestDemo.Migrations
 
                     b.Property<double?>("Residential_Property_OMV");
 
+                    b.Property<int>("Serial");
+
                     b.Property<double?>("Shares_FSV");
 
                     b.Property<double?>("Shares_OMV");
 
                     b.Property<DateTime?>("Snapshot_Date");
 
+                    b.Property<Guid?>("SourceId");
+
+                    b.Property<int?>("SourceType");
+
                     b.Property<double?>("Vehicle_FSV");
 
                     b.Property<double?>("Vehicle_OMV");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SourceId", "CalibrationSourceId")
+                        .IsUnique()
+                        .HasFilter("[SourceId] IS NOT NULL AND [CalibrationSourceId] IS NOT NULL");
 
                     b.ToTable("CalibrationHistory_LGD_HairCut");
                 });
@@ -2206,6 +2264,8 @@ namespace TestDemo.Migrations
                     b.Property<long?>("AffiliateId");
 
                     b.Property<double?>("Amount_Recovered");
+
+                    b.Property<int?>("CalibrationSourceId");
 
                     b.Property<string>("Classification");
 
@@ -2233,9 +2293,19 @@ namespace TestDemo.Migrations
 
                     b.Property<string>("Segment");
 
+                    b.Property<int>("Serial");
+
+                    b.Property<Guid?>("SourceId");
+
+                    b.Property<int?>("SourceType");
+
                     b.Property<string>("Type_Of_Recovery");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SourceId", "CalibrationSourceId")
+                        .IsUnique()
+                        .HasFilter("[SourceId] IS NOT NULL AND [CalibrationSourceId] IS NOT NULL");
 
                     b.ToTable("CalibrationHistory_LGD_RecoveryRate");
                 });
@@ -2250,6 +2320,8 @@ namespace TestDemo.Migrations
 
                     b.Property<long?>("AffiliateId");
 
+                    b.Property<int?>("CalibrationSourceId");
+
                     b.Property<string>("Classification");
 
                     b.Property<DateTime?>("Contract_End_Date");
@@ -2258,11 +2330,13 @@ namespace TestDemo.Migrations
 
                     b.Property<DateTime?>("Contract_Start_Date");
 
-                    b.Property<string>("Current_Rating");
+                    b.Property<int?>("Current_Rating");
 
                     b.Property<string>("Customer_No");
 
-                    b.Property<DateTime?>("DateCreated");
+                    b.Property<DateTime?>("DateCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<int?>("Days_Past_Due");
 
@@ -2276,11 +2350,19 @@ namespace TestDemo.Migrations
 
                     b.Property<int>("Serial");
 
-                    b.Property<DateTime?>("Snapshot_Date");
+                    b.Property<int?>("Snapshot_Date");
+
+                    b.Property<Guid?>("SourceId");
+
+                    b.Property<int?>("SourceType");
 
                     b.Property<string>("WI");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SourceId", "CalibrationSourceId")
+                        .IsUnique()
+                        .HasFilter("[SourceId] IS NOT NULL AND [CalibrationSourceId] IS NOT NULL");
 
                     b.ToTable("CalibrationHistory_Comm_Cons_PD");
                 });
@@ -2294,6 +2376,8 @@ namespace TestDemo.Migrations
                     b.Property<string>("Account_No");
 
                     b.Property<long?>("AffiliateId");
+
+                    b.Property<int?>("CalibrationSourceId");
 
                     b.Property<string>("Classification");
 
@@ -2323,7 +2407,17 @@ namespace TestDemo.Migrations
 
                     b.Property<string>("Segment");
 
+                    b.Property<int>("Serial");
+
+                    b.Property<Guid?>("SourceId");
+
+                    b.Property<int?>("SourceType");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("SourceId", "CalibrationSourceId")
+                        .IsUnique()
+                        .HasFilter("[SourceId] IS NOT NULL AND [CalibrationSourceId] IS NOT NULL");
 
                     b.ToTable("CalibrationHistory_PD_CR_DR");
                 });
@@ -2552,7 +2646,7 @@ namespace TestDemo.Migrations
 
                     b.Property<DateTime?>("Contract_Start_Date");
 
-                    b.Property<string>("Current_Rating");
+                    b.Property<int?>("Current_Rating");
 
                     b.Property<string>("Customer_No");
 
@@ -2568,7 +2662,7 @@ namespace TestDemo.Migrations
 
                     b.Property<int>("Serial");
 
-                    b.Property<DateTime?>("Snapshot_Date");
+                    b.Property<int?>("Snapshot_Date");
 
                     b.Property<string>("WI");
 
@@ -3293,7 +3387,7 @@ namespace TestDemo.Migrations
 
                     b.Property<DateTime?>("Contract_Start_Date");
 
-                    b.Property<string>("Current_Rating");
+                    b.Property<int?>("Current_Rating");
 
                     b.Property<string>("Customer_No");
 
@@ -3309,7 +3403,7 @@ namespace TestDemo.Migrations
 
                     b.Property<int>("Serial");
 
-                    b.Property<DateTime?>("Snapshot_Date");
+                    b.Property<int?>("Snapshot_Date");
 
                     b.Property<string>("WI");
 
@@ -10312,6 +10406,18 @@ namespace TestDemo.Migrations
 
                     b.Property<Guid?>("BatchId");
 
+                    b.Property<Guid?>("CalibrationEadBehaviouralTermId");
+
+                    b.Property<Guid?>("CalibrationEadCcfSummaryId");
+
+                    b.Property<Guid?>("CalibrationLgdHairCutId");
+
+                    b.Property<Guid?>("CalibrationLgdRecoveryRateId");
+
+                    b.Property<Guid?>("CalibrationPdCommConsId");
+
+                    b.Property<Guid?>("CalibrationPdCrDrId");
+
                     b.Property<long?>("ClosedByUserId");
 
                     b.Property<DateTime?>("ClosedDate");
@@ -10319,6 +10425,8 @@ namespace TestDemo.Migrations
                     b.Property<DateTime>("CreationTime");
 
                     b.Property<long?>("CreatorUserId");
+
+                    b.Property<bool?>("DataExportedForCalibration");
 
                     b.Property<long?>("DeleterUserId");
 

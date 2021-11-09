@@ -17,6 +17,10 @@
                     <i class="fa fa-check" style="font-size: 1.2rem !important;"></i>
                     {{l("Submit")}}
                 </button>
+                <button (click)="ExtractLoanBookDataToCalibration()" class="btn btn-outline-primary" *ngIf="(eclDto.status == eclStatusEnum.PreOverrideComplete || eclDto.status == eclStatusEnum.PostOverrideComplete) && eclDto.dataExportedForCalibration!== true && isGranted('Pages.EclView.Submit')">
+                    <i class="fa fa-check" style="font-size: 1.2rem !important;"></i>
+                    {{l("ExtractToCalibration")}}
+                </button>
                 <button (click)="approveEcl()" class="btn btn-primary"
                     *ngIf="(eclDto.status == eclStatusEnum.Submitted || eclDto.status == eclStatusEnum.AwaitngAdditionApproval) && isGranted('Pages.EclView.Review')">
                     <i class="fa fa-check-double" style="font-size: 1.2rem !important;"></i>
@@ -324,7 +328,7 @@
                     <div class="kt-portlet__head">
                         <div class="kt-portlet__head-label">
                             <h3 class="kt-portlet__head-title">
-                                {{l('Assumptions')}}
+                                {{l('AssumptionAndCalibration')}} 
                             </h3>
                         </div>
                     </div>
@@ -333,6 +337,60 @@
                     </div>
                     <div class="kt-portlet__body">
                         <tabset>
+                            <tab heading="{{'Calibrations' | localize}}">
+                                <table style="width:100%;" *ngIf="(eclDto.status == eclStatusEnum.Draft || eclDto.status == eclStatusEnum.Failed)">
+                                    <tr><td>
+                                        <span>{{'CalibrationEadBehaviouralTerm' | localize}}</span>
+                                        <select id="CalibrationEadBehaviouralTermId" name="CalibrationEadBehaviouralTermId" [(ngModel)]="CalibrationEadBehaviouralTermId" class="form-control" >
+                                            <option value=undefined selected="selected">{{"Select" | localize}}</option>
+                                            <option *ngFor="let item of btCalibrationResult" [value]=item.calibration.id >{{item.startDate | date:'MMM-yyyy'}} - {{item.endDate | date:'MMM-yyyy'}}</option>
+                                        </select>
+                                    </td><td>
+                                        <span>{{'CalibrationEadCcfSummary' | localize}}</span>
+                                        <select id="CalibrationEadCcfSummaryId" name="CalibrationEadCcfSummaryId" [(ngModel)]="CalibrationEadCcfSummaryId" class="form-control">
+                                            <option value=undefined selected="selected">{{"Select" | localize}}</option>
+                                            <option *ngFor="let item of ccfCalibrationResult" [value]=item.calibration.id >{{item.startDate | date:'MMM-yyyy'}} - {{item.endDate | date:'MMM-yyyy'}}</option>
+                                        </select>
+                                    </td></tr>
+                                    <tr><td>
+                                        <span>{{'CalibrationLgdHairCut' | localize}}</span>
+                                        <select id="CalibrationLgdHairCutId" name="CalibrationLgdHairCutId" [(ngModel)]="CalibrationLgdHairCutId" class="form-control">
+                                            <option value=undefined selected="selected">{{"Select" | localize}}</option>
+                                            <option *ngFor="let item of hcCalibrationResult" [value]=item.calibration.id >{{item.startDate | date:'MMM-yyyy'}} - {{item.endDate | date:'MMM-yyyy'}}</option>
+                                    </select></td><td>
+                                        <span>{{'CalibrationLgdRecoveryRate' | localize}}</span>
+                                        <select id="CalibrationLgdRecoveryRateId" name="CalibrationLgdRecoveryRateId" [(ngModel)]="CalibrationLgdRecoveryRateId" class="form-control">
+                                            <option value=undefined selected="selected">{{"Select" | localize}}</option>
+                                            <option *ngFor="let item of rcCalibrationResult" [value]=item.calibration.id >{{item.startDate | date:'MMM-yyyy'}} - {{item.endDate | date:'MMM-yyyy'}}</option>
+                                    </select></td></tr>
+                                    <tr><td>
+                                        <span>{{'CalibrationPdCrDr' | localize}}</span>
+                                        <select id="CalibrationPdCrDrId" name="CalibrationPdCrDrId" [(ngModel)]="CalibrationPdCrDrId" class="form-control">
+                                            <option value=undefined selected="selected">{{"Select" | localize}}</option>
+                                            <option *ngFor="let item of pdCrDrCalibrationResult" [value]=item.calibration.id >{{item.startDate | date:'MMM-yyyy'}} - {{item.endDate | date:'MMM-yyyy'}}</option>
+                                    </select></td>
+                                    <td>
+                                        <span>{{'CalibrationPdCommCons' | localize}}</span>
+                                        <select id="CalibrationPdCommConsId" name="CalibrationPdCommConsId" [(ngModel)]="CalibrationPdCommConsId" class="form-control">
+                                            <option value=undefined selected="selected">{{"Select" | localize}}</option>
+                                            <option *ngFor="let item of ccCalibrationResult" [value]=item.calibration.id >{{item.startDate | date:'MMM-yyyy'}} - {{item.endDate | date:'MMM-yyyy'}}</option>
+                                    </select></td></tr>
+                                </table>
+                               
+                                <table *ngIf="(eclDto.status !== eclStatusEnum.Draft && eclDto.status !== eclStatusEnum.Failed)">
+                                    <tr><td>{{'BehaviouralTerm' | localize}}</td><td>{{eclDetails.eclCalibration.behaviouralTerm}}</td></tr>
+                                    <tr><td>{{'CCF' | localize}}</td><td>{{eclDetails.eclCalibration.ccf}}</td></tr>
+                                    <tr><td>{{'Haircut' | localize}}</td><td>{{eclDetails.eclCalibration.haircut}}</td></tr>
+                                    <tr><td>{{'RecoveryRate' | localize}}</td><td>{{eclDetails.eclCalibration.recoveryRate}}</td></tr>
+                                    <tr><td>{{'PDCrDr' | localize}}</td><td>{{eclDetails.eclCalibration.pdCrDr}}</td></tr>
+                                    <tr><td>{{'PDCommCons' | localize}}</td><td>{{eclDetails.eclCalibration.pdCommCons}}</td></tr>
+                                </table>
+                                
+                                <!-- <select id="EntityTypeFullName" name="EntityTypeFullName" class="form-control" [(ngModel)]="entityTypeFullName">
+                                    <option value=undefined selected="selected">{{"All" | localize}}</option>
+                                    <option *ngFor="let objectType of objectTypes" [value]="objectType.value">{{objectType.name}}</option>
+                                </select> -->
+                            </tab>
                             <tab heading="{{'EadAssumptions' | localize}}">
                                 <app-eadInputAssumptions #eadInputAssumptionTag></app-eadInputAssumptions>
                             </tab>
@@ -345,6 +403,7 @@
                             <tab heading="{{'FrameworkAssumptions' | localize}}">
                                 <app-frameworkAssumptions #frameworkAssumptionTag ></app-frameworkAssumptions>
                             </tab>
+                         
                         </tabset>
                     </div>
                 </div>

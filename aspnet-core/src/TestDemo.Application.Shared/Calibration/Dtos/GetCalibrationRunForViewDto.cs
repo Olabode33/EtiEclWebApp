@@ -7,6 +7,8 @@ namespace TestDemo.Calibration.Dtos
 		public CalibrationRunDto Calibration { get; set; }
 		public string ClosedBy { get; set;}
         public DateTime DateCreated { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public string CreatedBy { get; set; }
         public string AffiliateName { get; set; }
     }

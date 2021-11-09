@@ -75,7 +75,9 @@ namespace TestDemo.Calibration.Jobs
                     Shares_FSV = item.Shares_FSV,
                     Shares_OMV = item.Shares_OMV,
                     Vehicle_FSV = item.Vehicle_FSV,
-                    Vehicle_OMV = item.Vehicle_OMV
+                    Vehicle_OMV = item.Vehicle_OMV,
+                    Serial= item.Serial,
+                    CalibrationSourceId = item.Id
                 });
             }
         }

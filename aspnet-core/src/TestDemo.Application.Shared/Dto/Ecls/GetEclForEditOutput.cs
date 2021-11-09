@@ -22,6 +22,7 @@ namespace TestDemo.Dto.Ecls
         public List<PdInputAssumptionNonInternalModelDto> PdInputAssumptionNonInternalModels { get; set; }
         public List<PdInputAssumptionNplIndexDto> PdInputAssumptionNplIndex { get; set; }
         public List<PdInputSnPCummulativeDefaultRateDto> PdInputSnPCummulativeDefaultRate { get; set; }
+        public EclCalibrationDto EclCalibration { get; set; }
     }
 
     public class GetBatchEclForEditOutput

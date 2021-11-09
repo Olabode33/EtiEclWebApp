@@ -16,5 +16,8 @@
         "*.csproj.user": true,
         "*.suo": true
     },
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "files.watcherExclude": {
+        "**/target": true
+    }
 }

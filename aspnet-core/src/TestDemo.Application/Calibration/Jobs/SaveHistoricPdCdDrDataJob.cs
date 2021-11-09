@@ -61,7 +61,9 @@ namespace TestDemo.Calibration.Jobs
                     Current_Rating = item.Current_Rating,
                     Days_Past_Due = item.Days_Past_Due,
                     Product_Type = item.Product_Type,
-                    RAPP_Date = item.RAPP_Date
+                    RAPP_Date = item.RAPP_Date,
+                    Serial=item.Serial,
+                    CalibrationSourceId = item.Id
                 });
             }
         }

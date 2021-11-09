@@ -29,6 +29,12 @@ namespace TestDemo.EclShared
         General, LoanBook, PaymentSchedule, AssetBook
     }
 
+    public enum SourceTypeEnum
+    {
+        CalibrationUpload,
+        Loanbook
+    }
+
     public enum GeneralStatusEnum
     {
         Draft, Submitted, Approved, Rejected, Processing, Completed, AwaitngAdditionApproval, Override, Failed

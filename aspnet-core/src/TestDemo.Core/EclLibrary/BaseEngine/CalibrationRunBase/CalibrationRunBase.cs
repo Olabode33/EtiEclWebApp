@@ -18,6 +18,9 @@ namespace TestDemo.EclLibrary.BaseEngine.CalibrationRunBase
         public virtual string FriendlyException { get; set; }
         public virtual int ServiceId { get; set; }
         public virtual long? CloseByUserId { get; set; }
+
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         [ForeignKey("CloseByUserId")]
         public User CloseByUserFk { get; set; }
     }

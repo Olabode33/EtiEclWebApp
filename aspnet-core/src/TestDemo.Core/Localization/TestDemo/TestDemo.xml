@@ -19,7 +19,6 @@
     <text name="AssumedStartDate">Assumed start date</text>
     <text name="RatingForDefaultedLoans">Rating for defaulted loans</text>
     <text name="AssumedRatingForUnratedAssets">Assumed rating for unrated assets</text>
-    <text name="RecoveryRate">Recovery rate</text>
     <text name="ValuationDate">Valuation date</text>
     <text name="BestEstimate">Best estimate</text>
     <text name="IVModel">RV Model</text>
@@ -33,6 +32,21 @@
     <text name="HoldCoIntercompany">HoldCo Intercompany</text>
     <text name="ETIReceivables">ETI Receivables</text>
     <text name="ApproveHoldCoRegister">Approve</text>
+    <text name="CalibrationStartDate">Calibration Start Date</text>
+    <text name="CalibrationEndDate">Calibration End Date</text>
+	  
+	  <text name="StartDateIsRequired">Start date is required</text>
+	  <text name="EndDateIsRequired">End date is required</text>
+
+	  <text name="ExtractToCalibration">Extract to calibration</text>
+	  
+	  
+	  <text name="BehaviouralTermCalibrationRequired">BehaviouralTerm Calibration is required</text>
+	  <text name="HaircutCalibrationRequired">Haircut Calibration is required</text>
+	  <text name="CCFCalibrationRequired">CCF Calibration is required</text>
+	  <text name="RecoveryRateCalibrationRequired">RecoveryRate Calibration is required</text>
+	  <text name="PDCrDrCalibrationRequired">PDCrDr Calibration is required</text>
+	  <text name="CommConsCalibrationRequired">CommCons Calibration is required</text>
 
     <text name="LoanImpairmentScenarioOptions">Scenario Options</text>
     <text name="HaircutsOnRecovery">Haircuts On Recovery</text>
@@ -311,6 +325,12 @@
     <text name="OverrideTypes">Override types</text>
     <text name="ReviewAll">Review All</text>
     <text name="ReviewOverrides">Review Overrides</text>
+	  <text name="BehaviouralTerm">Behavioural Term</text>
+	  <text name="RecoveryRate">Recovery Rate</text>
+	  <text name="Haircut">Haircut</text>
+	  <text name="CCF">CCF</text>
+	  <text name="PDCrDr">Pd Cr Dr</text>
+	  <text name="PDCommCons">PD Comm Cons</text>
 
     
 
@@ -965,6 +985,7 @@
     <text name="SelectOU">-- Select Affiliate --</text>
     <text name="SelectStatus">-- Select Status --</text>
     <text name="CreatedBy">Created By</text>
+	  <text name="DataRange">Data Range</text>
     <text name="Subsidiary">Affiliate</text>
     <text name="Framework">Framework</text>
     <text name="WorkspaceTitle">Home</text>
@@ -1374,6 +1395,8 @@
     <text name="EditAssumption">Edit assumption</text>
     <text name="DeleteAssumption">Delete assumption</text>
     <text name="Assumptions">Assumptions</text>
+	  <text name="AssumptionsAndCalibration">Assumptions &amp; Calibrations</text>
+	  <text name = "Calibrations"> Calibrations </text>
     <text name="PdInputSnPCummulativeDefaultRate">S&amp;P Rate</text>
     <text name="PdInputSnPCummulativeDefaultRateRawData">S&amp;P Rate Data</text>
     <text name="PdInputNonInternalModelRawData">Non Internal Model Data</text>

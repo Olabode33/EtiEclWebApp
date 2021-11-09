@@ -63,7 +63,9 @@ namespace TestDemo.Calibration.Jobs
                     Product_Type = item.Product_Type,
                     Snapshot_Date = item.Snapshot_Date,
                     WI = item.WI,
-                    Segment = item.Segment
+                    Segment = item.Segment,
+                    Serial=item.Serial,
+                    CalibrationSourceId = item.Id
                 });
             }
         }

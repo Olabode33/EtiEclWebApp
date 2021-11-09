@@ -531,6 +531,15 @@ namespace TestDemo.EntityFrameworkCore
             modelBuilder.Entity<CalibrationHistoryLgdHairCut>(o => o.Property(x => x.DateCreated).HasDefaultValueSql("GETDATE()"));
             modelBuilder.Entity<CalibrationHistoryLgdRecoveryRate>(o => o.Property(x => x.DateCreated).HasDefaultValueSql("GETDATE()"));
             modelBuilder.Entity<CalibrationHistoryPdCrDr>(o => o.Property(x => x.DateCreated).HasDefaultValueSql("GETDATE()"));
+            modelBuilder.Entity<CalibrationHistoryPdCommsCons>(o => o.Property(x => x.DateCreated).HasDefaultValueSql("GETDATE()"));
+
+            modelBuilder.Entity<CalibrationHistoryEadBehaviouralTerms>().HasIndex(p => new { p.SourceId, p.CalibrationSourceId }).IsUnique(true);
+            modelBuilder.Entity<CalibrationHistoryEadCcfSummary>().HasIndex(p => new { p.SourceId, p.CalibrationSourceId }).IsUnique(true);
+            modelBuilder.Entity<CalibrationHistoryLgdHairCut>().HasIndex(p => new { p.SourceId, p.CalibrationSourceId }).IsUnique(true);
+            modelBuilder.Entity<CalibrationHistoryLgdRecoveryRate>().HasIndex(p => new { p.SourceId, p.CalibrationSourceId }).IsUnique(true);
+            modelBuilder.Entity<CalibrationHistoryPdCrDr>().HasIndex(p => new { p.SourceId, p.CalibrationSourceId }).IsUnique(true);
+            modelBuilder.Entity<CalibrationHistoryPdCommsCons>().HasIndex(p => new { p.SourceId, p.CalibrationSourceId }).IsUnique(true);
+
 
             //Investment
             modelBuilder.Entity<InvestmentEclMonthlyPostOverrideResult>(o => o.Property(x => x.Id).HasDefaultValueSql("NEWID()"));

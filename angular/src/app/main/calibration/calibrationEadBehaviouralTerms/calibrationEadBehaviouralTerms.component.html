@@ -151,9 +151,9 @@
                                         {{l('CreatedBy')}}
                                         <p-sortIcon field="calibration.creatorUserId"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="modelType">
-                                        {{l('Model Type')}}
-                                        <p-sortIcon field="calibration.ModelType"></p-sortIcon>
+                                    <th style="width: 150px" pSortableColumn="StartDate">
+                                        {{l('DataRange')}}
+                                        <p-sortIcon field="calibration.startDate"></p-sortIcon>
                                     </th>
                                     <th style="width: 150px" pSortableColumn="status">
                                         {{l('Status')}}
@@ -204,7 +204,8 @@
                                     </td>
                                     <td style="width:150px">
                                         <span class="ui-column-title"> {{l('Name')}}</span>
-                                        {{l( frameworkEnum[record.calibration.modelType])}}
+                                        <!--{{l( frameworkEnum[record.calibration.modelType])}}-->
+                                        {{record.startDate | date:'MMM-yyyy'}} - {{record.endDate | date:'MMM-yyyy'}}
                                     </td>
                                     <td style="width:150px">
                                         <span class="ui-column-title"> {{l('Status')}}</span>
@@ -240,5 +241,5 @@
 
 
     <entityTypeHistoryModal #entityTypeHistoryModal></entityTypeHistoryModal>
-    <ouLookupTableModal #ouLookupTableModal (modalSave)="createForAffiliate()"></ouLookupTableModal>
+    <calibrationOuLookupTableModal #calibrationOuLookupTableModal (modalSave)="createForAffiliate()"></calibrationOuLookupTableModal>
 </div>

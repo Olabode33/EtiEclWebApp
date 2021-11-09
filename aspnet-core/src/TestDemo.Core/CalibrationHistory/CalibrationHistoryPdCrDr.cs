@@ -21,10 +21,14 @@ namespace TestDemo.CalibrationInput
         public virtual DateTime? Contract_Start_Date { get; set; }
         public virtual DateTime? Contract_End_Date { get; set; }
         public virtual int? RAPP_Date { get; set; }
+        public virtual int Serial { get; set; }
         public virtual string Current_Rating { get; set; }
         public virtual string Segment { get; set; }
         public virtual FrameworkEnum? ModelType { get; set; }
         public virtual long? AffiliateId { get; set; }
         public virtual DateTime? DateCreated { get; set; }
+        public virtual Guid? SourceId { get; set; }
+        public virtual SourceTypeEnum? SourceType { get; set; }
+        public virtual int? CalibrationSourceId { get; set; }
     }
 }

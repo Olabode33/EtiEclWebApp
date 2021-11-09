@@ -21,7 +21,9 @@ namespace TestDemo.BatchEcls
 		[Required]
 		public virtual bool IsApproved { get; set; }
 		public virtual EclStatusEnum Status { get; set; }
-		public virtual string ExceptionComment { get; set; }
+
+
+        public virtual string ExceptionComment { get; set; }
         public virtual string FriendlyException { get; set; }
         public virtual bool IsSingleBatch { get; set; }
         public virtual long? ClosedByUserId { get; set; }

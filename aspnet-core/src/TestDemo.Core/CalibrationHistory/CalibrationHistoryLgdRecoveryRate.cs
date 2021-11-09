@@ -25,8 +25,12 @@ namespace TestDemo.CalibrationInput
         public virtual double? Amount_Recovered { get; set; }
         public virtual DateTime? Date_Of_Recovery { get; set; }
         public virtual string Type_Of_Recovery { get; set; }
+        public virtual int Serial { get; set; }
         public virtual FrameworkEnum? ModelType { get; set; }
         public virtual long? AffiliateId { get; set; }
         public virtual DateTime? DateCreated { get; set; }
+		        public virtual Guid? SourceId { get; set; }
+        public virtual SourceTypeEnum? SourceType { get; set; }
+        public virtual int? CalibrationSourceId { get; set; }
     }
 }

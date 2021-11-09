@@ -120,6 +120,8 @@ namespace TestDemo.Calibration
                                                      },
                                                      ClosedBy = o.CloseByUserFk == null || o.CloseByUserFk.FullName == null ? "" : o.CloseByUserFk.FullName,
                                                      DateCreated = o.CreationTime,
+                                                     StartDate = o.StartDate,
+                                                     EndDate = o.EndDate,
                                                      CreatedBy = s1 == null ? "" : s1.FullName,
                                                      AffiliateName = ou2 == null ? "" : ou2.DisplayName
                                                  };
@@ -245,6 +247,14 @@ namespace TestDemo.Calibration
 
         public async Task<Guid> CreateOrEdit(CreateOrEditCalibrationRunDto input)
         {
+            if (input.StartDate != null)
+            {
+                input.StartDate = input.StartDate.Value.AddDays(1);
+            }
+            if (input.EndDate != null)
+            {
+                input.EndDate = input.EndDate.Value.AddDays(1);
+            }
             if (input.Id == null)
             {
                 return await Create(input);
@@ -280,6 +290,8 @@ namespace TestDemo.Calibration
                 {
                     OrganizationUnitId = (long)input.AffiliateId,
                     Status = CalibrationStatusEnum.Draft,
+                    StartDate = input.StartDate,
+                    EndDate = input.EndDate,
                     ModelType = input.ModelType
                 });
                 return id;
@@ -456,12 +468,12 @@ namespace TestDemo.Calibration
             if (calibration.Status == CalibrationStatusEnum.Completed)
             {
                 //Call apply to ecl job
-                var old = await _calibrationRepository.FirstOrDefaultAsync(x => x.Status == CalibrationStatusEnum.AppliedToEcl && x.OrganizationUnitId == calibration.OrganizationUnitId);
-                if (old != null)
-                {
-                    old.Status = CalibrationStatusEnum.Completed;
-                    await _calibrationRepository.UpdateAsync(old);
-                }
+                //var old = await _calibrationRepository.FirstOrDefaultAsync(x => x.Status == CalibrationStatusEnum.AppliedToEcl && x.OrganizationUnitId == calibration.OrganizationUnitId);
+                //if (old != null)
+                //{
+                //    old.Status = CalibrationStatusEnum.Completed;
+                //    await _calibrationRepository.UpdateAsync(old);
+                //}
 
                 calibration.Status = CalibrationStatusEnum.AppliedToEcl;
                 await _calibrationRepository.UpdateAsync(calibration);
