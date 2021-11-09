@@ -9,5 +9,7 @@ namespace TestDemo.EclConfig
     {
         public double? OverrideThreshold { get; set; }
         public string Currency { get; set; }
+        public long? SourceAffiliateId { get; set; }
+        public bool? CalibrationFilesCreated { get; set; }
     }
 }

@@ -99,7 +99,9 @@ namespace TestDemo.EclConfig
                 DisplayName = input.DisplayName,
                 OverrideThreshold = input.OverrideThreshold,
                 Currency=input.Currency,
-                ParentId = null //input.ParentId
+                ParentId = null, //input.ParentId
+                SourceAffiliateId=input.ParentId, 
+                CalibrationFilesCreated=false
             };
             
             await _organizationUnitManager.CreateAsync(affiliate);

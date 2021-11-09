@@ -35,6 +35,8 @@ export class AffiliateConfigurationComponent extends AppComponentBase implements
     fromAffiliateId = -1;
     fromAffiliateName = '';
 
+    sourceAffiliateId:number;
+
     constructor(
         injector: Injector,
         private _affiliateConfigServiceProxy: AffiliateConfigurationServiceProxy,
@@ -57,6 +59,8 @@ export class AffiliateConfigurationComponent extends AppComponentBase implements
     }
 
     newAffiliate(fromAffiliate: GetAffiliateConfigurationForViewDto): void {
+
+        this.sourceAffiliateId= fromAffiliate.affiliateConfiguration.id;
         this.selectedAffiliate = new GetAffiliateConfigurationForViewDto();
         this.selectedAffiliate.affiliateConfiguration = new AffiliateConfigurationDto();
         this.selectedAffiliate.affiliateConfiguration.overrideThreshold = fromAffiliate.affiliateConfiguration.overrideThreshold;
