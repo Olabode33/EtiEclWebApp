@@ -699,16 +699,21 @@ namespace TestDemo.Wholesale
             var user = await UserManager.GetUserByIdAsync((long)AbpSession.UserId);
             var userSubsidiaries = await UserManager.GetOrganizationUnitsAsync(user);
 
-            AffiliateAssumption affiliateAssumption = new AffiliateAssumption();
+            Logger.Info(input.OrganizationUnitId.Value.ToString());
+            AffiliateAssumption affiliateAssumption = null;// new AffiliateAssumption();
             long ouId = -1;
+            if(input.OrganizationUnitId.HasValue)
+                ouId = input.OrganizationUnitId.Value;
 
-            if (userSubsidiaries.Count > 0)
+            //if (userSubsidiaries.Count > 0)
+            //{
+            //    ouId = userSubsidiaries[0].Id;
+            //    affiliateAssumption = await _affiliateAssumptionRepository.FirstOrDefaultAsync(x => x.OrganizationUnitId == ouId);
+            //}
+            
+            if (affiliateAssumption==null)
             {
-                ouId = userSubsidiaries[0].Id;
-                affiliateAssumption = await _affiliateAssumptionRepository.FirstOrDefaultAsync(x => x.OrganizationUnitId == ouId);
-            }
-            else
-            {
+                Logger.Info("Affiliate is null");
                 if (input.OrganizationUnitId != null)
                 {
                     ouId = (long)input.OrganizationUnitId;
@@ -721,21 +726,37 @@ namespace TestDemo.Wholesale
                 }
             }
 
-            if (affiliateAssumption != null)
+            //if (ouId==-1 && input.OrganizationUnitId.HasValue)
+            //{
+            //    ouId = input.OrganizationUnitId.Value;
+            //}
+
+             if(affiliateAssumption != null)
             {
+                Logger.Info("Affiliate is no longer null");
                 await ValidateForCreation(ouId, input.ReportingDate);
 
                 Guid eclId = await CreateAndGetId(ouId, input.ReportingDate, input.IsSingleBatch);
 
+                Logger.Info("After CreateAndGetId");
                 await SaveFrameworkAssumption(ouId, eclId);
+                Logger.Info("After SaveFrameworkAssumption");
                 await SaveEadInputAssumption(ouId, eclId);
+                Logger.Info("After SaveEadInputAssumption");
                 await SaveLgdInputAssumption(ouId, eclId);
+                Logger.Info("After SaveLgdInputAssumption");
                 await SavePdInputAssumption(ouId, eclId);
+                Logger.Info("After SavePdInputAssumption");
                 await SavePdMacroInputAssumption(ouId, eclId);
+                Logger.Info("After SavePdMacroInputAssumption");
                 await SavePdMacroProjectAssumption(ouId, eclId);
-                await SavePdNonInternalModelAssumption(ouId, eclId);
+                Logger.Info("After SavePdMacroProjectAssumption");
+               // await SavePdNonInternalModelAssumption(ouId, eclId);
+               // Logger.Info("After SavePdNonInternalModelAssumption");
                 await SavePdNplAssumption(ouId, eclId);
+                Logger.Info("After SavePdNplAssumption");
                 await SavePdSnpAssumption(ouId, eclId);
+                Logger.Info("After SavePdSnpAssumption");
 
                 return eclId;
             }
@@ -1367,7 +1388,7 @@ namespace TestDemo.Wholesale
                                                                                .Select(e => e.Month).Distinct().CountAsync();
             if (cons_comm != 240)
             {
-                throw new UserFriendlyException(L("PdAssumptionNonInternalModelMarginalDefaultRateCountError"));
+               // throw new UserFriendlyException(L("PdAssumptionNonInternalModelMarginalDefaultRateCountError"));
             }
             var snp = await _pdSnPCummulativeAssumptionRepository.GetAll().Where(e => e.OrganizationUnitId == ouId && e.Framework == FrameworkEnum.Wholesale)
                                                                         .Select(e => new { e.Rating, e.Years }).ToListAsync();
@@ -1375,7 +1396,7 @@ namespace TestDemo.Wholesale
             var snpRating = snp.Select(e => e.Rating).Distinct().Count();
             if (snpYears != 15 || snpRating != 7)
             {
-                throw new UserFriendlyException(L("SnPCummulativeAssumptionIncomplete"));
+               // throw new UserFriendlyException(L("SnPCummulativeAssumptionIncomplete"));
             }
 
             //var selectedMacro = await _macroResultSecltedEconomicVariableRepository.GetAllListAsync(e => e.AffiliateId == ouId);

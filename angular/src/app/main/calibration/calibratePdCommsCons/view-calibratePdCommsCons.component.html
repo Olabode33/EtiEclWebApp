@@ -107,7 +107,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of commsCons">
-                                <td class="align-middle">{{ item.month===0?'PD Group Stage': item.month}}</td>
+                                <td class="align-middle">{{ GetLabel(item.month)}}</td>
                                 <td class="align-middle">{{ item.comm_1 }}</td>
                                 <td class="align-middle">{{ item.cons_1 }}</td>
                                 <td class="align-middle">{{ item.comm_2 }}</td>

@@ -125,7 +125,7 @@ export class ViewCalibrationPdCommsConsComponent extends AppComponentBase implem
                 if (result.calibration.status === CalibrationStatusEnum.Completed || result.calibration.status === CalibrationStatusEnum.AppliedToEcl || result.calibration.status === CalibrationStatusEnum.AppliedOverride) {
                     this.getResults();
                 }
-                if (result.calibration.status === CalibrationStatusEnum.Draft ) {
+                if (result.calibration.status === CalibrationStatusEnum.Draft) {
                     this.getUploadSummary();
                 }
                 this.active = true;
@@ -148,6 +148,20 @@ export class ViewCalibrationPdCommsConsComponent extends AppComponentBase implem
             this.totalHistoric = result.total;
             this.historic = result.items;
         });
+    }
+
+    GetLabel(monthValue) {
+        if (monthValue === 0)
+            return 'PD Group Stage';
+
+        if (monthValue === -1)
+            return 'Cure Rate';
+
+            
+        if (monthValue === -2)
+        return 'Redefault Rate';
+
+        return monthValue;
     }
 
     getUploadSummary(): void {
@@ -306,9 +320,9 @@ export class ViewCalibrationPdCommsConsComponent extends AppComponentBase implem
 
     autoReloadUploadSummary(): void {
         this.autoReloadSub = secondsCounter.subscribe(n => {
-                                console.log('Auto-reload: ' + n);
-                                this.getInputSummary();
-                            });
+            console.log('Auto-reload: ' + n);
+            this.getInputSummary();
+        });
     }
 
     eraseCalibration(): void {
